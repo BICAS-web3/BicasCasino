@@ -1,0 +1,34 @@
+.game_info {}
+
+.game_name {
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+    justify-content: left;
+    justify-items: left;
+    font-family: var(--font-neue-machina);
+    font-weight: 900;
+    font-size: 24px;
+    color: #FFFFFF;
+    line-height: 33.22px;
+}
+
+.game_info_icon {
+    justify-content: center;
+    justify-items: center;
+}
+
+.description {
+    max-width: 610px;
+    font-family: var(--font-neue-machina);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+}
