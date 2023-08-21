@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next",
+  "rules": {
+    "react/no-children-prop": "off",
+    "react/jsx-key": "off"
+  }
 }

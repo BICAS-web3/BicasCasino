@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Header } from '@/widgets/header/index';
 import Image from 'next/image';
-import { GameLayout } from '../layout';
+import { GameLayout } from '../../../widgets/GameLayout/layout';
 import { GameInfo } from '@/widgets/GameInfo';
 import { CoinFlip as CoinFlipGame } from '@/widgets/CoinFlip';
 import MinimalIcon from '@/public/media/games_assets/coinflip/minimal_icon.svg';
