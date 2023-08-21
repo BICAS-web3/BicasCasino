@@ -63,6 +63,92 @@
     margin-right: 10px;
 }
 
+.settings_box {
+    display: flex;
+    flex-direction: row;
+    column-gap: 22px;
+    width: 320px;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.network_picker_container {
+    display: flex;
+    width: 130px;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    z-index: 100;
+}
+
+.networks_list {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 100;
+}
+
+.network {
+    background: #1f1e1e;
+    font-family: var(--font-neue-machina);
+    font-weight: 400;
+    font-size: 13px;
+    display: none;
+    flex-direction: row;
+    column-gap: 6px;
+    color: #FFFFFF;
+    justify-content: center;
+    align-items: center;
+    height: 38px;
+    border-radius: 5px;
+}
+
+.network:hover {
+    background: #302f2f;
+    cursor: pointer;
+}
+
+.network_picker {
+    width: 130px;
+    height: 80px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 6px;
+    color: #FFFFFF;
+    font-family: var(--font-neue-machina);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 14.95px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.network_picker_container:hover .network {
+    display: flex;
+}
+
+.network_picker:hover {
+    cursor: pointer;
+}
+
+.network_picker_unknown {
+    color: red;
+}
+
+.network_picker_arrow {
+    width: 9px;
+    height: 9px;
+    font-weight: 900;
+    line-height: 6px;
+}
+
+.network_picker_container:hover .network_picker_arrow {
+    transform: rotate(90deg);
+}
+
 .connect_account_box:hover {
     cursor: pointer;
 }
