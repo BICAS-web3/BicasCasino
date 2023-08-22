@@ -12,6 +12,7 @@ import Web3 from 'web3';
 import { ethers } from 'ethers';
 import * as Api from '@/shared/api';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
+import { BetStatus, Model as BetStatusModel } from '@/widgets/BetStatus';
 
 interface CoinProps {
     side: CoinFlipModel.CoinSide
@@ -57,7 +58,9 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         pickSide,
         currentToken,
         currentNetwork,
-        currentWalletAddress
+        currentWalletAddress,
+        Won,
+        setWon
     ] = useUnit([
         CoinFlipModel.$betsAmount,
         CoinFlipModel.setBetsAmount,
@@ -71,7 +74,9 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         CoinFlipModel.pickSide,
         sessionModel.$currentToken,
         sessionModel.$currentNetwork,
-        sessionModel.$currentWalletAddress
+        sessionModel.$currentWalletAddress,
+        BetStatusModel.$Won,
+        BetStatusModel.setWon
     ]);
 
     var [Game, setGame] = useState<Api.T_Game>();
@@ -224,23 +229,25 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                 console.log("You lost!");
             }
             if (decodedParameters.payout > decodedParameters.wager) {
-                if (pickedSide == picked_side) {
-                    console.log("Same side");
-                    //pickSide(pickedSide.valueOf() ^ 1);
-                    var el = document.getElementById("coin");
-                    if (el != null) {
-                        var content = el.outerHTML;
-                        el.outerHTML = content;
-                    }
+                setWon(true);
+                // if (pickedSide == picked_side) {
+                //     console.log("Same side");
+                //     //pickSide(pickedSide.valueOf() ^ 1);
+                //     var el = document.getElementById("coin");
+                //     if (el != null) {
+                //         var content = el.outerHTML;
+                //         el.outerHTML = content;
+                //     }
 
-                } else {
-                    pickSide(picked_side);
-                }
+                // } else {
+                //     pickSide(picked_side);
+                // }
             } else {
-                if (pickedSide == (picked_side.valueOf() ^ 1)) {
-                    pickSide(picked_side);
-                }
-                pickSide(pickedSide.valueOf() ^ 1);
+                setWon(false);
+                // if (pickedSide == (picked_side.valueOf() ^ 1)) {
+                //     pickSide(picked_side);
+                // }
+                // pickSide(pickedSide.valueOf() ^ 1);
             }
             // setWon(pickedSide.valueOf() == decodedParameters.coinOutcomes[0] as number);
             console.log(decodedParameters);

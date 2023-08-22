@@ -1,0 +1,33 @@
+.bet_status {
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    font-family: var(--font-neue-machina);
+    font-weight: 900;
+    font-size: 20px;
+    z-index: 100;
+    top: 200px;
+    right: 3px;
+    display: none;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #C69E55;
+}
+
+
+
+.bet_won {
+    background: #74cf37a6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.bet_lost {
+    background: #ff2d2da4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
