@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { AppProps } from 'next/app';
 import { ReactNode } from 'react';
 import { FC, useEffect } from 'react';
+import { BetStatus } from '@/widgets/BetStatus';
 
 type GameLayoutProps = {
     children: ReactNode
@@ -25,6 +26,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
             <main>
                 <div className={s.main_container}>
                     <div className={s.background}>
+                        <BetStatus />
                         <div className={s.nova3}>
                             <Image
                                 src={Nova3Image}
