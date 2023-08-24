@@ -12,6 +12,7 @@ export interface SliderProps {
     max: number,
     default_value: number,
     on_change: OnChangeBetsSliderHandler,
+    value: number
 };
 export const Slider: FC<SliderProps> = props => {
     return (
@@ -22,5 +23,6 @@ export const Slider: FC<SliderProps> = props => {
             max={props.max}
             defaultValue={props.default_value}
             onChange={props.on_change}
+            value={props.value}
         /></div>);
 }

@@ -150,7 +150,14 @@
     font-size: 16px;
 }
 
+.wager_input_container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
 .wager_input {
+    width: 100%;
     height: 40px;
     color: #FFFFFF;
     font-family: var(--font-neue-machina);
@@ -170,10 +177,10 @@
 .tokens_variants {}
 
 .max_button {
-    position: relative;
-    top: -23px;
-    left: 350px;
-    width: 38px;
+    //position: relative;
+    //bottom: -23px;
+    //left: 10px;
+    width: 392px;
     height: 15px;
     border-radius: 4px;
     background: #C69E55;
@@ -185,6 +192,32 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.wager_percentage_picker {
+    width: 392px;
+    height: 15px;
+    padding: 2px, 4px, 2px, 4px;
+    font-family: var(--font-neue-machina);
+    font-size: 12px;
+    font-weight: 900;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #FFFFFF;
+}
+
+.percentage_pick {
+    width: 75px;
+    display: flex;
+    border-radius: 4px;
+    background: #C69E55;
+    justify-content: center;
+    align-items: center;
+}
+
+.percentage_pick:hover {
+    cursor: pointer;
 }
 
 .max_button:hover {

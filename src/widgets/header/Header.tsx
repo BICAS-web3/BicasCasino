@@ -13,6 +13,9 @@ import FacebookEmblem from '@/public/media/social_media/facebook.svg';
 import TwitterEmblem from '@/public/media/social_media/twitter.svg';
 import * as Api from '@/shared/api';
 import { web3 } from '@/entities/web3/index';
+import { BigNumber, ethers } from 'ethers';
+import Web3 from 'web3';
+import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 
 function RandomLogo() {
     const rnd = Math.floor(Math.random() * 4);
@@ -239,7 +242,11 @@ export const Header: FC<HeaderProps> = props => {
         setAvailableNetworks,
         setAvailableTokens,
         AvailableBlocksExplorers,
-        setAvailableExplorers
+        setAvailableExplorers,
+        availableAmount,
+        setAvailableAmount,
+        currentTokenDecimals,
+        setDecimals
     ] = useUnit([
         sessionModel.$currentNetwork,
         sessionModel.pickNetwork,
@@ -248,7 +255,11 @@ export const Header: FC<HeaderProps> = props => {
         settingsModel.setAvailableNetworks,
         settingsModel.setAvailableTokens,
         settingsModel.$AvailableBlocksExplorers,
-        settingsModel.setAvailableExplorers
+        settingsModel.setAvailableExplorers,
+        sessionModel.$availableAmount,
+        sessionModel.setAvailableAmount,
+        sessionModel.$currentTokenDecimals,
+        sessionModel.setDecimals
     ]);
 
     const ethereum = web3.MMSDK.getProvider();
@@ -336,6 +347,38 @@ export const Header: FC<HeaderProps> = props => {
 
     }
     ethereum.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
+
+    const checkERC20Amount = async (token_address: string) => {
+        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+        const web3Utils = new Web3();
+
+        const signer = await ethereum.getSigner();
+
+        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+
+        const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
+
+        const balanceString = currentBalance.toString();
+
+        const decimals = await tokenContract.decimals();
+        setDecimals(decimals);
+
+        const end = balanceString.length - decimals;
+
+        const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
+
+        console.log("Balance ", balanceNum);
+
+        setAvailableAmount(balanceNum);
+    }
+
+    useEffect(() => {
+        if (currentToken == null || currentWalletAddress == null) {
+            return;
+        }
+
+        checkERC20Amount(currentToken.contract_address);
+    }, [currentToken]);
 
     return (<>
         <div className={s.header}>
