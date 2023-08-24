@@ -66,10 +66,11 @@
     padding-right: 5px;
     font-family: var(--font-neue-machina);
     color: #FFFFFF;
+    column-gap: 10px;
 }
 
 .table_row>div {
-    width: 110px;
+    width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: "";
@@ -77,8 +78,12 @@
     text-decoration: none;
 }
 
+.table_row>div:first-child {
+    width: 70px;
+}
+
 .table_row>a {
-    width: 110px;
+    width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: "";
@@ -87,7 +92,7 @@
 }
 
 .table_row>div>a {
-    width: 110px;
+    width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -96,7 +101,7 @@
     // text-decoration: none;
 }
 
-.table_row>div:last-child {
+.table_row>div {
     text-align: right;
 }
 

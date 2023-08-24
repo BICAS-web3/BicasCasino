@@ -8,6 +8,8 @@ export const $currentWalletAddress = createStore<string | null>(null);
 export const $currentNickname = createStore<string | null>(null);
 export const $currentNetwork = createStore<Api.T_NetworkInfo | null>(null);
 export const $currentToken = createStore<Api.T_Token | null>(null);
+export const $currentTokenDecimals = createStore<number>(0);
+export const $availableAmount = createStore<number>(0);
 
 // events
 export const setCurrentPage = createEvent<string>();
@@ -17,6 +19,8 @@ export const pickNetwork = createEvent<Api.T_NetworkInfo | null>();
 export const setCurrentWalletAddress = createEvent<string | null>();
 export const setCurrentNickname = createEvent<string | null>();
 export const pickToken = createEvent<Api.T_Token | null>();
+export const setDecimals = createEvent<number>();
+export const setAvailableAmount = createEvent<number>();
 
 // handlers
 $currentPage.on(setCurrentPage, (_, current_page) => current_page);
@@ -34,6 +38,9 @@ $currentNickname
     .on(logOut, (_, __) => null)
     .on(setCurrentNickname, (_, nickname) => nickname);
 
+$availableAmount.on(setAvailableAmount, (_, amount) => amount);
+
+$currentTokenDecimals.on(setDecimals, (_, decimals) => decimals);
 
 // logic
 sample({

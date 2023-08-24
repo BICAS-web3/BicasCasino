@@ -11,7 +11,7 @@ export interface PlaceBetButtonProps {
 
 
 export const PlaceBetButton: FC<PlaceBetButtonProps> = props => {
-    return (<div className={`${s.place_bet_button} ${props.active && !props.bet_placed ? s.place_bet_button_active : s.place_bet_button_inactive}`} onClick={props.onClick}>
+    return (<div className={`${s.place_bet_button} ${props.active && !props.bet_placed ? s.place_bet_button_active : s.place_bet_button_inactive}`} onClick={props.bet_placed ? (e) => { console.log("Waiting for results") } : props.onClick}>
         {props.active ? props.bet_placed ? 'Bet placed' : `Place Bet${props.multiple_bets ? 's' : ''}` : 'Connect First'}
     </div>);
 }

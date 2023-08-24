@@ -17,6 +17,6 @@ export const MultipleBets: FC<MultipleBetsProps> = props => {
                 {props.bets_amount}
             </div>
         </div>
-        <Slider min={1} max={10} default_value={1} on_change={props.on_change_bets_handler} />
+        <Slider min={1} max={10} default_value={1} on_change={props.on_change_bets_handler} value={props.bets_amount} />
     </>);
 };
