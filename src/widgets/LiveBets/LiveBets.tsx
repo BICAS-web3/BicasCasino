@@ -139,7 +139,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
             return;
         }
         console.log("Connecting to WebSocket server...");
-        var newSocket = new WebSocket("ws://127.0.0.1:8585/api/updates");
+        var newSocket = new WebSocket(`ws://${window.location.host}/api/updates`);
 
         newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
 
