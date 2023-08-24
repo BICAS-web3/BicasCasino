@@ -183,6 +183,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         console.log("pressed max");
     }
 
+    const [RerenderCoin, ForceCoinRerender] = useState(0);
+
     const makeBet = async (pickedSide: CoinFlipModel.CoinSide) => {
         if (Game == undefined || GameEvent == undefined) {
             return;
@@ -230,38 +232,29 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             }
             if (decodedParameters.payout > decodedParameters.wager) {
                 setWon(true);
-                // if (pickedSide == picked_side) {
-                //     console.log("Same side");
-                //     //pickSide(pickedSide.valueOf() ^ 1);
-                //     var el = document.getElementById("coin");
-                //     if (el != null) {
-                //         var content = el.outerHTML;
-                //         el.outerHTML = content;
-                //     }
+                if (pickedSide == picked_side) {
+                    console.log("Same side");
+                    ForceCoinRerender(RerenderCoin + 1);
 
-                // } else {
-                //     pickSide(picked_side);
-                // }
+                } else {
+                    pickSide(picked_side);
+                }
             } else {
                 setWon(false);
-                // if (pickedSide == (picked_side.valueOf() ^ 1)) {
-                //     pickSide(picked_side);
-                // }
-                // pickSide(pickedSide.valueOf() ^ 1);
+
+                if (pickedSide == (picked_side.valueOf() ^ 1)) {
+                    console.log("Same side");
+                    ForceCoinRerender(RerenderCoin + 1);
+
+                } else {
+                    pickSide(picked_side.valueOf() ^ 1);
+                }
             }
-            // setWon(pickedSide.valueOf() == decodedParameters.coinOutcomes[0] as number);
             console.log(decodedParameters);
             resultsPending = false;
             placeBet(false);
 
             console.log(decodedParameters.coinOutcomes[0] as CoinFlipModel.CoinSide);
-
-            // let coinWrapper: HTMLElement = (document.getElementById('coin') as HTMLElement);
-            // ReactDOM.unmountComponentAtNode(coinWrapper);
-            // ReactDOM.render(<CoinFlipAnimation action={decodedParameters.coinOutcomes[0] as CoinSide} play={true} />, coinWrapper)
-
-            //setPickedSide(decodedParameters.coinOutcomes[0] as CoinSide);
-            //setPlayAnimation(true);
         })
 
         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
@@ -318,7 +311,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                     </div>
                     <PlaceBetButton active={currentWalletAddress != null} multiple_bets={betsAmount > 1} onClick={async () => makeBet(pickedSide)} bet_placed={BetPlaced} />
                 </div>
-                <Coin side={pickedSide} />
+                {<Coin side={pickedSide} key={RerenderCoin} />}
             </div>
         ]} width={840} height={559} min_width={500} />
     </div>);

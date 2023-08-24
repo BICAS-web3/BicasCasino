@@ -1,0 +1,133 @@
+.live_bets {
+    display: flex;
+    flex-direction: column;
+    row-gap: 24px;
+    background: #0606056c;
+    position: relative;
+    padding: 32px;
+    border-radius: 10px;
+    backdrop-filter: blur(30px);
+}
+
+.live_bets::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -1.5px;
+    border-radius: inherit;
+    background-image: var(--gradient-game);
+}
+
+.live_bets_header {
+    opacity: 100%;
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+    color: #FFFFFF;
+    font-family: var(--font-neue-machina);
+    font-weight: 700;
+    font-size: 28px;
+    align-items: center;
+}
+
+.live_bets_circle {
+    width: 12px;
+    height: 12px;
+    background: #C69E55;
+    border-radius: 50%;
+}
+
+.table {
+    opacity: 100%;
+}
+
+.table_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    color: #ffffff94;
+    font-family: var(--font-neue-machina);
+}
+
+.table_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    border-radius: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-family: var(--font-neue-machina);
+    color: #FFFFFF;
+}
+
+.table_row>div {
+    width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: "";
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.table_row>a {
+    width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: "";
+    // color: #FFFFFF;
+    // text-decoration: none;
+}
+
+.table_row>div>a {
+    width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    // color: #FFFFFF;
+    // text-decoration: none;
+}
+
+.table_row>div:last-child {
+    text-align: right;
+}
+
+.table_header {
+    border-bottom: 1px solid #1D180F;
+    font-family: var(--font-neue-machina);
+    color: #FFFFFF;
+    opacity: 50%;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.odd_row {
+    background: var(--gradient-table-odd-row);
+}
+
+.link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    fill: gray;
+    color: #FFFFFF;
+    //justify-content: center;
+    align-items: center;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.game_name_link {
+    font-weight: 900;
+}

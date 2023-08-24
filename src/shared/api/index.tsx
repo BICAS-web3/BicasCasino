@@ -40,7 +40,7 @@ export type T_BlockExplorerUrl = {
 };
 
 export type T_BlockExplorers = {
-    rpcs: Array<T_BlockExplorerUrl>
+    explorers: Array<T_BlockExplorerUrl>
 };
 
 export type T_Token = {
@@ -86,16 +86,33 @@ export type T_Bet = {
     player: string;
     timestamp: number;
     game_id: number;
-    wager: BigInt;
+    wager: number;
     token_address: string;
     network_id: number;
     bets: number;
     multiplier: number;
-    profit: BigInt;
+    profit: number;
+};
+
+export type T_BetInfo = {
+    id: number;
+    transaction_hash: string;
+    player: string;
+    player_nickname: string;
+    timestamp: number;
+    game_id: number;
+    game_name: string;
+    wager: number;
+    token_address: string;
+    token_name: string;
+    network_id: number;
+    bets: number;
+    multiplier: number;
+    profit: number;
 };
 
 export type T_Bets = {
-    bets: Array<T_Bet>
+    bets: Array<T_BetInfo>
 };
 
 export type T_GameAbi = {
@@ -106,7 +123,7 @@ export type T_GameAbi = {
 
 export type T_ApiResponse = {
     status: string,
-    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi
+    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers
 };
 
 export type T_GetUsername = {
@@ -173,6 +190,38 @@ export type T_GetAbi = {
 export const getAbi = createEffect<T_GetAbi, T_ApiResponse, string>(
     async form => {
         return fetch(`${BaseApiUrl}/get_abi/${form.signature}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const getAllExplorers = createEffect<void, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/get_all_explorers`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const getAllLastBets = createEffect<void, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/get_all_last_bets`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const getGamesAllLastBets = createEffect<string, T_ApiResponse, string>(
+    async game_name => {
+        return fetch(`${BaseApiUrl}/get_game_bets/${game_name}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetGameById = createEffect<number, T_ApiResponse, string>(
+    async game_id => {
+        return fetch(`${BaseApiUrl}/get_game/${game_id}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }

@@ -14,6 +14,7 @@ import DiceBlendIcon from '@/public/media/games_assets/dice/icon_blend.svg';
 
 import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 //import LinkIcon from '@/public/media/misc/link.svg';
+import { LiveBets } from '@/widgets/LiveBets';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -154,105 +155,6 @@ const TotalInfo: FC<TotalInfoProps> = props => {
     </div>)
 }
 
-interface LiveBetsProps { };
-const LiveBets: FC<LiveBetsProps> = props => {
-    return (<div className={s.live_bets}>
-        <div className={s.live_bets_header}>
-            <div className={s.live_bets_circle}>
-            </div>
-
-            Live Bets
-        </div>
-        <div className={s.table}>
-            <div className={
-                `${s.table_row} ${s.table_header}`}>
-                <div>Time</div>
-                <div>Game</div>
-                <div>Player</div>
-                <div>Wager</div>
-                <div>Multiplier</div>
-                <div>Profit</div>
-            </div>
-
-            <div className={
-                `${s.table_row}`}>
-                <div>
-                    <a
-                        href="https://polygonscan.com/tx/0x5e812b98e216f65d828c82785c8aa21aa59d7e27bfb945c4dc7d6afc2e2ab2f9"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={s.link}>
-                        02:49
-                        <LinkIcon />
-                    </a>
-                </div>
-                <div className={s.game_name_link}>
-                    <a
-                        href="/games/dice"
-                        className={s.link}>
-                        <Image
-                            src={BSCNetworkIcon}
-                            alt=""
-                            width={30}
-                            height={50}
-                        />
-                        Dice
-                    </a>
-                </div>
-                <div>
-                    <a
-                        href="player"
-                        className={s.link}>
-                        0x5C0369359155C836F5D02f1D77fc11F637DBbF2b
-                    </a>
-                </div>
-                <div>11</div>
-                <div>3x</div>
-                <div>+4.29</div>
-            </div>
-
-
-            <div className={
-                `${s.table_row} ${s.odd_row}`}>
-                <div>
-                    <a
-                        href="https://polygonscan.com/tx/0x5e812b98e216f65d828c82785c8aa21aa59d7e27bfb945c4dc7d6afc2e2ab2f9"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={s.link}>
-                        02:49
-                        <LinkIcon />
-                    </a>
-                </div>
-                <div className={s.game_name_link}>
-                    <a
-                        href="/games/dice"
-                        className={s.link}>
-                        <Image
-                            src={BSCNetworkIcon}
-                            alt=""
-                            width={30}
-                            height={50}
-                        />
-                        Dice
-                    </a>
-                </div>
-                <div>
-                    <a
-                        href="player"
-                        className={s.link}>
-                        0x5C0369359155C836F5D02f1D77fc11F637DBbF2b
-                    </a>
-                </div>
-                <div>11</div>
-                <div>3x</div>
-                <div>+4.29</div>
-            </div>
-
-        </div>
-    </div>)
-}
-
 export default function Home() {
     return (
         <>
@@ -265,7 +167,7 @@ export default function Home() {
                     <div className={s.main_area}>
                         <Games />
                         <TotalInfo />
-                        <LiveBets />
+                        <LiveBets subscription_type={'SubscribeAll'} subscriptions={[]} />
                     </div>
                 </div>
 
