@@ -228,7 +228,7 @@ export const Header: FC<HeaderProps> = props => {
 
     // global settings model
     const [queryAvailableNetworks] = useUnit([
-        settingsModel.queryAvailableNetworks,
+        settingsModel.queryAvailableNetworks
     ]);
 
     const [
@@ -237,14 +237,18 @@ export const Header: FC<HeaderProps> = props => {
         availableNetworks,
         availbaleRpcs,
         setAvailableNetworks,
-        setAvailableTokens
+        setAvailableTokens,
+        AvailableBlocksExplorers,
+        setAvailableExplorers
     ] = useUnit([
         sessionModel.$currentNetwork,
         sessionModel.pickNetwork,
         settingsModel.$AvailableNetworks,
         settingsModel.$AvailableRpcs,
         settingsModel.setAvailableNetworks,
-        settingsModel.setAvailableTokens
+        settingsModel.setAvailableTokens,
+        settingsModel.$AvailableBlocksExplorers,
+        settingsModel.setAvailableExplorers
     ]);
 
     const ethereum = web3.MMSDK.getProvider();
@@ -256,6 +260,8 @@ export const Header: FC<HeaderProps> = props => {
             console.log('Getting account');
             await checkMetamaskConnection();
 
+            await queryAllExplorers();
+
             queryAvailableNetworks();
 
             checkCurrentNetwork();
@@ -263,6 +269,15 @@ export const Header: FC<HeaderProps> = props => {
         }
         run();
     }, []);
+
+    const queryAllExplorers = async () => {
+        const explorers = (await Api.getAllExplorers()).body as Api.T_BlockExplorers;
+
+        console.log("Explorers");
+        console.log(explorers);
+
+        setAvailableExplorers(explorers);
+    };
 
     const checkMetamaskConnection = async () => {
         await ethereum
@@ -274,7 +289,7 @@ export const Header: FC<HeaderProps> = props => {
             accountChangeHandler(accounts);
         }
         return accounts;
-    }
+    };
 
     const accountChangeHandler = (accounts: any) => {
         console.log(accounts);
@@ -324,7 +339,9 @@ export const Header: FC<HeaderProps> = props => {
 
     return (<>
         <div className={s.header}>
-            <Emblem text="GREEK KEEPERS" />
+            <a href="/" style={{ textDecoration: "none" }}>
+                <Emblem text="GREEK KEEPERS" />
+            </a>
             <Buttons />
             <div className={s.settings_box}>
                 <NetworkPicker />
