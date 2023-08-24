@@ -102,7 +102,7 @@ const Games: FC<GamesProps> = props => {
             <Game
                 name={'COINFLIP'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/coinflip'}
+                link={'/games/CoinFlip'}
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />
