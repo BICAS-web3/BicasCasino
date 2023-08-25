@@ -5,6 +5,7 @@
     width: 100vw;
     position: absolute;
     z-index: 1;
+    overflow: hidden;
 }
 
 .main_area {
@@ -23,7 +24,7 @@
 .background {
     position: absolute;
     top: 0;
-    z-index: -1;
+    z-index: -10;
     width: 100%;
     min-height: 1024px;
     min-width: 1449px;
