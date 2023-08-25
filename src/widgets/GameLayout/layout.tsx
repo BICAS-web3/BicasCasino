@@ -25,7 +25,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
             <Header />
             <main>
                 <div className={s.main_container}>
-                    {/* <div className={s.background}>
+                    <div className={s.background}>
                         <BetStatus />
                         <div className={s.nova3}>
                             <Image
@@ -61,7 +61,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
                                 height={174.95}
                             />
                         </div>
-                    </div> */}
+                    </div>
                     <div className={s.main_area}>
                         {props.children}
                     </div>
