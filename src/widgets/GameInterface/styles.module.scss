@@ -32,6 +32,7 @@
 }
 
 .secondary_background {
+    width: 100%;
     border-radius: 8px;
     background: #FFFFFF0A;
 
@@ -39,6 +40,9 @@
     flex-direction: column;
     row-gap: 19px;
     padding: 16px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .slider_container {
@@ -176,26 +180,27 @@
 
 .tokens_variants {}
 
-.max_button {
-    //position: relative;
-    //bottom: -23px;
-    //left: 10px;
-    width: 392px;
-    height: 15px;
-    border-radius: 4px;
-    background: #C69E55;
-    padding: 2px, 4px, 2px, 4px;
-    color: #FFFFFF;
-    font-family: var(--font-neue-machina);
-    font-size: 12px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+// .max_button {
+//     //position: relative;
+//     //bottom: -23px;
+//     //left: 10px;
+//     width: 392px;
+//     height: 15px;
+//     border-radius: 4px;
+//     background: #C69E55;
+//     padding: 2px, 4px, 2px, 4px;
+//     color: #FFFFFF;
+//     font-family: var(--font-neue-machina);
+//     font-size: 12px;
+//     font-weight: 700;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+// }
 
 .wager_percentage_picker {
-    width: 392px;
+    //width: 392px;
+    width: 100%;
     height: 15px;
     padding: 2px, 4px, 2px, 4px;
     font-family: var(--font-neue-machina);
@@ -208,7 +213,8 @@
 }
 
 .percentage_pick {
-    width: 75px;
+    max-width: 75px;
+    min-width: 60px;
     display: flex;
     border-radius: 4px;
     background: #C69E55;
@@ -226,7 +232,7 @@
 
 .place_bet_button {
     height: 40px;
-    width: 424px;
+    width: 100%;
     border-radius: 8px;
     color: #FFFFFF;
     font-family: var(--font-neue-machina);

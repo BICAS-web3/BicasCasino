@@ -3,11 +3,12 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    //padding-left:
 }
 
 .emblem {
-    width: 131px;
-    height: 50px;
+    //width: 131px;
+    //height: 50px;
     display: flex;
     column-gap: 8px;
     margin-left: 15px;
@@ -67,7 +68,7 @@
     display: flex;
     flex-direction: row;
     column-gap: 22px;
-    width: 320px;
+    //width: 320px;
     align-items: center;
     justify-content: center;
     align-content: center;
@@ -205,3 +206,60 @@
     align-items: center;
     justify-content: center;
 }
+
+.functional_footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 70px;
+    z-index: 100;
+    background: #1b1b1b;
+}
+
+.functional_footer>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: var(--font-neue-machina);
+    font-size: 20px;
+    color: white;
+}
+
+.functional_footer_connect {
+    background: #C69E55;
+    font-family: var(--font-neue-machina);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+@media screen and (max-width: 670px) {
+    // .header {
+    //     display: none;
+    // }
+
+    .functional_footer {
+        display: flex;
+    }
+
+    .connect_account_box {
+        display: none;
+    }
+
+    .buttons {
+        display: none;
+    }
+
+    .network_picker_arrow {
+        display: none;
+    }
+}
+
+// @media screen and (min-width: 670px) {
+//     .header {
+//         display: none;
+//     }
+// }

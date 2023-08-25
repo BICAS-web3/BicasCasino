@@ -13,6 +13,7 @@ import { BigNumber, ethers } from 'ethers';
 import * as Api from '@/shared/api';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 import { BetStatus, Model as BetStatusModel } from '@/widgets/BetStatus';
+import { web3 } from '@/entities/web3';
 
 interface CoinProps {
     side: CoinFlipModel.CoinSide
@@ -41,7 +42,8 @@ const Coin: FC<CoinProps> = props => {
         </div>);
 }
 
-export interface CoinFlipProps { };
+export interface CoinFlipProps {
+};
 
 export const CoinFlip: FC<CoinFlipProps> = props => {
 
@@ -60,12 +62,13 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         currentWalletAddress,
         Won,
         setWon,
-        availableAmount,
-        setAvailableAmount,
+        // availableAmount,
+        // setAvailableAmount,
         currentTokenDecimals,
         setDecimals,
         inputWagerDollars,
-        setWagerDollars
+        setWagerDollars,
+        web3Provider,
     ] = useUnit([
         CoinFlipModel.$betsAmount,
         CoinFlipModel.setBetsAmount,
@@ -82,35 +85,20 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         sessionModel.$currentWalletAddress,
         BetStatusModel.$Won,
         BetStatusModel.setWon,
-        sessionModel.$availableAmount,
-        sessionModel.setAvailableAmount,
+        // sessionModel.$availableAmount,
+        // sessionModel.setAvailableAmount,
         sessionModel.$currentTokenDecimals,
         sessionModel.setDecimals,
         CoinFlipModel.$inputWagerDollars,
-        CoinFlipModel.setWagerDollars
+        CoinFlipModel.setWagerDollars,
+        web3.web3Provider
     ]);
 
     var [Game, setGame] = useState<Api.T_Game>();
     var [GameAbi, setGameAbi] = useState<any>();
     var [GameEvent, setGameEvent] = useState<{ type: string, name: string }[]>();
     var [BetPlaced, placeBet] = useState<boolean>(false);
-
-    useEffect(() => {
-        setAudiocontext(new AudioContext());
-    }, []);
-
-    useEffect(() => {
-        if (Game == undefined) {
-            get_game();
-        }
-    });
-
-    useEffect(() => {
-        if (GameAbi == undefined) {
-            get_game_abi();
-        }
-    })
-
+    var [availableAmount, setAvailableAmount] = useState(0);
 
     const get_game = async () => {
         if (currentNetwork == null) {
@@ -122,8 +110,40 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     };
 
     useEffect(() => {
-        get_game_event();
+        if (currentToken != null && currentTokenDecimals != 0) {
+            checkERC20Amount(currentToken?.contract_address as string);
+        }
+    }, [currentToken, currentTokenDecimals]);
+
+    useEffect(() => {
+        setAudiocontext(new AudioContext());
+    }, []);
+
+    useEffect(() => {
+        if (Game == undefined) {
+            get_game();
+        }
     }, [Game]);
+
+    const get_game_abi = async () => {
+        if (Game == undefined) {
+            return;
+        }
+        var abi = await fetch('/static/json/games/CoinFlip/abi.json', {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+
+        console.log(abi['abi']);
+
+        setGameAbi(abi['abi']);
+    }
+
+    useEffect(() => {
+        if (GameAbi == undefined) {
+            get_game_abi();
+        }
+    }, [GameAbi])
+
 
     const get_game_event = async () => {
         if (Game == undefined) {
@@ -147,20 +167,9 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setGameEvent(abi_deserialized);
     }
 
-    const get_game_abi = async () => {
-        if (Game == undefined) {
-            return;
-        }
-        var abi = await fetch('/static/json/games/CoinFlip/abi.json', {
-            method: 'GET'
-        }).then(async res => await res.json()).catch(e => (e));
-
-        console.log(abi['abi']);
-
-        setGameAbi(abi['abi']);
-    }
-
-
+    useEffect(() => {
+        get_game_event();
+    }, [Game]);
 
     const onChangeBetsHandler = (event: {
         target: {
@@ -229,22 +238,42 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setTotalWager(totalWager);
     };
 
-    const onMaxClickHandler = () => {
-        console.log("pressed max");
-    }
-
     const [RerenderCoin, ForceCoinRerender] = useState(0);
     const [audioContext, setAudiocontext] = useState<any>(null);
     const [coinSoundBuffer, setCoinSound] = useState<any>(null);
     const [wonSoundBuffer, setWonSound] = useState<any>(null);
     const [lostSoundBuffer, setLostSound] = useState<any>(null);
 
+    const checkERC20Amount = async (token_address: string) => {
+        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+        const web3Utils = new Web3();
+
+        const signer = await ethereum.getSigner();
+
+        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+
+        const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
+
+        const balanceString = currentBalance.toString();
+
+        const decimals = currentTokenDecimals;
+
+        console.log("Decimals:", decimals);
+        const end = balanceString.length - decimals;
+
+        const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
+
+        console.log("Balance ", balanceNum);
+
+        setAvailableAmount(balanceNum);
+    }
+
     const makeBet = async (pickedSide: CoinFlipModel.CoinSide) => {
-        if (Game == undefined || GameEvent == undefined || totalWager == 0) {
+        if (Game == undefined || GameEvent == undefined || totalWager == 0 || web3Provider == null) {
             return;
         }
 
-        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+        const ethereum = web3Provider;
         const web3Utils = new Web3();
 
         const signer = await ethereum.getSigner();
@@ -283,7 +312,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             }
             if (decodedParameters.payout > decodedParameters.wager) {
                 setWon(true);
-                playSound(coinSoundBuffer);
+                //playSound(coinSoundBuffer);
                 playSound(wonSoundBuffer);
                 if (pickedSide == picked_side) {
                     console.log("Same side");
@@ -327,28 +356,6 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         placeBet(true);
         resultsPending = true;
 
-        const checkERC20Amount = async (token_address: string) => {
-            const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
-            const web3Utils = new Web3();
-
-            const signer = await ethereum.getSigner();
-
-            const tokenContract = new ethers.Contract(token_address, IERC20, signer);
-
-            const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
-
-            const balanceString = currentBalance.toString();
-
-            const decimals = currentTokenDecimals;
-
-            const end = balanceString.length - decimals;
-
-            const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
-
-            console.log("Balance ", balanceNum);
-
-            setAvailableAmount(balanceNum);
-        }
 
         await checkERC20Amount((currentToken?.contract_address) as string);
     }
@@ -403,22 +410,21 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                         <InputField name="Stop Gain" />,
                         <InputField name="Stop Loss" />,
                         <OutputField name="Total Wager" value={<div>{totalWager}</div>} />,
-                        // <OutputField name="Total Wager" value={<div className={s.profit_on_win}>+{profitOnWin}</div>} />
-                    ]} width={392} height={214} min_width={392} secondary_class={""} />
+                        <OutputField name="Total Wager" value={<div className={s.profit_on_win}>+{profitOnWin}</div>} />
+                    ]} height={214} min_width={150} secondary_class={""} />
                     <SecondaryBackground children={[
                         <Wager
                             value={inputWager}
                             onChangeHandler={onChangeWagerHandler}
-                            onMaxHandler={onMaxClickHandler}
                             onChangeDollarsHandler={onChangeDollarsHandler}
                             valueDollars={inputWagerDollars}
                             onClickHandlers={setPercentageWager} />
-                    ]} width={392} height={150} min_width={392} secondary_class={""} />
+                    ]} height={170} min_width={150} secondary_class={""} />
                     <div className={s.coins_pick}>
                         <div onClick={() => {
                             pickSide(CoinFlipModel.CoinSide.Heads);
                             playSound(coinSoundBuffer);
-                        }}>
+                        }} style={{ width: '100%' }}>
                             <SecondaryBackground children={[
                                 <Image
                                     src={Heads2Image}
@@ -426,13 +432,13 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                                     width={75}
                                     height={75}
                                 />
-                            ]} width={204} height={105} min_width={204}
+                            ]} height={105} min_width={107}
                                 secondary_class={`${s.coin_pick_holder} ${pickedSide == CoinFlipModel.CoinSide.Heads ? s.coin_pick_picked : ''}`} />
                         </div>
                         <div onClick={() => {
                             pickSide(CoinFlipModel.CoinSide.Tails);
                             playSound(coinSoundBuffer);
-                        }}>
+                        }} style={{ width: '100%' }}>
                             <SecondaryBackground children={[
                                 <Image
                                     src={Tails1Image}
@@ -440,7 +446,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                                     width={75}
                                     height={75}
                                 />
-                            ]} width={204} height={105} min_width={204}
+                            ]} height={105} min_width={107}
                                 secondary_class={`${s.coin_pick_holder} ${pickedSide == CoinFlipModel.CoinSide.Tails ? s.coin_pick_picked : ''}`} />
                         </div>
                     </div>
@@ -448,6 +454,6 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                 </div>
                 {<Coin side={pickedSide} key={RerenderCoin} />}
             </div>
-        ]} width={840} height={629} min_width={500} />
+        ]} height={629} min_width={370} min_height={629} />
     </div>);
 }

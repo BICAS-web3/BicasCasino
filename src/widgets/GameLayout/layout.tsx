@@ -25,7 +25,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
             <Header />
             <main>
                 <div className={s.main_container}>
-                    <div className={s.background}>
+                    {/* <div className={s.background}>
                         <BetStatus />
                         <div className={s.nova3}>
                             <Image
@@ -35,14 +35,6 @@ export const GameLayout: FC<GameLayoutProps> = props => {
                                 height={739.1}
                             />
                         </div>
-                        {/* <div className={s.nova_line}>
-                            <Image
-                                src={NovaLineImage}
-                                alt=""
-                                width={1500}
-                                height={1500}
-                            />
-                        </div> */}
                         <div className={s.nova4}>
                             <Image
                                 src={Nova4Image}
@@ -69,13 +61,13 @@ export const GameLayout: FC<GameLayoutProps> = props => {
                                 height={174.95}
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <div className={s.main_area}>
                         {props.children}
                     </div>
                 </div>
 
-            </main>
+            </main >
             {/* <Footer />
 			<InvitesList />
 			<GamesList />
