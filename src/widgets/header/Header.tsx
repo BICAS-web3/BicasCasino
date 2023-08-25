@@ -91,8 +91,8 @@ const Buttons: FC<ButtonsProps> = props => {
     })
 
     return (<div className={s.buttons}>
-        <Button text="Home" url="/" isActive={currentPage === '/'} />
-        <Button text="Games" url="" isActive={currentPage === '/games'} />
+        {/* <Button text="Home" url="/" isActive={currentPage === '/'} /> */}
+        {/* <Button text="Games" url="" isActive={currentPage === '/games'} /> */}
         <Button text="LeaderBoard" url="" isActive={currentPage === '/leaderboard'} />
     </div>)
 }
@@ -146,15 +146,18 @@ export const NetworkPicker: FC<NetworkPickerProps> = props => {
         currentNetwork,
         pickNetwork,
         availableNetworks,
-        availbaleRpcs] = useUnit([
-            sessionModel.$currentWalletAddress,
-            sessionModel.$currentNetwork,
-            sessionModel.pickNetwork,
-            settingsModel.$AvailableNetworks,
-            settingsModel.$AvailableRpcs
-        ]);
+        availbaleRpcs,
+        web3Provider
+    ] = useUnit([
+        sessionModel.$currentWalletAddress,
+        sessionModel.$currentNetwork,
+        sessionModel.pickNetwork,
+        settingsModel.$AvailableNetworks,
+        settingsModel.$AvailableRpcs,
+        web3.web3Provider
+    ]);
 
-    const ethereum = web3.MMSDK.getProvider();
+    const ethereum = web3Provider?.provider;
 
     let chains: ReactElement[] = [];
     for (let availableNetwork of availableNetworks.networks) {
@@ -174,13 +177,22 @@ export const NetworkPicker: FC<NetworkPickerProps> = props => {
                 rpcUrls: rpcs.rpcs.map((rpc) => rpc.url),
                 blockExplorerUrls: null
             };
-            await ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [networkParams]
-            }).then(() => {
-                pickNetwork(availableNetwork);
-            });
-        }}>
+            // await ethereum?.getNetwork()({
+            //     method: 'wallet_addEthereumChain',
+            //     params: [networkParams]
+            // }).then(() => {
+            //     pickNetwork(availableNetwork);
+            // });
+            if (ethereum != null && ethereum.request != null) {
+                ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [networkParams]
+                }).then(() => {
+                    pickNetwork(availableNetwork);
+                });
+            }
+        }
+        }>
             <Image
                 src={`/static/media/networks/${availableNetwork.network_id}.svg`}
                 alt=""
@@ -188,10 +200,10 @@ export const NetworkPicker: FC<NetworkPickerProps> = props => {
                 height={28}
             />
             {availableNetwork.network_name}
-        </div>);
+        </div >);
     }
 
-    return (<div className={s.network_picker_container}>
+    return (<div className={s.network_picker_container} style={currentWalletAddress ? {} : { display: 'none' }}>
         <div className={`${s.network_picker} ${currentNetwork == null ? s.network_picker_unknown : ''}`}>
             {currentWalletAddress == null ? <></> : currentNetwork == null ?
                 'Unknown Network' :
@@ -246,7 +258,9 @@ export const Header: FC<HeaderProps> = props => {
         availableAmount,
         setAvailableAmount,
         currentTokenDecimals,
-        setDecimals
+        setDecimals,
+        web3Provider,
+        web3ProviderInit
     ] = useUnit([
         sessionModel.$currentNetwork,
         sessionModel.pickNetwork,
@@ -259,27 +273,64 @@ export const Header: FC<HeaderProps> = props => {
         sessionModel.$availableAmount,
         sessionModel.setAvailableAmount,
         sessionModel.$currentTokenDecimals,
-        sessionModel.setDecimals
+        sessionModel.setDecimals,
+        web3.web3Provider,
+        web3.web3ProviderInitEv
     ]);
 
-    const ethereum = web3.MMSDK.getProvider();
+
+    useEffect(() => {
+        const initializeProvider = async () => {
+            if (window.ethereum) {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+                web3ProviderInit(provider);
+                console.log("setted provider");
+            }
+        };
+
+        initializeProvider();
+        // window.ethereum.removeListener('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
+        // window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
+    }, []);
+
+    const [setupRan, setSetupRan] = useState(false);
+
+    var available_networks: any;
 
     // setup
     useEffect(() => {
+        if (setupRan) {
+            return;
+        }
+
+        console.log("Header Effect");
 
         const run = async () => {
             console.log('Getting account');
             await checkMetamaskConnection();
 
+            //await checkCurrentNetwork();
+
+            available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+            setAvailableNetworks(available_networks);
+
+            await checkCurrentNetwork(available_networks);
+
             await queryAllExplorers();
 
-            queryAvailableNetworks();
-
-            checkCurrentNetwork();
+            //queryAvailableNetworks();
             console.log(currentWalletAddress);
         }
-        run();
-    }, []);
+
+        if (web3Provider != null) {
+            run();
+            setSetupRan(true);
+            //window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, available_networks));
+            window.ethereum.on('chainChanged', (network_id: any) => window.location.reload());
+        }
+    }, [web3Provider]);
+
 
     const queryAllExplorers = async () => {
         const explorers = (await Api.getAllExplorers()).body as Api.T_BlockExplorers;
@@ -288,18 +339,6 @@ export const Header: FC<HeaderProps> = props => {
         console.log(explorers);
 
         setAvailableExplorers(explorers);
-    };
-
-    const checkMetamaskConnection = async () => {
-        await ethereum
-            .request({ method: 'eth_requestAccounts' }).catch((err) => {
-                console.error(err);
-            });
-        const accounts = await ethereum.request({ method: 'eth_accounts' });
-        if (accounts != null) {
-            accountChangeHandler(accounts);
-        }
-        return accounts;
     };
 
     const accountChangeHandler = (accounts: any) => {
@@ -313,40 +352,75 @@ export const Header: FC<HeaderProps> = props => {
         }
     }
 
-    ethereum.on('accountsChanged', accountChangeHandler);
+    const checkMetamaskConnection = async () => {
+        // await window.ethereum?.request({ method: 'eth_requestAccounts' }).catch((err: any) => {
+        //     console.error(err);
+        // });
+        if (web3Provider?.provider
+            .request == null) {
+            return;
+        }
+        await web3Provider?.provider
+            .request({ method: 'eth_requestAccounts' }).catch((err) => {
+                console.error(err);
+            });
+        const accounts = await web3Provider?.provider.request({ method: 'eth_accounts' });
+        if (accounts != null) {
+            accountChangeHandler(accounts);
+        }
+        await window.ethereum?.on('accountsChanged', accountChangeHandler);
+        return accounts;
+    };
 
     const networkChangeHandler = async (network_id: any, available_networks: Api.T_Networks | undefined) => {
         const network_id_number = parseInt(network_id, 16);
+        // if (availableNetworks.networks.length == 0) {
+        //     return;
+        // }
+        if (currentNetwork != null && network_id_number == currentNetwork.network_id) {
+            console.log("same network id");
+            return;
+        }
+        console.log("Network Changed", network_id, network_id_number, currentNetwork?.network_id, available_networks);
 
         const network = available_networks != undefined ?
             (available_networks as unknown as Api.T_Networks).networks.find((network) => network.network_id == network_id_number)
             : availableNetworks.networks.find((network) => network.network_id == network_id_number);
 
+        console.log(network);
+
         if (network != undefined) {
             pickNetwork(network);
             var available_tokens = (await Api.getTokens({ network_id: network.network_id })).body as Api.T_Tokens;
-            console.log(`Tokens: ${JSON.stringify(available_tokens)}`);
+            console.log(`Tokens Network: ${JSON.stringify(available_tokens)}`);
             setAvailableTokens(available_tokens);
             pickToken(available_tokens.tokens[0]);
         } else {
+            if (currentNetwork == null) {
+                return;
+            }
             pickNetwork(null);
             setAvailableTokens({ tokens: [] });
             pickToken(null);
         }
     }
 
-    const checkCurrentNetwork = async () => {
+    const checkCurrentNetwork = async (available_networks: any) => {
         console.log(`Wallet: ${currentWalletAddress}`);
-        var available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
-        setAvailableNetworks(available_networks);
-        console.log('Networks');
-        console.log(available_networks);
-        await ethereum.request({ method: 'eth_chainId' }).then((network_id) => networkChangeHandler(network_id, available_networks)).catch((err) => {
+        // var available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+        // setAvailableNetworks(available_networks);
+        //console.log('Networks');
+        //console.log(available_networks);
+        if (web3Provider?.provider
+            .request == null) {
+            return;
+        }
+        await web3Provider?.provider.request({ method: 'eth_chainId' }).then((network_id) => networkChangeHandler(network_id, available_networks)).catch((err) => {
             console.error(err);
         });
 
     }
-    ethereum.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
+    // web3Provider?.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
 
     const checkERC20Amount = async (token_address: string) => {
         const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
@@ -394,6 +468,15 @@ export const Header: FC<HeaderProps> = props => {
                     }
                 </div>
             </div>
+        </div>
+
+        <div className={s.functional_footer}>
+            <div>menu</div>
+            {
+                currentWalletAddress == null ?
+                    <div className={s.functional_footer_connect} onClick={checkMetamaskConnection}>Connect</div> : <Account name={currentNickName as string} />
+            }
+            <div>Chat</div>
         </div>
     </>);
 }

@@ -155,19 +155,24 @@ export const LiveBets: FC<LiveBetsProps> = props => {
 
             Live Bets
         </div>
-        <div className={s.table} id="LiveBets">
-            <div className={s.table_header}>
-                <div>Time</div>
-                <div>Game</div>
-                <div>Player</div>
-                <div>Wager</div>
-                <div>Multiplier</div>
-                <div>Profit</div>
-            </div>
-            {
-                BetsElements
-            }
+        <div style={{
+            width: '100%',
+            overflow: 'auto'
+        }}>
+            <div className={s.table} id="LiveBets">
+                <div className={s.table_header}>
+                    <div>Time</div>
+                    <div>Game</div>
+                    <div>Player</div>
+                    <div>Wager</div>
+                    <div>Multiplier</div>
+                    <div>Profit</div>
+                </div>
+                {
+                    BetsElements
+                }
 
+            </div>
         </div>
     </div>)
 }

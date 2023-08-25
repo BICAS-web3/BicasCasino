@@ -6,8 +6,11 @@ import { GameInfo } from '@/widgets/GameInfo';
 import { CoinFlip as CoinFlipGame } from '@/widgets/CoinFlip';
 import MinimalIcon from '@/public/media/games_assets/coinflip/minimal_icon.svg';
 import { LiveBets } from '@/widgets/LiveBets';
+import { sessionModel } from '@/entities/session/';
+import { useUnit } from 'effector-react';
 
 export default function CoinFlip() {
+
     return (
         <GameLayout children={[
             <GameInfo name={'Coin Flip'} description={'A simple heads-or-tails game. 50% chance of winning with a 1.98x multiplier. Simply type in your wager amount and flip the coin!'} image={MinimalIcon} />,

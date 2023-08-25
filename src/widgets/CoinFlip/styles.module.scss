@@ -3,12 +3,15 @@
     flex-direction: row;
     justify-content: center;
     justify-items: center;
+    width: fit-content;
 }
 
 .game_menu {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap-reverse;
     column-gap: 89px;
+    row-gap: 16px;
 }
 
 .profit_on_win {
@@ -25,9 +28,11 @@
 .coins_pick {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     column-gap: 16px;
-    width: 392px;
+    //width: 392px;
     height: 105px;
+    width: 100%;
 }
 
 .coin_pick_holder {
@@ -147,5 +152,12 @@
         -webkit-transform: rotateY(540deg);
         -moz-transform: rotateY(540deg);
         transform: rotateY(540deg);
+    }
+}
+
+@media screen and (max-width: 993px) {
+    .game_menu {
+        align-items: center;
+        justify-content: center;
     }
 }

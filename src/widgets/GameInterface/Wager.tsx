@@ -47,7 +47,6 @@ export interface WagerProps {
     valueDollars: string;
     onChangeHandler: OnChangeWagerHandler;
     onChangeDollarsHandler: OnChangeWagerHandler;
-    onMaxHandler: any;
     onClickHandlers: (percentage: number) => void
 };
 export const Wager: FC<WagerProps> = props => {
@@ -66,7 +65,7 @@ export const Wager: FC<WagerProps> = props => {
                     alignItems: "center"
                 }}>$</div>
             </div>
-            <div className={s.wager_percentage_picker} onClick={props.onMaxHandler}>
+            <div className={s.wager_percentage_picker}>
                 <div className={s.percentage_pick} onClick={() => props.onClickHandlers(0.25)}>25%</div>
                 <div className={s.percentage_pick} onClick={() => props.onClickHandlers(0.50)}>50%</div>
                 <div className={s.percentage_pick} onClick={() => props.onClickHandlers(0.75)}>75%</div>

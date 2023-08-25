@@ -49,19 +49,21 @@ const Game: FC<GameProps> = props => {
             </div>
             {
                 isHovering ?
-                    <div className={s.game_icon}>
-                        <Image
-                            src={props.image_colored}
-                            alt=""
-                            width={196}
-                            height={196} />
-                    </div> : <div className={s.game_icon}>
-                        <Image
-                            src={props.image_blend}
-                            alt=""
-                            width={196}
-                            height={196} />
-                    </div>
+
+                    <Image
+                        className={s.game_icon}
+                        src={props.image_colored}
+                        alt=""
+                        width={undefined}
+                        height={undefined} />
+                    :
+                    <Image
+                        className={s.game_icon}
+                        src={props.image_blend}
+                        alt=""
+                        width={undefined}
+                        height={undefined} />
+
             }
         </div ></a>)
 }
@@ -115,14 +117,14 @@ interface GamesTitleProps { };
 const GamesTitle: FC<GamesTitleProps> = props => {
     return (<div className={s.games_title}>
         <div>Games</div>
-        <div className={s.games_more}>
+        {/* <div className={s.games_more}>
             <div>
                 Show More
             </div>
             <div>
                 {'>'}
             </div>
-        </div>
+        </div> */}
     </div>)
 }
 
