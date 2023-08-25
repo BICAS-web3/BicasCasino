@@ -255,8 +255,8 @@ export const Header: FC<HeaderProps> = props => {
         setAvailableTokens,
         AvailableBlocksExplorers,
         setAvailableExplorers,
-        availableAmount,
-        setAvailableAmount,
+        // availableAmount,
+        // setAvailableAmount,
         currentTokenDecimals,
         setDecimals,
         web3Provider,
@@ -270,8 +270,8 @@ export const Header: FC<HeaderProps> = props => {
         settingsModel.setAvailableTokens,
         settingsModel.$AvailableBlocksExplorers,
         settingsModel.setAvailableExplorers,
-        sessionModel.$availableAmount,
-        sessionModel.setAvailableAmount,
+        // sessionModel.$availableAmount,
+        // sessionModel.setAvailableAmount,
         sessionModel.$currentTokenDecimals,
         sessionModel.setDecimals,
         web3.web3Provider,
@@ -328,6 +328,7 @@ export const Header: FC<HeaderProps> = props => {
             setSetupRan(true);
             //window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, available_networks));
             window.ethereum.on('chainChanged', (network_id: any) => window.location.reload());
+            window.ethereum?.on('accountsChanged', accountChangeHandler);
         }
     }, [web3Provider]);
 
@@ -368,7 +369,6 @@ export const Header: FC<HeaderProps> = props => {
         if (accounts != null) {
             accountChangeHandler(accounts);
         }
-        await window.ethereum?.on('accountsChanged', accountChangeHandler);
         return accounts;
     };
 
@@ -422,37 +422,37 @@ export const Header: FC<HeaderProps> = props => {
     }
     // web3Provider?.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
 
-    const checkERC20Amount = async (token_address: string) => {
-        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
-        const web3Utils = new Web3();
+    // const checkERC20Amount = async (token_address: string) => {
+    //     const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+    //     const web3Utils = new Web3();
 
-        const signer = await ethereum.getSigner();
+    //     const signer = await ethereum.getSigner();
 
-        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+    //     const tokenContract = new ethers.Contract(token_address, IERC20, signer);
 
-        const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
+    //     const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
 
-        const balanceString = currentBalance.toString();
+    //     const balanceString = currentBalance.toString();
 
-        const decimals = await tokenContract.decimals();
-        setDecimals(decimals);
+    //     const decimals = await tokenContract.decimals();
+    //     setDecimals(decimals);
 
-        const end = balanceString.length - decimals;
+    //     const end = balanceString.length - decimals;
 
-        const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
+    //     const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
 
-        console.log("Balance ", balanceNum);
+    //     console.log("Balance ", balanceNum);
 
-        setAvailableAmount(balanceNum);
-    }
+    //     setAvailableAmount(balanceNum);
+    // }
 
-    useEffect(() => {
-        if (currentToken == null || currentWalletAddress == null) {
-            return;
-        }
+    // useEffect(() => {
+    //     if (currentToken == null || currentWalletAddress == null) {
+    //         return;
+    //     }
 
-        checkERC20Amount(currentToken.contract_address);
-    }, [currentToken]);
+    //     checkERC20Amount(currentToken.contract_address);
+    // }, [currentToken]);
 
     return (<>
         <div className={s.header}>
