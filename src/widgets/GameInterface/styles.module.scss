@@ -7,6 +7,16 @@
     background: transparent;
     backdrop-filter: blur(30px);
     padding: 14px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 503px) {
+    .background {
+        padding-left: 2vw;
+        padding-right: 2vw;
+    }
 }
 
 .background::after {
