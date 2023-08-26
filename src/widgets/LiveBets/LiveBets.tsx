@@ -5,6 +5,8 @@ import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 import { useUnit } from 'effector-react';
 import * as Model from './model';
 import * as Api from '@/shared/api';
+import { settingsModel } from '@/entities/settings';
+import { sessionModel } from '@/entities/session';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -69,11 +71,16 @@ export interface LiveBetsProps {
 export const LiveBets: FC<LiveBetsProps> = props => {
     const [Bets,
         newBet,
-        setBets] = useUnit([
-            Model.$Bets,
-            Model.newBet,
-            Model.setBets
-        ]);
+        setBets,
+        availableBlocksExplorers,
+        setNewBet
+    ] = useUnit([
+        Model.$Bets,
+        Model.newBet,
+        Model.setBets,
+        settingsModel.$AvailableBlocksExplorers,
+        sessionModel.setNewBet
+    ]);
 
     const [socket, setSocket] = useState<any | null>(null);
 
@@ -104,6 +111,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
         if (data.type == "Ping") {
             return;
         }
+        setNewBet(data);
         newBet(data);
         setGotBets(true);
     };
@@ -119,7 +127,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
 
             var element = <LiveBet
                 is_odd={odd}
-                trx_url={bet.transaction_hash}
+                trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
                 time={hours + ':' + minutes.substr(-2)}
                 network_icon={`/static/media/networks/${bet.network_id}.svg`}
                 game_url={`/games/${bet.game_name}`}
@@ -148,31 +156,36 @@ export const LiveBets: FC<LiveBetsProps> = props => {
     }, [Bets, gotBets]);
 
 
-    return (<div className={s.live_bets}>
-        <div className={s.live_bets_header}>
-            <div className={s.live_bets_circle}>
-            </div>
-
-            Live Bets
-        </div>
-        <div style={{
-            width: '100%',
-            overflow: 'auto'
-        }}>
-            <div className={s.table} id="LiveBets">
-                <div className={s.table_header}>
-                    <div>Time</div>
-                    <div>Game</div>
-                    <div>Player</div>
-                    <div>Wager</div>
-                    <div>Multiplier</div>
-                    <div>Profit</div>
+    return (<div style={{
+        width: '100%',
+        display: 'flex',
+        alignContent: 'center',
+        justifyContent: 'center'
+    }}><div className={s.live_bets}>
+            <div className={s.live_bets_header}>
+                <div className={s.live_bets_circle}>
                 </div>
-                {
-                    BetsElements
-                }
 
+                Live Bets
             </div>
-        </div>
-    </div>)
+            <div style={{
+                width: '100%',
+                overflow: 'auto'
+            }}>
+                <div className={s.table} id="LiveBets">
+                    <div className={s.table_header}>
+                        <div>Time</div>
+                        <div>Game</div>
+                        <div>Player</div>
+                        <div>Wager</div>
+                        <div>Multiplier</div>
+                        <div>Profit</div>
+                    </div>
+                    {
+                        BetsElements
+                    }
+
+                </div>
+            </div>
+        </div></div>)
 }

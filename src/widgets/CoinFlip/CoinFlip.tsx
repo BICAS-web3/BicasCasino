@@ -14,6 +14,7 @@ import * as Api from '@/shared/api';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 import { BetStatus, Model as BetStatusModel } from '@/widgets/BetStatus';
 import { web3 } from '@/entities/web3';
+import { Firework } from '../Firework';
 
 interface CoinProps {
     side: CoinFlipModel.CoinSide
@@ -69,6 +70,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         inputWagerDollars,
         setWagerDollars,
         web3Provider,
+        newBet
     ] = useUnit([
         CoinFlipModel.$betsAmount,
         CoinFlipModel.setBetsAmount,
@@ -91,7 +93,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         sessionModel.setDecimals,
         CoinFlipModel.$inputWagerDollars,
         CoinFlipModel.setWagerDollars,
-        web3.web3Provider
+        web3.web3Provider,
+        sessionModel.$newBet
     ]);
 
     var [Game, setGame] = useState<Api.T_Game>();
@@ -110,20 +113,29 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     };
 
     useEffect(() => {
+        console.log('Quering decimals for token', currentToken);
+        if (currentToken != null) {
+            checkERC20Decimals(currentToken.contract_address);
+        }
+    }, [currentToken, web3Provider])
+
+    useEffect(() => {
+        console.log('Quering amount for token', currentToken);
         if (currentToken != null && currentTokenDecimals != 0) {
             checkERC20Amount(currentToken?.contract_address as string);
         }
-    }, [currentToken, currentTokenDecimals]);
+    }, [currentToken, currentTokenDecimals, web3Provider]);
 
     useEffect(() => {
         setAudiocontext(new AudioContext());
     }, []);
 
     useEffect(() => {
+        console.log('Getting game');
         if (Game == undefined) {
             get_game();
         }
-    }, [Game]);
+    }, [currentNetwork]);
 
     const get_game_abi = async () => {
         if (Game == undefined) {
@@ -139,10 +151,14 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     }
 
     useEffect(() => {
+        get_game_event();
+    }, [Game]);
+
+    useEffect(() => {
         if (GameAbi == undefined) {
             get_game_abi();
         }
-    }, [GameAbi])
+    }, [Game]);
 
 
     const get_game_event = async () => {
@@ -167,10 +183,6 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setGameEvent(abi_deserialized);
     }
 
-    useEffect(() => {
-        get_game_event();
-    }, [Game]);
-
     const onChangeBetsHandler = (event: {
         target: {
             value: SetStateAction<string>;
@@ -191,12 +203,14 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             value: SetStateAction<string>;
         };
     }) => {
+        console.log('Changin wager');
         try {
             var wager = Number(event.target.value);
         } catch (error) {
             console.log(error);
             return;
         }
+        console.log('Wager', wager);
         const totalWager = wager * betsAmount;
         const wagerString = event.target.value.toString();
         if (Number.isNaN(wager)
@@ -239,13 +253,31 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     };
 
     const [RerenderCoin, ForceCoinRerender] = useState(0);
+    const [RerenderFirework, ForceFireworkRerender] = useState(0);
     const [audioContext, setAudiocontext] = useState<any>(null);
     const [coinSoundBuffer, setCoinSound] = useState<any>(null);
     const [wonSoundBuffer, setWonSound] = useState<any>(null);
     const [lostSoundBuffer, setLostSound] = useState<any>(null);
 
+    const checkERC20Decimals = async (token_address: string) => {
+        if (web3Provider == null) {
+            return;
+        }
+        const ethereum = web3Provider;
+
+        const signer = await ethereum.getSigner();
+
+        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+
+        const currentBalance = await tokenContract.decimals();
+        setDecimals(currentBalance);
+    }
+
     const checkERC20Amount = async (token_address: string) => {
-        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+        if (web3Provider == null) {
+            return;
+        }
+        const ethereum = web3Provider;
         const web3Utils = new Web3();
 
         const signer = await ethereum.getSigner();
@@ -268,7 +300,70 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setAvailableAmount(balanceNum);
     }
 
+    const [picked_side, set_picked_side] = useState(pickedSide);
+    const [resultsPending, set_results_pending] = useState(false);
+
+    const NewBetHandle = (bet: Api.T_BetInfo) => {
+        if (!resultsPending
+            || bet.player.toLowerCase() != currentWalletAddress?.toLowerCase()
+            || bet.network_id != currentNetwork?.network_id
+            || bet.token_address != currentToken?.contract_address
+        ) {
+            return;
+        }
+
+        const web3Utils = new Web3();
+
+        console.log('Bet', bet);
+
+        // const decodedParameters: any = web3Utils.eth.abi.decodeLog(GameEvent as { type: string; name: string; }[], event.data, []);
+        // console.log(decodedParameters);
+        let total_wager = bet.wager;
+        let payout = bet.profit;
+        let loss = total_wager - payout;
+        console.log(payout);
+        console.log(loss);
+        if (payout > total_wager) {
+            console.log("You won!");
+        } else {
+            console.log("You lost!");
+        }
+        if (payout > total_wager) {
+            setWon(true);
+            ForceFireworkRerender(RerenderFirework + 1);
+            //playSound(coinSoundBuffer);
+            playSound(wonSoundBuffer);
+            if (pickedSide == picked_side) {
+                console.log("Same side");
+                ForceCoinRerender(RerenderCoin + 1);
+
+            } else {
+                pickSide(picked_side);
+            }
+        } else {
+            setWon(false);
+            //playSound(coinSoundBuffer);
+            playSound(lostSoundBuffer);
+            if (pickedSide == (picked_side.valueOf() ^ 1)) {
+                console.log("Same side");
+                ForceCoinRerender(RerenderCoin + 1);
+
+            } else {
+                pickSide(picked_side.valueOf() ^ 1);
+            }
+        }
+        set_results_pending(false);
+        placeBet(false);
+    };
+
+    useEffect(() => {
+        if (newBet != null) {
+            NewBetHandle(newBet);
+        }
+    }, [newBet])
+
     const makeBet = async (pickedSide: CoinFlipModel.CoinSide) => {
+        console.log('Making bet', Game, GameEvent, totalWager);
         if (Game == undefined || GameEvent == undefined || totalWager == 0 || web3Provider == null) {
             return;
         }
@@ -288,57 +383,60 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         let resultsPending = false;
 
-        const picked_side = pickedSide;
+        set_picked_side(pickedSide);
 
+        //const picked_side = pickedSide;
 
+        // const filter = coinflip_contract.filters.CoinFlip_Outcome_Event(await signer.getAddress());
+        // console.log(filter);
+        // ethereum.on(filter, (event) => {
+        //     if (!resultsPending) {
+        //         return;
+        //     }
 
-        const filter = coinflip_contract.filters.CoinFlip_Outcome_Event(await signer.getAddress());
-        ethereum.on(filter, (event) => {
-            if (!resultsPending) {
-                return;
-            }
+        //     console.log('Event', event);
 
-            const decodedParameters: any = web3Utils.eth.abi.decodeLog(GameEvent as { type: string; name: string; }[], event.data, []);
-            console.log(decodedParameters);
-            let total_wager: bigint = decodedParameters.numGames as bigint * decodedParameters.wager as bigint;
-            let payout: bigint = decodedParameters.payout;
-            let loss: bigint = total_wager - payout;
-            console.log(payout);
-            console.log(loss);
-            if (decodedParameters.payout > decodedParameters.wager) {
-                console.log("You won!");
-            } else {
-                console.log("You lost!");
-            }
-            if (decodedParameters.payout > decodedParameters.wager) {
-                setWon(true);
-                //playSound(coinSoundBuffer);
-                playSound(wonSoundBuffer);
-                if (pickedSide == picked_side) {
-                    console.log("Same side");
-                    ForceCoinRerender(RerenderCoin + 1);
+        //     // const decodedParameters: any = web3Utils.eth.abi.decodeLog(GameEvent as { type: string; name: string; }[], event.data, []);
+        //     // console.log(decodedParameters);
+        //     // let total_wager: bigint = decodedParameters.numGames as bigint * decodedParameters.wager as bigint;
+        //     // let payout: bigint = decodedParameters.payout;
+        //     // let loss: bigint = total_wager - payout;
+        //     // console.log(payout);
+        //     // console.log(loss);
+        //     // if (decodedParameters.payout > decodedParameters.wager) {
+        //     //     console.log("You won!");
+        //     // } else {
+        //     //     console.log("You lost!");
+        //     // }
+        //     // if (decodedParameters.payout > decodedParameters.wager) {
+        //     //     setWon(true);
+        //     //     //playSound(coinSoundBuffer);
+        //     //     playSound(wonSoundBuffer);
+        //     //     if (pickedSide == picked_side) {
+        //     //         console.log("Same side");
+        //     //         ForceCoinRerender(RerenderCoin + 1);
 
-                } else {
-                    pickSide(picked_side);
-                }
-            } else {
-                setWon(false);
-                //playSound(coinSoundBuffer);
-                playSound(lostSoundBuffer);
-                if (pickedSide == (picked_side.valueOf() ^ 1)) {
-                    console.log("Same side");
-                    ForceCoinRerender(RerenderCoin + 1);
+        //     //     } else {
+        //     //         pickSide(picked_side);
+        //     //     }
+        //     // } else {
+        //     //     setWon(false);
+        //     //     //playSound(coinSoundBuffer);
+        //     //     playSound(lostSoundBuffer);
+        //     //     if (pickedSide == (picked_side.valueOf() ^ 1)) {
+        //     //         console.log("Same side");
+        //     //         ForceCoinRerender(RerenderCoin + 1);
 
-                } else {
-                    pickSide(picked_side.valueOf() ^ 1);
-                }
-            }
-            console.log(decodedParameters);
-            resultsPending = false;
-            placeBet(false);
+        //     //     } else {
+        //     //         pickSide(picked_side.valueOf() ^ 1);
+        //     //     }
+        //     // }
+        //     // console.log(decodedParameters);
+        //     // resultsPending = false;
+        //     // placeBet(false);
 
-            console.log(decodedParameters.coinOutcomes[0] as CoinFlipModel.CoinSide);
-        })
+        //     // console.log(decodedParameters.coinOutcomes[0] as CoinFlipModel.CoinSide);
+        // })
 
         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
 
@@ -346,7 +444,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         console.log("TotalWagerConverted", totalWagerConverted);
 
         if (allowance < totalWagerConverted) {
-            await tokenContract.approve(Game.address, totalWagerConverted);
+            await tokenContract.approve(Game.address, BigInt(availableAmount * (10 ** currentTokenDecimals)));
         }
 
         console.log("Placing bet");
@@ -354,8 +452,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         console.log("Bet placed");
 
         placeBet(true);
-        resultsPending = true;
-
+        set_results_pending(true);
 
         await checkERC20Amount((currentToken?.contract_address) as string);
     }
@@ -388,7 +485,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     useEffect(() => {
         loadSound("/static/media/games_assets/coinflip/coinSound.mp3", setCoinSound);
         loadSound("/static/media/games_assets/coinflip/wonSound.wav", setWonSound);
-        loadSound("/static/media/games_assets/coinflip/lostSound.mp3", setLostSound);
+        loadSound("/static/media/games_assets/coinflip/lostSound.wav", setLostSound);
     }, [audioContext]);
 
     // 0.25 0.5 0.75 1
@@ -453,7 +550,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                     <PlaceBetButton active={currentWalletAddress != null} multiple_bets={betsAmount > 1} onClick={async () => makeBet(pickedSide)} bet_placed={BetPlaced} />
                 </div>
                 {<Coin side={pickedSide} key={RerenderCoin} />}
-            </div>
+            </div>,
+            <Firework.Firework render={Won as boolean} force_rerender={RerenderFirework} />
         ]} height={629} min_width={370} min_height={629} />
     </div>);
 }
