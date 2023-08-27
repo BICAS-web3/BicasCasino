@@ -234,7 +234,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         };
     }) => {
         try {
-            var wager = Number(event.target.value) * 10;
+            var wager = Number(event.target.value) * 11571;
         } catch (error) {
             console.log(error);
             return;
