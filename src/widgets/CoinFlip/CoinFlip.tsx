@@ -126,6 +126,12 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     }, [currentToken, currentTokenDecimals]);
 
     useEffect(() => {
+        if (currentToken != null && currentTokenDecimals != 0 && currentWalletAddress != null) {
+            checkERC20Amount(currentToken.contract_address);
+        }
+    }, [currentWalletAddress])
+
+    useEffect(() => {
         setAudiocontext(new AudioContext());
     }, []);
 
@@ -266,6 +272,12 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
 
         const balanceString = currentBalance.toString();
+        console.log('Balance', balanceString);
+
+        if (balanceString == '0') {
+            setAvailableAmount(0);
+            return;
+        }
 
         const decimals = currentTokenDecimals;
 
@@ -274,7 +286,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
 
-        console.log("Balance ", balanceNum);
+        //console.log("Balance ", balanceNum);
 
         setAvailableAmount(balanceNum);
     }
@@ -308,8 +320,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         // const decodedParameters: any = web3Utils.eth.abi.decodeLog(GameEvent as { type: string; name: string; }[], event.data, []);
         // console.log(decodedParameters);
-        let total_wager = bet.wager;
-        let payout = bet.profit;
+        let total_wager = BigInt(bet.wager) * BigInt(bet.bets);
+        let payout = BigInt(bet.profit);
         let loss = total_wager - payout;
         console.log(payout);
         console.log(loss);
@@ -374,7 +386,9 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
 
-        const totalWagerConverted = BigInt(totalWager.toFixed(currentTokenDecimals).replace('.', ''));
+        var totalWagerConvertedString = totalWager.toFixed(currentTokenDecimals).replace('.', '');
+
+        const totalWagerConverted = BigInt(totalWagerConvertedString);
         console.log("TotalWagerConverted", totalWagerConverted);
 
         if (allowance < totalWagerConverted) {
@@ -382,7 +396,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         }
 
         console.log("Placing bet");
-        await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, 100000000000000, 100000000000000, { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
+        await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
         console.log("Bet placed");
 
         set_results_pending(true);

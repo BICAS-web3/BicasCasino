@@ -5,9 +5,9 @@
     font-family: var(--font-neue-machina);
     font-weight: 900;
     font-size: 20px;
-    z-index: 100;
-    top: 200px;
-    right: 3px;
+    z-index: 10000;
+    top: 5vh;
+    justify-self: center;
     display: none;
     color: white;
     border-radius: 5px;
@@ -17,7 +17,7 @@
 
 
 .bet_won {
-    background: #74cf37a6;
+    background: #74cf37;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +26,7 @@
 
 
 .bet_lost {
-    background: #ff2d2da4;
+    background: #ff2d2d;
     display: flex;
     align-items: center;
     justify-content: center;

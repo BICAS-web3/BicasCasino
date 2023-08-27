@@ -7,6 +7,7 @@ import * as Model from './model';
 import * as Api from '@/shared/api';
 import { settingsModel } from '@/entities/settings';
 import { sessionModel } from '@/entities/session';
+import GKemblem1 from '@/public/media/brand_images/GKemblem1.png';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -23,7 +24,8 @@ interface LiveBetProps {
     player_url: string,
     wager: number,
     multiplier: number,
-    profit: number
+    profit: number,
+    numBets: number
 };
 const LiveBet: FC<LiveBetProps> = props => {
     return (<div className={
@@ -58,9 +60,50 @@ const LiveBet: FC<LiveBetProps> = props => {
                 {props.player}
             </a>
         </div>
-        <div>{props.wager.toString()}</div>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            columnGap: '6px',
+            justifyContent: "space-between"
+        }}>
+            {`${props.wager.toString()} x ${props.numBets}`}
+            <Image
+                src={GKemblem1}
+                alt={''}
+                width={20}
+                height={20}
+                style={{ marginLeft: "auto" }}
+            ></Image>
+        </div>
         <div>{props.multiplier}x</div>
-        <div>{props.profit > 0 ? "+" : ""}{props.profit}</div>
+        {
+            props.profit > props.wager * props.numBets ?
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    columnGap: '6px',
+                    justifyContent: "end"
+                }}>
+                    {props.profit > 0 ? "+" : ""}{props.profit}
+                    <Image
+                        src={GKemblem1}
+                        alt={''}
+                        width={20}
+                        height={20}
+                    ></Image>
+                </div> : <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    columnGap: '6px',
+                    justifyContent: "end"
+                }}>0
+                    <Image
+                        src={GKemblem1}
+                        alt={''}
+                        width={20}
+                        height={20}
+                    ></Image></div>
+        }
     </div>);
 }
 
@@ -134,10 +177,12 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                 game_name={bet.game_name}
                 player={bet.player}
                 player_url={bet.player}
-                wager={bet.wager}
-                multiplier={bet.multiplier}
-                profit={bet.profit}
-                key={bet.transaction_hash} />;
+                wager={parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2))}
+                multiplier={1.98}
+                profit={parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2))}
+                key={bet.transaction_hash}
+                numBets={bet.bets}
+            />;
             odd = !odd;
             return (element);
         }));
