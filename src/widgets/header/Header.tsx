@@ -16,10 +16,6 @@ import { web3 } from '@/entities/web3/index';
 import { BigNumber, ethers } from 'ethers';
 import Web3 from 'web3';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
-import { Connectors } from '@/shared/web3';
-import { web3ProviderInitEv } from '@/entities/web3/model';
-
-import Web3Modal from "web3modal";
 
 function RandomLogo() {
     const rnd = Math.floor(Math.random() * 4);
@@ -246,9 +242,9 @@ export const Header: FC<HeaderProps> = props => {
     ]);
 
     // global settings model
-    // const [queryAvailableNetworks] = useUnit([
-    //     settingsModel.queryAvailableNetworks
-    // ]);
+    const [queryAvailableNetworks] = useUnit([
+        settingsModel.queryAvailableNetworks
+    ]);
 
     const [
         currentNetwork,
@@ -282,74 +278,63 @@ export const Header: FC<HeaderProps> = props => {
         web3.web3ProviderInitEv
     ]);
 
-    const [web3Modal, setWeb3Modal] = useState<any | null>(null);
-    const [web3ModalInstance, setWeb3ModalInstance] = useState<any | null>(null);
-
-    const connectWallet = async () => {
-        try {
-            const provider = await web3Modal.connect();
-            provider.on('accountsChanged', (accounts: any) => accountChangeHandler(accounts));
-            setWeb3ModalInstance(provider);
-            const library = new ethers.providers.Web3Provider(provider);
-            const accounts = await library.listAccounts();
-            web3ProviderInit(library);
-            if (accounts) accountChangeHandler(accounts);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
 
     useEffect(() => {
-        const web3modal = new Web3Modal({
-            cacheProvider: false,
-            providerOptions: Connectors.providerOptions,
-            theme: 'dark'
-        })
-        setWeb3Modal(web3modal);
+        const initializeProvider = async () => {
+            if (window.ethereum) {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+                web3ProviderInit(provider);
+                console.log("setted provider");
+            }
+        };
 
-        const setup = async () => {
-
-            await queryAllExplorers();
-
-            await queryAvailableNetworks();
-            console.log(currentWalletAddress);
-        }
-
-        setup()
+        initializeProvider();
+        // window.ethereum.removeListener('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
+        // window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
     }, []);
 
-    useEffect(() => {
-        connectWallet();
-    }, [web3Modal])
+    const [setupRan, setSetupRan] = useState(false);
+
+    var available_networks: any;
 
     useEffect(() => {
-        if (web3Provider == null || currentWalletAddress == null) {
+        queryAllExplorers();
+    }, [])
+
+    // setup
+    useEffect(() => {
+        if (setupRan) {
             return;
         }
 
-        const setup = async () => {
-            console.log("Initial network pick");
-            const network = await web3Provider.getNetwork();
-            networkChangeHandler(network.chainId, availableNetworks);
+        console.log("Header Effect");
 
+        const run = async () => {
+            console.log('Getting account');
+            await checkMetamaskConnection();
+
+            //await checkCurrentNetwork();
+
+            available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+            setAvailableNetworks(available_networks);
+
+            await checkCurrentNetwork(available_networks);
+
+
+            //queryAvailableNetworks();
+            console.log(currentWalletAddress);
         }
 
-        setup();
+        if (web3Provider != null) {
+            run();
+            setSetupRan(true);
+            //window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, available_networks));
+            window.ethereum.on('chainChanged', (network_id: any) => window.location.reload());
+            window.ethereum?.on('accountsChanged', accountChangeHandler);
+        }
+    }, [web3Provider]);
 
-        console.log('setting chainChanged handler');
-        web3ModalInstance.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
-
-    }, [web3Provider, web3ModalInstance, currentWalletAddress, availableNetworks]);
-
-
-    const queryAvailableNetworks = async () => {
-        const networks = (await Api.getNetworksFx()).body as Api.T_Networks;
-
-        console.log('Available networks', networks);
-
-        setAvailableNetworks(networks);
-    };
 
     const queryAllExplorers = async () => {
         const explorers = (await Api.getAllExplorers()).body as Api.T_BlockExplorers;
@@ -371,9 +356,30 @@ export const Header: FC<HeaderProps> = props => {
         }
     }
 
-    const networkChangeHandler = async (network_id: any, available_networks: Api.T_Networks | undefined) => {
-        const network_id_number = parseInt(network_id);
+    const checkMetamaskConnection = async () => {
+        // await window.ethereum?.request({ method: 'eth_requestAccounts' }).catch((err: any) => {
+        //     console.error(err);
+        // });
+        if (web3Provider?.provider
+            .request == null) {
+            return;
+        }
+        await web3Provider?.provider
+            .request({ method: 'eth_requestAccounts' }).catch((err) => {
+                console.error(err);
+            });
+        const accounts = await web3Provider?.provider.request({ method: 'eth_accounts' });
+        if (accounts != null) {
+            accountChangeHandler(accounts);
+        }
+        return accounts;
+    };
 
+    const networkChangeHandler = async (network_id: any, available_networks: Api.T_Networks | undefined) => {
+        const network_id_number = parseInt(network_id, 16);
+        // if (availableNetworks.networks.length == 0) {
+        //     return;
+        // }
         if (currentNetwork != null && network_id_number == currentNetwork.network_id) {
             console.log("same network id");
             return;
@@ -393,11 +399,63 @@ export const Header: FC<HeaderProps> = props => {
             setAvailableTokens(available_tokens);
             pickToken(available_tokens.tokens[0]);
         } else {
+            if (currentNetwork == null) {
+                return;
+            }
             pickNetwork(null);
             setAvailableTokens({ tokens: [] });
             pickToken(null);
         }
     }
+
+    const checkCurrentNetwork = async (available_networks: any) => {
+        console.log(`Wallet: ${currentWalletAddress}`);
+        // var available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+        // setAvailableNetworks(available_networks);
+        //console.log('Networks');
+        //console.log(available_networks);
+        if (web3Provider?.provider
+            .request == null) {
+            return;
+        }
+        await web3Provider?.provider.request({ method: 'eth_chainId' }).then((network_id) => networkChangeHandler(network_id, available_networks)).catch((err) => {
+            console.error(err);
+        });
+
+    }
+    // web3Provider?.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
+
+    // const checkERC20Amount = async (token_address: string) => {
+    //     const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+    //     const web3Utils = new Web3();
+
+    //     const signer = await ethereum.getSigner();
+
+    //     const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+
+    //     const currentBalance: BigNumber = await tokenContract.balanceOf(currentWalletAddress);
+
+    //     const balanceString = currentBalance.toString();
+
+    //     const decimals = await tokenContract.decimals();
+    //     setDecimals(decimals);
+
+    //     const end = balanceString.length - decimals;
+
+    //     const balanceNum = parseFloat(balanceString.slice(0, end) + '.' + balanceString.slice(end, end + 2));
+
+    //     console.log("Balance ", balanceNum);
+
+    //     setAvailableAmount(balanceNum);
+    // }
+
+    // useEffect(() => {
+    //     if (currentToken == null || currentWalletAddress == null) {
+    //         return;
+    //     }
+
+    //     checkERC20Amount(currentToken.contract_address);
+    // }, [currentToken]);
 
     return (<>
         <div className={s.header}>
@@ -409,7 +467,7 @@ export const Header: FC<HeaderProps> = props => {
                 <NetworkPicker />
                 <div className={s.connect_account_box}>
                     {currentWalletAddress == null ?
-                        <ConnectWallet wallet_connection_function={connectWallet} /> : <Account name={currentNickName as string} />
+                        <ConnectWallet wallet_connection_function={checkMetamaskConnection} /> : <Account name={currentNickName as string} />
                     }
                 </div>
             </div>
@@ -419,7 +477,7 @@ export const Header: FC<HeaderProps> = props => {
             <div>menu</div>
             {
                 currentWalletAddress == null ?
-                    <div className={s.functional_footer_connect} onClick={connectWallet}>Connect</div> : <Account name={currentNickName as string} />
+                    <div className={s.functional_footer_connect} onClick={checkMetamaskConnection}>Connect</div> : <Account name={currentNickName as string} />
             }
             <div>Chat</div>
         </div>

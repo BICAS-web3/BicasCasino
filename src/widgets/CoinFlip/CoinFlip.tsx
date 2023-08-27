@@ -117,21 +117,19 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         if (currentToken != null) {
             checkERC20Decimals(currentToken.contract_address);
         }
-    }, [currentToken, web3Provider])
+    }, [currentToken, web3Provider]);
 
     useEffect(() => {
-        console.log('Quering amount for token', currentToken);
         if (currentToken != null && currentTokenDecimals != 0) {
-            checkERC20Amount(currentToken?.contract_address as string);
+            checkERC20Amount(currentToken.contract_address);
         }
-    }, [currentToken, currentTokenDecimals, web3Provider]);
+    }, [currentToken, currentTokenDecimals]);
 
     useEffect(() => {
         setAudiocontext(new AudioContext());
     }, []);
 
     useEffect(() => {
-        console.log('Getting game');
         if (Game == undefined) {
             get_game();
         }
@@ -151,14 +149,10 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     }
 
     useEffect(() => {
-        get_game_event();
-    }, [Game]);
-
-    useEffect(() => {
         if (GameAbi == undefined) {
             get_game_abi();
         }
-    }, [Game]);
+    }, [Game])
 
 
     const get_game_event = async () => {
@@ -183,6 +177,10 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setGameEvent(abi_deserialized);
     }
 
+    useEffect(() => {
+        get_game_event();
+    }, [Game]);
+
     const onChangeBetsHandler = (event: {
         target: {
             value: SetStateAction<string>;
@@ -203,14 +201,12 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             value: SetStateAction<string>;
         };
     }) => {
-        console.log('Changin wager');
         try {
             var wager = Number(event.target.value);
         } catch (error) {
             console.log(error);
             return;
         }
-        console.log('Wager', wager);
         const totalWager = wager * betsAmount;
         const wagerString = event.target.value.toString();
         if (Number.isNaN(wager)
@@ -259,25 +255,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     const [wonSoundBuffer, setWonSound] = useState<any>(null);
     const [lostSoundBuffer, setLostSound] = useState<any>(null);
 
-    const checkERC20Decimals = async (token_address: string) => {
-        if (web3Provider == null) {
-            return;
-        }
-        const ethereum = web3Provider;
-
-        const signer = await ethereum.getSigner();
-
-        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
-
-        const currentBalance = await tokenContract.decimals();
-        setDecimals(currentBalance);
-    }
-
     const checkERC20Amount = async (token_address: string) => {
-        if (web3Provider == null) {
-            return;
-        }
-        const ethereum = web3Provider;
+        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
         const web3Utils = new Web3();
 
         const signer = await ethereum.getSigner();
@@ -298,6 +277,17 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         console.log("Balance ", balanceNum);
 
         setAvailableAmount(balanceNum);
+    }
+
+    const checkERC20Decimals = async (token_address: string) => {
+        const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
+
+        const signer = await ethereum.getSigner();
+
+        const tokenContract = new ethers.Contract(token_address, IERC20, signer);
+
+        const currentBalance = await tokenContract.decimals();
+        setDecimals(currentBalance);
     }
 
     const [picked_side, set_picked_side] = useState(pickedSide);
@@ -381,62 +371,6 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         let fees = await coinflip_contract.getVRFFee(1000000);
 
-        let resultsPending = false;
-
-        set_picked_side(pickedSide);
-
-        //const picked_side = pickedSide;
-
-        // const filter = coinflip_contract.filters.CoinFlip_Outcome_Event(await signer.getAddress());
-        // console.log(filter);
-        // ethereum.on(filter, (event) => {
-        //     if (!resultsPending) {
-        //         return;
-        //     }
-
-        //     console.log('Event', event);
-
-        //     // const decodedParameters: any = web3Utils.eth.abi.decodeLog(GameEvent as { type: string; name: string; }[], event.data, []);
-        //     // console.log(decodedParameters);
-        //     // let total_wager: bigint = decodedParameters.numGames as bigint * decodedParameters.wager as bigint;
-        //     // let payout: bigint = decodedParameters.payout;
-        //     // let loss: bigint = total_wager - payout;
-        //     // console.log(payout);
-        //     // console.log(loss);
-        //     // if (decodedParameters.payout > decodedParameters.wager) {
-        //     //     console.log("You won!");
-        //     // } else {
-        //     //     console.log("You lost!");
-        //     // }
-        //     // if (decodedParameters.payout > decodedParameters.wager) {
-        //     //     setWon(true);
-        //     //     //playSound(coinSoundBuffer);
-        //     //     playSound(wonSoundBuffer);
-        //     //     if (pickedSide == picked_side) {
-        //     //         console.log("Same side");
-        //     //         ForceCoinRerender(RerenderCoin + 1);
-
-        //     //     } else {
-        //     //         pickSide(picked_side);
-        //     //     }
-        //     // } else {
-        //     //     setWon(false);
-        //     //     //playSound(coinSoundBuffer);
-        //     //     playSound(lostSoundBuffer);
-        //     //     if (pickedSide == (picked_side.valueOf() ^ 1)) {
-        //     //         console.log("Same side");
-        //     //         ForceCoinRerender(RerenderCoin + 1);
-
-        //     //     } else {
-        //     //         pickSide(picked_side.valueOf() ^ 1);
-        //     //     }
-        //     // }
-        //     // console.log(decodedParameters);
-        //     // resultsPending = false;
-        //     // placeBet(false);
-
-        //     // console.log(decodedParameters.coinOutcomes[0] as CoinFlipModel.CoinSide);
-        // })
 
         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
 
@@ -451,8 +385,9 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, 100000000000000, 100000000000000, { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
         console.log("Bet placed");
 
-        placeBet(true);
         set_results_pending(true);
+
+        placeBet(true);
 
         await checkERC20Amount((currentToken?.contract_address) as string);
     }
