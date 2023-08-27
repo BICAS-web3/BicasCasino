@@ -68,6 +68,44 @@ const Game: FC<GameProps> = props => {
         </div ></a>)
 }
 
+interface GameProps { name: string, description: string, link: string, image_colored: any, image_blend: any }
+
+const GameBlured: FC<GameProps> = props => {
+    // const [isHovering, setIsHovered] = useState(false);
+
+    // const onMouseEnter = () => setIsHovered(true);
+    // const onMouseLeave = () => setIsHovered(false);
+
+
+
+    return (<div
+        className={s.game_link}
+    >
+        <div className={s.game_blured}>
+            <div className={s.comming_soon}><div>Comming Soon</div></div>
+            <div className={`${s.game_info} ${s.blured}`}>
+                <div className={s.game_name}>
+                    {props.name}
+                    <div className={s.game_arrow}>
+                        {'>'}
+                    </div>
+                </div>
+                <div className={s.game_description}>
+                    {props.description}
+                </div>
+            </div>
+
+
+            <Image
+                className={`${s.game_icon} ${s.blured}`}
+                src={props.image_colored}
+                alt=""
+                width={undefined}
+                height={undefined} />
+
+        </div ></div>)
+}
+
 interface GamesProps { };
 
 const Games: FC<GamesProps> = props => {
@@ -81,19 +119,32 @@ const Games: FC<GamesProps> = props => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />
-
-            <Game
+            <GameBlured
                 name={'ROCK PAPER SCISSORS'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/rock-paper-scissors'}
                 image_colored={RPSColoredIcon}
                 image_blend={RPSBlendIcon}
             />
+            {/* <Game
+                name={'ROCK PAPER SCISSORS'}
+                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
+                link={'/games/rock-paper-scissors'}
+                image_colored={RPSColoredIcon}
+                image_blend={RPSBlendIcon}
+            /> */}
 
         </div>
 
         <div className={s.games_row}>
-            <Game
+            <GameBlured
+                name={'DICE'}
+                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
+                link={'/games/dice'}
+                image_colored={DiceColoredIcon}
+                image_blend={DiceBlendIcon}
+            />
+            {/* <Game
                 name={'DICE'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/dice'}
@@ -107,7 +158,7 @@ const Games: FC<GamesProps> = props => {
                 link={'/games/CoinFlip'}
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
-            />
+            /> */}
 
         </div>
     </div>);
@@ -168,7 +219,7 @@ export default function Home() {
                 <div className={s.main_container}>
                     <div className={s.main_area}>
                         <Games />
-                        <TotalInfo />
+                        {/* <TotalInfo /> */}
                         <LiveBets subscription_type={'SubscribeAll'} subscriptions={[]} />
                     </div>
                 </div>

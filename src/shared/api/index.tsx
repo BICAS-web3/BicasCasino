@@ -102,13 +102,13 @@ export type T_BetInfo = {
     timestamp: number;
     game_id: number;
     game_name: string;
-    wager: number;
+    wager: bigint;
     token_address: string;
     token_name: string;
     network_id: number;
     bets: number;
     multiplier: number;
-    profit: number;
+    profit: bigint;
 };
 
 export type T_Bets = {

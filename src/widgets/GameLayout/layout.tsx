@@ -13,20 +13,20 @@ import { FC, useEffect } from 'react';
 import { BetStatus } from '@/widgets/BetStatus';
 
 type GameLayoutProps = {
-    children: ReactNode
+    children: ReactNode,
+    gameName: string
 };
 
 export const GameLayout: FC<GameLayoutProps> = props => {
     return (
         <>
             <Head>
-                <title>NFT Play | Home page</title>
+                <title>gameName</title>
             </Head>
             <Header />
             <main>
                 <div className={s.main_container}>
                     <div className={s.background}>
-                        <BetStatus />
                         <div className={s.nova3}>
                             <Image
                                 src={Nova3Image}
@@ -63,6 +63,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
                         </div>
                     </div>
                     <div className={s.main_area}>
+                        <BetStatus />
                         {props.children}
                     </div>
                 </div>

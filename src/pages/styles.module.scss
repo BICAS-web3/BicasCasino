@@ -57,6 +57,45 @@
     box-sizing: border-box;
 }
 
+.game_blured {
+    //width: 0.3em;
+    //height: 200px;
+    width: 100%;
+    max-width: 661px;
+    position: relative;
+    border-radius: 7px;
+    padding: 10px 20px;
+    background: var(--color-background-dark);
+    display: flex;
+    flex-direction: row;
+    padding: 32px;
+    //column-gap: 100px;
+    column-gap: calc(5px + 5vw);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.comming_soon{
+    width: 75%;
+    height: 60%;
+    max-width: 661px;
+    position: absolute;
+    z-index: 1000;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    font-family: var(--font-dalek-pinpoint);
+    font-weight: 700;
+    font-size: 32px;
+    color: white;
+}
+
+.blured {
+    filter:blur(10px);
+}
+
 .game:hover {
     cursor: pointer;
 }
