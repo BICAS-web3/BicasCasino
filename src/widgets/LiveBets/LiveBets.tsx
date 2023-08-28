@@ -66,7 +66,7 @@ const LiveBet: FC<LiveBetProps> = props => {
             columnGap: '6px',
             justifyContent: "space-between"
         }}>
-            {`${props.wager.toString()} x ${props.numBets}`}
+            {`${(props.wager / props.numBets).toString()} x ${props.numBets}`}
             <Image
                 src={GKemblem1}
                 alt={''}

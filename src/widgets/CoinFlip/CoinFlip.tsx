@@ -187,7 +187,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         get_game_event();
     }, [Game]);
 
-    const onChangeBetsHandler = (event: {
+    const onChangeBetsHandler = async (event: {
         target: {
             value: SetStateAction<string>;
         };
@@ -200,13 +200,15 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         }
         setBetsAmount(bets);
         setTotalWager(totalWager);
+        await checkERC20Amount((currentToken?.contract_address) as string);
     }
 
-    const onChangeWagerHandler = (event: {
+    const onChangeWagerHandler = async (event: {
         target: {
             value: SetStateAction<string>;
         };
     }) => {
+
         try {
             var wager = Number(event.target.value);
         } catch (error) {
@@ -223,16 +225,18 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             console.log(Number.isNaN(wager));
             return;
         }
-        setWagerDollars((wager / 10).toString());
+        setWagerDollars((wager / 11571).toString());
         setWager(event.target.value.toString());
         setTotalWager(totalWager);
+        await checkERC20Amount((currentToken?.contract_address) as string);
     };
 
-    const onChangeDollarsHandler = (event: {
+    const onChangeDollarsHandler = async (event: {
         target: {
             value: SetStateAction<string>;
         };
     }) => {
+
         try {
             var wager = Number(event.target.value) * 11571;
         } catch (error) {
@@ -252,6 +256,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
         setWagerDollars(event.target.value.toString());
         setWager(wager.toString());
         setTotalWager(totalWager);
+        await checkERC20Amount((currentToken?.contract_address) as string);
     };
 
     const [RerenderCoin, ForceCoinRerender] = useState(0);
@@ -365,6 +370,8 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
     }, [newBet])
 
     const makeBet = async (pickedSide: CoinFlipModel.CoinSide) => {
+        await checkERC20Amount((currentToken?.contract_address) as string);
+
         console.log('Making bet', Game, GameEvent, totalWager);
         if (Game == undefined || GameEvent == undefined || totalWager == 0 || web3Provider == null) {
             return;
@@ -386,17 +393,29 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
 
+        console.log("Allowance:", allowance);
+
         var totalWagerConvertedString = totalWager.toFixed(currentTokenDecimals).replace('.', '');
 
         const totalWagerConverted = BigInt(totalWagerConvertedString);
         console.log("TotalWagerConverted", totalWagerConverted);
 
         if (allowance < totalWagerConverted) {
-            await tokenContract.approve(Game.address, BigInt(availableAmount * (10 ** currentTokenDecimals)));
+            try {
+                await tokenContract.approve(Game.address, BigInt((availableAmount + 1) * (10 ** currentTokenDecimals)));
+            } catch (error) {
+                console.log("Error increasing allowance", error);
+                return;
+            }
         }
 
         console.log("Placing bet");
-        await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
+        try {
+            await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
+        } catch (error) {
+            console.log("Error placing bet", error);
+            return;
+        }
         console.log("Bet placed");
 
         set_results_pending(true);
