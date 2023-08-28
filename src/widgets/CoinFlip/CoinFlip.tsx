@@ -411,7 +411,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
 
         console.log("Placing bet");
         try {
-            await coinflip_contract.CoinFlip_Play(totalWagerConverted, tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
+            await coinflip_contract.CoinFlip_Play(BigInt(inputWager), tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: 2500000256 });
         } catch (error) {
             console.log("Error placing bet", error);
             return;
