@@ -13,7 +13,7 @@ export const Background: FC<BackgroundProps> = props => {
         //height: props.height,
         minHeight: props.min_height,
         minWidth: props.min_width
-    }} className={s.background}>
+    }} className={`${s.background} ${s.running_stroke}`}>
         {props.children}
     </div >);
 }

@@ -18,11 +18,12 @@ import { Firework } from '../Firework';
 
 interface CoinProps {
     side: CoinFlipModel.CoinSide
+    spinForever: boolean
 };
 const Coin: FC<CoinProps> = props => {
     return (
         <div id="coin" className={s.coin_container}>
-            <div className={`${s.coin} ${props.side == CoinFlipModel.CoinSide.Heads ? s.heads : s.tails}`}>
+            <div className={`${s.coin} ${props.spinForever ? s.spin_forever : (props.side == CoinFlipModel.CoinSide.Heads ? s.heads : s.tails)}`}>
 
                 <Image
                     src={Heads2Image}
@@ -409,6 +410,14 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
             }
         }
 
+        // allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
+
+        // console.log("New allowance:", allowance);
+
+        // if (allowance < totalWagerConverted) {
+        //     return;
+        // }
+
         console.log("Placing bet");
         try {
             await coinflip_contract.CoinFlip_Play(BigInt(parseFloat(inputWager) * 10 ** currentTokenDecimals), tokenAddress, pickedSide, betsAmount, totalWagerConverted * BigInt(betsAmount), totalWagerConverted * BigInt(betsAmount), { value: 3000000000000000, gasLimit: 3000000, gasPrice: await ethereum.getGasPrice() });
@@ -517,7 +526,7 @@ export const CoinFlip: FC<CoinFlipProps> = props => {
                     </div>
                     <PlaceBetButton active={currentWalletAddress != null} multiple_bets={betsAmount > 1} onClick={async () => makeBet(pickedSide)} bet_placed={BetPlaced} />
                 </div>
-                {<Coin side={pickedSide} key={RerenderCoin} />}
+                {<Coin side={pickedSide} key={RerenderCoin} spinForever={BetPlaced} />}
             </div>,
             <Firework.Firework render={Won as boolean} force_rerender={RerenderFirework} />
         ]} height={629} min_width={370} min_height={629} />
