@@ -4,6 +4,7 @@ import s from './styles.module.scss';
 import playerIconBig from '@/public/media/player_icons/playerIconBig.png';
 import GKEagle from '@/public/media/brand_images/GKEagle.png';
 import Pen from '@/public/media/misc/pen.svg';
+import AcceptIcon from '@/public/media/misc/acceptIcon.svg';
 import { sessionModel } from '@/entities/session';
 import { useUnit } from 'effector-react';
 import * as Api from '@/shared/api';
@@ -118,12 +119,25 @@ const ProfileInfo: FC<ProfileInfoProps> = props => {
                         </form>
                         <div
                             style={{
-                                display: currentWalletAddress == props.queried_address ? 'block' : 'none'
+                                display: currentWalletAddress == props.queried_address && !editNickname ? 'block' : 'none'
                             }}
                             className={s.edit_button}
                             onClick={(_) => { setEditNickname(true); }}>
                             <Image
                                 src={Pen}
+                                alt={''}
+                                width={32}
+                                height={32}
+                            />
+                        </div>
+                        <div
+                            style={{
+                                display: editNickname ? 'block' : 'none'
+                            }}
+                            className={s.edit_button}
+                            onClick={onSubmitHandle}>
+                            <Image
+                                src={AcceptIcon}
                                 alt={''}
                                 width={32}
                                 height={32}
