@@ -58,6 +58,7 @@ const ProfileInfo: FC<ProfileInfoProps> = props => {
         };
     }) => {
         setCurrentNickName(event.target.value.toString());
+        setPageNickname(event.target.value.toString());
     };
 
     const onSubmitHandle = async () => {
