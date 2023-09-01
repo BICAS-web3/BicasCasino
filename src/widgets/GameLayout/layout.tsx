@@ -21,7 +21,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
     return (
         <>
             <Head>
-                <title>gameName</title>
+                <title>{props.gameName}</title>
             </Head>
             <Header />
             <main>

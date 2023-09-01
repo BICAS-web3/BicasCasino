@@ -130,9 +130,28 @@ export type T_GetUsername = {
     address: string
 };
 
+export type T_SetUsername = {
+    address: string,
+    nickname: string,
+    signature: string,
+};
+
+export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/player/nickname/set`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
 export const getUsernameFx = createEffect<T_GetUsername, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_nickname/${form.address}`, {
+        return fetch(`${BaseApiUrl}/player/nickname/get/${form.address}`, {
             method: 'GET',
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -140,7 +159,7 @@ export const getUsernameFx = createEffect<T_GetUsername, T_ApiResponse, string>(
 
 export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
     async _ => {
-        return fetch(`${BaseApiUrl}/get_networks`, {
+        return fetch(`${BaseApiUrl}/network/list`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -152,7 +171,7 @@ export type T_GetRpcs = {
 
 export const getRpcsFx = createEffect<T_GetRpcs, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_rpcs/${form.network_id}`, {
+        return fetch(`${BaseApiUrl}/rpc/get/${form.network_id}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -164,7 +183,7 @@ export type T_GetTokens = {
 
 export const getTokens = createEffect<T_GetTokens, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_tokens/${form.network_id}`, {
+        return fetch(`${BaseApiUrl}/token/get/${form.network_id}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -177,7 +196,7 @@ export type T_GetGame = {
 
 export const getGame = createEffect<T_GetGame, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_game/${form.network_id}/${form.game_name}`, {
+        return fetch(`${BaseApiUrl}/game/get/${form.network_id}/${form.game_name}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -189,7 +208,7 @@ export type T_GetAbi = {
 
 export const getAbi = createEffect<T_GetAbi, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_abi/${form.signature}`, {
+        return fetch(`${BaseApiUrl}/abi/get/${form.signature}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -197,7 +216,7 @@ export const getAbi = createEffect<T_GetAbi, T_ApiResponse, string>(
 
 export const getAllExplorers = createEffect<void, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_all_explorers`, {
+        return fetch(`${BaseApiUrl}/block_epxlorer/list`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -205,7 +224,7 @@ export const getAllExplorers = createEffect<void, T_ApiResponse, string>(
 
 export const getAllLastBets = createEffect<void, T_ApiResponse, string>(
     async form => {
-        return fetch(`${BaseApiUrl}/get_all_last_bets`, {
+        return fetch(`${BaseApiUrl}/bets/list`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
@@ -213,15 +232,36 @@ export const getAllLastBets = createEffect<void, T_ApiResponse, string>(
 
 export const getGamesAllLastBets = createEffect<string, T_ApiResponse, string>(
     async game_name => {
-        return fetch(`${BaseApiUrl}/get_game_bets/${game_name}`, {
+        return fetch(`${BaseApiUrl}/bets/game/${game_name}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
 )
 
+export type T_GetUserBets = {
+    address: string,
+    starting_id: number | null
+};
+
+export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/bets/player/${form.address}/${form.starting_id != null ? form.starting_id : ''}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+);
+
+export const getUserBetsInc = createEffect<T_GetUserBets, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/bets/player/inc/${form.address}/${form.starting_id != null ? form.starting_id : ''}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+);
+
 export const GetGameById = createEffect<number, T_ApiResponse, string>(
     async game_id => {
-        return fetch(`${BaseApiUrl}/get_game/${game_id}`, {
+        return fetch(`${BaseApiUrl}/game/get/${game_id}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
