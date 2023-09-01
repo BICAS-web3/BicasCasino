@@ -123,11 +123,11 @@ const ConnectWallet: FC<ConnectWalletProps> = props => {
     </div>)
 }
 
-interface AccountProps { name: string };
+interface AccountProps { name: string, address: string };
 
 const Account: FC<AccountProps> = props => {
     return (<>
-        <div className={s.account_box}>
+        <div className={s.account_box} onClick={(_) => { location.href = `/account/${props.address}` }}>
             <Image
                 src={AccountIcon}
                 alt=""
@@ -467,7 +467,7 @@ export const Header: FC<HeaderProps> = props => {
                 <NetworkPicker />
                 <div className={s.connect_account_box}>
                     {currentWalletAddress == null ?
-                        <ConnectWallet wallet_connection_function={checkMetamaskConnection} /> : <Account name={currentNickName as string} />
+                        <ConnectWallet wallet_connection_function={checkMetamaskConnection} /> : <Account name={currentNickName as string} address={currentWalletAddress} />
                     }
                 </div>
             </div>
@@ -477,7 +477,7 @@ export const Header: FC<HeaderProps> = props => {
             <div>menu</div>
             {
                 currentWalletAddress == null ?
-                    <div className={s.functional_footer_connect} onClick={checkMetamaskConnection}>Connect</div> : <Account name={currentNickName as string} />
+                    <div className={s.functional_footer_connect} onClick={checkMetamaskConnection}>Connect</div> : <Account name={currentNickName as string} address={currentWalletAddress} />
             }
             <div>Chat</div>
         </div>

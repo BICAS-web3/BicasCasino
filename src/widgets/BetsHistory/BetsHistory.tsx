@@ -55,7 +55,7 @@ const LiveBet: FC<LiveBetProps> = props => {
         </div>
         <div>
             <a
-                href={`/account/${props.player_url}`}
+                href={`${props.player_url}`}
                 className={s.link}>
                 {props.player}
             </a>
@@ -107,63 +107,115 @@ const LiveBet: FC<LiveBetProps> = props => {
     </div>);
 }
 
-export interface LiveBetsProps {
-    subscription_type: string,
-    subscriptions: string[]
+export interface BetsHistoryProps {
+    address: string
 };
-export const LiveBets: FC<LiveBetsProps> = props => {
+export const BetsHistory: FC<BetsHistoryProps> = props => {
+    const currentWalletAddress = props.address;
     const [Bets,
         newBet,
         setBets,
         availableBlocksExplorers,
-        setNewBet
+        setNewBet,
+        //currentWalletAddress
     ] = useUnit([
         Model.$Bets,
         Model.newBet,
         Model.setBets,
         settingsModel.$AvailableBlocksExplorers,
-        sessionModel.setNewBet
+        sessionModel.setNewBet,
+        //sessionModel.$currentWalletAddress
     ]);
 
-    const [socket, setSocket] = useState<any | null>(null);
-
-    const [gotBets, setGotBets] = useState(false);
-
     const [BetsElements, setBetsElements] = useState<React.JSX.Element[]>([]);
+    const [lastBetId, setLastBetId] = useState<number>(0);
+    const [firstBetId, setFirstBetId] = useState<number>(0);
+    const [pageNumber, setPageNumber] = useState<number>(1);
 
     useEffect(() => {
-        const run = async () => {
-            console.log("Getting bets");
-            await getBets();
-        }
-        run();
-    }, [availableBlocksExplorers]);
-
-    const getBets = async () => {
-        var bets = props.subscriptions.length == 0 ? (await Api.getAllLastBets()).body as Api.T_Bets : (await Api.getGamesAllLastBets(props.subscriptions[0])).body as Api.T_Bets;
-        setBets(bets.bets);
-        console.log(bets);
-        console.log(Bets);
-        setGotBets(true);
-    }
-    var odd = false;
-
-    const onMessage = (ev: MessageEvent<any>) => {
-        const data = JSON.parse(ev.data);
-        console.log("Received message:", data);
-        if (data.type == "Ping") {
+        console.log("Getting bets", currentWalletAddress);
+        if (currentWalletAddress == null) {
             return;
         }
-        setNewBet(data);
-        newBet(data);
-        setGotBets(true);
-    };
+        const run = async () => {
+            const bets = (await Api.getUserBets({
+                address: currentWalletAddress,
+                starting_id: null
+            })).body as Api.T_Bets;
+            if (bets.bets.length == 0) {
+                setBetsElements([]);
+                return;
+            }
+            const lastId = bets.bets[bets.bets.length - 1].id;
 
-    useEffect(() => {
+            setLastBetId(lastId);
+            setFirstBetId(bets.bets[0].id + 1);
 
-        console.log("mapping bets");
+            var odd = false;
+            setBetsElements(bets.bets.map((bet: Api.T_BetInfo) => {
+                var date = new Date(bet.timestamp * 1000);
+                let hours = date.getHours();
+                let minutes = "0" + date.getMinutes();
 
-        setBetsElements(Bets.map((bet: Api.T_BetInfo) => {
+                var element = <LiveBet
+                    is_odd={odd}
+                    trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
+                    time={hours + ':' + minutes.substr(-2)}
+                    network_icon={`/static/media/networks/${bet.network_id}.svg`}
+                    game_url={`/games/${bet.game_name}`}
+                    game_name={bet.game_name}
+                    player={bet.player_nickname == null ? bet.player : bet.player_nickname}
+                    player_url={bet.player}
+                    wager={parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2))}
+                    multiplier={1.98}
+                    profit={parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2))}
+                    key={bet.transaction_hash}
+                    numBets={bet.bets}
+                />;
+                odd = !odd;
+                return (element);
+            }));
+        }
+
+        run();
+    }, [currentWalletAddress, availableBlocksExplorers]);
+
+    const page_switch = async (left: boolean) => {
+        var bets: Api.T_BetInfo[];
+        if (left) {
+            if (pageNumber == 1) {
+                return;
+            }
+            bets = ((await Api.getUserBetsInc({
+                address: currentWalletAddress,
+                starting_id: firstBetId
+            })).body as Api.T_Bets).bets.reverse();
+            setPageNumber(pageNumber - 1);
+        } else {
+            if (BetsElements.length == 0) {
+                return;
+            }
+            bets = ((await Api.getUserBets({
+                address: currentWalletAddress,
+                starting_id: lastBetId
+            })).body as Api.T_Bets).bets;
+            if (bets.length == 0) {
+                return;
+            }
+            setPageNumber(pageNumber + 1);
+        }
+
+        if (bets.length == 0) {
+            setBetsElements([]);
+            return;
+        }
+        const lastId = bets[bets.length - 1].id;
+
+        setLastBetId(lastId);
+        setFirstBetId(bets[0].id);
+
+        var odd = false;
+        setBetsElements(bets.map((bet: Api.T_BetInfo) => {
             var date = new Date(bet.timestamp * 1000);
             let hours = date.getHours();
             let minutes = "0" + date.getMinutes();
@@ -186,32 +238,14 @@ export const LiveBets: FC<LiveBetsProps> = props => {
             odd = !odd;
             return (element);
         }));
-        setGotBets(false);
 
-        if (socket != null) {
-            return;
-        }
-        console.log("Connecting to WebSocket server...");
-        var newSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/updates`);
+    }
 
-        newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
-
-        newSocket.onmessage = onMessage;
-        setSocket(newSocket);
-    }, [Bets, gotBets]);
-
-
-    return (<div style={{
-        width: '100%',
-        display: 'flex',
-        alignContent: 'center',
-        justifyContent: 'center'
-    }}><div className={s.live_bets}>
+    return (<div className={s.bets_container}>
+        <div className={s.live_bets}>
             <div className={s.live_bets_header}>
-                <div className={s.live_bets_circle}>
-                </div>
 
-                Live Bets
+                Bet History
             </div>
             <div style={{
                 width: '100%',
@@ -232,5 +266,24 @@ export const LiveBets: FC<LiveBetsProps> = props => {
 
                 </div>
             </div>
-        </div></div>)
+        </div>
+        <div style={{
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex'
+        }}>
+            <div className={s.page_picker}>
+                <div className={s.page_button} onClick={async (_) => { await page_switch(true); }}>
+                    {'<'}
+                </div>
+                <div className={s.page_number}>
+                    {pageNumber}
+                </div>
+                <div className={s.page_button} onClick={async (_) => { await page_switch(false); }}>
+                    {'>'}
+                </div>
+            </div>
+        </div>
+    </div>)
 }
