@@ -137,28 +137,28 @@ const Games: FC<GamesProps> = props => {
         </div>
 
         <div className={s.games_row}>
-            <GameBlured
+            {/* <GameBlured
                 name={'DICE'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/dice'}
                 image_colored={DiceColoredIcon}
                 image_blend={DiceBlendIcon}
-            />
-            {/* <Game
+            /> */}
+            <Game
                 name={'DICE'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/dice'}
+                description={'DICE GAME very long description that needs to be wrapped to the new line'}
+                link={'/games/Dice'}
                 image_colored={DiceColoredIcon}
                 image_blend={DiceBlendIcon}
             />
 
-            <Game
+            {/* <Game
                 name={'COINFLIP'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/CoinFlip'}
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
-            /> */}
+            />  */}
 
         </div>
     </div>);
