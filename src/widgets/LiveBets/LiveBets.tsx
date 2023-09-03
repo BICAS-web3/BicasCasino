@@ -179,7 +179,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                 player={bet.player_nickname == null ? bet.player : bet.player_nickname}
                 player_url={bet.player}
                 wager={wager}
-                multiplier={parseFloat((profit / wager).toFixed(2))}
+                multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
                 profit={profit}
                 key={bet.transaction_hash}
                 numBets={bet.bets}
