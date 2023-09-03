@@ -157,6 +157,8 @@ export const BetsHistory: FC<BetsHistoryProps> = props => {
                 let hours = date.getHours();
                 let minutes = "0" + date.getMinutes();
 
+                const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+                const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
                 var element = <LiveBet
                     is_odd={odd}
                     trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
@@ -166,9 +168,9 @@ export const BetsHistory: FC<BetsHistoryProps> = props => {
                     game_name={bet.game_name}
                     player={bet.player_nickname == null ? bet.player : bet.player_nickname}
                     player_url={bet.player}
-                    wager={parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2))}
-                    multiplier={1.98}
-                    profit={parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2))}
+                    wager={wager}
+                    multiplier={parseFloat((profit / wager).toFixed(2))}
+                    profit={profit}
                     key={bet.transaction_hash}
                     numBets={bet.bets}
                 />;
