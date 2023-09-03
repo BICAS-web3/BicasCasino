@@ -4,7 +4,7 @@ import s from './styles.module.scss';
 
 type BackgroundProps = {
     children: ReactNode;
-    height: number;
+    height: number | undefined;
     min_height: number;
     min_width: number;
 };
