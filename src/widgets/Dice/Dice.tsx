@@ -549,7 +549,7 @@ export const Dice: FC<DiceProps> = props => {
         }
 
         const win_chance = RollOver ? (100 - RollValue) : RollValue;
-        const multiplier = Number((0.99 * (100 / win_chance)).toFixed(4)) * 10000;
+        const multiplier = Math.floor(Number((0.99 * (100 / win_chance)).toFixed(4)) * 10000);
 
         console.log("Placing bet", win_chance, multiplier);
         try {
