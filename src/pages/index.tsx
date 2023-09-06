@@ -119,10 +119,10 @@ const Games: FC<GamesProps> = props => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />
-            <GameBlured
+            <Game
                 name={'ROCK PAPER SCISSORS'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/rock-paper-scissors'}
+                link={'/games/RockPaperScissors'}
                 image_colored={RPSColoredIcon}
                 image_blend={RPSBlendIcon}
             />
