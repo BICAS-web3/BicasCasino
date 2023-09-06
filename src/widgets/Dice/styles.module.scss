@@ -80,7 +80,7 @@
 }
 
 .line_picker_slider{
-    -webkit-appearance: none;
+    //-webkit-appearance: none;
     appearance: none;
     width: 100%;
     background: transparent;
@@ -105,7 +105,7 @@
     border-radius: 10px;
     background: #0DE0AE;
     cursor: pointer;
-    margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
     box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
 }
   
@@ -155,6 +155,11 @@
     background-color: #FF5555;
 }
 
+.line_picker_slider::-webkit-slider-runnable-track{
+    top:-8px;
+    height: 4px;
+    background-color: #0DE0AE;
+}
 
 .line_picker_slider.reverse::-moz-range-track {
     background-color: #FF5555;

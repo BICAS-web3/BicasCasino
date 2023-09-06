@@ -75,7 +75,7 @@ const LiveBet: FC<LiveBetProps> = props => {
                 style={{ marginLeft: "auto" }}
             ></Image>
         </div>
-        <div>{props.multiplier}x</div>
+        <div>{!Number.isNaN(props.multiplier) ? props.multiplier : 0}x</div>
         {
             props.profit > props.wager * props.numBets ?
                 <div style={{
