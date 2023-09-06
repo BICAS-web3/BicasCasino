@@ -3,138 +3,136 @@ import { FC, ReactNode, SetStateAction, useEffect, useState, use, MouseEvent } f
 import { Background, SecondaryBackground } from '../GameInterface';
 import s from './styles.module.scss';
 import { MultipleBets, InputField, OutputField, Wager, PlaceBetButton } from '../GameInterface';
-import * as DiceModel from './model';
+import * as RPSModel from './model';
 import { sessionModel } from '@/entities/session';
 import { useUnit } from 'effector-react';
-import Heads2Image from '@/public/media/games_assets/coinflip/Heads2.svg';
-import Tails1Image from '@/public/media/games_assets/coinflip/Tails1.svg';
-import Web3 from 'web3';
+import Web3, { RpcError } from 'web3';
 import { BigNumber, ethers } from 'ethers';
 import * as Api from '@/shared/api';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 import { BetStatus, Model as BetStatusModel } from '@/widgets/BetStatus';
 import { web3 } from '@/entities/web3';
 import { Firework } from '../Firework';
-import { RollSetting } from '../RollSetting/RollSetting';
-import { Model as RollSettingModel } from '@/widgets/RollSetting';
+//import { Model as RollSettingModel } from '@/widgets/RollSetting';
 import { settingsModel } from '@/entities/settings';
+import RockIcon from '@/public/media/games_assets/rock_paper_scissors/rock.svg';
+import ColoredRockIcon from '@/public/media/games_assets/rock_paper_scissors/rock_colored.svg';
+import PaperIcon from '@/public/media/games_assets/rock_paper_scissors/paper.svg';
+import ColoredPaperIcon from '@/public/media/games_assets/rock_paper_scissors/paper_colored.svg';
+import ScissorsIcon from '@/public/media/games_assets/rock_paper_scissors/scissors.svg';
+import ColoredScissorsIcon from '@/public/media/games_assets/rock_paper_scissors/scissors_colored.svg';
 
 
-interface LinePickerProps { };
-const LinePicker: FC<LinePickerProps> = props => {
+interface RPSPickerProps {
+    betPlaced: boolean
+};
+const RPSPicker: FC<RPSPickerProps> = props => {
+
     const [
-        RollValue,
-        rollOver,
-        setRollValue
+        pickedSymbol,
+        pickSymbol
     ] = useUnit([
-        RollSettingModel.$RollValue,
-        RollSettingModel.$RollOver,
-        RollSettingModel.setRollValue
+        RPSModel.$pickedSymbol,
+        RPSModel.pickSymbol,
+
     ]);
 
-    const onChange = async (event: {
-        target: {
-            value: SetStateAction<string>;
-        };
-    }) => {
-        const number_string = event.target.value.toString();
-        var numb = Number(number_string);
-        console.log("Rolls settings", numb, number_string);
-        if (Number.isNaN(numb)
-            || number_string.charAt(0) == '+'
-            || number_string.charAt(0) == '-') {
-            console.log("bas number");
-            return;
-        }
-        // if (!rollOver) {
-        //     numb = 100 - numb;
-        // }
-        if (rollOver) {
-            if (numb < 5) {
-                setRollValue(5);
-                //setRollString("5");
-                return;
-            }
-            if (numb > 99.90) {
-                return
-            }
-        } else {
-            if (numb < 0.10) {
-                setRollValue(0.1);
-                //setRollString("0.1");
-                return;
-            }
-            if (numb > 95) {
-                return;
-            }
-        }
 
-        setRollValue(numb);
-        //setRollString(number_string);
-    };
+    return (<div className={s.picker}>
+        <SecondaryBackground children={[
 
-    return (<div className={s.line_picker_container}>
-        <div className={s.picked_number}>
-            {RollValue}
-        </div>
-        <input
-            type="range"
-            min={rollOver ? 0 : 0.1}
-            max={rollOver ? 99.9 : 95}
-            step={0.01}
-            value={RollValue}
-            onChange={onChange}
-            className={`${s.line_picker_slider} ${rollOver ? '' : s.reverse}`}
-        ></input>
+            <div className={s.pick} onClick={() => {
+                if (props.betPlaced) {
+                    return;
+                }
+                pickSymbol(RPSModel.Symbol.Rock);
+            }}>
+                <Image
+                    src={pickedSymbol == RPSModel.Symbol.Rock ? ColoredRockIcon : RockIcon}
+                    alt={''}
+                    width={80}
+                    height={80}
+                    className={`${s.pick_icon} ${pickedSymbol == RPSModel.Symbol.Rock ? s.pick_icon_active : ''}`}
+                />
+            </div>
+        ]} height={150} min_width={150} secondary_class={`${pickedSymbol == RPSModel.Symbol.Rock ? s.pick_active : ''} ${s.pick_background}`} />
+        <SecondaryBackground children={[
+            <div className={s.pick} onClick={() => {
+                if (props.betPlaced) {
+                    return;
+                }
+                pickSymbol(RPSModel.Symbol.Paper);
+            }}>
+                <Image
+                    src={pickedSymbol == RPSModel.Symbol.Paper ? ColoredPaperIcon : PaperIcon}
+                    alt={''}
+                    width={80}
+                    height={80}
+                    className={`${s.pick_icon} ${pickedSymbol == RPSModel.Symbol.Paper ? s.pick_icon_active : ''}`}
+                />
+            </div>
+        ]} height={150} min_width={150} secondary_class={`${pickedSymbol == RPSModel.Symbol.Paper ? s.pick_active : ''} ${s.pick_background}`} />
+        <SecondaryBackground children={[
+            <div className={s.pick} onClick={() => {
+                if (props.betPlaced) {
+                    return;
+                }
+                pickSymbol(RPSModel.Symbol.Scissors);
+            }}>
+                <Image
+                    src={pickedSymbol == RPSModel.Symbol.Scissors ? ColoredScissorsIcon : ScissorsIcon}
+                    alt={''}
+                    width={80}
+                    height={80}
+                    className={`${s.pick_icon} ${pickedSymbol == RPSModel.Symbol.Scissors ? s.pick_icon_active : ''}`}
+                />
+            </div>
+        ]} height={150} min_width={150} secondary_class={`${pickedSymbol == RPSModel.Symbol.Scissors ? s.pick_active : ''} ${s.pick_background}`} />
+    </div>)
+}
+
+interface SymbolDisplayProps {
+    symbolResult: RPSModel.Symbol,
+};
+const SymbolDisplay: FC<SymbolDisplayProps> = props => {
+    const [
+        pickedSymbol,
+    ] = useUnit([
+        RPSModel.$pickedSymbol,
+    ]);
+
+    return (<div className={s.symbol_display}>
+        <Image
+            src={(() => {
+                switch (pickedSymbol) {
+                    case RPSModel.Symbol.Rock: return ColoredRockIcon;
+                    case RPSModel.Symbol.Paper: return ColoredPaperIcon;
+                    case RPSModel.Symbol.Scissors: return ColoredScissorsIcon;
+                }
+            })()}
+            alt={''}
+            width={120}
+            height={120}
+        />
+        <div className={s.VS}>VS</div>
+        <Image
+            src={(() => {
+                switch (props.symbolResult) {
+                    case RPSModel.Symbol.Rock: return ColoredRockIcon;
+                    case RPSModel.Symbol.Paper: return ColoredPaperIcon;
+                    case RPSModel.Symbol.Scissors: return ColoredScissorsIcon;
+                }
+            })()}
+            alt={''}
+            width={120}
+            height={120}
+        />
     </div>)
 }
 
 
-interface GameInfoProps { };
-const GameInfo: FC<GameInfoProps> = props => {
-    const [
-        RollValue,
-        RollOver
-    ] = useUnit([
-        RollSettingModel.$RollValue,
-        RollSettingModel.$RollOver
-    ]);
-
-    const win_chance = RollOver ? (100 - RollValue) : RollValue;
-    const multiplier = 0.99 * (100 / win_chance);
-
-    return (<div className={s.game_info}>
-        <SecondaryBackground
-            children={[
-                <div className={s.win_chance_container}>
-                    <div className={s.game_info_text}>
-                        Win Chance
-                    </div>
-                </div>,
-                <div className={s.game_info_output}>{Number(win_chance.toFixed(2))}</div>
-            ]}
-            height={105}
-            min_width={120}
-            secondary_class={s.game_info_background} />
-        <SecondaryBackground
-            children={[
-                <div className={s.win_chance_container}>
-                    <div className={s.game_info_text}>
-                        Multiplier
-                    </div>
-                </div>,
-                <div className={s.game_info_output}>{Number(multiplier.toFixed(4))}x</div>
-            ]}
-            height={105}
-            min_width={120}
-            secondary_class={s.game_info_background} />
-    </div>)
-}
-
-
-export interface DiceProps { };
-export const Dice: FC<DiceProps> = props => {
-
+export interface RPSProps { };
+export const RPS: FC<RPSProps> = props => {
     const [betsAmount,
         setBetsAmount,
         totalWager,
@@ -158,17 +156,17 @@ export const Dice: FC<DiceProps> = props => {
         setWagerDollars,
         web3Provider,
         newBet,
-        RollValue,
-        RollOver
+        pickedSymbol,
+        pickSymbol
     ] = useUnit([
-        DiceModel.$betsAmount,
-        DiceModel.setBetsAmount,
-        DiceModel.$totalWager,
-        DiceModel.setTotalWager,
-        DiceModel.$profitOnWin,
-        DiceModel.setProfitOnWin,
-        DiceModel.$inputWager,
-        DiceModel.setWager,
+        RPSModel.$betsAmount,
+        RPSModel.setBetsAmount,
+        RPSModel.$totalWager,
+        RPSModel.setTotalWager,
+        RPSModel.$profitOnWin,
+        RPSModel.setProfitOnWin,
+        RPSModel.$inputWager,
+        RPSModel.setWager,
         // DiceModel.$pickedNumber,
         // DiceModel.pickNumber,
         sessionModel.$currentToken,
@@ -180,12 +178,12 @@ export const Dice: FC<DiceProps> = props => {
         // sessionModel.setAvailableAmount,
         sessionModel.$currentTokenDecimals,
         sessionModel.setDecimals,
-        DiceModel.$inputWagerDollars,
-        DiceModel.setWagerDollars,
+        RPSModel.$inputWagerDollars,
+        RPSModel.setWagerDollars,
         web3.web3Provider,
         sessionModel.$newBet,
-        RollSettingModel.$RollValue,
-        RollSettingModel.$RollOver
+        RPSModel.$pickedSymbol,
+        RPSModel.pickSymbol
     ]);
 
     var [Game, setGame] = useState<Api.T_Game>();
@@ -193,12 +191,31 @@ export const Dice: FC<DiceProps> = props => {
     var [GameEvent, setGameEvent] = useState<{ type: string, name: string }[]>();
     var [BetPlaced, placeBet] = useState<boolean>(false);
     var [availableAmount, setAvailableAmount] = useState(0);
+    var [symbolWon, setSymbolWon] = useState(RPSModel.Symbol.Rock);
+
+    useEffect(() => {
+        if (BetPlaced) {
+            var i = 0;
+            const intervalId = setInterval(() => {
+                if (!BetPlaced) {
+                    return;
+                }
+                setSymbolWon(i);
+                i++;
+                if (i == 3) {
+                    i = 0;
+                }
+            }, 100);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [BetPlaced]);
 
     const get_game = async () => {
         if (currentNetwork == null) {
             return;
         }
-        let game = await Api.getGame({ network_id: currentNetwork.network_id, game_name: "Dice" });
+        let game = await Api.getGame({ network_id: currentNetwork.network_id, game_name: "RockPaperScissors" });
         console.log("got game", game);
         setGame(game.body as Api.T_Game);
     };
@@ -232,7 +249,7 @@ export const Dice: FC<DiceProps> = props => {
         if (Game == undefined) {
             return;
         }
-        var abi = await fetch('/static/json/games/Dice/abi.json', {
+        var abi = await fetch('/static/json/games/RockPaperScissors/abi.json', {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
 
@@ -395,15 +412,8 @@ export const Dice: FC<DiceProps> = props => {
         setTotalWager(wager * betsAmount);
     }
 
-    const [RerenderFirework, ForceFireworkRerender] = useState(0);
-    const [audioContext, setAudiocontext] = useState<any>(null);
-    const [coinSoundBuffer, setCoinSound] = useState<any>(null);
-    const [wonSoundBuffer, setWonSound] = useState<any>(null);
-    const [lostSoundBuffer, setLostSound] = useState<any>(null);
 
-    useEffect(() => {
-        setAudiocontext(new AudioContext());
-    }, []);
+    const [resultsPending, set_results_pending] = useState(false);
 
     const NewBetHandle = (bet: Api.T_BetInfo) => {
         if (!resultsPending
@@ -425,21 +435,117 @@ export const Dice: FC<DiceProps> = props => {
         let loss = total_wager - payout;
         console.log(payout);
         console.log(loss);
+        set_results_pending(false);
+        placeBet(false);
         if (payout > total_wager) {
             console.log("You won!");
             setWon(true);
             ForceFireworkRerender(RerenderFirework + 1);
             //playSound(coinSoundBuffer);
             playSound(wonSoundBuffer);
+
+            switch (pickedSymbol) {
+                case RPSModel.Symbol.Paper: { setSymbolWon(RPSModel.Symbol.Rock); break };
+                case RPSModel.Symbol.Rock: { setSymbolWon(RPSModel.Symbol.Scissors); break };
+                case RPSModel.Symbol.Scissors: { setSymbolWon(RPSModel.Symbol.Paper); break };
+            }
         } else {
             console.log("You lost!");
             setWon(false);
             //playSound(coinSoundBuffer);
             playSound(lostSoundBuffer);
+
+            switch (pickedSymbol) {
+                case RPSModel.Symbol.Paper: { setSymbolWon(RPSModel.Symbol.Scissors); break; };
+                case RPSModel.Symbol.Rock: { setSymbolWon(RPSModel.Symbol.Paper); break; };
+                case RPSModel.Symbol.Scissors: { setSymbolWon(RPSModel.Symbol.Rock); break; };
+            }
         }
-        set_results_pending(false);
-        placeBet(false);
+
     };
+
+    useEffect(() => {
+        if (newBet != null) {
+            NewBetHandle(newBet);
+        }
+    }, [newBet])
+
+    const makeBet = async () => {
+        await checkERC20Amount((currentToken?.contract_address) as string);
+
+        if (availableAmount < totalWager) {
+            return;
+        }
+
+        console.log('Making bet', Game, GameEvent, GameAbi, totalWager);
+        if (Game == undefined || GameEvent == undefined || totalWager == 0 || web3Provider == null) {
+            return;
+        }
+
+        const ethereum = web3Provider;
+        const web3Utils = new Web3();
+
+        const signer = await ethereum.getSigner();
+        const rps_contract = new ethers.Contract(Game.address, GameAbi as any, signer);
+        //const vrfcoordinator_contract = new ethers.Contract(VRFCoordinatorAddress, VRFCoordinatorAbi, ethereum);
+
+        const tokenAddress = currentToken?.contract_address;
+        console.log(`Token:${tokenAddress}`);
+        const tokenContract = new ethers.Contract(tokenAddress as string, IERC20, signer);
+
+        let fees = await rps_contract.getVRFFee(1000000);
+
+
+        let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
+
+        console.log("Allowance:", allowance);
+
+        var totalWagerConvertedString = totalWager.toFixed(currentTokenDecimals).replace('.', '');
+
+        const totalWagerConverted = BigInt(totalWagerConvertedString);
+        console.log("TotalWagerConverted", totalWagerConverted);
+
+        if (allowance < totalWagerConverted) {
+            try {
+                await tokenContract.approve(Game.address, BigInt((availableAmount + 1) * (10 ** currentTokenDecimals)));
+            } catch (error) {
+                console.log("Error increasing allowance", error);
+                return;
+            }
+        }
+
+        // console.log("Placing bet", win_chance, multiplier);
+        try {
+            await rps_contract.RockPaperScissors_Play(
+                BigInt(parseFloat(inputWager) * 10 ** currentTokenDecimals),
+                tokenAddress,
+                pickedSymbol.valueOf(),
+                betsAmount,
+                totalWagerConverted * BigInt(betsAmount),
+                totalWagerConverted * BigInt(betsAmount),
+                { value: 3000000000000000, gasLimit: 3000000, gasPrice: await ethereum.getGasPrice() });
+        } catch (error) {
+            console.log("Error placing bet", error);
+            return;
+        }
+        console.log("Bet placed");
+
+        set_results_pending(true);
+
+        placeBet(true);
+
+        await checkERC20Amount((currentToken?.contract_address) as string);
+    }
+
+    const [RerenderFirework, ForceFireworkRerender] = useState(0);
+    const [audioContext, setAudiocontext] = useState<any>(null);
+    const [coinSoundBuffer, setCoinSound] = useState<any>(null);
+    const [wonSoundBuffer, setWonSound] = useState<any>(null);
+    const [lostSoundBuffer, setLostSound] = useState<any>(null);
+
+    useEffect(() => {
+        setAudiocontext(new AudioContext());
+    }, []);
 
     async function loadSound(url: string, handler: any) {
         if (audioContext == null) {
@@ -472,92 +578,10 @@ export const Dice: FC<DiceProps> = props => {
         loadSound("/static/media/games_assets/coinflip/lostSound.wav", setLostSound);
     }, [audioContext]);
 
-    useEffect(() => {
-        if (newBet != null) {
-            NewBetHandle(newBet);
-        }
-    }, [newBet])
-
-    const [resultsPending, set_results_pending] = useState(false);
-
-    const makeBet = async () => {
-        await checkERC20Amount((currentToken?.contract_address) as string);
-
-        if (availableAmount < totalWager) {
-            return;
-        }
-
-        console.log('Making bet', Game, GameEvent, GameAbi, totalWager);
-        if (Game == undefined || GameEvent == undefined || totalWager == 0 || web3Provider == null) {
-            return;
-        }
-
-        const ethereum = web3Provider;
-        const web3Utils = new Web3();
-
-        const signer = await ethereum.getSigner();
-        const dice_contract = new ethers.Contract(Game.address, GameAbi as any, signer);
-        //const vrfcoordinator_contract = new ethers.Contract(VRFCoordinatorAddress, VRFCoordinatorAbi, ethereum);
-
-        const tokenAddress = currentToken?.contract_address;
-        console.log(`Token:${tokenAddress}`);
-        const tokenContract = new ethers.Contract(tokenAddress as string, IERC20, signer);
-
-        let fees = await dice_contract.getVRFFee(1000000);
-
-
-        let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
-
-        console.log("Allowance:", allowance);
-
-        var totalWagerConvertedString = totalWager.toFixed(currentTokenDecimals).replace('.', '');
-
-        const totalWagerConverted = BigInt(totalWagerConvertedString);
-        console.log("TotalWagerConverted", totalWagerConverted);
-
-        if (allowance < totalWagerConverted) {
-            try {
-                await tokenContract.approve(Game.address, BigInt((availableAmount + 1) * (10 ** currentTokenDecimals)));
-            } catch (error) {
-                console.log("Error increasing allowance", error);
-                return;
-            }
-        }
-
-        const win_chance = RollOver ? (100 - RollValue) : RollValue;
-        const multiplier = Math.floor(Number((0.99 * (100 / win_chance)).toFixed(4)) * 10000);
-
-        console.log("Placing bet", win_chance, multiplier);
-        try {
-            await dice_contract.Dice_Play(
-                BigInt(parseFloat(inputWager) * 10 ** currentTokenDecimals),
-                multiplier,
-                tokenAddress,
-                RollOver,
-                betsAmount,
-                totalWagerConverted * BigInt(betsAmount),
-                totalWagerConverted * BigInt(betsAmount),
-                { value: 3000000000000000, gasLimit: 3000000, gasPrice: await ethereum.getGasPrice() });
-        } catch (error) {
-            console.log("Error placing bet", error);
-            return;
-        }
-        console.log("Bet placed");
-
-        set_results_pending(true);
-
-        placeBet(true);
-
-        await checkERC20Amount((currentToken?.contract_address) as string);
-    }
-
-
-
     return (<div className={s.background_container}>
         <Background children={[
             <div className={s.game_menu}>
                 <div className={s.settings}>
-                    <RollSetting />
                     <SecondaryBackground children={[
                         <MultipleBets on_change_bets_handler={onChangeBetsHandler} bets_amount={betsAmount} />,
                         <InputField name="Stop Gain" />,
@@ -565,7 +589,7 @@ export const Dice: FC<DiceProps> = props => {
                         <OutputField name="Total Wager" value={<div>{totalWager}</div>} />,
                         //<OutputField name="Total Wager" value={<div className={s.profit_on_win}>+{profitOnWin}</div>} />
                     ]} height={214} min_width={150} secondary_class={""} />
-                    <GameInfo />
+                    {/* <GameInfo /> */}
                     <Wager
                         value={inputWager}
                         onChangeHandler={onChangeWagerHandler}
@@ -573,10 +597,11 @@ export const Dice: FC<DiceProps> = props => {
                         valueDollars={inputWagerDollars}
                         onClickHandlers={setPercentageWager} />
                     <PlaceBetButton active={currentWalletAddress != null} multiple_bets={betsAmount > 1} onClick={makeBet} bet_placed={BetPlaced} />
+                    <RPSPicker betPlaced={BetPlaced}></RPSPicker>
                 </div>
-                <LinePicker />
+                <SymbolDisplay symbolResult={symbolWon} />
             </div>,
             <Firework.Firework render={Won as boolean} force_rerender={RerenderFirework} />
         ]} height={undefined} min_width={370} min_height={512} />
     </div>)
-};
+}
