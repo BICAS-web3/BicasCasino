@@ -45,41 +45,50 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
     return (
         <>
             <div className={s.side_bar_upper}>
-                <div className={`${s.buttons_menu} ${gamesAreOpen ? '' : s.buttons_menu_closed}`}>
-                    <div className={s.menu_header} onClick={() => { setOpen(!gamesAreOpen); }}>
-                        <div className={s.header_icon_container}>
-                            <GamesIcon />
-                            GAMES
+                <div className={s.upper_blocks}>
+                    <div className={`${s.buttons_menu} ${gamesAreOpen ? '' : s.buttons_menu_closed}`}>
+                        <div className={s.menu_header} onClick={() => { setOpen(!gamesAreOpen); }}>
+                            <div className={s.header_icon_container}>
+                                <GamesIcon />
+                                GAMES
+                            </div>
+                            <div className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side}`}>
+                                <ArrowIcon />
+                            </div>
                         </div>
-                        <div className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side}`}>
-                            <ArrowIcon />
+                        <div className={s.game_rows}>
+                            <div className={`${s.game_row} ${s.picked_game_row}`}>
+                                <CoinButton />
+                                Coinflip
+                            </div>
+                            <div className={s.game_row}>
+                                <DiceButton />
+                                Dice
+                            </div>
+                            <div className={s.game_row}>
+                                <RPCButton />
+                                Rock Paper Scissors
+                            </div>
+                            <div className={s.game_row}>
+                                <PokerButton />
+                                Poker
+                            </div>
                         </div>
                     </div>
-                    <div className={s.game_rows}>
-                        <div className={`${s.game_row} ${s.picked_game_row}`}>
-                            <CoinButton />
-                            Coinflip
+                    <div className={s.support}>
+                        <div className={s.icon_wrapper}>
+                            <SupportIcon />
                         </div>
-                        <div className={s.game_row}>
-                            <DiceButton />
-                            Dice
-                        </div>
-                        <div className={s.game_row}>
-                            <RPCButton />
-                            Rock Paper Scissors
-                        </div>
-                        <div className={s.game_row}>
-                            <PokerButton />
-                            Poker
+                        <div className={s.large_header_text}>
+                            SUPPORT
                         </div>
                     </div>
+                    {/* <div className={s.language_settings}>
+
+                </div> */}
                 </div>
-                <div className={s.support}>
-                    <div className={s.icon_wrapper}>
-                        <SupportIcon />
-                    </div>
-                    <div className={s.large_header_text}>
-                        SUPPORT
+                <div className={s.lower_blocks}>
+                    <div className={s.social_networks}>
                     </div>
                 </div>
             </div>
