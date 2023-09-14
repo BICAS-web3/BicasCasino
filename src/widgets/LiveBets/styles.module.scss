@@ -1,145 +1,214 @@
-.live_bets {
-    max-width: 1300px;
-    width: 100%;
+.liveBets_wrap {
     display: flex;
     flex-direction: column;
-    row-gap: 24px;
-    background: #0606056c;
-    position: relative;
-    padding: 32px;
-    border-radius: 10px;
-    backdrop-filter: blur(30px);
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.live_bets::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    margin: -1.5px;
-    border-radius: inherit;
-    background-image: var(--gradient-game);
-}
-
-.live_bets_header {
-    opacity: 100%;
-    display: flex;
-    flex-direction: row;
-    column-gap: 12px;
-    color: #FFFFFF;
-    font-family: var(--font-neue-machina);
-    font-weight: 700;
-    font-size: 28px;
     align-items: center;
+    border-radius: 20px;
+    background: #181818;
+    padding: 45px 0;
+    max-width: 1630px;
 }
 
-.live_bets_circle {
-    width: 12px;
-    height: 12px;
-    background: #C69E55;
-    border-radius: 50%;
-}
-
-.table {
-    opacity: 100%;
-    width: 1200px;
-    //overflow: auto;
-}
-
-.table_header {
+.liveBets_title {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.96px;
+    color: #EAEAEA;
+    font-family: var(--font-source-sans-3);
+
+    svg {
+        margin-right: 10px;
+    }
+}
+
+.liveBets_body {
+    width: 100%;
+    margin-top: 35px;
+}
+
+.liveBets_titles_list {
+    padding: 0 30px;
+    display: grid;
+    grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px minmax(10px, 100px);
     justify-content: space-between;
-    align-items: center;
-    height: 50px;
-    color: #ffffff94;
-    font-family: var(--font-neue-machina);
+    margin-bottom: 25px;
+
+    &_item {
+        font-family: var(--font-source-sans-3);
+        color: #7E7E7E;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.48px;
+
+        &:last-child {
+            text-align: end;
+        }
+    }
 }
 
-.table_row {
+.liveBets_list {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-    border-radius: 8px;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-family: var(--font-neue-machina);
-    color: #FFFFFF;
-    column-gap: 10px;
+    flex-direction: column;
+    border-top: 1px solid #252525;
+    border-bottom: 1px solid #252525;
+    padding: 10px 0;
+
+    &_item {
+        margin-bottom: 10px;
+        padding: 0 30px;
+        display: grid;
+        padding-bottom: 10px;
+        grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px 100px;
+        justify-content: space-between;
+        border-bottom: 1px solid #252525;
+
+        &:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .liveBets_list_item_time_block {
+            display: flex;
+            align-items: center;
+
+            .liveBets_list_item_time {
+                font-family: var(--font-source-sans-3);
+                font-size: 14px;
+                color: #EAEAEA;
+                font-weight: 700;
+                line-height: 120%;
+                letter-spacing: 0.56px;
+            }
+        }
+
+        .liveBets_list_item_game_block {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-source-sans-3);
+            font-size: 14px;
+            color: #EAEAEA;
+            font-weight: 700;
+            line-height: 120%;
+            letter-spacing: 0.56px;
+
+            img {
+                margin-right: 10px;
+            }
+        }
+
+        .liveBets_list_item_player_block {
+            display: flex;
+            align-items: center;
+
+            .liveBets_list_item_player_ico {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    color: #FFF;
+                    font-family: var(--font-nunito-sans);
+                    font-size: 14px;
+                    font-weight: 700;
+                }
+            }
+
+            .liveBets_list_item_player {
+                margin-left: 10px;
+                font-family: var(--font-source-sans-3);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 120%;
+                color: #EAEAEA;
+                letter-spacing: 0.56px;
+            }
+        }
+
+        .liveBets_list_item_address_block {
+            display: flex;
+            align-items: center;
+
+            .liveBets_list_item_address {
+                color: #7e7e7e;
+                font-family: var(--font-source-sans-3);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 120%;
+                letter-spacing: 0.56px;
+            }
+        }
+
+        .liveBets_list_item_wager_block {
+            display: flex;
+            align-items: center;
+
+            img {
+                margin-right: 10px;
+            }
+
+            .liveBets_list_item_wager {
+                font-family: var(--font-source-sans-3);
+                color: #EAEAEA;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 120%;
+                letter-spacing: 0.56px;
+            }
+        }
+
+        .liveBets_list_item_multiplier_block {
+            display: flex;
+            align-items: center;
+
+            .liveBets_list_item_multiplier {
+                font-family: var(--font-source-sans-3);
+                font-size: 14px;
+                color: #EAEAEA;
+                font-weight: 500;
+                line-height: 120%;
+                letter-spacing: 0.56px;
+            }
+        }
+
+        .liveBets_list_item_profit_block {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+
+            .liveBets_list_item_profit {
+                font-family: var(--font-source-sans-3);
+                font-size: 14px;
+                font-weight: 700;
+                line-height: 120%;
+                letter-spacing: 0.56px;
+                color: #DDB775;
+                margin-right: 10px;
+            }
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 }
 
-.table_row>div {
-    width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: "";
-    color: #FFFFFF;
-    text-decoration: none;
-}
-
-.table_row>div:first-child {
-    width: 70px;
-}
-
-.table_row>a {
-    width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: "";
-    // color: #FFFFFF;
-    // text-decoration: none;
-}
-
-.table_row>div>a {
-    width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    // color: #FFFFFF;
-    // text-decoration: none;
-}
-
-.table_row>div {
-    text-align: right;
-}
-
-.table_header {
-    border-bottom: 1px solid #1D180F;
-    font-family: var(--font-neue-machina);
-    color: #FFFFFF;
-    opacity: 50%;
-    font-weight: 700;
-    font-size: 15px;
-}
-
-.odd_row {
-    background: var(--gradient-table-odd-row);
-}
-
-.link {
-    text-decoration: none;
+.livebets_loadmore_btn {
+    font-family: var(--font-source-sans-3);
+    color: #7E7E7E;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 120%;
+    letter-spacing: 0.56px;
+    padding: 11px 34px;
     display: flex;
-    flex-direction: row;
-    column-gap: 5px;
-    fill: gray;
-    color: #FFFFFF;
-    //justify-content: center;
+    justify-content: center;
     align-items: center;
-}
-
-.link:hover {
-    cursor: pointer;
-}
-
-.game_name_link {
-    font-weight: 900;
+    border-radius: 12px;
+    background: #202020;
+    border: none;
+    margin-top: 25px;
 }

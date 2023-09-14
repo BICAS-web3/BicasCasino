@@ -240,6 +240,8 @@ export default function Home() {
                     <div className={`${s.main_container}`}>
                         <BannerInfo />
                         <Games />
+                    {/*    */}
+                        <LiveBets />
                     </div>
                 </main>
             </div>
