@@ -95,30 +95,54 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                     <div className={s.social_networks}>
                         Our social networks
                         <div className={s.icons}>
-                            <Image
-                                src={Discord}
-                                alt={''}
-                                width={30}
-                                height={30}
-                            />
-                            <Image
-                                src={Twitter}
-                                alt={''}
-                                width={30}
-                                height={30}
-                            />
-                            <Image
-                                src={Telegram}
-                                alt={''}
-                                width={30}
-                                height={30}
-                            />
-                            <Image
-                                src={Insta}
-                                alt={''}
-                                width={30}
-                                height={30}
-                            />
+                            <a
+                                href="https://example.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Image
+                                    src={Discord}
+                                    alt={''}
+                                    width={30}
+                                    height={30}
+                                />
+                            </a>
+                            <a
+                                href="https://example.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Image
+                                    src={Twitter}
+                                    alt={''}
+                                    width={30}
+                                    height={30}
+                                />
+                            </a>
+                            <a
+                                href="https://example.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Image
+                                    src={Telegram}
+                                    alt={''}
+                                    width={30}
+                                    height={30}
+                                />
+                            </a>
+                            <a
+                                href="https://example.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Image
+                                    src={Insta}
+                                    alt={''}
+                                    width={30}
+                                    height={30}
+                                />
+                            </a>
                         </div>
                     </div>
                 </div>
