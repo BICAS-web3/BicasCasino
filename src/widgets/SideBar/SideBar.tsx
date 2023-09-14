@@ -4,6 +4,10 @@ import s from './styles.module.scss';
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
 import { useUnit } from 'effector-react';
 import * as SideBarModel from './model';
+import Discord from '@/public/media/social_media/Discord.svg';
+import Twitter from '@/public/media/social_media/Twitter.svg';
+import Telegram from '@/public/media/social_media/Telegram.svg';
+import Insta from '@/public/media/social_media/Insta.svg';
 
 interface ClosedSideBarProps {
     pickedGame: number | null
@@ -89,11 +93,35 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                 </div>
                 <div className={s.lower_blocks}>
                     <div className={s.social_networks}>
+                        Our social networks
+                        <div className={s.icons}>
+                            <Image
+                                src={Discord}
+                                alt={''}
+                                width={30}
+                                height={30}
+                            />
+                            <Image
+                                src={Twitter}
+                                alt={''}
+                                width={30}
+                                height={30}
+                            />
+                            <Image
+                                src={Telegram}
+                                alt={''}
+                                width={30}
+                                height={30}
+                            />
+                            <Image
+                                src={Insta}
+                                alt={''}
+                                width={30}
+                                height={30}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className={s.side_bar_lower}>
-
             </div>
         </>
 
