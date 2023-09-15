@@ -1,12 +1,17 @@
 import {FC} from "react"
-interface IEdithIcon {}
-export const EdithIcon: FC<IEdithIcon> = (props) => (
+
+interface IEdithIcon {
+    onClick: () => void
+}
+
+export const EdithIcon: FC<IEdithIcon> = ({onClick, ...props}) => (
     <svg
         width={15}
         height={15}
         viewBox="0 0 15 15"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        onClick={onClick}
         {...props}
     >
         <path
