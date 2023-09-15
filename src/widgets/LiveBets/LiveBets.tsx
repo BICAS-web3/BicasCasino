@@ -32,37 +32,41 @@ interface LiveBetProps {
 };
 const LiveBet: FC<LiveBetProps> = props => {
     return (
-        <a href={props.trx_url} target='_blank' className={s.liveBet_main_link}>
-            <div className={s.liveBets_list_item}>
-                <div className={s.liveBets_list_item_time_block}>
+        <div className={s.liveBets_list_item}>
+            <div className={s.liveBets_list_item_time_block}>
+                <a href={props.trx_url} target='_blank' className={s.liveBets_list_item_time_link_block}>
                     <span className={s.liveBets_list_item_time}>{props.time}</span>
-                </div>
-                <div className={s.liveBets_list_item_game_block}>
+                </a>
+            </div>
+            <div className={s.liveBets_list_item_game_block}>
+                <a href={props.game_url} target='_blank' className={s.liveBets_list_item_game_link_block}>
                     <img src={gameIco.src} alt="game-ico-preview"/>
                     <span className={s.liveBets_list_item_game}>{props.game_name}</span>
-                </div>
-                <div className={s.liveBets_list_item_player_block}>
+                </a>
+            </div>
+            <div className={s.liveBets_list_item_player_block}>
+                <a href={props.player_url} target='_blank' className={s.liveBets_list_item_player_link_block}>
                     <div className={s.liveBets_list_item_player_ico} style={{background: props.userBg}}>
                         <span className={s.liveBets_list_item_player_ico_name}>B</span>
                     </div>
                     <span className={s.liveBets_list_item_player}>{props.player}</span>
-                </div>
-                <div className={s.liveBets_list_item_address_block}>
-                    <span className={s.liveBets_list_item_address}>{props.gameAddress}</span>
-                </div>
-                <div className={s.liveBets_list_item_wager_block}>
-                    <img src={wagerIco.src} alt="wager-ico"/>
-                    <span className={s.liveBets_list_item_wager}>{props.wager}</span>
-                </div>
-                <div className={s.liveBets_list_item_multiplier_block}>
-                    <span className={s.liveBets_list_item_multiplier}>{props.multiplier}x</span>
-                </div>
-                <div className={s.liveBets_list_item_profit_block}>
-                    <span className={s.liveBets_list_item_profit}>+{props.profit}</span>
-                    <img src={wagerIco.src} alt="wager-ico"/>
-                </div>
+                </a>
             </div>
-        </a>
+            <div className={s.liveBets_list_item_address_block}>
+                <span className={s.liveBets_list_item_address}>{props.gameAddress}</span>
+            </div>
+            <div className={s.liveBets_list_item_wager_block}>
+                <img src={wagerIco.src} alt="wager-ico"/>
+                <span className={s.liveBets_list_item_wager}>{props.wager}</span>
+            </div>
+            <div className={s.liveBets_list_item_multiplier_block}>
+                <span className={s.liveBets_list_item_multiplier}>{props.multiplier}x</span>
+            </div>
+            <div className={s.liveBets_list_item_profit_block}>
+                <span className={s.liveBets_list_item_profit}>+{props.profit}</span>
+                <img src={wagerIco.src} alt="wager-ico"/>
+            </div>
+        </div>
     );
 }
 
@@ -188,7 +192,9 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                         profit={5.34}
                         userBg='#3DBCE5'
                         is_odd={true}
+                        player_url='test'
                         trx_url='test'
+                        game_url='test'
                         network_icon='test'
                         numBets={1}
                         gameAddress='0x563...4ba9'
@@ -198,6 +204,8 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                         numBets={1}
                         network_icon='test'
                         trx_url='test'
+                        player_url='test'
+                        game_url='test'
                         gameAddress='0x563...4ba9'
                         is_odd={true}
                         game_name='Rock paper scissors'

@@ -55,10 +55,18 @@
     padding: 10px 0;
 
     &_item {
-        padding: 0 30px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #252525;
+        padding: 0 30px 10px 30px;
         display: grid;
         grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px 100px;
         justify-content: space-between;
+
+        &:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
 
         &:last-child {
             margin-bottom: 0;
@@ -189,19 +197,6 @@
     }
 }
 
-.liveBet_main_link {
-    text-decoration: none;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #252525;
-    padding-bottom: 10px;
-
-    &:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-}
-
 .livebets_loadmore_btn {
     font-family: var(--font-source-sans-3);
     color: #7E7E7E;
@@ -219,3 +214,13 @@
     margin-top: 25px;
 }
 
+.liveBets_list_item_game {
+    color: #EAEAEA;
+}
+
+.liveBets_list_item_time_link_block, .liveBets_list_item_game_link_block, .liveBets_list_item_player_link_block {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
