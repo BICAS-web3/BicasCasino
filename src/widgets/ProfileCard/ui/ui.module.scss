@@ -1,10 +1,11 @@
 .card {
   display: flex;
-  gap: 10px;
-  align-items: end;
+  gap: 30px;
+  align-items: flex-end;
   background-color: #151515;
   border-radius: 20px;
   padding: 34px 40px;
+  justify-content: space-between;
   @media(1260px <= width <= 1920px) {
     width: 890px;
     height: 218px;

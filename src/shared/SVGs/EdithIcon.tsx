@@ -5,7 +5,7 @@ interface IEdithIcon {
 }
 
 export const EdithIcon: FC<IEdithIcon> = ({onClick, ...props}) => (
-    <svg
+    <svg style={{cursor: "pointer"}}
         width={15}
         height={15}
         viewBox="0 0 15 15"
