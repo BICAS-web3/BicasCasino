@@ -225,13 +225,18 @@ export default function Home() {
             </Head>
 
             <Layout>
-                <div className={s.background}>
+
+                <div className={s.background_container}>
                     <Image
                         src={MainPageBackground}
                         alt={''}
-                        width={1846}
+                        className={s.background}
                     />
+                    <div className={s.background_gradient}>
+
+                    </div>
                 </div>
+
                 <div className={`${s.main_container}`}>
                     <BannerInfo />
                     <Games />
