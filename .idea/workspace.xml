@@ -4,6 +4,7 @@
     <list default="true" id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,19 +28,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Zver/Desktop/BicasCasino/src/public/media/live_bets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\Users\\Zver\\Desktop\\BicasCasino\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/Desktop/BicasCasino/src/public/media/live_bets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Zver\\Desktop\\BicasCasino\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Zver\Desktop\BicasCasino\src\public\media\live_bets" />
@@ -61,7 +62,8 @@
       <workItem from="1694698327245" duration="2313000" />
       <workItem from="1694715123176" duration="1083000" />
       <workItem from="1694716216120" duration="6408000" />
-      <workItem from="1694760591334" duration="314000" />
+      <workItem from="1694760591334" duration="1780000" />
+      <workItem from="1694781374809" duration="901000" />
     </task>
     <servers />
   </component>
