@@ -4,7 +4,7 @@ import s from './styles.module.scss';
 
 type BackgroundProps = {
     children: ReactNode;
-    height: number;
+    height: number | undefined;
     min_height: number;
     min_width: number;
 };
@@ -13,7 +13,7 @@ export const Background: FC<BackgroundProps> = props => {
         //height: props.height,
         minHeight: props.min_height,
         minWidth: props.min_width
-    }} className={s.background}>
+    }} className={`${s.background} ${s.running_stroke}`}>
         {props.children}
     </div >);
 }

@@ -55,7 +55,7 @@ const LiveBet: FC<LiveBetProps> = props => {
         </div>
         <div>
             <a
-                href={props.player_url}
+                href={`/account/${props.player_url}`}
                 className={s.link}>
                 {props.player}
             </a>
@@ -66,7 +66,7 @@ const LiveBet: FC<LiveBetProps> = props => {
             columnGap: '6px',
             justifyContent: "space-between"
         }}>
-            {`${props.wager.toString()} x ${props.numBets}`}
+            {`${(props.wager).toString()} x ${props.numBets}`}
             <Image
                 src={GKemblem1}
                 alt={''}
@@ -75,7 +75,7 @@ const LiveBet: FC<LiveBetProps> = props => {
                 style={{ marginLeft: "auto" }}
             ></Image>
         </div>
-        <div>{props.multiplier}x</div>
+        <div>{!Number.isNaN(props.multiplier) ? props.multiplier : 0}x</div>
         {
             props.profit > props.wager * props.numBets ?
                 <div style={{
@@ -167,7 +167,8 @@ export const LiveBets: FC<LiveBetsProps> = props => {
             var date = new Date(bet.timestamp * 1000);
             let hours = date.getHours();
             let minutes = "0" + date.getMinutes();
-
+            const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+            const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
             var element = <LiveBet
                 is_odd={odd}
                 trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
@@ -175,11 +176,11 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                 network_icon={`/static/media/networks/${bet.network_id}.svg`}
                 game_url={`/games/${bet.game_name}`}
                 game_name={bet.game_name}
-                player={bet.player}
+                player={bet.player_nickname == null ? bet.player : bet.player_nickname}
                 player_url={bet.player}
-                wager={parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2))}
-                multiplier={1.98}
-                profit={parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2))}
+                wager={wager}
+                multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+                profit={profit}
                 key={bet.transaction_hash}
                 numBets={bet.bets}
             />;

@@ -15,6 +15,8 @@ import DiceBlendIcon from '@/public/media/games_assets/dice/icon_blend.svg';
 import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBets } from '@/widgets/LiveBets';
+import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
+import { SideBar } from '@/widgets/SideBar';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -119,10 +121,10 @@ const Games: FC<GamesProps> = props => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />
-            <GameBlured
+            <Game
                 name={'ROCK PAPER SCISSORS'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/rock-paper-scissors'}
+                link={'/games/RockPaperScissors'}
                 image_colored={RPSColoredIcon}
                 image_blend={RPSBlendIcon}
             />
@@ -137,28 +139,28 @@ const Games: FC<GamesProps> = props => {
         </div>
 
         <div className={s.games_row}>
-            <GameBlured
+            {/* <GameBlured
                 name={'DICE'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/dice'}
                 image_colored={DiceColoredIcon}
                 image_blend={DiceBlendIcon}
-            />
-            {/* <Game
+            /> */}
+            <Game
                 name={'DICE'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/dice'}
+                description={'DICE GAME very long description that needs to be wrapped to the new line'}
+                link={'/games/Dice'}
                 image_colored={DiceColoredIcon}
                 image_blend={DiceBlendIcon}
             />
 
-            <Game
+            {/* <Game
                 name={'COINFLIP'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/CoinFlip'}
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
-            /> */}
+            />  */}
 
         </div>
     </div>);
@@ -208,23 +210,49 @@ const TotalInfo: FC<TotalInfoProps> = props => {
     </div>)
 }
 
+interface BannerInfoProps { };
+const BannerInfo: FC<BannerInfoProps> = props => {
+    return (<div className={s.banner_info}>
+        <div className={s.header}>
+            Top 1 Casino on the WEB3
+        </div>
+        <div className={s.connect_wallet_container}>
+            <div className={s.text}>
+                Login via Web3 wallets
+            </div>
+            <div className={s.button}>
+                Connect Wallet
+            </div>
+        </div>
+    </div>)
+}
+
 export default function Home() {
     return (
         <>
             <Head>
                 <title>NFT Play | Home page</title>
             </Head>
-            <Header />
-            <main>
-                <div className={s.main_container}>
-                    <div className={s.main_area}>
-                        <Games />
-                        {/* <TotalInfo /> */}
-                        <LiveBets subscription_type={'SubscribeAll'} subscriptions={[]} />
-                    </div>
-                </div>
 
-            </main>
+            <div className={s.page_container}>
+                <Header />
+                <main className={s.main_area}>
+                    <div className={s.side_bar_wrapper}>
+                        <SideBar />
+                    </div>
+                    <div className={s.background}>
+                        <Image
+                            src={MainPageBackground}
+                            alt={''}
+                            width={1846}
+                        />
+                    </div>
+                    <div className={s.main_container}>
+                        <BannerInfo />
+                    </div>
+                </main>
+            </div>
+
             {/* <Footer />
 			<InvitesList />
 			<GamesList />

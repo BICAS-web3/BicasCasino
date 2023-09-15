@@ -3,260 +3,392 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    //padding-left:
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #252525;
+    position: absolute;
+    z-index: 10;
 }
 
 .emblem {
-    //width: 131px;
-    //height: 50px;
     display: flex;
+    flex-direction: row;
     column-gap: 8px;
-    margin-left: 15px;
-    margin-top: 15px;
-}
-
-.emblem_text {
-    background: linear-gradient(77.38deg, #D5A75D 18.91%, #FEF9E3 49.53%, #C99B55 78.91%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: var(--font-dalek-pinpoint);
-    size: 20px;
-    font-weight: 700;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.buttons {
+.burger {
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
     display: flex;
-    column-gap: 25px;
-    font-family: var(--font-neue-machina);
-    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    background-color: #191919;
+    border: 1px solid #202020;
+    border-radius: 12px;
+}
+
+.burger:hover {
+    cursor: pointer;
+}
+
+.left_menu {
+    display: flex;
+    flex-direction: row;
+    column-gap: 42px;
+    justify-content: center;
+    align-items: center;
+}
+
+.right_menu {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
 .button {
-    text-decoration: none;
-    color: #FFFFFF;
-    opacity: 75%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.button_active {
-    text-decoration: none;
-    color: #FFFFFF;
-    opacity: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid #C69E55;
-}
-
-.connect_account_box {
-    width: 180px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-}
-
-.settings_box {
-    display: flex;
-    flex-direction: row;
-    column-gap: 22px;
-    //width: 320px;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-}
-
-.network_picker_container {
-    display: flex;
-    width: 130px;
-    flex-direction: column;
-    position: relative;
-    height: 100%;
-    z-index: 100;
-}
-
-.networks_list {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 100;
-}
-
-.network {
-    background: #1f1e1e;
-    font-family: var(--font-neue-machina);
-    font-weight: 400;
-    font-size: 13px;
-    display: none;
-    flex-direction: row;
-    column-gap: 6px;
-    color: #FFFFFF;
+    width: 50px;
+    height: 50px;
     justify-content: center;
     align-items: center;
-    height: 38px;
-    border-radius: 5px;
-}
-
-.network:hover {
-    background: #302f2f;
-    cursor: pointer;
-}
-
-.network_picker {
-    width: 130px;
-    height: 80px;
-    min-height: 80px;
-    display: flex;
-    flex-direction: row;
-    column-gap: 6px;
-    color: #FFFFFF;
-    font-family: var(--font-neue-machina);
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 14.95px;
-    align-items: center;
-    justify-content: center;
+    background-color: #191919;
+    border: 1px solid #202020;
+    border-radius: 50%;
     position: relative;
 }
 
-.network_picker_container:hover .network {
-    display: flex;
+.button img {
+    position: relative;
+    z-index: 0;
 }
 
-.network_picker:hover {
+.button:hover {
     cursor: pointer;
 }
 
-.network_picker_unknown {
-    color: red;
-}
-
-.network_picker_arrow {
-    width: 9px;
-    height: 9px;
-    font-weight: 900;
-    line-height: 6px;
-}
-
-.network_picker_container:hover .network_picker_arrow {
-    transform: rotate(90deg);
-}
-
-.connect_account_box:hover {
-    cursor: pointer;
-}
-
-.connect_wallet_box {
-    display: flex;
-    flex-direction: row;
-    font-family: var(--font-neue-machina);
-    font-size: 16px;
-    align-items: center;
-    justify-content: center;
-}
-
-.account_box {
-    display: flex;
-    flex-direction: row;
-    font-family: var(--font-neue-machina);
-    font-size: 16px;
-    align-items: center;
-    justify-content: center;
-    column-gap: 12px;
-}
-
-.account_name {
-    text-decoration: none;
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 900;
-    text-overflow: ellipsis;
-    width: 104px;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.social_networks {
-    display: flex;
-    flex-direction: row;
-    row-gap: 12px;
-    width: 76px;
-    height: 32px;
+.new_notification{
+    background-color: #F34B4B;
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    z-index: 10;
+    right: 3px;
+    bottom: 4px;
+    border-radius: 50%;
 }
 
 .connect_wallet_button {
-    width: 180px;
-    height: 44px;
-    border-radius: 4px;
-    border: 1px solid #C69E55;
-    text-decoration: none;
-    color: #FFFFFF;
+    width: 179px;
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid #E5C787;
+    background-color: #0F0F0F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #EAEAEA;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 21.6px;
+    letter-spacing: 4%;
+    font-family: var(--font-source-sans-3);
+    transition: 0.2s;
+}
+
+.connect_wallet_button:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 11px 0px #F9832C4D;
+    transition: 0.2s;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.link {
+    color: #7E7E7E;
+    line-height: 22.78px;
+    letter-spacing: 0.04em;
+    text-align: justify;
     font-size: 16px;
-    font-weight: 900;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-.functional_footer {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    display: none;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 70px;
-    z-index: 100;
-    background: #1b1b1b;
-}
-
-.functional_footer>div {
+    font-weight: 600;
+    font-family: var(--font-source-sans-3);
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    font-family: var(--font-neue-machina);
-    font-size: 20px;
-    color: white;
 }
 
-.functional_footer_connect {
-    background: #C69E55;
-    font-family: var(--font-neue-machina);
-    font-size: 20px;
-    font-weight: 900;
+.link:hover {
+    cursor: pointer;
 }
 
-@media screen and (max-width: 670px) {
-    // .header {
-    //     display: none;
-    // }
-
-    .functional_footer {
-        display: flex;
-    }
-
-    .connect_account_box {
-        display: none;
-    }
-
-    .buttons {
-        display: none;
-    }
-
-    .network_picker_arrow {
-        display: none;
-    }
+.link_active {
+    color: #EAEAEA;
+    text-shadow: 0px 0px 11px #F9832C4D;
 }
+
+// .emblem {
+//     //width: 131px;
+//     //height: 50px;
+//     display: flex;
+//     column-gap: 8px;
+//     margin-left: 15px;
+//     margin-top: 15px;
+// }
+
+// .emblem_text {
+//     background: linear-gradient(77.38deg, #D5A75D 18.91%, #FEF9E3 49.53%, #C99B55 78.91%);
+//     -webkit-background-clip: text;
+//     -webkit-text-fill-color: transparent;
+//     font-family: var(--font-dalek-pinpoint);
+//     size: 20px;
+//     font-weight: 700;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// .buttons {
+//     display: flex;
+//     column-gap: 25px;
+//     font-family: var(--font-neue-machina);
+//     font-size: 16px;
+// }
+
+// .button {
+//     text-decoration: none;
+//     color: #FFFFFF;
+//     opacity: 75%;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+// .button_active {
+//     text-decoration: none;
+//     color: #FFFFFF;
+//     opacity: 100%;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     border-bottom: 2px solid #C69E55;
+// }
+
+// .connect_account_box {
+//     width: 180px;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     margin-right: 10px;
+// }
+
+// .settings_box {
+//     display: flex;
+//     flex-direction: row;
+//     column-gap: 22px;
+//     //width: 320px;
+//     align-items: center;
+//     justify-content: center;
+//     align-content: center;
+// }
+
+// .network_picker_container {
+//     display: flex;
+//     width: 130px;
+//     flex-direction: column;
+//     position: relative;
+//     height: 100%;
+//     z-index: 100;
+// }
+
+// .networks_list {
+//     display: flex;
+//     flex-direction: column;
+//     position: relative;
+//     z-index: 100;
+// }
+
+// .network {
+//     background: #1f1e1e;
+//     font-family: var(--font-neue-machina);
+//     font-weight: 400;
+//     font-size: 13px;
+//     display: none;
+//     flex-direction: row;
+//     column-gap: 6px;
+//     color: #FFFFFF;
+//     justify-content: center;
+//     align-items: center;
+//     height: 38px;
+//     border-radius: 5px;
+// }
+
+// .network:hover {
+//     background: #302f2f;
+//     cursor: pointer;
+// }
+
+// .network_picker {
+//     width: 130px;
+//     height: 80px;
+//     min-height: 80px;
+//     display: flex;
+//     flex-direction: row;
+//     column-gap: 6px;
+//     color: #FFFFFF;
+//     font-family: var(--font-neue-machina);
+//     font-weight: 400;
+//     font-size: 13px;
+//     line-height: 14.95px;
+//     align-items: center;
+//     justify-content: center;
+//     position: relative;
+// }
+
+// .network_picker_container:hover .network {
+//     display: flex;
+// }
+
+// .network_picker:hover {
+//     cursor: pointer;
+// }
+
+// .network_picker_unknown {
+//     color: red;
+// }
+
+// .network_picker_arrow {
+//     width: 9px;
+//     height: 9px;
+//     font-weight: 900;
+//     line-height: 6px;
+// }
+
+// .network_picker_container:hover .network_picker_arrow {
+//     transform: rotate(90deg);
+// }
+
+// .connect_account_box:hover {
+//     cursor: pointer;
+// }
+
+// .connect_wallet_box {
+//     display: flex;
+//     flex-direction: row;
+//     font-family: var(--font-neue-machina);
+//     font-size: 16px;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+// .account_box {
+//     display: flex;
+//     flex-direction: row;
+//     font-family: var(--font-neue-machina);
+//     font-size: 16px;
+//     align-items: center;
+//     justify-content: center;
+//     column-gap: 12px;
+// }
+
+// .account_name {
+//     text-decoration: none;
+//     color: #FFFFFF;
+//     font-size: 16px;
+//     font-weight: 900;
+//     text-overflow: ellipsis;
+//     width: 104px;
+//     white-space: nowrap;
+//     overflow: hidden;
+// }
+
+// .social_networks {
+//     display: flex;
+//     flex-direction: row;
+//     row-gap: 12px;
+//     width: 76px;
+//     height: 32px;
+// }
+
+// .connect_wallet_button {
+//     width: 180px;
+//     height: 44px;
+//     border-radius: 4px;
+//     border: 1px solid #C69E55;
+//     text-decoration: none;
+//     color: #FFFFFF;
+//     font-size: 16px;
+//     font-weight: 900;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+// .functional_footer {
+//     position: fixed;
+//     bottom: 0px;
+//     width: 100%;
+//     display: none;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     height: 70px;
+//     z-index: 100;
+//     background: #1b1b1b;
+// }
+
+// .functional_footer>div {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+//     font-family: var(--font-neue-machina);
+//     font-size: 20px;
+//     color: white;
+// }
+
+// .functional_footer_connect {
+//     background: #C69E55;
+//     font-family: var(--font-neue-machina);
+//     font-size: 20px;
+//     font-weight: 900;
+// }
+
+// @media screen and (max-width: 670px) {
+//     // .header {
+//     //     display: none;
+//     // }
+
+//     .functional_footer {
+//         display: flex;
+//     }
+
+//     .connect_account_box {
+//         display: none;
+//     }
+
+//     .buttons {
+//         display: none;
+//     }
+
+//     .network_picker_arrow {
+//         display: none;
+//     }
+// }
 
 // @media screen and (min-width: 670px) {
 //     .header {
