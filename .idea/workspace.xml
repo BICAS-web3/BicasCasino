@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="" />
+    <list default="true" id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,7 +36,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.2.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "C:\\Users\\Zver\\Desktop\\BicasCasino\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -57,7 +60,8 @@
       <workItem from="1694693055496" duration="134000" />
       <workItem from="1694698327245" duration="2313000" />
       <workItem from="1694715123176" duration="1083000" />
-      <workItem from="1694716216120" duration="6262000" />
+      <workItem from="1694716216120" duration="6408000" />
+      <workItem from="1694760591334" duration="314000" />
     </task>
     <servers />
   </component>

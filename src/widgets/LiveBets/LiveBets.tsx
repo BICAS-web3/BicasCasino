@@ -16,19 +16,20 @@ const LinkIcon: FC<{}> = p => {
 }
 
 interface LiveBetProps {
-    // is_odd: boolean,
-    // trx_url: string,
+    is_odd: boolean,
+    trx_url: string,
     time: string,
-    // network_icon: string,
+    network_icon: string,
     game_url: string,
     game_name: string,
     player: string,
-    // player_url: string,
+    player_url: string,
     wager: number,
     multiplier: number,
     profit: number,
-    userBg: string
-    // numBets: number
+    userBg: string,
+    numBets: number,
+    gameAddress: string
 };
 const LiveBet: FC<LiveBetProps> = props => {
     return (
@@ -47,7 +48,7 @@ const LiveBet: FC<LiveBetProps> = props => {
                 <span className={s.liveBets_list_item_player}>{props.player}</span>
             </div>
             <div className={s.liveBets_list_item_address_block}>
-                <span className={s.liveBets_list_item_address}>{props.game_url}</span>
+                <span className={s.liveBets_list_item_address}>{props.gameAddress}</span>
             </div>
             <div className={s.liveBets_list_item_wager_block}>
                 <img src={wagerIco.src} alt="wager-ico"/>
@@ -181,17 +182,25 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                         time='25.08.23 17:05'
                         game_name='Dice'
                         player='UserName'
-                        game_url='0x563...4ba9'
                         wager={11}
                         multiplier={3}
                         profit={5.34}
                         userBg='#3DBCE5'
+                        is_odd={true}
+                        trx_url='test'
+                        network_icon='test'
+                        numBets={1}
+                        gameAddress='0x563...4ba9'
                     />
                     <LiveBet
                         time='25.08.23 17:05'
+                        numBets={1}
+                        network_icon='test'
+                        trx_url='test'
+                        gameAddress='0x563...4ba9'
+                        is_odd={true}
                         game_name='Rock paper scissors'
                         player='UserName'
-                        game_url='0x563...4ba9'
                         wager={11}
                         multiplier={3}
                         profit={5.34}
