@@ -37,7 +37,7 @@
      width: 126px;
     height: 126px;
     position: relative;
-    bottom: 200px;
+    bottom: 210px;
     
 }
 
@@ -45,7 +45,7 @@
     color: var(--White-1, #EAEAEA);
     text-align: center;
     font-family: var(--font-nunito-sans);
-    font-size: 16px;
+    font-size: 0.8vw;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -59,7 +59,7 @@
 .statistic {
     color: #E5C787;
     font-family: var(--font-nunito-sans);
-    font-size: 40px;
+    font-size: 2vw;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -78,19 +78,18 @@
         height: 100.123px;
     }
     .description {
-        font-size: 14px;
-        bottom: 100px;
+        bottom: 90px;
+        
     }
     .statistic {
-        font-size: 25px; 
-        bottom: 100px;
+        bottom:70px;
     }
     
     .image {
         width: 70px;
         height: 70px;
-        bottom: 120px;
-        left: 20px;
+        bottom: 130px;
+        left: 25px;
     }
 }
 
@@ -113,12 +112,10 @@
         }
 
          .description{
-            font-size: 12px;
             bottom:70px;
         } 
         .statistic{
-            font-size: 20px;
-            bottom: 70px;
+            bottom: 60px;
         }
 }
 
