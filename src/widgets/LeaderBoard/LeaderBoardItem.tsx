@@ -1,4 +1,6 @@
 import s from './styles.module.scss'
+import linkIco from '../../public/media/leaderBoard_images/linkIco.svg'
+import Image from 'next/image';
 
 export const LeaderBoardItem = ({rank, player, address, volume, playerBg}) => {
     return (
@@ -14,6 +16,9 @@ export const LeaderBoardItem = ({rank, player, address, volume, playerBg}) => {
             </div>
             <div className={s.leader_board_list_item_address_block}>
                 <span className={s.leader_board_list_item_address}>{address}</span>
+            </div>
+            <div className={s.leader_board_list_item_link}>
+                <Image src={linkIco} width='22' height='22' />
             </div>
             <div className={s.leader_board_list_item_volume_block}>
                 <span className={s.leader_board_list_item_volume}>{volume}</span>

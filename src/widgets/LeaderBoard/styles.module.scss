@@ -101,6 +101,11 @@
   line-height: normal;
   letter-spacing: 0.48px;
 
+  &[data-id='address_board_list_title'] {
+    visibility: hidden;
+    opacity: 0;
+  }
+
   &:last-child {
     justify-content: end;
     display: flex;
@@ -131,6 +136,32 @@
   }
 }
 
+.leader_board_list_item_link {
+  display: none;
+}
+
 @media screen and (max-width: 1200px) {
+  .leader_board_list_item_link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .leader_board_list_item_address_block {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .leader_board_list_item {
+    padding: 10px 25px;
+  }
+
+  .leader_board_list_item {
+    grid-template-columns: 20px 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 880px) {
 
 }

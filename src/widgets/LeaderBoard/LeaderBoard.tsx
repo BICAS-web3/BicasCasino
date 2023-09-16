@@ -83,13 +83,13 @@ export const LeaderBoard = () => {
                 <div className={s.leader_board_row_titles_block}>
                     <span className={s.leader_board_list_titles_item}>Rank</span>
                     <span className={s.leader_board_list_titles_item}>Player</span>
-                    <span className={s.leader_board_list_titles_item}>Address</span>
+                    <span className={s.leader_board_list_titles_item} data-id='address_board_list_title'>Address</span>
                     <span className={s.leader_board_list_titles_item}>Volume</span>
                 </div>
                 <div className={s.leader_board_row_titles_block}>
                     <span className={s.leader_board_list_titles_item}>Rank</span>
                     <span className={s.leader_board_list_titles_item}>Player</span>
-                    <span className={s.leader_board_list_titles_item}>Address</span>
+                    <span className={s.leader_board_list_titles_item} data-id='address_board_list_title'>Address</span>
                     <span className={s.leader_board_list_titles_item}>Volume</span>
                 </div>
             </div>
