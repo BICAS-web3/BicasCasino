@@ -68,9 +68,10 @@
     box-sizing: border-box;
     //padding-top: 59px;
     //padding-left: 50px;
-    height: 265px;
+    //height: 265px; //265
 
     display: flex;
+    row-gap: 51px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -90,8 +91,11 @@
     }
 
     .main_container {
-        left: 270px;
+        position: relative;
         width: calc(100% - 270px);
+        left: 30px;
+        row-gap: 20px;
+        top: 120px;
     }
 
     .games,
@@ -99,8 +103,18 @@
         gap: 1.5vw;
     }
 
-    .game {
-        width: 28vw;
+    .games {
+        padding-right: 30px;
+        box-sizing: border-box;
+    }
+
+    .game,
+    .game_link
+     {
+        // width: 28vw;
+        width: 100%;
+        min-width: 371px;
+        max-width: 638px;
     }
 
     .background_container {
@@ -116,6 +130,11 @@
         font-size: 16px;
         line-height: 23px;
     }
+}
+
+// mobile
+@media only screen and (max-width: 826px) {
+
 }
 
 .connect_wallet_container {
