@@ -84,8 +84,9 @@ const RightMenu: FC<RightMenuProps> = props => {
             <Image
                 src={BellIcon}
                 alt={''}
-                width={24}
-                height={25}
+                // width={24}
+                // height={25}
+                className={s.icon}
             />
             <div className={s.new_notification}>
             </div>
@@ -94,8 +95,9 @@ const RightMenu: FC<RightMenuProps> = props => {
             <Image
                 src={ChatIcon}
                 alt={''}
-                width={24}
-                height={25}
+                // width={24}
+                // height={25}
+                className={s.icon}
             />
         </div>
         <ConnectWalletButton />
