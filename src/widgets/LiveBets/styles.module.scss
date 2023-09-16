@@ -77,13 +77,17 @@
             display: flex;
             align-items: center;
 
-            .liveBets_list_item_time {
+            .liveBets_list_item_time, .liveBets_list_item_date {
                 font-family: var(--font-source-sans-3);
                 font-size: 14px;
                 color: #EAEAEA;
                 font-weight: 700;
                 line-height: 120%;
                 letter-spacing: 0.56px;
+            }
+
+            .liveBets_list_item_date {
+                margin-right: 10px;
             }
         }
 
@@ -214,6 +218,24 @@
     margin-top: 25px;
 }
 
+.liveBets_title_circle {
+    width: 9px;
+    height: 9px;
+    background: #29F061;
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: blink 1.6s infinite reverse;
+}
+
+@keyframes blink {
+    0%, 100% {
+        background: #29F061;
+    }
+    50% {
+        background: #0C5520;
+    }
+}
+
 .liveBets_list_item_game {
     color: #EAEAEA;
 }
@@ -223,4 +245,71 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.liveBets_list_item_transaction_block {
+    display: none;
+}
+
+@media screen and (max-width: 1280px) {
+    .liveBets_list_item_date, .liveBets_list_item_address_block {
+        display: none !important;
+    }
+
+    .liveBets_titles_list_item[data-id='address'] {
+        visibility: hidden;
+    }
+
+    .liveBets_list_item_transaction_block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .liveBets_titles_list {
+        grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
+        padding: 0 15px;
+    }
+
+    .liveBets_list_item {
+        column-gap: 10px;
+        padding: 0 15px 10px 15px;
+        grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
+    }
+
+    .liveBets_list_item_game_block {
+        overflow: hidden;
+    }
+
+    .liveBets_list_item_game {
+        white-space: nowrap;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    .liveBets_list_item_profit_block {
+        img {
+            display: none !important;
+        }
+
+        .liveBets_list_item_profit {
+            margin-right: 0 !important;
+        }
+    }
+
+    .liveBets_list_item_multiplier_block {
+        display: none !important;
+    }
+
+    .liveBets_titles_list_item[data-id='multiplier'] {
+        display: none;
+    }
+
+    .liveBets_titles_list {
+        grid-template-columns: 40px 70px 110px 40px 70px 40px;
+    }
+
+    .liveBets_list_item {
+        grid-template-columns: 40px 70px 110px 40px 70px 40px;
+    }
 }
