@@ -12,10 +12,13 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     return (
         <div className={s.page_container}>
             <Header />
+            <div className={s.side_bar_wrapper}>
+                <SideBar />
+            </div>
             <main className={s.main_area}>
-                <div className={s.side_bar_wrapper}>
+                {/* <div className={s.side_bar_wrapper}>
                     <SideBar />
-                </div>
+                </div> */}
                 {children}
             </main>
         </div>

@@ -7,12 +7,13 @@
     display: flex;
     flex-direction: column;
     row-gap: 60px;
-    width: calc(100% - 307px);
+    width: calc(100% - (307px + 307px));
     height: 100%;
     position: absolute;
     // z-index: 10;
     top: 139px;
     left: 307px;
+    right: 307px;
 }
 
 .main_area{
@@ -27,6 +28,7 @@
     height: 614.267px;
     width: 100%;
     position: absolute;
+    left: 0;
     z-index: -1;
     top: 80px;
 }
@@ -45,8 +47,6 @@
     position: absolute;
     z-index: 1;
     width: 100vw;
-    // top: 80px;
-    //left: 90px;
     background: linear-gradient(0deg, #0F0F0F 0%, rgba(15, 15, 15, 0) 25.48%);
 }
 
@@ -68,9 +68,10 @@
     box-sizing: border-box;
     //padding-top: 59px;
     //padding-left: 50px;
-    height: 265px;
+    //height: 265px; //265
 
     display: flex;
+    row-gap: 51px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -89,14 +90,32 @@
         line-height: 42px;
     }
 
+    .banner_info {
+        height: 169px;
+    }
+
+    .connect_wallet_container .button{
+        height: 47px;
+        width: 165px;
+    }
+
     .main_container {
-        left: 270px;
-        width: calc(100% - 270px);
+        position: relative;
+
+        left: 20px;
+        right: 20px;
+        width: 100%;
+        width: calc(100% - (20px + 20px));
+
     }
 
     .games,
     .games_row {
         gap: 1.5vw;
+    }
+
+    .games_row {
+        flex-wrap: wrap;
     }
 
     .game {
@@ -105,6 +124,7 @@
 
     .background_container {
         height: 250px;
+        top: 70px;
     }
 
     .game_name {
@@ -116,6 +136,11 @@
         font-size: 16px;
         line-height: 23px;
     }
+}
+
+// mobile
+@media only screen and (max-width: 826px) {
+
 }
 
 .connect_wallet_container {
@@ -177,14 +202,14 @@
     display: flex;
     flex-direction: row;
     gap: 1vw;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     // align-items: center;
-    // justify-content: center;
+    justify-content: center;
     width: 100%;
 }
 
 .game {
-    width: 33vw;
+    width: 100%;
     max-width: 640px;
     height: 256px;
     padding: 10px 20px;
@@ -203,6 +228,8 @@
 
 
 .game_link {
+    width: 100%;
+    max-width: 640px;
     overflow: hidden;
     //display: block;
     position: relative;

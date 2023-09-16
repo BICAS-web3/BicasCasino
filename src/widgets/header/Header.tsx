@@ -64,9 +64,9 @@ const Links: FC<LinksProps> = props => {
         <div className={`${s.link}`}>
             NFT Market
         </div>
-        <div className={`${s.link} ${s.link_active}`}>
+        {/* <div className={`${s.link} ${s.link_active}`}>
             LeaderBoard
-        </div>
+        </div> */}
     </div>)
 }
 
