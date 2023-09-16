@@ -35,23 +35,26 @@
     border-radius: 20px;
     background: #151515;
     width: 500px ;
-    height: 263px  ;
-        
+    height: 263px  ;  
+
+    
 }
+.total_item_image{
+    background: #F3BD6B33;
+    // mix-blend-mode: hard-light;
+    // filter: blur(50px); 
+    width: 163px;   
+    height: 163px;
+}
+
 .image{
     display: flex;
     margin: 0px;
     width: 126px; 
-    height: 126px;
-        
+    height: 126px;  
     position:relative;
-    bottom: 45px;
-    // left: calc(100% - 186px);
+    bottom: 45px; 
     justify-items: center;
-    
-    // fill: rgba(243, 189, 107, 0.20);
-    // mix-blend-mode: hard-light;
-    // filter: blur(50px);
 }
 
 .description {

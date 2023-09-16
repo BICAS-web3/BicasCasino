@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { FC, JSX, useEffect, useState } from 'react';
 import s from './styles.module.scss';
-import locker from "../../public/media/total/locker.jpg";
-import star from "../../public/media/total/star.jpg";
-import trophy from "../../public/media/total/trophy.jpg";
+import locker from "../../public/media/total/locker.png";
+import star from "../../public/media/total/star.png";
+import trophy from "../../public/media/total/trophy.png";
 
 const triplex = (n: string):string => n.replace(/(?!^)(\d{3})(?=(\d{3})*$)/g, " $1");
 
@@ -13,13 +13,15 @@ export interface TotalProps { description: string; image: any, dollar?: boolean,
 
 const TotalItem: FC<TotalProps> = props => {
     return(<div className={s.total_item}>
-        
-        <Image src={props.image}
+        <div className="total_item_image">
+            <Image src={props.image}
                     alt=''
                     width={126}
                     height={126}
                     className={s.image}
                     />
+        </div>
+        
         <div className={s.description}>
             {props.description}
         </div>
