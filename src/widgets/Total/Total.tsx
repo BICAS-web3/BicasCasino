@@ -20,8 +20,6 @@ const TotalItem: FC<TotalProps> = props => {
             </div>
             <Image src={props.image}
                     alt=''
-                    width={126}
-                    height={126}
                     className={s.image}
                     />
         </div>
