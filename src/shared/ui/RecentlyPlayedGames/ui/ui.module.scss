@@ -1,0 +1,58 @@
+.recentlyPlayedContainer {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  background-color: #151515;
+  border-radius: 20px;
+  padding: 30px;
+  justify-content: flex-start;
+
+  @media(1260px <= width <= 3480px) {
+    width: 510px;
+    height: 608px;
+  }
+
+  .recentlyPlayedHeading {
+    font-family: Nunito Sans, monospace;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 26px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #7E7E7E;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    margin-left: 30px;
+  }
+
+  .gameItem {
+    position: relative;
+    width: 450px;
+    height: 231px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+
+    .gameImage {
+      border-radius: 20px;
+    }
+
+    .content {
+      position: absolute;
+      top: 21%;
+      left: 39%;
+      transform: translate(-50%, -50%);
+
+      .gameTitle {
+        color: white;
+        font-size: 36px;
+      }
+
+      p {
+        color: white;
+        font-size: 18px;
+      }
+    }
+  }
+
+
+}
