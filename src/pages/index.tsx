@@ -224,6 +224,7 @@ export default function Home() {
                 <title>NFT Play | Home page</title>
             </Head>
 
+
             <Layout>
 
                 <div className={s.background_container}>
