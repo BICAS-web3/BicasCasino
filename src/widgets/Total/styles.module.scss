@@ -122,6 +122,16 @@
             font-size: 3vw
         }
 }
+@media  (max-width: 320px) and (pointer: coarse){
+.description {
+        font-size: 15.58vw
+    }
+
+    .statistic {
+        bottom: 60px;
+        font-size: 25.9vw
+    }
+}
 
 
 
