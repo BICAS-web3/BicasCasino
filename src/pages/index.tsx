@@ -20,7 +20,7 @@ import { SideBar } from '@/widgets/SideBar';
 import DiceBackground from '@/public/media/games_assets/dice/Background.png';
 import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.png';
 import RPSBackground from '@/public/media/games_assets/rock_paper_scissors/Background.png';
-
+import { Layout } from '@/widgets/Layout';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -224,27 +224,25 @@ export default function Home() {
                 <title>NFT Play | Home page</title>
             </Head>
 
-            <div className={s.page_container}>
-                <Header />
-                <main className={s.main_area}>
-                    <div className={s.side_bar_wrapper}>
-                        <SideBar />
+
+            <Layout>
+
+                <div className={s.background_container}>
+                    <Image
+                        src={MainPageBackground}
+                        alt={''}
+                        className={s.background}
+                    />
+                    <div className={s.background_gradient}>
+
                     </div>
-                    <div className={s.background}>
-                        <Image
-                            src={MainPageBackground}
-                            alt={''}
-                            width={1846}
-                        />
-                    </div>
-                    <div className={`${s.main_container}`}>
-                        <BannerInfo />
-                        <Games />
-                    {/*    */}
-                        <LiveBets />
-                    </div>
-                </main>
-            </div>
+                </div>
+
+                <div className={`${s.main_container}`}>
+                    <BannerInfo />
+                    <Games />
+                </div>
+            </Layout>
 
             {/* <Footer />
 			<InvitesList />
