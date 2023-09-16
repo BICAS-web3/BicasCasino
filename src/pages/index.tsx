@@ -245,6 +245,7 @@ export default function Home() {
                 <div className={`${s.main_container}`}>
                     <BannerInfo />
                     <Games />
+                    <Total name={''} value={''}/>
                 </div>
             </Layout>
 
