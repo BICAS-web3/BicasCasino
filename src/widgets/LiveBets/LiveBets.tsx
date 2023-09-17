@@ -10,14 +10,20 @@ import { sessionModel } from '@/entities/session';
 import GKemblem1 from '@/public/media/brand_images/GKemblem1.png';
 import gameIco from '../../public/media/live_bets/mainPageActsGameIco.svg'
 import wagerIco from '../../public/media/live_bets/wagerIco.svg'
+import linkIco from '../../public/media/live_bets/linkIco.svg'
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
 }
 
+interface timeProps {
+    time: string,
+    date: string
+}
+
 interface LiveBetProps {
     trx_url: string,
-    time: string,
+    time: timeProps,
     network_icon: string,
     game_url: string,
     game_name: string,
@@ -35,12 +41,13 @@ const LiveBet: FC<LiveBetProps> = props => {
         <div className={s.liveBets_list_item}>
             <div className={s.liveBets_list_item_time_block}>
                 <a href={props.trx_url} target='_blank' className={s.liveBets_list_item_time_link_block}>
-                    <span className={s.liveBets_list_item_time}>{props.time}</span>
+                    <span className={s.liveBets_list_item_date}>{props.time.date}</span>
+                    <span className={s.liveBets_list_item_time}>{props.time.time}</span>
                 </a>
             </div>
             <div className={s.liveBets_list_item_game_block}>
                 <a href={props.game_url} target='_blank' className={s.liveBets_list_item_game_link_block}>
-                    <img src={gameIco.src} alt="game-ico-preview"/>
+                    <img src={gameIco.src} className={s.liveBets_list_item_game_ico} alt="game-ico-preview"/>
                     <span className={s.liveBets_list_item_game}>{props.game_name}</span>
                 </a>
             </div>
@@ -54,6 +61,9 @@ const LiveBet: FC<LiveBetProps> = props => {
             </div>
             <div className={s.liveBets_list_item_address_block}>
                 <span className={s.liveBets_list_item_address}>{props.gameAddress}</span>
+            </div>
+            <div className={s.liveBets_list_item_transaction_block}>
+                <Image src={linkIco} width={22} height={22} />
             </div>
             <div className={s.liveBets_list_item_wager_block}>
                 <img src={wagerIco.src} alt="wager-ico"/>
@@ -167,9 +177,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
     return (
         <div className={s.liveBets_wrap}>
             <h2 className={s.liveBets_title}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none">
-                    <circle cx="4.5" cy="4.5" r="4.5" fill="#29F061"/>
-                </svg>
+                <div className={s.liveBets_title_circle}></div>
                 Live Bets
             </h2>
             <div className={s.liveBets_body}>
@@ -177,21 +185,21 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                     <span className={s.liveBets_titles_list_item}>Time</span>
                     <span className={s.liveBets_titles_list_item}>Game</span>
                     <span className={s.liveBets_titles_list_item}>Player</span>
-                    <span className={s.liveBets_titles_list_item}>Address</span>
-                    <span className={s.liveBets_titles_list_item}>Wager</span>
-                    <span className={s.liveBets_titles_list_item}>Multiplier</span>
-                    <span className={s.liveBets_titles_list_item}>Profit</span>
+                    <span className={s.liveBets_titles_list_item} data-id='address'>Address</span>
+                    <span className={s.liveBets_titles_list_item} data-id='wager'>Wager</span>
+                    <span className={s.liveBets_titles_list_item} data-id='multiplier'>Multiplier</span>
+                    <span className={s.liveBets_titles_list_item} data-id='profit'>Profit</span>
+                    <span className={s.liveBets_titles_list_item} data-id='explorer'>Explorer</span>
                 </div>
                 <div className={s.liveBets_list}>
                     <LiveBet
-                        time='25.08.23 17:05'
+                        time={{date: '25.08.23', time: '17:05'}}
                         game_name='Dice'
                         player='UserName'
                         wager={11}
                         multiplier={3}
                         profit={5.34}
                         userBg='#3DBCE5'
-                        is_odd={true}
                         player_url='test'
                         trx_url='test'
                         game_url='test'
@@ -200,14 +208,13 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                         gameAddress='0x563...4ba9'
                     />
                     <LiveBet
-                        time='25.08.23 17:05'
+                        time={{date: '25.08.23', time: '17:05'}}
                         numBets={1}
                         network_icon='test'
                         trx_url='test'
                         player_url='test'
                         game_url='test'
                         gameAddress='0x563...4ba9'
-                        is_odd={true}
                         game_name='Rock paper scissors'
                         player='UserName'
                         wager={11}
