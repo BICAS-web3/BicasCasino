@@ -23,6 +23,7 @@
       border-radius: 12px;
       font-size: 16px;
       font-weight: 400;
+      color: #7E7E7E;
       font-family: var(--font-nunito-sans);
       border: none;
       outline: none;
@@ -43,5 +44,11 @@
       border: none;
       outline: none;
     }
+  }
+
+  .name_span {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: var(--font-nunito-sans);
   }
 }

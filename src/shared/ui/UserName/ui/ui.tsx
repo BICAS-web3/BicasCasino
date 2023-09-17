@@ -30,7 +30,7 @@ export const UserName: FC<IUserName> = ({userName}) => {
         <div className={styles.input_wrapper}>
           <input
             type="text"
-            placeholder='Your name max of 20 char'
+            placeholder='Enter your name'
             value={newName}
             ref={inputRef}
             autoFocus
@@ -47,7 +47,7 @@ export const UserName: FC<IUserName> = ({userName}) => {
         </div>
       ) : (
         <>
-          <span>{isEditing ? newName : (newName || userName )}</span>
+          <span className={styles.name_span}>{isEditing ? newName : (newName || userName )}</span>
           <EdithIcon onClick={handleNameChange}/>
         </>
       )}
