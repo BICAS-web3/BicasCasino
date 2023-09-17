@@ -17,7 +17,9 @@ import HeaderBrandText from '@/public/media/brand_images/HeaderBrandText.svg';
 import Burger from '@/public/media/misc/burger.svg';
 import ChatIcon from '@/public/media/misc/chatIcon.svg';
 import BellIcon from '@/public/media/misc/bellIcon.svg';
-import { SideBar, SideBarModel } from '@/widgets/SideBar';
+import { SideBarModel } from '@/widgets/SideBar';
+import { LayoutModel } from '../Layout';
+import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -40,12 +42,23 @@ const Emblem: FC<EmblemProps> = props => {
 interface LeftMenuProps { };
 const LeftMenu: FC<LeftMenuProps> = props => {
     const [
-        flipOpen
+        flipOpen,
+        isOpen,
+        setBlur,
     ] = useUnit([
-        SideBarModel.flipOpen
+        SideBarModel.flipOpen,
+        SideBarModel.$isOpen,
+        LayoutModel.setBlur
     ]);
     return (<div className={s.left_menu}>
-        <div className={s.burger} onClick={() => { flipOpen(); }}>
+        <div className={s.burger} onClick={() => {
+            flipOpen();
+            if (!isOpen) {
+                setBlur(true);
+            } else {
+                setBlur(false);
+            }
+        }}>
             <Image
                 src={Burger}
                 alt={''}
@@ -190,6 +203,30 @@ export const NetworkPicker: FC<NetworkPickerProps> = props => {
             {chains}
         </div>
     </div>);
+}
+
+interface BottomMenuProps { }
+const BottomMenu: FC<BottomMenuProps> = props => {
+    return (<div className={s.bottom_menu}>
+        <div className={s.element}>
+            <Image
+                src={Burger}
+                alt=''
+            />
+        </div>
+        <div className={s.element}>
+            <GamesIcon />
+        </div>
+        <div className={s.element}>
+            <SupportIcon />
+        </div>
+        <div className={s.element}>
+            <Image
+                src={ChatIcon}
+                alt=''
+            />
+        </div>
+    </div>)
 }
 
 export interface HeaderProps { }
@@ -452,6 +489,7 @@ export const Header: FC<HeaderProps> = props => {
                 <RightMenu />
 
             </div>
+            <BottomMenu />
         </>
     </>);
 }
