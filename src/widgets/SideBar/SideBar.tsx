@@ -16,24 +16,26 @@ const ClosedSideBar: FC<ClosedSideBarProps> = props => {
     return (
         <>
             <div className={s.side_bar_upper}>
-                <div className={`${s.button} ${s.games_button}`}>
-                    <GamesIcon />
+                <div>
+                    <div className={`${s.button} ${s.games_button}`}>
+                        <GamesIcon />
+                    </div>
+                    <div className={s.buttons_holder}>
+                        <div className={`${s.button} ${props.pickedGame == 0 ? s.button_picked : ''}`}>
+                            <CoinButton />
+                        </div>
+                        <div className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ''}`}>
+                            <DiceButton />
+                        </div>
+                        <div className={`${s.button} ${props.pickedGame == 2 ? s.button_picked : ''}`}>
+                            <RPCButton />
+                        </div>
+                        <div className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ''}`}>
+                            <PokerButton />
+                        </div>
+                    </div>
                 </div>
-                <div className={s.buttons_holder}>
-                    <div className={`${s.button} ${props.pickedGame == 0 ? s.button_picked : ''}`}>
-                        <CoinButton />
-                    </div>
-                    <div className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ''}`}>
-                        <DiceButton />
-                    </div>
-                    <div className={`${s.button} ${props.pickedGame == 2 ? s.button_picked : ''}`}>
-                        <RPCButton />
-                    </div>
-                    <div className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ''}`}>
-                        <PokerButton />
-                    </div>
-                </div>
-            </div>
+            </div >
             <div className={s.side_bar_lower}>
 
             </div>
@@ -146,6 +148,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={s.side_bar_lower}>
+
             </div>
         </>
 

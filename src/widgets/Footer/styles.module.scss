@@ -1,0 +1,76 @@
+.footer_container {
+    background: var(--Gray-1, #151515);
+    height: 212px;
+    display: flex;
+    gap: 100px;
+    // justify-items: center;
+}
+
+
+.icons {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    // align-items: center;
+}
+.footer_below{
+    color: #494949;
+    text-align: center;
+    font-family: Nunito Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 128.16%;
+        /* 15.379px */
+}
+
+.logo{
+    display: flex;
+    gap: 10px;
+}
+.greek{
+    // position: relative;
+    // bottom: 40px;
+}
+.games{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 20px;
+
+}
+.support{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 20px;
+}
+.nft_market{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 20px;
+}
+.footer_text{
+    
+    color: #AAA;
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 128.16%;
+    /* 17.942px */
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+.game_row{
+    
+    color: #7E7E7E;
+    font-family: Nunito Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 128.16%;
+    text-decoration: none;
+    /* 17.942px */}
