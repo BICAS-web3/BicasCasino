@@ -27,10 +27,6 @@ export const NetworkSelect = () => {
         !networkListVisibility ? setNetworkListVisibility(true) : setNetworkListVisibility(false)
     }
 
-    const handleNetworkChange = () => {
-        console.log('123')
-    }
-
     return (
         <div className={s.network_select_wrap}>
             <div className={s.network_select_body} onClick={handleNetworkListVChange} >
