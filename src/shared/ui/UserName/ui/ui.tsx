@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import React, {FC, useState, useRef} from "react";
 import styles from './ui.module.scss'
 import {EdithIcon} from "@/shared/SVGs";
 
@@ -9,8 +9,12 @@ interface IUserName {
 export const UserName: FC<IUserName> = ({userName}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(userName || '')
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleNameChange = () => {
     setIsEditing(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   }
   const handleSave = () => {
     setIsEditing(false);
@@ -28,7 +32,15 @@ export const UserName: FC<IUserName> = ({userName}) => {
             type="text"
             placeholder='Enter your name'
             value={newName}
+            ref={inputRef}
+            autoFocus
             onChange={handleInputChange}
+            maxLength={20}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                handleSave();
+              }
+            }}
           />
           <button onClick={handleSave}>Ok</button>
         </>
