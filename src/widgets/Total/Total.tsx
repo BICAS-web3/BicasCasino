@@ -13,13 +13,11 @@ export interface TotalProps { description: string; image: any, dollar?: boolean,
 
 const TotalItem: FC<TotalProps> = props => {
     return(<div className={s.total_item}>
-        
-        <div className={s.total_item_image}>
-            <div className={s.total_item_bg_image}>
-                
-            </div>
+        <div className="total_item_image">
             <Image src={props.image}
                     alt=''
+                    width={126}
+                    height={126}
                     className={s.image}
                     />
         </div>

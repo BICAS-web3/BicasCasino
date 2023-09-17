@@ -47,13 +47,13 @@ const LiveBet: FC<LiveBetProps> = props => {
             </div>
             <div className={s.liveBets_list_item_game_block}>
                 <a href={props.game_url} target='_blank' className={s.liveBets_list_item_game_link_block}>
-                    <img src={gameIco.src} className={s.liveBets_list_item_game_ico} alt="game-ico-preview"/>
+                    <img src={gameIco.src} className={s.liveBets_list_item_game_ico} alt="game-ico-preview" />
                     <span className={s.liveBets_list_item_game}>{props.game_name}</span>
                 </a>
             </div>
             <div className={s.liveBets_list_item_player_block}>
                 <a href={props.player_url} target='_blank' className={s.liveBets_list_item_player_link_block}>
-                    <div className={s.liveBets_list_item_player_ico} style={{background: props.userBg}}>
+                    <div className={s.liveBets_list_item_player_ico} style={{ background: props.userBg }}>
                         <span className={s.liveBets_list_item_player_ico_name}>B</span>
                     </div>
                     <span className={s.liveBets_list_item_player}>{props.player}</span>
@@ -66,7 +66,7 @@ const LiveBet: FC<LiveBetProps> = props => {
                 <Image src={linkIco} width={22} height={22} />
             </div>
             <div className={s.liveBets_list_item_wager_block}>
-                <img src={wagerIco.src} alt="wager-ico"/>
+                <img src={wagerIco.src} alt="wager-ico" />
                 <span className={s.liveBets_list_item_wager}>{props.wager}</span>
             </div>
             <div className={s.liveBets_list_item_multiplier_block}>
@@ -74,7 +74,7 @@ const LiveBet: FC<LiveBetProps> = props => {
             </div>
             <div className={s.liveBets_list_item_profit_block}>
                 <span className={s.liveBets_list_item_profit}>+{props.profit}</span>
-                <img src={wagerIco.src} alt="wager-ico"/>
+                <img src={wagerIco.src} alt="wager-ico" />
             </div>
         </div>
     );
@@ -98,81 +98,81 @@ export const LiveBets: FC<LiveBetsProps> = props => {
         sessionModel.setNewBet
     ]);
 
-    const [socket, setSocket] = useState<any | null>(null);
+    // const [socket, setSocket] = useState<any | null>(null);
 
-    const [gotBets, setGotBets] = useState(false);
+    // const [gotBets, setGotBets] = useState(false);
 
-    const [BetsElements, setBetsElements] = useState<React.JSX.Element[]>([]);
+    // const [BetsElements, setBetsElements] = useState<React.JSX.Element[]>([]);
 
-    useEffect(() => {
-        const run = async () => {
-            console.log("Getting bets");
-            await getBets();
-        }
-        run();
-    }, [availableBlocksExplorers]);
+    // useEffect(() => {
+    //     const run = async () => {
+    //         console.log("Getting bets");
+    //         await getBets();
+    //     }
+    //     run();
+    // }, [availableBlocksExplorers]);
 
-    const getBets = async () => {
-        var bets = props.subscriptions.length == 0 ? (await Api.getAllLastBets()).body as Api.T_Bets : (await Api.getGamesAllLastBets(props.subscriptions[0])).body as Api.T_Bets;
-        setBets(bets.bets);
-        console.log(bets);
-        console.log(Bets);
-        setGotBets(true);
-    }
-    var odd = false;
+    // const getBets = async () => {
+    //     var bets = props.subscriptions.length == 0 ? (await Api.getAllLastBets()).body as Api.T_Bets : (await Api.getGamesAllLastBets(props.subscriptions[0])).body as Api.T_Bets;
+    //     setBets(bets.bets);
+    //     console.log(bets);
+    //     console.log(Bets);
+    //     setGotBets(true);
+    // }
+    // var odd = false;
 
-    const onMessage = (ev: MessageEvent<any>) => {
-        const data = JSON.parse(ev.data);
-        console.log("Received message:", data);
-        if (data.type == "Ping") {
-            return;
-        }
-        setNewBet(data);
-        newBet(data);
-        setGotBets(true);
-    };
+    // const onMessage = (ev: MessageEvent<any>) => {
+    //     const data = JSON.parse(ev.data);
+    //     console.log("Received message:", data);
+    //     if (data.type == "Ping") {
+    //         return;
+    //     }
+    //     setNewBet(data);
+    //     newBet(data);
+    //     setGotBets(true);
+    // };
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log("mapping bets");
+    //     console.log("mapping bets");
 
-        setBetsElements(Bets.map((bet: Api.T_BetInfo) => {
-            var date = new Date(bet.timestamp * 1000);
-            let hours = date.getHours();
-            let minutes = "0" + date.getMinutes();
-            const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
-            const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
-            var element = <LiveBet
-                is_odd={odd}
-                trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
-                time={hours + ':' + minutes.substr(-2)}
-                network_icon={`/static/media/networks/${bet.network_id}.svg`}
-                game_url={`/games/${bet.game_name}`}
-                game_name={bet.game_name}
-                player={bet.player_nickname == null ? bet.player : bet.player_nickname}
-                player_url={bet.player}
-                wager={wager}
-                multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-                profit={profit}
-                key={bet.transaction_hash}
-                numBets={bet.bets}
-            />;
-            odd = !odd;
-            return (element);
-        }));
-        setGotBets(false);
+    //     setBetsElements(Bets.map((bet: Api.T_BetInfo) => {
+    //         var date = new Date(bet.timestamp * 1000);
+    //         let hours = date.getHours();
+    //         let minutes = "0" + date.getMinutes();
+    //         const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+    //         const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+    //         var element = <LiveBet
+    //             is_odd={odd}
+    //             trx_url={availableBlocksExplorers?.get(bet.network_id)?.url + '/tx/' + bet.transaction_hash}
+    //             time={hours + ':' + minutes.substr(-2)}
+    //             network_icon={`/static/media/networks/${bet.network_id}.svg`}
+    //             game_url={`/games/${bet.game_name}`}
+    //             game_name={bet.game_name}
+    //             player={bet.player_nickname == null ? bet.player : bet.player_nickname}
+    //             player_url={bet.player}
+    //             wager={wager}
+    //             multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+    //             profit={profit}
+    //             key={bet.transaction_hash}
+    //             numBets={bet.bets}
+    //         />;
+    //         odd = !odd;
+    //         return (element);
+    //     }));
+    //     setGotBets(false);
 
-        if (socket != null) {
-            return;
-        }
-        console.log("Connecting to WebSocket server...");
-        var newSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/updates`);
+    //     if (socket != null) {
+    //         return;
+    //     }
+    //     console.log("Connecting to WebSocket server...");
+    //     var newSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/updates`);
 
-        newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
+    //     newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
 
-        newSocket.onmessage = onMessage;
-        setSocket(newSocket);
-    }, [Bets, gotBets]);
+    //     newSocket.onmessage = onMessage;
+    //     setSocket(newSocket);
+    // }, [Bets, gotBets]);
 
     return (
         <div className={s.liveBets_wrap}>
@@ -193,7 +193,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                 </div>
                 <div className={s.liveBets_list}>
                     <LiveBet
-                        time={{date: '25.08.23', time: '17:05'}}
+                        time={{ date: '25.08.23', time: '17:05' }}
                         game_name='Dice'
                         player='UserName'
                         wager={11}
@@ -208,7 +208,7 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                         gameAddress='0x563...4ba9'
                     />
                     <LiveBet
-                        time={{date: '25.08.23', time: '17:05'}}
+                        time={{ date: '25.08.23', time: '17:05' }}
                         numBets={1}
                         network_icon='test'
                         trx_url='test'
