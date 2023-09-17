@@ -25,12 +25,12 @@
     margin-left: 30px;
   }
 
-  .game_item{
+  .game_item {
     position: relative;
     width: 450px;
     height: 231px;
     border-radius: 20px;
-    margin-bottom: 28px;
+    margin-bottom: 18px;
 
     .game_image {
       border-radius: 20px;
@@ -38,9 +38,11 @@
 
     .content {
       position: absolute;
-      top: 38%;
+      top: 34%;
       left: 39%;
       transform: translate(-50%, -50%);
+      width: 282px;
+      overflow-wrap: break-word;
 
       .game_title {
         color: #E9E9F5;
@@ -49,18 +51,18 @@
         font-size: 30px;
         font-weight: 800;
         line-height: 41px;
-        letter-spacing: 0.06em;
         text-align: left;
+        margin-bottom: 6px;
       }
 
-      p {
+      .game_text {
         font-family: var(--font-source-sans-3);
         font-size: 20px;
         font-weight: 400;
         line-height: 28px;
-        letter-spacing: 0.04em;
         text-align: left;
         color: #FFFFFFBF;
+        word-break: break-word;
       }
     }
   }

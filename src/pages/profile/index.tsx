@@ -15,15 +15,13 @@ const RecentlyGames = [
   {
     id: 1,
     title: 'Coinflip',
-    text: 'A game where you have to beat\n' +
-      'your opponent with a chip',
+    text: 'A game where you have to beat your opponent with a chip',
     imgBackground: coinflipImg
   },
   {
     id: 2,
     title: 'Dunkin caps',
-    text: 'A game where you have to beat\n' +
-      'your opponent with a chip',
+    text: 'A game where you have to beat your opponent with a chip',
     imgBackground: dunkinImg
   }
 ]
