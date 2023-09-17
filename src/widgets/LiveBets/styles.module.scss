@@ -5,7 +5,7 @@
     border-radius: 20px;
     background: #181818;
     padding: 45px 0;
-    max-width: 1630px;
+    max-width: 100%;
 }
 
 .liveBets_title {
@@ -227,6 +227,10 @@
     animation: blink 1.6s infinite reverse;
 }
 
+.liveBets_titles_list_item[data-id='explorer'] {
+    display: none;
+}
+
 @keyframes blink {
     0%, 100% {
         background: #29F061;
@@ -312,5 +316,100 @@
 
     .liveBets_list_item {
         grid-template-columns: 40px 70px 110px 40px 70px 40px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .liveBets_list_item_wager_block {
+        display: none !important;
+    }
+
+    .liveBets_titles_list_item[data-id='wager'] {
+        display: none;
+    }
+
+    .liveBets_wrap {
+        border-radius: 0;
+    }
+
+    .liveBets_titles_list_item {
+        font-size: 8px;
+    }
+
+    .liveBets_list_item_time {
+        font-size: 8px !important;
+        color: #7E7E7E !important;
+    }
+
+    .liveBets_list_item_player, .liveBets_list_item_game, .liveBets_list_item_profit {
+        font-size: 10px !important;
+    }
+
+    .liveBets_list_item_game_ico {
+        margin-right: 5px !important;
+    }
+
+    .liveBets_list_item_player_ico, .liveBets_list_item_game_ico {
+        width: 20px !important;
+        height: 20px !important;
+
+        span {
+            font-size: 12px !important;
+        }
+    }
+
+    .liveBets_titles_list_item[data-id='profit'] {
+        grid-column: 4;
+        grid-row: 1;
+    }
+
+    .liveBets_titles_list {
+        padding: 0 10px;
+        grid-template-columns: 25px 50px 85px 30px 35px;
+        column-gap: 5px;
+    }
+
+    .liveBets_list_item {
+        padding: 0 10px 10px 10px;
+        grid-template-columns: 25px 50px 85px 30px 35px;
+        column-gap: 5px;
+    }
+
+    .liveBets_list_item_transaction_block {
+        grid-column: 5;
+        grid-row: 1;
+        justify-content: end;
+    }
+
+    .liveBets_titles_list_item[data-id='profit'] {
+        justify-content: end;
+        display: flex;
+    }
+
+    .liveBets_titles_list_item[data-id='explorer'] {
+        display: block;
+    }
+
+    .liveBets_titles_list_item[data-id='address'] {
+        display: none;
+    }
+
+    .liveBets_list_item_profit_block {
+        img {
+            display: block !important;
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .liveBets_titles_list {
+        grid-template-columns: 25px 50px 1fr 30px 35px;
+    }
+
+    .liveBets_list_item {
+        grid-template-columns: 25px 50px 1fr 30px 35px;
     }
 }

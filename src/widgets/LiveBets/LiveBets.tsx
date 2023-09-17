@@ -47,7 +47,7 @@ const LiveBet: FC<LiveBetProps> = props => {
             </div>
             <div className={s.liveBets_list_item_game_block}>
                 <a href={props.game_url} target='_blank' className={s.liveBets_list_item_game_link_block}>
-                    <img src={gameIco.src} alt="game-ico-preview"/>
+                    <img src={gameIco.src} className={s.liveBets_list_item_game_ico} alt="game-ico-preview"/>
                     <span className={s.liveBets_list_item_game}>{props.game_name}</span>
                 </a>
             </div>
@@ -186,9 +186,10 @@ export const LiveBets: FC<LiveBetsProps> = props => {
                     <span className={s.liveBets_titles_list_item}>Game</span>
                     <span className={s.liveBets_titles_list_item}>Player</span>
                     <span className={s.liveBets_titles_list_item} data-id='address'>Address</span>
-                    <span className={s.liveBets_titles_list_item}>Wager</span>
+                    <span className={s.liveBets_titles_list_item} data-id='wager'>Wager</span>
                     <span className={s.liveBets_titles_list_item} data-id='multiplier'>Multiplier</span>
-                    <span className={s.liveBets_titles_list_item}>Profit</span>
+                    <span className={s.liveBets_titles_list_item} data-id='profit'>Profit</span>
+                    <span className={s.liveBets_titles_list_item} data-id='explorer'>Explorer</span>
                 </div>
                 <div className={s.liveBets_list}>
                     <LiveBet

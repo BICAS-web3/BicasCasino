@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/styles.module.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/public/media/social_media/Twitter.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/media/social_media/Twitter.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
