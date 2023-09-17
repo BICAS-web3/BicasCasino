@@ -2,7 +2,7 @@
     position: relative;
     //z-index: 0;
     height: 100%;
-    max-height: 2581px;
+    //max-height: 2581px;
 }
 
 .side_bar_upper {
@@ -72,8 +72,8 @@
 .side_bar_lower {
     width: 100%;
     background-color: #121212;
-    height: 100%;
-    max-height: 1501px;
+    height: 1501px;
+    min-height: 1369px;
 }
 
 .side_bar_extension {
@@ -90,12 +90,6 @@
     transition: width 0.5s;
     display: flex;
     flex-direction: column;
-}
-
-@media only screen and (max-width: 1280px) {
-    .side_bar_opened {
-        width: 240px;
-    }
 }
 
 .button {
@@ -295,4 +289,57 @@
     letter-spacing: 0.04em;
     text-align: left;
     color: #EAEAEA;
+}
+
+@media only screen and (max-width: 1280px) {
+    .side_bar_opened {
+        width: 18.75vw;
+        min-width: 200px;
+    }
+
+    .side_bar_upper {
+        height: 832px;
+    }
+
+    .side_bar_lower {
+        height: 1369px;
+    }
+
+    .buttons_menu,
+    .social_networks,
+    .support {
+        width: 83%;
+    }
+
+    .menu_header, 
+    .social_networks .icons {
+        width: 80%;
+    }
+
+}
+
+@media only screen and (max-width: 700px) {
+    .side_bar_opened {
+        width: 18.75vw;
+        min-width: 200px;
+        position: absolute;
+        z-index: 3;
+        min-height: 1576px;
+        height: 100%;
+    }
+
+    .side_bar_upper {
+        height: 832px;
+    }
+
+    .side_bar_lower {
+        min-height: 744px;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .side_bar {
+        display: none;
+    }
 }
