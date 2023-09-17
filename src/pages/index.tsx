@@ -23,6 +23,7 @@ import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.
 import RPSBackground from '@/public/media/games_assets/rock_paper_scissors/Background.png';
 import { Layout } from '@/widgets/Layout';
 import { Total } from '@/widgets/Total';
+import { Footer } from '@/widgets/Footer';
 
 
 const LinkIcon: FC<{}> = p => {
@@ -250,8 +251,8 @@ export default function Home() {
             </Layout>
 
 
-            {/* <Footer />
-			<InvitesList />
+            <Footer />
+			{/* <InvitesList />
 			<GamesList />
 			<ConnectWalletModal /> */}
         </>
