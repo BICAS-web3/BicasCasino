@@ -1,4 +1,4 @@
-.recentlyPlayedContainer {
+.recently_played_container {
   display: flex;
   gap: 5px;
   flex-direction: column;
@@ -12,7 +12,7 @@
     height: 552px;
   }
 
-  .recentlyPlayedHeading {
+  .recently_played_heading {
     font-family: var(--font-nunito-sans);
     font-size: 20px;
     font-weight: 800;
@@ -25,14 +25,14 @@
     margin-left: 30px;
   }
 
-  .gameItem {
+  .game_item{
     position: relative;
     width: 450px;
     height: 231px;
     border-radius: 20px;
     margin-bottom: 28px;
 
-    .gameImage {
+    .game_image {
       border-radius: 20px;
     }
 
@@ -42,7 +42,7 @@
       left: 39%;
       transform: translate(-50%, -50%);
 
-      .gameTitle {
+      .game_title {
         color: #E9E9F5;
         text-transform: uppercase;
         font-family: var(--font-nunito-sans);
@@ -54,7 +54,7 @@
       }
 
       p {
-        font-family:var(--font-source-sans-3);
+        font-family: var(--font-source-sans-3);
         font-size: 20px;
         font-weight: 400;
         line-height: 28px;
