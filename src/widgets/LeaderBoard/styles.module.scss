@@ -198,15 +198,15 @@
   .leader_board_row_titles_block:last-child {
     display: none;
   }
-
-  .leader_board_wrap {
-    border-radius: 0;
-  }
 }
 
 @media screen and (max-width: 650px) {
   .leaderBoard_loadMore_btn_block {
     display: flex;
+  }
+
+  .leader_board_wrap {
+    border-radius: 0;
   }
 
   .leader_board_list_item_link {
