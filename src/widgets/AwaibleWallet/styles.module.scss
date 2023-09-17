@@ -1,0 +1,90 @@
+.awaibleWallet_container {
+    width: 376px;
+    height: 234px;
+    border-radius: 20px;
+    background: var(--Gray-2, #181818);
+    box-sizing: border-box;
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    align-content: center;
+}
+
+.awaibleWallet {
+    display: flex;
+    gap: 40px;
+}
+
+.main_text {
+    color: var(--White-1, #EAEAEA);
+    text-align: center;
+    font-family: var(--font-nunito-sans);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    /* 24px */
+    letter-spacing: 0.8px;
+}
+
+.text_icon {
+    color: var(--White-1, #EAEAEA);
+    font-family: Source Sans 3;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    /* 16.8px */
+}
+
+.text_info {
+    color: var(--Gold-solid, #E5C787);
+    font-family: var(--font-nunito-sans);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 128.16%;
+    /* 15.379px */
+}
+
+.icon_info {}
+
+.btn_close {}
+
+.select_wallet {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+
+.select_wallet_item {
+    display: flex;
+    gap: 10px;
+    width: 163px;
+    height: 40px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: #0F0F0F;
+    justify-content: center;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+
+
+
+
+
+@media(650px <=width <=1280px) {
+
+}
+
+@media (max-width: 650px) and (pointer: coarse) {
+
+}
