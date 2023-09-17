@@ -8,13 +8,13 @@
     display: flex;
     flex-direction: column;
     row-gap: 60px;
-    width: calc(100% - (307px + 307px));
+    width: calc(100% - (307px + 50px));
     height: 100%;
     position: absolute;
     // z-index: 10;
     top: 139px;
     left: 307px;
-    right: 307px;
+    right: 50px;
 }
 
 .main_area{
@@ -266,15 +266,17 @@
 // mobile
 @media only screen and (max-width: 650px) {
     .main_container{
-        left: 8px;
-        right: 8px;
-        width: calc(100% - (8px + 8px));
+        left: 0px;
+        right: 0px;
+        width: 100%;
         //margin-right: 8px;
         top: 76px;
     }
     .banner_info {
         row-gap: 34px;
-        margin-left: 8px;
+        margin-left: 0px;
+        padding-left: 8px;
+        box-sizing: border-box;
     }
     .connect_wallet_container .button {
         width: 126px;

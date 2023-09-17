@@ -39,8 +39,11 @@
     display: flex;
     flex-direction: row;
     column-gap: 42px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    width: 237px;
+    padding-right: 36px;
+    box-sizing: border-box;
 }
 
 .right_menu {
@@ -111,10 +114,12 @@
     display: flex;
     flex-direction: row;
     column-gap: 20px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
+    padding-left: 34px;
+    box-sizing: border-box;
 }
 
 .link {
