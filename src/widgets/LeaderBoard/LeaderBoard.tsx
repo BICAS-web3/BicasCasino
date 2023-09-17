@@ -1,8 +1,9 @@
 import s from './styles.module.scss'
 import {LeaderBoardItem} from "@/widgets/LeaderBoard/LeaderBoardItem";
+import {useEffect, useState} from "react";
 
 //demo
-export const leadersList = [
+export let leadersList = [
     {
         rank: 1,
         player: 'UserName',
@@ -76,6 +77,12 @@ export const leadersList = [
 ]
 
 export const LeaderBoard = () => {
+    const [list, setList] = useState(leadersList);
+
+    useEffect(() => {
+        window.innerWidth <= 650 && setList(list.slice(0, 5))
+    }, [])
+
     return (
         <div className={s.leader_board_wrap}>
             <h2 className={s.leader_board_title}>Leader Board</h2>
@@ -95,10 +102,13 @@ export const LeaderBoard = () => {
             </div>
             <div className={s.leader_board_list}>
                 {
-                    leadersList && leadersList.map((item, ind) => (
+                    list && list.map((item, ind) => (
                         <LeaderBoardItem {...item} />
                     ))
                 }
+            </div>
+            <div className={s.leaderBoard_loadMore_btn_block}>
+                <button className={s.leaderBoard_loadMore_btn}>Load More</button>
             </div>
         </div>
     )

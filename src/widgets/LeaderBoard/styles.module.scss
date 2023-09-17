@@ -14,6 +14,13 @@
   margin-bottom: 35px;
 }
 
+.leaderBoard_loadMore_btn_block {
+  display: none;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 .leader_board_list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -124,6 +131,23 @@
   padding: 0 50px;
 }
 
+.leaderBoard_loadMore_btn {
+  padding: 10px 15px;
+  background: #202020;
+  color: #7E7E7E;
+  font-family: var(--font-source-sans-3);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0.4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: none;
+}
+
 .leader_board_list_item {
   display: grid;
   grid-template-columns: 30px 1fr 1fr 1fr;
@@ -157,11 +181,73 @@
     padding: 10px 25px;
   }
 
+  .leader_board_row_titles_block {
+    padding: 10px 25px;
+  }
+
   .leader_board_list_item {
-    grid-template-columns: 20px 1fr 1fr 1fr;
+    grid-template-columns: 30px 1fr 1fr 1fr;
   }
 }
 
 @media screen and (max-width: 880px) {
+  .leader_board_list, .leader_board_list_titles {
+    grid-template-columns: 1fr;
+  }
 
+  .leader_board_row_titles_block:last-child {
+    display: none;
+  }
+
+  .leader_board_wrap {
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .leaderBoard_loadMore_btn_block {
+    display: flex;
+  }
+
+  .leader_board_list_item_link {
+    display: none;
+  }
+
+  .leader_board_list_item_address_block {
+    display: block;
+  }
+
+  .leader_board_list_titles_item[data-id='address_board_list_title'] {
+    visibility: visible !important;
+    opacity: 1;
+  }
+
+  .leader_board_list_item_address, .leader_board_list_item_player_title {
+    font-size: 10px;
+  }
+
+  .leader_board_list_item_rank {
+    font-size: 12px;
+  }
+
+  .leader_board_list_titles_item {
+    font-size: 8px;
+  }
+
+  .leader_board_list_item_player_icon {
+    width: 20px;
+    height: 20px;
+
+    span {
+      font-size: 12px !important;
+    }
+  }
+
+  .leader_board_list_item {
+    grid-template-columns: 20px 1fr 1fr 1fr;
+  }
+
+  .leader_board_row_titles_block {
+    grid-template-columns: 20px 1fr 1fr 1fr;
+  }
 }
