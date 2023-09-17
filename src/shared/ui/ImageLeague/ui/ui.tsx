@@ -5,7 +5,7 @@ import styles from './ui.module.scss'
 
 export const ImageLeague: FC<{}> = () => {
   return (
-    <div className={styles.imageContainer}>
+    <div className={styles.image}>
       <div className={styles.imageWrapper}>
         <Image src={bronzeLeague} alt={'ImageLeague'} width={147} height={147}
                objectFit="cover"/>

@@ -14,9 +14,7 @@ export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = ({Re
   return (
     <div className={styles.recentlyPlayedContainer}>
       <p className={styles.recentlyPlayedHeading}>recently played</p>
-
       {RecentlyGames.map((game: IRecentlyGames) => (
-        // style={{ backgroundImage: `url(${game.imgBackground})` }}
         <div key={game.id} className={styles.gameItem}>
           <Image src={game.imgBackground} alt={game.title} className={styles.gameImage} layout={'fill'}
                  objectFit={'cover'} />

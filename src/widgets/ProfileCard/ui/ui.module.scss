@@ -1,20 +1,27 @@
 .card {
   display: flex;
-  gap: 30px;
+  gap: 12px;
   align-items: flex-end;
   background-color: #151515;
   border-radius: 20px;
   padding: 34px 40px;
   justify-content: space-between;
+
   @media(1260px <= width <= 3480px) {
-    width: 890px;
-    height: 218px;
+    width: 688px;
+    height: 154px;
+  }
+
+  img {
+    margin-right: 14px;
   }
 
   .user {
     display: flex;
+    margin-bottom: 10px;
     flex-direction: column;
     align-items: flex-start;
     gap: 6px;
+    margin-right: auto;
   }
 }

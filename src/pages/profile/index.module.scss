@@ -1,4 +1,24 @@
-.containerCard{
-  display: flex;
+.container {
   padding: 115px 50px 132px 50px;
+}
+
+.grid_container {
+  display: grid;
+  grid-template-columns: 790px 510px;
+  grid-template-rows: 255px auto 420px;
+
+  .card_container {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .profile_container {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+
+  .recently_container {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+  }
 }

@@ -1,9 +1,9 @@
-.imageContainer {
+.image {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  padding: 20px 40px 0;
+  margin-right: -12px;
 
   .imageWrapper {
     position: relative;
@@ -22,7 +22,7 @@
   }
 
   .title {
-    font-family: Nunito Sans;
+    font-family: var(--font-nunito-sans);
     font-size: 16px;
     font-weight: 600;
     line-height: 19px;
@@ -30,5 +30,7 @@
     text-align: left;
     color: #E5C787;
     text-transform: uppercase;
+    margin-bottom: 6px;
   }
+
 }

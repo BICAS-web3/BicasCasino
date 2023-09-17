@@ -8,12 +8,12 @@
   justify-content: flex-start;
 
   @media(1260px <= width <= 3480px) {
-    width: 510px;
-    height: 608px;
+    width: 450px;
+    height: 552px;
   }
 
   .recentlyPlayedHeading {
-    font-family: Nunito Sans, monospace;
+    font-family: var(--font-nunito-sans);
     font-size: 20px;
     font-weight: 800;
     line-height: 26px;
@@ -38,18 +38,29 @@
 
     .content {
       position: absolute;
-      top: 21%;
+      top: 38%;
       left: 39%;
       transform: translate(-50%, -50%);
 
       .gameTitle {
-        color: white;
-        font-size: 36px;
+        color: #E9E9F5;
+        text-transform: uppercase;
+        font-family: var(--font-nunito-sans);
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 41px;
+        letter-spacing: 0.06em;
+        text-align: left;
       }
 
       p {
-        color: white;
-        font-size: 18px;
+        font-family:var(--font-source-sans-3);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 0.04em;
+        text-align: left;
+        color: #FFFFFFBF;
       }
     }
   }

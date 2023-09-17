@@ -7,6 +7,9 @@ import {Layout} from "@/widgets/Layout";
 import s from "@/pages/styles.module.scss";
 import React from "react";
 import styles from './index.module.scss'
+import {BetsHistory} from "@/widgets/BetsHistory";
+import {ProfileBettingStatistics} from "@/widgets/ProfileBettingStatistics";
+
 const RecentlyGames = [
   {
     id: 1,
@@ -32,13 +35,22 @@ export default function Profile() {
       </Head>
 
       <Layout>
-        <div className={styles.containerCard}>
-          <ProfileCard/>
-          <div style={{margin: '20px'}}></div>
-          <RecentlyPlayedGames RecentlyGames={RecentlyGames}/>
+        <div className={styles.container}>
+          <div className={styles.grid_container}>
+            <div className={styles.card_container}>
+              <ProfileCard/>
+            </div>
+            <div className={styles.profile_container}>
+              <ProfileBettingStatistics />
+            </div>
+            <div className={styles.recently_container}>
+              <RecentlyPlayedGames RecentlyGames={RecentlyGames}/>
+            </div>
+          </div>
         </div>
-        <div style={{margin: '20px'}}></div>
-        {/*<RecentlyPlayedGames RecentlyGames={RecentlyGames}/>*/}
+
+        <div style={{margin: '2px'}}></div>
+
       </Layout>
     </>
   )
