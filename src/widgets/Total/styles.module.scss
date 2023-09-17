@@ -45,7 +45,7 @@
     color: var(--White-1, #EAEAEA);
     text-align: center;
     font-family: var(--font-nunito-sans);
-    font-size: 0.8vw;
+    font-size: 16px;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -59,7 +59,7 @@
 .statistic {
     color: #E5C787;
     font-family: var(--font-nunito-sans);
-    font-size: 2vw;
+    font-size: 40px;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -79,12 +79,12 @@
     }
     .description {
         bottom: 90px;
-        font-size: 0.9vw;
+        font-size: 14px;
         
     }
     .statistic {
         bottom:70px;
-        font-size: 1.56vw;
+        font-size: 25px;
     }
     
     .image {
@@ -115,20 +115,20 @@
 
          .description{
             bottom:70px;
-            font-size: 1.84vw
+            font-size: 12px
         } 
         .statistic{
             bottom: 60px;
-            font-size: 3vw
+            font-size: 20px
         }
 }
 @media  (max-width: 320px) and (pointer: coarse){
 .description {
-        font-size: 3.75vw
+        font-size: 12px
     }
 
     .statistic {
-        font-size: 6.25vw
+        font-size: 20px
     }
 }
 
