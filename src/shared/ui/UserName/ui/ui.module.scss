@@ -1,4 +1,4 @@
-.userName {
+.user_name {
   font-family: var(--font-nunito-sans);
   font-size: 28px;
   font-weight: 700;
@@ -10,4 +10,38 @@
   display: flex;
   gap: 8px;
   align-items: center;
+
+  .input_wrapper {
+    position: relative;
+    align-items: center;
+    display: flex;
+
+    .input_user_name {
+      width: 202px;
+      padding: 9px 69px 9px 15px;
+      background: #202020;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: var(--font-nunito-sans);
+      border: none;
+      outline: none;
+    }
+
+    .ok_button {
+      position: absolute;
+      top: 50%;
+      right: -1px;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 900;
+      font-family: var(--font-nunito-sans);
+      color: #7E7E7E;
+      background-color: #2F2F2F;
+      padding: 10px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+    }
+  }
 }

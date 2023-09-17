@@ -25,12 +25,12 @@ export const UserName: FC<IUserName> = ({userName}) => {
   }
 
   return (
-    <div className={styles.userName}>
+    <div className={styles.user_name}>
       {isEditing ? (
-        <>
+        <div className={styles.input_wrapper}>
           <input
             type="text"
-            placeholder='Enter your name'
+            placeholder='Your name max of 20 char'
             value={newName}
             ref={inputRef}
             autoFocus
@@ -41,12 +41,13 @@ export const UserName: FC<IUserName> = ({userName}) => {
                 handleSave();
               }
             }}
+            className={styles.input_user_name}
           />
-          <button onClick={handleSave}>Ok</button>
-        </>
+          <button onClick={handleSave} className={styles.ok_button}>OK</button>
+        </div>
       ) : (
         <>
-          <span>{isEditing ? newName : (newName || userName || "Athena")}</span>
+          <span>{isEditing ? newName : (newName || userName )}</span>
           <EdithIcon onClick={handleNameChange}/>
         </>
       )}
