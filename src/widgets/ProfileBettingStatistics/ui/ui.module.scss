@@ -1,11 +1,17 @@
 .wager_card {
   background: #151515;
   color: white;
-  width: 766px;
-  height: 356px;
+  width: 680px;
+  height: 274px;
   border-radius: 20px;
-
-  .financial_metric1{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 56px 54px 28px;
+  gap: 14px;
+  .financial_metric1 {
     color: white;
   }
+}
+.wager_card > :nth-child(odd) {
+  margin-right: 50px;
 }
