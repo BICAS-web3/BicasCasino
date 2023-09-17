@@ -230,6 +230,7 @@
 @keyframes blink {
     0%, 100% {
         background: #29F061;
+        filter: drop-shadow(0px 0px 4px rgba(41, 240, 97, 0.50));
     }
     50% {
         background: #0C5520;
