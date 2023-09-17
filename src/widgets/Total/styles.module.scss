@@ -30,7 +30,7 @@
 .total_item_image{
     height: 163px;
     justify-content: center;
-        align-items: center;
+    align-items: center;
 }
 
 .image{
@@ -45,7 +45,7 @@
     color: var(--White-1, #EAEAEA);
     text-align: center;
     font-family: var(--font-nunito-sans);
-    font-size: 16px;
+    font-size: 0.8vw;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -59,7 +59,7 @@
 .statistic {
     color: #E5C787;
     font-family: var(--font-nunito-sans);
-    font-size: 40px;
+    font-size: 2vw;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
@@ -69,7 +69,7 @@
     bottom: 10px;
 }
 
-@media( 650px <=width <= 1280px) {
+@media( 700px <=width <= 1280px) {
     .total_item{
         height: 154px;
     }
@@ -79,12 +79,12 @@
     }
     .description {
         bottom: 90px;
-        font-size: 14px;
+        font-size: 0.9vw;
         
     }
     .statistic {
         bottom:70px;
-        font-size: 25px;
+        font-size: 1.56vw;
     }
     
     .image {
@@ -95,12 +95,7 @@
     }
 }
 
-@media (max-width: 650px) {
-        .total_container {
-            flex-direction: column;
-            gap: 10px;
-        }
-
+@media (320px <=width <=700px) {
         .total_item {
             height: 126px;
         }
@@ -115,20 +110,41 @@
 
          .description{
             bottom:70px;
-            font-size: 12px
+            font-size: 1.5vw
         } 
         .statistic{
-            bottom: 60px;
-            font-size: 20px
+            bottom: 70px;
+            font-size: 2.5vw
         }
 }
 @media  (max-width: 320px) and (pointer: coarse){
-.description {
-        font-size: 12px
+    .total_container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .total_item {
+        height: 126px;
+    }
+
+    .total_item_bg_image {
+        height: 100.123px;
+    }
+
+    .image {
+        width: 40px;
+        height: 40px;
+        bottom: 80px;
+    }
+
+    .description {
+        bottom: 70px;
+        font-size: 3.75vw
     }
 
     .statistic {
-        font-size: 20px
+        bottom: 60px;
+        font-size: 6.25vw
     }
 }
 
