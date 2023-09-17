@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/live_bets/linkIco.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/live_bets/mainPageActsGameIco.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/live_bets/wagerIco.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/Ellipse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/locker.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/locker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/star.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/trophy.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/public/media/total/trophy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/widgets/Total/Total.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/widgets/Total/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/widgets/Total/styles.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/styles.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/Layout/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/Layout/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/Layout/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/Layout/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/Layout/model.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/Layout/model.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/Layout/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/Layout/styles.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/LiveBets.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/LiveBets/styles.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/SideBar/SideBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/SideBar/SideBar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/SideBar/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/SideBar/styles.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/header/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/header/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/widgets/header/styles.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/widgets/header/styles.module.scss" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="redesign" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2VNZamaNeOelQWZz5jdO6v5U13G" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Zver/Desktop/BicasCasino/src/public/media/live_bets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Zver\\Desktop\\BicasCasino\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Zver\Desktop\BicasCasino\src\public\media\live_bets" />
+      <recent name="C:\Users\Zver\Desktop\BicasCasino\src\public\media\account_images" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7b3e1181-61b4-4cb9-bb04-df24887f8bdb" name="Changes" comment="" />
+      <created>1694678565519</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1694678565519</updated>
+      <workItem from="1694678568686" duration="1276000" />
+      <workItem from="1694679849294" duration="8937000" />
+      <workItem from="1694688808429" duration="4231000" />
+      <workItem from="1694693055496" duration="134000" />
+      <workItem from="1694698327245" duration="2313000" />
+      <workItem from="1694715123176" duration="1083000" />
+      <workItem from="1694716216120" duration="6408000" />
+      <workItem from="1694760591334" duration="1780000" />
+      <workItem from="1694781374809" duration="901000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

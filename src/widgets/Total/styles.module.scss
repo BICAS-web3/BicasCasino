@@ -1,0 +1,134 @@
+
+.total_container {
+    display: flex;
+    gap: 20px;
+    align-content: space-around;
+    justify-items: center;
+    justify-content: center;
+    margin-left: 307px;
+    margin-right: 307px;
+}
+
+.statistic{
+   
+    color: #E5C787;
+    text-align: center;
+    position: relative;
+    bottom: 20px;
+    font-family: var(--font-nunito-sans);
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 128.16%;
+    // padding-top: 20px;
+    /* 51.264px */
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.total_item {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 20px;
+    background: #151515;
+    width: 500px ;
+    height: 263px  ;  
+
+    
+}
+.total_item_image{
+    background: #F3BD6B33;
+    // mix-blend-mode: hard-light;
+    // filter: blur(50px); 
+    width: 163px;   
+    height: 163px;
+}
+
+.image{
+    display: flex;
+    margin: 0px;
+    width: 126px; 
+    height: 126px;  
+    position:relative;
+    bottom: 45px; 
+    justify-items: center;
+}
+
+.description {
+    color: var(--White-1, #EAEAEA);
+    text-align: center;
+    font-family: var(--font-nunito-sans);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 128.16%;
+    letter-spacing: 0.64px;
+    text-transform: uppercase;
+    position: relative;
+    bottom: 20px;
+}
+
+@media( 826px <=width <= 1280px) {
+    .total_container{
+    margin-left: 270px;
+    margin-right: 270px;
+    }
+    .total_item{
+        width: 232px;
+        height: 154px;
+        flex-shrink: 0;
+    }
+    .statistic {
+        font-size: 25px;
+    }.description {
+        font-size: 14px;
+    }
+    .image {
+        bottom: 30px;
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 826px) {
+
+        .total_container {
+            flex-direction: column;
+            gap:10px;
+        }
+
+        .total_item {
+            width: 288px;
+            height: 126px;
+            flex-shrink: 0;
+        }
+        .image{
+            margin-top: 14px;
+            margin-bottom: 12px;
+            position: initial;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+       
+         .description{
+            font-size: 12px;
+            margin-top: 24px;
+            // margin-bottom: 6px;
+        } 
+        .statistic{
+            font-size: 20px;
+            margin-top: 10px;
+            // margin-top: ;
+            // margin-top: 6px;
+            // margin-bottom: 16.31px;
+
+        }
+}
+
+

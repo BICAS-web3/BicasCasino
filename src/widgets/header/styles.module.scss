@@ -11,12 +11,6 @@
     z-index: 10;
 }
 
-@media only screen and (max-width: 1280px) {
-    .header {
-        height: 70px;
-    }
-}
-
 .emblem {
     display: flex;
     flex-direction: row;
@@ -119,6 +113,8 @@
     column-gap: 20px;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .link {
@@ -129,10 +125,13 @@
     font-size: 16px;
     font-weight: 600;
     font-family: var(--font-source-sans-3);
-    height: 100%;
+    height: 50px;
+    width: 137px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #191919;
+    border-radius: 12px;
 }
 
 .link:hover {
@@ -142,6 +141,106 @@
 .link_active {
     color: #EAEAEA;
     text-shadow: 0px 0px 11px #F9832C4D;
+}
+
+.icon {
+    width: 24px;
+    height: 25px;
+}
+
+.bottom_menu {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 56px;
+    z-index: 100;
+    background: #181818;
+    padding-left: 8px;
+    padding-right: 8px;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+}
+
+.bottom_menu .element {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom_menu .element img {
+    width: 16px;
+    height: 16px;
+}
+
+.bottom_menu .element svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media only screen and (max-width: 1280px) {
+    .header {
+        height: 70px;
+    }
+    .links {
+        justify-content: start;
+    }
+
+    .link {
+        background-color: transparent;
+    }
+
+    .left_menu {
+        column-gap: 2vw;
+        width: 170px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .header {
+        height: 56px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .links, .link, .button {
+        display: none;
+        width: 0px;
+    }
+
+    .burger {
+        display: none;
+    }
+
+    .left_menu {
+        display: flex;
+        flex-direction: row;
+        column-gap: 42px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .emblem {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .connect_wallet_button {
+        width: 110px;
+        height: 32px;
+        border-radius: 5px;
+        font-size: 10px;
+        line-height: 12px;
+        box-shadow: 0px 0px 11px 0px #F9832C4D;
+    }
+
+    .bottom_menu {
+        display: flex;
+    }
 }
 
 // .emblem {
