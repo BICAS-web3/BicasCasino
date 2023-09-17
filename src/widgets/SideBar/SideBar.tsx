@@ -149,6 +149,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                     </div>
                 </div>
             </div>
+            <div className={s.side_bar_lower}>
+
+            </div>
         </>
 
     )
