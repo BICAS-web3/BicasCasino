@@ -9,6 +9,7 @@ import React from "react";
 import styles from './index.module.scss'
 import {BetsHistory} from "@/widgets/BetsHistory";
 import {ProfileBettingStatistics} from "@/widgets/ProfileBettingStatistics";
+import {SwapTradeTokens} from "@/widgets/SwapTradeTokens/ui/ui";
 
 const RecentlyGames = [
   {
@@ -19,7 +20,7 @@ const RecentlyGames = [
     imgBackground: coinflipImg
   },
   {
-    id: 1,
+    id: 2,
     title: 'Dunkin caps',
     text: 'A game where you have to beat\n' +
       'your opponent with a chip',
@@ -41,12 +42,13 @@ export default function Profile() {
               <ProfileCard/>
             </div>
             <div className={styles.profile_container}>
-              <ProfileBettingStatistics />
+              <ProfileBettingStatistics/>
             </div>
             <div className={styles.recently_container}>
               <RecentlyPlayedGames RecentlyGames={RecentlyGames}/>
             </div>
           </div>
+          <SwapTradeTokens/>
         </div>
 
         <div style={{margin: '2px'}}></div>
