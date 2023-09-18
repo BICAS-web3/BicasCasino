@@ -19,6 +19,10 @@ export type T_NetworkInfo = {
     decimals: number;
 };
 
+export type T_Localization = {
+
+}
+
 export type T_Networks = {
     networks: Array<T_NetworkInfo>
 };
@@ -146,6 +150,14 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
             },
             body: JSON.stringify(form)
         }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const getLocalization = createEffect<string, T_Localization, string>(
+    async string => {
+        return fetch(`/static/localizations/${string}.json`, {
+            method: 'GET',
+        }).then(async res => await res.json()).catch(e => (e))
     }
 )
 
