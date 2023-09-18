@@ -15,18 +15,11 @@ export const TokenExchangeInput: FC<{}> = () => {
     <div className={styles.token_exchange}>
       <div className={styles.form_group}>
         <input
-          type="number"
+          type="string"
           placeholder="000.000"
           onChange={handleAmountChange}
         />
       </div>
-      {selectedToken && tokenAmount !== null && (
-        <div className={styles.result}>
-          <p>
-            You have selected {tokenAmount} {selectedToken.name} for exchange.
-          </p>
-        </div>
-      )}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import {ProfileCard} from "@/widgets/ProfileCard";
-import {RecentlyPlayedGames} from "../../widgets/RecentlyPlayedGames";
+import {RecentlyPlayedGames} from "@/widgets/RecentlyPlayedGames";
 import coinflipImg from "@/public/media/recently_games/conflip.png";
 import dunkinImg from "@/public/media/recently_games/dunkin.png";
 import Head from "next/head";
