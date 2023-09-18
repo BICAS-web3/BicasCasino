@@ -1,6 +1,7 @@
 import { createEffect, createEvent } from 'effector';
 
 const BaseApiUrl = '/api';
+const BaseStaticUrl = '/static';
 
 export type T_ErrorText = {
     error: string
@@ -18,6 +19,10 @@ export type T_NetworkInfo = {
     currency_symbol: string;
     decimals: number;
 };
+
+export type T_Localization = {
+
+}
 
 export type T_Networks = {
     networks: Array<T_NetworkInfo>
@@ -146,6 +151,14 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
             },
             body: JSON.stringify(form)
         }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const getLocalizationFx = createEffect<string, T_Localization, string>(
+    async language => {
+        return fetch(`${BaseStaticUrl}/localizations/${language}.json`, {
+            method: 'GET',
+        }).then(async res => await res.json()).catch(e => (e))
     }
 )
 
