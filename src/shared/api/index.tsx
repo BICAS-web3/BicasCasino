@@ -1,6 +1,7 @@
 import { createEffect, createEvent } from 'effector';
 
 const BaseApiUrl = '/api';
+const BaseStaticUrl = '/static';
 
 export type T_ErrorText = {
     error: string
@@ -153,9 +154,9 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
     }
 )
 
-export const getLocalization = createEffect<string, T_Localization, string>(
+export const getLocalizationFx = createEffect<string, T_Localization, string>(
     async string => {
-        return fetch(`/static/localizations/${string}.json`, {
+        return fetch(`${BaseStaticUrl}/localizations/${string}.json`, {
             method: 'GET',
         }).then(async res => await res.json()).catch(e => (e))
     }

@@ -1,8 +1,9 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import * as Api from '@/shared/api';
+import {getLocalizationFx} from "@/shared/api";
 
 // variables
-export const $Localization = createStore<Api.T_Localization>()
+export const $Localization = createStore<Api.T_Localization>({})
 export const $AvailableNetworks = createStore<Api.T_Networks>({ networks: [] });
 export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
 export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
@@ -50,7 +51,7 @@ $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
 // logic
 sample({
     clock: getLocalization,
-    target: Api.getLocalization
+    target: Api.getLocalizationFx
 })
 sample({
     clock: queryAvailableNetworks,
