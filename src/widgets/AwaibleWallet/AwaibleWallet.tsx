@@ -7,6 +7,23 @@ import Info from '@/public/media/select_wallet/Info.svg';
 import Trust_wallet from '@/public/media/select_wallet/Trust_wallet.svg';
 import WalletConnect from '@/public/media/select_wallet/WalletConnect.svg';
 import Close from '@/public/media/select_wallet/Close.svg';
+import { InfoIcon } from '@/shared/SVGs';
+
+
+export interface WalletProps{ icon: string; name: string;}
+const Wallet: FC<WalletProps>  = props => {
+    return(<div className={s.select_wallet_item}>
+        <Image
+                src={props.icon}
+                alt={''}
+            />
+            <div className={s.text_icon}>{props.name}</div>
+        </div>
+    );  
+}
+
+
+
 
 export interface AwaibleWalletProps{}
 export const AwaibleWallet: FC<AwaibleWalletProps>  = props => {
@@ -22,51 +39,32 @@ export const AwaibleWallet: FC<AwaibleWalletProps>  = props => {
             <Image
                 src={Close}
                 alt={''}
+                width={17}
+                height={17}
+                className={s.close_icon}
             />
         </button>
     </div>
-
+    <div className={s.connect_text}>
+            Connect Wallet
+    </div>   
     <div className={s.select_wallet}>
-        <div className={s.select_wallet_item}>
-            <Image
-                src={Ledger}
-                alt={''}
-            />
-            <div className={s.text_icon}>Ledger</div>
-        </div>
-        <div className={s.select_wallet_item}>
-            <Image
-                src={Trust_wallet}
-                alt={''}
-            />
-            <div className={s.text_icon}>Trust Wallet</div>
-        </div>
-        <div className={s.select_wallet_item}>
-            <Image
-                src={Coinbase}
-                alt={''}
-            />
-            <div className={s.text_icon}>Coinbase</div>
-        </div>
-        <div className={s.select_wallet_item}>
-            <Image
-                src={WalletConnect}
-                alt={''}
-            />
-            <div className={s.text_icon}>WalletConnect</div>
-        </div>
+        <Wallet name="Ledger" icon={Ledger}/>
+        <Wallet name="Trust Wallet" icon={Trust_wallet}/>
+        <Wallet name="Coinbase" icon={Coinbase}/>
+        <Wallet name="WalletConnect" icon={WalletConnect}/>
     </div>
-    
     <div className={s.info}>
-        <div className={s.text_info}>
+        <a 
+            href="https://www.freecodecamp.org/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={s.text_info}
+        >
+
             I don’t have a wallet
-        </div>
-        
-        <Image
-            src={Info}
-            alt={''}
-            className={s.icon_info}
-        />
+        </a>
+        <InfoIcon />
         
     </div>
 
