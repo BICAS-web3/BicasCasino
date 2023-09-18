@@ -4,13 +4,14 @@
   align-items: center;
   position: relative;
   margin-right: -12px;
+  padding-left: 30px;
 
-  .imageWrapper {
+  .image_wrapper {
     position: relative;
     z-index: 1;
   }
 
-  .blurBackground {
+  .blur_background {
     background: #F3BD6B1A;
     position: absolute;
     top: 0;
@@ -19,6 +20,7 @@
     height: 100%;
     filter: blur(60px);
     z-index: 0;
+
   }
 
   .title {
@@ -33,4 +35,13 @@
     margin-bottom: 6px;
   }
 
+}
+.image::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -31px;
+  height: 124%;
+  width: 1px;
+  border-left: 1px solid #252525;
 }
