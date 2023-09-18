@@ -104,3 +104,9 @@
   letter-spacing: 0.56px;
   text-transform: uppercase;
 }
+
+@media screen and (max-width: 914px) {
+  .network_select_wrap {
+    display: none;
+  }
+}
