@@ -155,8 +155,8 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
 )
 
 export const getLocalizationFx = createEffect<string, T_Localization, string>(
-    async string => {
-        return fetch(`${BaseStaticUrl}/localizations/${string}.json`, {
+    async language => {
+        return fetch(`${BaseStaticUrl}/localizations/${language}.json`, {
             method: 'GET',
         }).then(async res => await res.json()).catch(e => (e))
     }
