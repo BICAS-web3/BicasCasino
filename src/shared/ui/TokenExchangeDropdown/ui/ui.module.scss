@@ -1,0 +1,66 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;;
+  text-align: left;
+  color: #FFFFFF;
+  position: relative;
+
+
+  .selected_token {
+    display: flex;
+    align-items: flex-start;
+    background-color: #202020;
+    width: 146px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .token_icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  .arrow {
+    margin-left: 10px;
+    color: #EAEAEA;
+  }
+
+  .up {
+    transform: rotate(180deg);
+    color: #EAEAEA;
+  }
+
+  .down {
+    transform: rotate(0deg);
+    color: #EAEAEA;
+  }
+
+  .token_list {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 85%;
+    left: 0;
+    width: 146px;
+    background-color: #202020;
+    border-radius: 0 0 12px 12px;
+    border: none;
+    outline: none;
+    z-index: 1;
+  }
+
+  .token_item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px 12px 20px;
+    cursor: pointer;
+  }
+}
+

@@ -31,4 +31,18 @@
       color: #7E7E7E;
     }
   }
+  .exchange_tokens{
+    display: flex;
+    .arrow {
+
+    }
+    .initial_exchange{
+      display: flex;
+    }
+    .total_exchange{
+      display: flex;
+    }
+  }
+
+
 }
