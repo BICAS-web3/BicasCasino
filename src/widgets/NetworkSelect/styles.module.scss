@@ -1,0 +1,112 @@
+.network_select_wrap {
+  align-self: center;
+  margin-right: 15px;
+  padding-right: 15px;
+  border-right: 1px solid #252525;
+  position: relative;
+}
+
+.network_select_body {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  border-radius: 12px;
+  background: #191919;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+}
+
+.active_network_title {
+  font-family: var(--font-nunito-sans);
+  color: #7E7E7E;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150.8%;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  min-width: 90px;
+}
+
+.active_network_ico_wrap {
+  margin-right: 13px;
+  border: 1px solid #202020;
+  border-radius: 12px;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active_network_dropDown_ico {
+  margin: 0px 13px;
+}
+
+.networks_list_wrap {
+  padding: 25px 0 10px 0;
+  border-radius: 12px;
+  background: #191919;
+  position: absolute;
+  width: calc(100% - 15px);
+  margin-top: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .4s;
+}
+
+.networks_list_title_wrap {
+  border-bottom: 1px solid #202020;
+  padding-bottom: 10px;
+  margin: 0 20px;
+}
+
+.networks_list_title {
+  font-family: var(--font-nunito-sans);
+  color: #EAEAEA;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150.8%;
+  letter-spacing: 0.56px;
+}
+
+.networks_list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+
+  &_item {
+    cursor: pointer;
+    transition: background .3s ease;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: #202020;
+    }
+  }
+}
+
+.networks_list_item_title {
+  margin-left: 13px;
+  font-family: var(--font-nunito-sans);
+  color: #7E7E7E;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150.8%;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 914px) {
+  .network_select_wrap {
+    display: none;
+  }
+}
