@@ -6,7 +6,7 @@ export const CustomBets = ({title, bets, isMainPage, isGamePage}) => {
         <div className={s.customBets_wrap}>
             <div className={s.customBets_header} style={{justifyContent: isMainPage && 'center'}}>
                 <h2 className={s.customBets_title}>
-                    { isMainPage || isGamePage && (<div className={s.customBets_title_circle}></div>) }
+                    { (isMainPage || isGamePage) && (<div className={s.customBets_title_circle}></div>) }
                     {title}
                 </h2>
                 {
