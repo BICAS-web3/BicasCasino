@@ -1,6 +1,6 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import * as Api from '@/shared/api';
-import {getLocalizationFx} from "@/shared/api";
+import { getLocalizationFx } from "@/shared/api";
 
 // variables
 export const $Localization = createStore<Api.T_Localization>({})
@@ -20,10 +20,10 @@ export const queryAvailableTokens = createEvent<{ network_id: number }>();
 export const setAvailableExplorers = createEvent<Api.T_BlockExplorers>();
 
 // handlers
-$AvailableNetworks.on(Api.getNetworksFx.doneData, (_, payload) => {
-    console.log(`Networks: ${JSON.stringify(payload)}`);
-    return (payload.body as Api.T_Networks);
-});
+// $AvailableNetworks.on(Api.getNetworksFx.doneData, (_, payload) => {
+//     console.log(`Networks: ${JSON.stringify(payload)}`);
+//     return (payload.body as Api.T_Networks);
+// });
 
 $AvailableRpcs.on(Api.getRpcsFx.doneData, (_, payload) => {
     console.log(`Networks: ${JSON.stringify(payload)}`);
