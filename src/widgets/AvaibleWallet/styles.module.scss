@@ -1,4 +1,4 @@
-.awaibleWallet_container {
+.avaibleWallet_container {
     width: 376px;
     height: 234px;
     border-radius: 20px;
@@ -11,7 +11,7 @@
     align-content: center;
 }
 
-.awaibleWallet {
+.avaibleWallet {
     display: grid;
     grid-template-columns: auto 168px auto 23px 3px;
     grid-template-rows: 1fr;
@@ -117,7 +117,7 @@
 }
 
 @media (max-width: 650px) and (pointer: coarse) {
-    .awaibleWallet {
+    .avaibleWallet {
             padding-top: 12px;
             padding-right: 16px;
             // gap: 40px;
@@ -143,13 +143,13 @@
         grid-column: 4 / 5;
         grid-row: 1 / 2;
     }
-    .awaibleWallet_container {
+    .avaibleWallet_container {
         width: 100%;
         height: 568px;
         grid-template-rows: 24px 40px 1fr 1fr;
         gap: 16px;
     }
-    .awaibleWallet {
+    .avaibleWallet {
         // display: none;
         grid-row: 1 / 2;
     }

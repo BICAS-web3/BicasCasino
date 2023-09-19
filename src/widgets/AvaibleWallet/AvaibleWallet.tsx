@@ -25,13 +25,13 @@ const Wallet: FC<WalletProps>  = props => {
 
 
 
-export interface AwaibleWalletProps{}
-export const AwaibleWallet: FC<AwaibleWalletProps>  = props => {
+export interface AvaibleWalletProps{}
+export const AvaibleWallet: FC<AvaibleWalletProps>  = props => {
    
 
-    return(<div className={s.awaibleWallet_container}>
+    return(<div className={s.avaibleWallet_container}>
 
-    <div className={s.awaibleWallet}>
+    <div className={s.avaibleWallet}>
         <div className={s.main_text}>
             Available Wallet
         </div>
