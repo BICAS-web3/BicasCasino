@@ -8,6 +8,8 @@ import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { useUnit } from 'effector-react';
 import { web3 } from '@/entities/web3';
 import { useNetwork, useSwitchNetwork } from 'wagmi'
+import {NetworkErrorText} from "@/widgets/NetworkSelect/NetworkErrorText";
+import {NetworkError} from "@/widgets/NetworkSelect/NetworkError";
 
 export const networksList = [
     {

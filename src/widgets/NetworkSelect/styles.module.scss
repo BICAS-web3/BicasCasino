@@ -4,6 +4,7 @@
   padding-right: 15px;
   border-right: 1px solid #252525;
   position: relative;
+  min-width: 185px;
 }
 
 .network_select_body {
@@ -17,6 +18,59 @@
   align-items: center;
   height: 50px;
   width: 100%;
+}
+
+.network_error_body {
+  min-width: 185px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  background: #FC3C37;
+  border-radius: 12px;
+  justify-content: space-between;
+}
+
+.network_error_main_text {
+  color: #EAEAEA;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+}
+
+.network_error_down_ico {
+  justify-self: end;
+  margin-right: 13px;
+}
+
+.network_error_img {
+  margin-right: 15px;
+  border-radius: 12px;
+}
+
+.network_error_text_block {
+  border-radius: 12px 12px 0 0;
+  background: #1C0100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 10px;
+  margin-bottom: 20px;
+
+  .network_error_text {
+    white-space: nowrap;
+    color: #FC3C37;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150.8%;
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+  }
 }
 
 .active_network_title {
