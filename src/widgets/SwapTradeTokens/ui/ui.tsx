@@ -7,6 +7,7 @@ import bnb from "@/public/media/tokens/bnb.svg";
 import arb from "@/public/media/tokens/arb.svg";
 import usdt from "@/public/media/tokens/usdt.svg";
 import {ArrowIconRight} from "@/shared/SVGs";
+import {CustomButton} from "@/shared/ui/CustomButton";
 
 const tokenList: IToken[] = [
   {id: 1, name: 'DRAX', iconToken: drax},
@@ -35,6 +36,11 @@ export const SwapTradeTokens: FC<{}> = () => {
           <TokenExchangeDropdown tokenList={tokenList}/>
           <TokenExchangeInput/>
         </form>
+        <div className={styles.exchange_button}>
+          <CustomButton text='EXCHANGE' size='md' color='gradient' textColor='dark' onClick={() => {
+            console.log('Кнопка была нажата');
+          }}/>
+        </div>
       </div>
     </div>
   )
