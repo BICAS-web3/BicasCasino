@@ -1,16 +1,29 @@
 import s from './styles.module.scss'
-import {CustomBetsItem} from "@/widgets/CustomBets/CustomBetsItem";
+import { CustomBetsItem } from "@/widgets/CustomBets/CustomBetsItem";
+import { FC } from 'react';
+import { LiveBetsModel } from '../LiveBets';
+import { useUnit } from 'effector-react';
+import { settingsModel } from '@/entities/settings';
 
-export const CustomBets = ({title, bets, isMainPage, isGamePage}) => {
+export interface CustomBetsProps { title: string, isMainPage: boolean, isGamePage: boolean };
+export const CustomBets: FC<CustomBetsProps> = props => {
+    const [
+        Bets,
+        AvailableBlocksExplorers
+    ] = useUnit([
+        LiveBetsModel.$Bets,
+        settingsModel.$AvailableBlocksExplorers
+    ]);
+
     return (
         <div className={s.customBets_wrap}>
-            <div className={s.customBets_header} style={{justifyContent: isMainPage && 'center'}}>
+            <div className={s.customBets_header} style={{ justifyContent: props.isMainPage && 'center' }}>
                 <h2 className={s.customBets_title}>
-                    { (isMainPage || isGamePage) && (<div className={s.customBets_title_circle}></div>) }
-                    {title}
+                    {(props.isMainPage || props.isGamePage) && (<div className={s.customBets_title_circle}></div>)}
+                    {props.title}
                 </h2>
                 {
-                    isGamePage && (
+                    props.isGamePage && (
                         <div className={s.customBets_switch_bets_btns}>
                             <button className={s.customBets_allBets_btn} data-active='active'>all bets</button>
                             <button className={s.customBets_myBets_btn}>my bets</button>
@@ -31,9 +44,25 @@ export const CustomBets = ({title, bets, isMainPage, isGamePage}) => {
                 </div>
                 <div className={s.customBets_list}>
                     {
-                        bets && bets.map((item, ind) => (
-                            <CustomBetsItem {...item} key={ind} />
-                        ))
+                        Bets && AvailableBlocksExplorers && Bets.map((bet, ind) => {
+                            const time = new Date(bet.timestamp * 1000);
+                            const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+                            const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+                            return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
+                                key={ind}
+                                time={{
+                                    date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+                                    time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
+                                }}
+                                //game_url={`/games/${bet.game_name}`}
+                                game_name={bet.game_name}
+                                player_address={bet.player}
+                                player_name={bet.player_nickname == null ?
+                                    `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
+                                wager={wager}
+                                multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+                                profit={profit} />);
+                        })
                     }
                 </div>
             </div>

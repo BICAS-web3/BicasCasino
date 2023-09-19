@@ -7,10 +7,10 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { createEffect } from 'effector';
+//import { createEffect } from 'effector';
 import * as Api from '@/shared/api';
 import { createEvent, createStore, sample } from 'effector';
-
+import { settingsModel } from '../settings';
 
 
 // variables
@@ -29,6 +29,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
 
     var chains = [];
     var publicClient = [];
+    var explorers = new Map<number, string>();
 
     for (var network of networks.networks) {
         const rpcs = { http: network.rpcs.map((value, _, __) => value.url) };
@@ -51,7 +52,10 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
             }
         } as const satisfies Chain);
         publicClient.push(publicProvider());
+        explorers.set(network.basic_info.network_id, network.explorers[0].url);
     }
+
+    settingsModel.setAvailableExplorers(explorers);
 
     const configuredChains = configureChains(
         chains,

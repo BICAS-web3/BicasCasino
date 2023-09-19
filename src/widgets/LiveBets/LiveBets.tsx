@@ -80,6 +80,72 @@ const LiveBet: FC<LiveBetProps> = props => {
     );
 }
 
+export interface LiveBetsWSProps {
+    subscription_type: string,
+    subscriptions: string[]
+}
+export const LiveBetsWS: FC<LiveBetsWSProps> = props => {
+    const [Bets,
+        newBet,
+        setBets,
+        availableBlocksExplorers,
+        setNewBet
+    ] = useUnit([
+        Model.$Bets,
+        Model.newBet,
+        Model.setBets,
+        settingsModel.$AvailableBlocksExplorers,
+        sessionModel.setNewBet
+    ]);
+
+    const [socket, setSocket] = useState<any | null>(null);
+
+    const getBets = async () => {
+        var bets = props.subscriptions.length == 0 ? (await Api.getAllLastBets()).body as Api.T_Bets : (await Api.getGamesAllLastBets(props.subscriptions[0])).body as Api.T_Bets;
+        setBets(bets.bets);
+        console.log(bets);
+        console.log(Bets);
+        //setGotBets(true);
+    }
+
+    useEffect(() => {
+        const run = async () => {
+            console.log("Getting bets");
+            await getBets();
+        }
+        run();
+    }, [availableBlocksExplorers]);
+
+    const onMessage = (ev: MessageEvent<any>) => {
+        const data = JSON.parse(ev.data);
+        console.log("Received message:", data);
+        if (data.type == "Ping") {
+            return;
+        }
+        setNewBet(data);
+        newBet(data);
+        //setGotBets(true);
+    };
+
+    useEffect(() => {
+
+        console.log("mapping bets");
+
+        if (socket != null) {
+            return;
+        }
+        console.log("Connecting to WebSocket server...");
+        var newSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/updates`);
+
+        newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
+
+        newSocket.onmessage = onMessage;
+        setSocket(newSocket);
+    }, [Bets]);
+
+    return (<></>);
+}
+
 export interface LiveBetsProps {
     subscription_type: string,
     subscriptions: string[]
