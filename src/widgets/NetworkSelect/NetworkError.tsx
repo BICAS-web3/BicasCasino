@@ -1,13 +1,19 @@
 import s from './styles.module.scss'
 import errorInfoIco from '../../public/media/networkSelect_icons/errorInfoIco.svg'
 import downIco from '../../public/media/networkSelect_icons/dropDownIco.svg'
+import Image from 'next/image';
+import {FC} from "react";
 
-export const NetworkError = () => {
+interface NetworkErrorProps {
+
+}
+
+export const NetworkError: FC<NetworkErrorProps> = () => {
     return (
         <div className={s.network_error_body}>
-            <img className={s.network_error_img} src={errorInfoIco.src} alt="error_img"/>
+            <Image src={errorInfoIco} className={s.network_error_img} alt="error_img"/>
             <span className={s.network_error_main_text}>error</span>
-            <img className={s.network_error_down_ico} src={downIco.src} alt="down_ico"/>
+            <Image className={s.network_error_down_ico} src={downIco} alt="down_ico"/>
         </div>
     )
 }
