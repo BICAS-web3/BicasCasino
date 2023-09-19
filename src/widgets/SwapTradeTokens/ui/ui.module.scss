@@ -11,6 +11,8 @@
     text-align: center;
     align-items: baseline;
     gap: 30px;
+    margin: 0 0 19px 0;
+
     .title {
       font-family: var(--font-source-sans-3);
       font-size: 30px;
@@ -31,18 +33,23 @@
       color: #7E7E7E;
     }
   }
-  .exchange_tokens{
+
+  .exchange_tokens {
     display: flex;
-    .arrow {
+    align-items: center;
+    gap: 20px;
+
+    .arrow_right {
 
     }
-    .initial_exchange{
+
+    .initial_exchange {
       display: flex;
     }
-    .total_exchange{
+
+    .total_exchange {
       display: flex;
     }
   }
-
-
 }
+

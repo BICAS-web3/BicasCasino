@@ -1,6 +1,9 @@
 import {FC, useState} from "react";
 import styles from './ui.module.scss'
 import Image from "next/image";
+import clsx from "clsx";
+import s from "@/widgets/SideBar/styles.module.scss";
+import {ArrowIcon} from "@/shared/SVGs";
 
 export interface IToken {
   id: number;
@@ -20,7 +23,7 @@ export const TokenExchangeDropdown: FC<ITokenExchangeDropdownProps> = ({tokenLis
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log('OPEN', isOpen)
   const handleTokenClick = (token: IToken) => {
     setSelectedToken(token);
     setIsOpen(false);
@@ -31,7 +34,7 @@ export const TokenExchangeDropdown: FC<ITokenExchangeDropdownProps> = ({tokenLis
     <div className={styles.dropdown}>
       <div className={styles.selected_token} onClick={toggleDropdown}>
         {selectedToken ? (
-          <div className={styles.token_item}>
+          <div className={styles.token_item_selected}>
             <Image
               src={selectedToken.iconToken}
               width={30}
@@ -41,7 +44,7 @@ export const TokenExchangeDropdown: FC<ITokenExchangeDropdownProps> = ({tokenLis
             {selectedToken.name}
           </div>
         ) : (
-          <div className={styles.token_item}>
+          <div className={styles.token_item_selected}>
             <Image
               src={tokenList[0].iconToken}
               width={30}
@@ -51,10 +54,12 @@ export const TokenExchangeDropdown: FC<ITokenExchangeDropdownProps> = ({tokenLis
             {tokenList[0].name}
           </div>
         )}
-        <i className={`arrow ${isOpen ? styles.up : styles.down}`}/>
+        <div className={`${styles.arrow_swap} ${isOpen ? styles.arrow_open : styles.arrow_close}`}>
+          <ArrowIcon/>
+        </div>
       </div>
       {isOpen && (
-        <div className={styles.token_list}>
+        <div className={clsx(styles.token_list, {[styles.open]: isOpen})}>
           {tokenList.map((token) => (
             <div
               key={token.id}
