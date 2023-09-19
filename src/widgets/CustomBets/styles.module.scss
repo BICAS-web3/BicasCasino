@@ -1,0 +1,460 @@
+.customBets_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  background: #181818;
+  padding: 45px 0;
+  max-width: 100%;
+}
+
+.customBets_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 60px);
+  padding: 0 30px;
+}
+
+.customBets_switch_bets_btns {
+  display: flex;
+}
+
+.customBets_allBets_btn {
+  margin-right: 5px;
+}
+
+.customBets_allBets_btn, .customBets_myBets_btn {
+  font-family: var(--font-source-sans-3);
+  color: #7E7E7E;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+  border: none;
+  padding: 11px 34px;
+  border-radius: 12px;
+  background: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &[data-active='active'] {
+    background: #E5C787;
+    color: #181818;
+  }
+}
+
+.customBets_title {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.96px;
+  color: #EAEAEA;
+  font-family: var(--font-source-sans-3);
+}
+
+.customBets_body {
+  width: 100%;
+  margin-top: 35px;
+}
+
+.customBets_titles_list {
+  padding: 0 30px;
+  display: grid;
+  grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px minmax(10px, 100px);
+  justify-content: space-between;
+  margin-bottom: 25px;
+
+  &_item {
+    font-family: var(--font-source-sans-3);
+    color: #7E7E7E;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.48px;
+
+    &:last-child {
+      text-align: end;
+    }
+  }
+}
+
+.customBets_list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #252525;
+  border-bottom: 1px solid #252525;
+  padding: 10px 0;
+
+  &_item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #252525;
+    padding: 0 30px 10px 30px;
+    display: grid;
+    grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px 100px;
+    justify-content: space-between;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .customBets_list_item_time_block {
+      display: flex;
+      align-items: center;
+
+      .customBets_list_item_time, .customBets_list_item_date {
+        font-family: var(--font-source-sans-3);
+        font-size: 14px;
+        color: #EAEAEA;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.56px;
+      }
+
+      .customBets_list_item_date {
+        margin-right: 10px;
+      }
+    }
+
+    .customBets_list_item_game_block {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-source-sans-3);
+      font-size: 14px;
+      color: #EAEAEA;
+      font-weight: 700;
+      line-height: 120%;
+      letter-spacing: 0.56px;
+
+      img {
+        margin-right: 10px;
+      }
+    }
+
+    .customBets_list_item_player_block {
+      display: flex;
+      align-items: center;
+
+      .customBets_list_item_player_ico {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+          color: #FFF;
+          font-family: var(--font-nunito-sans);
+          font-size: 14px;
+          font-weight: 700;
+        }
+      }
+
+      .customBets_list_item_player {
+        margin-left: 10px;
+        font-family: var(--font-source-sans-3);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 120%;
+        color: #EAEAEA;
+        letter-spacing: 0.56px;
+      }
+    }
+
+    .customBets_list_item_address_block {
+      display: flex;
+      align-items: center;
+
+      .customBets_list_item_address {
+        color: #7e7e7e;
+        font-family: var(--font-source-sans-3);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 120%;
+        letter-spacing: 0.56px;
+      }
+    }
+
+    .customBets_list_item_wager_block {
+      display: flex;
+      align-items: center;
+
+      img {
+        margin-right: 10px;
+      }
+
+      .customBets_list_item_wager {
+        font-family: var(--font-source-sans-3);
+        color: #EAEAEA;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 120%;
+        letter-spacing: 0.56px;
+      }
+    }
+
+    .customBets_list_item_multiplier_block {
+      display: flex;
+      align-items: center;
+
+      .customBets_list_item_multiplier {
+        font-family: var(--font-source-sans-3);
+        font-size: 14px;
+        color: #EAEAEA;
+        font-weight: 500;
+        line-height: 120%;
+        letter-spacing: 0.56px;
+      }
+    }
+
+    .customBets_list_item_profit_block {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+
+      .customBets_list_item_profit {
+        font-family: var(--font-source-sans-3);
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 120%;
+        letter-spacing: 0.56px;
+        color: #DDB775;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.custombets_loadmore_btn {
+  font-family: var(--font-source-sans-3);
+  color: #7E7E7E;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+  padding: 11px 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: #202020;
+  border: none;
+  margin-top: 25px;
+}
+
+.customBets_title_circle {
+  width: 9px;
+  height: 9px;
+  background: #29F061;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1.6s infinite reverse;
+}
+
+.customBets_titles_list_item[data-id='explorer'] {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 100% {
+    background: #29F061;
+    filter: drop-shadow(0px 0px 4px rgba(41, 240, 97, 0.50));
+  }
+  50% {
+    background: #0C5520;
+  }
+}
+
+.customBets_list_item_game {
+  color: #EAEAEA;
+}
+
+.customBets_list_item_time_link_block, .customBets_list_item_game_link_block, .customBets_list_item_player_link_block {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.customBets_list_item_transaction_block {
+  display: none;
+}
+
+@media screen and (max-width: 1280px) {
+  .customBets_list_item_date, .customBets_list_item_address_block {
+    display: none !important;
+  }
+
+  .customBets_titles_list_item[data-id='address'] {
+    visibility: hidden;
+  }
+
+  .customBets_list_item_transaction_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .customBets_titles_list {
+    grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
+    padding: 0 15px;
+  }
+
+  .customBets_list_item {
+    column-gap: 10px;
+    padding: 0 15px 10px 15px;
+    grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
+  }
+
+  .customBets_list_item_game_block {
+    overflow: hidden;
+  }
+
+  .customBets_list_item_game {
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .customBets_list_item_profit_block {
+    img {
+      display: none !important;
+    }
+
+    .customBets_list_item_profit {
+      margin-right: 0 !important;
+    }
+  }
+
+  .customBets_list_item_multiplier_block {
+    display: none !important;
+  }
+
+  .customBets_titles_list_item[data-id='multiplier'] {
+    display: none;
+  }
+
+  .customBets_titles_list {
+    grid-template-columns: 40px 70px 110px 40px 70px 40px;
+  }
+
+  .customBets_list_item {
+    grid-template-columns: 40px 70px 110px 40px 70px 40px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .customBets_list_item_wager_block {
+    display: none !important;
+  }
+
+  .customBets_titles_list_item[data-id='wager'] {
+    display: none;
+  }
+
+  .customBets_wrap {
+    border-radius: 0;
+  }
+
+  .customBets_titles_list_item {
+    font-size: 8px;
+  }
+
+  .customBets_list_item_time {
+    font-size: 8px !important;
+    color: #7E7E7E !important;
+  }
+
+  .customBets_list_item_player, .customBets_list_item_game, .customBets_list_item_profit {
+    font-size: 10px !important;
+  }
+
+  .customBets_list_item_game_ico {
+    margin-right: 5px !important;
+  }
+
+  .customBets_list_item_player_ico, .customBets_list_item_game_ico {
+    width: 20px !important;
+    height: 20px !important;
+
+    span {
+      font-size: 12px !important;
+    }
+  }
+
+  .customBets_titles_list_item[data-id='profit'] {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .customBets_titles_list {
+    padding: 0 10px;
+    grid-template-columns: 25px 50px 85px 30px 35px;
+    column-gap: 5px;
+  }
+
+  .customBets_list_item {
+    padding: 0 10px 10px 10px;
+    grid-template-columns: 25px 50px 85px 30px 35px;
+    column-gap: 5px;
+  }
+
+  .customBets_list_item_transaction_block {
+    grid-column: 5;
+    grid-row: 1;
+    justify-content: end;
+  }
+
+  .customBets_titles_list_item[data-id='profit'] {
+    justify-content: end;
+    display: flex;
+  }
+
+  .customBets_titles_list_item[data-id='explorer'] {
+    display: block;
+  }
+
+  .customBets_titles_list_item[data-id='address'] {
+    display: none;
+  }
+
+  .customBets_list_item_profit_block {
+    img {
+      display: block !important;
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .customBets_titles_list {
+    grid-template-columns: 25px 50px 1fr 30px 35px;
+  }
+
+  .customBets_list_item {
+    grid-template-columns: 25px 50px 1fr 30px 35px;
+  }
+}
+
+@media screen and (max-width: 311px) {
+  .customBets_list_item_player_ico {
+    display: none !important;
+  }
+
+  .customBets_list_item_player {
+    margin-left: 0 !important;
+  }
+}
