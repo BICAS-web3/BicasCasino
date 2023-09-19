@@ -249,13 +249,6 @@ export default function Home() {
 
 
                 </GamePage>
-                {/*<div className={`${s.main_container}`}>*/}
-                    {/*<BannerInfo />*/}
-                    {/*<Games />*/}
-                    {/*<Total />*/}
-                    {/*<LiveBets />*/}
-                    {/*<LeaderBoard />*/}
-                {/*</div>*/}
 
             </Layout>
 
