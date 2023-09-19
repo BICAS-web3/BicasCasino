@@ -8,7 +8,7 @@ interface NetworkErrorProps {
 
 }
 
-export const NetworkError: FC<NetworkErrorProps> = () => {
+export const NetworkError: FC<NetworkErrorProps> = props => {
     return (
         <div className={s.network_error_body}>
             <Image src={errorInfoIco} className={s.network_error_img} alt="error_img"/>
