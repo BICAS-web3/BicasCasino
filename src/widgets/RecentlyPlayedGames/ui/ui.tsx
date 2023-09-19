@@ -17,7 +17,7 @@ export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = ({Re
       {RecentlyGames.map((game: IRecentlyGames) => (
         <div key={game.id} className={styles.game_item}>
           <Image src={game.imgBackground} alt={game.title} className={styles.game_image}
-                 objectFit={'cover'} height={231} />
+                 height={231}/>
           <div className={styles.content}>
             <h2 className={styles.game_title}>{game.title}</h2>
             <p className={styles.game_text}>{game.text}</p>
