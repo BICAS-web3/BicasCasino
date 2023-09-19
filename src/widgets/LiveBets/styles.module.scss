@@ -413,3 +413,13 @@
         grid-template-columns: 25px 50px 1fr 30px 35px;
     }
 }
+
+@media screen and (max-width: 311px) {
+    .liveBets_list_item_player_ico {
+        display: none !important;
+    }
+
+    .liveBets_list_item_player {
+        margin-left: 0 !important;
+    }
+}

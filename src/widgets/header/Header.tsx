@@ -20,6 +20,7 @@ import BellIcon from '@/public/media/misc/bellIcon.svg';
 import { SideBarModel } from '@/widgets/SideBar';
 import { LayoutModel } from '../Layout';
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
+import {NetworkSelect} from "@/widgets/NetworkSelect/NetworkSelect";
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -486,8 +487,8 @@ export const Header: FC<HeaderProps> = props => {
             <div className={s.header}>
                 <LeftMenu />
                 <Links />
+                <NetworkSelect />
                 <RightMenu />
-
             </div>
             <BottomMenu />
         </>
