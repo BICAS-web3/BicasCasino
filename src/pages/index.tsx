@@ -27,6 +27,7 @@ import { Total } from '@/widgets/Total';
 
 import {GameLayout} from "@/widgets/GameLayout/layout";
 import {GamePage} from "@/widgets/GamePage/GamePage";
+import {CustomBets} from "@/widgets/CustomBets/CustomBets";
 
 
 const LinkIcon: FC<{}> = p => {
@@ -234,22 +235,43 @@ export default function Home() {
 
             <Layout>
 
-                {/*<div className={s.background_container}>*/}
-                {/*    <Image*/}
-                {/*        src={MainPageBackground}*/}
-                {/*        alt={''}*/}
-                {/*        className={s.background}*/}
-                {/*    />*/}
-                {/*    <div className={s.background_gradient}>*/}
+                <div className={s.background_container}>
+                    <Image
+                        src={MainPageBackground}
+                        alt={''}
+                        className={s.background}
+                    />
+                    <div className={s.background_gradient}>
 
-                {/*    </div>*/}
+                    </div>
 
-                {/*</div>*/}
-                <GamePage gameTitle='dice'>
+                </div>
 
-
-                </GamePage>
-
+                <div className={`${s.main_container}`}>
+                    <BannerInfo />
+                    <Games />
+                    <Total />
+                    <CustomBets title='Live bets' isMainPage={true} isGamePage={false} bets={
+                        [
+                            {
+                                time:{ date: '25.08.23', time: '17:05' },
+                                game_name: 'Dice',
+                                player: 'UserName',
+                                wager: 11,
+                                multiplier: 3,
+                                profit: 5.34,
+                                userBg: '#3DBCE5',
+                                player_url: 'test',
+                                trx_url: 'test',
+                                game_url: 'test',
+                                network_icon: 'test',
+                                numBets: 1,
+                                gameAddress: '0x563...4ba9'
+                            }
+                        ]
+                    } />
+                    <LeaderBoard />
+                </div>
             </Layout>
 
 
