@@ -20,7 +20,7 @@ import BellIcon from '@/public/media/misc/bellIcon.svg';
 import { SideBarModel } from '@/widgets/SideBar';
 import { LayoutModel } from '../Layout';
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
-import {NetworkSelect} from "@/widgets/NetworkSelect/NetworkSelect";
+import { NetworkSelect } from "@/widgets/NetworkSelect/NetworkSelect";
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -118,93 +118,93 @@ const RightMenu: FC<RightMenuProps> = props => {
     </div>)
 }
 
-export interface NetworkPickerProps { };
-export const NetworkPicker: FC<NetworkPickerProps> = props => {
-    const [currentWalletAddress,
-        currentNetwork,
-        pickNetwork,
-        availableNetworks,
-        availbaleRpcs,
-        web3Provider
-    ] = useUnit([
-        sessionModel.$currentWalletAddress,
-        sessionModel.$currentNetwork,
-        sessionModel.pickNetwork,
-        settingsModel.$AvailableNetworks,
-        settingsModel.$AvailableRpcs,
-        web3.web3Provider
-    ]);
+// export interface NetworkPickerProps { };
+// export const NetworkPicker: FC<NetworkPickerProps> = props => {
+//     const [currentWalletAddress,
+//         currentNetwork,
+//         pickNetwork,
+//         availableNetworks,
+//         availbaleRpcs,
+//         web3Provider
+//     ] = useUnit([
+//         sessionModel.$currentWalletAddress,
+//         sessionModel.$currentNetwork,
+//         sessionModel.pickNetwork,
+//         settingsModel.$AvailableNetworks,
+//         settingsModel.$AvailableRpcs,
+//         web3.web3Provider
+//     ]);
 
-    const ethereum = web3Provider?.provider;
+//     const ethereum = web3Provider?.provider;
 
-    let chains: ReactElement[] = [];
-    for (let availableNetwork of availableNetworks.networks) {
-        if (currentNetwork != null && availableNetwork.network_id == currentNetwork.network_id) {
-            continue;
-        }
-        chains.push(<div className={s.network} onClick={async () => {
-            const rpcs = await (await Api.getRpcsFx({ network_id: availableNetwork.network_id })).body as Api.T_Rpcs;
-            const networkParams = {
-                chainId: `0x${availableNetwork.network_id.toString(16)}`,
-                chainName: availableNetwork.network_name,
-                nativeCurrency: {
-                    name: availableNetwork.currency_name,
-                    symbol: availableNetwork.currency_symbol,
-                    decimals: availableNetwork.decimals
-                },
-                rpcUrls: rpcs.rpcs.map((rpc) => rpc.url),
-                blockExplorerUrls: null
-            };
-            // await ethereum?.getNetwork()({
-            //     method: 'wallet_addEthereumChain',
-            //     params: [networkParams]
-            // }).then(() => {
-            //     pickNetwork(availableNetwork);
-            // });
-            if (ethereum != null && ethereum.request != null) {
-                ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [networkParams]
-                }).then(() => {
-                    pickNetwork(availableNetwork);
-                });
-            }
-        }
-        }>
-            <Image
-                src={`/static/media/networks/${availableNetwork.network_id}.svg`}
-                alt=""
-                width={28}
-                height={28}
-            />
-            {availableNetwork.network_name}
-        </div >);
-    }
+//     let chains: ReactElement[] = [];
+//     for (let availableNetwork of availableNetworks.networks) {
+//         if (currentNetwork != null && availableNetwork.network_id == currentNetwork.network_id) {
+//             continue;
+//         }
+//         chains.push(<div className={s.network} onClick={async () => {
+//             const rpcs = await (await Api.getRpcsFx({ network_id: availableNetwork.network_id })).body as Api.T_Rpcs;
+//             const networkParams = {
+//                 chainId: `0x${availableNetwork.network_id.toString(16)}`,
+//                 chainName: availableNetwork.network_name,
+//                 nativeCurrency: {
+//                     name: availableNetwork.currency_name,
+//                     symbol: availableNetwork.currency_symbol,
+//                     decimals: availableNetwork.decimals
+//                 },
+//                 rpcUrls: rpcs.rpcs.map((rpc) => rpc.url),
+//                 blockExplorerUrls: null
+//             };
+//             // await ethereum?.getNetwork()({
+//             //     method: 'wallet_addEthereumChain',
+//             //     params: [networkParams]
+//             // }).then(() => {
+//             //     pickNetwork(availableNetwork);
+//             // });
+//             if (ethereum != null && ethereum.request != null) {
+//                 ethereum.request({
+//                     method: 'wallet_addEthereumChain',
+//                     params: [networkParams]
+//                 }).then(() => {
+//                     pickNetwork(availableNetwork);
+//                 });
+//             }
+//         }
+//         }>
+//             <Image
+//                 src={`/static/media/networks/${availableNetwork.network_id}.svg`}
+//                 alt=""
+//                 width={28}
+//                 height={28}
+//             />
+//             {availableNetwork.network_name}
+//         </div >);
+//     }
 
-    return (<div className={s.network_picker_container} style={currentWalletAddress ? {} : { display: 'none' }}>
-        <div className={`${s.network_picker} ${currentNetwork == null ? s.network_picker_unknown : ''}`}>
-            {currentWalletAddress == null ? <></> : currentNetwork == null ?
-                'Unknown Network' :
-                <>
-                    <Image
-                        src={`/static/media/networks/${currentNetwork.network_id}.svg`}
-                        alt=""
-                        width={28}
-                        height={28}
-                    />
-                    {currentNetwork.network_name}
-                    <div className={s.network_picker_arrow}>
-                        {'>'}
-                    </div>
+//     return (<div className={s.network_picker_container} style={currentWalletAddress ? {} : { display: 'none' }}>
+//         <div className={`${s.network_picker} ${currentNetwork == null ? s.network_picker_unknown : ''}`}>
+//             {currentWalletAddress == null ? <></> : currentNetwork == null ?
+//                 'Unknown Network' :
+//                 <>
+//                     <Image
+//                         src={`/static/media/networks/${currentNetwork.network_id}.svg`}
+//                         alt=""
+//                         width={28}
+//                         height={28}
+//                     />
+//                     {currentNetwork.network_name}
+//                     <div className={s.network_picker_arrow}>
+//                         {'>'}
+//                     </div>
 
-                </>}
+//                 </>}
 
-        </div>
-        <div className={s.networks_list}>
-            {chains}
-        </div>
-    </div>);
-}
+//         </div>
+//         <div className={s.networks_list}>
+//             {chains}
+//         </div>
+//     </div>);
+// }
 
 interface BottomMenuProps { }
 const BottomMenu: FC<BottomMenuProps> = props => {
@@ -233,198 +233,198 @@ const BottomMenu: FC<BottomMenuProps> = props => {
 export interface HeaderProps { }
 export const Header: FC<HeaderProps> = props => {
 
-    // session model
-    const [currentWalletAddress, currentNickName, logIn, logOut, currentToken, pickToken] = useUnit([
-        sessionModel.$currentWalletAddress,
-        sessionModel.$currentNickname,
-        sessionModel.logIn,
-        sessionModel.logOut,
-        sessionModel.$currentToken,
-        sessionModel.pickToken
-    ]);
+    // // session model
+    // const [currentWalletAddress, currentNickName, logIn, logOut, currentToken, pickToken] = useUnit([
+    //     sessionModel.$currentWalletAddress,
+    //     sessionModel.$currentNickname,
+    //     sessionModel.logIn,
+    //     sessionModel.logOut,
+    //     sessionModel.$currentToken,
+    //     sessionModel.pickToken
+    // ]);
 
-    // global settings model
-    const [queryAvailableNetworks] = useUnit([
-        settingsModel.queryAvailableNetworks
-    ]);
+    // // global settings model
+    // const [queryAvailableNetworks] = useUnit([
+    //     settingsModel.queryAvailableNetworks
+    // ]);
 
-    const [
-        currentNetwork,
-        pickNetwork,
-        availableNetworks,
-        availbaleRpcs,
-        setAvailableNetworks,
-        setAvailableTokens,
-        AvailableBlocksExplorers,
-        setAvailableExplorers,
-        // availableAmount,
-        // setAvailableAmount,
-        currentTokenDecimals,
-        setDecimals,
-        web3Provider,
-        web3ProviderInit
-    ] = useUnit([
-        sessionModel.$currentNetwork,
-        sessionModel.pickNetwork,
-        settingsModel.$AvailableNetworks,
-        settingsModel.$AvailableRpcs,
-        settingsModel.setAvailableNetworks,
-        settingsModel.setAvailableTokens,
-        settingsModel.$AvailableBlocksExplorers,
-        settingsModel.setAvailableExplorers,
-        // sessionModel.$availableAmount,
-        // sessionModel.setAvailableAmount,
-        sessionModel.$currentTokenDecimals,
-        sessionModel.setDecimals,
-        web3.web3Provider,
-        web3.web3ProviderInitEv
-    ]);
-
-
-    useEffect(() => {
-        const initializeProvider = async () => {
-            if (window.ethereum) {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-                web3ProviderInit(provider);
-                console.log("setted provider");
-            }
-        };
-
-        initializeProvider();
-        // window.ethereum.removeListener('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
-        // window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
-    }, []);
-
-    const [setupRan, setSetupRan] = useState(false);
-
-    var available_networks: any;
-
-    useEffect(() => {
-        queryAllExplorers();
-    }, [])
-
-    // setup
-    useEffect(() => {
-        if (setupRan) {
-            return;
-        }
-
-        console.log("Header Effect");
-
-        const run = async () => {
-            console.log('Getting account');
-            await checkMetamaskConnection();
-
-            //await checkCurrentNetwork();
-
-            available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
-            setAvailableNetworks(available_networks);
-
-            await checkCurrentNetwork(available_networks);
+    // const [
+    //     currentNetwork,
+    //     pickNetwork,
+    //     availableNetworks,
+    //     availbaleRpcs,
+    //     setAvailableNetworks,
+    //     setAvailableTokens,
+    //     AvailableBlocksExplorers,
+    //     setAvailableExplorers,
+    //     // availableAmount,
+    //     // setAvailableAmount,
+    //     currentTokenDecimals,
+    //     setDecimals,
+    //     web3Provider,
+    //     web3ProviderInit
+    // ] = useUnit([
+    //     sessionModel.$currentNetwork,
+    //     sessionModel.pickNetwork,
+    //     settingsModel.$AvailableNetworks,
+    //     settingsModel.$AvailableRpcs,
+    //     settingsModel.setAvailableNetworks,
+    //     settingsModel.setAvailableTokens,
+    //     settingsModel.$AvailableBlocksExplorers,
+    //     settingsModel.setAvailableExplorers,
+    //     // sessionModel.$availableAmount,
+    //     // sessionModel.setAvailableAmount,
+    //     sessionModel.$currentTokenDecimals,
+    //     sessionModel.setDecimals,
+    //     web3.web3Provider,
+    //     web3.web3ProviderInitEv
+    // ]);
 
 
-            //queryAvailableNetworks();
-            console.log(currentWalletAddress);
-        }
+    // useEffect(() => {
+    //     const initializeProvider = async () => {
+    //         if (window.ethereum) {
+    //             await window.ethereum.request({ method: 'eth_requestAccounts' });
+    //             const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+    //             web3ProviderInit(provider);
+    //             console.log("setted provider");
+    //         }
+    //     };
 
-        if (web3Provider != null) {
-            run();
-            setSetupRan(true);
-            //window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, available_networks));
-            window.ethereum.on('chainChanged', (network_id: any) => window.location.reload());
-            window.ethereum?.on('accountsChanged', accountChangeHandler);
-        }
-    }, [web3Provider]);
+    //     initializeProvider();
+    //     // window.ethereum.removeListener('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
+    //     // window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, availableNetworks));
+    // }, []);
+
+    // const [setupRan, setSetupRan] = useState(false);
+
+    // var available_networks: any;
+
+    // useEffect(() => {
+    //     queryAllExplorers();
+    // }, [])
+
+    // // setup
+    // useEffect(() => {
+    //     if (setupRan) {
+    //         return;
+    //     }
+
+    //     console.log("Header Effect");
+
+    //     const run = async () => {
+    //         console.log('Getting account');
+    //         await checkMetamaskConnection();
+
+    //         //await checkCurrentNetwork();
+
+    //         available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+    //         setAvailableNetworks(available_networks);
+
+    //         await checkCurrentNetwork(available_networks);
 
 
-    const queryAllExplorers = async () => {
-        const explorers = (await Api.getAllExplorers()).body as Api.T_BlockExplorers;
+    //         //queryAvailableNetworks();
+    //         console.log(currentWalletAddress);
+    //     }
 
-        console.log("Explorers");
-        console.log(explorers);
+    //     if (web3Provider != null) {
+    //         run();
+    //         setSetupRan(true);
+    //         //window.ethereum.on('chainChanged', (network_id: any) => networkChangeHandler(network_id, available_networks));
+    //         window.ethereum.on('chainChanged', (network_id: any) => window.location.reload());
+    //         window.ethereum?.on('accountsChanged', accountChangeHandler);
+    //     }
+    // }, [web3Provider]);
 
-        setAvailableExplorers(explorers);
-    };
 
-    const accountChangeHandler = (accounts: any) => {
-        console.log(accounts);
-        if (accounts.length) {
-            console.log("logging in");
-            logIn({ address: accounts[0] });
-            console.log(`Logged in ${currentWalletAddress}`);
-        } else {
-            logOut();
-        }
-    }
+    // const queryAllExplorers = async () => {
+    //     const explorers = (await Api.getAllExplorers()).body as Api.T_BlockExplorers;
 
-    const checkMetamaskConnection = async () => {
-        // await window.ethereum?.request({ method: 'eth_requestAccounts' }).catch((err: any) => {
-        //     console.error(err);
-        // });
-        if (web3Provider?.provider
-            .request == null) {
-            return;
-        }
-        await web3Provider?.provider
-            .request({ method: 'eth_requestAccounts' }).catch((err) => {
-                console.error(err);
-            });
-        const accounts = await web3Provider?.provider.request({ method: 'eth_accounts' });
-        if (accounts != null) {
-            accountChangeHandler(accounts);
-        }
-        return accounts;
-    };
+    //     console.log("Explorers");
+    //     console.log(explorers);
 
-    const networkChangeHandler = async (network_id: any, available_networks: Api.T_Networks | undefined) => {
-        const network_id_number = parseInt(network_id, 16);
-        // if (availableNetworks.networks.length == 0) {
-        //     return;
-        // }
-        if (currentNetwork != null && network_id_number == currentNetwork.network_id) {
-            console.log("same network id");
-            return;
-        }
-        console.log("Network Changed", network_id, network_id_number, currentNetwork?.network_id, available_networks);
+    //     setAvailableExplorers(explorers);
+    // };
 
-        const network = available_networks != undefined ?
-            (available_networks as unknown as Api.T_Networks).networks.find((network) => network.network_id == network_id_number)
-            : availableNetworks.networks.find((network) => network.network_id == network_id_number);
+    // const accountChangeHandler = (accounts: any) => {
+    //     console.log(accounts);
+    //     if (accounts.length) {
+    //         console.log("logging in");
+    //         logIn({ address: accounts[0] });
+    //         console.log(`Logged in ${currentWalletAddress}`);
+    //     } else {
+    //         logOut();
+    //     }
+    // }
 
-        console.log(network);
+    // const checkMetamaskConnection = async () => {
+    //     // await window.ethereum?.request({ method: 'eth_requestAccounts' }).catch((err: any) => {
+    //     //     console.error(err);
+    //     // });
+    //     if (web3Provider?.provider
+    //         .request == null) {
+    //         return;
+    //     }
+    //     await web3Provider?.provider
+    //         .request({ method: 'eth_requestAccounts' }).catch((err) => {
+    //             console.error(err);
+    //         });
+    //     const accounts = await web3Provider?.provider.request({ method: 'eth_accounts' });
+    //     if (accounts != null) {
+    //         accountChangeHandler(accounts);
+    //     }
+    //     return accounts;
+    // };
 
-        if (network != undefined) {
-            pickNetwork(network);
-            var available_tokens = (await Api.getTokens({ network_id: network.network_id })).body as Api.T_Tokens;
-            console.log(`Tokens Network: ${JSON.stringify(available_tokens)}`);
-            setAvailableTokens(available_tokens);
-            pickToken(available_tokens.tokens[0]);
-        } else {
-            if (currentNetwork == null) {
-                return;
-            }
-            pickNetwork(null);
-            setAvailableTokens({ tokens: [] });
-            pickToken(null);
-        }
-    }
+    // const networkChangeHandler = async (network_id: any, available_networks: Api.T_Networks | undefined) => {
+    //     const network_id_number = parseInt(network_id, 16);
+    //     // if (availableNetworks.networks.length == 0) {
+    //     //     return;
+    //     // }
+    //     if (currentNetwork != null && network_id_number == currentNetwork.network_id) {
+    //         console.log("same network id");
+    //         return;
+    //     }
+    //     console.log("Network Changed", network_id, network_id_number, currentNetwork?.network_id, available_networks);
 
-    const checkCurrentNetwork = async (available_networks: any) => {
-        console.log(`Wallet: ${currentWalletAddress}`);
-        // var available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
-        // setAvailableNetworks(available_networks);
-        //console.log('Networks');
-        //console.log(available_networks);
-        if (web3Provider?.provider
-            .request == null) {
-            return;
-        }
-        await web3Provider?.provider.request({ method: 'eth_chainId' }).then((network_id) => networkChangeHandler(network_id, available_networks)).catch((err) => {
-            console.error(err);
-        });
+    //     const network = available_networks != undefined ?
+    //         (available_networks as unknown as Api.T_Networks).networks.find((network) => network.network_id == network_id_number)
+    //         : availableNetworks.networks.find((network) => network.network_id == network_id_number);
 
-    }
+    //     console.log(network);
+
+    //     if (network != undefined) {
+    //         pickNetwork(network);
+    //         var available_tokens = (await Api.getTokens({ network_id: network.network_id })).body as Api.T_Tokens;
+    //         console.log(`Tokens Network: ${JSON.stringify(available_tokens)}`);
+    //         setAvailableTokens(available_tokens);
+    //         pickToken(available_tokens.tokens[0]);
+    //     } else {
+    //         if (currentNetwork == null) {
+    //             return;
+    //         }
+    //         pickNetwork(null);
+    //         setAvailableTokens({ tokens: [] });
+    //         pickToken(null);
+    //     }
+    // }
+
+    // const checkCurrentNetwork = async (available_networks: any) => {
+    //     console.log(`Wallet: ${currentWalletAddress}`);
+    //     // var available_networks = (await Api.getNetworksFx()).body as Api.T_Networks;
+    //     // setAvailableNetworks(available_networks);
+    //     //console.log('Networks');
+    //     //console.log(available_networks);
+    //     if (web3Provider?.provider
+    //         .request == null) {
+    //         return;
+    //     }
+    //     await web3Provider?.provider.request({ method: 'eth_chainId' }).then((network_id) => networkChangeHandler(network_id, available_networks)).catch((err) => {
+    //         console.error(err);
+    //     });
+
+    // }
     // web3Provider?.on('chainChanged', (network_id) => networkChangeHandler(network_id, undefined));
 
     // const checkERC20Amount = async (token_address: string) => {

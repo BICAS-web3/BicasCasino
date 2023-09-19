@@ -20,13 +20,19 @@ export type T_NetworkInfo = {
     decimals: number;
 };
 
+export type T_NetworkFullInfo = {
+    basic_info: T_NetworkInfo,
+    explorers: T_BlockExplorerUrl[],
+    rpcs: T_RpcUrl[]
+};
+
+export type T_Networks = {
+    networks: Array<T_NetworkFullInfo>
+};
+
 export type T_Localization = {
 
 }
-
-export type T_Networks = {
-    networks: Array<T_NetworkInfo>
-};
 
 export type T_RpcUrl = {
     id: number;
