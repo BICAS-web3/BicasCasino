@@ -5,6 +5,8 @@ import downIco from '../../public/media/networkSelect_icons/dropDownIco.svg'
 import {useState} from "react";
 import Image from 'next/image';
 import {NetworkSelectItem} from "@/widgets/NetworkSelect/NetworkSelectItem";
+import {NetworkErrorText} from "@/widgets/NetworkSelect/NetworkErrorText";
+import {NetworkError} from "@/widgets/NetworkSelect/NetworkError";
 
 export const networksList = [
     {
