@@ -1,0 +1,154 @@
+.line  {
+    width: 100%;
+    background: #252525;
+    height: 1px;
+    grid-row: 2;
+}
+
+.account_container {
+    width: 320px;
+    height: 398.53px;
+    border-radius: 20px;
+    background: var(--Gray-2, #181818);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 320px;
+    grid-template-rows: 49px auto 50px 1fr auto;
+    gap: 15px;
+    justify-items: center;
+    align-content: center;
+    
+}
+
+.account {
+    padding-top: 25px;
+    display: grid;
+    // gap: 40px;
+    grid-column: 1;
+    grid-row: 1;
+    grid-template-columns: 121px 79px 78px 22px 25px;    
+}
+
+.main_text {
+    color: var(--White-1, #EAEAEA);
+    text-align: center;
+    font-family: var(--font-nunito-sans);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    /* 24px */
+    letter-spacing: 0.8px;
+    grid-column: 2;
+}
+
+.btn_close {    
+    grid-column: 4;
+    // grid-column: 4 / 5;
+    width: 22px;
+    height: 22px; 
+    cursor: pointer; 
+    background: #181818;
+    border: none;
+}
+.close_icon{}
+
+.text_icon{
+    color: var(--White-1, #EAEAEA);
+    font-family: Source Sans 3;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    /* 15.6px */
+    letter-spacing: 0.26px;
+    text-transform: uppercase;
+}
+.wallet{
+    padding-left: 30px; 
+    display: flex; 
+
+}
+.wallet_text{
+    color: var(--White-1, #EAEAEA);
+    font-family: Source Sans 3;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    /* 15.6px */
+}
+.profile{
+    margin-top: 10px;
+    
+    display: flex;
+    gap: 20px;
+}
+
+.avatar_icon{}
+.profile_info{}
+.profile_nickname{
+    color: var(--White-1, #EAEAEA);
+    font-family: var(--font-nunito-sans);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+    /* 30.8px */
+    letter-spacing: 0.88px;
+}
+.profile_address{
+    display: flex;
+    
+    color: #7E7E7E;
+    font-family: Source Sans 3;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+.accountElement{
+        padding-left: 30px;
+        display: flex;
+}
+.account_item{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+.wallet, .accountElement {
+    width: 240px;
+    height: 40px;
+    gap: 10px;
+    border-radius: 12px;
+    border: 1px solid #202020;
+    background: #0F0F0F;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+
+
+@media(650px <=width <=1280px) {
+
+}
+
+@media (max-width: 650px) and (pointer: coarse) {
+    .account_container {
+            
+        height: 473.254px;
+    
+    }
+
+    .wallet,
+    .accountElement {
+        border-radius: 5px;
+        border: 1px solid #202020;
+        background: #0F0F0F;
+    }
+}
