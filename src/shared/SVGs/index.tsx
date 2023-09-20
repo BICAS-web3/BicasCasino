@@ -5,6 +5,7 @@ export * from './PokerButton';
 export * from './GamesIcon';
 export * from './ArrowIcon';
 export * from './SupportIcon';
+export * from './InfoIcon';
 export * from './EdithIcon'
 export * from './CopyIcon'
 export * from './ArrowIconRight'
