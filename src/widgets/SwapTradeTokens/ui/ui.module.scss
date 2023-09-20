@@ -1,10 +1,25 @@
 .trade {
-  width: 1204px;
-  height: 116px;
   border-radius: 20px;
   border: 1px;
   background: #181818;
   padding: 28px 50px 40px 50px;
+
+  @media(320px <=width <= 700px) {
+    display: flex;
+    border-radius: 12px;
+    flex-direction: column;
+    width: 288px;
+    height: 235px;
+    padding: 16px 16px 32px 16px;
+  }
+  @media(700px <=width <= 1280px) {
+    width: 790px;
+    height: 116px;
+  }
+  @media(1280px <=width <= 3840px) {
+    width: 1204px;
+    height: 116px;
+  }
 
   .trade_title {
     display: flex;
@@ -12,7 +27,9 @@
     align-items: baseline;
     gap: 30px;
     margin: 0 0 19px 0;
-
+    @media(320px <=width <= 700px) {
+      margin: 0 0 14px 0;
+    }
     .title {
       font-family: var(--font-source-sans-3);
       font-size: 30px;
@@ -21,6 +38,9 @@
       letter-spacing: 0.04em;
       text-align: left;
       color: #EAEAEA;
+      @media(320px <=width <= 700px) {
+        font-size: 16px;
+      }
     }
 
     .description {
@@ -31,6 +51,9 @@
       letter-spacing: 0.04em;
       text-align: left;
       color: #7E7E7E;
+      @media(320px <=width <= 700px) {
+        font-size: 10px;
+      }
     }
   }
 
@@ -38,6 +61,10 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    @media(320px <=width <= 700px) {
+      flex-direction: column;
+      gap: 8px;
+    }
 
     .arrow_right {
 
@@ -49,6 +76,9 @@
 
     .total_exchange {
       display: flex;
+      @media(320px <=width <= 700px) {
+        margin-bottom: 8px;
+      }
     }
   }
 }
