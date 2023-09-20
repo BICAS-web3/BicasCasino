@@ -1,30 +1,30 @@
-import {ProfileCard} from "@/widgets/ProfileCard";
-import {RecentlyPlayedGames} from "@/widgets/RecentlyPlayedGames";
+import { ProfileCard } from "@/widgets/ProfileCard";
+import { RecentlyPlayedGames } from "@/widgets/RecentlyPlayedGames";
 import coinflipImg from "@/public/media/recently_games/conflip.png";
 import dunkinImg from "@/public/media/recently_games/dunkin.png";
 import Head from "next/head";
-import {Layout} from "@/widgets/Layout";
-import s from "@/pages/styles.module.scss";
+import { Layout } from "@/widgets/Layout";
 import React from "react";
-import styles from './index.module.scss'
-import {BetsHistory} from "@/widgets/BetsHistory";
-import {ProfileBettingStatistics} from "@/widgets/ProfileBettingStatistics";
-import {SwapTradeTokens} from "@/widgets/SwapTradeTokens/ui/ui";
+import styles from "./index.module.scss";
+import { ProfileBettingStatistics } from "@/widgets/ProfileBettingStatistics";
+import { SwapTradeTokens } from "@/widgets/SwapTradeTokens/ui/ui";
+import { CustomBets } from "@/widgets/CustomBets/CustomBets";
+import { BetsHistoryReDesign } from "@/widgets/BetsHistoryReDesign";
 
 const RecentlyGames = [
   {
     id: 1,
-    title: 'Coinflip',
-    text: 'A game where you have to beat your opponent with a chip',
-    imgBackground: coinflipImg
+    title: "Coinflip",
+    text: "A game where you have to beat your opponent with a chip",
+    imgBackground: coinflipImg,
   },
   {
     id: 2,
-    title: 'Dunkin caps',
-    text: 'A game where you have to beat your opponent with a chip',
-    imgBackground: dunkinImg
-  }
-]
+    title: "Dunkin caps",
+    text: "A game where you have to beat your opponent with a chip",
+    imgBackground: dunkinImg,
+  },
+];
 
 export default function Profile() {
   return (
@@ -34,24 +34,51 @@ export default function Profile() {
       </Head>
 
       <Layout>
-        <div className={styles.container}>
+        <section className={styles.container}>
           <div className={styles.grid_container}>
             <div className={styles.card_container}>
-              <ProfileCard/>
+              <ProfileCard />
             </div>
             <div className={styles.profile_container}>
-              <ProfileBettingStatistics/>
+              <ProfileBettingStatistics />
             </div>
             <div className={styles.recently_container}>
-              <RecentlyPlayedGames RecentlyGames={RecentlyGames}/>
+              <RecentlyPlayedGames RecentlyGames={RecentlyGames} />
             </div>
           </div>
-          <SwapTradeTokens/>
-        </div>
+          <div className={styles.swap}>
+            <SwapTradeTokens />
+          </div>
+          <div className={styles.bets_history}>
+            <BetsHistoryReDesign />
 
-        <div style={{margin: '2px'}}></div>
+            {/*<CustomBets*/}
+            {/*  title="Live bets"*/}
+            {/*  isGamePage={true}*/}
+            {/*  isMainPage={false}*/}
+            {/*  bets={[*/}
+            {/*    {*/}
+            {/*      time: { date: "25.08.23", time: "17:05" },*/}
+            {/*      game_name: "Dice",*/}
+            {/*      player: "UserName",*/}
+            {/*      wager: 11,*/}
+            {/*      multiplier: 3,*/}
+            {/*      profit: 5.34,*/}
+            {/*      userBg: "#3DBCE5",*/}
+            {/*      player_url: "test",*/}
+            {/*      trx_url: "test",*/}
+            {/*      game_url: "test",*/}
+            {/*      network_icon: "test",*/}
+            {/*      numBets: 1,*/}
+            {/*      gameAddress: "0x563...4ba9",*/}
+            {/*    },*/}
+            {/*  ]}*/}
+            {/*/>*/}
+          </div>
+        </section>
 
+        <div style={{ margin: "2px" }}></div>
       </Layout>
     </>
-  )
+  );
 }

@@ -1,5 +1,12 @@
 .container {
   padding: 115px 50px 132px 50px;
+  .swap {
+    margin-bottom: 20px;
+  }
+
+  .bets_history {
+    margin-bottom: 20px;
+  }
 }
 
 .grid_container {
@@ -21,4 +28,6 @@
     grid-column: 2 / 3;
     grid-row: 1 / 4;
   }
+
+
 }
