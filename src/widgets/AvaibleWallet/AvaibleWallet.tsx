@@ -23,19 +23,16 @@ const Wallet: FC<WalletProps>  = props => {
 }
 
 
-
-
-export interface AvaibleWalletProps{}
+export interface AvaibleWalletProps{hideAvaibleWallet: () => void;}
 export const AvaibleWallet: FC<AvaibleWalletProps>  = props => {
-   
 
-    return(<div className={s.avaibleWallet_container}>
+    return(<div className={s.avaibleWallet_container} >
 
     <div className={s.avaibleWallet}>
         <div className={s.main_text}>
             Available Wallet
         </div>
-        <button className={s.btn_close}>
+        <button className={s.btn_close} onClick={props.hideAvaibleWallet} >
             <Image
                 src={Close}
                 alt={''}

@@ -9,7 +9,7 @@ import FacebookEmblem from '@/public/media/social_media/facebook.svg';
 import TwitterEmblem from '@/public/media/social_media/twitter.svg';
 import * as Api from '@/shared/api';
 import { web3 } from '@/entities/web3/index';
-import { BigNumber, ethers } from 'ethers';
+import {BigNumber, ethers} from 'ethers';
 import Web3 from 'web3';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 import HeaderLogo from '@/public/media/brand_images/HeaderLogo.svg';
@@ -21,6 +21,10 @@ import { SideBarModel } from '@/widgets/SideBar';
 import { LayoutModel } from '../Layout';
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
 import {NetworkSelect} from "@/widgets/NetworkSelect/NetworkSelect";
+import {AvaibleWallet} from "@/widgets/AvaibleWallet";
+import * as SidebarM from '@/widgets/SideBar/model'
+import * as MainWallet from '../../pages/model'
+import {Open} from "@/widgets/header/model";
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -86,9 +90,47 @@ const Links: FC<LinksProps> = props => {
 
 interface ConnectWalletButtonProps { };
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
-    return (<div className={s.connect_wallet_button}>
-        Connect Wallet
-    </div>)
+    const [
+        isOpen,
+        isMainWalletOpen
+    ] = useUnit([
+        SideBarModel.$isOpen,
+        MainWallet.$isMainWalletOpen
+    ]);
+
+    const [walletVisibility, setWalletVisibility] = useState(false)
+
+    const handleConnectWalletBtn = () => {
+        if(isMainWalletOpen) {
+            return null
+        }
+
+        if(!walletVisibility) {
+            setWalletVisibility(true)
+        } else {
+            setWalletVisibility(false)
+        }
+    }
+
+    useEffect(() => {
+        walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
+            (document.documentElement.style.overflow = 'visible')
+    }, [walletVisibility])
+
+    const hideAvaibleWallet = () => {
+        setWalletVisibility(false)
+    }
+
+    return (
+        <div className={s.connect_wallet_button_wrap}>
+            <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn} >
+                Connect Wallet
+            </div>
+            <div className={`${s.header_avaibleWallet_wrap} ${!isOpen && s.sidebarClosed} ${walletVisibility && s.avaibleWallet_visible}`}>
+                <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
+            </div>
+        </div>
+    )
 }
 
 interface RightMenuProps { };
