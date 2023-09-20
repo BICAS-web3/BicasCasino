@@ -5,6 +5,7 @@ import { SideBar } from '@/widgets/SideBar';
 import { Header } from '../header';
 import { LayoutModel } from '.';
 import { useUnit } from 'effector-react';
+import {Footer} from "@/widgets/Footer";
 
 
 interface LayoutProps {
@@ -27,6 +28,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             <main className={`${s.main_area} ${BlurActive ? s.blur_effect : ''}`}>
                 {children}
             </main>
+            <Footer />
         </div>
     )
 }
