@@ -5,18 +5,20 @@ import { FC, useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import CoinFlipColoredIcon from '@/public/media/games_assets/coinflip/icon_colored.svg';
 import CoinFlipBlendIcon from '@/public/media/games_assets/coinflip/icon_blend.svg';
+import { createEffect, createEvent, sample } from 'effector';
 
 import RPSColoredIcon from '@/public/media/games_assets/rock_paper_scissors/icon_colored.svg';
 import RPSBlendIcon from '@/public/media/games_assets/rock_paper_scissors/icon_blend.svg';
 
 import DiceColoredIcon from '@/public/media/games_assets/dice/icon_colored.svg';
 import DiceBlendIcon from '@/public/media/games_assets/dice/icon_blend.svg';
+import * as MainWallet from './model'
 
 import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBets } from '@/widgets/LiveBets';
 import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
-import { SideBar } from '@/widgets/SideBar';
+import {SideBar, SideBarModel} from '@/widgets/SideBar';
 
 import DiceBackground from '@/public/media/games_assets/dice/Background.png';
 import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.png';
@@ -28,6 +30,9 @@ import { Total } from '@/widgets/Total';
 import {GameLayout} from "@/widgets/GameLayout/layout";
 import {GamePage} from "@/widgets/GamePage/GamePage";
 import {CustomBets} from "@/widgets/CustomBets/CustomBets";
+import {AvaibleWallet} from "@/widgets/AvaibleWallet";
+import {useUnit} from "effector-react";
+import {createStore} from "effector";
 
 
 const LinkIcon: FC<{}> = p => {
@@ -210,6 +215,38 @@ const GamesTitle: FC<GamesTitleProps> = props => {
 
 interface BannerInfoProps { };
 const BannerInfo: FC<BannerInfoProps> = props => {
+
+
+    const [
+        isOpen,
+        isMainWalletOpen,
+        close,
+        open,
+    ] = useUnit([
+        SideBarModel.$isOpen,
+        MainWallet.$isMainWalletOpen,
+        MainWallet.Close,
+        MainWallet.Open,
+    ]);
+
+    const hideAvaibleWallet = () => {
+        close()
+    }
+
+    const handleConnectWalletBtn = () => {
+        if(!isMainWalletOpen) {
+            open()
+        } else {
+            close()
+        }
+    }
+
+
+    useEffect(() => {
+        isMainWalletOpen ? (document.documentElement.style.overflow = 'hidden') :
+            (document.documentElement.style.overflow = 'visible')
+    }, [isMainWalletOpen])
+
     return (<div className={s.banner_info}>
         <div className={s.header}>
             Top 1 Casino on the WEB3
@@ -218,8 +255,11 @@ const BannerInfo: FC<BannerInfoProps> = props => {
             <div className={s.text}>
                 Login via Web3 wallets
             </div>
-            <div className={s.button}>
+            <div className={s.button} onClick={handleConnectWalletBtn} >
                 Connect Wallet
+            </div>
+            <div className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed} ${isMainWalletOpen && s.walletVisible}`}>
+                <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
         </div>
     </div>)

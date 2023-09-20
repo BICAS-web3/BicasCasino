@@ -9,15 +9,15 @@
     // gap: 20px;
     justify-content: center;
     align-content: center;
+    padding: 20px;
 }
 
 .avaibleWallet {
-    display: grid;
-    grid-template-columns: auto 168px auto 23px 3px;
-    grid-template-rows: 1fr;
-    // gap: 40px;
-    // justify-content: right;
-    
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .main_text {
@@ -35,23 +35,24 @@
     
 }
 .btn_close {
-    grid-column: 4 / 5;
+    position: absolute;
+    top: -10px;
+    right: 0;
     width: 22px;
     height: 22px; 
     cursor: pointer; 
     background: #181818;
     border: none;
+
 }
 
 .text_icon {
-    color: var(--White-1, #EAEAEA);
-    font-family: Source Sans 3;
+    color: #EAEAEA;
+    font-family: var(--font-source-sans-3);
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: 120%;
-    
-    /* 16.8px */
 }
 
 .text_info {
@@ -62,12 +63,7 @@
     font-weight: 700;
     line-height: 128.16%;
     text-decoration: none;
-    /* 15.379px */
 }
-
-
-
-.btn_close {}
 
 .select_wallet {
     display: grid;
@@ -99,16 +95,16 @@
 }
 
 .connect_text{
-    color: var(--White-1, #181818);
+    color: #EAEAEA;
     text-align: center;
     font-family: var(--font-nunito-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 128.16%;
-        /* 17.942px */
     letter-spacing: 0.56px;
     text-transform: uppercase;
+    display: none;
 }
 
 
@@ -133,10 +129,7 @@
     }
 
     .connect_text{
-        color: var(--Gray-2, #EAEAEA);
-        grid-row: 2 / 3;
-        align-items: end;
-        justify-content: center;
+        display: block;
 
     }
     .btn_close {
@@ -145,7 +138,7 @@
     }
     .avaibleWallet_container {
         width: 100%;
-        height: 568px;
+        height: 100%;
         grid-template-rows: 24px 40px 1fr 1fr;
         gap: 16px;
     }
@@ -155,11 +148,8 @@
     }
 
     .select_wallet { 
-        grid-row: 3 / 4;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 1fr);
-        justify-content: center;
-        align-content: center;
+        display: flex;
+        flex-direction: column;
     
     }
     .select_wallet_item {

@@ -34,6 +34,57 @@
     top: 80px;
 }
 
+//////
+
+.banner_info_avaibleWallet_container {
+    position: fixed;
+    height: 100vh;
+    background: rgba(15, 15, 15, 0.70);
+    backdrop-filter: blur(10px);
+    top: 80px;
+    right: 0;
+    z-index: 100;
+    width: calc(100% - 257px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .4s;
+    visibility: hidden;
+    opacity: 0;
+
+    @media screen and (max-width: 1280px) {
+        width: calc(100% - 18.5vw);
+        top: 70px;
+    }
+
+    @media screen and (max-width: 1060px) {
+        width: calc(100% - 200px);
+    }
+
+    @media screen and (max-width: 650px) {
+        width: 100%;
+        top: 0;
+        background: #181818;
+        padding: 0;
+
+        &.sidebarClosed {
+            width: 100% !important;
+        }
+    }
+
+}
+
+.banner_info_avaibleWallet_container.sidebarClosed {
+    width: calc(100% - 90px);
+}
+
+.walletVisible {
+    visibility: visible;
+    opacity: 1;
+}
+
+/////
+
 .background {
     height: 100%;
     position: absolute;
