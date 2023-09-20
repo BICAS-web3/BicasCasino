@@ -36,18 +36,18 @@ const AccountElement: FC<AccountElementProps>  = props => {
 }
 
 // export interface WalletProps{ icon: string; wallet: Ewallet; isConnected?: boolean}
-export interface WalletProps{ icon: string; wallet: Ewallet}
-const Wallet: FC<WalletProps>  = props => {
-    return(<button className={s.wallet}>
-            <Image
-                    src={props.icon}
-                    alt={''}
-            />
-            <div className={s.wallet_text}>{props.wallet}</div>
-            {/* { props.isConnected === true && <ConnectIcon /> } */}
-        </button>
-    );  
-}
+// export interface WalletProps{ icon: string; wallet: Ewallet}
+// const Wallet: FC<WalletProps>  = props => {
+//     return(<button className={s.wallet}>
+//             <Image
+//                     src={props.icon}
+//                     alt={''}
+//             />
+//             <div className={s.wallet_text}>{props.wallet}</div>
+//             {/* { props.isConnected === true && <ConnectIcon /> } */}
+//         </button>
+//     );  
+// }
 
 
 
@@ -92,7 +92,7 @@ export const Account: FC<AccountProps>  = props => {
     </div>   
     <div className={s.account_item}>
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
-        <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} />
+        {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
         <AccountElement name="Profile" icon={ProfileIcon}/>
         <AccountElement name="Explorer" icon={ExplorerIcon}/>
         <AccountElement name="Disconnect" icon={ExitIcon}/>

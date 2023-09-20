@@ -5,7 +5,7 @@ import { SideBar } from '@/widgets/SideBar';
 import { Header } from '../header';
 import { LayoutModel } from '.';
 import { useUnit } from 'effector-react';
-
+import { Account } from '@/widgets/Account';
 
 interface LayoutProps {
     children?: ReactNode[]
@@ -30,6 +30,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
                 </div> */}
                 {children}
             </main>
+            <Account />
         </div>
     )
 }

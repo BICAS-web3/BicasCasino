@@ -248,7 +248,7 @@ export default function Home() {
                 </div>
             </Layout>
 
-            <Account />
+            
             {/* <Footer />
 			<InvitesList />
 			<GamesList />
