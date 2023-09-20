@@ -9,7 +9,7 @@ interface ICustomButton {
   color?: "transparent" | "dark" | "gradient";
   radius?: "sm" | "md" | "lg" | "xl";
   text?: string;
-  textColor?: 'gold' | 'white' | 'dark';
+  textColor?: 'gold' | 'white' | 'dark' | 'gray';
   link?: string;
 }
 

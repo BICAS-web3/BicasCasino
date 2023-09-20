@@ -3,7 +3,7 @@ import styles from "./ui.module.scss";
 
 export const TitleTable: FC<{}> = () => {
   return (
-    <section className={styles.table}>
+    <div className={styles.table}>
       <h2 className={styles.title}>Bet History</h2>
       <div className={styles.titles_table}>
         <div className={styles.titles_block}>
@@ -16,6 +16,6 @@ export const TitleTable: FC<{}> = () => {
           <span className={styles.titles_block_item}>Profit</span>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
