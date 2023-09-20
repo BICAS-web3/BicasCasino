@@ -81,6 +81,8 @@
 .success {
     grid-column: 2;
     grid-row: 4;
+    // padding-top: 10px;
+    // padding-bottom: 10px;    
 }
 .text{
     grid-column: 4;
@@ -88,14 +90,16 @@
 }
 
 .btn_close{
-padding-top: 10px;
+// padding-top: 10px;
 }
 
-.awaiting,.text_await{padding-top: 20px;}
+.text_await{padding-top: 20px;
+text-align: center;}
 .awaiting {
     grid-column: 2;
     grid-row: 2;
     align-items: end;
+    padding-top: 25px;
 }
 
 .text_await {
@@ -104,7 +108,7 @@ padding-top: 10px;
     align-items: end;
     
 }
-.error,
+.error{padding-bottom: 17px;}
 .text_error {
     padding-bottom: 20px;
 }
