@@ -6,9 +6,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    bottom: 0;
+    bottom: -80px;
     left: 0;
-    height: 350px;
 }
 
 .footer_container {
@@ -91,7 +90,7 @@
     }
 
     .footer {
-        bottom: -495px;
+        bottom: -105px;
     }
 
     .footer_container {
@@ -114,13 +113,19 @@
     }
 }
 
+@media screen and (max-width: 880px) {
+    .footer {
+        bottom: -300px;
+    }
+}
+
 @media screen and (max-width: 700px) {
     .icons_list {
         flex-direction: column;
     }
 
     .footer {
-        bottom: -815px;
+        bottom: -600px;
     }
 }
 
@@ -142,6 +147,7 @@
     .footer {
         background: inherit;
         bottom: -400px;
+        height: 350px;
     }
 
     .footer_below {
