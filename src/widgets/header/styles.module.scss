@@ -123,7 +123,8 @@
 }
 
 .link {
-    color: #7E7E7E;
+    color: #EAEAEA;
+    text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.30);
     line-height: 22.78px;
     letter-spacing: 0.04em;
     text-align: justify;
@@ -131,11 +132,9 @@
     font-weight: 600;
     font-family: var(--font-source-sans-3);
     height: 50px;
-    width: 137px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #191919;
     border-radius: 12px;
 }
 
