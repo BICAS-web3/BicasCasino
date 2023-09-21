@@ -21,16 +21,18 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             <div className={s.side_bar_wrapper}>
                 <SideBar />
             </div>
+            <Account />
             <div className={s.blur_overlay}>
 
             </div>
+
             <main className={`${s.main_area} ${BlurActive ? s.blur_effect : ''}`}>
                 {/* <div className={s.side_bar_wrapper}>
                     <SideBar />
                 </div> */}
                 {children}
             </main>
-            <Account />
+            
         </div>
     )
 }
