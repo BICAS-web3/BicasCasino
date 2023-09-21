@@ -8,7 +8,7 @@
     box-sizing: border-box;
     border-bottom: 1px solid #252525;
     position: absolute;
-    z-index: 10;
+    z-index: 101;
 }
 
 .emblem {
@@ -123,7 +123,8 @@
 }
 
 .link {
-    color: #7E7E7E;
+    color: #EAEAEA;
+    text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.30);
     line-height: 22.78px;
     letter-spacing: 0.04em;
     text-align: justify;
@@ -131,11 +132,9 @@
     font-weight: 600;
     font-family: var(--font-source-sans-3);
     height: 50px;
-    width: 137px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #191919;
     border-radius: 12px;
 }
 
@@ -143,55 +142,75 @@
     cursor: pointer;
 }
 
-.connect_wallet_button_wrap {
-    //position: relative;
-}
-
 .header_avaibleWallet_wrap {
-    padding-top: 10px;
-    padding-right: 20px;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    background: rgba(15, 15, 15, 0.70);
-    backdrop-filter: blur(10px);
-    width: calc(100% - 277px);
-    height: 100vh;
-    display: flex;
-    justify-content: end;
     visibility: hidden;
+    position: absolute;
     opacity: 0;
+    right: 20px;
+    top: 85px;
     transition: all .4s;
-
-    @media screen and (max-width: 1280px) {
-        width: calc(100% - 20.5vw);
-        top: 70px;
-    }
-
-    @media screen and (max-width: 1060px) {
-        width: calc(100% - 220px);
-    }
-
-    @media screen and (max-width: 650px) {
-        width: 100%;
-        top: 0;
-        background: #181818;
-        padding: 0;
-
-        &.sidebarClosed {
-            width: 100% !important;
-        }
-    }
-}
-
-.header_avaibleWallet_wrap.sidebarClosed {
-    width: calc(100% - 110px);
 }
 
 .header_avaibleWallet_wrap.avaibleWallet_visible {
     visibility: visible;
     opacity: 1;
+
 }
+
+@media screen and (max-width: 650px) {
+    .header_avaibleWallet_wrap {
+        width: 100%;
+        top: 0;
+        height: 100vh;
+        bottom: 0;
+        background: #181818;
+        left: 0;
+        right: 0;
+    }
+}
+
+.header_avaibleWallet_wrap {
+
+}
+
+//padding-top: 10px;
+//padding-right: 20px;
+//position: absolute;
+//top: 80px;
+//right: 0;
+//background: rgba(15, 15, 15, 0.70);
+//backdrop-filter: blur(10px);
+//width: calc(100% - 277px);
+//height: 100vh;
+//display: flex;
+//justify-content: end;
+//visibility: hidden;
+//opacity: 0;
+//transition: all .4s;
+//
+//@media screen and (max-width: 1280px) {
+//    width: calc(100% - 20.5vw);
+//    top: 70px;
+//}
+//
+//@media screen and (max-width: 1060px) {
+//    width: calc(100% - 220px);
+//}
+
+//@media screen and (max-width: 650px) {
+//    width: 100%;
+//    top: 0;
+//    background: #181818;
+//    padding: 0;
+//
+//    &.sidebarClosed {
+//        width: 100% !important;
+//    }
+//}
+
+//.header_avaibleWallet_wrap.sidebarClosed {
+//    width: calc(100% - 110px);
+//}
 
 .link_active {
     color: #EAEAEA;
