@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 import s from './styles.module.scss';
 import Ledger from '@/public/media/select_wallet/Ledger.svg';
-import Coinbase from '@/public/media/select_wallet/Coinbase.svg';
+import Coinbase from '@/public/media/select_wallet/CoinBase.svg';
 import Info from '@/public/media/select_wallet/Info.svg';
 import Trust_wallet from '@/public/media/select_wallet/Trust_wallet.svg';
 import WalletConnect from '@/public/media/select_wallet/WalletConnect.svg';
