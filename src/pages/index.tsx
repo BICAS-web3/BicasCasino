@@ -33,6 +33,7 @@ import {CustomBets} from "@/widgets/CustomBets/CustomBets";
 import {AvaibleWallet} from "@/widgets/AvaibleWallet";
 import {useUnit} from "effector-react";
 import {createStore} from "effector";
+import * as BlurModel from '@/widgets/Blur/model'
 
 
 const LinkIcon: FC<{}> = p => {
@@ -222,30 +223,29 @@ const BannerInfo: FC<BannerInfoProps> = props => {
         isMainWalletOpen,
         close,
         open,
+        setBlur
     ] = useUnit([
         SideBarModel.$isOpen,
         MainWallet.$isMainWalletOpen,
         MainWallet.Close,
         MainWallet.Open,
+        BlurModel.setBlur
     ]);
 
     const hideAvaibleWallet = () => {
         close()
+        setBlur(false)
     }
 
     const handleConnectWalletBtn = () => {
         if(!isMainWalletOpen) {
             open()
+            setBlur(true)
         } else {
             close()
+            setBlur(false)
         }
     }
-
-
-    useEffect(() => {
-        isMainWalletOpen ? (document.documentElement.style.overflow = 'hidden') :
-            (document.documentElement.style.overflow = 'visible')
-    }, [isMainWalletOpen])
 
     return (<div className={s.banner_info}>
         <div className={s.header}>

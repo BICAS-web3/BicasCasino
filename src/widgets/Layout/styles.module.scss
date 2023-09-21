@@ -17,39 +17,3 @@
 .side_bar_wrapper{
     height: 100%;
 }
-
-.blur_effect {
-    
-}
-
-.blur_overlay {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    z-index: 2;
-    display: none;
-}
-
-@media only screen and (max-width: 700px) {
-    // .side_bar_wrapper {
-    //     position: absolute;
-    //     z-index: 2;
-    // }
-
-    .blur_overlay {
-        display: block;
-    }
-
-    .blur_effect {
-        filter: blur(4px);
-    }
-}
-
-@media only screen and (max-width: 650px) {
-    .blur_overlay {
-        display: none;
-    }
-    .blur_effect {
-        filter: none;
-    }
-}

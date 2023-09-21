@@ -38,8 +38,6 @@
 .banner_info_avaibleWallet_container {
     position: fixed;
     height: 100vh;
-    background: rgba(15, 15, 15, 0.70);
-    backdrop-filter: blur(10px);
     top: 80px;
     right: 0;
     z-index: 100;
@@ -52,28 +50,24 @@
     opacity: 0;
 
     @media screen and (max-width: 1280px) {
-        width: calc(100% - 18.5vw);
-        top: 70px;
+        width: calc(100% - 18.75vw);
     }
 
     @media screen and (max-width: 1060px) {
-        width: calc(100% - 200px);
+        width: calc(100% - 180px);
     }
 
     @media screen and (max-width: 650px) {
         width: 100%;
         top: 0;
-        background: #181818;
-        padding: 0;
-
-        &.sidebarClosed {
-            width: 100% !important;
-        }
+        z-index: 120;
+        left: 0;
+        bottom: 0;
+        right: 0;
     }
-
 }
 
-.banner_info_avaibleWallet_container.sidebarClosed {
+.sidebarClosed {
     width: calc(100% - 90px);
 }
 
