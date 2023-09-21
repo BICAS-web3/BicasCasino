@@ -75,20 +75,20 @@ export const Notification: FC<NotficationProps>  = props => {
     return( 
     <div className={s.notfication_container}>
         {currentAction === 0 && <>
-            <div className={s.awaiting}>
+            <div className={s.hide_animation}>
                 <NotificationIcon_Awaiting />
             </div>
             <div className={s.text_await}>
                 Awaiting transaction confirmation.
             </div>
-            <div className={`${s.success} ${s.success_animate}`}>
+            <div className={`${s.success} ${s.success_animation}`}>
                 <NotificationIcon_Success />
             </div>
             <div className={s.text}>
                 Wallet confirmation successful.
             </div>
             
-            <div className={s.error}>
+            <div className={`${s.error} ${s.hide}`}>
                 <NotificationIcon_Error />
             </div>
             <div className={s.text_error}>
@@ -96,20 +96,20 @@ export const Notification: FC<NotficationProps>  = props => {
             </div>     
         </>}
         {currentAction === 1 && <>
-            <div className={s.awaiting}>
+            <div className={s.hide_animation}>
                 <NotificationIcon_Awaiting />
             </div>
             <div className={s.text_await}>
                 Awaiting transaction confirmation.
             </div>
-            <div className={s.success}>
+            <div className={`${s.success} ${s.hide}`}>
                 <NotificationIcon_Success />
             </div>
             <div className={s.text}>
                 Wallet confirmation successful.
             </div>
             
-            <div className={`${s.error} ${s.error_animate}`}>
+            <div className={`${s.error} ${s.error_animation}`}>
                 <NotificationIcon_Error />
             </div>
             <div className={s.text_error}>
@@ -117,20 +117,20 @@ export const Notification: FC<NotficationProps>  = props => {
             </div>      
         </>}
         {currentAction === undefined && <>
-            <div className={`${s.awaiting} ${s.awaiting_animate}`}>
+            <div className={`${s.awaiting} ${s.awaiting_animation}`}>
                 <NotificationIcon_Awaiting />
             </div>
             <div className={s.text_await}>
                 Awaiting transaction confirmation.
             </div>
-            <div className={s.success}>
+            <div className={`${s.success} ${s.hide}`}>
                 <NotificationIcon_Success />
             </div>
             <div className={s.text}>
                 Wallet confirmation successful.
             </div>
             
-            <div className={s.error}>
+            <div className={`${s.error} ${s.hide}`}>
                 <NotificationIcon_Error />
             </div>
             <div className={s.text_error}>

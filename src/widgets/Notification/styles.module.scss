@@ -63,6 +63,15 @@
     }   
 }
 
+@keyframes hide-animation{
+    to {
+        opacity: 1;
+        }
+    to {
+        opacity: 0;
+    }
+}
+
 .notfication_container {
     box-sizing: border-box;
     margin: 0;
@@ -95,7 +104,7 @@
 
 .text_await{padding-top: 20px;
 text-align: center;}
-.awaiting {
+.awaiting, .hide_animation {
     grid-column: 2;
     grid-row: 2;
     align-items: end;
@@ -108,7 +117,7 @@ text-align: center;}
     align-items: end;
     
 }
-.error{padding-bottom: 17px;}
+.error{ padding-bottom: 17px;}
 .text_error {
     padding-bottom: 20px;
 }
@@ -147,16 +156,27 @@ text-align: center;}
     grid-column: 6;
     grid-row: 2 ;
 }
+// .hide_animation_awaiting {
+//     animation: animation-awaiting 2s linear 1 normal running 0s both, hide-animation 2s linear infinite normal running 0s both ;
+// }
 
-.success_animate circle {
-    animation: animation-success 2s ease-in-out 0s infinite;
+.success_animation circle {
+    animation: animation-success 2s linear infinite normal running 2s both ,
+        hide-animation 2s linear 1 reverse running 2s both;
 }
-.awaiting_animate circle {
+.error_animation circle {
+    animation: animation-error 2s linear infinite normal running 2s both,
+        hide-animation 2s linear 1 reverse running 2s both;
+}
+.awaiting_animation circle {
     animation: animation-awaiting 2s ease-in-out 0s infinite ;
 }
 
-.error_animate circle {
-    animation: animation-error 2s ease-in-out 0s infinite;
+// .error_animate circle {
+//     animation: animation-error 2s ease-in-out 0s infinite;
+// }
+.hide_animation circle {
+    animation: animation-awaiting 2s linear 1 normal running 0s both, hide-animation 2s linear 1 normal running 0s both ;
 }
 // .error,.success, .awaiting{ padding-left: 25px;}
 
@@ -164,6 +184,9 @@ text-align: center;}
     height: 110px !important;
 }
 
+.hide{
+    opacity: 0;
+}
 
 
 

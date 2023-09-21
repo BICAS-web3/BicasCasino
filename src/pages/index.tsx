@@ -22,7 +22,7 @@ import DiceBackground from '@/public/media/games_assets/dice/Background.png';
 import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.png';
 import RPSBackground from '@/public/media/games_assets/rock_paper_scissors/Background.png';
 import { Layout } from '@/widgets/Layout';
-import { Notification } from '@/widgets/Notification';
+import { Action, Notification } from '@/widgets/Notification';
 
 
 const LinkIcon: FC<{}> = p => {
@@ -246,6 +246,8 @@ export default function Home() {
                     <BannerInfo />
                     <Games />
                     <Notification />
+                    <Notification action={Action.success}/>
+                    <Notification action={Action.error}/>
                 </div>
             </Layout>
             
