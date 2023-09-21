@@ -41,19 +41,6 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
                         </main>
                     </div>
                 </WagmiConfig> : <></>}
-            // <div className={s.page_container}>
-            //     <Header />
-            //     <div className={s.side_bar_wrapper}>
-            //         <SideBar />
-            //     </div>
-            //     <div className={s.blur_overlay}>
-
-            //     </div>
-            //     <main className={`${s.main_area} ${BlurActive ? s.blur_effect : ''}`}>
-            //         {children}
-            //     </main>
-            // </div>
-
         </>
     )
 }
