@@ -9,7 +9,6 @@
     flex-direction: column;
     row-gap: 60px;
     width: calc(100% - (307px + 50px));
-    height: 100%;
     position: absolute;
     // z-index: 10;
     top: 139px;
@@ -33,6 +32,51 @@
     z-index: -1;
     top: 80px;
 }
+
+//////
+
+.banner_info_avaibleWallet_container {
+    position: fixed;
+    height: 100vh;
+    top: 80px;
+    right: 0;
+    z-index: 100;
+    width: calc(100% - 257px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .4s;
+    visibility: hidden;
+    opacity: 0;
+
+    @media screen and (max-width: 1280px) {
+        width: calc(100% - 18.75vw);
+    }
+
+    @media screen and (max-width: 1060px) {
+        width: calc(100% - 180px);
+    }
+
+    @media screen and (max-width: 650px) {
+        width: 100%;
+        top: 0;
+        z-index: 120;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+}
+
+.sidebarClosed {
+    width: calc(100% - 90px);
+}
+
+.walletVisible {
+    visibility: visible;
+    opacity: 1;
+}
+
+/////
 
 .background {
     height: 100%;

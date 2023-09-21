@@ -4,10 +4,12 @@ import s from './styles.module.scss';
 import { SideBar } from '@/widgets/SideBar';
 import { Header } from '../header';
 import { LayoutModel } from '.';
+import {Blur} from "@/widgets/Blur/Blur";
 import { useUnit } from 'effector-react';
 import { SettingsInit } from '../SettingsInit';
 import { WagmiConfig } from 'wagmi';
 import { web3 } from '@/entities/web3';
+import {Footer} from "@/widgets/Footer";
 
 
 interface LayoutProps {
@@ -25,22 +27,21 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 
     return (
         <>
-            <SettingsInit />
-            {wagmiConfig != null ?
+        <SettingsInit />
+      {wagmiConfig != null ?
                 <WagmiConfig config={wagmiConfig}>
-                    <div className={s.page_container}>
-                        <Header />
-                        <div className={s.side_bar_wrapper}>
-                            <SideBar />
-                        </div>
-                        <div className={s.blur_overlay}>
-
-                        </div>
-                        <main className={`${s.main_area} ${BlurActive ? s.blur_effect : ''}`}>
-                            {children}
-                        </main>
-                    </div>
-                </WagmiConfig> : <></>}
-        </>
+        <div className={s.page_container}>
+            <Header />
+            <div className={s.side_bar_wrapper}>
+                <SideBar />
+            </div>
+            <Blur />
+            <main>
+                {children}
+            </main>
+            <Footer />
+        </div>
+        </WagmiConfig> : <></>}
+    </>
     )
 }
