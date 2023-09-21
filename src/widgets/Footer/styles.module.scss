@@ -1,76 +1,150 @@
-.footer_container {
+.footer {
     background: var(--Gray-1, #151515);
-    height: 212px;
     display: flex;
-    gap: 100px;
-    // justify-items: center;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    height: 350px;
 }
 
+.footer_container {
+    margin: 0 auto;
+    width: calc(100% - 540px);
+}
 
-.icons {
-    width: 100%;
+.footer_body {
+    //background: var(--Gray-1, #151515);
+    padding: 30px;
     display: flex;
-    gap: 16px;
-    // align-items: center;
+    width: 100%;
+    align-items: start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.icons_list {
+    display: flex;
+    gap: 15px;
 }
 .footer_below{
     color: #494949;
     text-align: center;
-    font-family: Nunito Sans;
+    font-family: var(--font-nunito-sans);
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 128.16%;
-        /* 15.379px */
+    background: #0F0F0F;
+    width: 100%;
+    padding: 30px 0;
 }
 
 .logo{
     display: flex;
+    align-items: center;
     gap: 10px;
 }
-.greek{
-    // position: relative;
-    // bottom: 40px;
-}
-.games{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    gap: 20px;
 
-}
-.support{
+.games_list{
     display: flex;
     flex-direction: column;
-    text-align: left;
-    gap: 20px;
+    gap: 15px;
 }
-.nft_market{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    gap: 20px;
+
+.footer_mainPages_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 40%;
+    gap: 15px;
 }
+
 .footer_text{
-    
     color: #AAA;
-    font-family: Nunito Sans;
+    font-family: var(--font-nunito-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
-    /* 17.942px */
     letter-spacing: 0.56px;
     text-transform: uppercase;
     text-decoration: none;
 }
-.game_row{
-    
+.game_row {
     color: #7E7E7E;
-    font-family: Nunito Sans;
+    font-family: var(--font-nunito-sans);
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: 128.16%;
     text-decoration: none;
-    /* 17.942px */}
+}
+
+@media screen and (max-width: 1280px) {
+    .footer_mainPages_list {
+        grid-template-columns: 1fr;
+        width: auto;
+        gap: 17px;
+    }
+
+    .footer {
+        bottom: -495px;
+    }
+
+    .footer_container {
+        width: calc(100% - 480px);
+    }
+
+    .footer_body {
+        padding: 40px 0;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .footer_container {
+        width: 100%;
+    }
+
+    .footer_body {
+        padding: 40px 20px;
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .icons_list {
+        flex-direction: column;
+    }
+
+    .footer {
+        bottom: -815px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .footer_mainPages_list, .games_list, .logo {
+        display: none;
+    }
+
+    .icons_list {
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+
+    .footer_body {
+        justify-content: center;
+    }
+
+    .footer {
+        background: inherit;
+        bottom: -400px;
+    }
+
+    .footer_below {
+        background: #121212;
+    }
+}
