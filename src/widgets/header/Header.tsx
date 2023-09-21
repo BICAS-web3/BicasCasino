@@ -18,7 +18,7 @@ import Burger from '@/public/media/misc/burger.svg';
 import ChatIcon from '@/public/media/misc/chatIcon.svg';
 import BellIcon from '@/public/media/misc/bellIcon.svg';
 import { SideBarModel } from '@/widgets/SideBar';
-import { LayoutModel } from '../Layout';
+import * as BlurModel from '@/widgets/Blur/model'
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
 import {NetworkSelect} from "@/widgets/NetworkSelect/NetworkSelect";
 import {AvaibleWallet} from "@/widgets/AvaibleWallet";
@@ -49,20 +49,13 @@ const LeftMenu: FC<LeftMenuProps> = props => {
     const [
         flipOpen,
         isOpen,
-        setBlur,
     ] = useUnit([
         SideBarModel.flipOpen,
         SideBarModel.$isOpen,
-        LayoutModel.setBlur
     ]);
     return (<div className={s.left_menu}>
         <div className={s.burger} onClick={() => {
             flipOpen();
-            if (!isOpen) {
-                setBlur(true);
-            } else {
-                setBlur(false);
-            }
         }}>
             <Image
                 src={Burger}
@@ -92,10 +85,12 @@ interface ConnectWalletButtonProps { };
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
     const [
         isOpen,
-        isMainWalletOpen
+        isMainWalletOpen,
+        setBlur
     ] = useUnit([
         SideBarModel.$isOpen,
-        MainWallet.$isMainWalletOpen
+        MainWallet.$isMainWalletOpen,
+        BlurModel.setBlur
     ]);
 
     const [walletVisibility, setWalletVisibility] = useState(false)
@@ -107,18 +102,21 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
 
         if(!walletVisibility) {
             setWalletVisibility(true)
+            setBlur(true)
         } else {
             setWalletVisibility(false)
+            setBlur(false)
         }
     }
 
-    useEffect(() => {
-        walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
-            (document.documentElement.style.overflow = 'visible')
-    }, [walletVisibility])
+    // useEffect(() => {
+    //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
+    //         (document.documentElement.style.overflow = 'visible')
+    // }, [walletVisibility])
 
     const hideAvaibleWallet = () => {
         setWalletVisibility(false)
+        setBlur(false)
     }
 
     return (
@@ -126,7 +124,7 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
             <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn} >
                 Connect Wallet
             </div>
-            <div className={`${s.header_avaibleWallet_wrap} ${!isOpen && s.sidebarClosed} ${walletVisibility && s.avaibleWallet_visible}`}>
+            <div className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible}`}>
                 <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
         </div>
