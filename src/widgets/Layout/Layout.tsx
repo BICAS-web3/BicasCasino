@@ -4,8 +4,10 @@ import s from './styles.module.scss';
 import { SideBar } from '@/widgets/SideBar';
 import { Header } from '../header';
 import { LayoutModel } from '.';
-
 import {Blur} from "@/widgets/Blur/Blur";
+import { useUnit } from 'effector-react';
+import {Footer} from "@/widgets/Footer";
+
 
 
 interface LayoutProps {
@@ -23,6 +25,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             <main>
                 {children}
             </main>
+            <Footer />
         </div>
     )
 }
