@@ -32,6 +32,9 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
     var explorers = new Map<number, string>();
 
     for (var network of networks.networks) {
+        if (network.explorers.length == 0) {
+            continue;
+        }
         const rpcs = { http: network.rpcs.map((value, _, __) => value.url) };
         chains.push({
             id: network.basic_info.network_id,

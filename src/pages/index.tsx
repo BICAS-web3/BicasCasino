@@ -14,7 +14,7 @@ import DiceBlendIcon from '@/public/media/games_assets/dice/icon_blend.svg';
 
 import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 //import LinkIcon from '@/public/media/misc/link.svg';
-import { LiveBets } from '@/widgets/LiveBets';
+import { LiveBetsModel } from '@/widgets/LiveBets';
 import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
 import { SideBar } from '@/widgets/SideBar';
 
@@ -29,6 +29,8 @@ import { GameLayout } from "@/widgets/GameLayout/layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { LiveBetsWS } from '@/widgets/LiveBets';
+import { settingsModel } from '@/entities/settings';
+import { useUnit } from 'effector-react';
 
 const LinkIcon: FC<{}> = p => {
     return (<svg height="14px" width="14px" viewBox="0 0 18 18"><path fill-rule="evenodd" clip-rule="evenodd" d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"></path><path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path></svg>)
@@ -226,6 +228,19 @@ const BannerInfo: FC<BannerInfoProps> = props => {
 }
 
 export default function Home() {
+    const [
+        Bets,
+        AvailableBlocksExplorers
+    ] = useUnit([
+        LiveBetsModel.$Bets,
+        settingsModel.$AvailableBlocksExplorers
+    ]);
+
+    useEffect(() => {
+        console.log("New bets");
+    }, [Bets]);
+
+
     return (
         <>
             <Head>
@@ -251,25 +266,7 @@ export default function Home() {
                     <BannerInfo />
                     <Games />
                     <Total />
-                    <CustomBets title='Live bets' isMainPage={true} isGamePage={false} bets={
-                        [
-                            {
-                                time: { date: '25.08.23', time: '17:05' },
-                                game_name: 'Dice',
-                                player: 'UserName',
-                                wager: 11,
-                                multiplier: 3,
-                                profit: 5.34,
-                                userBg: '#3DBCE5',
-                                player_url: 'test',
-                                trx_url: 'test',
-                                game_url: 'test',
-                                network_icon: 'test',
-                                numBets: 1,
-                                gameAddress: '0x563...4ba9'
-                            }
-                        ]
-                    } />
+                    <CustomBets title='Live bets' isMainPage={true} isGamePage={false} />
                     <LeaderBoard />
                 </div>
             </Layout>
