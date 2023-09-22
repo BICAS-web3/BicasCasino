@@ -7,7 +7,7 @@ export const ImageLeague: FC<{}> = () => {
   return (
     <div className={styles.image}>
       <div className={styles.image_wrapper}>
-        <Image src={bronzeLeague} alt={'ImageLeague'} width={147} height={147}/>
+        <Image src={bronzeLeague} alt={'ImageLeague'} width={147} height={147} className={styles.bronze}/>
       </div>
       <div className={styles.blur_background}></div>
       <span className={styles.title}>bronze league</span>

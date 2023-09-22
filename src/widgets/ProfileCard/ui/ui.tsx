@@ -14,7 +14,7 @@ export const ProfileCard: FC<{}> = () => {
       <UserAvatar avatarUrl={emptyAvatar}/>
       <div className={styles.user}>
         <UserName userName={'Athena'}/>
-        <UserAddress userAddress={'0xa51313ffab4c570b484a26bd5d869c2f48e34475'}/>
+        <UserAddress address={'0xa51313ffab4c570b484a26bd5d869c2f48e34475'}/>
       </div>
       <ImageLeague />
     </div>

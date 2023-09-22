@@ -50,5 +50,8 @@
     font-size: 28px;
     font-weight: 700;
     font-family: var(--font-nunito-sans);
+    @media screen and (max-width: 425px) {
+      font-size: 16px;
+    }
   }
 }

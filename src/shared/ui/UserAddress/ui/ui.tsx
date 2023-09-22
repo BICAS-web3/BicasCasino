@@ -1,15 +1,28 @@
-import {FC, useState} from "react";
-import styles from './ui.module.scss'
-import {CopyIcon} from "@/shared/SVGs";
+import { FC, useEffect, useState } from "react";
+import styles from "./ui.module.scss";
+import { CopyIcon } from "@/shared/SVGs";
 
 interface IUserAddress {
-  userAddress: string | null
+  address: string | null;
 }
 
-export const UserAddress: FC<IUserAddress> = ({userAddress}) => {
+export const UserAddress: FC<IUserAddress> = ({ address }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const handleNameChange = () => {
-    setIsEditing(true);
+  if (address === null) {
+    return "Waiting.....";
   }
-  return <h2 className={styles.userAddress}>{userAddress} <CopyIcon onClick={handleNameChange}/></h2>
-}
+  const handleNameChange = () => {
+    console.log("Скопировали адрес");
+    setIsEditing(true);
+  };
+
+  return (
+    <span className={styles.userAddress}>
+      <span className={styles.truncatedAddress}>
+        {address.slice(0, 5) + "..." + address.slice(-5)}
+      </span>
+      <span className={styles.fullAddress}>{address}</span>
+      <CopyIcon onClick={handleNameChange} />
+    </span>
+  );
+};

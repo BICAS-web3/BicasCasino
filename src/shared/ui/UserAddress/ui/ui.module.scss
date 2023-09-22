@@ -10,3 +10,37 @@
   gap: 8px;
   align-items: center;
 }
+
+.truncatedAddress {
+  display: none;
+}
+
+.fullAddress {
+  display: block;
+}
+
+@media screen and (max-width: 425px) {
+  .truncatedAddress {
+    display: block;
+  }
+
+  .fullAddress {
+    display: none;
+  }
+}
+
+//@media screen and (max-width: 425px) {
+//  width: 100px;
+//  overflow: hidden;
+//  text-overflow: ellipsis;
+//  white-space: nowrap;
+//  //left: -60px;
+//}
+
+//@media screen and (max-width: 425px) {
+//  .userAddress {
+//    overflow: hidden;
+//    text-overflow: ellipsis;
+//    white-space: nowrap;
+//  }
+//}

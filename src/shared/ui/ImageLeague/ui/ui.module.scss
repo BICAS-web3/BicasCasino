@@ -5,10 +5,28 @@
   position: relative;
   margin-right: -12px;
   padding-left: 30px;
-
+  @media screen and (max-width: 425px) {
+    left: -26px;
+    top: 13px;
+  }
   .image_wrapper {
     position: relative;
     z-index: 1;
+    .bronze{
+      width: 100px;
+      height: 100px;
+      @media screen and (max-width: 425px) {
+        margin: 0;
+        width: 55px;
+        height: 55px;
+      }
+    }
+    @media screen and (max-width: 864px) {
+      left: -18px;
+    }
+    @media screen and (max-width: 425px) {
+      left: -1px;
+    }
   }
 
   .blur_background {
@@ -20,7 +38,9 @@
     height: 100%;
     filter: blur(60px);
     z-index: 0;
-
+    @media screen and (max-width: 425px) {
+      left: 14px;
+    }
   }
 
   .title {
@@ -33,6 +53,9 @@
     color: #E5C787;
     text-transform: uppercase;
     margin-bottom: 6px;
+    @media screen and (max-width: 425px) {
+      font-size: 6px;
+    }
   }
 
 }
@@ -44,4 +67,8 @@
   height: 124%;
   width: 1px;
   border-left: 1px solid #252525;
+  @media screen and (max-width: 425px) {
+    bottom: -7px;
+    height: 112%;
+  }
 }

@@ -37,7 +37,7 @@ export default function Profile() {
         <section className={styles.container}>
           {/*<div className={styles.grid_container}>*/}
           {/*  <div className={styles.card_container}>*/}
-          {/*    <ProfileCard />*/}
+              <ProfileCard />
           {/*  </div>*/}
           {/*  <div className={styles.profile_container}>*/}
           {/*    <ProfileBettingStatistics />*/}
