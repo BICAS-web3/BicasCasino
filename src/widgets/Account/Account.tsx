@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import s from './styles.module.scss';
 import Ledger from '@/public/media/select_wallet/Ledger.svg';
 import Coinbase from '@/public/media/select_wallet/Coinbase.svg';
@@ -54,6 +55,9 @@ const AccountElement: FC<AccountElementProps>  = props => {
 
 export interface AccountProps{}
 export const Account: FC<AccountProps>  = props => {
+
+    const value = "0xa51313...e34475";
+    const [copied, setCopied] = useState(false);
     return(<div className={s.account_container}>
     <div className={s.account}>
         <div className={s.main_text}>
@@ -82,11 +86,14 @@ export const Account: FC<AccountProps>  = props => {
             </div>
             <div className={s.profile_address}>
                 <div className={s.profile_address}>
-                    0xa51313...e34475
+                    {value}
                 </div>
-                <button className={s.btn_close}>
-                    <CopyIcon />
-                </button>
+
+                <CopyToClipboard text={value} onCopy={()=> setCopied(true)}>
+                    <button className={s.btn_close}>
+                        <CopyIcon />
+                    </button>
+                </CopyToClipboard>
             </div>
         </div>   
     </div>   
