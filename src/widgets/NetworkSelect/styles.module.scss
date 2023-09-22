@@ -7,6 +7,12 @@
   min-width: 185px;
 }
 
+.error {
+  .active_network_ico_wrap {
+    padding: 0;
+  }
+}
+
 .network_select_body {
   user-select: none;
   cursor: pointer;
@@ -110,6 +116,10 @@
   visibility: hidden;
   opacity: 0;
   transition: all .4s;
+
+  &.undefined_network {
+    padding: 0 0 10px 0;
+  }
 }
 
 .networks_list_title_wrap {

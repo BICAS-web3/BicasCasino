@@ -8,7 +8,7 @@ export interface NetworkErrorTextProps {
 export const NetworkErrorText: FC<NetworkErrorTextProps> = props => {
     return (
         <div className={s.network_error_text_block}>
-            <span className={s.network_error_text}>{error_text}</span>
+            <span className={s.network_error_text}>{props.error_text}</span>
         </div>
     )
 }

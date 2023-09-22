@@ -2,12 +2,13 @@ import s from './styles.module.scss'
 import Image from 'next/image';
 import {networksList} from "@/widgets/NetworkSelect/NetworkSelect";
 
-export const NetworkSelectItem = ({title, ico, id, setActiveNetwork, setNetworkVisibility}) => {
+export const NetworkSelectItem = ({title, ico, id, networkList, setActiveNetwork, setNetworkVisibility, setNetworkList}) => {
 
     const handleActiveNetworkChange = () => {
         setNetworkVisibility(false)
         const activeNetwork = networksList.filter(item => item.id === id)[0]
         setActiveNetwork(activeNetwork)
+        setNetworkList(networksList.filter(item => item.id !== activeNetwork.id))
     }
 
     return (
