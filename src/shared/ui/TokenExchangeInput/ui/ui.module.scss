@@ -19,17 +19,19 @@
       font-weight: 700;
       line-height: 18px;
       text-align: left;
-
+      width: 100%;
       @media(320px <=width <= 700px) {
+        max-width: 136px;
         padding: 10px 20px;
         border-radius: 5px;
       }
-      @media(700px <=width <= 1280px) {
-        padding: 18px 10px;
+      @media(700px <=width <= 1440px) {
+        max-width: 136px;
+        padding: 18px 22px;
 
       }
-      @media(1280px <=width <= 3486px) {
-        padding: 18px 110px 18px 40px;
+      @media(1440px <=width <= 3486px) {
+        padding: 18px 10px 18px 40px;
       }
     }
   }

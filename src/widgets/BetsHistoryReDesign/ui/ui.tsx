@@ -1,12 +1,13 @@
+"use client"
 import { FC } from "react";
 import { TitleTable } from "@/shared/ui/TitleTable/ui/ui";
 import styles from "./ui.module.scss";
-import s from "@/widgets/CustomBets/styles.module.scss";
 import { TableItem } from "@/shared/ui/TableItem";
-import {CustomButton} from "@/shared/ui/CustomButton";
+import { CustomButton } from "@/shared/ui/CustomButton";
 
 const bets = [
   {
+    id: 1,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -22,6 +23,7 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
   {
+    id: 2,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -37,6 +39,7 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
   {
+    id: 3,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -52,6 +55,7 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
   {
+    id: 4,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -67,6 +71,7 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
   {
+    id: 5,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -82,6 +87,7 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
   {
+    id: 6,
     time: { date: "25.08.23", time: "17:05" },
     game_name: "Dice",
     player: "UserName",
@@ -101,12 +107,28 @@ const bets = [
 export const BetsHistoryReDesign: FC<{}> = () => {
   return (
     <div className={styles.table}>
+      <h2 className={styles.title}>Bet History</h2>
+      <table>
       <TitleTable />
-      <div className={styles.customBets_list}>
-        {bets && bets.map((item, ind) => <TableItem {...item} key={ind} />)}
-      </div>
+        <tbody>
+          {bets &&
+            bets.map((item) => (
+              <tr key={item.id}>
+                <TableItem {...item}  />
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      {/*<div className={styles.customBets_list}>*/}
+      {/*  {bets && bets.map((item, ind) => <TableItem {...item} key={ind} />)}*/}
+      {/*</div>*/}
       <div className={styles.button}>
-        <CustomButton text='Load more' textColor='gray' color='dark' size='sm' />
+        <CustomButton
+          text="Load more"
+          textColor="gray"
+          color="dark"
+          size="sm"
+        />
       </div>
     </div>
   );

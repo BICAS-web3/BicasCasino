@@ -1,21 +1,46 @@
 .table {
-  padding: 40px 0 84px 0;
   background: #181818;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid #252525;
+  border-bottom: 1px solid #252525;
+  padding: 35px 50px 25px;
+  margin: 0 0 20px 0;
+
+  position: relative;
+  top: 200px;
+
+  td {
+    border-top: 1px solid #252525;
+    border-collapse: collapse;
+  }
+
+  .title {
+    font-family: var(--font-source-sans-3);
+    color: #E5C787;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.96px;
+    margin-bottom: 28px;
+  }
+
+  @media screen and (max-width: 650px) {
+    padding: 40px 0 30px 0;
+  }
 
   .button {
     margin: 0 auto;
   }
 
-  .customBets_list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid #252525;
-    border-bottom: 1px solid #252525;
-    padding: 10px 0;
-    margin: 0 0 20px 0;
-  }
+  //.customBets_list {
+  //  display: flex;
+  //  flex-direction: column;
+  //  border-top: 1px solid #252525;
+  //  border-bottom: 1px solid #252525;
+  //  padding: 10px 0;
+  //  margin: 0 0 20px 0;
+  //}
 
 }

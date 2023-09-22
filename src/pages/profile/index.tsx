@@ -8,7 +8,6 @@ import React from "react";
 import styles from "./index.module.scss";
 import { ProfileBettingStatistics } from "@/widgets/ProfileBettingStatistics";
 import { SwapTradeTokens } from "@/widgets/SwapTradeTokens/ui/ui";
-import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { BetsHistoryReDesign } from "@/widgets/BetsHistoryReDesign";
 
 const RecentlyGames = [
@@ -34,27 +33,28 @@ export default function Profile() {
       </Head>
 
       <Layout>
+        <></>
         <section className={styles.container}>
-          <div className={styles.grid_container}>
-            <div className={styles.card_container}>
-              <ProfileCard />
-            </div>
-            <div className={styles.profile_container}>
-              <ProfileBettingStatistics />
-            </div>
-            <div className={styles.recently_container}>
-              <RecentlyPlayedGames RecentlyGames={RecentlyGames} />
-            </div>
-          </div>
-          <div className={styles.swap}>
-            <SwapTradeTokens />
-          </div>
-          <div className={styles.bets_history}>
-            <BetsHistoryReDesign />
-          </div>
+          {/*<div className={styles.grid_container}>*/}
+          {/*  <div className={styles.card_container}>*/}
+          {/*    <ProfileCard />*/}
+          {/*  </div>*/}
+          {/*  <div className={styles.profile_container}>*/}
+          {/*    <ProfileBettingStatistics />*/}
+          {/*  </div>*/}
+          {/*  <div className={styles.recently_container}>*/}
+          {/*    <RecentlyPlayedGames RecentlyGames={RecentlyGames} />*/}
+          {/*  </div>*/}
+          {/*</div>*/}
+          {/*<SwapTradeTokens />*/}
+          {/*<div className={styles.swap}>*/}
+          {/*  */}
+          {/*</div>*/}
+          <BetsHistoryReDesign />
+          {/*<div className={styles.bets_history}>*/}
+          {/* */}
+          {/*</div>*/}
         </section>
-
-        <div style={{ margin: "2px" }}></div>
       </Layout>
     </>
   );
