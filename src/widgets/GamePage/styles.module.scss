@@ -49,6 +49,7 @@
 }
 
 .game_info_btn {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,6 +74,64 @@
   margin-top: 40px;
   margin-bottom: 30px;
   height: 680px; // demo height
+}
+
+.game_page_modal_wrap {
+  opacity: 0;
+  visibility: hidden;
+  transition: all .4s;
+
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: 200;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.game_page_modal {
+  border-radius: 20px;
+  background: #202020;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 45px;
+  align-items: center;
+
+  width: 300px;
+  position: relative;
+  top: calc(50% - 80px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.game_page_modal_title {
+  font-family: var(--font-nunito-sans);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 26.4px */
+  letter-spacing: 0.88px;
+  margin-bottom: 20px;
+  color: #EAEAEA;
+}
+
+.game_page_modal_text {
+  font-family: var(--font-source-sans-3);
+  color: #fff;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.game_page_modal_close_btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1280px) {
