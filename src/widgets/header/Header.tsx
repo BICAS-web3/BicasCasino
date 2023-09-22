@@ -133,6 +133,9 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
 
 interface RightMenuProps { };
 const RightMenu: FC<RightMenuProps> = props => {
+
+    const condition = true
+
     return (<div className={s.right_menu}>
         <div className={s.button}>
             <Image
@@ -154,7 +157,15 @@ const RightMenu: FC<RightMenuProps> = props => {
                 className={s.icon}
             />
         </div>
-        <ConnectWalletButton />
+        {
+            condition ? (
+                <div className={s.header_profile_ico_wrap}>
+                    <span className={s.header_profile_ico_title}>А</span>
+                </div>
+            ) : (
+                <ConnectWalletButton />
+            )
+        }
     </div>)
 }
 
