@@ -76,61 +76,53 @@
     box-sizing: border-box;
     margin: 0;
     width: 325px;
-    height: 110px !important;
+    height: 110px ;
     border-radius: 20px;
     background: var(--Gray-2, #202020);
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 25px 15px 13px 193px 48px 17px 20px;
-    grid-row: 25px 15px 10px 15px 10px 15px 20px; 
-    // grid-row: auto auto auto auto auto auto auto;
+    grid-row: 35px 15px 10px 15px 35px; 
     justify-items: start;
     align-items: center;
 }
-.success {
-    grid-column: 2;
-    grid-row: 4;
-    // padding-top: 10px;
-    // padding-bottom: 10px;    
-}
-.text{
-    grid-column: 4;
-    grid-row: 4;
+
+.notfication_container_await {
+    box-sizing: border-box;
+    margin: 0;
+    width: 325px;
+    height: 110px;
+    border-radius: 20px;
+    background: var(--Gray-2, #202020);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 25px 15px 13px 193px 48px 17px 20px;
+    grid-template-rows: 30px 15px 75px;
+    justify-items: start;
+    align-items: center;
 }
 
-.btn_close{
-// padding-top: 10px;
-}
-
-.text_await{padding-top: 20px;
-text-align: center;}
 .awaiting, .hide_animation {
     grid-column: 2;
     grid-row: 2;
     align-items: end;
-    padding-top: 25px;
+    padding-top: 35px;
 }
 
 .text_await {
+    padding-top: 30px;
     grid-column: 4;
     grid-row: 2;
-    align-items: end;
-    
 }
-.error{ padding-bottom: 17px;}
-.text_error {
-    padding-bottom: 20px;
-}
-.error {
-    align-items: start;
+.error, .success{
     grid-column: 2;
-    grid-row: 6;
+    grid-row: 4;
+    padding-bottom: 45px;
 }
-
-.text_error {
-    align-items: start;
+.text_error, .text {
     grid-column: 4;
-    grid-row: 6;
+    grid-row: 4;
+    padding-bottom: 45px;
 }
 
 .text, .text_await, .text_error {
@@ -156,9 +148,6 @@ text-align: center;}
     grid-column: 6;
     grid-row: 2 ;
 }
-// .hide_animation_awaiting {
-//     animation: animation-awaiting 2s linear 1 normal running 0s both, hide-animation 2s linear infinite normal running 0s both ;
-// }
 
 .success_animation circle {
     animation: animation-success 2s linear infinite normal running 2s both ,
@@ -172,51 +161,34 @@ text-align: center;}
     animation: animation-awaiting 2s ease-in-out 0s infinite ;
 }
 
-// .error_animate circle {
-//     animation: animation-error 2s ease-in-out 0s infinite;
-// }
 .hide_animation circle {
-    animation: animation-awaiting 2s linear 1 normal running 0s both, hide-animation 2s linear 1 normal running 0s both ;
+    // animation: animation-awaiting 2s linear 1 normal running 0s both, hide-animation 2s linear 1 normal running 0s both ;
+    animation: animation-awaiting 2s linear 1 normal running 0s both;
 }
-// .error,.success, .awaiting{ padding-left: 25px;}
-
-.notfication_container {
-    height: 110px !important;
+.show_animation {
+    animation: hide-animation 2s linear 1 reverse running 2s both;
 }
 
 .hide{
     opacity: 0;
 }
 
+.notfication_container_await {
+    box-sizing: border-box;
+    margin: 0;
+    width: 325px;
+    height: 110px ;
+    border-radius: 20px;
+    background: var(--Gray-2, #202020);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 25px 15px 13px 193px 48px 17px 20px;
+    grid-template-rows: 30px 15px 75px;
+    justify-items: start;
+    align-items: center;
+}
 
 
-// @media (max-width: 650px) and (pointer: coarse) {
-//     .notfication_container {
-//         width: 202px;
-//         grid-template-columns: auto 8px 130px auto 30px 15px;
-//         grid-template-rows: 1fr;
-//     }
-//     .text{
-//         font-size: 8px;
-//     }
-//         .btn_close {
-//             width: 22px;
-//             height: 22px;
-//             cursor: pointer;
-//             background: #202020;
-//             border: none;
-//             justify-content: start;
-//             grid-column: 5;
-//         }
-//         .awaiting svg,
-//         .success svg,
-//         .error svg{
-            
-//             padding-bottom: 3px;
-//             width: 6px;
-//             height: 6px;    
-//             justify-content:start;
-            
-//         }
-
-// }
+@media (max-width: 650px) {
+    .notfication_container, .notfication_container_await{ display:none; }
+}

@@ -9,72 +9,13 @@ export enum Action{
     error,
 }
 
-// export interface NotficationProps{ action?: Action }
-// export const Notification: FC<NotficationProps>  = props => {
-//     const currentAction:Action | undefined = props.action;
-//     // const [currentAction, setAction] = useState(Action.awaiting);
-//     // setAction(props.action);
-//     return( 
-//     <div className={s.notfication_container}>
-//         {currentAction === 0 && <>
-
-//             <div className={s.awaiting}>
-//                 <NotificationIcon_Awaiting />
-//             </div>
-//             <div className={s.text_await}>
-//                 Awaiting transaction confirmation.
-//             </div>
-        
-//             <div className={s.success}>
-//                 <NotificationIcon_Success />
-//             </div>
-//             <div className={s.text}>
-//                 Wallet confirmation successful.
-//             </div>
-//         </>}
-//         {currentAction === 1 && <>
-//             <div className={s.awaiting}>
-//                 <NotificationIcon_Awaiting />
-//             </div>
-//             <div className={s.text_await}>
-//                 Awaiting transaction confirmation.
-//             </div>
-//             <div className={s.error}>
-//                 <NotificationIcon_Error />
-//             </div>
-//             <div className={s.text}>
-//                 Transaction confirmation error.
-//             </div>
-//         </>}
-//         {currentAction === undefined && <>
-//             <div className={`${s.awaiting}  ${s.awaiting_animate}`}>
-//                 <NotificationIcon_Awaiting />
-//             </div>
-//             <div className={`${s.text_await}  ${s.text_animate}`}>
-//                 Awaiting transaction confirmation.
-//             </div>
-//         </>}
-//         <button className={s.btn_close}>
-//             <Image
-//                 src={Close}
-//                 alt={''}
-//                 width={17}
-//                 height={17}
-//                 className={s.close_icon}
-//             />
-//         </button>
-//     </div>
-//     );  
-// }
-
 export interface NotficationProps{ action?: Action }
 export const Notification: FC<NotficationProps>  = props => {
     const currentAction:Action | undefined = props.action;
     // const [currentAction, setAction] = useState(Action.awaiting);
     // setAction(props.action);
-    return( 
-    <div className={s.notfication_container}>
-        {currentAction === 0 && <>
+    return(<>
+        {currentAction === 0 && <div className={s.notfication_container}>
             <div className={s.hide_animation}>
                 <NotificationIcon_Awaiting />
             </div>
@@ -84,60 +25,10 @@ export const Notification: FC<NotficationProps>  = props => {
             <div className={`${s.success} ${s.success_animation}`}>
                 <NotificationIcon_Success />
             </div>
-            <div className={s.text}>
+            <div className={`${s.text} ${s.show_animation}`}>
                 Wallet confirmation successful.
-            </div>
-            
-            <div className={`${s.error} ${s.hide}`}>
-                <NotificationIcon_Error />
-            </div>
-            <div className={s.text_error}>
-                Transaction confirmation error.
-            </div>     
-        </>}
-        {currentAction === 1 && <>
-            <div className={s.hide_animation}>
-                <NotificationIcon_Awaiting />
-            </div>
-            <div className={s.text_await}>
-                Awaiting transaction confirmation.
-            </div>
-            <div className={`${s.success} ${s.hide}`}>
-                <NotificationIcon_Success />
-            </div>
-            <div className={s.text}>
-                Wallet confirmation successful.
-            </div>
-            
-            <div className={`${s.error} ${s.error_animation}`}>
-                <NotificationIcon_Error />
-            </div>
-            <div className={s.text_error}>
-                Transaction confirmation error.
-            </div>      
-        </>}
-        {currentAction === undefined && <>
-            <div className={`${s.awaiting} ${s.awaiting_animation}`}>
-                <NotificationIcon_Awaiting />
-            </div>
-            <div className={s.text_await}>
-                Awaiting transaction confirmation.
-            </div>
-            <div className={`${s.success} ${s.hide}`}>
-                <NotificationIcon_Success />
-            </div>
-            <div className={s.text}>
-                Wallet confirmation successful.
-            </div>
-            
-            <div className={`${s.error} ${s.hide}`}>
-                <NotificationIcon_Error />
-            </div>
-            <div className={s.text_error}>
-                Transaction confirmation error.
-            </div>  
-        </>}
-        <button className={s.btn_close}>
+            </div> 
+            <button className={s.btn_close}>
             <Image
                 src={Close}
                 alt={''}
@@ -145,7 +36,49 @@ export const Notification: FC<NotficationProps>  = props => {
                 height={17}
                 className={s.close_icon}
             />
-        </button>
-    </div>
-    );  
+        </button>   
+        </div>}
+        {currentAction === 1 && <div className={s.notfication_container}>
+            <div className={s.hide_animation}>
+                <NotificationIcon_Awaiting />
+            </div>
+            <div className={s.text_await}>
+                Awaiting transaction confirmation.
+            </div>
+                
+            <div className={`${s.error} ${s.error_animation}`}>
+                <NotificationIcon_Error />
+            </div>
+            <div className={`${s.text_error} ${s.show_animation}`}>
+                Transaction confirmation error.
+            </div>
+            <button className={s.btn_close}>
+            <Image
+                src={Close}
+                alt={''}
+                width={17}
+                height={17}
+                className={s.close_icon}
+            />
+            </button>      
+        </div>}
+        {currentAction === undefined && <div className={s.notfication_container_await}>
+                
+            <div className={`${s.awaiting} ${s.awaiting_animation} $`}>
+                <NotificationIcon_Awaiting />
+            </div>
+            <div className={s.text_await}>
+                Awaiting transaction confirmation.
+            </div>
+            <button className={s.btn_close}>
+            <Image
+                src={Close}
+                alt={''}
+                width={17}
+                height={17}
+                className={s.close_icon}
+            />
+            </button>
+        </div>}
+    </> );  
 }
