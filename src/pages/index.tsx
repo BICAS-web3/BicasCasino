@@ -5,24 +5,36 @@ import { FC, useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
 import CoinFlipColoredIcon from '@/public/media/games_assets/coinflip/icon_colored.svg';
 import CoinFlipBlendIcon from '@/public/media/games_assets/coinflip/icon_blend.svg';
+import { createEffect, createEvent, sample } from 'effector';
 
 import RPSColoredIcon from '@/public/media/games_assets/rock_paper_scissors/icon_colored.svg';
 import RPSBlendIcon from '@/public/media/games_assets/rock_paper_scissors/icon_blend.svg';
 
 import DiceColoredIcon from '@/public/media/games_assets/dice/icon_colored.svg';
 import DiceBlendIcon from '@/public/media/games_assets/dice/icon_blend.svg';
+import * as MainWallet from './model'
 
 import BSCNetworkIcon from '@/public/media/networks/bsc.svg';
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBets } from '@/widgets/LiveBets';
 import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
-import { SideBar } from '@/widgets/SideBar';
+import {SideBar, SideBarModel} from '@/widgets/SideBar';
 
 import DiceBackground from '@/public/media/games_assets/dice/Background.png';
 import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.png';
 import RPSBackground from '@/public/media/games_assets/rock_paper_scissors/Background.png';
 import { Layout } from '@/widgets/Layout';
 import { Action, Notification } from '@/widgets/Notification';
+import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
+import { Total } from '@/widgets/Total';
+
+import {GameLayout} from "@/widgets/GameLayout/layout";
+import {GamePage} from "@/widgets/GamePage/GamePage";
+import {CustomBets} from "@/widgets/CustomBets/CustomBets";
+import {AvaibleWallet} from "@/widgets/AvaibleWallet";
+import {useUnit} from "effector-react";
+import {createStore} from "effector";
+import * as BlurModel from '@/widgets/Blur/model'
 
 
 const LinkIcon: FC<{}> = p => {
@@ -205,6 +217,37 @@ const GamesTitle: FC<GamesTitleProps> = props => {
 
 interface BannerInfoProps { };
 const BannerInfo: FC<BannerInfoProps> = props => {
+
+
+    const [
+        isOpen,
+        isMainWalletOpen,
+        close,
+        open,
+        setBlur
+    ] = useUnit([
+        SideBarModel.$isOpen,
+        MainWallet.$isMainWalletOpen,
+        MainWallet.Close,
+        MainWallet.Open,
+        BlurModel.setBlur
+    ]);
+
+    const hideAvaibleWallet = () => {
+        close()
+        setBlur(false)
+    }
+
+    const handleConnectWalletBtn = () => {
+        if(!isMainWalletOpen) {
+            open()
+            setBlur(true)
+        } else {
+            close()
+            setBlur(false)
+        }
+    }
+
     return (<div className={s.banner_info}>
         <div className={s.header}>
             Top 1 Casino on the WEB3
@@ -213,8 +256,11 @@ const BannerInfo: FC<BannerInfoProps> = props => {
             <div className={s.text}>
                 Login via Web3 wallets
             </div>
-            <div className={s.button}>
+            <div className={s.button} onClick={handleConnectWalletBtn} >
                 Connect Wallet
+            </div>
+            <div className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed} ${isMainWalletOpen && s.walletVisible}`}>
+                <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
         </div>
     </div>)
@@ -245,9 +291,27 @@ export default function Home() {
                 <div className={`${s.main_container}`}>
                     <BannerInfo />
                     <Games />
-                    <Notification />
-                    <Notification action={Action.success}/>
-                    <Notification action={Action.error}/>
+                    <Total />
+                    <CustomBets title='Live bets' isMainPage={true} isGamePage={false} bets={
+                        [
+                            {
+                                time:{ date: '25.08.23', time: '17:05' },
+                                game_name: 'Dice',
+                                player: 'UserName',
+                                wager: 11,
+                                multiplier: 3,
+                                profit: 5.34,
+                                userBg: '#3DBCE5',
+                                player_url: 'test',
+                                trx_url: 'test',
+                                game_url: 'test',
+                                network_icon: 'test',
+                                numBets: 1,
+                                gameAddress: '0x563...4ba9'
+                            }
+                        ]
+                    } />
+                    <LeaderBoard />
                 </div>
             </Layout>
             

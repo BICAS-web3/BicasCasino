@@ -8,3 +8,4 @@ export * from './SupportIcon';
 export * from './NotificationIcon_Success';
 export * from './NotificationIcon_Error';
 export * from './NotificationIcon_Awaiting';
+export * from './InfoIcon';
