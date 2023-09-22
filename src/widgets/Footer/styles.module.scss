@@ -1,13 +1,12 @@
 .footer {
     background: var(--Gray-1, #151515);
     display: flex;
-    position: absolute;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    bottom: -80px;
-    left: 0;
+    grid-column: 1/3;
+    grid-row: 2;
 }
 
 .footer_container {
@@ -89,10 +88,6 @@
         gap: 17px;
     }
 
-    .footer {
-        bottom: -105px;
-    }
-
     .footer_container {
         width: calc(100% - 480px);
     }
@@ -113,19 +108,9 @@
     }
 }
 
-@media screen and (max-width: 880px) {
-    .footer {
-        bottom: -300px;
-    }
-}
-
 @media screen and (max-width: 700px) {
     .icons_list {
         flex-direction: column;
-    }
-
-    .footer {
-        bottom: -600px;
     }
 }
 
@@ -146,7 +131,6 @@
 
     .footer {
         background: inherit;
-        bottom: -400px;
         height: 350px;
     }
 

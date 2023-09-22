@@ -1,7 +1,7 @@
 .page_container{
     position: relative;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 257px 1fr;
     min-height: 100vh;
     width: 100%;
 }
@@ -16,4 +16,16 @@
 
 .side_bar_wrapper{
     height: 100%;
+}
+
+@media screen and (max-width: 1280px) {
+    .page_container {
+        grid-template-columns: minmax(200px, 18.75vw) 1fr;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .page_container {
+        grid-template-columns: 1fr;
+    }
 }
