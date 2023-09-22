@@ -22,7 +22,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
                 <SideBar />
             </div>
             <Blur />
-            <main>
+            <main className={s.main_area}>
                 {children}
             </main>
             <Footer />
