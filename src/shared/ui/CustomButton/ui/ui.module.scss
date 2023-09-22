@@ -9,6 +9,7 @@
 .button {
   cursor: pointer;
   width: 100%;
+
   &.md {
     @media(320px <=width <= 700px) {
       width: 126px;
@@ -29,6 +30,7 @@
       border-radius: 12px;
     }
   }
+
   &.sm {
     @media(320px <=width <= 700px) {
       width: 88px;

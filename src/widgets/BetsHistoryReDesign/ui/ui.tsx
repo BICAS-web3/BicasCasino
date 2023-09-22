@@ -119,9 +119,6 @@ export const BetsHistoryReDesign: FC<{}> = () => {
             ))}
         </tbody>
       </table>
-      {/*<div className={styles.customBets_list}>*/}
-      {/*  {bets && bets.map((item, ind) => <TableItem {...item} key={ind} />)}*/}
-      {/*</div>*/}
       <div className={styles.button}>
         <CustomButton
           text="Load more"

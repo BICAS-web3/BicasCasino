@@ -22,7 +22,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
                 <SideBar />
             </div>
             <Blur />
-            <main>
+            <main style={{'width': '100%'}}>
                 {children}
             </main>
             <Footer />

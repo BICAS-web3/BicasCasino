@@ -88,15 +88,15 @@
     align-items: center;
     padding: 12px 20px 12px 20px;
     cursor: pointer;
-    @media(320px <=width <= 700px) {
-      padding: 8px 20px;
+    @media screen and (max-width: 869px) {
+      padding: 6px 20px;
     }
   }
 
   .selected_token, .token_item_selected:hover {
     background-color: #202020;
     border-radius: 12px;
-    @media(320px <=width <= 700px) {
+    @media screen and (max-width: 869px) {
       border-radius: 5px;
     }
   }

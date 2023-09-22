@@ -46,7 +46,7 @@ export default function Profile() {
           {/*    <RecentlyPlayedGames RecentlyGames={RecentlyGames} />*/}
           {/*  </div>*/}
           {/*</div>*/}
-          {/*<SwapTradeTokens />*/}
+          <SwapTradeTokens />
           {/*<div className={styles.swap}>*/}
           {/*  */}
           {/*</div>*/}
