@@ -6,3 +6,4 @@ export * from './GamesIcon';
 export * from './ArrowIcon';
 export * from './SupportIcon';
 export * from './CopyIcon';
+export * from './InfoIcon';
