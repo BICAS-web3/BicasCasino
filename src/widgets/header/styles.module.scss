@@ -233,6 +233,11 @@
     text-shadow: 0px 0px 11px #F9832C4D;
 }
 
+.header_mobile_closeSidebar_btn {
+    border: 0;
+    background: inherit;
+}
+
 .icon {
     width: 24px;
     height: 25px;
@@ -300,6 +305,12 @@
     .links, .link, .button {
         display: none;
         width: 0px;
+    }
+
+    .header_profile_ico_wrap {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
     }
 
     .burger {
