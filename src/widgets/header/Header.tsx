@@ -9,7 +9,7 @@ import FacebookEmblem from '@/public/media/social_media/facebook.svg';
 import TwitterEmblem from '@/public/media/social_media/twitter.svg';
 import * as Api from '@/shared/api';
 import { web3 } from '@/entities/web3/index';
-import {BigNumber, ethers} from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import Web3 from 'web3';
 import { ABI as IERC20 } from '@/shared/contracts/ERC20';
 import HeaderLogo from '@/public/media/brand_images/HeaderLogo.svg';
@@ -20,11 +20,11 @@ import BellIcon from '@/public/media/misc/bellIcon.svg';
 import { SideBarModel } from '@/widgets/SideBar';
 import * as BlurModel from '@/widgets/Blur/model'
 import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
-import {NetworkSelect} from "@/widgets/NetworkSelect/NetworkSelect";
-import {AvaibleWallet} from "@/widgets/AvaibleWallet";
+import { NetworkSelect } from "@/widgets/NetworkSelect/NetworkSelect";
+import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import * as SidebarM from '@/widgets/SideBar/model'
 import * as MainWallet from '../../pages/model'
-import {Open} from "@/widgets/header/model";
+//import {Open} from "@/widgets/header/model";
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -96,11 +96,11 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
     const [walletVisibility, setWalletVisibility] = useState(false)
 
     const handleConnectWalletBtn = () => {
-        if(isMainWalletOpen) {
+        if (isMainWalletOpen) {
             return null
         }
 
-        if(!walletVisibility) {
+        if (!walletVisibility) {
             setWalletVisibility(true)
             setBlur(true)
         } else {
