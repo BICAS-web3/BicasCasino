@@ -27,6 +27,7 @@ import { Layout } from '@/widgets/Layout';
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from '@/widgets/Total';
 
+import { Account } from '@/widgets/Account';
 import {GameLayout} from "@/widgets/GameLayout/layout";
 import {GamePage} from "@/widgets/GamePage/GamePage";
 import {CustomBets} from "@/widgets/CustomBets/CustomBets";
@@ -34,6 +35,7 @@ import {AvaibleWallet} from "@/widgets/AvaibleWallet";
 import {useUnit} from "effector-react";
 import {createStore} from "effector";
 import * as BlurModel from '@/widgets/Blur/model'
+
 
 
 const LinkIcon: FC<{}> = p => {
@@ -314,7 +316,7 @@ export default function Home() {
                 </div>
             </Layout>
 
-
+            
             {/* <Footer />
 			<InvitesList />
 			<GamesList />
