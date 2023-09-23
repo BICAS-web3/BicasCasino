@@ -20,13 +20,19 @@ export type T_NetworkInfo = {
     decimals: number;
 };
 
+export type T_NetworkFullInfo = {
+    basic_info: T_NetworkInfo,
+    explorers: T_BlockExplorerUrl[],
+    rpcs: T_RpcUrl[]
+};
+
+export type T_Networks = {
+    networks: Array<T_NetworkFullInfo>
+};
+
 export type T_Localization = {
 
 }
-
-export type T_Networks = {
-    networks: Array<T_NetworkInfo>
-};
 
 export type T_RpcUrl = {
     id: number;
@@ -126,9 +132,15 @@ export type T_GameAbi = {
     names: string,
 }
 
+export type T_Totals = {
+    bets_amount: number
+    player_amount: number,
+    sum: number
+};
+
 export type T_ApiResponse = {
     status: string,
-    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers
+    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers | T_Totals
 };
 
 export type T_GetUsername = {
@@ -275,6 +287,14 @@ export const getUserBetsInc = createEffect<T_GetUserBets, T_ApiResponse, string>
 export const GetGameById = createEffect<number, T_ApiResponse, string>(
     async game_id => {
         return fetch(`${BaseApiUrl}/game/get/${game_id}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetTotalsFx = createEffect<void, T_ApiResponse, string>(
+    async _ => {
+        return fetch(`${BaseApiUrl}/general/totals`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }

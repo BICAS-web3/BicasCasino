@@ -1,13 +1,13 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import * as Api from '@/shared/api';
-import {getLocalizationFx} from "@/shared/api";
+import { getLocalizationFx } from "@/shared/api";
 
 // variables
 export const $Localization = createStore<Api.T_Localization>({})
 export const $AvailableNetworks = createStore<Api.T_Networks>({ networks: [] });
 export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
 export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
-export const $AvailableBlocksExplorers = createStore<Map<number, Api.T_BlockExplorerUrl> | null>(null);
+export const $AvailableBlocksExplorers = createStore<Map<number, string> | null>(null);
 
 // events
 export const getLocalization = createEvent<string>()
@@ -17,13 +17,13 @@ export const setAvailableNetworks = createEvent<Api.T_Networks>();
 export const setAvailableRpcs = createEvent<Api.T_Rpcs>();
 export const setAvailableTokens = createEvent<Api.T_Tokens>();
 export const queryAvailableTokens = createEvent<{ network_id: number }>();
-export const setAvailableExplorers = createEvent<Api.T_BlockExplorers>();
+export const setAvailableExplorers = createEvent<Map<number, string>>();
 
 // handlers
-$AvailableNetworks.on(Api.getNetworksFx.doneData, (_, payload) => {
-    console.log(`Networks: ${JSON.stringify(payload)}`);
-    return (payload.body as Api.T_Networks);
-});
+// $AvailableNetworks.on(Api.getNetworksFx.doneData, (_, payload) => {
+//     console.log(`Networks: ${JSON.stringify(payload)}`);
+//     return (payload.body as Api.T_Networks);
+// });
 
 $AvailableRpcs.on(Api.getRpcsFx.doneData, (_, payload) => {
     console.log(`Networks: ${JSON.stringify(payload)}`);
@@ -39,11 +39,12 @@ $AvailableNetworks.on(setAvailableNetworks, (_, networks) => networks);
 $AvailableRpcs.on(setAvailableRpcs, (_, rpcs) => rpcs);
 $AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
 $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
-    var explorers_map = new Map<number, Api.T_BlockExplorerUrl>();
-    for (var exp of explorers.explorers) {
-        explorers_map.set(exp.network_id, exp);
-    }
-    return explorers_map;
+    // var explorers_map = new Map<number, Api.T_BlockExplorerUrl>();
+    // for (var exp of explorers.explorers) {
+    //     explorers_map.set(exp.network_id, exp);
+    // }
+    // return explorers_map;
+    return explorers;
 });
 
 

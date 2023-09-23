@@ -1,3 +1,4 @@
+import { SettingsInit } from '@/widgets/SettingsInit';
 import { Head, Html, Main, NextScript } from 'next/document';
 
 export default function Document() {
