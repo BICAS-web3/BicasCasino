@@ -6,18 +6,16 @@
   border-radius: 20px;
   padding: 34px 40px;
   justify-content: space-between;
+  height: fit-content;
   @media screen and (max-width: 3840px) {
     max-width: 100%;
-    height: 154px;
   }
   @media screen and (max-width: 1280px) {
     max-width: 918px;
-    height: 154px;
   }
   @media screen and (max-width: 864px) {
     padding: 34px 16px;
     max-width: 100%;
-    height: 154px;
   }
   @media screen and (max-width: 425px) {
     padding: 20px 16px;

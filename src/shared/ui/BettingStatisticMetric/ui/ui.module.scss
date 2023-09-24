@@ -5,29 +5,45 @@
   width: 308px;
   height: 38px;
   gap: 5px;
-  margin-top: 8px;
-  //margin:8px 25px 0 0;
   justify-content: space-between;
   border-bottom: 1px solid #252525;
-
-  .metric_title {
-    font-family: var(--font-source-sans-3);
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 18px;
-    letter-spacing: 0.04em;
-    text-align: left;
-    color: #EAEAEA;
-
+  padding: 10px 0;
+  @media screen and (max-width: 768px) {
+    max-width: 230px;
   }
-
-  .metric_total {
-    font-family: var(--font-nunito-sans);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 33px;
-    letter-spacing: 0em;
-    text-align: right;
-    color: #E5C787;
+  @media screen and (max-width: 425px) {
+    padding: 3px 0;
+    width: 140px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 110px;
   }
 }
+
+.metric_title {
+  font-family: var(--font-source-sans-3);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #EAEAEA;
+  @media screen and (max-width: 425px) {
+    font-size: 10px;
+  }
+
+}
+
+.metric_total {
+  font-family: var(--font-nunito-sans);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 33px;
+  letter-spacing: 0em;
+  text-align: right;
+  color: #E5C787;
+  @media screen and (max-width: 425px) {
+    font-size: 12px;
+  }
+}
+

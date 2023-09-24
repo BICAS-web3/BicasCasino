@@ -103,11 +103,13 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
 ];
-
-export const BetsHistoryReDesign: FC<{}> = () => {
+interface IBetsHistoryReDesign {
+  title: string
+}
+export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = ({title}) => {
   return (
     <div className={styles.table}>
-      <h2 className={styles.title}>Bet History</h2>
+      <h2 className={styles.title}>{title}</h2>
       <table>
       <TitleTable />
         <tbody>

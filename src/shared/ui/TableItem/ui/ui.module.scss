@@ -44,10 +44,11 @@
     letter-spacing: 0.56px;
     font-weight: 500;
   }
+
 }
 
 .date {
-  @media screen and (max-width: 415px) {
+  @media screen and (max-width: 425px) {
     display: none;
   }
 }

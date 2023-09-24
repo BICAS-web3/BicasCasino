@@ -35,25 +35,20 @@ export default function Profile() {
       <Layout>
         <></>
         <section className={styles.container}>
-          {/*<div className={styles.grid_container}>*/}
-          {/*  <div className={styles.card_container}>*/}
+          <div className={styles.grid_container}>
+            <div className={styles.card_container}>
               <ProfileCard />
-          {/*  </div>*/}
-          {/*  <div className={styles.profile_container}>*/}
-          {/*    <ProfileBettingStatistics />*/}
-          {/*  </div>*/}
-          {/*  <div className={styles.recently_container}>*/}
-          {/*    <RecentlyPlayedGames RecentlyGames={RecentlyGames} />*/}
-          {/*  </div>*/}
-          {/*</div>*/}
+            </div>
+            <div className={styles.profile_container}>
+              <ProfileBettingStatistics />
+            </div>
+            <div className={styles.recently_container}>
+              <RecentlyPlayedGames RecentlyGames={RecentlyGames} />
+            </div>
+          </div>
           <SwapTradeTokens />
-          {/*<div className={styles.swap}>*/}
-          {/*  */}
-          {/*</div>*/}
-          <BetsHistoryReDesign />
-          {/*<div className={styles.bets_history}>*/}
-          {/* */}
-          {/*</div>*/}
+          <BetsHistoryReDesign title={"Bet History"} />
+          <BetsHistoryReDesign title={"Pending Bets"} />
         </section>
       </Layout>
     </>

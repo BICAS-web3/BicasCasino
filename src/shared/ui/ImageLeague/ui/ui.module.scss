@@ -24,6 +24,9 @@
     @media screen and (max-width: 864px) {
       left: -18px;
     }
+    @media screen and (max-width: 768px) {
+      left: 4px;
+    }
     @media screen and (max-width: 425px) {
       left: -1px;
     }
@@ -40,6 +43,9 @@
     z-index: 0;
     @media screen and (max-width: 425px) {
       left: 14px;
+      filter: blur(20px);
+      z-index: 1;
+      top: 7px;
     }
   }
 
@@ -64,11 +70,16 @@
   position: absolute;
   left: 0;
   bottom: -31px;
-  height: 124%;
+  height: 166%;
   width: 1px;
   border-left: 1px solid #252525;
+  @media screen and (max-width: 768px) {
+    height: 149%;
+    bottom: -34px;
+  }
   @media screen and (max-width: 425px) {
     bottom: -7px;
     height: 112%;
+    display: none;
   }
 }

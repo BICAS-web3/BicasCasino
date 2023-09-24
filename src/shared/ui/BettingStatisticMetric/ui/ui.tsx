@@ -1,18 +1,22 @@
-import {FC} from "react";
-import styles from './ui.module.scss'
+import { FC } from "react";
+import styles from "./ui.module.scss";
+import { IBettingData } from "@/widgets/ProfileBettingStatistics";
 
 interface IBettingStatisticMetric {
-  id: number
-  title: string
-  total: number
+  data: IBettingData;
 }
 
-export const BettingStatisticMetric: FC<IBettingStatisticMetric> = ({id, title, total}) => {
-
+export const BettingStatisticMetric: FC<IBettingStatisticMetric> = ({
+  data,
+}) => {
   return (
-    <div className={styles.financial_metric}>
-      <h3 className={styles.metric_title}>{title}</h3>
-      <p className={styles.metric_total}>{`$${total}`}</p>
-    </div>
-  )
-}
+    <tr className={styles.financial_metric}>
+      <td className={styles.td}>
+        <span className={styles.metric_title}>{data.title}</span>
+      </td>
+      <td>
+        <span className={styles.metric_total}>${data.total}</span>
+      </td>
+    </tr>
+  );
+};
