@@ -38,7 +38,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
         const rpcs = { http: network.rpcs.map((value, _, __) => value.url) };
         chains.push({
             id: network.basic_info.network_id,
-            name: network.basic_info.network_name,
+            name: network.basic_info.short_name,
             network: network.basic_info.short_name,
             nativeCurrency: {
                 decimals: network.basic_info.decimals,
@@ -79,6 +79,11 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
                 chains,
                 options: {
                     projectId: '01e7a60839e8572c2da88e40b1db4893',
+                    qrModalOptions: {
+                        themeVariables: {
+                            "--wcm-z-index": "9999999"
+                        }
+                    }
                 },
             }),
             new InjectedConnector({

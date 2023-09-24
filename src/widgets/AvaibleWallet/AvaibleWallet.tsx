@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import s from './styles.module.scss';
 import Ledger from '@/public/media/select_wallet/Ledger.svg';
 import Coinbase from '@/public/media/select_wallet/CoinBase.svg';
@@ -8,11 +8,49 @@ import Trust_wallet from '@/public/media/select_wallet/Trust_wallet.svg';
 import WalletConnect from '@/public/media/select_wallet/WalletConnect.svg';
 import Close from '@/public/media/select_wallet/Close.svg';
 import { InfoIcon } from '@/shared/SVGs';
+import { useAccount, useConnect } from 'wagmi';
+import { SideBarModel } from '../SideBar';
+import * as MainWallet from '../../pages/model';
+import * as BlurModel from '@/widgets/Blur/model';
+import { useUnit } from 'effector-react';
 
-
-export interface WalletProps { icon: string; name: string; }
+export interface WalletProps {
+    icon: string;
+    name: string;
+    connector: any;
+}
 const Wallet: FC<WalletProps> = props => {
-    return (<div className={s.select_wallet_item}>
+    const {
+        connect } =
+        useConnect();
+    const { isConnected } = useAccount();
+
+    const [
+        isOpen,
+        closeWallet,
+        setBlur,
+        isBlurActive
+    ] = useUnit([
+        SideBarModel.$isOpen,
+        //MainWallet.$isMainWalletOpen,
+        MainWallet.Close,
+        BlurModel.setBlur,
+        BlurModel.$BlurActive
+    ]);
+
+    useEffect(() => {
+        if (isConnected && isBlurActive) {
+            setBlur(false);
+        }
+    }, [isConnected]);
+
+    return (<div
+        className={s.select_wallet_item}
+        onClick={() => {
+            closeWallet();
+            //setBlur(false);
+            connect({ connector: props.connector });
+        }}>
         <Image
             src={props.icon}
             alt={''}
@@ -25,7 +63,9 @@ const Wallet: FC<WalletProps> = props => {
 
 export interface AvaibleWalletProps { hideAvaibleWallet: () => void; }
 export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
-
+    const {
+        connectors } =
+        useConnect();
     return (<div className={s.avaibleWallet_container} >
 
         <div className={s.avaibleWallet}>
@@ -46,10 +86,10 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
             Connect Wallet
         </div>
         <div className={s.select_wallet}>
-            <Wallet name="Ledger" icon={Ledger} />
-            <Wallet name="Trust Wallet" icon={Trust_wallet} />
-            <Wallet name="Coinbase" icon={Coinbase} />
-            <Wallet name="WalletConnect" icon={WalletConnect} />
+            <Wallet name="Metamask" icon={Ledger} connector={connectors[0]} />
+            <Wallet name="Injected" icon={Trust_wallet} connector={connectors[3]} />
+            <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
+            <Wallet name="WalletConnect" icon={WalletConnect} connector={connectors[2]} />
         </div>
         <div className={s.info}>
             <a
