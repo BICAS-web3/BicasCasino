@@ -69,6 +69,11 @@
       flex-direction: column;
       gap: 14px;
     }
+    @media screen and ( max-width: 768px) {
+      height: fit-content;
+      width: initial;
+      padding: 16px 4px 32px 4px;
+    }
 
     .arrow_right {
 

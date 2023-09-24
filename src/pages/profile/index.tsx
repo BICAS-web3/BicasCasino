@@ -43,7 +43,7 @@ export default function Profile() {
               <ProfileBettingStatistics />
             </div>
             <div className={styles.recently_container}>
-              <RecentlyPlayedGames RecentlyGames={RecentlyGames} />
+              {/*<RecentlyPlayedGames RecentlyGames={RecentlyGames} />*/}
             </div>
           </div>
           <SwapTradeTokens />

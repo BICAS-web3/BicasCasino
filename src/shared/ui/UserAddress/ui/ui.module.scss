@@ -19,7 +19,7 @@
   display: block;
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
   .truncatedAddress {
     display: block;
   }
@@ -29,18 +29,3 @@
   }
 }
 
-//@media screen and (max-width: 425px) {
-//  width: 100px;
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//  white-space: nowrap;
-//  //left: -60px;
-//}
-
-//@media screen and (max-width: 425px) {
-//  .userAddress {
-//    overflow: hidden;
-//    text-overflow: ellipsis;
-//    white-space: nowrap;
-//  }
-//}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./ui.module.scss";
 import { BufferCopyIcon } from "@/shared/SVGs";
 

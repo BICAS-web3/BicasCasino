@@ -8,10 +8,17 @@
   padding: 35px 50px 25px;
   margin: 0 0 20px 0;
   max-width: 100%;
-
+  @media screen and ( max-width: 768px) {
+    padding: 35px 20px 25px;
+  }
+  @media screen and (max-width: 651px) {
+    padding: 30px 20px;
+    margin: 0;
+  }
   @media screen and (max-width: 650px) {
     padding: 40px 8px 30px 8px;
   }
+
 
   table {
     border-spacing: 0;
