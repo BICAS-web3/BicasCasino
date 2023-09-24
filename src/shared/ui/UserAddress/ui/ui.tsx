@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./ui.module.scss";
-import { CopyIcon } from "@/shared/SVGs";
+import { BufferCopyIcon } from "@/shared/SVGs";
 
 interface IUserAddress {
   address: string | null;
@@ -22,7 +22,7 @@ export const UserAddress: FC<IUserAddress> = ({ address }) => {
         {address.slice(0, 5) + "..." + address.slice(-5)}
       </span>
       <span className={styles.fullAddress}>{address}</span>
-      <CopyIcon onClick={handleNameChange} />
+      <BufferCopyIcon onClick={handleNameChange} />
     </span>
   );
 };

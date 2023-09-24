@@ -11,6 +11,9 @@
   @media screen and (max-width: 768px) {
     max-width: 230px;
   }
+  @media screen and (max-width: 651px) {
+    max-width: 200px;
+  }
   @media screen and (max-width: 425px) {
     padding: 3px 0;
     width: 140px;
@@ -28,6 +31,9 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #EAEAEA;
+  @media screen and (max-width: 651px) {
+    font-size: 12px;
+  }
   @media screen and (max-width: 425px) {
     font-size: 10px;
   }
@@ -42,6 +48,9 @@
   letter-spacing: 0em;
   text-align: right;
   color: #E5C787;
+  @media screen and (max-width: 651px) {
+    font-size: 16px;
+  }
   @media screen and (max-width: 425px) {
     font-size: 12px;
   }

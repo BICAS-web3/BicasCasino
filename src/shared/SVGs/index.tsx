@@ -7,5 +7,5 @@ export * from './ArrowIcon';
 export * from './SupportIcon';
 export * from './InfoIcon';
 export * from './EdithIcon'
-export * from './CopyIcon'
+export * from './BufferCopyIcon'
 export * from './ArrowIconRight'

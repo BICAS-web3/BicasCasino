@@ -1,10 +1,10 @@
 import {FC} from "react"
 
-interface ICopyIcon {
+interface IBufferCopyIcon {
   onClick: () => void
 }
 
-export const CopyIcon: FC<ICopyIcon> = ({onClick, ...props}) => (
+export const BufferCopyIcon: FC<IBufferCopyIcon> = ({onClick, ...props}) => (
   <svg style={{cursor:"pointer"}}
     width={15}
     height={15}
