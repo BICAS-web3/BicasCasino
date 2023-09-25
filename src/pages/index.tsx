@@ -24,6 +24,7 @@ import DiceBackground from '@/public/media/games_assets/dice/Background.png';
 import CoinflipBackground from '@/public/media/games_assets/coinflip/Background.png';
 import RPSBackground from '@/public/media/games_assets/rock_paper_scissors/Background.png';
 import { Layout } from '@/widgets/Layout';
+import { Action, Notification } from '@/widgets/Notification';
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from '@/widgets/Total';
 
@@ -316,7 +317,6 @@ export default function Home() {
                 </div>
             </Layout>
 
-            
             {/* <Footer />
 			<InvitesList />
 			<GamesList />
