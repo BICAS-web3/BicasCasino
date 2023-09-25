@@ -25,6 +25,7 @@ import {AvaibleWallet} from "@/widgets/AvaibleWallet";
 import * as SidebarM from '@/widgets/SideBar/model'
 import * as MainWallet from '../../pages/model'
 import {Open} from "@/widgets/header/model";
+import closeIco from '@/public/media/headerIcons/Close.svg'
 
 interface EmblemProps { };
 const Emblem: FC<EmblemProps> = props => {
@@ -86,11 +87,11 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
     const [
         isOpen,
         isMainWalletOpen,
-        setBlur
+        setBlur,
     ] = useUnit([
         SideBarModel.$isOpen,
         MainWallet.$isMainWalletOpen,
-        BlurModel.setBlur
+        BlurModel.setBlur,
     ]);
 
     const [walletVisibility, setWalletVisibility] = useState(false)
@@ -133,8 +134,26 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = props => {
 
 interface RightMenuProps { };
 const RightMenu: FC<RightMenuProps> = props => {
+    const [screenWidth, setScreenWidth] = useState()
 
     const condition = true
+
+    const [
+        isOpen,
+        close
+    ] = useUnit([
+        SideBarModel.$isOpen,
+        SideBarModel.Close
+    ])
+
+    const closeSidebar = () => {
+        close()
+        document.documentElement.style.overflow = 'visible'
+    }
+
+    useEffect(() => {
+        setScreenWidth(window.innerWidth)
+    }, [])
 
     return (<div className={s.right_menu}>
         <div className={s.button}>
@@ -158,12 +177,22 @@ const RightMenu: FC<RightMenuProps> = props => {
             />
         </div>
         {
-            condition ? (
-                <div className={s.header_profile_ico_wrap}>
-                    <span className={s.header_profile_ico_title}>А</span>
-                </div>
+            isOpen && screenWidth <=650 ? (
+                <button className={s.header_mobile_closeSidebar_btn} onClick={closeSidebar} >
+                    <Image src={closeIco} />
+                </button>
             ) : (
-                <ConnectWalletButton />
+                <div className={s.header_mobile_right_wrap}>
+                    {
+                        condition ? (
+                            <div className={s.header_profile_ico_wrap}>
+                                <span className={s.header_profile_ico_title}>А</span>
+                            </div>
+                        ) : (
+                            <ConnectWalletButton />
+                        )
+                    }
+                </div>
             )
         }
     </div>)
@@ -259,8 +288,21 @@ export const NetworkPicker: FC<NetworkPickerProps> = props => {
 
 interface BottomMenuProps { }
 const BottomMenu: FC<BottomMenuProps> = props => {
+
+    const [
+        openSidebar,
+    ] = useUnit([
+        SideBarModel.Open,
+    ])
+
+    const openSB = () => {
+        openSidebar()
+        window.scrollTo(0, 0)
+        document.documentElement.style.overflow = 'hidden'
+    }
+
     return (<div className={s.bottom_menu}>
-        <div className={s.element}>
+        <div className={s.element} onClick={openSB} >
             <Image
                 src={Burger}
                 alt=''

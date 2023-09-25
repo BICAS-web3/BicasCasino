@@ -161,11 +161,12 @@ export interface SideBarProps { };
 export const SideBar: FC<SideBarProps> = props => {
     const [
         isOpen,
-        currentPick
+        currentPick,
     ] = useUnit([
         SideBarModel.$isOpen,
-        SideBarModel.$currentPick
+        SideBarModel.$currentPick,
     ]);
+
     return (<div className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed}`}>
         {isOpen ? <OpenedSideBar pickedGame={currentPick} /> : <ClosedSideBar pickedGame={currentPick} />}
     </div>)
