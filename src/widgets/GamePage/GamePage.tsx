@@ -4,7 +4,7 @@ import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { GamePageModal } from "@/widgets/GamePage/GamePageModal";
 import React, { FC, useState } from "react";
 import { useUnit } from "effector-react";
-import * as MainWallet from "@/pages/model";
+import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 
 interface GamePageProps {

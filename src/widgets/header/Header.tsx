@@ -31,7 +31,7 @@ import {
 import { NetworkSelect } from "@/widgets/NetworkSelect/NetworkSelect";
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import * as SidebarM from "@/widgets/SideBar/model";
-import * as MainWallet from "../../pages/model";
+import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import closeIco from "@/public/media/headerIcons/Close.svg";
 
 interface EmblemProps {}
