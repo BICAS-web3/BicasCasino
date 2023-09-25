@@ -8,7 +8,7 @@
   max-width: 100%;
   max-height: fit-content;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 425px) {
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
@@ -16,7 +16,7 @@
     background-color: transparent;
     border-radius: 0;
     padding: 0;
-    max-width: 638px;
+    max-width: 528px;
   }
   @media screen and (max-width: 425px) {
     max-width: 424px;
@@ -24,6 +24,11 @@
   @media screen and (max-width: 375px) {
     max-width: 374px;
   }
+
+  @media screen and (max-width: 320px) {
+    max-width: 318px;
+  }
+
   .recently_played_heading {
     font-family: var(--font-nunito-sans);
     font-size: 20px;
@@ -48,7 +53,13 @@
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      gap: 50px;
     }
+
+    @media screen and (max-width: 1024px) {
+      gap: 26px;
+    }
+
     @media screen and (max-width: 768px) {
       overflow-x: auto;
       white-space: nowrap;
@@ -65,18 +76,31 @@
       .game_image {
         width: 100%;
         border-radius: 10px;
-
         height: fit-content;
+
         @media screen and (max-width: 1440px) {
-          width: 312px;
           height: 220px;
+          width: 312px;
         }
         @media screen and (max-width: 1280px) {
+          height: 230px;
+          width: 440px;
+        }
+        @media screen and (max-width: 1024px) {
           height: 190px;
-          width: 352px;
+          width: 350px;
+        }
+        @media screen and (max-width: 768px) {
+          height: 150px;
+          width: 220px;
         }
         @media screen and (max-width: 425px) {
-          max-width: 330px;
+          max-height: 140px;
+          max-width: 210px;
+        }
+        @media screen and (max-width: 320px) {
+          max-height: 130px;
+          max-width: 170px;
         }
       }
 
@@ -100,7 +124,15 @@
           line-height: 41px;
           @media screen and (max-width: 1024px) {
             font-size: 20px;
-            line-height: 10px;
+            line-height: 36px;
+          }
+          @media screen and (max-width: 425px) {
+            font-size: 14px;
+            line-height: 30px;
+          }
+          @media screen and (max-width: 320px) {
+            font-size: 12px;
+            line-height: 20px;
           }
         }
 
@@ -111,28 +143,45 @@
           line-height: 28px;
           text-align: left;
           color: #FFFFFFBF;
-          @media screen and (max-width: 768px) {
+          @media screen and (max-width: 1024px) {
             font-size: 18px;
             line-height: 26px;
             white-space: break-spaces;
+          }
+          @media screen and (max-width: 768px) {
+            font-size: 18px;
+            line-height: 16px;
+            white-space: break-spaces;
+          }
+          @media screen and (max-width: 425px) {
+            font-size: 14px;
+            line-height: 10px;
+          }
+          @media screen and (max-width: 320px) {
+            font-size: 12px;
+            line-height: 12px;
           }
         }
       }
     }
   }
+
   .recently_played_container::-webkit-scrollbar {
     height: 8px;
     border-radius: 6px;
 
   }
+
   .recently_played_container::-webkit-scrollbar-thumb {
     background-color: #7E7E7E;
     border-radius: 6px;
   }
+
   .recently_played_container::-webkit-scrollbar-track {
     background-color: #151515;
     border-radius: 6px;
   }
+
   @media screen and (max-width: 1280px) {
     .game_item {
       max-width: calc(100% - 15px);
@@ -140,3 +189,6 @@
   }
 }
 
+.side_bar_closed .container {
+  max-width: 637px;
+}
