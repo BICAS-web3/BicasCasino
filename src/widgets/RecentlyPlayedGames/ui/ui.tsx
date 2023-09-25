@@ -9,14 +9,12 @@ interface IRecentlyGames {
   imgBackground: StaticImageData | string;
 }
 
-export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = ({
-  RecentlyGames,
-}) => {
+export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = (props) => {
   return (
     <div className={styles.container}>
       <p className={styles.recently_played_heading}>recently played</p>
       <div className={styles.recently_played_container}>
-        {RecentlyGames.map((game: IRecentlyGames) => (
+        {props.RecentlyGames.map((game: IRecentlyGames) => (
           <div key={game.id} className={styles.game_item}>
             <Image
               src={game.imgBackground}

@@ -1,22 +1,28 @@
-.container{
+.container {
   display: flex;
-  gap: 5px;
   flex-direction: column;
   background-color: #151515;
   border-radius: 20px;
+  gap: 30px;
   padding: 27px;
-  justify-content: flex-start;
+  max-width: 100%;
+  max-height: fit-content;
 
-  @media screen and (max-width: 1440px){
-    height: fit-content;
-  }
   @media screen and (max-width: 768px) {
-    max-width: 568px;
-  }
-  @media screen and (max-width: 425px){
-    max-height: 112px;
-    padding: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     background-color: transparent;
+    border-radius: 0;
+    padding: 0;
+    max-width: 638px;
+  }
+  @media screen and (max-width: 425px) {
+    max-width: 424px;
+  }
+  @media screen and (max-width: 375px) {
+    max-width: 374px;
   }
   .recently_played_heading {
     font-family: var(--font-nunito-sans);
@@ -27,130 +33,109 @@
     text-align: left;
     color: #7E7E7E;
     text-transform: uppercase;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    position: relative;
-    top: 1px;
-    @media screen and (max-width: 425px) {
-      position: relative;
-      top: -37px;
-      margin-bottom: 22px;
-    }
-
-
-  }
-}
-.recently_played_container {
-  height: fit-content;
-  @media screen and (max-width: 3480px) {
-    width: 74%;
-  }
-  @media screen and (max-width: 1024px) {
-    display: flex;
-    flex-direction: row;
-  }
-  @media screen and (max-width: 425px) {
-    flex-direction: row;
-    background-color: inherit;
-    position: relative;
-    top: -94px;
-    width: 348px;
-    gap: 4px;
-    padding: 0 16px;
   }
 
-  .game_item {
-    position: relative;
+  .recently_played_container {
     max-width: 100%;
-    height: fit-content;
-    border-radius: 20px;
-    margin-bottom: 18px;
-    @media screen and (max-width: 1024px){
-      margin-right: 20px;;
+    display: flex;
+    gap: 30px;
+    overflow-x: hidden;
+    justify-content: flex-start;
+    flex-direction: column;
 
+
+    @media screen and (max-width: 1280px) {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
     }
-    @media screen and (max-width: 425px) {
-      top: 30px;
-      width: 160px;
-      height: 120px;
-    }
-
-    .game_image {
-      border-radius: 20px;
-      @media screen and (max-width: 1440px){
-        width: 318px;
-        height: 224px;
-      }
-      @media screen and (max-width: 1024px){
-        width: 336px;
-      }
-      @media screen and (max-width: 768px) {
-        max-width: 280px;
-        height: 170px;
-        color: transparent;
-      }
-
-      @media screen and (max-width: 425px) {
-        width: 160px;
-        height: 120px;
-      }
+    @media screen and (max-width: 768px) {
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none
     }
 
-    .content {
-      position: absolute;
-      top: 34%;
-      left: 59%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      overflow-wrap: break-word;
-      @media screen and (max-width: 425px){
+    .game_item {
+      max-width: 100%;
+      position: relative;
+      cursor: grab;
+      user-select: none;
+
+      .game_image {
+        width: 100%;
+        border-radius: 10px;
+
+        height: fit-content;
+        @media screen and (max-width: 1440px) {
+          width: 312px;
+          height: 220px;
+        }
+        @media screen and (max-width: 1280px) {
+          height: 190px;
+          width: 352px;
+        }
+        @media screen and (max-width: 425px) {
+          max-width: 330px;
+        }
+      }
+
+      .content {
+        position: absolute;
+        top: 25px;
+        left: 20px;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         max-width: 100%;
-        top: 39%;
-        left: -4%;
-      }
-      .game_title {
-        color: #E9E9F5;
-        text-transform: uppercase;
-        font-family: var(--font-nunito-sans);
-        font-size: 30px;
-        font-weight: 800;
-        line-height: 41px;
-        text-align: left;
-        margin-bottom: 6px;
-        @media screen and (max-width: 425px) {
-          font-size: 14px;
-          position: relative;
-          left: 94px;
-        }
-        @media screen and (max-width: 320px) {
-          position: relative;
-          left: 94px;
-        }
-      }
 
-      .game_text {
-        font-family: var(--font-source-sans-3);
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 28px;
-        text-align: left;
-        color: #FFFFFFBF;
-        word-break: break-word;
-        @media screen and (max-width: 1024px){
-          font-size: 18px;
+        .game_title {
+          color: #E9E9F5;
+          text-transform: uppercase;
+          font-family: var(--font-nunito-sans);
+          font-size: 30px;
+          font-weight: 800;
+          line-height: 41px;
+          @media screen and (max-width: 1024px) {
+            font-size: 20px;
+            line-height: 10px;
+          }
         }
-        @media screen and (max-width: 768px) {
-          font-size: 14px;
-        }
-        @media screen and (max-width: 425px) {
-          line-height: 14px;
-          font-size: 10px;
-          position: relative;
-          left: 94px;
-          top: -20px;
-          word-wrap: normal;
+
+        .game_text {
+          font-family: var(--font-source-sans-3);
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 28px;
+          text-align: left;
+          color: #FFFFFFBF;
+          @media screen and (max-width: 768px) {
+            font-size: 18px;
+            line-height: 26px;
+            white-space: break-spaces;
+          }
         }
       }
+    }
+  }
+  .recently_played_container::-webkit-scrollbar {
+    height: 8px;
+    border-radius: 6px;
+
+  }
+  .recently_played_container::-webkit-scrollbar-thumb {
+    background-color: #7E7E7E;
+    border-radius: 6px;
+  }
+  .recently_played_container::-webkit-scrollbar-track {
+    background-color: #151515;
+    border-radius: 6px;
+  }
+  @media screen and (max-width: 1280px) {
+    .game_item {
+      max-width: calc(100% - 15px);
     }
   }
 }
