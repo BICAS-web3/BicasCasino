@@ -14,6 +14,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyIcon } from "@/shared/SVGs";
 import ExitIcon from "@/public/media/account_icons/ExitIcon.svg";
 import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
+import * as HeaderAccModel from "@/widgets/Account/model";
+import { useUnit } from "effector-react";
+import * as BlurModel from "@/widgets/Blur/model";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -53,11 +56,22 @@ export interface AccountProps {}
 export const Account: FC<AccountProps> = (props) => {
   const value = "0xa51313...e34475";
   const [copied, setCopied] = useState(false);
+
+  const [closeHeaderAccount, setBlur] = useUnit([
+    HeaderAccModel.Close,
+    BlurModel.setBlur,
+  ]);
+
+  const handleHeaderAccClose = () => {
+    setBlur(false);
+    closeHeaderAccount();
+  };
+
   return (
     <div className={s.account_container}>
       <div className={s.account}>
         <div className={s.main_text}>Account</div>
-        <button className={s.btn_close}>
+        <button className={s.btn_close} onClick={handleHeaderAccClose}>
           <Image
             src={Close}
             alt={""}
@@ -76,7 +90,7 @@ export const Account: FC<AccountProps> = (props) => {
             <div className={s.profile_address}>{value}</div>
 
             <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-              <button className={s.btn_close}>
+              <button className={s.copyIcon}>
                 <CopyIcon />
               </button>
             </CopyToClipboard>
