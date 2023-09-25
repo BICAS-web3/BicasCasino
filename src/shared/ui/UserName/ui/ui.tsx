@@ -6,9 +6,9 @@ interface IUserName {
   userName: string | null
 }
 
-export const UserName: FC<IUserName> = ({userName}) => {
+export const UserName: FC<IUserName> = (props) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(userName || '')
+  const [newName, setNewName] = useState(props.userName || '')
   const inputRef = useRef<HTMLInputElement>(null);
   const handleNameChange = () => {
     setIsEditing(true);
@@ -47,7 +47,7 @@ export const UserName: FC<IUserName> = ({userName}) => {
         </div>
       ) : (
         <>
-          <span className={styles.name_span}>{isEditing ? newName : (newName || userName )}</span>
+          <span className={styles.name_span}>{isEditing ? newName : (newName || props.userName )}</span>
           <EdithIcon onClick={handleNameChange}/>
         </>
       )}

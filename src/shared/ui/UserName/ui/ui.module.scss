@@ -30,6 +30,23 @@
       font-family: var(--font-nunito-sans);
       border: none;
       outline: none;
+      @media screen and (max-width: 768px){
+        width: 40px;
+        padding: 3px 67px 3px 10px;
+      }
+      @media screen and (max-width: 425px){
+        width: 78px;
+        font-size: 10px;
+        border-radius: 5px;
+        padding: 3px 23px 3px 5px;
+      }
+      @media screen and (max-width: 375px){
+        width: 76px;
+        padding: 3px 19px 3px 3px;
+        font-size: 9px;
+        border-radius: 5px;
+      }
+
     }
 
     .ok_button {
@@ -46,6 +63,16 @@
       border-radius: 12px;
       border: none;
       outline: none;
+      @media screen and (max-width: 425px){
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 8px;
+      }
+      @media screen and (max-width: 375px){
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 9px;
+      }
     }
   }
 
