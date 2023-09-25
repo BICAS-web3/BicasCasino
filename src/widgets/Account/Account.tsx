@@ -75,11 +75,11 @@ export const Account: FC<AccountProps> = (props) => {
           <div className={s.profile_address}>
             <div className={s.profile_address}>{value}</div>
 
-            <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-              <button className={s.btn_close}>
-                <CopyIcon />
-              </button>
-            </CopyToClipboard>
+            {/*<CopyToClipboard text={value} onCopy={() => setCopied(true)}>*/}
+            {/*  <button className={s.btn_close}>*/}
+            {/*    <CopyIcon />*/}
+            {/*  </button>*/}
+            {/*</CopyToClipboard>*/}
           </div>
         </div>
       </div>
