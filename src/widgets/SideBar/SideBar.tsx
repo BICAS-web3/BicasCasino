@@ -8,6 +8,7 @@ import Discord from '@/public/media/social_media/Discord.svg';
 import Twitter from '@/public/media/social_media/Twitter.svg';
 import Telegram from '@/public/media/social_media/Telegram.svg';
 import Insta from '@/public/media/social_media/Insta.svg';
+import {LanguageSwitcher} from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 
 interface ClosedSideBarProps {
     pickedGame: number | null
@@ -89,8 +90,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                             SUPPORT
                         </div>
                     </div>
+                    <LanguageSwitcher />
                     {/* <div className={s.language_settings}>
-
                 </div> */}
                 </div>
                 <div className={s.lower_blocks}>
@@ -161,11 +162,12 @@ export interface SideBarProps { };
 export const SideBar: FC<SideBarProps> = props => {
     const [
         isOpen,
-        currentPick
+        currentPick,
     ] = useUnit([
         SideBarModel.$isOpen,
-        SideBarModel.$currentPick
+        SideBarModel.$currentPick,
     ]);
+
     return (<div className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed}`}>
         {isOpen ? <OpenedSideBar pickedGame={currentPick} /> : <ClosedSideBar pickedGame={currentPick} />}
     </div>)

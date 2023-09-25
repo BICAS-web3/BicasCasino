@@ -3,6 +3,7 @@
     //z-index: 0;
     height: 100%;
     //max-height: 2581px;
+    grid-column: 1;
 }
 
 .side_bar_upper {
@@ -322,7 +323,6 @@
     .side_bar_opened {
         width: 18.75vw;
         min-width: 200px;
-        position: absolute;
         z-index: 3;
         min-height: 1576px;
         height: 100%;
@@ -339,7 +339,35 @@
 }
 
 @media only screen and (max-width: 650px) {
-    .side_bar {
+    .side_bar_wrapper {
         display: none;
+    }
+
+    .side_bar_opened {
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+    }
+
+    .side_bar_closed {
+        display: none;
+    }
+
+    .side_bar_lower {
+        display: none;
+    }
+
+    .side_bar_upper {
+        gap: 3px;
+        height: 100%;
+        background: #0F0F0F;
+        padding: 20px;
+        width: calc(100% - 40px);
+    }
+
+    .buttons_menu,
+    .social_networks,
+    .support {
+        width: 100%;
     }
 }
