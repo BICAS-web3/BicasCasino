@@ -106,10 +106,10 @@ const bets = [
 interface IBetsHistoryReDesign {
   title: string
 }
-export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = ({title}) => {
+export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   return (
     <div className={styles.table}>
-      <h2 className={styles.title}>{title}</h2>
+      <h2 className={styles.title}>{props.title}</h2>
       <table>
       <TitleTable />
         <tbody>

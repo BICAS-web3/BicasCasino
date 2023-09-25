@@ -6,8 +6,8 @@ import {StaticImport} from "next/dist/shared/lib/get-img-props";
 interface IUserAvatar {
   avatarUrl: string | StaticImport
 }
-export const UserAvatar: FC<IUserAvatar> = ({avatarUrl}) => {
+export const UserAvatar: FC<IUserAvatar> = (props) => {
   return (
-    <Image className={styles.avatar} alt={'avatar'} src={avatarUrl} width={150} height={150}/>
+    <Image className={styles.avatar} alt={'avatar'} src={props.avatarUrl} width={150} height={150}/>
   )
 }

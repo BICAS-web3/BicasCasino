@@ -6,9 +6,9 @@ interface IUserAddress {
   address: string | null;
 }
 
-export const UserAddress: FC<IUserAddress> = ({ address }) => {
+export const UserAddress: FC<IUserAddress> = (props) => {
   const [isEditing, setIsEditing] = useState(false);
-  if (address === null) {
+  if (props.address === null) {
     return "Waiting.....";
   }
   const handleNameChange = () => {
@@ -19,9 +19,9 @@ export const UserAddress: FC<IUserAddress> = ({ address }) => {
   return (
     <span className={styles.userAddress}>
       <span className={styles.truncatedAddress}>
-        {address.slice(0, 5) + "..." + address.slice(-5)}
+        {props.address.slice(0, 5) + "..." + props.address.slice(-5)}
       </span>
-      <span className={styles.fullAddress}>{address}</span>
+      <span className={styles.fullAddress}>{props.address}</span>
       <BufferCopyIcon onClick={handleNameChange} />
     </span>
   );

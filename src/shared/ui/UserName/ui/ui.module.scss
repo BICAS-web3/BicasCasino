@@ -12,6 +12,7 @@
   align-items: center;
 
   @media screen and ( max-width: 425px) {
+    line-height: 18px;
     gap: 25px;
   }
   .input_wrapper {
@@ -31,8 +32,9 @@
       border: none;
       outline: none;
       @media screen and (max-width: 768px){
-        width: 40px;
-        padding: 3px 67px 3px 10px;
+        width: 116px;
+        padding: 3px 41px 3px 10px;
+        border-radius: 5px;
       }
       @media screen and (max-width: 425px){
         width: 78px;
@@ -63,6 +65,11 @@
       border-radius: 12px;
       border: none;
       outline: none;
+      @media screen and (max-width: 768px){
+        padding: 6px;
+        border-radius: 5px;
+        font-size: 12px;
+      }
       @media screen and (max-width: 425px){
         padding: 5px;
         border-radius: 5px;
