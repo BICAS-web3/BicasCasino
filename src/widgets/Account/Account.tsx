@@ -14,6 +14,9 @@ import ProfileIcon from "@/public/media/account_icons/ProfileIcon.svg";
 import { CopyIcon } from "@/shared/SVGs";
 import ExitIcon from "@/public/media/account_icons/ExitIcon.svg";
 import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
+import * as HeaderAccModel from "@/widgets/Account/model";
+import { useUnit } from "effector-react";
+import * as BlurModel from "@/widgets/Blur/model";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -53,11 +56,22 @@ export interface AccountProps { }
 export const Account: FC<AccountProps> = (props) => {
   const value = "0xa51313...e34475";
   const [copied, setCopied] = useState(false);
+
+  const [closeHeaderAccount, setBlur] = useUnit([
+    HeaderAccModel.Close,
+    BlurModel.setBlur,
+  ]);
+
+  const handleHeaderAccClose = () => {
+    setBlur(false);
+    closeHeaderAccount();
+  };
+
   return (
     <div className={s.account_container}>
       <div className={s.account}>
         <div className={s.main_text}>Account</div>
-        <button className={s.btn_close}>
+        <button className={s.btn_close} onClick={handleHeaderAccClose}>
           <Image
             src={Close}
             alt={""}
@@ -74,13 +88,7 @@ export const Account: FC<AccountProps> = (props) => {
           <div className={s.profile_nickname}>Athena</div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{value}</div>
-
-            {/* <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-              <button className={s.btn_close}>
-                <CopyIcon />
-              </button>
-            </CopyToClipboard> */}
-            <div className={s.btn_close} onClick={() => {
+            <div className={s.btn_copy} onClick={() => {
               setCopied(true);
               navigator.clipboard.writeText(value);
             }}>
@@ -98,6 +106,7 @@ export const Account: FC<AccountProps> = (props) => {
         {/* <AccountElement name="Explorer" icon={Explorer}/>
         <AccountElement name="Disconnect" icon={Exit}/> */}
       </div>
+      <div className={s.ellipse}></div>
     </div>
   );
 };

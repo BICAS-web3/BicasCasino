@@ -1,6 +1,13 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
-import * as Api from '@/shared/api';
-import { DLinkedList } from '@/shared/DS';
+import { createEffect, createEvent, createStore, sample } from "effector";
+import * as Api from "@/shared/api";
+import { DLinkedList } from "@/shared/DS";
+
+export const $isHeaderAccountOpened = createStore<boolean>(false);
+
+export const Open = createEvent<void>();
+export const Close = createEvent<void>();
+
+$isHeaderAccountOpened.on(Open, (_, __) => true).on(Close, (_, __) => false);
 
 // variables
 // export const $Nickname = createStore<Api.T_Nickname[]>([]);
