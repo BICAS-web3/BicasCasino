@@ -88,10 +88,6 @@ export const Account: FC<AccountProps> = (props) => {
           <div className={s.profile_nickname}>Athena</div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{value}</div>
-
-                <CopyIcon />
-              </button>
-            </CopyToClipboard> */}
             <div className={s.btn_close} onClick={() => {
               setCopied(true);
               navigator.clipboard.writeText(value);
