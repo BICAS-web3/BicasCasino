@@ -325,7 +325,6 @@ export default function Home() {
             ]}
           />
           <LeaderBoard />
-          <PokerWager />
         </div>
       </Layout>
 
