@@ -7,9 +7,9 @@ import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import Image from "next/image";
 
-interface WagerProps { }
+interface WagerProps {}
 
-export const Wager: FC<WagerProps> = ({ }) => {
+export const Wager: FC<WagerProps> = ({}) => {
   const [kriptoInputValue, setKriptoInputValue] = useState("000.000");
   const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
@@ -52,6 +52,9 @@ export const Wager: FC<WagerProps> = ({ }) => {
               </div>
             </div>
           </div>
+          <button className={s.poker_wager_drawing_cards_btn}>
+            Drawing cards
+          </button>
         </div>
         <div className={s.poker_wager_lower_btns_block}>
           <button className={s.poker_wager_sound_btn}>
@@ -65,8 +68,9 @@ export const Wager: FC<WagerProps> = ({ }) => {
               <Image alt="info-ico" src={infoIco} />
             </button>
             <div
-              className={`${s.poker_wager_info_modal_block} ${infoModalVisibility && s.active
-                }`}
+              className={`${s.poker_wager_info_modal_block} ${
+                infoModalVisibility && s.active
+              }`}
             >
               <Image
                 src={closeIco}
