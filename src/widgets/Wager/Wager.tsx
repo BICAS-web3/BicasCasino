@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
 import s from "./styles.module.scss";
-import tokenIco from "@/public/media/pokerWager_icons/tokenIco.svg";
-import dollarIco from "@/public/media/pokerWager_icons/dollarIco.svg";
-import soundIco from "@/public/media/pokerWager_icons/soundIco.svg";
-import infoIco from "@/public/media/pokerWager_icons/infoIco.svg";
-import closeIco from "@/public/media/pokerWager_icons/closeIco.svg";
+import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
+import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
+import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import infoIco from "@/public/media/Wager_icons/infoIco.svg";
+import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import Image from "next/image";
 
-interface PokerWagerProps {}
+interface WagerProps { }
 
-export const PokerWager: FC<PokerWagerProps> = ({}) => {
+export const Wager: FC<WagerProps> = ({ }) => {
   const [kriptoInputValue, setKriptoInputValue] = useState("000.000");
   const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
@@ -65,9 +65,8 @@ export const PokerWager: FC<PokerWagerProps> = ({}) => {
               <Image alt="info-ico" src={infoIco} />
             </button>
             <div
-              className={`${s.poker_wager_info_modal_block} ${
-                infoModalVisibility && s.active
-              }`}
+              className={`${s.poker_wager_info_modal_block} ${infoModalVisibility && s.active
+                }`}
             >
               <Image
                 src={closeIco}
