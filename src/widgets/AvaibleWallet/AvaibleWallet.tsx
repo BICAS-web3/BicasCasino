@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC, useEffect } from 'react';
 import s from './styles.module.scss';
 import Ledger from '@/public/media/select_wallet/Ledger.svg';
-import Coinbase from '@/public/media/select_wallet/CoinBase.svg';
+import Coinbase from '@/public/media/select_wallet/Coinbase.svg';
 import Info from '@/public/media/select_wallet/Info.svg';
 import Trust_wallet from '@/public/media/select_wallet/Trust_wallet.svg';
 import WalletConnect from '@/public/media/select_wallet/WalletConnect.svg';
@@ -10,7 +10,7 @@ import Close from '@/public/media/select_wallet/Close.svg';
 import { InfoIcon } from '@/shared/SVGs';
 import { useAccount, useConnect } from 'wagmi';
 import { SideBarModel } from '../SideBar';
-import * as MainWallet from '../../pages/model';
+import * as MainWallet from './model';
 import * as BlurModel from '@/widgets/Blur/model';
 import { useUnit } from 'effector-react';
 
@@ -67,7 +67,6 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
     connectors } =
     useConnect();
   return (<div className={s.avaibleWallet_container} >
-
     <div className={s.avaibleWallet}>
       <div className={s.main_text}>
         Available Wallet
@@ -104,3 +103,6 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
       <InfoIcon />
 
     </div>
+  </div >
+  );
+}

@@ -25,7 +25,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
 
   return (
     <div className={s.customBets_wrap}>
-      <div className={s.customBets_header} style={{ justifyContent: props.isMainPage && 'center' }}>
+      <div className={s.customBets_header} style={{ justifyContent: `${props.isMainPage && "center"}` }}>
         <h2 className={s.customBets_title}>
           {(props.isMainPage || props.isGamePage) && (<div className={s.customBets_title_circle}></div>)}
           {props.title}

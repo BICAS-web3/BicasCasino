@@ -55,7 +55,7 @@ export const GamePage: FC<GamePageProps> = ({
             </button>
           </div>
           <div className={s.game_block}>{children}</div>
-          <CustomBets
+          {/* <CustomBets
             title="Live bets"
             isGamePage={true}
             isMainPage={false}
@@ -76,7 +76,7 @@ export const GamePage: FC<GamePageProps> = ({
                 gameAddress: "0x563...4ba9",
               },
             ]}
-          />
+          /> */}
         </div>
       </div>
     </div>

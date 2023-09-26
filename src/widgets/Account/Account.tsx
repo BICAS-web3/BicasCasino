@@ -52,9 +52,13 @@ const AccountElement: FC<AccountElementProps> = (props) => {
 //     );
 // }
 
-export interface AccountProps { }
-export const Account: FC<AccountProps> = (props) => {
+export interface AccountProps {
+  address: string,
+  nickname: string | null
+}
+export const Account: FC<AccountProps> = props => {
   const value = "0xa51313...e34475";
+  const truncatedAddress = `${props.address.slice(0, 7)}...${props.address.slice(36, 42)}`
   const [copied, setCopied] = useState(false);
 
   const [closeHeaderAccount, setBlur] = useUnit([
@@ -85,12 +89,12 @@ export const Account: FC<AccountProps> = (props) => {
       <div className={s.profile}>
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
-          <div className={s.profile_nickname}>Athena</div>
+          <div className={s.profile_nickname}>{props.nickname ? props.nickname : truncatedAddress}</div>
           <div className={s.profile_address}>
-            <div className={s.profile_address}>{value}</div>
+            <div className={s.profile_address}>{truncatedAddress}</div>
             <div className={s.btn_copy} onClick={() => {
               setCopied(true);
-              navigator.clipboard.writeText(value);
+              navigator.clipboard.writeText(props.address);
             }}>
               <CopyIcon />
             </div>

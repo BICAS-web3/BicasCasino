@@ -107,7 +107,7 @@ export const NetworkSelect = () => {
           </div>
         )
       }
-      <div className={`${s.networks_list_wrap} ${activeNetwork === undefined && s.undefined_network}`} style={{ visibility: networkListVisibility && 'visible', opacity: networkListVisibility && '1' }} >
+      <div className={`${s.networks_list_wrap} ${activeNetwork === undefined && s.undefined_network}`} style={{ visibility: visibilityStyle, opacity: `${networkListVisibility && "1"}` }} >
         <>
           {
             activeNetwork === undefined && <NetworkErrorText error_text='wrong network' />
