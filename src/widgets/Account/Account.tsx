@@ -17,6 +17,7 @@ import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
 import * as HeaderAccModel from "@/widgets/Account/model";
 import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
+import { useDisconnect } from 'wagmi'
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -28,10 +29,11 @@ export enum Ewallet {
 export interface AccountElementProps {
   icon: string;
   name: string;
+  onClick: (() => void) | undefined;
 }
-const AccountElement: FC<AccountElementProps> = (props) => {
+const AccountElement: FC<AccountElementProps> = props => {
   return (
-    <button className={s.accountElement}>
+    <button className={s.accountElement} onClick={props.onClick}>
       <Image src={props.icon} alt={""} />
       <div className={s.text_icon}>{props.name}</div>
     </button>
@@ -57,8 +59,8 @@ export interface AccountProps {
   nickname: string | null
 }
 export const Account: FC<AccountProps> = props => {
-  const value = "0xa51313...e34475";
-  const truncatedAddress = `${props.address.slice(0, 7)}...${props.address.slice(36, 42)}`
+  const { disconnect } = useDisconnect();
+  const truncatedAddress = `${props.address.slice(0, 7)}...${props.address.slice(36, 42)}`;
   const [copied, setCopied] = useState(false);
 
   const [closeHeaderAccount, setBlur] = useUnit([
@@ -104,9 +106,9 @@ export const Account: FC<AccountProps> = props => {
       <div className={s.account_item}>
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
-        <AccountElement name="Profile" icon={ProfileIcon} />
-        <AccountElement name="Explorer" icon={ExplorerIcon} />
-        <AccountElement name="Disconnect" icon={ExitIcon} />
+        <AccountElement name="Profile" icon={ProfileIcon} onClick={undefined} />
+        <AccountElement name="Explorer" icon={ExplorerIcon} onClick={undefined} />
+        <AccountElement name="Disconnect" icon={ExitIcon} onClick={() => disconnect()} />
         {/* <AccountElement name="Explorer" icon={Explorer}/>
         <AccountElement name="Disconnect" icon={Exit}/> */}
       </div>

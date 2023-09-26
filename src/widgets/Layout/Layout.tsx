@@ -40,7 +40,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               <SideBar />
             </div>
 
-            <Blur />
+            {/* <Blur /> */}
             <main className={s.main_area}>{children}</main>
             <Footer />
           </div>
