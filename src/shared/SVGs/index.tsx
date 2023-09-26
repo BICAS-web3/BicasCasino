@@ -5,4 +5,8 @@ export * from './PokerButton';
 export * from './GamesIcon';
 export * from './ArrowIcon';
 export * from './SupportIcon';
+export * from './NotificationIcon_Success';
+export * from './NotificationIcon_Error';
+export * from './NotificationIcon_Awaiting';
+export * from './CopyIcon';
 export * from './InfoIcon';
