@@ -20,7 +20,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   }, []);
 
   return (
-    <div className={s.page_container}>
+    <div className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}>
       <Header />
       <div className={`${s.side_bar_wrapper} ${isOpen && s.sideBar_opened}`}>
         <SideBar />

@@ -10,7 +10,7 @@ import Close from "@/public/media/select_wallet/Close.svg";
 import Avatar from "@/public/media/account_icons/Avatar.png";
 import ProfileIcon from "@/public/media/account_icons/ProfileIcon.svg";
 // import { ConnectIcon, CopyIcon } from '@/shared/SVGs';
-import { CopyToClipboard } from "react-copy-to-clipboard";
+//import { CopyToClipboard } from "react-copy-to-clipboard";
 import { CopyIcon } from "@/shared/SVGs";
 import ExitIcon from "@/public/media/account_icons/ExitIcon.svg";
 import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
@@ -52,7 +52,7 @@ const AccountElement: FC<AccountElementProps> = (props) => {
 //     );
 // }
 
-export interface AccountProps {}
+export interface AccountProps { }
 export const Account: FC<AccountProps> = (props) => {
   const value = "0xa51313...e34475";
   const [copied, setCopied] = useState(false);
@@ -89,11 +89,15 @@ export const Account: FC<AccountProps> = (props) => {
           <div className={s.profile_address}>
             <div className={s.profile_address}>{value}</div>
 
-            <CopyToClipboard text={value} onCopy={() => setCopied(true)}>
-              <button className={s.copyIcon}>
                 <CopyIcon />
               </button>
-            </CopyToClipboard>
+            </CopyToClipboard> */}
+            <div className={s.btn_close} onClick={() => {
+              setCopied(true);
+              navigator.clipboard.writeText(value);
+            }}>
+              <CopyIcon />
+            </div>
           </div>
         </div>
       </div>
