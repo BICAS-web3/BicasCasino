@@ -36,6 +36,7 @@ import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { useUnit } from "effector-react";
 import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
+import { PokerWager } from "@/widgets/PokerWager/PokerWager";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -324,6 +325,7 @@ export default function Home() {
             ]}
           />
           <LeaderBoard />
+          <PokerWager />
         </div>
       </Layout>
 
