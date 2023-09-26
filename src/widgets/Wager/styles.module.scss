@@ -1,6 +1,7 @@
 .poker_wager_wrap {
   border-radius: 0px 20px 20px 0px;
   background: #151515;
+  height: 100%;
   max-width: 320px;
 }
 
@@ -40,6 +41,7 @@
 
 .poker_wager_input_kripto_ico_block {
   cursor: pointer;
+  position: relative;
 }
 
 .poker_wager_input_currency_block {
@@ -199,4 +201,58 @@
   letter-spacing: 0.72px;
   height: 50px;
   cursor: pointer;
+}
+
+.poker_wager_tokens_list_wrap {
+  position: absolute;
+  border-radius: 20px;
+  background: #181818;
+  padding: 20px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s;
+}
+
+.token_list_visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.poker_wager_tokens_list_title {
+  margin: 0 20px;
+  font-family: var(--font-nunito-sans);
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.56px;
+  min-width: 130px;
+  border-bottom: 1px solid #202020;
+  margin-bottom: 10px;
+}
+
+.poker_wager_tokens_list_item {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  padding: 10px 20px;
+  &:hover {
+    background: #202020;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .poker_wager_tokens_list_item_title {
+    margin-left: 10px;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150.8%;
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+  }
 }

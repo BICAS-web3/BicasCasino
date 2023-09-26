@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
@@ -7,12 +7,43 @@ import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import Image from "next/image";
 
+const tokensList = [
+  {
+    title: "token 1",
+    img: tokenIco,
+    id: "token1",
+  },
+  {
+    title: "token 2",
+    img: tokenIco,
+    id: "token2",
+  },
+  {
+    title: "token 3",
+    img: tokenIco,
+    id: "token3",
+  },
+];
+
 interface WagerProps {}
 
 export const Wager: FC<WagerProps> = ({}) => {
   const [kriptoInputValue, setKriptoInputValue] = useState("000.000");
   const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
+  const [tokens, setTokens] = useState(tokensList);
+  const [activeToken, setActiveToken] = useState(tokensList[0]);
+  const [tokenListVisibility, setTokenListVisibility] = useState(false);
+
+  const handleChangeToken = (tokenId: string) => {
+    setTokenListVisibility(false);
+    const token = tokensList.filter((item) => item.id === tokenId)[0];
+    setActiveToken(token);
+  };
+
+  useEffect(() => {
+    setTokens(tokensList.filter((item) => item.id !== activeToken.id));
+  }, [activeToken]);
 
   return (
     <div className={s.poker_wager_wrap}>
@@ -27,7 +58,38 @@ export const Wager: FC<WagerProps> = ({}) => {
                 value={kriptoInputValue}
               />
               <div className={s.poker_wager_input_kripto_ico_block}>
-                <Image alt="token-ico" src={tokenIco} />
+                <Image
+                  alt="token-ico"
+                  src={activeToken.img}
+                  onClick={() => setTokenListVisibility(true)}
+                />
+                <div
+                  className={`${s.poker_wager_tokens_list_wrap} ${
+                    tokenListVisibility && s.token_list_visible
+                  }`}
+                >
+                  <div className={s.poker_wager_tokens_list}>
+                    <h1 className={s.poker_wager_tokens_list_title}>
+                      Select token
+                    </h1>
+                    <div className={s.poker_wager_tokens_list}>
+                      {tokens &&
+                        tokens.map((token, _) => (
+                          <div
+                            className={s.poker_wager_tokens_list_item}
+                            onClick={() => handleChangeToken(token.id)}
+                          >
+                            <Image src={token.img} alt="token-ico" />
+                            <span
+                              className={s.poker_wager_tokens_list_item_title}
+                            >
+                              {token.title}
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className={s.poker_wager_input_currency_block}>

@@ -325,7 +325,6 @@ export default function Home() {
             ]}
           />
           <LeaderBoard />
-          <Wager />
         </div>
       </Layout>
 
