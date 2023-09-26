@@ -9,13 +9,14 @@
 // import { sessionModel } from '@/entities/session/';
 // import { useUnit } from 'effector-react';
 
-// export default function CoinFlip() {
+export default function CoinFlip() {
 
-//     return (
-//         <GameLayout gameName={'Coin Flip'} children={[
-//             <GameInfo name={'Coin Flip'} description={'A simple heads-or-tails game. 50% chance of winning with a 1.98x multiplier. Simply type in your wager amount and flip the coin!'} image={MinimalIcon} />,
-//             <CoinFlipGame />,
-//             // <LiveBets subscription_type={'Subscribe'} subscriptions={["CoinFlip"]} />
-//         ]} />
-//     );
-// }
+    return (
+        // <GameLayout gameName={'Coin Flip'} children={[
+        //     <GameInfo name={'Coin Flip'} description={'A simple heads-or-tails game. 50% chance of winning with a 1.98x multiplier. Simply type in your wager amount and flip the coin!'} image={MinimalIcon} />,
+        //     <CoinFlipGame />,
+        //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["CoinFlip"]} />
+        // ]} />
+        <></>
+    );
+}

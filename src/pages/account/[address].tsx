@@ -11,15 +11,16 @@
 // import { Profile as ProfileWidget } from '@/widgets/Profile';
 // import { useRouter } from 'next/router'
 
-// export default function Profile() {
-//     const router = useRouter();
-//     console.log("provided address", router.query.address);
-//     return (
-//         <>
-//             {router.query.address == undefined ? <></> :
-//                 <GameLayout gameName={'Coin Flip'} children={[
-//                     <ProfileWidget address={(router.query.address as string).toLowerCase()}></ProfileWidget>
-//                 ]} />}
-//         </>
-//     );
-// }
+export default function Profile() {
+    // const router = useRouter();
+    // console.log("provided address", router.query.address);
+    // return (
+    //     <>
+    //         {router.query.address == undefined ? <></> :
+    //             <GameLayout gameName={'Coin Flip'} children={[
+    //                 <ProfileWidget address={(router.query.address as string).toLowerCase()}></ProfileWidget>
+    //             ]} />}
+    //     </>
+    // );
+    return (<></>)
+}

@@ -9,10 +9,11 @@ import MinimalIcon from '@/public/media/games_assets/rock_paper_scissors/minimal
 export default function RockPaperScissors() {
 
     return (
-        <GameLayout gameName={'RockPaperScissors'} children={[
-            <GameInfo name={'Rock-Paper-Scissors'} description={'A classic game of Chinese origins.\nChoose rock, paper or scissors and place your bet. There is a 33% chance to draw, win or lose determined by which action you choose.'} image={MinimalIcon} />,
-            // s,
-            // <LiveBets subscription_type={'Subscribe'} subscriptions={["RockPaperScissors"]} />
-        ]} />
+        // <GameLayout gameName={'RockPaperScissors'} children={[
+        //     <GameInfo name={'Rock-Paper-Scissors'} description={'A classic game of Chinese origins.\nChoose rock, paper or scissors and place your bet. There is a 33% chance to draw, win or lose determined by which action you choose.'} image={MinimalIcon} />,
+        //     // s,
+        //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["RockPaperScissors"]} />
+        // ]} />
+        <></>
     );
 }
