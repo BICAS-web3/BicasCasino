@@ -37,7 +37,7 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
 
   useEffect(() => {
     setLanguagesList(languages.filter((item) => item.id !== activeLanguage.id));
-  }, [languagesList]);
+  }, [activeLanguage]);
 
   return (
     <div className={s.language_switcher_wrap}>

@@ -51,7 +51,6 @@
     "web3-validator": "1.0.2"
   },
   "devDependencies": {
-    "@types/react-copy-to-clipboard": "^5.0.4",
     "mini-css-extract-plugin": "^2.7.6"
   }
 }
