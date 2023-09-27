@@ -1,0 +1,108 @@
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;;
+  text-align: left;
+  color: #FFFFFF;
+  position: relative;
+
+  .selected_token {
+    display: flex;
+    align-items: flex-start;
+    background-color: #202020;
+    width: 146px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .token_icon {
+    width: 30px;
+    height: 30px;
+    @media(320px <=width <= 700px) {
+      width: 24px;
+      height: 24px;
+    }
+    margin-right: 10px;
+  }
+
+  .arrow_swap {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .arrow_open svg {
+    transition: 0.5s;
+    transform: rotate(0deg);
+  }
+
+  .arrow_close svg {
+    transition: 0.5s;
+    transform: rotate(180deg);
+  }
+
+  .token_list {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 46px;
+    left: 0;
+    width: 146px;
+    background-color: #202020;
+    border-radius: 0 0 12px 12px;
+    border: none;
+    outline: none;
+    z-index: 1;
+    @media(320px <=width <= 700px) {
+      top: 33px;
+    }
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-in-out, opacity .5s ease-in-out;
+  }
+
+  .token_list.open {
+    opacity: 1;
+    max-height: 250px;
+    @media(320px <=width <= 700px) {
+      border-radius: 5px;
+    }
+  }
+
+  .token_item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px 12px 20px;
+    cursor: pointer;
+  }
+
+  .token_item_selected {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px 12px 20px;
+    cursor: pointer;
+    @media screen and (max-width: 869px) {
+      padding: 6px 20px;
+    }
+  }
+
+  .selected_token, .token_item_selected:hover {
+    background-color: #202020;
+    border-radius: 12px;
+    @media screen and (max-width: 869px) {
+      border-radius: 5px;
+    }
+  }
+
+  .token_item:hover {
+    background-color: #363636
+  }
+}
+

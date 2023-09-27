@@ -1,86 +1,28 @@
 .game_layout {
-  top: 80px;
-  position: relative;
-  left: 0;
   width: 100%;
-}
-
-.game_body {
-  padding: 40px;
 }
 
 .game_wrap {
   position: relative;
 }
 
-.game_background_wrap {
-  position: absolute;
-  z-index: -1;
-  object-fit: cover;
-
-  img {
-    height: 300px;
-    width: 100%;
-  }
-}
-
-.game_background_shadow {
-  background: linear-gradient(0deg, #0F0F0F 40.97%, rgba(15, 15, 15, 0.00) 118.28%);
-  height: 310px;
-  z-index: -1;
-  width: 100%;
-  position: absolute;
-}
-
-.game_header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.game_title {
-  font-family: var(--font-nunito-sans);
-  color: #EAEAEA;
-  font-size: 50px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-  text-transform: uppercase;
-}
-
-.game_info_btn {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 15px;
-  border-radius: 12px;
-  border: 1px solid #E5C787;
-  background: inherit;
-  font-family: var(--font-source-sans-3);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 120%;
-  color: #E5C787;
-  letter-spacing: 0.72px;
-  box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.30);
+.game {
+  display: grid;
+  grid-template-columns: 1fr 315px;
+  margin-bottom: 40px;
 }
 
 .game_block {
-  border-radius: 20px;
-  border: 1px solid #202020;
+  border-radius: 20px 0 0 20px;
   background: #181818;
-  margin-top: 40px;
-  margin-bottom: 30px;
-  height: 680px; // demo height
+  min-height: 680px;
+  width: 100%;
 }
 
 .game_page_modal_wrap {
   opacity: 0;
   visibility: hidden;
-  transition: all .4s;
-
+  transition: all 0.4s;
   width: 100%;
   height: 100vh;
   position: absolute;
@@ -99,7 +41,6 @@
   flex-direction: column;
   padding: 20px 45px;
   align-items: center;
-
   width: 300px;
   position: relative;
   top: calc(50% - 80px);
@@ -112,10 +53,11 @@
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
-  line-height: 120%; /* 26.4px */
+  line-height: 120%;
+  /* 26.4px */
   letter-spacing: 0.88px;
   margin-bottom: 20px;
-  color: #EAEAEA;
+  color: #eaeaea;
 }
 
 .game_page_modal_text {
@@ -135,7 +77,24 @@
 }
 
 @media screen and (max-width: 1280px) {
-  .game_layout {
-    top: 70px;
+  .game {
+    grid-template-columns: 1fr 250px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .game {
+    grid-template-columns: 1fr;
+    position: relative;
+  }
+  .game_block {
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .game_block {
+    height: 255px;
+    min-height: 100%;
   }
 }

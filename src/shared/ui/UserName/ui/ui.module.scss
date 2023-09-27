@@ -1,0 +1,94 @@
+.user_name {
+  font-family: var(--font-nunito-sans);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 39px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #EAEAEA;
+  box-sizing: border-box;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  @media screen and ( max-width: 425px) {
+    line-height: 18px;
+    gap: 25px;
+  }
+  .input_wrapper {
+    position: relative;
+    align-items: center;
+    display: flex;
+
+    .input_user_name {
+      width: 202px;
+      padding: 9px 69px 9px 15px;
+      background: #202020;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 400;
+      color: #7E7E7E;
+      font-family: var(--font-nunito-sans);
+      border: none;
+      outline: none;
+      @media screen and (max-width: 768px){
+        width: 116px;
+        padding: 3px 41px 3px 10px;
+        border-radius: 5px;
+      }
+      @media screen and (max-width: 425px){
+        width: 78px;
+        font-size: 10px;
+        border-radius: 5px;
+        padding: 3px 23px 3px 5px;
+      }
+      @media screen and (max-width: 375px){
+        width: 76px;
+        padding: 3px 19px 3px 3px;
+        font-size: 9px;
+        border-radius: 5px;
+      }
+
+    }
+
+    .ok_button {
+      position: absolute;
+      top: 50%;
+      right: -1px;
+      transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: 900;
+      font-family: var(--font-nunito-sans);
+      color: #7E7E7E;
+      background-color: #2F2F2F;
+      padding: 10px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      @media screen and (max-width: 768px){
+        padding: 6px;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+      @media screen and (max-width: 425px){
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 8px;
+      }
+      @media screen and (max-width: 375px){
+        padding: 3px;
+        border-radius: 5px;
+        font-size: 9px;
+      }
+    }
+  }
+
+  .name_span {
+    font-size: 28px;
+    font-weight: 700;
+    font-family: var(--font-nunito-sans);
+    @media screen and (max-width: 425px) {
+      font-size: 16px;
+    }
+  }
+}

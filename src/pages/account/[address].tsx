@@ -1,26 +1,59 @@
-// import Head from 'next/head';
-// import { Header } from '@/widgets/header/index';
-// import Image from 'next/image';
-// import { GameLayout } from '@/widgets/GameLayout/layout';
-// import { GameInfo } from '@/widgets/GameInfo';
-// import { CoinFlip as CoinFlipGame } from '@/widgets/CoinFlip';
-// import MinimalIcon from '@/public/media/games_assets/coinflip/minimal_icon.svg';
-// import { LiveBetsWS } from '@/widgets/LiveBets';
-// import { sessionModel } from '@/entities/session/';
-// import { useUnit } from 'effector-react';
-// import { Profile as ProfileWidget } from '@/widgets/Profile';
-// import { useRouter } from 'next/router'
+import Head from 'next/head';
+import { ProfileCard } from "@/widgets/ProfileCard";
+import { RecentlyPlayedGames } from "@/widgets/RecentlyPlayedGames";
+import coinflipImg from "@/public/media/recently_games/conflip.png";
+import dunkinImg from "@/public/media/recently_games/dunkin.png";
+import { Layout } from "@/widgets/Layout";
+import React from "react";
+import styles from "./index.module.scss";
+import { ProfileBettingStatistics } from "@/widgets/ProfileBettingStatistics";
+import { SwapTradeTokens } from "@/widgets/SwapTradeTokens/ui/ui";
+import { BetsHistoryReDesign } from "@/widgets/BetsHistoryReDesign";
+import { useRouter } from 'next/router'
+
+const RecentlyGames = [
+    {
+        id: 1,
+        title: "Coinflip",
+        text: "A game where you have to beat your opponent with a chip",
+        imgBackground: coinflipImg,
+    },
+    {
+        id: 2,
+        title: "Dunkin caps",
+        text: "A game where you have to beat your opponent with a chip",
+        imgBackground: dunkinImg,
+    },
+];
 
 export default function Profile() {
-    // const router = useRouter();
-    // console.log("provided address", router.query.address);
-    // return (
-    //     <>
-    //         {router.query.address == undefined ? <></> :
-    //             <GameLayout gameName={'Coin Flip'} children={[
-    //                 <ProfileWidget address={(router.query.address as string).toLowerCase()}></ProfileWidget>
-    //             ]} />}
-    //     </>
-    // );
-    return (<></>)
+    const router = useRouter();
+    console.log("provided address", router.query);
+    return (
+        <>
+            <Head>
+                <title>NFT Play | Account page</title>
+            </Head>
+            {router.query.address ?
+                <Layout>
+                    <></>
+                    <section className={styles.container}>
+                        <div className={styles.grid_container}>
+                            <div className={styles.card_container}>
+                                <ProfileCard address={(router.query.address as string).toLowerCase()} />
+                            </div>
+                            <div className={styles.profile_container}>
+                                <ProfileBettingStatistics />
+                            </div>
+                            <div className={styles.recently_container}>
+                                <RecentlyPlayedGames RecentlyGames={RecentlyGames} />
+                            </div>
+                        </div>
+                        <SwapTradeTokens />
+                        <BetsHistoryReDesign title={"Bet History"} />
+                        <BetsHistoryReDesign title={"Pending Bets"} />
+                    </section>
+                </Layout> : <></>}
+        </>
+    );
 }
