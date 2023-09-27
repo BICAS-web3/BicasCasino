@@ -14,8 +14,7 @@
   display: flex;
   flex-direction: row;
   min-height: 100vh;
-  width: calc(100% - 40px);
-  //filter: blur(4px);
+  width: 100%; //filter: blur(4px);
 }
 
 .side_bar_wrapper {
