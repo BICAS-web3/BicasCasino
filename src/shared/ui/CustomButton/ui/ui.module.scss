@@ -9,7 +9,7 @@
 .button {
   cursor: pointer;
   width: 100%;
-
+  white-space: nowrap;
   &.md {
     @media screen and (max-width: 3840px) {
       max-width: 306px;
@@ -58,12 +58,10 @@
     }
     @media screen and (max-width: 768px) {
       width: 88px;
-      height: 32px;
+      height: 36px;
       padding: 10px 20px;
       border-radius: 5px;
     }
-
-
   }
 }
 
