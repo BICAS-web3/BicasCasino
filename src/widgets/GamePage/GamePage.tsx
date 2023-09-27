@@ -6,6 +6,7 @@ import React, { FC, useState } from "react";
 import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
+import { Wager } from "@/widgets/Wager/Wager";
 
 interface GamePageProps {
   children: React.ReactNode;
@@ -40,21 +41,11 @@ export const GamePage: FC<GamePageProps> = ({
           closeModal={closeModal}
           modalVisible={modalVisibility}
         />
-        <div className={s.game_background_wrap}>
-          <img src={gameBg.src} alt="background-img" />
-        </div>
-        <div className={s.game_background_shadow}></div>
         <div className={s.game_body}>
-          <div className={s.game_header}>
-            <h2 className={s.game_title}>{gameTitle}</h2>
-            <button
-              className={s.game_info_btn}
-              onClick={handleModalVisibilityChange}
-            >
-              About the game
-            </button>
+          <div className={s.game}>
+            <div className={s.game_block}>{children}</div>
+            <Wager />
           </div>
-          <div className={s.game_block}>{children}</div>
           <CustomBets
             title="Live bets"
             isGamePage={true}
