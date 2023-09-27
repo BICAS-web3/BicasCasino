@@ -7,7 +7,9 @@
   padding: 27px;
   max-width: 100%;
   max-height: fit-content;
-
+  @media screen and (max-width: 768px) {
+    gap: 10px;
+  }
   @media screen and (max-width: 425px) {
     overflow-x: auto;
     white-space: nowrap;
@@ -16,11 +18,9 @@
     background-color: transparent;
     border-radius: 0;
     padding: 0;
-    max-width: 528px;
-  }
-  @media screen and (max-width: 425px) {
     max-width: 424px;
   }
+
   @media screen and (max-width: 375px) {
     max-width: 374px;
   }
@@ -38,6 +38,10 @@
     text-align: left;
     color: #7E7E7E;
     text-transform: uppercase;
+    margin-left: 20px;
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
   }
 
   .recently_played_container {
