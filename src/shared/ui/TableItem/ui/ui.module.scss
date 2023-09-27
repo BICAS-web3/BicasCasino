@@ -1,0 +1,94 @@
+.td {
+  width: auto;
+}
+
+.avatar, .game_ico, .wagerIco {
+  width: 30px;
+  height: 30px;
+  @media screen and (max-width: 375px) {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+.link_block {
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 10px;
+  padding: 16px 0;
+  @media screen and (max-width: 375px) {
+    column-gap: 2px;
+  }
+}
+
+.date, .time, .game, .player_name, .item {
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  color: #EAEAEA;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+  @media screen and (max-width: 375px) {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  &_wager, &_multiplier {
+    font-family: var(--font-source-sans-3);
+    font-size: 14px;
+    color: #EAEAEA;
+    line-height: 120%;
+    letter-spacing: 0.56px;
+    font-weight: 500;
+  }
+
+}
+
+.date {
+  @media screen and (max-width: 425px) {
+    display: none;
+  }
+}
+
+.profit {
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+  color: #DDB775;
+  @media screen and (max-width: 375px) {
+    font-size: 10px;
+  }
+}
+
+.address {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+  @media screen and (max-width: 1080px) {
+    display: none;
+  }
+}
+
+.td:nth-child(4), .td:nth-child(5), .td:nth-child(6) {
+  @media screen and (max-width: 1080px) {
+    display: none;
+  }
+}
+.td:nth-child(8) {
+  @media screen and (max-width: 3480px) {
+    display: none;
+  }
+}
+.td:nth-child(8) {
+  @media screen and (max-width: 1280px) {
+    display: block;
+  }
+}
