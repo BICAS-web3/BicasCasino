@@ -5,8 +5,6 @@ import emptyAvatar from '@/public/media/player_icons/emptyAvatar.svg'
 import { UserAddress } from "@/shared/ui/UserAddress/ui/ui";
 import styles from './ui.module.scss'
 import { ImageLeague } from "@/shared/ui/ImageLeague";
-// TODO: address - you can get it from @habdevs
-//  the store and see how it is used in the Profile component
 
 export interface ProfileCardProps {
   address: string
