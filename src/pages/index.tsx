@@ -36,6 +36,7 @@ import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { useUnit } from "effector-react";
 import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
+import { Wager } from "@/widgets/Wager/Wager";
 
 const LinkIcon: FC<{}> = (p) => {
   return (

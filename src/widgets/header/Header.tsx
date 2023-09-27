@@ -19,6 +19,7 @@ import ChatIcon from "@/public/media/misc/chatIcon.svg";
 import BellIcon from "@/public/media/misc/bellIcon.svg";
 import { SideBarModel } from "@/widgets/SideBar";
 import * as BlurModel from "@/widgets/Blur/model";
+import * as HeaderAccModel from "@/widgets/Account/model";
 import {
   CoinButton,
   DiceButton,
@@ -33,6 +34,7 @@ import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import * as SidebarM from "@/widgets/SideBar/model";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import closeIco from "@/public/media/headerIcons/Close.svg";
+import { Account } from "../Account";
 
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
@@ -133,7 +135,21 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
   const condition = true;
 
-  const [isOpen, close] = useUnit([SideBarModel.$isOpen, SideBarModel.Close]);
+  const [
+    isOpen,
+    close,
+    openHeaderAcc,
+    closeHeaderAcc,
+    isHeaderAccOpened,
+    setBlur,
+  ] = useUnit([
+    SideBarModel.$isOpen,
+    SideBarModel.Close,
+    HeaderAccModel.Open,
+    HeaderAccModel.Close,
+    HeaderAccModel.$isHeaderAccountOpened,
+    BlurModel.setBlur,
+  ]);
 
   const closeSidebar = () => {
     close();
@@ -143,6 +159,13 @@ const RightMenu: FC<RightMenuProps> = (props) => {
   useEffect(() => {
     setScreenWidth(window.innerWidth);
   }, []);
+
+  const handleHeaderAccountVisibility = () => {
+    if (!isHeaderAccOpened) {
+      setBlur(true);
+      openHeaderAcc();
+    }
+  };
 
   return (
     <div className={s.right_menu}>
@@ -176,7 +199,13 @@ const RightMenu: FC<RightMenuProps> = (props) => {
         <div className={s.header_mobile_right_wrap}>
           {condition ? (
             <div className={s.header_profile_ico_wrap}>
-              <span className={s.header_profile_ico_title}>А</span>
+              <div
+                className={s.header_profile_ico_block}
+                onClick={handleHeaderAccountVisibility}
+              >
+                <span className={s.header_profile_ico_title}>А</span>
+              </div>
+              {isHeaderAccOpened && <Account />}
             </div>
           ) : (
             <ConnectWalletButton />

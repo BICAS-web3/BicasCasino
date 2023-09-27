@@ -35,15 +35,8 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
     activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
   };
 
-  // useEffect(() => {
-  //   setLanguagesList(languages.filter((item) => item.id !== activeLanguage.id));
-  // }, [languagesList]);
-
-  // FIX: @habdevs languagesList will be updated only when activeLanguage changes, which prevents cyclic updates.
   useEffect(() => {
-    setLanguagesList((prevLanguages) =>
-      prevLanguages.filter((item) => item.id !== activeLanguage.id)
-    );
+    setLanguagesList(languages.filter((item) => item.id !== activeLanguage.id));
   }, [activeLanguage]);
 
   return (
