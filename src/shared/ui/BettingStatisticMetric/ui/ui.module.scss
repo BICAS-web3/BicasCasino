@@ -9,7 +9,7 @@
   border-bottom: 1px solid #252525;
   padding: 10px 0;
   @media screen and (max-width: 768px) {
-    max-width: 222px;
+    max-width: 190px;
   }
   @media screen and (max-width: 651px) {
     max-width: 220px;
@@ -31,6 +31,9 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #EAEAEA;
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+  }
   @media screen and (max-width: 651px) {
     font-size: 12px;
   }
@@ -48,6 +51,9 @@
   letter-spacing: 0em;
   text-align: right;
   color: #E5C787;
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
   @media screen and (max-width: 651px) {
     font-size: 16px;
   }
