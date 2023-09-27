@@ -76,6 +76,10 @@
     }
 
     .arrow_right {
+      @media screen and (max-width: 768px) {
+        transition: 0.5s;
+        transform: rotate(90deg);
+      }
 
     }
 
