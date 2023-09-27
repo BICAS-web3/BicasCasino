@@ -17,54 +17,52 @@
       padding: 14px 103px 14px 103px;
       border-radius: 12px;
     }
-    @media(max-width: 1280px) {
+    @media screen and (max-width: 1280px) {
       max-width: 164px;
       padding: 14px 32px 14px 32px;
       border-radius: 12px;
     }
-    @media(max-width: 1280px) {
+    @media screen and (max-width: 1280px) {
       max-width: 154px;
       padding: 14px 22px 14px 22px;
       border-radius: 12px;
     }
-    @media(max-width: 768px) {
+    @media screen and (max-width: 768px) {
       max-width: 164px;
       height: 36px;
       padding: 8px 28px 8px 28px;
       border-radius: 5px;
       line-height: 20px;
     }
-    @media(max-width: 425px) {
+    @media screen and (max-width: 425px) {
       max-width: 126px;
       height: 34px;
       padding: 8px 30px 8px 30px;
       border-radius: 5px;
       line-height: 20px;
     }
-
-
-
   }
 
   &.sm {
-    @media(max-width: 3840px) {
+    @media screen and (max-width: 3840px) {
       width: 137px;
       height: 40px;
       padding: 12px 10px;
       border-radius: 12px;
     }
-    @media(320px <=width <= 700px) {
-      width: 88px;
-      height: 32px;
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
-    @media(700px <=width <= 1280px) {
+    @media screen and (max-width: 1280px) {
       width: 152px;
       height: 50px;
       padding: 14px 10px 14px 10px;
       border-radius: 12px;
     }
+    @media screen and (max-width: 768px) {
+      width: 88px;
+      height: 32px;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
 
   }
 }
