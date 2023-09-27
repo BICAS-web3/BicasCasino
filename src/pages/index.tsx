@@ -12,7 +12,7 @@ import RPSBlendIcon from "@/public/media/games_assets/rock_paper_scissors/icon_b
 
 import DiceColoredIcon from "@/public/media/games_assets/dice/icon_colored.svg";
 import DiceBlendIcon from "@/public/media/games_assets/dice/icon_blend.svg";
-import * as MainWallet from "./model";
+import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
