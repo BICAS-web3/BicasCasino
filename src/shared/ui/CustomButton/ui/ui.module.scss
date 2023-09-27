@@ -1,0 +1,121 @@
+.button span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.button {
+  cursor: pointer;
+  width: 100%;
+
+  &.md {
+    @media screen and (max-width: 3840px) {
+      max-width: 306px;
+      height: 50px;
+      padding: 14px 103px 14px 103px;
+      border-radius: 12px;
+    }
+    @media(max-width: 1280px) {
+      max-width: 164px;
+      padding: 14px 32px 14px 32px;
+      border-radius: 12px;
+    }
+    @media(max-width: 1280px) {
+      max-width: 154px;
+      padding: 14px 22px 14px 22px;
+      border-radius: 12px;
+    }
+    @media(max-width: 768px) {
+      max-width: 164px;
+      height: 36px;
+      padding: 8px 28px 8px 28px;
+      border-radius: 5px;
+      line-height: 20px;
+    }
+    @media(max-width: 425px) {
+      max-width: 126px;
+      height: 34px;
+      padding: 8px 30px 8px 30px;
+      border-radius: 5px;
+      line-height: 20px;
+    }
+
+
+
+  }
+
+  &.sm {
+    @media(max-width: 3840px) {
+      width: 137px;
+      height: 40px;
+      padding: 12px 10px;
+      border-radius: 12px;
+    }
+    @media(320px <=width <= 700px) {
+      width: 88px;
+      height: 32px;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    @media(700px <=width <= 1280px) {
+      width: 152px;
+      height: 50px;
+      padding: 14px 10px 14px 10px;
+      border-radius: 12px;
+    }
+
+  }
+}
+
+.button {
+  &.gradient {
+    background: linear-gradient(to right, #F8EEB8, #DBB370, #8E5B2D);
+    border: none;
+    outline: none;
+  }
+
+  &.transparent {
+    background: transparent;
+    border: 2px solid #E5C787;
+  }
+
+  &.dark {
+    background-color: #202020;
+    border: none;
+    outline: none;
+  }
+}
+
+.text_gold {
+  color: #E5C787;
+}
+
+.text_white {
+  color: #EAEAEA;
+}
+
+.text_dark {
+  color: #121212;
+}
+
+.text_gray {
+  color: #7E7E7E;
+}
+
+.text_gold, .text_dark, .text_white {
+  font-family: var(--font-nunito-sans);
+  font-weight: 800;
+  line-height: 25px;
+  @media(320px <=width <= 700px) {
+    font-size: 12px;
+  }
+  @media(700px <=width <= 1280px) {
+    font-size: 18px;
+  }
+  @media(1280px <=width <= 3486px) {
+    font-size: 18px;
+  }
+}
+

@@ -1,0 +1,258 @@
+.poker_wager_wrap {
+  border-radius: 0px 20px 20px 0px;
+  background: #151515;
+  height: 100%;
+  max-width: 320px;
+}
+
+.poker_wager_block {
+  padding: 20px;
+}
+
+.poker_wager_title {
+  font-family: var(--font-source-sans-3);
+  color: #7e7e7e;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.poker_wager_inputs_block {
+  background: #121212;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+
+.poker_wager_block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.poker_wager_input_kripto_block,
+.poker_wager_input_currency_block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+}
+
+.poker_wager_input_kripto_ico_block {
+  cursor: pointer;
+  position: relative;
+}
+
+.poker_wager_input_currency_block {
+  border-top: 1px solid #252525;
+}
+
+.poker_wager_input_kripto,
+.poker_wager_input_currency {
+  background: inherit;
+  border: none;
+  outline: none;
+  font-family: var(--font-nunito-sans);
+  max-width: 150px;
+  color: #eaeaea;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+}
+
+.poker_wager_input_currency {
+  color: #7e7e7e;
+}
+
+.poker_wager_increase_block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #202020;
+  border-radius: 0 0 12px 12px;
+}
+
+.poker_wager_halve_block,
+.poker_wager_double_block,
+.poker_wager_max_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.poker_wager_halve_block,
+.poker_wager_double_block {
+  border-right: 1px solid #3e3e3e;
+}
+
+.poker_wager_halve_title,
+.poker_wager_double_title,
+.poker_wager_max_title {
+  font-family: var(--font-nunito-sans);
+  color: var(--Gray-5, #7e7e7e);
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+}
+
+.poker_wager_lower_btns_block {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.poker_wager_sound_btn,
+.poker_wager_info_btn {
+  cursor: pointer;
+  background: #202020;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.poker_wager_info_btn_wrap {
+  position: relative;
+}
+
+.poker_wager_info_modal_block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  min-width: 410px;
+  border-radius: 20px;
+  background: #202020;
+  padding: 25px 15px;
+  bottom: 50px;
+  left: calc(50% - 25px);
+  transform: translateX(-50%);
+  cursor: default;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s;
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.poker_wager_info_modal_title {
+  margin-bottom: 20px;
+  font-family: var(--font-nunito-sans);
+  color: #eaeaea;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: 0.88px;
+}
+
+.poker_wager_info_modal_text {
+  font-family: var(--font-source-sans-3);
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.poker_wager_info_modal_close_ico {
+  position: absolute;
+  top: 30px;
+  cursor: pointer;
+  right: 20px;
+}
+
+.poker_wager_drawing_cards_btn {
+  border-radius: 12px;
+  background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    ),
+    #121212;
+  width: 100%;
+  border: none;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f0f0f;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.72px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.poker_wager_tokens_list_wrap {
+  position: absolute;
+  border-radius: 20px;
+  background: #181818;
+  padding: 20px 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s;
+}
+
+.token_list_visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.poker_wager_tokens_list_title {
+  margin: 0 20px;
+  font-family: var(--font-nunito-sans);
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.56px;
+  min-width: 130px;
+  border-bottom: 1px solid #202020;
+  margin-bottom: 10px;
+}
+
+.poker_wager_tokens_list_item {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  padding: 10px 20px;
+  &:hover {
+    background: #202020;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+  .poker_wager_tokens_list_item_title {
+    margin-left: 10px;
+    color: #7e7e7e;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150.8%;
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+  }
+}
