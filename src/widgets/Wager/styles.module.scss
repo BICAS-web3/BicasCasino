@@ -8,6 +8,7 @@
 
 .poker_wager_block {
   padding: 20px;
+  height: calc(100% - 40px);
 }
 
 .poker_wager_title {
@@ -140,6 +141,10 @@
   padding: 25px 15px;
   cursor: default;
   visibility: hidden;
+  height: fit-content;
+  bottom: calc(100% + 10px);
+  left: 30%;
+  transform: translateX(-65%);
   opacity: 0;
   transition: all 0.4s;
   &.active {
@@ -277,8 +282,8 @@
   }
   .poker_wager_info_modal_block {
     bottom: 50px;
-    left: calc(50% - 68px);
-    transform: translateX(-50%);
+    left: -130px;
+    // transform: translateX(-85%);
   }
 }
 
@@ -301,5 +306,10 @@
   .poker_wager_input_kripto,
   .poker_wager_input_currency {
     font-size: 14px;
+  }
+  .poker_wager_info_modal_block {
+    bottom: 50px;
+    left: -40px;
+    // transform: translateX(-85%);
   }
 }
