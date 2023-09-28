@@ -17,7 +17,7 @@ export const TableItem: FC<IBetData> = (props) => {
         </span>
       </td>
       <td className={styles.td}>
-        <a href={props.game_url} target="_blank" className={styles.link_block}>
+        <a href={`/games/${props.game_name}`} target="_blank" className={styles.link_block}>
           <img
             src={gameIco.src}
             className={styles.game_ico}
@@ -28,7 +28,7 @@ export const TableItem: FC<IBetData> = (props) => {
       </td>
       <td className={styles.td}>
         <a
-          href={props.player_url}
+          href={`/account/${props.player_address}`}
           target="_blank"
           className={styles.link_block}
         >
@@ -37,12 +37,12 @@ export const TableItem: FC<IBetData> = (props) => {
             className={styles.avatar}
             alt="game-ico-preview"
           />
-          <span className={styles.player_name}>{props.player}</span>
+          <span className={styles.player_name}>{`${props.player_address.slice(0, 5)}...${props.player_address.slice(38, 42)}`}</span>
         </a>
       </td>
       <td className={styles.td}>
-        <a href={props.game_url} target="_blank" className={styles.link_block}>
-          <span className={styles.address}>{props.gameAddress}</span>
+        <a href={`/account/${props.player_address}`} target="_blank" className={styles.link_block}>
+          <span className={styles.address}>{`${props.player_address.slice(0, 5)}...${props.player_address.slice(38, 42)}`}</span>
           {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
         </a>
       </td>

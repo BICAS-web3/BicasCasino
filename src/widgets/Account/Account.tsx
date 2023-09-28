@@ -106,7 +106,7 @@ export const Account: FC<AccountProps> = props => {
       <div className={s.account_item}>
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
-        <AccountElement name="Profile" icon={ProfileIcon} onClick={undefined} />
+        <AccountElement name="Profile" icon={ProfileIcon} onClick={() => { window.location.assign(`/account/${props.address.toLowerCase()}`) }} />
         <AccountElement name="Explorer" icon={ExplorerIcon} onClick={undefined} />
         <AccountElement name="Disconnect" icon={ExitIcon} onClick={() => disconnect()} />
         {/* <AccountElement name="Explorer" icon={Explorer}/>

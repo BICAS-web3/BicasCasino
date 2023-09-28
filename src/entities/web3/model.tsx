@@ -66,7 +66,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
     );
 
     const config = createConfig({
-        autoConnect: false,
+        autoConnect: true,
         connectors: [
             new MetaMaskConnector({ chains }),
             new CoinbaseWalletConnector({

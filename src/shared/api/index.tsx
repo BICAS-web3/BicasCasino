@@ -123,7 +123,7 @@ export type T_BetInfo = {
 };
 
 export type T_Bets = {
-    bets: Array<T_BetInfo>
+    bets: T_BetInfo[]
 };
 
 export type T_GameAbi = {
@@ -140,7 +140,7 @@ export type T_Totals = {
 
 export type T_ApiResponse = {
     status: string,
-    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers | T_Totals
+    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers | T_Totals | T_LatestGames
 };
 
 export type T_GetUsername = {
@@ -152,6 +152,10 @@ export type T_SetUsername = {
     nickname: string,
     signature: string,
 };
+
+export type T_LatestGames = {
+    games: string[]
+}
 
 export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
     async form => {
@@ -295,6 +299,14 @@ export const GetGameById = createEffect<number, T_ApiResponse, string>(
 export const GetTotalsFx = createEffect<void, T_ApiResponse, string>(
     async _ => {
         return fetch(`${BaseApiUrl}/general/totals`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetLatestGamesFx = createEffect<string, T_ApiResponse, string>(
+    async address => {
+        return fetch(`${BaseApiUrl}/player/latest_games/${address}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }
