@@ -260,11 +260,116 @@
   }
 }
 
-@media screen and (max-width: 700px) {
+.hand_multiplier_ico_wrap {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #202020;
+  border-radius: 12px;
+}
+
+.hand_multiplier_block {
+  transition: all 0.4s;
+  opacity: 0;
+  visibility: hidden;
+  width: 235px;
+  border-radius: 20px;
+  background: #202020;
+  position: absolute;
+  padding: 20px 0;
+  right: 0;
+  user-select: none;
+}
+
+.handMultiplierActive {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hand_multiplier_wrap {
+  position: relative;
+}
+
+.hand_multiplier_block_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 5px 20px;
+  border-bottom: 1px solid #252525;
+  margin-bottom: 5px;
+}
+
+.hand_multiplier_block_header_title {
+  font-family: var(--font-source-sans-3);
+  color: #7e7e7e;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+  letter-spacing: 0.56px;
+}
+
+.hand_multiplier_list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.hand_multiplier_list_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.hand_multiplier_list_item_title {
+  font-family: var(--font-source-sans-3);
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 110%;
+}
+
+.hand_multiplier_list_item_multiplier {
+  color: #e5c787;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%;
+}
+
+@media screen and (max-width: 996px) {
   .poker_wager_wrap {
     width: 100%;
-    max-width: 100%;
     border-radius: 0 0 20px 20px;
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .hand_multiplier_block {
+    transform: translateX(-50%);
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .hand_multiplier_block {
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-60%);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .hand_multiplier_block {
+    top: calc(100% + 10px);
+    height: fit-content;
+    right: 0;
   }
   .poker_wager_drawing_cards_btn {
     width: 240px;
@@ -282,7 +387,7 @@
   }
   .poker_wager_info_modal_block {
     bottom: 50px;
-    left: -130px;
+    left: -115px;
     // transform: translateX(-85%);
   }
 }

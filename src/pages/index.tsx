@@ -35,6 +35,7 @@ import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { useUnit } from "effector-react";
 import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
+import { Poker } from "@/widgets/Poker/Poker";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -292,12 +293,12 @@ export default function Home() {
 
       <Layout>
         <div className={s.background_container}>
-          <Image src={MainPageBackground} alt={""} className={s.background} />
-          <div className={s.background_gradient}></div>
+          {/* <Image src={MainPageBackground} alt={""} className={s.background} />
+          <div className={s.background_gradient}></div> */}
         </div>
 
         <div className={`${s.main_container}`}>
-          <BannerInfo />
+          {/* <BannerInfo />
           <Games />
           <Total />
           <CustomBets
@@ -322,7 +323,10 @@ export default function Home() {
               },
             ]}
           />
-          <LeaderBoard />
+          <LeaderBoard /> */}
+          <GamePage game="poker">
+            <Poker />
+          </GamePage>
         </div>
       </Layout>
 

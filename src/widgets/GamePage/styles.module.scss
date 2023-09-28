@@ -14,7 +14,6 @@
 
 .game_block {
   border-radius: 20px 0 0 20px;
-  background: #181818;
   min-height: 680px;
   width: 100%;
 }
@@ -82,19 +81,21 @@
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 996px) {
   .game {
     grid-template-columns: 1fr;
     position: relative;
   }
   .game_block {
     border-radius: 20px 20px 0 0;
+    height: 405px;
+    min-height: 100%;
   }
 }
 
 @media screen and (max-width: 650px) {
   .game_block {
-    height: 255px;
+    height: 300px;
     min-height: 100%;
   }
 }

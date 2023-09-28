@@ -293,6 +293,7 @@
   .side_bar_opened {
     width: 18.75vw;
     min-width: 200px;
+    z-index: 10;
   }
   .side_bar_upper {
     height: 832px;

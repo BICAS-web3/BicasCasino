@@ -12,12 +12,14 @@ interface GamePageProps {
   children: React.ReactNode;
   gameTitle: string;
   gameInfoText: string;
+  game: string;
 }
 
 export const GamePage: FC<GamePageProps> = ({
   children,
   gameTitle,
   gameInfoText,
+  game,
 }) => {
   const [modalVisibility, setModalVisibility] = useState(false);
 
@@ -44,7 +46,7 @@ export const GamePage: FC<GamePageProps> = ({
         <div className={s.game_body}>
           <div className={s.game}>
             <div className={s.game_block}>{children}</div>
-            <Wager />
+            <Wager game={game} />
           </div>
           <CustomBets
             title="Live bets"
