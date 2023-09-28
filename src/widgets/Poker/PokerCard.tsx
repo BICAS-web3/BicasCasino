@@ -1,10 +1,10 @@
 import { FC, useState } from "react";
 import s from "./styles.module.scss";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.png";
 
 interface itemProps {
-  img: string;
+  img: StaticImageData;
 }
 
 interface PokerCardProps {
