@@ -3,6 +3,8 @@ import styles from './ui.module.scss'
 import { EdithIcon } from "@/shared/SVGs";
 import { useSignMessage } from 'wagmi';
 import * as api from '@/shared/api/';
+import { sessionModel } from '@/entities/session';
+import { useUnit } from 'effector-react';
 
 interface IUserName {
   userName: string | null,
@@ -11,6 +13,14 @@ interface IUserName {
 }
 
 export const UserName: FC<IUserName> = props => {
+  const [
+    currentNickname,
+    setCurrentNickname
+  ] = useUnit([
+    sessionModel.$currentNickname,
+    sessionModel.setCurrentNickname
+  ]);
+
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(props.userName as string);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,6 +50,7 @@ export const UserName: FC<IUserName> = props => {
           nickname: variables?.message,
           signature: signMessageData.slice(2)
         });
+        setCurrentNickname(variables?.message);
         setIsEditing(false);
       }
     })()

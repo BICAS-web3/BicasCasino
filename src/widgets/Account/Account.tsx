@@ -91,7 +91,7 @@ export const Account: FC<AccountProps> = props => {
       <div className={s.profile}>
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
-          <div className={s.profile_nickname}>{props.nickname ? props.nickname : truncatedAddress}</div>
+          <div className={s.profile_nickname}>{props.nickname ? props.nickname : 'No nickname'}</div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{truncatedAddress}</div>
             <div className={s.btn_copy} onClick={() => {

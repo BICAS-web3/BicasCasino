@@ -216,7 +216,12 @@ const RightMenu: FC<RightMenuProps> = props => {
                             >
                                 <span className={s.header_profile_ico_title}>А</span>
                             </div>
-                            {isHeaderAccOpened && <Account address={address as string} nickname={currentNickname} />}
+                            {isHeaderAccOpened &&
+                                <Account
+                                    address={address as string}
+                                    nickname={
+                                        (currentNickname as string).toLowerCase()
+                                            == (address as string).toLowerCase() ? 'No nickname' : currentNickname} />}
                         </div>
                     ) : (
                         <ConnectWalletButton />

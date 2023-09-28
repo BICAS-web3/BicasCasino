@@ -43,16 +43,18 @@ export default function Profile() {
             const r = (await api.GetLatestGamesFx((router.query.address as string).toLowerCase())).body as api.T_LatestGames;
             const games = r.games;
             console.log('Latest games', r);
-            setLatestGames(games.map((game: string, ind) => {
-                const game_data = Games[game.toLowerCase() as any];
+            if (games != undefined) {
+                setLatestGames(games.map((game: string, ind) => {
+                    const game_data = Games[game.toLowerCase() as any];
 
-                return ({
-                    id: ind,
-                    title: game_data.title,
-                    text: game_data.text,
-                    imgBackground: game_data.imgBackground
-                });
-            }));
+                    return ({
+                        id: ind,
+                        title: game_data.title,
+                        text: game_data.text,
+                        imgBackground: game_data.imgBackground
+                    });
+                }));
+            }
         };
 
         run()
