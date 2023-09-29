@@ -51,31 +51,32 @@ export const GamePage: FC<GamePageProps> = ({
             </div>
             <Wager game={game} />
           </div>
-          <div className={s.game_block}>{children}</div>
-          {/* <CustomBets
-            title="Live bets"
-            isGamePage={true}
-            isMainPage={false}
-            bets={[
-              {
-                time: { date: "25.08.23", time: "17:05" },
-                game_name: "Dice",
-                player: "UserName",
-                wager: 11,
-                multiplier: 3,
-                profit: 5.34,
-                userBg: "#3DBCE5",
-                player_url: "test",
-                trx_url: "test",
-                game_url: "test",
-                network_icon: "test",
-                numBets: 1,
-                gameAddress: "0x563...4ba9",
-              },
-            ]}
-          /> */}
+          <div>
+            <CustomBets
+              title="Live bets"
+              isGamePage={true}
+              isMainPage={false}
+            // bets={[
+            //   {
+            //     time: { date: "25.08.23", time: "17:05" },
+            //     game_name: "Dice",
+            //     player: "UserName",
+            //     wager: 11,
+            //     multiplier: 3,
+            //     profit: 5.34,
+            //     userBg: "#3DBCE5",
+            //     player_url: "test",
+            //     trx_url: "test",
+            //     game_url: "test",
+            //     network_icon: "test",
+            //     numBets: 1,
+            //     gameAddress: "0x563...4ba9",
+            //   },
+            // ]}
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
