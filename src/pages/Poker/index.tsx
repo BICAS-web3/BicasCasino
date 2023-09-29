@@ -3,7 +3,7 @@ import { Poker } from "@/widgets/Poker/Poker";
 
 export default function PokerGame() {
   return (
-    <GamePage>
+    <GamePage gameInfoText="test" gameTitle="poker" game="poker">
       <Poker />
     </GamePage>
   );

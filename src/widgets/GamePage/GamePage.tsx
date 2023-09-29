@@ -2,14 +2,14 @@ import s from "./styles.module.scss";
 import gameBg from "../../public/media/game_layout_images/game_background.png";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { GamePageModal } from "@/widgets/GamePage/GamePageModal";
-import React, { FC, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
 
 interface GamePageProps {
-  children: React.ReactNode;
+  children: ReactNode;
   gameTitle: string;
   gameInfoText: string;
   game: string;
@@ -45,7 +45,10 @@ export const GamePage: FC<GamePageProps> = ({
         />
         <div className={s.game_body}>
           <div className={s.game}>
-            <div className={s.game_block}>{children}</div>
+            <div className={s.game_block}>
+              <h2 className={s.game_title}>{gameTitle}</h2>
+              {children}
+            </div>
             <Wager game={game} />
           </div>
           <CustomBets

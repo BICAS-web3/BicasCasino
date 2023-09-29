@@ -36,6 +36,7 @@ import { useUnit } from "effector-react";
 import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
+import PokerGame from "./Poker";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
