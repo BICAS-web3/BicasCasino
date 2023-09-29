@@ -129,6 +129,7 @@ const GameBlured: FC<GameProps> = (props) => {
 };
 
 interface GamesProps { }
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -196,6 +197,7 @@ const Games: FC<GamesProps> = (props) => {
 };
 
 interface GamesTitleProps { }
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -241,6 +243,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
+interface BannerInfoProps { }
 interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
@@ -331,9 +334,9 @@ export default function Home() {
 
 
       {/* <Footer />
-			<InvitesList />
-			<GamesList />
-			<ConnectWalletModal /> */}
+      <InvitesList />
+      <GamesList />
+      <ConnectWalletModal /> */}
     </>
   );
 }

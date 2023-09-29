@@ -34,13 +34,14 @@ import TestProfilePic from '@/public/media/misc/TestProfilePic.svg';
 interface EmblemProps { }
 const Emblem: FC<EmblemProps> = (props) => {
     return (
-        <div className={s.emblem}>
+        <a className={s.emblem} href='/'>
             <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
             <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
-        </div>
+        </a>
     );
 };
 
+interface LeftMenuProps { }
 interface LeftMenuProps { }
 const LeftMenu: FC<LeftMenuProps> = (props) => {
     const [flipOpen, isOpen] = useUnit([
@@ -63,7 +64,12 @@ const LeftMenu: FC<LeftMenuProps> = (props) => {
 };
 
 interface LinksProps { }
+interface LinksProps { }
 const Links: FC<LinksProps> = (props) => {
+    return (
+        <div className={s.links}>
+            <div className={`${s.link}`}>NFT Market</div>
+            {/* <div className={`${s.link} ${s.link_active}`}>
     return (
         <div className={s.links}>
             <div className={`${s.link}`}>NFT Market</div>
@@ -88,7 +94,6 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
         if (isMainWalletOpen) {
             return null;
         }
-
         if (!walletVisibility) {
             setWalletVisibility(true);
             setBlur(true);
@@ -98,6 +103,10 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
         }
     };
 
+    // useEffect(() => {
+    //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
+    //         (document.documentElement.style.overflow = 'visible')
+    // }, [walletVisibility])
     // useEffect(() => {
     //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
     //         (document.documentElement.style.overflow = 'visible')
