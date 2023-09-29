@@ -171,7 +171,7 @@ export const Wager: FC<WagerProps> = ({ game }) => {
           <div className={s.poker_wager_info_btn_wrap}>
             <button
               className={s.poker_wager_info_btn}
-              onClick={() => setInfoModalVisibility(true)}
+              onClick={() => setInfoModalVisibility(!infoModalVisibility)}
             >
               {infoModalVisibility ? (
                 <Image alt="info-ico-light" src={infoLightIco} />
