@@ -87,12 +87,12 @@
 }
 
 @media screen and (min-width: 1900px) {
-  .poker_table_card_front,
-  .poker_table_card_back {
-    img {
-      height: 100%;
-      width: 100%;
-    }
+  .poker_table_cards_list_item {
+    max-width: 250px;
+    max-height: 450px;
+  }
+  .poker_table_cards_list {
+    justify-content: space-evenly;
   }
 }
 
@@ -111,5 +111,14 @@
     padding: 10px;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
+    gap: 5px;
+  }
+  .poker_table_cards_list_item {
+    min-width: 50px;
+    min-height: 70px;
+  }
+  .poker_table_cards_list {
+    padding: 5px;
+    width: calc(100% - 10px);
   }
 }
