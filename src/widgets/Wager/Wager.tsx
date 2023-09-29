@@ -4,8 +4,50 @@ import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
+import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
+import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
+import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import Image from "next/image";
+
+const pokerHandMultiplierList = [
+  {
+    title: "Royal Flush",
+    multiplier: 100,
+  },
+  {
+    title: "Straight Flush",
+    multiplier: 45,
+  },
+  {
+    title: "Four of a kind",
+    multiplier: 20,
+  },
+  {
+    title: "Full House",
+    multiplier: 12,
+  },
+  {
+    title: "Flush",
+    multiplier: 10,
+  },
+  {
+    title: "Straight",
+    multiplier: 5,
+  },
+  {
+    title: "Three of a kind",
+    multiplier: 3,
+  },
+  {
+    title: "Two Pairs",
+    multiplier: 2,
+  },
+  {
+    title: "Jacks of Better",
+    multiplier: 1,
+  },
+];
 
 const tokensList = [
   {
@@ -25,15 +67,19 @@ const tokensList = [
   },
 ];
 
-interface WagerProps {}
+interface WagerProps {
+  game: string;
+}
 
-export const Wager: FC<WagerProps> = ({}) => {
+export const Wager: FC<WagerProps> = ({ game }) => {
   const [kriptoInputValue, setKriptoInputValue] = useState("000.000");
   const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   const [tokens, setTokens] = useState(tokensList);
   const [activeToken, setActiveToken] = useState(tokensList[0]);
   const [tokenListVisibility, setTokenListVisibility] = useState(false);
+  const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
+    useState(false);
 
   const handleChangeToken = (tokenId: string) => {
     setTokenListVisibility(false);
@@ -125,9 +171,13 @@ export const Wager: FC<WagerProps> = ({}) => {
           <div className={s.poker_wager_info_btn_wrap}>
             <button
               className={s.poker_wager_info_btn}
-              onClick={() => setInfoModalVisibility(true)}
+              onClick={() => setInfoModalVisibility(!infoModalVisibility)}
             >
-              <Image alt="info-ico" src={infoIco} />
+              {infoModalVisibility ? (
+                <Image alt="info-ico-light" src={infoLightIco} />
+              ) : (
+                <Image alt="info-ico-default" src={infoIco} />
+              )}
             </button>
             <div
               className={`${s.poker_wager_info_modal_block} ${
@@ -152,6 +202,50 @@ export const Wager: FC<WagerProps> = ({}) => {
               </p>
             </div>
           </div>
+          {game && game === "poker" && (
+            <div className={s.hand_multiplier_wrap}>
+              <div
+                className={s.hand_multiplier_ico_wrap}
+                onClick={() =>
+                  setHandMultiplierBlockVisibility(
+                    !handMultiplierBlockVisibility
+                  )
+                }
+              >
+                {handMultiplierBlockVisibility ? (
+                  <Image alt="open-hand-light-ico" src={openHandLightIco} />
+                ) : (
+                  <Image alt="open-hand-default-ico" src={openHandIco} />
+                )}
+              </div>
+              <div
+                className={`${s.hand_multiplier_block} ${
+                  handMultiplierBlockVisibility && s.handMultiplierActive
+                }`}
+              >
+                <div className={s.hand_multiplier_block_header}>
+                  <span className={s.hand_multiplier_block_header_title}>
+                    Hand
+                  </span>
+                  <span className={s.hand_multiplier_block_header_title}>
+                    Multiplier
+                  </span>
+                </div>
+                <div className={s.hand_multiplier_list}>
+                  {pokerHandMultiplierList.map((hand, id) => (
+                    <div className={s.hand_multiplier_list_item}>
+                      <span className={s.hand_multiplier_list_item_title}>
+                        {hand.title}
+                      </span>
+                      <span className={s.hand_multiplier_list_item_multiplier}>
+                        {hand.multiplier}×
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

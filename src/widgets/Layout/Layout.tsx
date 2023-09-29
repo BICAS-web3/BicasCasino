@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
 import s from "./styles.module.scss";
 
 import { SideBar } from "@/widgets/SideBar";
@@ -10,7 +10,7 @@ import { Footer } from "@/widgets/Footer";
 import * as SidebarM from "@/widgets/SideBar/model";
 
 interface LayoutProps {
-  children?: ReactNode[];
+  children?: any;
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
