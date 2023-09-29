@@ -5,21 +5,7 @@
   position: relative;
   padding: 100px 20px 0 20px;
   width: 100%;
-  //width: calc(100% - 80px);
 
-  @media screen and (max-width: 1280px) {
-    position: relative;
-    //left: 20px;
-    //right: 20px;
-
-    //width: calc(100% - 40px);
-  }
-  @media screen and (max-width: 650px) {
-    //left: 0;
-    //right: 0;
-    //width: 100%;
-    //top: 76px;
-  }
   @media screen and (max-width: 425px) {
     padding: 60px 1px 0 1px;
     row-gap: 20px;
@@ -72,7 +58,7 @@
       max-height: fit-content;
     }
   }
-  @media screen and ( max-width: 768px) {
+  @media screen and (max-width: 768px) {
     gap: 20px;
   }
 }
