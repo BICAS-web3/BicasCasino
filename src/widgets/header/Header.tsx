@@ -205,7 +205,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
               >
                 <span className={s.header_profile_ico_title}>А</span>
               </div>
-              {isHeaderAccOpened && <Account />}
+              {isHeaderAccOpened && <Account address={'0xa51313ffab4c570b484a26bd5d869c2f48e34477'} nickname={'Athena'}/>}
             </div>
           ) : (
             <ConnectWalletButton />
