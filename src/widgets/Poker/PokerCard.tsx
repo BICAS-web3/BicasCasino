@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, createRef, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.png";
@@ -14,17 +14,17 @@ interface PokerCardProps {
 
 export const PokerCard: FC<PokerCardProps> = ({ item, isEmptyCard }) => {
   const [cardFlipped, setCardFlipped] = useState(false);
-  const card = useRef();
+  const card = createRef();
   const [cardWidth, setCardWidth] = useState(0);
   const aspectRatio = 1.5;
 
   useEffect(() => {
-    setCardWidth(card.current.offsetWidth);
+    if (card.current) {
+      setCardWidth(card.current.offsetWidth);
+    }
   }, [card]);
 
   const height = cardWidth * aspectRatio;
-
-  console.log(height);
 
   return (
     <div
