@@ -45,7 +45,7 @@ export const Poker: FC<PokerProps> = ({}) => {
         <div className={s.poker_table_cards_list}>
           {testArrayOfCards &&
             testArrayOfCards.map((item, ind) => (
-              <PokerCard key={ind} item={item} />
+              <PokerCard key={ind} isEmptyCard={true} item={item} />
             ))}
         </div>
       </div>

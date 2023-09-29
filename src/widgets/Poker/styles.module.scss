@@ -32,6 +32,12 @@
   padding: 20px;
 }
 
+.empty_card {
+  background: rgba(15, 15, 15, 0.4);
+  border-radius: 10px;
+  height: auto;
+}
+
 .poker_table_cards_list_item {
   width: 100%;
   img {

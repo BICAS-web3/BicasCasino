@@ -349,6 +349,9 @@
     border-radius: 0 0 20px 20px;
     max-width: 100%;
   }
+  .poker_wager_info_modal_block {
+    transform: translateX(-20%);
+  }
 }
 
 @media screen and (min-width: 1280px) {
@@ -384,11 +387,9 @@
   .poker_wager_info_modal_block {
     top: 50px;
     right: 0;
-  }
-  .poker_wager_info_modal_block {
     bottom: 50px;
     left: -115px;
-    // transform: translateX(-85%);
+    transform: translateX(-65%);
   }
 }
 

@@ -294,12 +294,13 @@ export default function Home() {
 
       <Layout>
         <div className={s.background_container}>
-          <Image src={MainPageBackground} alt={""} className={s.background} />
-          <div className={s.background_gradient}></div>
+          {/* <Image src={MainPageBackground} alt={""} className={s.background} />
+          <div className={s.background_gradient}></div> */}
         </div>
 
         <div className={`${s.main_container}`}>
-          <BannerInfo />
+          <PokerGame />
+          {/* <BannerInfo />
           <Games />
           <Total />
           <CustomBets
@@ -324,7 +325,7 @@ export default function Home() {
               },
             ]}
           />
-          <LeaderBoard />
+          <LeaderBoard /> */}
         </div>
       </Layout>
 
