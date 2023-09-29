@@ -75,7 +75,7 @@ export default function Profile() {
                                 <ProfileCard address={(router.query.address as string).toLowerCase()} />
                             </div>
                             <div className={styles.profile_container}>
-                                <ProfileBettingStatistics />
+                                <ProfileBettingStatistics address={(router.query.address as string).toLowerCase()} />
                             </div>
                             <div className={styles.recently_container}>
                                 {latestGames ? <RecentlyPlayedGames RecentlyGames={latestGames} /> : <></>}
