@@ -127,7 +127,7 @@ const GameBlured: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -194,7 +194,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -240,7 +240,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -274,9 +274,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           Connect Wallet
         </div>
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -292,9 +291,7 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <PokerGame />
-
-      {/* <Layout>
+      <Layout>
         <div className={s.background_container}>
           <Image src={MainPageBackground} alt={""} className={s.background} />
           <div className={s.background_gradient}></div>
@@ -328,12 +325,12 @@ export default function Home() {
           />
           <LeaderBoard />
         </div>
-      </Layout> */}
+      </Layout>
 
       {/* <Footer />
-			<InvitesList />
-			<GamesList />
-			<ConnectWalletModal /> */}
+      <InvitesList />
+      <GamesList />
+      <ConnectWalletModal /> */}
     </>
   );
 }
