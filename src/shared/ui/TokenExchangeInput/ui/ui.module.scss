@@ -21,10 +21,14 @@
       text-align: left;
       width: 100%;
       @media screen and (max-width: 3840px) {
-        padding: 18px 10px 18px 40px;
+        padding: 18px 40px 18px 60px;
       }
       @media screen and (max-width: 1440px) {
         max-width: 136px;
+        padding: 18px 22px;
+      }
+      @media screen and (max-width: 1024px) {
+        max-width: 88px;
         padding: 18px 22px;
       }
       @media screen and (max-width: 869px) {
@@ -43,6 +47,9 @@
       }
       @media screen and (max-width: 414px) {
         max-width: 116px;
+      }
+      @media screen and (max-width: 414px) {
+        max-width: 86px;
       }
     }
   }

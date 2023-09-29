@@ -71,8 +71,10 @@
   .token_list.open {
     opacity: 1;
     max-height: 250px;
-    @media(320px <=width <= 700px) {
+    @media(max-width: 425px) {
       border-radius: 5px;
+      max-width: 140px;
+      top: 30px;
     }
   }
 
@@ -81,6 +83,9 @@
     align-items: center;
     padding: 12px 20px 12px 20px;
     cursor: pointer;
+    @media screen and (max-width: 425px) {
+      max-width: 85px;
+    }
   }
 
   .token_item_selected {
@@ -98,6 +103,9 @@
     border-radius: 12px;
     @media screen and (max-width: 869px) {
       border-radius: 5px;
+    }
+    @media screen and (max-width: 425px) {
+      max-width: 140px;
     }
   }
 
