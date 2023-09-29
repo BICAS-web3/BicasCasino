@@ -292,7 +292,9 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <Layout>
+      <PokerGame />
+
+      {/* <Layout>
         <div className={s.background_container}>
           <Image src={MainPageBackground} alt={""} className={s.background} />
           <div className={s.background_gradient}></div>
@@ -326,7 +328,7 @@ export default function Home() {
           />
           <LeaderBoard />
         </div>
-      </Layout>
+      </Layout> */}
 
       {/* <Footer />
 			<InvitesList />
