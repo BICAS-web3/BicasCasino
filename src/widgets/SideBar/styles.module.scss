@@ -81,7 +81,7 @@
 }
 
 .side_bar_closed {
-  width: 55px;
+  width: 90px;
   transition: width 0.5s;
 }
 
@@ -309,6 +309,15 @@
   .menu_header,
   .social_networks .icons {
     width: 80%;
+  }
+  .side_bar_closed {
+    width: 65px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .side_bar_closed {
+    width: 55px;
   }
 }
 
