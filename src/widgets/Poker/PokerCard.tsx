@@ -29,11 +29,10 @@ export const PokerCard: FC<PokerCardProps> = ({ item, isEmptyCard }) => {
   return (
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
-      className={`${s.poker_table_cards_list_item} ${
-        cardFlipped && s.flipped
-      } ${isEmptyCard && s.empty_card}`}
+      className={`${s.poker_table_cards_list_item} ${cardFlipped && s.flipped
+        } ${isEmptyCard && s.empty_card}`}
       onClick={() => setCardFlipped(!cardFlipped)}
-      style={{ height: height }}
+    //style={{ height: height }}
     >
       {!isEmptyCard ? (
         <>
