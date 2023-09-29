@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FC } from "react";
 import { TitleTable } from "@/shared/ui/TitleTable/ui/ui";
 import styles from "./ui.module.scss";
@@ -253,7 +253,7 @@ const bets = [
     player: "UserName",
     wager: 11,
     multiplier: 3,
-    profit: 130000.34,
+    profit: 1234567890123457.02,
     userBg: "#3DBCE5",
     player_url: "test",
     trx_url: "test",
@@ -263,20 +263,22 @@ const bets = [
     gameAddress: "0x563...4ba9",
   },
 ];
+
 interface IBetsHistoryReDesign {
-  title: string
+  title: string;
 }
+
 export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   return (
-    <div className={styles.table}>
+    <div className={styles.table_container}>
       <h2 className={styles.title}>{props.title}</h2>
-      <table>
-      <TitleTable />
-        <tbody>
+      <table className={styles.table}>
+        <TitleTable />
+        <tbody className={styles.tbody}>
           {bets &&
             bets.map((item) => (
               <tr key={item.id}>
-                <TableItem {...item}  />
+                <TableItem {...item} />
               </tr>
             ))}
         </tbody>

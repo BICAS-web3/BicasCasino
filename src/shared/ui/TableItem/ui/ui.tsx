@@ -43,7 +43,6 @@ export const TableItem: FC<IBetData> = (props) => {
       <td className={styles.td}>
         <a href={props.game_url} target="_blank" className={styles.link_block}>
           <span className={styles.address}>{props.gameAddress}</span>
-          {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
         </a>
       </td>
       <td className={styles.td}>
