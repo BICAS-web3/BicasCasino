@@ -5,9 +5,10 @@
   //width: 100%;
   width: calc(100% - 40px);
   position: relative;
-  left: 22px;
-  right: 50px;
-  top: 100px;
+  // left: 22px;
+  // right: 50px;
+  // top: 100px;
+  padding: 100px 20px 0 20px;
 
   @media screen and (max-width: 1280px) {
     position: relative;
