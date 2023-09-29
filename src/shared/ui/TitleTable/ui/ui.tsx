@@ -25,10 +25,10 @@ export const TitleTable: FC<{}> = () => {
           <span className={styles.titles_item}>Multipiler</span>
         </th>
         <th className={styles.th}>
-          <span className={styles.titles_item}>Profit</span>
+          <span className={styles.titles_item}>Explorer</span>
         </th>
         <th className={styles.th}>
-          <span className={styles.titles_item}>Explorer</span>
+          <span className={styles.titles_item}>Profit</span>
         </th>
       </tr>
     </thead>
