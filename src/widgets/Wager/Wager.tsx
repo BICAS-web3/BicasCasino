@@ -4,8 +4,10 @@ import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
+import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
+import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import Image from "next/image";
 
 const pokerHandMultiplierList = [
@@ -171,7 +173,11 @@ export const Wager: FC<WagerProps> = ({ game }) => {
               className={s.poker_wager_info_btn}
               onClick={() => setInfoModalVisibility(true)}
             >
-              <Image alt="info-ico" src={infoIco} />
+              {infoModalVisibility ? (
+                <Image alt="info-ico-light" src={infoLightIco} />
+              ) : (
+                <Image alt="info-ico-default" src={infoIco} />
+              )}
             </button>
             <div
               className={`${s.poker_wager_info_modal_block} ${
@@ -206,7 +212,11 @@ export const Wager: FC<WagerProps> = ({ game }) => {
                   )
                 }
               >
-                <Image src={openHandIco} alt="open-hand-ico" />
+                {handMultiplierBlockVisibility ? (
+                  <Image alt="open-hand-light-ico" src={openHandLightIco} />
+                ) : (
+                  <Image alt="open-hand-default-ico" src={openHandIco} />
+                )}
               </div>
               <div
                 className={`${s.hand_multiplier_block} ${
