@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
@@ -77,6 +78,7 @@ export const Wager: FC<WagerProps> = ({ game }) => {
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   const [tokens, setTokens] = useState(tokensList);
   const [activeToken, setActiveToken] = useState(tokensList[0]);
+  const [soundState, setSoundState] = useState(true);
   const [tokenListVisibility, setTokenListVisibility] = useState(false);
   const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
     useState(false);
@@ -165,8 +167,15 @@ export const Wager: FC<WagerProps> = ({ game }) => {
           </button>
         </div>
         <div className={s.poker_wager_lower_btns_block}>
-          <button className={s.poker_wager_sound_btn}>
-            <Image alt="sound-ico" src={soundIco} />
+          <button
+            className={s.poker_wager_sound_btn}
+            onClick={() => setSoundState(!soundState)}
+          >
+            {soundState ? (
+              <Image alt="sound-ico" src={soundIco} />
+            ) : (
+              <Image alt="sound-ico-off" src={soundOffIco} />
+            )}
           </button>
           <div className={s.poker_wager_info_btn_wrap}>
             <button
