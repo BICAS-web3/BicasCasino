@@ -108,7 +108,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     abi: IPoker,
     functionName: 'VideoPoker_Start',
     args: [BigInt(parseInt(((Number.isNaN(currentWager as number) ? 0 : currentWager as number) * 10000).toString())) * BigInt(100000000000000), currentToken?.contract_address],
-    value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(2),
+    value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10),
     gas: BigInt(500000)
   });
 
@@ -117,7 +117,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     abi: IPoker,
     functionName: 'VideoPoker_Replace',
     args: [cardsState],
-    value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(2) : BigInt(0),
+    value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0),
     gas: BigInt(500000)
   });
 
