@@ -326,7 +326,7 @@ export default function Home() {
           />
           <LeaderBoard />
         </div>
-        {/* <GamePage /> */}
+        <GamePage />
       </Layout>
 
       {/* <Footer />

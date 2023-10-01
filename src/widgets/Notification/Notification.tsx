@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import s from "./styles.module.scss";
 import Close from "@/public/media/notification/Close.svg";
 import {
@@ -9,17 +9,22 @@ import {
 } from "@/shared/SVGs";
 import { useUnit } from "effector-react";
 import * as NotificationM from "./model";
+import { setCurrentAction } from "./model";
 import { Action } from "./model";
 
-export const Notification: FC = () => {
+export const Notification: FC<NotificationM.NotificationProps> = ({
+  action,
+}) => {
   //   const currentAction: Action | undefined = props.action;
   // const [currentAction, setAction] = useState(Action.awaiting);
   // setAction(props.action);
 
-  const [currentAction, setCurrentAction] = useUnit([
+  const [currentAction, setAction] = useUnit([
     NotificationM.$currentAction,
     NotificationM.setCurrentAction,
   ]);
+
+  // setAction(Action.Success);
 
   return (
     <>
