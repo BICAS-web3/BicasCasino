@@ -14,11 +14,13 @@ export const Blur = () => {
 
   useEffect(() => {
     if (BlurActive) {
-      document.documentElement.style.overflow = "hidden";
-      document.documentElement.style.position = "relative";
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "relative";
+      document.body.style.height = "100vh";
     } else {
-      document.documentElement.style.overflow = "visible";
-      document.documentElement.style.position = "static";
+      document.body.style.overflow = "visible";
+      document.body.style.position = "static";
+      document.body.style.height = "100%";
     }
   }, [BlurActive]);
 
