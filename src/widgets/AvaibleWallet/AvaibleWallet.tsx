@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FC, useEffect } from 'react';
 import s from './styles.module.scss';
 import Ledger from '@/public/media/select_wallet/Ledger.svg';
+import Metamask from '@/public/media/select_wallet/metamask.svg';
 import Coinbase from '@/public/media/select_wallet/Coinbase.svg';
 import Info from '@/public/media/select_wallet/Info.svg';
 import Trust_wallet from '@/public/media/select_wallet/Trust_wallet.svg';
@@ -54,6 +55,8 @@ const Wallet: FC<WalletProps> = props => {
     <Image
       src={props.icon}
       alt={''}
+      width={20}
+      height={20}
     />
     <div className={s.text_icon}>{props.name}</div>
   </div>
@@ -85,7 +88,7 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
       Connect Wallet
     </div>
     <div className={s.select_wallet}>
-      <Wallet name="Metamask" icon={Ledger} connector={connectors[0]} />
+      <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />
       <Wallet name="Injected" icon={Trust_wallet} connector={connectors[3]} />
       <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
       <Wallet name="WalletConnect" icon={WalletConnect} connector={connectors[2]} />
