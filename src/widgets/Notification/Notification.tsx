@@ -9,6 +9,7 @@ import {
 } from "@/shared/SVGs";
 import { useUnit } from "effector-react";
 import * as NotificationM from "./model";
+import { Action } from "./model";
 
 export const Notification: FC = () => {
   //   const currentAction: Action | undefined = props.action;
@@ -22,7 +23,7 @@ export const Notification: FC = () => {
 
   return (
     <>
-      {currentAction === 0 && (
+      {currentAction === Action.Success && (
         <div className={s.notfication_container}>
           <div className={s.hide_animation}>
             <NotificationIcon_Awaiting />
@@ -45,7 +46,7 @@ export const Notification: FC = () => {
           </button>
         </div>
       )}
-      {currentAction === 1 && (
+      {currentAction === Action.Error && (
         <div className={s.notfication_container}>
           <div className={s.hide_animation}>
             <NotificationIcon_Awaiting />
