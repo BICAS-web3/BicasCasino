@@ -20,6 +20,7 @@ import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
 
 import * as GameModel from './model';
+import { Notification } from "../Notification";
 
 interface GamePageProps {
   children: ReactNode;
