@@ -144,21 +144,35 @@ export const Wager: FC<WagerProps> = (props) => {
                     setCurrencyInputValue('0');
                   }
 
-                  const nmb = parseFloat(
-                    (e.target.value.charAt(e.target.value.length - 1) == '.'
-                      || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
-                      ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
-                  );
-                  if (Number.isNaN(nmb)
-                    || nmb > props.tokenAvailableAmount) {
-                    return;
+                  if (e.target.value.match(/^([0-9]{1,})?(\.)?([0-9]{1,})?$/)) {
+                    const nmb = parseFloat(e.target.value);
+                    setKriptoInputValue(e.target.value);
+                    if (Number.isNaN(nmb)) {
+                      //setKriptoInputValue(e.target.value);
+                      return;
+                    }
+                    //setKriptoInputValue(nmb.toString());
+                    const dollars = nmb * props.tokenPrice;
+                    setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
                   }
-                  setKriptoInputValue(e.target.value.charAt(0) == '0'
-                    && e.target.value.length > 1
-                    ? e.target.value.slice(1) : e.target.value);
+                  // const nmb = parseFloat(
+                  //   (e.target.value.charAt(e.target.value.length - 1) == '.'
+                  //     || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
+                  //     ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
+                  // );
+                  // if (Number.isNaN(nmb)
+                  //   || nmb > props.tokenAvailableAmount) {
+                  //   return;
+                  // }
+                  // console.log("Value", e.target.value.charAt(0) == '0'
+                  //   && e.target.value.length > 1
+                  //   ? e.target.value.slice(1) : e.target.value);
+                  // setKriptoInputValue(e.target.value.charAt(0) == '0'
+                  //   && e.target.value.length > 1
+                  //   ? e.target.value.slice(1) : e.target.value);
 
-                  const dollars = nmb * props.tokenPrice;
-                  setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
+                  // const dollars = nmb * props.tokenPrice;
+                  // setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
                 }}
                 value={kriptoInputValue}
               />

@@ -107,7 +107,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Start',
-    args: [BigInt(((currentWager as number) * 100).toFixed(0)) * BigInt(10000000000000000), currentToken?.contract_address],
+    args: [BigInt(parseInt(((Number.isNaN(currentWager as number) ? 0 : currentWager as number) * 10000).toString())) * BigInt(100000000000000), currentToken?.contract_address],
     value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(2),
     gas: BigInt(500000)
   });
