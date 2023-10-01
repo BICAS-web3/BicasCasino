@@ -220,8 +220,8 @@ const RightMenu: FC<RightMenuProps> = props => {
                 <Account
                   address={address as string}
                   nickname={
-                    (currentNickname as string).toLowerCase()
-                      == (address as string).toLowerCase() ? 'No nickname' : currentNickname} />}
+                    currentNickname && ((currentNickname as string).toLowerCase()
+                      == (address as string).toLowerCase() ? 'No nickname' : currentNickname)} />}
             </div>
           ) : (
             <ConnectWalletButton />
