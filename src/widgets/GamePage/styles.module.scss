@@ -19,6 +19,13 @@
   position: relative;
 }
 
+.poker_flip_cards_info_wrapper{
+  position: absolute;
+  left: calc(50% - 150px);
+  bottom: 5px;
+  z-index: 2;
+}
+
 .game_title {
   margin: 20px 0 0 20px;
   position: absolute;
@@ -107,6 +114,12 @@
     border-radius: 20px 20px 0 0;
     height: 405px;
     min-height: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .poker_flip_cards_info_wrapper{
+    left: calc(50% - 96px);
   }
 }
 

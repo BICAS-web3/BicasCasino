@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
@@ -11,6 +12,9 @@ import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import Image from "next/image";
 import { usePrepareContractWrite, useContractWrite } from 'wagmi';
 import * as Api from '@/shared/api';
+import * as GameModel from "@/widgets/GamePage/model";
+import { useUnit } from "effector-react";
+import useSound from 'use-sound';
 
 const pokerHandMultiplierList = [
   {
@@ -84,18 +88,27 @@ export interface WagerProps {
   //onChangeToken: (token: string) => void,
   activeToken: Api.T_Token | undefined,
   setActiveToken: any,
-  onTokenAmountChange: (tokenAmount: number) => void
+  onTokenAmountChange: (tokenAmount: number) => void,
+  wagerButtonActive: boolean
 }
 
 export const Wager: FC<WagerProps> = (props) => {
+  const [
+    switchSounds
+  ] = useUnit([
+    GameModel.switchSounds,
+  ]);
   const [kriptoInputValue, setKriptoInputValue] = useState('0');
   const [currencyInputValue, setCurrencyInputValue] = useState('0');
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   //const [tokens, setTokens] = useState(tokensList);
   //const [activeToken, setActiveToken] = useState(tokensList[0]);
+  const [soundState, setSoundState] = useState(true);
   const [tokenListVisibility, setTokenListVisibility] = useState(false);
   const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
     useState(false);
+
+  const [playClickSound] = useSound('/static/media/games_assets/poker/sounds/clickSound.mp3', { volume: 1 });
 
   console.log("Available balance", props.tokenAvailableAmount);
 
@@ -153,7 +166,7 @@ export const Wager: FC<WagerProps> = (props) => {
                 <Image
                   alt="token-ico"
                   src={`/static/media/tokens/${props.activeToken.name}.svg`}
-                  onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                  onClick={() => { setTokenListVisibility(!tokenListVisibility); playClickSound(); }}
                   width={30}
                   height={30}
                 />
@@ -170,7 +183,7 @@ export const Wager: FC<WagerProps> = (props) => {
                         props.tokens.map((token, _) => (
                           token == props.activeToken ? <></> : <div
                             className={s.poker_wager_tokens_list_item}
-                            onClick={() => handleChangeToken(token)}
+                            onClick={() => { handleChangeToken(token); playClickSound(); }}
                           >
                             <Image
                               src={`/static/media/tokens/${token.name}.svg`}
@@ -231,6 +244,7 @@ export const Wager: FC<WagerProps> = (props) => {
                   const num = props.tokenAvailableAmount / 4;
                   setKriptoInputValue(num.toFixed(2));
                   setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                  playClickSound();
                 }}>
                 <span className={s.poker_wager_halve_title}>25%</span>
               </div>
@@ -240,6 +254,7 @@ export const Wager: FC<WagerProps> = (props) => {
                   const num = props.tokenAvailableAmount / 2;
                   setKriptoInputValue(num.toFixed(2));
                   setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                  playClickSound();
                 }}>
                 <span className={s.poker_wager_double_title}>50%</span>
               </div>
@@ -249,6 +264,7 @@ export const Wager: FC<WagerProps> = (props) => {
                   const num = props.tokenAvailableAmount;
                   setKriptoInputValue(num.toFixed(2));
                   setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                  playClickSound();
                 }}>
                 <span className={s.poker_wager_max_title}>max</span>
               </div>
@@ -256,18 +272,27 @@ export const Wager: FC<WagerProps> = (props) => {
           </div>
           <button
             className={s.poker_wager_drawing_cards_btn}
-            onClick={async () => { await props.onWager(Number(kriptoInputValue)) }}>
+            onClick={async () => { playClickSound(); await props.onWager(Number(kriptoInputValue)) }}
+            disabled={!props.wagerButtonActive}
+          >
             Drawing cards
           </button>
         </div>
         <div className={s.poker_wager_lower_btns_block}>
-          <button className={s.poker_wager_sound_btn}>
-            <Image alt="sound-ico" src={soundIco} />
+          <button
+            className={s.poker_wager_sound_btn}
+            onClick={() => { setSoundState(!soundState); switchSounds(); playClickSound(); }}
+          >
+            {soundState ? (
+              <Image alt="sound-ico" src={soundIco} />
+            ) : (
+              <Image alt="sound-ico-off" src={soundOffIco} />
+            )}
           </button>
           <div className={s.poker_wager_info_btn_wrap}>
             <button
               className={s.poker_wager_info_btn}
-              onClick={() => setInfoModalVisibility(!infoModalVisibility)}
+              onClick={() => { setInfoModalVisibility(!infoModalVisibility); playClickSound(); }}
             >
               {infoModalVisibility ? (
                 <Image alt="info-ico-light" src={infoLightIco} />
@@ -282,7 +307,7 @@ export const Wager: FC<WagerProps> = (props) => {
               <Image
                 src={closeIco}
                 alt="close-ico"
-                onClick={() => setInfoModalVisibility(false)}
+                onClick={() => { setInfoModalVisibility(false); playClickSound(); }}
                 className={s.poker_wager_info_modal_close_ico}
               />
               <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
@@ -301,10 +326,11 @@ export const Wager: FC<WagerProps> = (props) => {
             <div className={s.hand_multiplier_wrap}>
               <div
                 className={s.hand_multiplier_ico_wrap}
-                onClick={() =>
+                onClick={() => {
                   setHandMultiplierBlockVisibility(
                     !handMultiplierBlockVisibility
-                  )
+                  ); playClickSound();
+                }
                 }
               >
                 {handMultiplierBlockVisibility ? (

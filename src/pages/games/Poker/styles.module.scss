@@ -20,3 +20,16 @@
         padding-right: 0px;
     }
 }
+
+
+.poker_flip_cards_info_wrapper{
+    position: absolute;
+    left: calc(50% - 150px);
+    bottom: 5px;
+    z-index: 2;
+  }
+@media screen and (max-width: 700px) {
+    .poker_flip_cards_info_wrapper{
+      left: calc(50% - 96px);
+    }
+  }

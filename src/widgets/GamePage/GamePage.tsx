@@ -17,6 +17,9 @@ import {
 import * as api from '@/shared/api';
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
+
+import * as GameModel from './model';
 
 interface GamePageProps {
   children: ReactNode;
@@ -26,6 +29,7 @@ interface GamePageProps {
   onWager: (tokenAmount: number) => Promise<void>;
   onTokenChange: (token: api.T_Token) => Promise<void>;
   onTokenAmountChange: (tokenAmount: number) => void;
+  inGame: boolean
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -35,7 +39,8 @@ export const GamePage: FC<GamePageProps> = ({
   game,
   onWager,
   onTokenChange,
-  onTokenAmountChange
+  onTokenAmountChange,
+  inGame
 }) => {
 
   const { address, isConnected } = useAccount();
@@ -105,6 +110,7 @@ export const GamePage: FC<GamePageProps> = ({
 
   return (
     <div className={s.game_layout}>
+
       <div className={s.game_wrap}>
         <GamePageModal
           text={gameInfoText}
@@ -126,7 +132,7 @@ export const GamePage: FC<GamePageProps> = ({
               activeToken={currentToken ? currentToken.token : undefined}
               setActiveToken={undefined}
               onTokenAmountChange={onTokenAmountChange}
-            />
+              wagerButtonActive={!inGame} />
           </div>
           <div>
             <CustomBets

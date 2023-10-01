@@ -2,6 +2,7 @@ import { FC, RefObject, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.png";
+import useSound from 'use-sound';
 
 interface itemProps {
   img: StaticImageData;
@@ -20,6 +21,8 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
   const [cardWidth, setCardWidth] = useState(0);
   const aspectRatio = 1.5;
 
+  const [playRedrawSound] = useSound('/static/media/games_assets/poker/sounds/redrawCard.mp3', { volume: 1 });
+
   useEffect(() => {
     if (cardRef.current) {
       setCardWidth(cardRef.current.offsetWidth);
@@ -33,7 +36,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
       ref={cardRef as RefObject<HTMLDivElement>}
       className={`${s.poker_table_cards_list_item} ${cardFlipped && s.flipped
         } ${props.isEmptyCard && s.empty_card}`}
-      onClick={!props.isEmptyCard ? (() => { setCardFlipped(!cardFlipped); props.onClick(); }) : () => { }}
+      onClick={!props.isEmptyCard ? (() => { playRedrawSound(); setCardFlipped(!cardFlipped); props.onClick(); }) : () => { }}
     //style={{ height: height }}
     >
       {!props.isEmptyCard ? (

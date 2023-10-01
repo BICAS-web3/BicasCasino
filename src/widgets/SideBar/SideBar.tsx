@@ -8,7 +8,7 @@ import Discord from '@/public/media/social_media/Discord.svg';
 import Twitter from '@/public/media/social_media/Twitter.svg';
 import Telegram from '@/public/media/social_media/Telegram.svg';
 import Insta from '@/public/media/social_media/Insta.svg';
-import {LanguageSwitcher} from "@/widgets/LanguageSwitcher/LanguageSwitcher";
+import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 
 interface ClosedSideBarProps {
     pickedGame: number | null
@@ -64,21 +64,21 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                             </div>
                         </div>
                         <div className={s.game_rows}>
-                            <div className={`${s.game_row} ${s.picked_game_row}`}>
+                            <div className={`${s.game_row} ${props.pickedGame == 0 && s.picked_game_row}`} onClick={() => { location.href = '/games/Poker' }}>
+                                <PokerButton />
+                                Poker
+                            </div>
+                            <div className={`${s.game_row} ${props.pickedGame == 1 && s.picked_game_row}`}>
                                 <CoinButton />
                                 Coinflip
                             </div>
-                            <div className={s.game_row}>
+                            <div className={`${s.game_row} ${props.pickedGame == 2 && s.picked_game_row}`}>
                                 <DiceButton />
                                 Dice
                             </div>
-                            <div className={s.game_row}>
+                            <div className={`${s.game_row} ${props.pickedGame == 3 && s.picked_game_row}`}>
                                 <RPCButton />
                                 Rock Paper Scissors
-                            </div>
-                            <div className={s.game_row}>
-                                <PokerButton />
-                                Poker
                             </div>
                         </div>
                     </div>

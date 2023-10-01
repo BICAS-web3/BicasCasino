@@ -1,4 +1,5 @@
-import coinflipImg from "@/public/media/recently_games/conflip.png";
+import coinflipImg from "@/public/media/games/conflip.png";
+import pokerImg from "@/public/media/games/poker.png";
 import { StaticImageData } from "next/image";
 
 export type T_GameData = {
@@ -23,4 +24,9 @@ export const Games: { [key: string]: T_GameData } = {
         text: "A game where you have to beat your opponent with a chip",
         imgBackground: coinflipImg
     },
+    poker: {
+        title: "Poker",
+        text: "Poker",
+        imgBackground: pokerImg
+    }
 }

@@ -22,6 +22,7 @@ import { SideBar, SideBarModel } from '@/widgets/SideBar';
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
+import PokerBackground from "@/public/media/games/poker.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
 import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
@@ -38,6 +39,7 @@ import { Account } from "@/widgets/Account";
 import { Wager } from "@/widgets/Wager/Wager";
 import { LiveBetsWS } from '@/widgets/LiveBets';
 import { settingsModel } from '@/entities/settings';
+import { useAccount } from "wagmi";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -68,18 +70,10 @@ const Game: FC<GameProps> = (props) => {
         backgroundImage: `url(${props.image.src})`,
       }}
     >
-      {/* <Image
-            src={DiceBackground}
-            alt={''}
-            className={s.game_image}
-        /> */}
       <div className={s.game}>
         <div className={s.game_info}>
           <div className={s.game_name}>
             {props.name}
-            {/* <div className={s.game_arrow}>
-                        {'>'}
-                    </div> */}
           </div>
           <div className={s.game_description}>{props.description}</div>
         </div>
@@ -103,32 +97,24 @@ const GameBlured: FC<GameProps> = (props) => {
   // const onMouseLeave = () => setIsHovered(false);
 
   return (
-    <div className={s.game_link}>
-      <div className={s.game_blured}>
-        <div className={s.comming_soon}>
-          <div>Comming Soon</div>
-        </div>
-        <div className={`${s.game_info} ${s.blured}`}>
+    <div
+      className={s.game_link}
+      style={{
+        backgroundImage: `url(${props.image.src})`,
+      }}
+    >
+      <div className={s.game}>
+        <div className={s.game_info}>
           <div className={s.game_name}>
             {props.name}
-            <div className={s.game_arrow}>{">"}</div>
           </div>
           <div className={s.game_description}>{props.description}</div>
         </div>
-
-        <Image
-          className={`${s.game_icon} ${s.blured}`}
-          src={props.image_colored}
-          alt=""
-          width={undefined}
-          height={undefined}
-        />
       </div>
     </div>
   );
 };
 
-interface GamesProps { }
 interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
@@ -137,16 +123,16 @@ const Games: FC<GamesProps> = (props) => {
       {/* <GamesTitle></GamesTitle> */}
       <div className={s.games_row}>
         <Game
-          name={"COINFLIP"}
+          name={"POKER"}
           description={
             "COINFLIP GAME very long description that needs to be wrapped to the new line"
           }
-          link={"/games/CoinFlip"}
+          link={"/games/Poker"}
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
-          image={CoinflipBackground}
+          image={PokerBackground}
         />
-        <Game
+        {/* <Game
           name={"ROCK PAPER SCISSORS"}
           description={
             "COINFLIP GAME very long description that needs to be wrapped to the new line"
@@ -155,7 +141,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
           image={DiceBackground}
-        />
+        /> */}
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
@@ -173,7 +159,7 @@ const Games: FC<GamesProps> = (props) => {
                 image_colored={DiceColoredIcon}
                 image_blend={DiceBlendIcon}
             /> */}
-        <Game
+        {/* <Game
           name={"DICE"}
           description={
             "DICE GAME very long description that needs to be wrapped to the new line"
@@ -182,7 +168,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
           image={RPSBackground}
-        />
+        /> */}
 
         {/* <Game
                 name={'COINFLIP'}
@@ -196,54 +182,6 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
-interface GamesTitleProps { }
-const GamesTitle: FC<GamesTitleProps> = (props) => {
-  return (
-    <div className={s.games_title}>
-      <div>Games</div>
-      {/* <div className={s.games_more}>
-            <div>
-                Show More
-            </div>
-            <div>
-                {'>'}
-            </div>
-        </div> */}
-    </div>
-  );
-};
-
-// interface TotalProps { name: string, value: string };
-// const Total: FC<TotalProps> = props => {
-//     return (<div className={s.total}>
-//         <div className={s.total_name}>
-//             {props.name}
-//         </div>
-//         <div className={s.total_value}>
-//             {props.value}
-//         </div>
-//     </div>)
-// }
-
-// interface TotalInfoProps { };
-// const TotalInfo: FC<TotalInfoProps> = props => {
-//     return (<div className={s.total_info}>
-//         <Total
-//             name="Total wagered"
-//             value="10000000" />
-
-//         <Total
-//             name="Total bets"
-//             value="10000000" />
-
-//         <Total
-//             name="Total users"
-//             value="10000000" />
-//     </div>)
-// }
-
-interface BannerInfoProps { }
 interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
@@ -253,6 +191,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     MainWallet.Open,
     BlurModel.setBlur,
   ]);
+
+  const { isConnected } = useAccount();
 
   const hideAvaibleWallet = () => {
     close();
@@ -273,10 +213,10 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     <div className={s.banner_info}>
       <div className={s.header}>Top 1 Casino on the WEB3</div>
       <div className={s.connect_wallet_container}>
-        <div className={s.text}>Login via Web3 wallets</div>
-        <div className={s.button} onClick={handleConnectWalletBtn}>
-          Connect Wallet
-        </div>
+        {!isConnected && <><div className={s.text}>Login via Web3 wallets</div>
+          <div className={s.button} onClick={handleConnectWalletBtn}>
+            Connect Wallet
+          </div></>}
         <div
           className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
             } ${isMainWalletOpen && s.walletVisible}`}

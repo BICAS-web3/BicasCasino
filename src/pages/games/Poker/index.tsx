@@ -17,10 +17,18 @@ import * as api from '@/shared/api';
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { sessionModel } from "@/entities/session";
 import { useUnit } from "effector-react";
+import { PokerFlipCardsInfo } from "@/widgets/PokerFlipCardsInfo";
+import useSound from 'use-sound';
+import { SideBarModel } from "@/widgets/SideBar";
 
 interface PokerWrapperProps { }
 
 export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
+  const [
+    newBet
+  ] = useUnit([
+    sessionModel.$newBet
+  ]);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
@@ -29,6 +37,18 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [currentToken, setCurrentToken] = useState<api.T_Token>();
   const [newAllowance, setNewAllowance] = useState<bigint>();
   const [currentWager, setCurrentWager] = useState<number>(0);
+  const [showRedraw, setShowRedraw] = useState<boolean>(false);
+  const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
+  const [playCard] = useSound('/static/media/games_assets/poker/sounds/oneCard.mp3');
+  const [inGame, setInGame] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (newBet && isConnected
+      && newBet.game_name == 'PokerStart'
+      && newBet.player.toLowerCase() == address?.toLowerCase()) {
+      setShowRedraw(true);
+    }
+  }, [newBet, isConnected]);
 
 
   const { data: allowance, isError, isLoading, refetch: fetchAllowance } = useContractRead({
@@ -47,6 +67,31 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     watch: true,
   });
 
+  const { data: PrevState } = useContractRead({
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'VideoPoker_GetState',
+    args: [address],
+    watch: true,
+  });
+
+  useEffect(() => {
+    console.log("prev state", PrevState);
+    if (PrevState as any | undefined
+      && (PrevState as any).ingame
+      && !(PrevState as any).isFirstRequest
+      && (PrevState as any).requestID == 0) {
+      setShowRedraw(true);
+    }
+    if (PrevState as any | undefined) {
+      if ((PrevState as any).ingame) {
+        setInGame(true);
+      } else {
+        setInGame(false);
+      }
+    }
+  }, [PrevState])
+
   useEffect(() => {
     console.log("FEES", feeData);
   }, [feeData])
@@ -58,12 +103,21 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     args: [gameAddress, newAllowance]
   });
 
-  const { write: startPlaying } = useContractWrite({
+  const { write: startPlaying, isSuccess: startedPlaying } = useContractWrite({
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Start',
-    args: [BigInt(currentWager as number) * BigInt(1000000000000000000), currentToken?.contract_address],
+    args: [BigInt(((currentWager as number) * 100).toFixed(0)) * BigInt(10000000000000000), currentToken?.contract_address],
     value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(2),
+    gas: BigInt(500000)
+  });
+
+  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite({
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'VideoPoker_Replace',
+    args: [cardsState],
+    value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(2) : BigInt(0),
     gas: BigInt(500000)
   });
 
@@ -110,6 +164,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     }
 
     startPlaying();
+    setInGame(true);
   };
 
   const onTokenChange = async (token: api.T_Token) => {
@@ -120,6 +175,11 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     setCurrentWager(tokenAmount);
   };
 
+  const redrawCards = () => {
+    finishPlaying();
+    setShowRedraw(false);
+  };
+
   return (<GamePage
     gameInfoText="test"
     gameTitle="poker"
@@ -127,13 +187,29 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     onWager={onWager}
     onTokenChange={onTokenChange}
     onTokenAmountChange={onTokenAmountChange}
+    inGame={inGame}
   >
-    <Poker />
+    {PrevState as any | undefined
+      && <Poker
+        cardsState={cardsState}
+        setCardsState={setCardsState}
+        initialCards={(PrevState as any).ingame
+          && !(PrevState as any).isFirstRequest
+          ? (PrevState as any).cardsInHand : undefined} />}
+    {showRedraw && <div className={s.poker_flip_cards_info_wrapper}>
+      <PokerFlipCardsInfo onCLick={() => { playCard(); redrawCards(); }} />
+    </div>}
   </GamePage>);
 }
 
 
 export default function PokerGame() {
+  const [setPickedGame] = useUnit([SideBarModel.setCurrentPick]);
+
+  useEffect(() => {
+    setPickedGame(0);
+  }, []);
+
   return (
     <Layout>
       <LiveBetsWS subscription_type={'Subscribe'} subscriptions={['Poker', 'PokerStart']} />

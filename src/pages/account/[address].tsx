@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { ProfileCard } from "@/widgets/ProfileCard";
 import { IRecentlyGames, RecentlyPlayedGames } from "@/widgets/RecentlyPlayedGames";
-import coinflipImg from "@/public/media/recently_games/conflip.png";
-import dunkinImg from "@/public/media/recently_games/dunkin.png";
 import { Layout } from "@/widgets/Layout";
 import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
@@ -13,20 +11,6 @@ import { useRouter } from 'next/router';
 import * as api from '@/shared/api';
 import { Games } from '@/shared/Games';
 
-const RecentlyGames = [
-    {
-        id: 1,
-        title: "Coinflip",
-        text: "A game where you have to beat your opponent with a chip",
-        imgBackground: coinflipImg,
-    },
-    {
-        id: 2,
-        title: "Dunkin caps",
-        text: "A game where you have to beat your opponent with a chip",
-        imgBackground: dunkinImg,
-    },
-];
 
 export default function Profile() {
     const router = useRouter();
@@ -81,7 +65,7 @@ export default function Profile() {
                                 {latestGames ? <RecentlyPlayedGames RecentlyGames={latestGames} /> : <></>}
                             </div>
                         </div>
-                        <SwapTradeTokens />
+                        {/* <SwapTradeTokens /> */}
                         <BetsHistoryReDesign title={"Bet History"} address={(router.query.address as string).toLowerCase()} />
                         {/* <BetsHistoryReDesign title={"Pending Bets"} /> */}
                     </section>
