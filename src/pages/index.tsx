@@ -268,7 +268,7 @@ export default function Home() {
           <Games />
           <Total />
           <CustomBets title='Live bets' isMainPage={true} isGamePage={false} />
-          <LeaderBoard />
+          {/* <LeaderBoard /> */}
         </div>
       </Layout>
 
