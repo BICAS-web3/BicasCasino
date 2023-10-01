@@ -3,6 +3,7 @@ import { createEvent, createStore } from "effector";
 export enum Action {
   Success,
   Error,
+  Waiting,
 }
 
 export interface NotificationProps {

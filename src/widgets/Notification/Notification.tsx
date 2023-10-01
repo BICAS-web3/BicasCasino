@@ -7,14 +7,11 @@ import {
   NotificationIcon_Error,
   NotificationIcon_Success,
 } from "@/shared/SVGs";
-import { useUnit } from "effector-react";
+import { useStore, useUnit } from "effector-react";
 import * as NotificationM from "./model";
-import { setCurrentAction } from "./model";
 import { Action } from "./model";
 
-export const Notification: FC<NotificationM.NotificationProps> = ({
-  action,
-}) => {
+export const Notification: FC = () => {
   //   const currentAction: Action | undefined = props.action;
   // const [currentAction, setAction] = useState(Action.awaiting);
   // setAction(props.action);
@@ -24,11 +21,9 @@ export const Notification: FC<NotificationM.NotificationProps> = ({
     NotificationM.setCurrentAction,
   ]);
 
-  // setAction(Action.Success);
-
   return (
     <>
-      {currentAction === Action.Success && (
+      {currentAction?.action === Action.Success && (
         <div className={s.notfication_container}>
           <div className={s.hide_animation}>
             <NotificationIcon_Awaiting />
@@ -51,7 +46,7 @@ export const Notification: FC<NotificationM.NotificationProps> = ({
           </button>
         </div>
       )}
-      {currentAction === Action.Error && (
+      {currentAction?.action === Action.Error && (
         <div className={s.notfication_container}>
           <div className={s.hide_animation}>
             <NotificationIcon_Awaiting />
@@ -75,23 +70,26 @@ export const Notification: FC<NotificationM.NotificationProps> = ({
           </button>
         </div>
       )}
-      {currentAction === null && (
-        <div className={s.notfication_container_await}>
-          <div className={`${s.awaiting} ${s.awaiting_animation} $`}>
-            <NotificationIcon_Awaiting />
+      {currentAction?.action === undefined ||
+        (null && (
+          <div className={s.notfication_container_await}>
+            <div className={`${s.awaiting} ${s.awaiting_animation} $`}>
+              <NotificationIcon_Awaiting />
+            </div>
+            <div className={s.text_await}>
+              Awaiting transaction confirmation.
+            </div>
+            <button className={s.btn_close}>
+              <Image
+                src={Close}
+                alt={""}
+                width={17}
+                height={17}
+                className={s.close_icon}
+              />
+            </button>
           </div>
-          <div className={s.text_await}>Awaiting transaction confirmation.</div>
-          <button className={s.btn_close}>
-            <Image
-              src={Close}
-              alt={""}
-              width={17}
-              height={17}
-              className={s.close_icon}
-            />
-          </button>
-        </div>
-      )}
+        ))}
     </>
   );
 };
