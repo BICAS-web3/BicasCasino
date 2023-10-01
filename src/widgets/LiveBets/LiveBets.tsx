@@ -30,64 +30,6 @@ interface timeProps {
   date: string;
 }
 
-// interface LiveBetProps {
-//     trx_url: string,
-//     time: timeProps,
-//     network_icon: string,
-//     game_url: string,
-//     game_name: string,
-//     player: string,
-//     player_url: string,
-//     wager: number,
-//     multiplier: number,
-//     profit: number,
-//     userBg: string,
-//     numBets: number,
-//     gameAddress: string
-// };
-// const LiveBet: FC<LiveBetProps> = props => {
-//     return (
-//         <div className={s.liveBets_list_item}>
-//             <div className={s.liveBets_list_item_time_block}>
-//                 <a href={props.trx_url} target='_blank' className={s.liveBets_list_item_time_link_block}>
-//                     <span className={s.liveBets_list_item_date}>{props.time.date}</span>
-//                     <span className={s.liveBets_list_item_time}>{props.time.time}</span>
-//                 </a>
-//             </div>
-//             <div className={s.liveBets_list_item_game_block}>
-//                 <a href={props.game_url} target='_blank' className={s.liveBets_list_item_game_link_block}>
-//                     <img src={gameIco.src} className={s.liveBets_list_item_game_ico} alt="game-ico-preview" />
-//                     <span className={s.liveBets_list_item_game}>{props.game_name}</span>
-//                 </a>
-//             </div>
-//             <div className={s.liveBets_list_item_player_block}>
-//                 <a href={props.player_url} target='_blank' className={s.liveBets_list_item_player_link_block}>
-//                     <div className={s.liveBets_list_item_player_ico} style={{ background: props.userBg }}>
-//                         <span className={s.liveBets_list_item_player_ico_name}>B</span>
-//                     </div>
-//                     <span className={s.liveBets_list_item_player}>{props.player}</span>
-//                 </a>
-//             </div>
-//             <div className={s.liveBets_list_item_address_block}>
-//                 <span className={s.liveBets_list_item_address}>{props.gameAddress}</span>
-//             </div>
-//             <div className={s.liveBets_list_item_transaction_block}>
-//                 <Image src={linkIco} width={22} height={22} />
-//             </div>
-//             <div className={s.liveBets_list_item_wager_block}>
-//                 <img src={wagerIco.src} alt="wager-ico" />
-//                 <span className={s.liveBets_list_item_wager}>{props.wager}</span>
-//             </div>
-//             <div className={s.liveBets_list_item_multiplier_block}>
-//                 <span className={s.liveBets_list_item_multiplier}>{props.multiplier}x</span>
-//             </div>
-//             <div className={s.liveBets_list_item_profit_block}>
-//                 <span className={s.liveBets_list_item_profit}>+{props.profit}</span>
-//                 <img src={wagerIco.src} alt="wager-ico" />
-//             </div>
-//         </div>
-//     );
-// }
 
 export interface LiveBetsWSProps {
   subscription_type: string,
@@ -132,7 +74,9 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = props => {
       return;
     }
     setNewBet(data);
-    newBet(data);
+    if (data.game_name != 'PokerStart') {
+      newBet(data);
+    }
     //setGotBets(true);
   };
 

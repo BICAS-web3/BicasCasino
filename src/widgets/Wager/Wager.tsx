@@ -9,6 +9,8 @@ import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
 import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import Image from "next/image";
+import { usePrepareContractWrite, useContractWrite } from 'wagmi';
+import * as Api from '@/shared/api';
 
 const pokerHandMultiplierList = [
   {
@@ -44,7 +46,7 @@ const pokerHandMultiplierList = [
     multiplier: 2,
   },
   {
-    title: "Jacks of Better",
+    title: "Jacks or Better",
     multiplier: 1,
   },
 ];
@@ -67,29 +69,52 @@ const tokensList = [
   },
 ];
 
-interface WagerProps {
+// export type T_Token = {
+//   name: string,
+// };
+
+export interface WagerProps {
   game: string;
+  tokenAvailableAmount: number,
+  // tokenAmount: number,
+  // setTokenAmount: any,
+  tokenPrice: number,
+  onWager: (tokenAmount: number) => Promise<void>,
+  tokens: Api.T_Token[],
+  //onChangeToken: (token: string) => void,
+  activeToken: Api.T_Token | undefined,
+  setActiveToken: any,
+  onTokenAmountChange: (tokenAmount: number) => void
 }
 
-export const Wager: FC<WagerProps> = ({ game }) => {
-  const [kriptoInputValue, setKriptoInputValue] = useState("000.000");
-  const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
+export const Wager: FC<WagerProps> = (props) => {
+  const [kriptoInputValue, setKriptoInputValue] = useState('0');
+  const [currencyInputValue, setCurrencyInputValue] = useState('0');
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
-  const [tokens, setTokens] = useState(tokensList);
-  const [activeToken, setActiveToken] = useState(tokensList[0]);
+  //const [tokens, setTokens] = useState(tokensList);
+  //const [activeToken, setActiveToken] = useState(tokensList[0]);
   const [tokenListVisibility, setTokenListVisibility] = useState(false);
   const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
     useState(false);
 
-  const handleChangeToken = (tokenId: string) => {
+  console.log("Available balance", props.tokenAvailableAmount);
+
+  const handleChangeToken = (token: Api.T_Token) => {
     setTokenListVisibility(false);
-    const token = tokensList.filter((item) => item.id === tokenId)[0];
-    setActiveToken(token);
+    //const token = tokensList.filter((item) => item.id === tokenId)[0];
+    props.setActiveToken(token);
   };
 
   useEffect(() => {
-    setTokens(tokensList.filter((item) => item.id !== activeToken.id));
-  }, [activeToken]);
+    if (!kriptoInputValue) {
+      return;
+    }
+    props.onTokenAmountChange(Number(kriptoInputValue));
+  }, [kriptoInputValue])
+
+  // useEffect(() => {
+  //   setTokens(tokensList.filter((item) => item.id !== activeToken.id));
+  // }, [activeToken]);
 
   return (
     <div className={s.poker_wager_wrap}>
@@ -100,48 +125,99 @@ export const Wager: FC<WagerProps> = ({ game }) => {
             <div className={s.poker_wager_input_kripto_block}>
               <input
                 className={s.poker_wager_input_kripto}
-                onChange={(e) => setKriptoInputValue(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length == 0) {
+                    setKriptoInputValue('0');
+                    setCurrencyInputValue('0');
+                  }
+
+                  const nmb = parseFloat(
+                    (e.target.value.charAt(e.target.value.length - 1) == '.'
+                      || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
+                      ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
+                  );
+                  if (Number.isNaN(nmb)
+                    || nmb > props.tokenAvailableAmount) {
+                    return;
+                  }
+                  setKriptoInputValue(e.target.value.charAt(0) == '0'
+                    && e.target.value.length > 1
+                    ? e.target.value.slice(1) : e.target.value);
+
+                  const dollars = nmb * props.tokenPrice;
+                  setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
+                }}
                 value={kriptoInputValue}
               />
-              <div className={s.poker_wager_input_kripto_ico_block}>
+              {props.activeToken && <div className={s.poker_wager_input_kripto_ico_block}>
                 <Image
                   alt="token-ico"
-                  src={activeToken.img}
-                  onClick={() => setTokenListVisibility(true)}
+                  src={`/static/media/tokens/${props.activeToken.name}.svg`}
+                  onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                  width={30}
+                  height={30}
                 />
                 <div
-                  className={`${s.poker_wager_tokens_list_wrap} ${
-                    tokenListVisibility && s.token_list_visible
-                  }`}
+                  className={`${s.poker_wager_tokens_list_wrap} ${tokenListVisibility && s.token_list_visible
+                    }`}
                 >
                   <div className={s.poker_wager_tokens_list}>
                     <h1 className={s.poker_wager_tokens_list_title}>
                       Select token
                     </h1>
                     <div className={s.poker_wager_tokens_list}>
-                      {tokens &&
-                        tokens.map((token, _) => (
-                          <div
+                      {props.tokens &&
+                        props.tokens.map((token, _) => (
+                          token == props.activeToken ? <></> : <div
                             className={s.poker_wager_tokens_list_item}
-                            onClick={() => handleChangeToken(token.id)}
+                            onClick={() => handleChangeToken(token)}
                           >
-                            <Image src={token.img} alt="token-ico" />
+                            <Image
+                              src={`/static/media/tokens/${token.name}.svg`}
+                              alt="token-ico"
+                              width={30}
+                              height={30}
+                            />
                             <span
                               className={s.poker_wager_tokens_list_item_title}
                             >
-                              {token.title}
+                              {token.name}
                             </span>
                           </div>
                         ))}
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>}
             </div>
             <div className={s.poker_wager_input_currency_block}>
               <input
                 className={s.poker_wager_input_currency}
-                onChange={(e) => setCurrencyInputValue(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length == 0) {
+                    setKriptoInputValue('0');
+                    setCurrencyInputValue('0');
+                  }
+
+                  const nmb = parseFloat(
+                    (e.target.value.charAt(e.target.value.length - 1) == '.'
+                      || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
+                      ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
+                  );
+                  if (Number.isNaN(nmb)) {
+                    return;
+                  }
+
+                  const tokens = nmb / props.tokenPrice;
+                  if (tokens > props.tokenAvailableAmount) {
+                    return;
+                  }
+
+                  setCurrencyInputValue(e.target.value.charAt(0) == '0'
+                    && e.target.value.length > 1
+                    ? e.target.value.slice(1) : e.target.value);
+                  setKriptoInputValue(tokens > 1 ? tokens.toFixed(2) : tokens.toFixed(5));
+                }}
                 value={currencyInputValue}
               />
               <div className={s.poker_wager_input_currency_ico}>
@@ -149,18 +225,38 @@ export const Wager: FC<WagerProps> = ({ game }) => {
               </div>
             </div>
             <div className={s.poker_wager_increase_block}>
-              <div className={s.poker_wager_halve_block}>
-                <span className={s.poker_wager_halve_title}>1/2</span>
+              <div
+                className={s.poker_wager_halve_block}
+                onClick={() => {
+                  const num = props.tokenAvailableAmount / 4;
+                  setKriptoInputValue(num.toFixed(2));
+                  setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                }}>
+                <span className={s.poker_wager_halve_title}>25%</span>
               </div>
-              <div className={s.poker_wager_double_block}>
-                <span className={s.poker_wager_double_title}>2x</span>
+              <div
+                className={s.poker_wager_double_block}
+                onClick={() => {
+                  const num = props.tokenAvailableAmount / 2;
+                  setKriptoInputValue(num.toFixed(2));
+                  setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                }}>
+                <span className={s.poker_wager_double_title}>50%</span>
               </div>
-              <div className={s.poker_wager_max_block}>
+              <div
+                className={s.poker_wager_max_block}
+                onClick={() => {
+                  const num = props.tokenAvailableAmount;
+                  setKriptoInputValue(num.toFixed(2));
+                  setCurrencyInputValue((num * props.tokenPrice).toFixed(2));
+                }}>
                 <span className={s.poker_wager_max_title}>max</span>
               </div>
             </div>
           </div>
-          <button className={s.poker_wager_drawing_cards_btn}>
+          <button
+            className={s.poker_wager_drawing_cards_btn}
+            onClick={async () => { await props.onWager(Number(kriptoInputValue)) }}>
             Drawing cards
           </button>
         </div>
@@ -180,9 +276,8 @@ export const Wager: FC<WagerProps> = ({ game }) => {
               )}
             </button>
             <div
-              className={`${s.poker_wager_info_modal_block} ${
-                infoModalVisibility && s.active
-              }`}
+              className={`${s.poker_wager_info_modal_block} ${infoModalVisibility && s.active
+                }`}
             >
               <Image
                 src={closeIco}
@@ -202,7 +297,7 @@ export const Wager: FC<WagerProps> = ({ game }) => {
               </p>
             </div>
           </div>
-          {game && game === "poker" && (
+          {props.game && props.game === "poker" && (
             <div className={s.hand_multiplier_wrap}>
               <div
                 className={s.hand_multiplier_ico_wrap}
@@ -219,9 +314,8 @@ export const Wager: FC<WagerProps> = ({ game }) => {
                 )}
               </div>
               <div
-                className={`${s.hand_multiplier_block} ${
-                  handMultiplierBlockVisibility && s.handMultiplierActive
-                }`}
+                className={`${s.hand_multiplier_block} ${handMultiplierBlockVisibility && s.handMultiplierActive
+                  }`}
               >
                 <div className={s.hand_multiplier_block_header}>
                   <span className={s.hand_multiplier_block_header_title}>

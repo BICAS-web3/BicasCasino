@@ -8,11 +8,13 @@ interface itemProps {
 }
 
 interface PokerCardProps {
-  item: itemProps;
-  isEmptyCard: boolean;
+  coat: number | undefined,
+  card: number | undefined,
+  isEmptyCard: boolean,
+  onClick: () => void
 }
 
-export const PokerCard: FC<PokerCardProps> = ({ item, isEmptyCard }) => {
+export const PokerCard: FC<PokerCardProps> = (props) => {
   const [cardFlipped, setCardFlipped] = useState(false);
   const cardRef = useRef<HTMLElement | null>(null);
   const [cardWidth, setCardWidth] = useState(0);
@@ -30,14 +32,14 @@ export const PokerCard: FC<PokerCardProps> = ({ item, isEmptyCard }) => {
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
       className={`${s.poker_table_cards_list_item} ${cardFlipped && s.flipped
-        } ${isEmptyCard && s.empty_card}`}
-      onClick={() => setCardFlipped(!cardFlipped)}
+        } ${props.isEmptyCard && s.empty_card}`}
+      onClick={!props.isEmptyCard ? (() => { setCardFlipped(!cardFlipped); props.onClick(); }) : () => { }}
     //style={{ height: height }}
     >
-      {!isEmptyCard ? (
+      {!props.isEmptyCard ? (
         <>
           <div className={s.poker_table_card_front}>
-            <Image src={item.img} alt="card-image" />
+            <Image src={`/static/media/games_assets/poker/${props.coat}/${props.card}.svg`} alt="card-image" width={200} height={278} />
           </div>
           <div className={s.poker_table_card_back}>
             <Image src={backCard} alt="card-image" />
