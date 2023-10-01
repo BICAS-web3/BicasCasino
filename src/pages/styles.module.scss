@@ -282,14 +282,19 @@
 
 // mobile
 @media only screen and (max-width: 650px) {
+  .sidebarClosed {
+    width: 100%;
+  }
   .main_container {
     left: 0px;
     right: 0px;
     width: 100%;
-    //margin-right: 8px;
     top: 76px;
-    padding-left: 0px;
-    //padding-left: 10px;
+    padding: 100px 0 0 0;
+  }
+  .games {
+    padding: 8px;
+    width: calc(100% - 16px);
   }
   .banner_info {
     row-gap: 34px;

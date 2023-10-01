@@ -15,8 +15,10 @@ export const Blur = () => {
   useEffect(() => {
     if (BlurActive) {
       document.documentElement.style.overflow = "hidden";
+      document.documentElement.style.position = "relative";
     } else {
       document.documentElement.style.overflow = "visible";
+      document.documentElement.style.position = "static";
     }
   }, [BlurActive]);
 
