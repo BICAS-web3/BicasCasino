@@ -157,6 +157,9 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   }, [newAllowance]);
 
   const onWager = async (tokenAmount: number) => {
+    if (!isConnected) {
+      return;
+    }
     console.log("allowance", allowance);
     if (Number((allowance as bigint / BigInt(1000000000000000000)).toString()) < tokenAmount) {
       setNewAllowance(BigInt(tokenAmount * 10) * BigInt(1000000000000000000));
@@ -190,12 +193,15 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     inGame={inGame}
   >
     {PrevState as any | undefined
-      && <Poker
+      ? <Poker
         cardsState={cardsState}
         setCardsState={setCardsState}
         initialCards={(PrevState as any).ingame
           && !(PrevState as any).isFirstRequest
-          ? (PrevState as any).cardsInHand : undefined} />}
+          ? (PrevState as any).cardsInHand : undefined} /> : <Poker
+        cardsState={cardsState}
+        setCardsState={setCardsState}
+        initialCards={undefined} />}
     {showRedraw && <div className={s.poker_flip_cards_info_wrapper}>
       <PokerFlipCardsInfo onCLick={() => { playCard(); redrawCards(); }} />
     </div>}
