@@ -43,10 +43,18 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [inGame, setInGame] = useState<boolean>(false);
 
   useEffect(() => {
-    if (newBet && isConnected
-      && newBet.game_name == 'PokerStart'
-      && newBet.player.toLowerCase() == address?.toLowerCase()) {
-      setShowRedraw(true);
+    // if (newBet && isConnected
+    //   && newBet.game_name == 'PokerStart'
+    //   && newBet.player.toLowerCase() == address?.toLowerCase()) {
+    //   setShowRedraw(true);
+    // }
+    if (newBet && isConnected) {
+      if (newBet.player.toLowerCase() == address?.toLowerCase()) {
+        if (newBet.game_name == 'PokerStart') {
+          setShowRedraw(true);
+          setCardsState([false, false, false, false, false]);
+        }
+      }
     }
   }, [newBet, isConnected]);
 
@@ -87,6 +95,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
       if ((PrevState as any).ingame) {
         setInGame(true);
       } else {
+        setCardsState([false, false, false, false, false]);
         setInGame(false);
       }
     }

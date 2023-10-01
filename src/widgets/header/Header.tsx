@@ -129,8 +129,6 @@ const RightMenu: FC<RightMenuProps> = props => {
 
   const [screenWidth, setScreenWidth] = useState(0);
 
-  const condition = false;
-
   const [
     isOpen,
     close,
