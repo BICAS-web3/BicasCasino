@@ -126,7 +126,7 @@ export const GamePage: FC<GamePageProps> = ({
             </div>
             <Wager
               game={game}
-              tokenAvailableAmount={(balance as number | undefined) ? Number((balance as bigint) / BigInt(1000000000000000000)) / 100 : 0}
+              tokenAvailableAmount={(balance as number | undefined) ? Number((balance as bigint) / BigInt(10000000000000000)) / 100 : 0}
               tokenPrice={currentToken ? currentToken.price : 0}
               onWager={onWager}
               tokens={availableTokens.tokens}
