@@ -253,15 +253,19 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   const hideAvaibleWallet = () => {
     close();
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
 
   const handleConnectWalletBtn = () => {
     if (!isMainWalletOpen) {
       open();
       setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       close();
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   };
 
