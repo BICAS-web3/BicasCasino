@@ -70,26 +70,23 @@ export const Notification: FC = () => {
           </button>
         </div>
       )}
-      {currentAction?.action === undefined ||
-        (null && (
-          <div className={s.notfication_container_await}>
-            <div className={`${s.awaiting} ${s.awaiting_animation} $`}>
-              <NotificationIcon_Awaiting />
-            </div>
-            <div className={s.text_await}>
-              Awaiting transaction confirmation.
-            </div>
-            <button className={s.btn_close}>
-              <Image
-                src={Close}
-                alt={""}
-                width={17}
-                height={17}
-                className={s.close_icon}
-              />
-            </button>
+      {currentAction?.action === undefined && (
+        <div className={s.notfication_container_await}>
+          <div className={`${s.awaiting} ${s.awaiting_animation} $`}>
+            <NotificationIcon_Awaiting />
           </div>
-        ))}
+          <div className={s.text_await}>Awaiting transaction confirmation.</div>
+          <button className={s.btn_close}>
+            <Image
+              src={Close}
+              alt={""}
+              width={17}
+              height={17}
+              className={s.close_icon}
+            />
+          </button>
+        </div>
+      )}
     </>
   );
 };
