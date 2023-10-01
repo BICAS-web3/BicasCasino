@@ -33,253 +33,244 @@ import TestProfilePic from '@/public/media/misc/TestProfilePic.svg';
 
 interface EmblemProps { }
 const Emblem: FC<EmblemProps> = (props) => {
-    return (
-        <a className={s.emblem} href='/'>
-            <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
-            <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
-        </a>
-    );
+  return (
+    <a className={s.emblem} href="/">
+      <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
+      <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
+    </a>
+  );
 };
 
-interface LeftMenuProps { }
 interface LeftMenuProps { }
 const LeftMenu: FC<LeftMenuProps> = (props) => {
-    const [flipOpen, isOpen] = useUnit([
-        SideBarModel.flipOpen,
-        SideBarModel.$isOpen,
-    ]);
-    return (
-        <div className={s.left_menu}>
-            <div
-                className={s.burger}
-                onClick={() => {
-                    flipOpen();
-                }}
-            >
-                <Image src={Burger} alt={""} width={22.5} height={15} />
-            </div>
-            <Emblem />
-        </div>
-    );
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+  return (
+    <div className={s.left_menu}>
+      <div
+        className={s.burger}
+        onClick={() => {
+          flipOpen();
+        }}
+      >
+        <Image src={Burger} alt={""} width={22.5} height={15} />
+      </div>
+      <Emblem />
+    </div>
+  );
 };
 
 interface LinksProps { }
-interface LinksProps { }
 const Links: FC<LinksProps> = (props) => {
-    return (
-        <div className={s.links}>
-            <div className={`${s.link}`}>NFT Market</div>
-            {/* <div className={`${s.link} ${s.link_active}`}>
-    return (
-        <div className={s.links}>
-            <div className={`${s.link}`}>NFT Market</div>
-            {/* <div className={`${s.link} ${s.link_active}`}>
+  return (
+    <div className={s.links}>
+      <div className={`${s.link}`}>NFT Market</div>
+      {/* <div className={`${s.link} ${s.link_active}`}>
             LeaderBoard
         </div> */}
-        </div>
-    );
+    </div>
+  );
 };
 
 interface ConnectWalletButtonProps { }
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
-    const [isOpen, isMainWalletOpen, setBlur] = useUnit([
-        SideBarModel.$isOpen,
-        MainWallet.$isMainWalletOpen,
-        BlurModel.setBlur,
-    ]);
+  const [isOpen, isMainWalletOpen, setBlur] = useUnit([
+    SideBarModel.$isOpen,
+    MainWallet.$isMainWalletOpen,
+    BlurModel.setBlur,
+  ]);
 
-    const [walletVisibility, setWalletVisibility] = useState(false);
+  const [walletVisibility, setWalletVisibility] = useState(false);
 
-    const handleConnectWalletBtn = () => {
-        if (isMainWalletOpen) {
-            return null;
-        }
-        if (!walletVisibility) {
-            setWalletVisibility(true);
-            setBlur(true);
-        } else {
-            setWalletVisibility(false);
-            setBlur(false);
-        }
-    };
+  const handleConnectWalletBtn = () => {
+    if (isMainWalletOpen) {
+      return null;
+    }
 
-    // useEffect(() => {
-    //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
-    //         (document.documentElement.style.overflow = 'visible')
-    // }, [walletVisibility])
-    // useEffect(() => {
-    //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
-    //         (document.documentElement.style.overflow = 'visible')
-    // }, [walletVisibility])
+    if (!walletVisibility) {
+      setWalletVisibility(true);
+      setBlur(true);
+    } else {
+      setWalletVisibility(false);
+      setBlur(false);
+    }
+  };
 
-    const hideAvaibleWallet = () => {
-        setWalletVisibility(false);
-        setBlur(false);
-    };
+  // useEffect(() => {
+  //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
+  //         (document.documentElement.style.overflow = 'visible')
+  // }, [walletVisibility])
 
-    return (
-        <div className={s.connect_wallet_button_wrap}>
-            <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
-                Connect Wallet
-            </div>
-            <div
-                className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-                    }`}
-            >
-                <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
-            </div>
-        </div>
-    );
+  const hideAvaibleWallet = () => {
+    setWalletVisibility(false);
+    setBlur(false);
+  };
+
+  return (
+    <div className={s.connect_wallet_button_wrap}>
+      <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
+        Connect Wallet
+      </div>
+      <div
+        className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
+          }`}
+      >
+        <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
+      </div>
+    </div>
+  );
 };
 
 interface RightMenuProps { };
 const RightMenu: FC<RightMenuProps> = props => {
-    const { isConnected, address } = useAccount();
+  const { isConnected, address } = useAccount();
 
-    const [screenWidth, setScreenWidth] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(0);
 
-    const condition = true;
+  const condition = false;
 
-    const [
-        isOpen,
-        close,
-        openHeaderAcc,
-        closeHeaderAcc,
-        isHeaderAccOpened,
-        setBlur,
-        logIn,
-        currentNickname,
-        logOut
-    ] = useUnit([
-        SideBarModel.$isOpen,
-        SideBarModel.Close,
-        HeaderAccModel.Open,
-        HeaderAccModel.Close,
-        HeaderAccModel.$isHeaderAccountOpened,
-        BlurModel.setBlur,
-        sessionModel.logIn,
-        sessionModel.$currentNickname,
-        sessionModel.logOut
-    ]);
+  const [
+    isOpen,
+    close,
+    openHeaderAcc,
+    closeHeaderAcc,
+    isHeaderAccOpened,
+    setBlur,
+    logIn,
+    currentNickname,
+    logOut
+  ] = useUnit([
+    SideBarModel.$isOpen,
+    SideBarModel.Close,
+    HeaderAccModel.Open,
+    HeaderAccModel.Close,
+    HeaderAccModel.$isHeaderAccountOpened,
+    BlurModel.setBlur,
+    sessionModel.logIn,
+    sessionModel.$currentNickname,
+    sessionModel.logOut
+  ]);
 
-    useEffect(() => {
-        if (address == undefined) {
-            logOut();
-            return;
-        }
+  useEffect(() => {
+    if (address == undefined) {
+      logOut();
+      return;
+    }
 
-        logIn({ address: (address as string).toLowerCase() });
+    logIn({ address: (address as string).toLowerCase() });
 
-    }, [address]);
+  }, [address]);
 
-    const closeSidebar = () => {
-        close();
-        document.documentElement.style.overflow = "visible";
-    };
+  const closeSidebar = () => {
+    close();
+    document.documentElement.style.overflow = "visible";
+  };
 
-    useEffect(() => {
-        setScreenWidth(window.innerWidth);
-    }, []);
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
 
-    const handleHeaderAccountVisibility = () => {
-        if (!isHeaderAccOpened) {
-            setBlur(true);
-            openHeaderAcc();
-        }
-    };
-    return (
-        <div className={s.right_menu}>
-            <div className={s.button}>
-                <Image
-                    src={BellIcon}
-                    alt={""}
-                    // width={24}
-                    // height={25}
-                    className={s.icon}
-                />
-                <div className={s.new_notification}></div>
+  const handleHeaderAccountVisibility = () => {
+    if (!isHeaderAccOpened) {
+      setBlur(true);
+      openHeaderAcc();
+    }
+  };
+  return (
+    <div className={s.right_menu}>
+      <div className={s.button}>
+        <Image
+          src={BellIcon}
+          alt={""}
+          // width={24}
+          // height={25}
+          className={s.icon}
+        />
+        <div className={s.new_notification}></div>
+      </div>
+      <div className={s.button}>
+        <Image
+          src={ChatIcon}
+          alt={""}
+          // width={24}
+          // height={25}
+          className={s.icon}
+        />
+      </div>
+      {isOpen && screenWidth <= 650 ? (
+        <button
+          className={s.header_mobile_closeSidebar_btn}
+          onClick={closeSidebar}
+        >
+          <Image alt="close-ico" src={closeIco} />
+        </button>
+      ) : (
+        <div className={s.header_mobile_right_wrap}>
+          {isConnected ? (
+            <div className={s.header_profile_ico_wrap}>
+              <div
+                className={s.header_profile_ico_block}
+                onClick={handleHeaderAccountVisibility}
+              >
+                <span className={s.header_profile_ico_title}>А</span>
+              </div>
+              {isHeaderAccOpened &&
+                <Account
+                  address={address as string}
+                  nickname={
+                    (currentNickname as string).toLowerCase()
+                      == (address as string).toLowerCase() ? 'No nickname' : currentNickname} />}
             </div>
-            <div className={s.button}>
-                <Image
-                    src={ChatIcon}
-                    alt={""}
-                    // width={24}
-                    // height={25}
-                    className={s.icon}
-                />
-            </div>
-            {isOpen && screenWidth <= 650 ? (
-                <button
-                    className={s.header_mobile_closeSidebar_btn}
-                    onClick={closeSidebar}
-                >
-                    <Image alt="close-ico" src={closeIco} />
-                </button>
-            ) : (
-                <div className={s.header_mobile_right_wrap}>
-                    {isConnected ? (
-                        <div className={s.header_profile_ico_wrap}>
-                            <div
-                                className={s.header_profile_ico_block}
-                                onClick={handleHeaderAccountVisibility}
-                            >
-                                <span className={s.header_profile_ico_title}>А</span>
-                            </div>
-                            {isHeaderAccOpened &&
-                                <Account
-                                    address={address as string}
-                                    nickname={
-                                        (currentNickname as string).toLowerCase()
-                                            == (address as string).toLowerCase() ? 'No nickname' : currentNickname} />}
-                        </div>
-                    ) : (
-                        <ConnectWalletButton />
-                    )}
-                </div>
-            )}
+          ) : (
+            <ConnectWalletButton />
+          )}
         </div>
-    );
+      )}
+    </div>
+  );
 }
 
 interface BottomMenuProps { }
 const BottomMenu: FC<BottomMenuProps> = (props) => {
-    const [openSidebar] = useUnit([SideBarModel.Open]);
+  const [openSidebar] = useUnit([SideBarModel.Open]);
 
-    const openSB = () => {
-        openSidebar();
-        window.scrollTo(0, 0);
-        document.documentElement.style.overflow = "hidden";
-    };
+  const openSB = () => {
+    openSidebar();
+    window.scrollTo(0, 0);
+    document.documentElement.style.overflow = "hidden";
+  };
 
-    return (
-        <div className={s.bottom_menu}>
-            <div className={s.element} onClick={openSB}>
-                <Image src={Burger} alt="" />
-            </div>
-            <div className={s.element}>
-                <GamesIcon />
-            </div>
-            <div className={s.element}>
-                <SupportIcon />
-            </div>
-            <div className={s.element}>
-                <Image src={ChatIcon} alt="" />
-            </div>
-        </div>
-    );
+  return (
+    <div className={s.bottom_menu}>
+      <div className={s.element} onClick={openSB}>
+        <Image src={Burger} alt="" />
+      </div>
+      <div className={s.element}>
+        <GamesIcon />
+      </div>
+      <div className={s.element}>
+        <SupportIcon />
+      </div>
+      <div className={s.element}>
+        <Image src={ChatIcon} alt="" />
+      </div>
+    </div>
+  );
 };
 
 export interface HeaderProps { }
 export const Header: FC<HeaderProps> = props => {
-    return (<>
-        <>
-            <div className={s.header}>
-                <LeftMenu />
-                <Links />
-                <NetworkSelect />
-                <RightMenu />
-            </div>
-            <BottomMenu />
-        </>
-    </>);
+  return (<>
+    <>
+      <div className={s.header}>
+        <LeftMenu />
+        <Links />
+        <NetworkSelect />
+        <RightMenu />
+      </div>
+      <BottomMenu />
+    </>
+  </>);
 }
