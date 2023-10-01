@@ -86,7 +86,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                         <div className={s.icon_wrapper}>
                             <SupportIcon />
                         </div>
-                        <div className={s.large_header_text}>
+                        <div className={s.large_header_text} onClick={() => { location.href = 'https://t.me/greekkeepers' }}>
                             SUPPORT
                         </div>
                     </div>

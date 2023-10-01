@@ -289,6 +289,10 @@
   color: #eaeaea;
 }
 
+.large_header_text:hover {
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 1280px) {
   .side_bar_opened {
     width: 18.75vw;

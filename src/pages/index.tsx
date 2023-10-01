@@ -132,7 +132,7 @@ const Games: FC<GamesProps> = (props) => {
           image_blend={CoinFlipBlendIcon}
           image={PokerBackground}
         />
-        {/* <Game
+        <Game
           name={"ROCK PAPER SCISSORS"}
           description={
             "COINFLIP GAME very long description that needs to be wrapped to the new line"
@@ -141,7 +141,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
           image={DiceBackground}
-        /> */}
+        />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
@@ -153,13 +153,13 @@ const Games: FC<GamesProps> = (props) => {
 
       <div className={s.games_row}>
         {/* <GameBlured
-                name={'DICE'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/dice'}
-                image_colored={DiceColoredIcon}
-                image_blend={DiceBlendIcon}
-            /> */}
-        {/* <Game
+          name={'DICE'}
+          description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
+          link={'/games/dice'}
+          image_colored={DiceColoredIcon}
+          image_blend={DiceBlendIcon}
+        /> */}
+        <Game
           name={"DICE"}
           description={
             "DICE GAME very long description that needs to be wrapped to the new line"
@@ -168,7 +168,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
           image={RPSBackground}
-        /> */}
+        />
 
         {/* <Game
                 name={'COINFLIP'}
