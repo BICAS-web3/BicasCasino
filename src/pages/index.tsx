@@ -21,6 +21,8 @@ import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
 import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
+import pokerMobileBg from "@/public/media/games_assets/poker/PokerMobileBg.png";
+import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
 import { Layout } from "@/widgets/Layout";
@@ -37,6 +39,9 @@ import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
+import useMatchMedia from "use-match-media-hook";
+
+const mobileQuery = ["(max-width: 650px)"];
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -59,12 +64,16 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
+  const [mobile] = useMatchMedia(mobileQuery);
+
   return (
     <a
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${props.image.src})`,
+        backgroundImage: `url(${
+          mobile ? props.imageMobile.src : props.image.src
+        })`,
       }}
     >
       {/* <Image
@@ -93,6 +102,7 @@ interface GameProps {
   link: string;
   image_colored: any;
   image_blend: any;
+  imageMobile: any;
 }
 
 const GameBlured: FC<GameProps> = (props) => {
@@ -143,6 +153,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
           image={CoinflipBackground}
+          imageMobile={pokerMobileBg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
@@ -153,6 +164,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
           image={DiceBackground}
+          imageMobile={rockPaperScissorsMobileBg}
         />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
@@ -180,6 +192,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
           image={RPSBackground}
+          imageMobile={pokerMobileBg}
         />
 
         {/* <Game

@@ -204,6 +204,25 @@
   border: 1px solid #202020;
   border-radius: 20px;
   z-index: 1;
+  @media screen and (max-width: 650px) {
+    background-size: 100%;
+    background-position-y: -50px;
+  }
+  @media screen and (max-width: 452px) {
+    background-position-y: -30px;
+  }
+  @media screen and (max-width: 400px) {
+    background-position-y: -10px;
+  }
+  @media screen and (max-width: 370px) {
+    background-position-y: -125px;
+  }
+  @media screen and (max-width: 320px) {
+    background-position-y: -105px;
+  }
+  @media screen and (max-width: 300px) {
+    background-position-y: -85px;
+  }
 }
 
 .game_info {
