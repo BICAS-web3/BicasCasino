@@ -1,0 +1,35 @@
+.mines_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+  width: calc(100% - 40px);
+  padding: 100px 20px 0 20px;
+  @media screen and (max-width: 1280px) {
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    top: 76px;
+    padding-left: 0px;
+  }
+  @media screen and (max-width: 650px) {
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    top: 76px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+
+.poker_flip_cards_info_wrapper{
+  position: absolute;
+  left: calc(50% - 150px);
+  bottom: 5px;
+  z-index: 2;
+}
+@media screen and (max-width: 700px) {
+  .poker_flip_cards_info_wrapper{
+    left: calc(50% - 96px);
+  }
+}
