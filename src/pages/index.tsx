@@ -125,7 +125,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"POKER"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            "Basic Poker game, where you have to get lucky with card combination."
           }
           link={"/games/Poker"}
           image_colored={CoinFlipColoredIcon}
@@ -135,7 +135,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"ROCK PAPER SCISSORS"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            ""
           }
           link={"/games/RockPaperScissors"}
           image_colored={RPSColoredIcon}
@@ -162,7 +162,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"DICE"}
           description={
-            "DICE GAME very long description that needs to be wrapped to the new line"
+            ""
           }
           link={"/games/Dice"}
           image_colored={DiceColoredIcon}

@@ -117,6 +117,7 @@ export const Poker: FC<PokerProps> = (props) => {
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards);
+    playDrawnCards();
   }, [gameState]);
 
   // useEffect(() => {
