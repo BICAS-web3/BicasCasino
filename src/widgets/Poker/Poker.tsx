@@ -15,6 +15,8 @@ import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from 'use-sound';
 import * as GameModel from "@/widgets/GamePage/model";
+export * as PokerModel from "./model";
+import * as PokerModel from "./model";
 
 const initialArrayOfCards = [
   {
@@ -47,18 +49,21 @@ const initialArrayOfCards = [
 export interface PokerProps {
   cardsState: boolean[],
   setCardsState: any,
-  initialCards: T_Card[] | undefined
+  //initialCards: T_Card[] | undefined,
+  //gameState: any | undefined
 }
 
 export const Poker: FC<PokerProps> = (props) => {
   const [
     newBet,
-    playSounds
+    playSounds,
+    gameState
   ] = useUnit([
     sessionModel.$newBet,
     GameModel.$playSounds,
+    PokerModel.$gameState
   ]);
-  const [activeCards, setActiveCards] = useState<T_Card[]>(props.initialCards ? props.initialCards : initialArrayOfCards);
+  const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
 
@@ -90,29 +95,33 @@ export const Poker: FC<PokerProps> = (props) => {
 
   }, [playBackground]);
 
-  useEffect(() => {
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-    const run = async () => {
-      if (newBet && isConnected && newBet.player.toLowerCase() == address?.toLowerCase()) {
-        setTransactionHash(newBet.transaction_hash)
-        if (newBet.game_name == 'PokerStart') {
-          playDrawnCards();
-          setActiveCards(newBet.player_hand as any);
-        } else if (newBet.game_name == "Poker") {
-          playNewCards();
-          setActiveCards(newBet.player_hand as any);
-          await delay(5000);
-          setActiveCards(initialArrayOfCards);
-        }
-        //setTransactionHash(newBet.transaction_hash)
-      }
-    }
-    run();
-  }, [newBet, isConnected]);
+  // useEffect(() => {
+  //   const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+  //   const run = async () => {
+  //     if (newBet && isConnected && newBet.player.toLowerCase() == address?.toLowerCase()) {
+  //       setTransactionHash(newBet.transaction_hash)
+  //       if (newBet.game_name == 'PokerStart') {
+  //         playDrawnCards();
+  //         setActiveCards(newBet.player_hand as any);
+  //       } else if (newBet.game_name == "Poker") {
+  //         playNewCards();
+  //         setActiveCards(newBet.player_hand as any);
+  //         await delay(5000);
+  //         setActiveCards(initialArrayOfCards);
+  //       }
+  //       //setTransactionHash(newBet.transaction_hash)
+  //     }
+  //   }
+  //   run();
+  // }, [newBet, isConnected]);
 
   useEffect(() => {
-    console.log("Cards state", props.cardsState);
-  }, [props.cardsState]);
+    setActiveCards(gameState ? gameState : initialArrayOfCards);
+  }, [gameState]);
+
+  // useEffect(() => {
+  //   console.log("Cards state", props.cardsState);
+  // }, [props.cardsState]);
 
   return (
     <div className={s.poker_table_wrap}>

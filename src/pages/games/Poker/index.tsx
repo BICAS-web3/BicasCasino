@@ -20,14 +20,20 @@ import { useUnit } from "effector-react";
 import { PokerFlipCardsInfo } from "@/widgets/PokerFlipCardsInfo";
 import useSound from 'use-sound';
 import { SideBarModel } from "@/widgets/SideBar";
+import { PokerModel } from "@/widgets/Poker/Poker";
+import { useContractEvent } from 'wagmi'
 
 interface PokerWrapperProps { }
 
 export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [
-    newBet
+    newBet,
+    gameStateHook,
+    setGameStateHook
   ] = useUnit([
-    sessionModel.$newBet
+    sessionModel.$newBet,
+    PokerModel.$gameState,
+    PokerModel.setGameState
   ]);
 
   const { chain } = useNetwork();
@@ -40,24 +46,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [showRedraw, setShowRedraw] = useState<boolean>(false);
   const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const [playCard] = useSound('/static/media/games_assets/poker/sounds/oneCard.mp3');
-  const [inGame, setInGame] = useState<boolean>(false);
-
-  useEffect(() => {
-    // if (newBet && isConnected
-    //   && newBet.game_name == 'PokerStart'
-    //   && newBet.player.toLowerCase() == address?.toLowerCase()) {
-    //   setShowRedraw(true);
-    // }
-    if (newBet && isConnected) {
-      if (newBet.player.toLowerCase() == address?.toLowerCase()) {
-        if (newBet.game_name == 'PokerStart') {
-          setShowRedraw(true);
-          setCardsState([false, false, false, false, false]);
-        }
-      }
-    }
-  }, [newBet, isConnected]);
-
+  const [inGame, setInGame] = useState<boolean | null>(false);
 
   const { data: allowance, isError, isLoading, refetch: fetchAllowance } = useContractRead({
     address: (currentToken?.contract_address as `0x${string}`),
@@ -75,7 +64,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     watch: true,
   });
 
-  const { data: PrevState } = useContractRead({
+  const { data: GameState } = useContractRead({
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_GetState',
@@ -83,23 +72,60 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     watch: true,
   });
 
+  useContractEvent({
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    eventName: 'VideoPoker_Outcome_Event',
+    listener(log) {
+      console.log(log);
+      if ((log as any).args.playerAddress == address) {
+        setGameStateHook((GameState as any).cardsInHand);
+        setInGame(false);
+      }
+    },
+  });
+
   useEffect(() => {
-    console.log("prev state", PrevState);
-    if (PrevState as any | undefined
-      && (PrevState as any).ingame
-      && !(PrevState as any).isFirstRequest
-      && (PrevState as any).requestID == 0) {
-      setShowRedraw(true);
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const run = async () => {
+      await sleep(5000);
+      console.log("Nullifying");
+      setGameStateHook(null);
+    };
+    if (inGame != null && inGame == false) {
+      run();
     }
-    if (PrevState as any | undefined) {
-      if ((PrevState as any).ingame) {
+  }, [inGame]);
+
+  useEffect(() => {
+    console.log("prev state", GameState);
+    if (GameState as any | undefined) {
+      if ((GameState as any).ingame) {
         setInGame(true);
+        if (!(GameState as any).isFirstRequest && (GameState as any).requestID == 0) {
+          setGameStateHook((GameState as any).cardsInHand);
+          setShowRedraw(true);
+        }
       } else {
         setCardsState([false, false, false, false, false]);
         setInGame(false);
       }
     }
-  }, [PrevState])
+    // if (GameState as any | undefined
+    //   && (GameState as any).ingame
+    //   && !(GameState as any).isFirstRequest
+    //   && (GameState as any).requestID == 0) {
+    //   setShowRedraw(true);
+    // }
+    // if (GameState as any | undefined) {
+    //   if ((GameState as any).ingame) {
+    //     setInGame(true);
+    //   } else {
+    //     setCardsState([false, false, false, false, false]);
+    //     setInGame(false);
+    //   }
+    // }
+  }, [GameState])
 
   useEffect(() => {
     console.log("FEES", feeData);
@@ -199,18 +225,24 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     onWager={onWager}
     onTokenChange={onTokenChange}
     onTokenAmountChange={onTokenAmountChange}
-    inGame={inGame}
+    inGame={inGame ? inGame : false}
   >
-    {PrevState as any | undefined
+    {/* {GameState as any | undefined
       ? <Poker
         cardsState={cardsState}
         setCardsState={setCardsState}
-        initialCards={(PrevState as any).ingame
-          && !(PrevState as any).isFirstRequest
-          ? (PrevState as any).cardsInHand : undefined} /> : <Poker
+        initialCards={(GameState as any).ingame
+          && !(GameState as any).isFirstRequest
+          ? (GameState as any).cardsInHand : undefined} 
+
+          /> : <Poker
         cardsState={cardsState}
         setCardsState={setCardsState}
-        initialCards={undefined} />}
+        initialCards={undefined} />} */}
+    <Poker
+      cardsState={cardsState}
+      setCardsState={setCardsState}
+    />
     {showRedraw && <div className={s.poker_flip_cards_info_wrapper}>
       <PokerFlipCardsInfo onCLick={() => { playCard(); redrawCards(); }} />
     </div>}
