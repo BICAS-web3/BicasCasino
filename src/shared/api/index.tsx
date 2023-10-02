@@ -199,6 +199,25 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
     }
 )
 
+export type T_CreateReferal = {
+    refer_to: string,
+    referal: string,
+    signature: string,
+};
+
+export const createReferealFx = createEffect<T_CreateReferal, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/player/referal/subscribe`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
 export const getLocalizationFx = createEffect<string, T_Localization, string>(
     async language => {
         return fetch(`${BaseStaticUrl}/localizations/${language}.json`, {
