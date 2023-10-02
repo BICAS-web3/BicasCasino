@@ -46,7 +46,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [showRedraw, setShowRedraw] = useState<boolean>(false);
   const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const [playCard] = useSound('/static/media/games_assets/poker/sounds/oneCard.mp3');
-  const [inGame, setInGame] = useState<boolean | null>(false);
+  const [inGame, setInGame] = useState<boolean | null>(null);
 
   const { data: allowance, isError, isLoading, refetch: fetchAllowance } = useContractRead({
     address: (currentToken?.contract_address as `0x${string}`),
@@ -77,10 +77,15 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     abi: IPoker,
     eventName: 'VideoPoker_Outcome_Event',
     listener(log) {
-      console.log(log);
-      if ((log as any).args.playerAddress == address) {
-        setGameStateHook((GameState as any).cardsInHand);
+      console.log('Log', log);
+      console.log('address', ((log[0] as any).args.playerAddress as string));
+      console.log('address wallet', address?.toLowerCase());
+      if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
+        console.log("Found Log!");
+        setGameStateHook((log[0] as any).args.playerHand);
+        setCardsState([false, false, false, false, false]);
         setInGame(false);
+        setShowRedraw(false);
       }
     },
   });
@@ -107,8 +112,9 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
           setShowRedraw(true);
         }
       } else {
-        setCardsState([false, false, false, false, false]);
-        setInGame(false);
+        // setCardsState([false, false, false, false, false]);
+        // setInGame(false);
+        // setShowRedraw(false);
       }
     }
     // if (GameState as any | undefined
