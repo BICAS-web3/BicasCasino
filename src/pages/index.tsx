@@ -78,7 +78,9 @@ const Game: FC<GameProps> = (props) => {
         setMobile(false);
       }
     };
-    return () => { mediaQuery.onchange = null };
+    return () => {
+      mediaQuery.onchange = null;
+    };
   }, []);
   //const [mobile] = useMatchMedia(mobileQuery);
 
@@ -87,8 +89,9 @@ const Game: FC<GameProps> = (props) => {
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${mobile ? props.imageMobile.src : props.image.src
-          })`,
+        backgroundImage: `url(${
+          mobile ? props.imageMobile.src : props.image.src
+        })`,
       }}
     >
       {/* <Image
