@@ -37,6 +37,8 @@ import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
+import useMatchMedia from "use-match-media-hook";
+import CoinFlipGame from "./games/CoinFlip";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -127,7 +129,7 @@ const GameBlured: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -194,7 +196,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -240,7 +242,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -253,15 +255,19 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   const hideAvaibleWallet = () => {
     close();
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
 
   const handleConnectWalletBtn = () => {
     if (!isMainWalletOpen) {
       open();
       setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       close();
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   };
 
@@ -274,8 +280,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           Connect Wallet
         </div>
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>

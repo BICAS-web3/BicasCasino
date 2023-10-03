@@ -9,6 +9,9 @@ import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
 import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import Image from "next/image";
+import { CustomWagerRangeInput } from "../CustomWagerRangeInput/CustomWagerRangeInput";
+import { CoinFlipWagerGainLoss } from "../CoinFlip/CoinFlipWagerGainLoss/CoinFlipWagerGainLoss";
+import { CoinFlipProfitBlock } from "../CoinFlip/CoinFlipProfitBlock/CoinFlipProfitBlock";
 
 const pokerHandMultiplierList = [
   {
@@ -160,6 +163,13 @@ export const Wager: FC<WagerProps> = ({ game }) => {
               </div>
             </div>
           </div>
+          {game === "coinflip" && (
+            <>
+              <CustomWagerRangeInput inputTitle="Bets" min={0} max={10} />
+              <CoinFlipWagerGainLoss />
+              <CoinFlipProfitBlock />
+            </>
+          )}
           <button className={s.poker_wager_drawing_cards_btn}>
             Drawing cards
           </button>
