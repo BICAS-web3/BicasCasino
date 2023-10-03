@@ -42,9 +42,8 @@ import { Wager } from "@/widgets/Wager/Wager";
 import { LiveBetsWS } from '@/widgets/LiveBets';
 import { settingsModel } from '@/entities/settings';
 import { useAccount } from "wagmi";
-import useMatchMedia from "use-match-media-hook";
 
-const mobileQuery = ["(max-width: 650px)"];
+const mobileQuery = "(max-width: 650px)";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -67,7 +66,24 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
-  const [mobile] = useMatchMedia(mobileQuery);
+  const [mobile, setMobile] = useState<any>(
+    //window.innerWidth <= 650 ? true : false,
+    false
+  );
+
+  useEffect(() => {
+    setMobile(window.innerWidth <= 650 ? true : false);
+    let mediaQuery = window.matchMedia(mobileQuery);
+    mediaQuery.onchange = (e) => {
+      if (e.matches) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    return () => { mediaQuery.onchange = null };
+  }, []);
+  //const [mobile] = useMatchMedia(mobileQuery);
 
   return (
     <a
