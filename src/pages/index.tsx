@@ -37,7 +37,6 @@ import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
-import useMatchMedia from "use-match-media-hook";
 import CoinFlipGame from "./games/CoinFlip";
 
 const LinkIcon: FC<{}> = (p) => {
