@@ -104,7 +104,6 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
           </div>
         </div>
       </div>
-      <button className={s.poker_wager_drawing_cards_btn}>Drawing cards</button>
     </>
   );
 };

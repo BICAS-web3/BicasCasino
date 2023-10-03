@@ -20,3 +20,36 @@
     padding-right: 0px;
   }
 }
+
+.connect_wallet_btn {
+  border-radius: 12px;
+  background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    ),
+    #121212;
+  width: 100%;
+  border: none;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f0f0f;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.72px;
+  height: 50px;
+  cursor: pointer;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin: 20px auto;
+  }
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
+}
