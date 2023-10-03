@@ -21,6 +21,8 @@ import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
 import { SideBar, SideBarModel } from '@/widgets/SideBar';
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
+import pokerMobileBg from "@/public/media/games_assets/poker/PokerMobileBg.png";
+import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
 import PokerBackground from "@/public/media/games/poker.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
@@ -40,6 +42,9 @@ import { Wager } from "@/widgets/Wager/Wager";
 import { LiveBetsWS } from '@/widgets/LiveBets';
 import { settingsModel } from '@/entities/settings';
 import { useAccount } from "wagmi";
+import useMatchMedia from "use-match-media-hook";
+
+const mobileQuery = ["(max-width: 650px)"];
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -62,12 +67,15 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
+  const [mobile] = useMatchMedia(mobileQuery);
+
   return (
     <a
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${props.image.src})`,
+        backgroundImage: `url(${mobile ? props.imageMobile.src : props.image.src
+          })`,
       }}
     >
       <div className={s.game}>
@@ -88,6 +96,7 @@ interface GameProps {
   link: string;
   image_colored: any;
   image_blend: any;
+  imageMobile: any;
 }
 
 const GameBlured: FC<GameProps> = (props) => {
@@ -131,6 +140,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
           image={PokerBackground}
+          imageMobile={pokerMobileBg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
@@ -141,6 +151,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
           image={DiceBackground}
+          imageMobile={rockPaperScissorsMobileBg}
         />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
@@ -168,6 +179,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
           image={RPSBackground}
+          imageMobile={pokerMobileBg}
         />
 
         {/* <Game
@@ -197,15 +209,19 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   const hideAvaibleWallet = () => {
     close();
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
 
   const handleConnectWalletBtn = () => {
     if (!isMainWalletOpen) {
       open();
       setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       close();
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   };
 

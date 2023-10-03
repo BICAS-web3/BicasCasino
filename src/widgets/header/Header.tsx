@@ -92,9 +92,12 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     if (!walletVisibility) {
       setWalletVisibility(true);
       setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       setWalletVisibility(false);
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   };
 
@@ -106,6 +109,7 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
 
   return (
