@@ -49,6 +49,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   const [inGame, setInGame] = useState<boolean | null>(null);
 
   const { data: allowance, isError, isLoading, refetch: fetchAllowance } = useContractRead({
+    chainId: chain?.id,
     address: (currentToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'allowance',
@@ -57,6 +58,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   });
 
   const { data: VRFFees } = useContractRead({
+    chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'getVRFFee',
@@ -65,6 +67,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   });
 
   const { data: GameState } = useContractRead({
+    chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_GetState',
@@ -138,6 +141,7 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   }, [feeData])
 
   const { write: setAllowance } = useContractWrite({
+    chainId: chain?.id,
     address: (currentToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
@@ -145,21 +149,23 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
   });
 
   const { write: startPlaying, isSuccess: startedPlaying } = useContractWrite({
+    chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Start',
     args: [BigInt(parseInt(((Number.isNaN(currentWager as number) ? 0 : currentWager as number) * 10000).toString())) * BigInt(100000000000000), currentToken?.contract_address],
     value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10),
-    gas: BigInt(500000)
+    //gas: BigInt(500000)
   });
 
   const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite({
+    chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Replace',
     args: [cardsState],
     value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0),
-    gas: BigInt(500000)
+    //gas: BigInt(500000)
   });
 
   useEffect(() => {
@@ -208,8 +214,15 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     }
 
     startPlaying();
-    setInGame(true);
+    //setInGame(true);
   };
+
+  useEffect(() => {
+    if (startedPlaying) {
+      //startPlaying();
+      setInGame(true);
+    }
+  }, [startedPlaying])
 
   const onTokenChange = async (token: api.T_Token) => {
     setCurrentToken(token);
@@ -221,8 +234,13 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
 
   const redrawCards = () => {
     finishPlaying();
-    setShowRedraw(false);
   };
+
+  useEffect(() => {
+    if (finishedPlaying) {
+      setShowRedraw(false);
+    }
+  }, [finishedPlaying]);
 
   return (<GamePage
     gameInfoText="test"

@@ -18,14 +18,16 @@
 
 .customBets_switch_bets_btns {
   display: flex;
+  flex-direction: row;
+  column-gap: 10px;
 }
 
-.customBets_allBets_btn {
-  margin-right: 5px;
-}
+// .customBets_allBets_btn {
+//   margin-right: 5px;
+// }
 
-.customBets_allBets_btn,
-.customBets_myBets_btn {
+.customBets_btn,
+.customBets_btn {
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
   font-size: 14px;

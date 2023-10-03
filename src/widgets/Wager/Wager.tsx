@@ -155,24 +155,6 @@ export const Wager: FC<WagerProps> = (props) => {
                     const dollars = nmb * props.tokenPrice;
                     setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
                   }
-                  // const nmb = parseFloat(
-                  //   (e.target.value.charAt(e.target.value.length - 1) == '.'
-                  //     || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
-                  //     ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
-                  // );
-                  // if (Number.isNaN(nmb)
-                  //   || nmb > props.tokenAvailableAmount) {
-                  //   return;
-                  // }
-                  // console.log("Value", e.target.value.charAt(0) == '0'
-                  //   && e.target.value.length > 1
-                  //   ? e.target.value.slice(1) : e.target.value);
-                  // setKriptoInputValue(e.target.value.charAt(0) == '0'
-                  //   && e.target.value.length > 1
-                  //   ? e.target.value.slice(1) : e.target.value);
-
-                  // const dollars = nmb * props.tokenPrice;
-                  // setCurrencyInputValue(dollars > 1 ? dollars.toFixed(2) : dollars.toFixed(5));
                 }}
                 value={kriptoInputValue}
               />
@@ -226,24 +208,36 @@ export const Wager: FC<WagerProps> = (props) => {
                     setCurrencyInputValue('0');
                   }
 
-                  const nmb = parseFloat(
-                    (e.target.value.charAt(e.target.value.length - 1) == '.'
-                      || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
-                      ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
-                  );
-                  if (Number.isNaN(nmb)) {
-                    return;
+                  if (e.target.value.match(/^([0-9]{1,})?(\.)?([0-9]{1,})?$/)) {
+                    const nmb = parseFloat(e.target.value);
+                    setCurrencyInputValue(e.target.value);
+                    if (Number.isNaN(nmb)) {
+                      //setKriptoInputValue(e.target.value);
+                      return;
+                    }
+                    //setKriptoInputValue(nmb.toString());
+                    const tokens = nmb / props.tokenPrice;
+                    setKriptoInputValue(tokens > 1 ? tokens.toFixed(2) : tokens.toFixed(5));
                   }
 
-                  const tokens = nmb / props.tokenPrice;
-                  if (tokens > props.tokenAvailableAmount) {
-                    return;
-                  }
+                  // const nmb = parseFloat(
+                  //   (e.target.value.charAt(e.target.value.length - 1) == '.'
+                  //     || e.target.value.charAt(e.target.value.length - 1) == ',') && e.target.value.length > 1
+                  //     ? `${e.target.value.slice(0, e.target.value.length - 1)}.0` : e.target.value
+                  // );
+                  // if (Number.isNaN(nmb)) {
+                  //   return;
+                  // }
 
-                  setCurrencyInputValue(e.target.value.charAt(0) == '0'
-                    && e.target.value.length > 1
-                    ? e.target.value.slice(1) : e.target.value);
-                  setKriptoInputValue(tokens > 1 ? tokens.toFixed(2) : tokens.toFixed(5));
+                  // const tokens = nmb / props.tokenPrice;
+                  // if (tokens > props.tokenAvailableAmount) {
+                  //   return;
+                  // }
+
+                  // setCurrencyInputValue(e.target.value.charAt(0) == '0'
+                  //   && e.target.value.length > 1
+                  //   ? e.target.value.slice(1) : e.target.value);
+                  // setKriptoInputValue(tokens > 1 ? tokens.toFixed(2) : tokens.toFixed(5));
                 }}
                 value={currencyInputValue}
               />

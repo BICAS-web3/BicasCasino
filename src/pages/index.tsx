@@ -299,7 +299,7 @@ export default function Home() {
           <BannerInfo />
           <Games />
           <Total />
-          <CustomBets title='Live bets' isMainPage={true} isGamePage={false} />
+          <CustomBets title='Live bets' isMainPage={true} isGamePage={false} game={undefined} />
           {/* <LeaderBoard /> */}
         </div>
       </Layout>
