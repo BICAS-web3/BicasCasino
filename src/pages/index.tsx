@@ -21,6 +21,8 @@ import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
 import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
+import pokerMobileBg from "@/public/media/games_assets/poker/PokerMobileBg.png";
+import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
 import { Layout } from "@/widgets/Layout";
@@ -38,6 +40,8 @@ import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
+
+const mobileQuery = "(max-width: 650px)";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -60,12 +64,35 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
+  const [mobile, setMobile] = useState<any>(
+    //window.innerWidth <= 650 ? true : false,
+    false
+  );
+
+  useEffect(() => {
+    setMobile(window.innerWidth <= 650 ? true : false);
+    let mediaQuery = window.matchMedia(mobileQuery);
+    mediaQuery.onchange = (e) => {
+      if (e.matches) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    return () => {
+      mediaQuery.onchange = null;
+    };
+  }, []);
+  //const [mobile] = useMatchMedia(mobileQuery);
+
   return (
     <a
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${props.image.src})`,
+        backgroundImage: `url(${
+          mobile ? props.imageMobile.src : props.image.src
+        })`,
       }}
     >
       {/* <Image
@@ -94,6 +121,7 @@ interface GameProps {
   link: string;
   image_colored: any;
   image_blend: any;
+  imageMobile: any;
 }
 
 const GameBlured: FC<GameProps> = (props) => {
@@ -144,6 +172,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
           image={CoinflipBackground}
+          imageMobile={pokerMobileBg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
@@ -154,6 +183,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
           image={DiceBackground}
+          imageMobile={rockPaperScissorsMobileBg}
         />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
@@ -181,6 +211,7 @@ const Games: FC<GamesProps> = (props) => {
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
           image={RPSBackground}
+          imageMobile={pokerMobileBg}
         />
 
         {/* <Game
@@ -297,7 +328,9 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <Layout>
+      <CoinFlipGame />
+
+      {/* <Layout>
         <div className={s.background_container}>
           <Image src={MainPageBackground} alt={""} className={s.background} />
           <div className={s.background_gradient}></div>
@@ -331,7 +364,7 @@ export default function Home() {
           />
           <LeaderBoard />
         </div>
-      </Layout>
+      </Layout> */}
 
       {/* <Footer />
       <InvitesList />
