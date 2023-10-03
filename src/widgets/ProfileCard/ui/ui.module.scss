@@ -17,6 +17,10 @@
   @media screen and ( max-width: 768px) {
     padding: 34px 20px;
   }
+  @media screen and (max-width: 650px) {
+    border-radius: 12px 12px 0 0;
+    border-bottom: 2px solid #252525;
+  }
   @media screen and (max-width: 425px) {
     padding: 20px 16px;
     height: 56px;
