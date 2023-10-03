@@ -140,6 +140,7 @@ export const GamePage: FC<GamePageProps> = ({
               title="Live bets"
               isGamePage={true}
               isMainPage={false}
+              game={undefined}
             // bets={[
             //   {
             //     time: { date: "25.08.23", time: "17:05" },
