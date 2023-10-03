@@ -39,9 +39,8 @@ import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
-import useMatchMedia from "use-match-media-hook";
 
-const mobileQuery = ["(max-width: 650px)"];
+const mobileQuery = "(max-width: 650px)";
 
 const LinkIcon: FC<{}> = (p) => {
   return (
@@ -64,16 +63,32 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
-  const [mobile] = useMatchMedia(mobileQuery);
+  const [mobile, setMobile] = useState<any>(
+    //window.innerWidth <= 650 ? true : false,
+    false
+  );
+
+  useEffect(() => {
+    setMobile(window.innerWidth <= 650 ? true : false);
+    let mediaQuery = window.matchMedia(mobileQuery);
+    mediaQuery.onchange = (e) => {
+      if (e.matches) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    return () => { mediaQuery.onchange = null };
+  }, []);
+  //const [mobile] = useMatchMedia(mobileQuery);
 
   return (
     <a
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${
-          mobile ? props.imageMobile.src : props.image.src
-        })`,
+        backgroundImage: `url(${mobile ? props.imageMobile.src : props.image.src
+          })`,
       }}
     >
       {/* <Image
@@ -137,7 +152,7 @@ const GameBlured: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -207,7 +222,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -253,7 +268,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -291,9 +306,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           Connect Wallet
         </div>
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
