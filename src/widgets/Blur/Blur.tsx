@@ -12,14 +12,6 @@ export const Blur = () => {
     SideBarModel.$isOpen,
   ]);
 
-  useEffect(() => {
-    if (BlurActive) {
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.overflow = "visible";
-    }
-  }, [BlurActive]);
-
   return (
     <div
       className={`${s.blur} ${BlurActive ? s.blur_active : ""} ${
