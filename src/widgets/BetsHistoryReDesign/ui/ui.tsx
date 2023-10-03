@@ -110,6 +110,7 @@ interface IBetsHistoryReDesign {
   title: string,
   address: string
 }
+
 export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   const [bets, setBets] = useState<api.T_BetInfo[]>([]);
 
@@ -136,11 +137,11 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   }, []);
 
   return (
-    <div className={styles.table}>
+    <div className={styles.table_container}>
       <h2 className={styles.title}>{props.title}</h2>
-      <table>
+      <table className={styles.table}>
         <TitleTable />
-        <tbody>
+        <tbody className={styles.tbody}>
           {bets && AvailableBlocksExplorers &&
             bets.map((bet) => {
               console.log("Bet", bet);

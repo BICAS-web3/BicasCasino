@@ -10,9 +10,6 @@
   @media screen and (max-width: 3840px) {
     max-width: 100%;
   }
-  @media screen and (max-width: 1280px) {
-    max-width: 918px;
-  }
   @media screen and (max-width: 864px) {
     padding: 34px 16px;
     max-width: 100%;
@@ -24,6 +21,7 @@
     padding: 20px 16px;
     height: 56px;
     border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid #252525;
   }
 
   img {

@@ -18,6 +18,7 @@ import * as HeaderAccModel from "@/widgets/Account/model";
 import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
 import { useDisconnect } from 'wagmi'
+import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -61,7 +62,7 @@ export interface AccountProps {
 export const Account: FC<AccountProps> = props => {
   const { disconnect } = useDisconnect();
   const truncatedAddress = `${props.address.slice(0, 7)}...${props.address.slice(36, 42)}`;
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
   const [closeHeaderAccount, setBlur] = useUnit([
     HeaderAccModel.Close,
@@ -91,14 +92,11 @@ export const Account: FC<AccountProps> = props => {
       <div className={s.profile}>
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
-          <div className={s.profile_nickname}>{props.nickname ? props.nickname : 'No nickname'}</div>
+          <div className={s.profile_nickname}>{props.nickname ? props.nickname : truncatedAddress}</div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{truncatedAddress}</div>
-            <div className={s.btn_copy} onClick={() => {
-              setCopied(true);
-              navigator.clipboard.writeText(props.address);
-            }}>
-              <CopyIcon />
+            <div className={s.btn_copy}>
+              <CopyToClipboardButton textToCopy={props.address} />
             </div>
           </div>
         </div>

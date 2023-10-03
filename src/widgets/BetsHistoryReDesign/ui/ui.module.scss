@@ -1,4 +1,4 @@
-.table {
+.table_container {
   background: #181818;
   border-radius: 20px;
   display: flex;
@@ -8,7 +8,10 @@
   padding: 35px 50px 25px;
   margin: 0 0 20px 0;
   max-width: 100%;
-  @media screen and ( max-width: 768px) {
+
+  max-height: 500px;
+  overflow-y: scroll;
+  @media screen and (max-width: 768px) {
     padding: 35px 20px 25px;
   }
   @media screen and (max-width: 651px) {
@@ -19,15 +22,11 @@
     padding: 40px 8px 30px 8px;
   }
 
-
   table {
     border-spacing: 0;
     border-collapse: separate;
   }
 
-  tr {
-    width: 100px;
-  }
   td {
     border-top: 1px solid #252525;
   }
@@ -46,4 +45,5 @@
     margin: 0 auto;
   }
 }
+
 
