@@ -270,19 +270,21 @@ interface IBetsHistoryReDesign {
 
 export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   return (
-    <div className={styles.table_container}>
+    <div className={styles.wrapper}>
       <h2 className={styles.title}>{props.title}</h2>
-      <table className={styles.table}>
-        <TitleTable />
-        <tbody className={styles.tbody}>
-          {bets &&
-            bets.map((item) => (
-              <tr key={item.id}>
-                <TableItem {...item} />
-              </tr>
-            ))}
-        </tbody>
-      </table>
+      <div className={styles.table_container}>
+        <table className={styles.table}>
+          <TitleTable />
+          <tbody className={styles.tbody}>
+            {bets &&
+              bets.map((item) => (
+                <tr key={item.id}>
+                  <TableItem {...item} />
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
       <div className={styles.button}>
         <CustomButton
           text="Load more"
@@ -294,3 +296,4 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
     </div>
   );
 };
+

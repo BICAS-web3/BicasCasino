@@ -8,6 +8,11 @@
   line-height: normal;
   letter-spacing: 0.48px;
 
+  tr {
+    position: sticky;
+    top: 0;
+    background-color: #181818;
+  }
   .titles_item {
     display: flex;
     justify-content: flex-start;
