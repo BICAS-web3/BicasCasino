@@ -14,7 +14,7 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
 }) => {
   const [value, setValue] = useState(5);
 
-  const changeInputValue = (e) => {
+  const changeInputValue = (e: any) => {
     setValue(e.target.value);
   };
 
