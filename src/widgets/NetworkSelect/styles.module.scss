@@ -160,28 +160,33 @@
 }
 
 @media screen and (max-width: 914px) {
+
 	.active_network_dropDown_ico,
 	.active_network_title {
 		display: none;
 	}
+
 	.active_network_ico_wrap {
 		margin: 0;
 		padding: 5px;
 	}
+
 	.network_select_body {
-		height: 48px;
+		height: 40px;
 	}
+
 	.networks_list_wrap {
 		width: 160px;
-		right: -20%;
-		transform: translate(20%, 0px);
+		right: 0;
 	}
 }
+
 @media screen and (max-width: 650px) {
 	.network_select_body {
 		height: 40px;
 		width: 40px;
 	}
+
 	.active_network_ico_wrap {
 		img {
 			width: 30px !important;
