@@ -81,14 +81,19 @@ export const PokerWrapper: FC<PokerWrapperProps> = ({ }) => {
     eventName: 'VideoPoker_Outcome_Event',
     listener(log) {
       console.log('Log', log);
-      console.log('address', ((log[0] as any).args.playerAddress as string));
-      console.log('address wallet', address?.toLowerCase());
-      if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
-        console.log("Found Log!");
-        setGameStateHook((log[0] as any).args.playerHand);
-        setCardsState([false, false, false, false, false]);
-        setInGame(false);
-        setShowRedraw(false);
+      if ((log[0] as any).eventName == 'VideoPoker_Outcome_Event') {
+        //console.log('Log', log);
+        console.log('address', ((log[0] as any).args.playerAddress as string));
+        console.log('address wallet', address?.toLowerCase());
+        if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
+          console.log("Found Log!");
+          setGameStateHook((log[0] as any).args.playerHand);
+          setCardsState([false, false, false, false, false]);
+          setInGame(false);
+          setShowRedraw(false);
+        }
+      } else {
+        console.log("Wrong Log!");
       }
     },
   });
