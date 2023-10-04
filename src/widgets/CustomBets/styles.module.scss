@@ -290,6 +290,10 @@
 
 .customBets_list_item_game {
 	color: #eaeaea;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 80px;
 }
 
 .customBets_list_item_time_link_block,
@@ -333,12 +337,13 @@
 		grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
 	}
 
-	.customBets_list_item_game_block {
-		overflow: hidden;
-	}
+	.customBets_list_item_game_block {}
 
 	.customBets_list_item_game {
+		text-overflow: ellipsis;
+		overflow: hidden;
 		white-space: nowrap;
+		width: 80px;
 	}
 }
 
@@ -367,6 +372,13 @@
 
 	.customBets_list_item {
 		grid-template-columns: 40px 70px 110px 40px 70px 40px;
+	}
+
+	.customBets_list_item_game {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		width: 50px;
 	}
 }
 
@@ -477,6 +489,13 @@
 @media screen and (max-width: 400px) {
 	.customBets_titles_list_item[data-id="profit"] {
 		justify-content: flex-start;
+	}
+
+	.customBets_list_item_game {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		width: 30px;
 	}
 }
 
