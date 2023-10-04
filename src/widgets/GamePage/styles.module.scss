@@ -8,7 +8,7 @@
 
 .game {
   display: grid;
-  grid-template-columns: 1fr 315px;
+  grid-template-columns: 1fr minmax(220px, 17vw);
   margin-bottom: 40px;
 }
 
@@ -94,7 +94,7 @@
 
 @media screen and (max-width: 1280px) {
   .game {
-    grid-template-columns: 1fr 250px;
+    grid-template-columns: 1fr minmax(220px, 25vw);
   }
 }
 
