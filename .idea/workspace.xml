@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9b13b3a8-ae80-41ff-b41c-632e06e5fc83" name="Changes" comment="" />
+    <list default="true" id="9b13b3a8-ae80-41ff-b41c-632e06e5fc83" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/account/index.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/account/index.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/ui/ImageLeague/ui/ui.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/ui/ImageLeague/ui/ui.module.scss" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +40,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\lENOVIK\\AppData\\Roaming\\npm\\node_modules\\prettier",
+    "ts.external.directory.path": "C:\\Users\\lENOVIK\\Project_copy\\BicasCasino\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -44,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1696443019976</updated>
-      <workItem from="1696443022444" duration="504000" />
+      <workItem from="1696443022444" duration="1922000" />
     </task>
     <servers />
   </component>
