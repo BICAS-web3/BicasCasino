@@ -5,6 +5,9 @@
   position: relative;
   margin-right: -12px;
   padding-left: 30px;
+  @media screen and (max-width: 768px) {
+    margin-right: 8px;
+  }
   @media screen and (max-width: 425px) {
     left: -26px;
     top: 13px;
