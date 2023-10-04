@@ -357,6 +357,13 @@
   .poker_wager_info_modal_block {
     transform: translateX(-20%);
   }
+  .poker_wager_lower_btns_block {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin-top: 0;
+    height: auto;
+  }
 }
 
 @media screen and (min-width: 1280px) {
@@ -382,13 +389,6 @@
   .poker_wager_drawing_cards_btn {
     width: 100%;
     margin: 20px auto;
-  }
-  .poker_wager_lower_btns_block {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    margin-top: 0;
-    height: auto;
   }
   .poker_wager_info_modal_block {
     top: 50px;

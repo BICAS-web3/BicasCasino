@@ -328,7 +328,7 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <PokerGame />
+      <CoinFlipGame />
 
       {/* <Layout>
         <div className={s.background_container}>

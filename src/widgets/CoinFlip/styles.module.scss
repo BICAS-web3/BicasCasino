@@ -12,8 +12,23 @@
   bottom: 0;
   top: 0;
   left: 0;
+  overflow: hidden;
   z-index: -1;
-  img {
-    width: 100%;
+}
+
+.coinflip_table_background_img {
+  width: 100%;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 996px) {
+  .coinflip_table_background_img {
+    object-fit: fill;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .coinflip_table_background_img {
+    object-fit: cover;
   }
 }
