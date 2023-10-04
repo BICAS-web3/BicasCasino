@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from 'effector';
 
-const BaseApiUrl = '/api';
-const BaseStaticUrl = '/static';
+const BaseApiUrl = '/test/api';
+const BaseStaticUrl = '/test/static';
 
 export type T_ErrorText = {
     error: string
