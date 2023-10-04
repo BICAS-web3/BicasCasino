@@ -30,14 +30,15 @@ import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../Account";
 import { useAccount } from 'wagmi';
 import TestProfilePic from '@/public/media/misc/TestProfilePic.svg';
+import Link from 'next/link';
 
 interface EmblemProps { }
 const Emblem: FC<EmblemProps> = (props) => {
   return (
-    <a className={s.emblem} href="/">
+    <Link className={s.emblem} href="/">
       <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
       <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
-    </a>
+    </Link>
   );
 };
 

@@ -42,6 +42,7 @@ import { Wager } from "@/widgets/Wager/Wager";
 import { LiveBetsWS } from '@/widgets/LiveBets';
 import { settingsModel } from '@/entities/settings';
 import { useAccount } from "wagmi";
+import Link from "next/link";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -86,7 +87,7 @@ const Game: FC<GameProps> = (props) => {
   //const [mobile] = useMatchMedia(mobileQuery);
 
   return (
-    <a
+    <Link
       className={s.game_link}
       href={props.link}
       style={{
@@ -102,7 +103,7 @@ const Game: FC<GameProps> = (props) => {
           <div className={s.game_description}>{props.description}</div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

@@ -14,6 +14,7 @@ import { SideBarModel } from '../SideBar';
 import * as MainWallet from './model';
 import * as BlurModel from '@/widgets/Blur/model';
 import { useUnit } from 'effector-react';
+import Link from 'next/link';
 
 export interface WalletProps {
   icon: string;
@@ -94,7 +95,7 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
       <Wallet name="WalletConnect" icon={WalletConnect} connector={connectors[2]} />
     </div>
     <div className={s.info}>
-      <a
+      <Link
         href="https://www.freecodecamp.org/"
         target="_blank"
         rel="noopener noreferrer"
@@ -102,7 +103,7 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = props => {
       >
 
         I don’t have a wallet
-      </a>
+      </Link>
       <InfoIcon />
 
     </div>

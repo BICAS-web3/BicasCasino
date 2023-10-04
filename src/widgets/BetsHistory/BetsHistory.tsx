@@ -38,7 +38,7 @@
 //                 className={s.link}>
 //                 <div style={{ width: "45.62px" }}>{props.time}</div>
 //                 <LinkIcon />
-//             </a>
+//             </Link>
 //         </div>
 //         <div className={s.game_name_link}>
 //             <a
@@ -51,14 +51,14 @@
 //                     height={50}
 //                 />
 //                 {props.game_name}
-//             </a>
+//             </Link>
 //         </div>
 //         <div>
 //             <a
 //                 href={`${props.player_url}`}
 //                 className={s.link}>
 //                 {props.player}
-//             </a>
+//             </Link>
 //         </div>
 //         <div style={{
 //             display: 'flex',

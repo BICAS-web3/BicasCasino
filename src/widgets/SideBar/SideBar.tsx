@@ -9,6 +9,7 @@ import Twitter from '@/public/media/social_media/Twitter.svg';
 import Telegram from '@/public/media/social_media/Telegram.svg';
 import Insta from '@/public/media/social_media/Insta.svg';
 import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
+import Link from 'next/link';
 
 interface ClosedSideBarProps {
     pickedGame: number | null
@@ -98,7 +99,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                     <div className={s.social_networks}>
                         Our social networks
                         <div className={s.icons}>
-                            <a
+                            <Link
                                 href="https://example.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -109,8 +110,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                                     width={30}
                                     height={30}
                                 />
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="https://example.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -121,8 +122,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                                     width={30}
                                     height={30}
                                 />
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="https://example.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -133,8 +134,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                                     width={30}
                                     height={30}
                                 />
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="https://example.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -145,7 +146,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = props => {
                                     width={30}
                                     height={30}
                                 />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

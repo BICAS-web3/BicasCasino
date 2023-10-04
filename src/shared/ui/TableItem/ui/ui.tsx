@@ -4,30 +4,31 @@ import gameIco from "@/public/media/live_bets/mainPageActsGameIco.svg";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import avatar from "@/public/media/player_icons/emptyAvatar.svg";
+import Link from "next/link";
 
 export const TableItem: FC<IBetData> = (props) => {
   return (
     <>
       <td className={styles.td}>
         <span>
-          <a href={props.trx_url} target="_blank" className={styles.link_block}>
+          <Link href={props.trx_url} target="_blank" className={styles.link_block}>
             <span className={styles.date}>{props.time.date}</span>
             <span className={styles.time}>{props.time.time}</span>
-          </a>
+          </Link>
         </span>
       </td>
       <td className={styles.td}>
-        <a href={`/games/${props.game_name}`} target="_blank" className={styles.link_block}>
+        <Link href={`/games/${props.game_name}`} target="_blank" className={styles.link_block}>
           <img
             src={gameIco.src}
             className={styles.game_ico}
             alt="game-ico-preview"
           />
           <span className={styles.game}>{props.game_name}</span>
-        </a>
+        </Link>
       </td>
       <td className={styles.td}>
-        <a
+        <Link
           href={`/account/${props.player_address}`}
           target="_blank"
           className={styles.link_block}
@@ -38,13 +39,13 @@ export const TableItem: FC<IBetData> = (props) => {
             alt="game-ico-preview"
           />
           <span className={styles.player_name}>{`${props.player_address.slice(0, 5)}...${props.player_address.slice(38, 42)}`}</span>
-        </a>
+        </Link>
       </td>
       <td className={styles.td}>
-        <a href={`/account/${props.player_address}`} target="_blank" className={styles.link_block}>
+        <Link href={`/account/${props.player_address}`} target="_blank" className={styles.link_block}>
           <span className={styles.address}>{`${props.player_address.slice(0, 5)}...${props.player_address.slice(38, 42)}`}</span>
           {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
-        </a>
+        </Link>
       </td>
       <td className={styles.td}>
         <span className={styles.link_block}>
