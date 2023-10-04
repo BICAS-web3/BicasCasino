@@ -28,6 +28,15 @@
   .page_container {
     grid-template-columns: 90px 1fr;
   }
+  .page_container.side_bar_closed {
+    grid-template-columns: 84px 1fr;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .page_container.side_bar_closed {
+    grid-template-columns: 75px 1fr;
+  }
 }
 
 @media screen and (max-width: 650px) {

@@ -1,4 +1,4 @@
-.poker_container {
+.coinflip_container {
   display: flex;
   flex-direction: column;
   row-gap: 60px;
@@ -21,7 +21,7 @@
   }
 }
 
-.poker_wager_drawing_cards_btn {
+.connect_wallet_btn {
   border-radius: 12px;
   background: linear-gradient(
       114deg,
@@ -42,14 +42,15 @@
   font-style: normal;
   font-weight: 800;
   line-height: normal;
+  min-height: 50px;
   letter-spacing: 0.72px;
-  height: 50px;
   cursor: pointer;
-  @media screen and (max-width: 700px) {
-    width: 100%;
+  @media screen and (max-width: 996px) {
     margin: 20px auto;
+    width: 240px;
   }
   @media screen and (max-width: 650px) {
     font-size: 12px;
+    width: 140px;
   }
 }

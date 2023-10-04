@@ -39,6 +39,7 @@ import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
+import CoinFlipGame from "./games/CoinFlip";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -78,7 +79,9 @@ const Game: FC<GameProps> = (props) => {
         setMobile(false);
       }
     };
-    return () => { mediaQuery.onchange = null };
+    return () => {
+      mediaQuery.onchange = null;
+    };
   }, []);
   //const [mobile] = useMatchMedia(mobileQuery);
 
@@ -87,8 +90,9 @@ const Game: FC<GameProps> = (props) => {
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${mobile ? props.imageMobile.src : props.image.src
-          })`,
+        backgroundImage: `url(${
+          mobile ? props.imageMobile.src : props.image.src
+        })`,
       }}
     >
       {/* <Image
@@ -324,7 +328,9 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <Layout>
+      <CoinFlipGame />
+
+      {/* <Layout>
         <div className={s.background_container}>
           <Image src={MainPageBackground} alt={""} className={s.background} />
           <div className={s.background_gradient}></div>
@@ -358,7 +364,7 @@ export default function Home() {
           />
           <LeaderBoard />
         </div>
-      </Layout>
+      </Layout> */}
 
       {/* <Footer />
       <InvitesList />
