@@ -28,10 +28,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
   height: calc(100% - 40px);
   width: calc(100% - 40px);
-  gap: 25px;
+  gap: 1.5vw;
   padding: 20px;
 }
 
@@ -52,7 +51,7 @@
 
 .poker_table_cards_list_item {
   position: relative;
-  height: 18vw;
+  height: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,9 +98,15 @@
   }
 }
 
+@media screen and (max-width: 1550px) {
+  .poker_table_cards_list_item {
+    height: 18vw;
+  }
+}
+
 @media screen and (max-width: 700px) {
   .poker_table_cards_list {
-    gap: 15px;
+    gap: 1vw;
   }
 }
 
