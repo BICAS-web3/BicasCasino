@@ -104,9 +104,27 @@
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .poker_table_cards_list_item {
+    width: 147px;
+    height: 204px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .poker_table_cards_list_item {
+    width: 100%;
+    height: 18vw;
+  }
+}
+
 @media screen and (max-width: 700px) {
   .poker_table_cards_list {
     gap: 1vw;
+  }
+  .poker_table_cards_list_item {
+    width: 90px;
+    height: 125px;
   }
 }
 
@@ -128,5 +146,12 @@
   .poker_table_cards_list {
     padding: 5px;
     width: calc(100% - 10px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .poker_table_cards_list_item {
+    width: 50px;
+    height: 70px;
   }
 }
