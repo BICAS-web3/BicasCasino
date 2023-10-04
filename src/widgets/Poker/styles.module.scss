@@ -27,7 +27,8 @@
 .poker_table_cards_list {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
   height: calc(100% - 40px);
   width: calc(100% - 40px);
   gap: 25px;
@@ -94,13 +95,13 @@
     max-height: 450px;
   }
   .poker_table_cards_list {
-    justify-content: space-evenly;
+    justify-content: center;
   }
 }
 
 @media screen and (max-width: 700px) {
   .poker_table_cards_list {
-    //gap: 15px;
+    gap: 15px;
   }
 }
 
