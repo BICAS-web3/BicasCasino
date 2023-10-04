@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
-import tableTabletBg from "@/public/media/coinflip_images/tabletBg.png";
-import mobileBg from "@/public/media/coinflip_images/mobileBg.png";
 import Image from "next/image";
 
 interface CoinFlipProps {}
@@ -22,16 +20,11 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     };
   }, []);
 
-  let src;
-
-  screenWidth <= 996 ? (src = tableTabletBg) : (src = tableBg);
-  screenWidth <= 650 ? (src = mobileBg) : null;
-
   return (
     <div className={s.coinflip_table_wrap}>
       <div className={s.coinflip_table_background}>
         <Image
-          src={src}
+          src={tableBg}
           className={s.coinflip_table_background_img}
           alt="table-bg"
         />

@@ -19,14 +19,14 @@
 .coinflip_table_background_img {
   width: 100%;
   object-fit: cover;
+  height: 100%;
 }
 
-@media screen and (max-width: 996px) {
-  .coinflip_table_background_img {
-    object-fit: fill;
-  }
-}
-
+// @media screen and (max-width: 996px) {
+//   .coinflip_table_background_img {
+//     object-fit: fill;
+//   }
+// }
 @media screen and (max-width: 420px) {
   .coinflip_table_background_img {
     object-fit: cover;
