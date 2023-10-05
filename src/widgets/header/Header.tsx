@@ -36,7 +36,7 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../Account";
 
-interface EmblemProps {}
+interface EmblemProps { }
 const Emblem: FC<EmblemProps> = (props) => {
   return (
     <a className={s.emblem} href="/">
@@ -46,7 +46,7 @@ const Emblem: FC<EmblemProps> = (props) => {
   );
 };
 
-interface LeftMenuProps {}
+interface LeftMenuProps { }
 const LeftMenu: FC<LeftMenuProps> = (props) => {
   const [flipOpen, isOpen] = useUnit([
     SideBarModel.flipOpen,
@@ -67,11 +67,11 @@ const LeftMenu: FC<LeftMenuProps> = (props) => {
   );
 };
 
-interface LinksProps {}
+interface LinksProps { }
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
-      <div className={`${s.link}`}>NFT Market</div>
+      {/* <div className={`${s.link}`}>NFT Market</div> */}
       {/* <div className={`${s.link} ${s.link_active}`}>
             LeaderBoard
         </div> */}
@@ -79,7 +79,7 @@ const Links: FC<LinksProps> = (props) => {
   );
 };
 
-interface ConnectWalletButtonProps {}
+interface ConnectWalletButtonProps { }
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const [isOpen, isMainWalletOpen, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -123,9 +123,8 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
         Connect Wallet
       </div>
       <div
-        className={`${s.header_avaibleWallet_wrap} ${
-          walletVisibility && s.avaibleWallet_visible
-        }`}
+        className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
+          }`}
       >
         <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
       </div>
@@ -133,7 +132,7 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   );
 };
 
-interface RightMenuProps {}
+interface RightMenuProps { }
 const RightMenu: FC<RightMenuProps> = (props) => {
   const [screenWidth, setScreenWidth] = useState(0);
 
@@ -183,7 +182,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
         />
         <div className={s.new_notification}></div>
       </div>
-      <div className={s.button}>
+      <div className={`${s.button} ${s.chat}`}>
         <Image
           src={ChatIcon}
           alt={""}
@@ -209,7 +208,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
               >
                 <span className={s.header_profile_ico_title}>А</span>
               </div>
-              {isHeaderAccOpened && <Account />}
+              {isHeaderAccOpened && <Account address={'0xa51313ffab4c570b484a26bd5d869c2f48e34477'} nickname={'Athena'} />}
             </div>
           ) : (
             <ConnectWalletButton />
@@ -220,7 +219,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
   );
 };
 
-export interface NetworkPickerProps {}
+export interface NetworkPickerProps { }
 export const NetworkPicker: FC<NetworkPickerProps> = (props) => {
   const [
     currentWalletAddress,
@@ -301,9 +300,8 @@ export const NetworkPicker: FC<NetworkPickerProps> = (props) => {
       style={currentWalletAddress ? {} : { display: "none" }}
     >
       <div
-        className={`${s.network_picker} ${
-          currentNetwork == null ? s.network_picker_unknown : ""
-        }`}
+        className={`${s.network_picker} ${currentNetwork == null ? s.network_picker_unknown : ""
+          }`}
       >
         {currentWalletAddress == null ? (
           <></>
@@ -327,7 +325,7 @@ export const NetworkPicker: FC<NetworkPickerProps> = (props) => {
   );
 };
 
-interface BottomMenuProps {}
+interface BottomMenuProps { }
 const BottomMenu: FC<BottomMenuProps> = (props) => {
   const [openSidebar] = useUnit([SideBarModel.Open]);
 
@@ -355,7 +353,7 @@ const BottomMenu: FC<BottomMenuProps> = (props) => {
   );
 };
 
-export interface HeaderProps {}
+export interface HeaderProps { }
 export const Header: FC<HeaderProps> = (props) => {
   // session model
   const [
@@ -538,11 +536,11 @@ export const Header: FC<HeaderProps> = (props) => {
     const network =
       available_networks != undefined
         ? (available_networks as unknown as Api.T_Networks).networks.find(
-            (network) => network.network_id == network_id_number
-          )
+          (network) => network.network_id == network_id_number
+        )
         : availableNetworks.networks.find(
-            (network) => network.network_id == network_id_number
-          );
+          (network) => network.network_id == network_id_number
+        );
 
     console.log(network);
 
