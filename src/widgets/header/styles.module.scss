@@ -127,6 +127,9 @@
   letter-spacing: 4%;
   font-family: var(--font-source-sans-3);
   transition: 0.2s;
+  &:hover {
+    box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.3);
+  }
 }
 
 .connect_wallet_button:hover {
@@ -312,5 +315,14 @@
   }
   .chat {
     display: none;
+  }
+  .button {
+    width: 32px;
+    padding: 5px;
+    height: 32px;
+    img {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

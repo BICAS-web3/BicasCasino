@@ -9,7 +9,7 @@
         right: 0px;
         width: 100%;
         top: 76px;
-        padding-left: 0px;
+        padding-left: 20px;
     }
     @media screen and (max-width: 650px) {
         left: 0px;
@@ -63,6 +63,13 @@
     z-index: 2;
 }
 
+.poker_lost_wrapper {
+    position: absolute;
+    left: calc(50% - 90.405px);
+    top: -1px;
+    z-index: 2;
+}
+
 @media screen and (max-width: 996px) {
     .poker_win_wrapper{
         bottom: 96px;
@@ -79,6 +86,15 @@
         left: calc(50% - 157px);
     }
 }
+
+@media screen and (max-width: 660px) {
+    .poker_lost_wrapper{
+        left: calc(50% - 72px);
+        top: auto;
+        bottom: 0px;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .poker_flip_cards_info_wrapper{
       left: calc(50% - 96px);

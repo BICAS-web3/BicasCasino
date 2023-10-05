@@ -27,7 +27,7 @@ export const WinMessage: FC<WinMessageProps> = props => {
                     </div>
                 </div>
                 <div className={s.multiplier}>
-                    {props.multiplier}
+                    {props.multiplier}x
                 </div>
             </div>
             <div className={s.bet_again_button}>

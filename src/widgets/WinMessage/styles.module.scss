@@ -19,6 +19,10 @@
         right: 20px;
         top: 20px;
     }
+
+    .close:hover {
+        cursor: pointer;
+    }
 }
 
 .win_container {
@@ -103,13 +107,17 @@
         line-height: normal;
         letter-spacing: 0.72px;
     }
-}
 
-@media screen and (max-width: 996px) {
-    .close{
-        display: none;
+    .bet_again_button:hover {
+        cursor: pointer;
     }
 }
+
+// @media screen and (max-width: 996px) {
+//     .close{
+//         display: none;
+//     }
+// }
 
 @media screen and (max-width: 700px){
     .win_message {

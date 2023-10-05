@@ -234,15 +234,28 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 17.94px;
+  background: #121212;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .game_row:hover {
-  cursor: pointer;
+  box-sizing: border-box;
+  border-left: 1px solid #e4c480;
+  margin-left: -1px;
+  background: linear-gradient(0.25turn, rgba(198, 149, 81, 0.041) 5%, #0d0d0d);
+  color: #e5c787;
+  svg > path {
+    fill: #e5c787;
+  }
 }
 
-.picked_game_row {
-  border-left: 1px solid #e4c480;
-  background: linear-gradient(0.25turn, rgba(198, 149, 81, 0.041) 5%, #0d0d0d);
+.button:hover {
+  background: #0d0d0d;
+  border-radius: 12px;
+  svg > path {
+    fill: #e5c787;
+  }
 }
 
 .support {
