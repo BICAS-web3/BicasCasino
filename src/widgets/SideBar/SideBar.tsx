@@ -79,7 +79,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               <SupportIcon />
               <div className={s.games_button_tooltip}>
                 Support{" "}
-                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} />{" "}
+                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} alt={'ico'}/>{" "}
               </div>
             </div>
           </div>
