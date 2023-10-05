@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import styles from "./ui.module.scss";
 import { BufferCopyIcon } from "@/shared/SVGs";
+import {CopyToClipboardButton} from "@/shared/ui/CopyToClipboardButton";
 
 interface IUserAddress {
   address: string | null;
@@ -22,7 +23,7 @@ export const UserAddress: FC<IUserAddress> = (props) => {
         {props.address.slice(0, 5) + "..." + props.address.slice(-5)}
       </span>
       <span className={styles.fullAddress}>{props.address}</span>
-      <BufferCopyIcon onClick={handleNameChange} />
+      <CopyToClipboardButton textToCopy={props.address} />
     </span>
   );
 };

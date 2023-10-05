@@ -1,0 +1,84 @@
+.profit_wrap {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+  border-radius: 12px;
+  background: #121212;
+}
+
+.coinflip_down_block {
+  margin-top: 20px;
+}
+
+.profit_total_wager_block,
+.profit_total_payout_block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profit_total_wager_title {
+  font-family: var(--font-source-sans-3);
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%;
+}
+
+.profit_total_wager {
+  font-family: var(--font-source-sans-3);
+  color: #eaeaea;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 138.4%;
+}
+
+.profit_total_maxPayout {
+  color: #e5c787;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 138.4%;
+  font-family: var(--font-source-sans-3);
+}
+
+.face_tails_wrap {
+  margin-top: 20px;
+}
+
+.face_tails_block {
+  border-radius: 12px;
+  display: flex;
+  background: #202020;
+  height: 50px;
+}
+
+.face_block,
+.tails_block {
+  border-radius: 12px;
+  width: 100%;
+  color: #7e7e7e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  letter-spacing: 0.72px;
+  user-select: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.face_tails_active {
+  background: #2e2e2e;
+  color: #eaeaea;
+}

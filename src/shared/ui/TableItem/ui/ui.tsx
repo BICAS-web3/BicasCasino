@@ -43,7 +43,6 @@ export const TableItem: FC<IBetData> = (props) => {
       <td className={styles.td}>
         <a href={props.game_url} target="_blank" className={styles.link_block}>
           <span className={styles.address}>{props.gameAddress}</span>
-          {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
         </a>
       </td>
       <td className={styles.td}>
@@ -59,18 +58,18 @@ export const TableItem: FC<IBetData> = (props) => {
       </td>
       <td className={styles.td}>
         <span className={styles.link_block}>
-          <span className={styles.profit}>+{props.profit}</span>
-          <img src={wagerIco.src} alt="wager-ico" className={styles.wagerIco} />
-        </span>
-      </td>
-      <td className={styles.td}>
-        <span className={styles.link_block}>
           <img
             src={linkIco.src}
             width={22}
             height={22}
             className={styles.linkIco}
           />
+        </span>
+      </td>
+      <td className={styles.td}>
+        <span className={styles.link_block}>
+          <span className={styles.profit}>+{props.profit}</span>
+          <img src={wagerIco.src} alt="wager-ico" className={styles.wagerIco} />
         </span>
       </td>
     </>
