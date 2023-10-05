@@ -6,6 +6,7 @@
   @media screen and (max-width: 3840px) {
     max-width: 100%;
     height: 116px;
+    padding: 28px 20px 40px 20px;
   }
   @media screen and (max-width: 1280px) {
     max-width: 100%;
@@ -76,6 +77,10 @@
     }
 
     .arrow_right {
+      @media screen and (max-width: 768px) {
+        transition: 0.5s;
+        transform: rotate(90deg);
+      }
 
     }
 

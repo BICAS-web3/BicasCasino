@@ -71,7 +71,7 @@ interface LinksProps {}
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
-      <div className={`${s.link}`}>NFT Market</div>
+      {/* <div className={`${s.link}`}>NFT Market</div> */}
       {/* <div className={`${s.link} ${s.link_active}`}>
             LeaderBoard
         </div> */}
@@ -183,7 +183,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
         />
         <div className={s.new_notification}></div>
       </div>
-      <div className={s.button}>
+      <div className={`${s.button} ${s.chat}`}>
         <Image
           src={ChatIcon}
           alt={""}
@@ -209,7 +209,12 @@ const RightMenu: FC<RightMenuProps> = (props) => {
               >
                 <span className={s.header_profile_ico_title}>А</span>
               </div>
-              {isHeaderAccOpened && <Account />}
+              {isHeaderAccOpened && (
+                <Account
+                  address={"0xa51313ffab4c570b484a26bd5d869c2f48e34477"}
+                  nickname={"Athena"}
+                />
+              )}
             </div>
           ) : (
             <ConnectWalletButton />
