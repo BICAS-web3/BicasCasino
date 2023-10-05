@@ -23,6 +23,7 @@ import * as SideBarModel from "./model";
 import Discord from "@/public/media/social_media/Discord.svg";
 import Twitter from "@/public/media/social_media/Twitter.svg";
 import Telegram from "@/public/media/social_media/Telegram.svg";
+import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
 import Insta from "@/public/media/social_media/Insta.svg";
 import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 
@@ -44,6 +45,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               }`}
             >
               <CoinButton />
+              <div className={s.games_button_tooltip}>Coinflip</div>
             </div>
             <div
               className={`${s.button} ${
@@ -51,6 +53,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               }`}
             >
               <DiceButton />
+              <div className={s.games_button_tooltip}>Dice</div>
             </div>
             <div
               className={`${s.button} ${
@@ -58,6 +61,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               }`}
             >
               <RPCButton />
+              <div className={s.games_button_tooltip}>Rock paper scissors</div>
             </div>
             <div
               className={`${s.button} ${
@@ -65,6 +69,18 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               }`}
             >
               <PokerButton />
+              <div className={s.games_button_tooltip}>Poker</div>
+            </div>
+            <div
+              className={`${s.button} ${
+                props.pickedGame == 3 ? s.button_picked : ""
+              }`}
+            >
+              <SupportIcon />
+              <div className={s.games_button_tooltip}>
+                Support{" "}
+                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} />{" "}
+              </div>
             </div>
           </div>
         </div>
