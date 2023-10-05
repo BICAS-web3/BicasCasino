@@ -24,13 +24,3 @@ export const ProfileCard: FC<ProfileCardProps> = (props) => {
   );
 };
 
-// return (
-//     <div className={styles.card}>
-//         <UserAvatar avatarUrl={emptyAvatar} />
-//         <div className={styles.user}>
-//             <UserName userName={'Athena'} />
-//             <UserAddress address={props.address} />
-//         </div>
-//         <ImageLeague />
-//     </div>
-// )
