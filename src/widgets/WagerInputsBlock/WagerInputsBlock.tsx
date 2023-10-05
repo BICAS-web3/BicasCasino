@@ -3,6 +3,7 @@ import s from "../Wager/styles.module.scss";
 import Image from "next/image";
 import tokenIco from "@/public/media/Wager_icons/tokenIco.svg";
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
+import { TransactionWarn } from "../TransactionWarn.tsx/TransactionWarn";
 
 const tokensList = [
   {
@@ -40,6 +41,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     setTokens(tokensList.filter((item) => item.id !== activeToken.id));
   }, [activeToken]);
 
+  const cond = false;
+
   return (
     <>
       <div className={s.poker_wager_inputs_block}>
@@ -50,6 +53,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
             value={kriptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
+            {cond && <TransactionWarn amount={15} network="Polygon" />}
             <Image
               alt="token-ico"
               src={activeToken.img}
