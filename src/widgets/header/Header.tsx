@@ -39,10 +39,10 @@ import { Account } from "../Account";
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
-    <div className={s.emblem}>
+    <a className={s.emblem} href="/">
       <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
       <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
-    </div>
+    </a>
   );
 };
 
@@ -71,7 +71,7 @@ interface LinksProps {}
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
-      <div className={`${s.link}`}>NFT Market</div>
+      {/* <div className={`${s.link}`}>NFT Market</div> */}
       {/* <div className={`${s.link} ${s.link_active}`}>
             LeaderBoard
         </div> */}
@@ -97,9 +97,12 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     if (!walletVisibility) {
       setWalletVisibility(true);
       setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       setWalletVisibility(false);
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   };
 
@@ -111,6 +114,7 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
 
   return (
@@ -133,7 +137,7 @@ interface RightMenuProps {}
 const RightMenu: FC<RightMenuProps> = (props) => {
   const [screenWidth, setScreenWidth] = useState(0);
 
-  const condition = true;
+  const condition = false;
 
   const [
     isOpen,
@@ -179,7 +183,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
         />
         <div className={s.new_notification}></div>
       </div>
-      <div className={s.button}>
+      <div className={`${s.button} ${s.chat}`}>
         <Image
           src={ChatIcon}
           alt={""}
@@ -205,7 +209,12 @@ const RightMenu: FC<RightMenuProps> = (props) => {
               >
                 <span className={s.header_profile_ico_title}>А</span>
               </div>
-              {isHeaderAccOpened && <Account address={'0xa51313ffab4c570b484a26bd5d869c2f48e34477'} nickname={'Athena'}/>}
+              {isHeaderAccOpened && (
+                <Account
+                  address={"0xa51313ffab4c570b484a26bd5d869c2f48e34477"}
+                  nickname={"Athena"}
+                />
+              )}
             </div>
           ) : (
             <ConnectWalletButton />

@@ -1,22 +1,21 @@
-FROM node:19-alpine AS deps
-RUN #apk add --no-cache libc6-compat
+# FROM node:19-alpine AS deps
+# RUN #apk add --no-cache libc6-compat
+# WORKDIR /app
+# COPY package.json package-lock.json ./
+# RUN #yarn install --frozen-lockfile
+
+FROM node:19-alpine
+
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN #yarn install --frozen-lockfile
-RUN npm   install
 
-FROM node:19-alpine AS builder
+COPY package.json ./
 
-WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
+RUN npm install
 
 COPY . .
-
-RUN npm run  build
 
 EXPOSE 4000
 
 ENV PORT 4000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]

@@ -4,7 +4,7 @@
   padding-right: 15px;
   border-right: 1px solid #252525;
   position: relative;
-  min-width: 185px;
+  max-width: 185px;
 }
 
 .network_select_body {
@@ -25,13 +25,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  background: #FC3C37;
+  background: #fc3c37;
   border-radius: 12px;
   justify-content: space-between;
 }
 
 .network_error_main_text {
-  color: #EAEAEA;
+  color: #eaeaea;
   font-family: var(--font-nunito-sans);
   font-size: 14px;
   font-style: normal;
@@ -53,16 +53,15 @@
 
 .network_error_text_block {
   border-radius: 12px 12px 0 0;
-  background: #1C0100;
+  background: #1c0100;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 15px 10px;
   margin-bottom: 20px;
-
   .network_error_text {
     white-space: nowrap;
-    color: #FC3C37;
+    color: #fc3c37;
     font-family: var(--font-nunito-sans);
     font-size: 14px;
     font-style: normal;
@@ -75,7 +74,7 @@
 
 .active_network_title {
   font-family: var(--font-nunito-sans);
-  color: #7E7E7E;
+  color: #7e7e7e;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -109,7 +108,7 @@
   margin-top: 20px;
   visibility: hidden;
   opacity: 0;
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .networks_list_title_wrap {
@@ -120,7 +119,7 @@
 
 .networks_list_title {
   font-family: var(--font-nunito-sans);
-  color: #EAEAEA;
+  color: #eaeaea;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -133,14 +132,12 @@
   display: flex;
   flex-direction: column;
   user-select: none;
-
   &_item {
     cursor: pointer;
-    transition: background .3s ease;
+    transition: background 0.3s ease;
     padding: 10px 20px;
     display: flex;
     align-items: center;
-
     &:hover {
       background: #202020;
     }
@@ -150,7 +147,7 @@
 .networks_list_item_title {
   margin-left: 13px;
   font-family: var(--font-nunito-sans);
-  color: #7E7E7E;
+  color: #7e7e7e;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -160,7 +157,36 @@
 }
 
 @media screen and (max-width: 914px) {
-  .network_select_wrap {
+  .active_network_dropDown_ico,
+  .active_network_title {
     display: none;
+  }
+  .active_network_ico_wrap {
+    margin: 0;
+    padding: 5px;
+  }
+  .network_select_body {
+    height: 40px;
+  }
+  .networks_list_wrap {
+    width: 160px;
+    right: 0;
+  }
+  .network_select_wrap {
+    margin-right: 0;
+    border-right: none;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .network_select_body {
+    height: 32px;
+    width: 32px;
+  }
+  .active_network_ico_wrap {
+    img {
+      width: 20px !important;
+      height: 20px !important;
+    }
   }
 }

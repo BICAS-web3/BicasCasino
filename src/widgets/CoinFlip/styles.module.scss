@@ -1,202 +1,34 @@
-.background_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    justify-items: center;
-    width: fit-content;
+.coinflip_table_wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.game_menu {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    column-gap: 10px;
-    row-gap: 16px;
-    width: 100%;
+.coinflip_table_background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: -1;
 }
 
-.profit_on_win {
-    color: var(--color-profit-on-win);
+.coinflip_table_background_img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
 }
 
-.settings {
-    //width: 392px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-}
-
-.coins_pick {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    column-gap: 16px;
-    //width: 392px;
-    height: 105px;
-    width: 100%;
-}
-
-.coin_pick_holder {
-    padding: 0;
-    justify-content: center;
-    align-items: center;
-}
-
-.coin_pick_holder:hover {
-    background: #ffffff23;
-    cursor: pointer;
-}
-
-.coin_pick_picked {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 2px solid #C69E55;
-}
-
-.coin_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.coin {
-    position: relative;
-    width: 250px;
-    height: 250px;
-    transition: -webkit-transform 1s ease-in;
-    -webkit-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    z-index: 2;
-}
-
-.coin img {
-    position: absolute;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden
-}
-
-.coin.heads {
-    -webkit-animation: flipHeads 2s ease-out forwards;
-    -moz-animation: flipHeads 2s ease-out forwards;
-    -o-animation: flipHeads 2s ease-out forwards;
-    animation: flipHeads 2s ease-out forwards;
-}
-
-.coin.tails {
-    -webkit-animation: flipTails 2s ease-out forwards;
-    -moz-animation: flipTails 2s ease-out forwards;
-    -o-animation: flipTails 2s ease-out forwards;
-    animation: flipTails 2s ease-out forwards;
-}
-
-.coin.spin_forever{
-    -webkit-animation: flipForever 1s linear infinite;
-    -moz-animation: flipForever 1s linear infinite;
-    -o-animation: flipForever 1s linear infinite;
-    animation: flipForever 1s linear infinite;
-}
-
-.coin_side_a {
-    z-index: 100;
-}
-
-.coin_side_b {
-    z-index: 2;
-    -webkit-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-}
-
-@-webkit-keyframes flipHeads {
-    from {
-        -webkit-transform: rotateY(180deg);
-        -moz-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    to {
-        -webkit-transform: rotateY(720deg);
-        -moz-transform: rotateY(720deg);
-        transform: rotateY(720deg);
-    }
-}
-
-@-webkit-keyframes flipTails {
-    from {
-        -webkit-transform: rotateY(0);
-        -moz-transform: rotateY(0);
-        transform: rotateY(0);
-    }
-
-    to {
-        -webkit-transform: rotateY(540deg);
-        -moz-transform: rotateY(540deg);
-        transform: rotateY(540deg);
-    }
-}
-
-@keyframes flipHeads {
-    from {
-        -webkit-transform: rotateY(180deg);
-        -moz-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    to {
-        -webkit-transform: rotateY(720deg);
-        -moz-transform: rotateY(720deg);
-        transform: rotateY(720deg);
-    }
-}
-
-@keyframes flipTails {
-    from {
-        -webkit-transform: rotateY(0);
-        -moz-transform: rotateY(0);
-        transform: rotateY(0);
-    }
-
-    to {
-        -webkit-transform: rotateY(540deg);
-        -moz-transform: rotateY(540deg);
-        transform: rotateY(540deg);
-    }
-}
-
-
-@media screen and (max-width: 993px) {
-    .game_menu {
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-
-@-webkit-keyframes flipForever {
-    from {
-        -webkit-transform: rotateY(180deg);
-        -moz-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    to {
-        -webkit-transform: rotateY(540deg);
-        -moz-transform: rotateY(540deg);
-        transform: rotateY(540deg);
-    }
-}
-
-
-@keyframes flipForever {
-    from {
-        -webkit-transform: rotateY(180deg);
-        -moz-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    to {
-        -webkit-transform: rotateY(540deg);
-        -moz-transform: rotateY(540deg);
-        transform: rotateY(540deg);
-    }
+// @media screen and (max-width: 996px) {
+//   .coinflip_table_background_img {
+//     object-fit: fill;
+//   }
+// }
+@media screen and (max-width: 420px) {
+  .coinflip_table_background_img {
+    object-fit: cover;
+  }
 }
