@@ -284,7 +284,7 @@ export default function Home() {
       </Head>
 
       <LiveBetsWS subscription_type={'SubscribeAll'} subscriptions={[]} />
-      <Layout>
+      <Layout gameName={undefined}>
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
