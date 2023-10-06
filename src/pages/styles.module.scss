@@ -291,10 +291,19 @@
   }
 }
 
+@media screen and (max-width: 820px) {
+  .game_link.sidebar_closed {
+    width: 50%;
+  }
+}
+
 @media screen and (max-width: 650px) {
   .game_link {
     max-width: 146px;
     max-height: 120px;
+  }
+  .game_link.sidebar_closed {
+    max-width: 146px;
   }
   .game_info {
     row-gap: 10px !important;

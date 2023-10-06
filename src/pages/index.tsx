@@ -32,11 +32,13 @@ import pokerMainBg from "@/public/media/games_assets/poker/pcBg.png";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280bg.png";
 import pokerTabletBg from "@/public/media/games_assets/poker/tabletBg.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileBg.png";
+import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSidebarImg.png";
 
 import diceMainBg from "@/public/media/games_assets/dice/dicePcImg.png";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.png";
 import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.png";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.png";
+import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -74,12 +76,14 @@ interface GameProps {
   laptopImage: StaticImageData;
   tabletImage: StaticImageData;
   mobileImage: StaticImageData;
+  closedSidebarImage: StaticImageData;
 }
 
 const Game: FC<GameProps> = (props) => {
   const [mobile, setMobile] = useState(false);
   const [tablet, setTablet] = useState(false);
   const [laptop, setLaptop] = useState(false);
+  const [miniLaptop, setMiniLaptop] = useState(false);
   const [pc, setPC] = useState(false);
   const [currentImage, setCurrentImage] = useState(props.pcImage.src);
 
@@ -92,18 +96,27 @@ const Game: FC<GameProps> = (props) => {
         setTablet(true);
         setLaptop(false);
         setPC(false);
+        setMiniLaptop(false);
+      } else if (width >= 700 && width < 840) {
+        setTablet(false);
+        setLaptop(true);
+        setPC(false);
+        setMiniLaptop(true);
       } else if (width >= 700 && width < 1280) {
         setTablet(false);
         setLaptop(true);
         setPC(false);
+        setMiniLaptop(false);
       } else if (width >= 1280 && width < 1980) {
         setTablet(false);
         setLaptop(false);
         setPC(true);
+        setMiniLaptop(false);
       } else {
         setTablet(false);
         setLaptop(false);
         setPC(false);
+        setMiniLaptop(false);
       }
 
       setMobile(width <= 650);
@@ -121,9 +134,22 @@ const Game: FC<GameProps> = (props) => {
   useEffect(() => {
     if (mobile) setCurrentImage(props.mobileImage.src);
     else if (tablet) setCurrentImage(props.tabletImage.src);
-    else if (laptop) setCurrentImage(props.laptopImage.src);
-    else if (pc) setCurrentImage(props.pcImage.src);
-  }, [mobile, tablet, pc, laptop]);
+    else if (laptop) {
+      // sidebarOpened
+      //   ? setCurrentImage(props.laptopImage.src)
+      //   : setCurrentImage(props.closedSidebarImage.src);
+      if (!sidebarOpened) {
+        console.log(miniLaptop);
+        if (miniLaptop) {
+          setCurrentImage(props.laptopImage.src);
+        } else {
+          setCurrentImage(props.closedSidebarImage.src);
+        }
+      } else {
+        setCurrentImage(props.laptopImage.src);
+      }
+    } else if (pc) setCurrentImage(props.pcImage.src);
+  }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop]);
 
   return (
     <a
@@ -213,6 +239,7 @@ const Games: FC<GamesProps> = (props) => {
           tabletImage={pokerTabletBg}
           laptopImage={pokerLaptopBg}
           mobileImage={pokerMobileBg}
+          closedSidebarImage={pokerClosedSidebarImg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
@@ -226,6 +253,7 @@ const Games: FC<GamesProps> = (props) => {
           laptopImage={pokerLaptopBg}
           mobileImage={pokerMobileBg}
           pcImage={pokerMainBg}
+          closedSidebarImage={pokerClosedSidebarImg}
         />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
@@ -256,6 +284,7 @@ const Games: FC<GamesProps> = (props) => {
           laptopImage={diceLaptopBg}
           mobileImage={diceMobileBg}
           pcImage={diceMainBg}
+          closedSidebarImage={diceClosedSidebarImg}
         />
 
         {/* <Game
