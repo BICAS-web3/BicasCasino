@@ -51,7 +51,7 @@ export default function Profile() {
                 <title>NFT Play | Account page</title>
             </Head>
             {router.query.address ?
-                <Layout>
+                <Layout gameName={undefined}>
                     <></>
                     <section className={styles.container}>
                         <div className={styles.grid_container}>
