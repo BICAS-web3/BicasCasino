@@ -18,19 +18,19 @@ const pokerHandMultiplierList = [
   },
   {
     title: "Straight Flush",
-    multiplier: 45,
+    multiplier: 50,
   },
   {
     title: "Four of a kind",
-    multiplier: 20,
+    multiplier: 30,
   },
   {
     title: "Full House",
-    multiplier: 12,
+    multiplier: 8,
   },
   {
     title: "Flush",
-    multiplier: 10,
+    multiplier: 6,
   },
   {
     title: "Straight",
