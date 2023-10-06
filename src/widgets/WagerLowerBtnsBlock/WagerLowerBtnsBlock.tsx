@@ -104,13 +104,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
           />
           <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
           <p className={s.poker_wager_info_modal_text}>
-            Dice is the most popular crypto casino game, with its roots
-            originating from 2012 as Bitcoin’s use case for gambling came into
-            existence. <br /> It is a simple game of chance with easy
-            customisable betting mechanics. Slide the bar left and the
-            multiplier reward for winning your bet increases, while sacrificing
-            the win chance. Slide the bar to the right, and the opposite
-            happens.
+            Poker
           </p>
         </div>
       </div>

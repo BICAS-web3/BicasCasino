@@ -8,6 +8,7 @@ import { T_BetInfo } from '@/shared/api';
 import { sessionModel } from '@/entities/session';
 import { useAccount } from 'wagmi';
 import * as api from "@/shared/api/";
+import { TOKENS } from '@/shared/tokens';
 
 enum Page {
   AllBets = 0,
@@ -165,6 +166,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
               const time = new Date(bet.timestamp * 1000);
               const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
               const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+              const multiplier = parseFloat((profit / (wager * bet.bets)).toFixed(2))
               return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
                 key={ind}
                 time={{
@@ -177,8 +179,10 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 player_name={bet.player_nickname == null ?
                   `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
                 wager={wager}
-                multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-                profit={profit} />);
+                multiplier={isNaN(multiplier) ? 0 : multiplier}
+                profit={profit}
+                token={bet.token_name.toUpperCase()}
+              />);
             })
             //)
           }

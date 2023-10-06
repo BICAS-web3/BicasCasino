@@ -40,7 +40,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
 
   const [
     availableTokens,
-    //cryptoValue,
+    cryptoValue,
     setCryptoValue,
     //exchangeRate,
     pickedToken,
@@ -49,7 +49,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     //pressButton
   ] = useUnit([
     settingsModel.$AvailableTokens,
-    //WagerModel.$cryptoValue,
+    WagerModel.$cryptoValue,
     WagerModel.setCryptoValue,
     //WagerModel.$exchangeRate,
     WagerModel.$pickedToken,
@@ -245,13 +245,34 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
           </div>
         </div>
         <div className={s.poker_wager_increase_block}>
-          <div className={s.poker_wager_halve_block}>
+          <div className={s.poker_wager_halve_block} onClick={() => {
+            const newCryptoValue = (cryptoValue / 2);
+            setCryptoValue(newCryptoValue);
+            setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
+
+            const newCurrencyValue = newCryptoValue * exchangeRate;
+            setCurrencyInputValue(Number(newCurrencyValue.toFixed(7)).toString())
+          }}>
             <span className={s.poker_wager_halve_title}>1/2</span>
           </div>
-          <div className={s.poker_wager_double_block}>
+          <div className={s.poker_wager_double_block} onClick={() => {
+            const newCryptoValue = (cryptoValue * 2);
+            setCryptoValue(newCryptoValue);
+            setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
+
+            const newCurrencyValue = newCryptoValue * exchangeRate;
+            setCurrencyInputValue(Number(newCurrencyValue.toFixed(7)).toString())
+          }}>
             <span className={s.poker_wager_double_title}>2x</span>
           </div>
-          <div className={s.poker_wager_max_block}>
+          <div className={s.poker_wager_max_block} onClick={() => {
+            const newCryptoValue = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
+            setCryptoValue(newCryptoValue);
+            setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
+
+            const newCurrencyValue = newCryptoValue * exchangeRate;
+            setCurrencyInputValue(Number(newCurrencyValue.toFixed(7)).toString())
+          }}>
             <span className={s.poker_wager_max_title}>max</span>
           </div>
         </div>
