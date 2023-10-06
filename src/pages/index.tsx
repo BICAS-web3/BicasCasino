@@ -132,14 +132,14 @@ const Game: FC<GameProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (mobile) setCurrentImage(props.mobileImage.src);
+    if (mobile) setCurrentImage(props.laptopImage.src);
     else if (tablet) setCurrentImage(props.tabletImage.src);
     else if (laptop) {
       // sidebarOpened
       //   ? setCurrentImage(props.laptopImage.src)
       //   : setCurrentImage(props.closedSidebarImage.src);
+      // setCurrentImage(props.laptopImage.src);
       if (!sidebarOpened) {
-        console.log(miniLaptop);
         if (miniLaptop) {
           setCurrentImage(props.laptopImage.src);
         } else {

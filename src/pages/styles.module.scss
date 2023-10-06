@@ -205,6 +205,7 @@
   border: 1px solid #202020;
   border-radius: 20px;
   z-index: 1;
+  background-position-y: 50%;
 }
 
 .game_info {
@@ -299,11 +300,11 @@
 
 @media screen and (max-width: 650px) {
   .game_link {
-    max-width: 146px;
+    max-width: 346px;
     max-height: 120px;
   }
   .game_link.sidebar_closed {
-    max-width: 146px;
+    max-width: 346px;
   }
   .game_info {
     row-gap: 10px !important;
