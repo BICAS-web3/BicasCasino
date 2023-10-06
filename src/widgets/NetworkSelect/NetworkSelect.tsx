@@ -36,7 +36,8 @@ export const NetworkSelect = () => {
   return (
     <div className={s.network_select_wrap}>
       <div className={s.network_select_body} onClick={handleNetworkListVChange}>
-        <div className={s.active_network_ico_wrap}>
+        <NetworkError />
+        {/* <div className={s.active_network_ico_wrap}>
           <Image
             alt="active-network-ico"
             src={activeNetwork.ico}
@@ -51,7 +52,7 @@ export const NetworkSelect = () => {
           src={downIco}
           width={9}
           height={6}
-        />
+        /> */}
       </div>
       <div
         className={s.networks_list_wrap}

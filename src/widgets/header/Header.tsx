@@ -173,6 +173,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
   return (
     <div className={s.right_menu}>
+      <NetworkSelect />
       <div className={s.button}>
         <Image
           src={BellIcon}
@@ -650,7 +651,6 @@ export const Header: FC<HeaderProps> = (props) => {
         <div className={s.header}>
           <LeftMenu />
           <Links />
-          <NetworkSelect />
           <RightMenu />
         </div>
         <BottomMenu />
