@@ -30,6 +30,7 @@
   grid-template-columns: 1fr auto;
   grid-template-rows: repeat(3, auto);
   gap: 30px;
+  width: 100%;
 
   .card_container {
     grid-column: 1 / 2;

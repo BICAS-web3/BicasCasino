@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import styles from "./ui.module.scss";
 import Image, { StaticImageData } from "next/image";
 
-interface IRecentlyGames {
+export interface IRecentlyGames {
   id: number | null;
   title: string;
   text: string | null;

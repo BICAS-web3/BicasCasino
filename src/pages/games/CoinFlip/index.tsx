@@ -23,7 +23,7 @@ const WagerContent = () => {
 
 export default function CoinFlipGame() {
   return (
-    <Layout>
+    <Layout gameName={"CoinFlip"}>
       <div className={s.coinflip_container}>
         <GamePage
           gameInfoText="test"

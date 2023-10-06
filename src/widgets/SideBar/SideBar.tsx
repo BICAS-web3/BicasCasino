@@ -40,46 +40,41 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           </div>
           <div className={s.buttons_holder}>
             <div
-              className={`${s.button} ${
-                props.pickedGame == 0 ? s.button_picked : ""
-              }`}
+              className={`${s.button} ${props.pickedGame == 0 ? s.button_picked : ""
+                }`}
             >
               <CoinButton />
               <div className={s.games_button_tooltip}>Coinflip</div>
             </div>
             <div
-              className={`${s.button} ${
-                props.pickedGame == 1 ? s.button_picked : ""
-              }`}
+              className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
+                }`}
             >
               <DiceButton />
               <div className={s.games_button_tooltip}>Dice</div>
             </div>
             <div
-              className={`${s.button} ${
-                props.pickedGame == 2 ? s.button_picked : ""
-              }`}
+              className={`${s.button} ${props.pickedGame == 2 ? s.button_picked : ""
+                }`}
             >
               <RPCButton />
               <div className={s.games_button_tooltip}>Rock paper scissors</div>
             </div>
             <div
-              className={`${s.button} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
+              className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
+                }`}
             >
               <PokerButton />
               <div className={s.games_button_tooltip}>Poker</div>
             </div>
             <div
-              className={`${s.button} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
+              className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
+                }`}
             >
               <SupportIcon />
               <div className={s.games_button_tooltip}>
                 Support{" "}
-                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} alt={'ico'}/>{" "}
+                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} alt={""} />{" "}
               </div>
             </div>
           </div>
@@ -100,9 +95,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
           <div
-            className={`${s.buttons_menu} ${
-              gamesAreOpen ? "" : s.buttons_menu_closed
-            }`}
+            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
+              }`}
           >
             <div
               className={s.menu_header}
@@ -115,9 +109,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 GAMES
               </div>
               <div
-                className={`${s.arrow} ${
-                  gamesAreOpen ? s.arrow_down : s.arrow_side
-                }`}
+                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
+                  }`}
               >
                 <ArrowIcon />
               </div>
@@ -156,28 +149,28 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             Our social networks
             <div className={s.icons}>
               <a
-                href="https://example.com/"
+                href="https://discord.gg/ReJVd2xJSk"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Image src={Discord} alt={""} width={30} height={30} />
               </a>
               <a
-                href="https://example.com/"
+                href="https://twitter.com/GreekKeepers"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Image src={Twitter} alt={""} width={30} height={30} />
               </a>
               <a
-                href="https://example.com/"
+                href="https://t.me/greekkeepers"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Image src={Telegram} alt={""} width={30} height={30} />
               </a>
               <a
-                href="https://example.com/"
+                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -192,7 +185,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   );
 };
 
-export interface SideBarProps {}
+export interface SideBarProps { }
 export const SideBar: FC<SideBarProps> = (props) => {
   const [isOpen, currentPick] = useUnit([
     SideBarModel.$isOpen,
@@ -201,9 +194,8 @@ export const SideBar: FC<SideBarProps> = (props) => {
 
   return (
     <div
-      className={`${s.side_bar} ${
-        isOpen ? s.side_bar_opened : s.side_bar_closed
-      }`}
+      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
+        }`}
     >
       {isOpen ? (
         <OpenedSideBar pickedGame={currentPick} />

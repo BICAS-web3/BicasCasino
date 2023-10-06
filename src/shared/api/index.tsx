@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from 'effector';
 
-const BaseApiUrl = '/api';
-const BaseStaticUrl = '/static';
+export const BaseApiUrl = '/api';
+export const BaseStaticUrl = '/static';
 
 export type T_ErrorText = {
     error: string
@@ -20,13 +20,19 @@ export type T_NetworkInfo = {
     decimals: number;
 };
 
+export type T_NetworkFullInfo = {
+    basic_info: T_NetworkInfo,
+    explorers: T_BlockExplorerUrl[],
+    rpcs: T_RpcUrl[]
+};
+
+export type T_Networks = {
+    networks: Array<T_NetworkFullInfo>
+};
+
 export type T_Localization = {
 
 }
-
-export type T_Networks = {
-    networks: Array<T_NetworkInfo>
-};
 
 export type T_RpcUrl = {
     id: number;
@@ -99,6 +105,10 @@ export type T_Bet = {
     profit: number;
 };
 
+export type T_Card = {
+    number: number,
+    suit: number
+}
 export type T_BetInfo = {
     id: number;
     transaction_hash: string;
@@ -114,10 +124,11 @@ export type T_BetInfo = {
     bets: number;
     multiplier: number;
     profit: bigint;
+    player_hand: T_Card[] | null
 };
 
 export type T_Bets = {
-    bets: Array<T_BetInfo>
+    bets: T_BetInfo[]
 };
 
 export type T_GameAbi = {
@@ -126,9 +137,29 @@ export type T_GameAbi = {
     names: string,
 }
 
+export type T_Totals = {
+    bets_amount: number
+    player_amount: number,
+    sum: number
+};
+
 export type T_ApiResponse = {
     status: string,
-    body: T_ErrorText | T_Networks | T_Rpcs | T_Token | T_Game | T_Nickname | T_Player | T_Bets | T_Tokens | T_GameAbi | T_BlockExplorers
+    body: T_ErrorText
+    | T_Networks
+    | T_Rpcs
+    | T_Token
+    | T_Game
+    | T_Nickname
+    | T_Player
+    | T_Bets
+    | T_Tokens
+    | T_GameAbi
+    | T_BlockExplorers
+    | T_Totals
+    | T_LatestGames
+    | T_PlayerTotals
+    | T_TokenPrice
 };
 
 export type T_GetUsername = {
@@ -141,9 +172,42 @@ export type T_SetUsername = {
     signature: string,
 };
 
+export type T_LatestGames = {
+    games: string[]
+}
+
+export type T_PlayerTotals = {
+    bets_amount: number,
+    total_wagered_sum: number | null,
+}
+
+export type T_TokenPrice = {
+    token_price: number
+}
+
+
 export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
     async form => {
         return fetch(`${BaseApiUrl}/player/nickname/set`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export type T_CreateReferal = {
+    refer_to: string,
+    referal: string,
+    signature: string,
+};
+
+export const createReferealFx = createEffect<T_CreateReferal, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/player/referal/subscribe`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -275,6 +339,38 @@ export const getUserBetsInc = createEffect<T_GetUserBets, T_ApiResponse, string>
 export const GetGameById = createEffect<number, T_ApiResponse, string>(
     async game_id => {
         return fetch(`${BaseApiUrl}/game/get/${game_id}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetTotalsFx = createEffect<void, T_ApiResponse, string>(
+    async _ => {
+        return fetch(`${BaseApiUrl}/general/totals`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetLatestGamesFx = createEffect<string, T_ApiResponse, string>(
+    async address => {
+        return fetch(`${BaseApiUrl}/player/latest_games/${address}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetPlayerTotalsFx = createEffect<string, T_ApiResponse, string>(
+    async address => {
+        return fetch(`${BaseApiUrl}/player/totals/${address}`, {
+            method: 'GET'
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
+export const GetTokenPriceFx = createEffect<string, T_ApiResponse, string>(
+    async token_name => {
+        return fetch(`${BaseApiUrl}/token/price/${token_name.toUpperCase()}`, {
             method: 'GET'
         }).then(async res => await res.json()).catch(e => (e));
     }

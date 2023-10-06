@@ -5,10 +5,10 @@ export interface NetworkErrorTextProps {
   error_text: string;
 }
 
-export const NetworkErrorText: FC<NetworkErrorTextProps> = ({ error_text }) => {
+export const NetworkErrorText: FC<NetworkErrorTextProps> = props => {
   return (
     <div className={s.network_error_text_block}>
-      <span className={s.network_error_text}>{error_text}</span>
+      <span className={s.network_error_text}>{props.error_text}</span>
     </div>
-  );
-};
+  )
+}
