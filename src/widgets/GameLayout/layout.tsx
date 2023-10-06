@@ -23,7 +23,7 @@ export const GameLayout: FC<GameLayoutProps> = props => {
             <Head>
                 <title>{props.gameName}</title>
             </Head>
-            <Header />
+            <Header isGame={false} />
             <main>
                 <div className={s.main_container}>
                     <div className={s.background}>
