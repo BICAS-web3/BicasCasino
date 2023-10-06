@@ -21,13 +21,22 @@ import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
 import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
-import pokerMobileBg from "@/public/media/games_assets/poker/PokerMobileBg.png";
 import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
 import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
+
+import pokerMainBg from "@/public/media/games_assets/poker/pcBg.png";
+import pokerLaptopBg from "@/public/media/games_assets/poker/1280bg.png";
+import pokerTabletBg from "@/public/media/games_assets/poker/tabletBg.png";
+import pokerMobileBg from "@/public/media/games_assets/poker/mobileBg.png";
+
+import diceMainBg from "@/public/media/games_assets/dice/dicePcImg.png";
+import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.png";
+import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.png";
+import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -60,39 +69,65 @@ interface GameProps {
   name: string;
   description: string;
   link: string;
-  image: StaticImageData;
+  pcImage: StaticImageData;
+  laptopImage: StaticImageData;
+  tabletImage: StaticImageData;
+  mobileImage: StaticImageData;
 }
 
 const Game: FC<GameProps> = (props) => {
-  const [mobile, setMobile] = useState<any>(
-    //window.innerWidth <= 650 ? true : false,
-    false
-  );
+  const [mobile, setMobile] = useState(false);
+  const [tablet, setTablet] = useState(false);
+  const [laptop, setLaptop] = useState(false);
+  const [pc, setPC] = useState(false);
+  const [currentImage, setCurrentImage] = useState(props.pcImage.src);
 
   useEffect(() => {
-    setMobile(window.innerWidth <= 650 ? true : false);
-    let mediaQuery = window.matchMedia(mobileQuery);
-    mediaQuery.onchange = (e) => {
-      if (e.matches) {
-        setMobile(true);
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= 650 && width < 700) {
+        setTablet(true);
+        setLaptop(false);
+        setPC(false);
+      } else if (width >= 700 && width < 1280) {
+        setTablet(false);
+        setLaptop(true);
+        setPC(false);
+      } else if (width >= 1280 && width < 1980) {
+        setTablet(false);
+        setLaptop(false);
+        setPC(true);
       } else {
-        setMobile(false);
+        setTablet(false);
+        setLaptop(false);
+        setPC(false);
       }
+
+      setMobile(width <= 650);
     };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
-      mediaQuery.onchange = null;
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  //const [mobile] = useMatchMedia(mobileQuery);
+
+  useEffect(() => {
+    if (mobile) setCurrentImage(props.mobileImage.src);
+    else if (tablet) setCurrentImage(props.tabletImage.src);
+    else if (laptop) setCurrentImage(props.laptopImage.src);
+    else if (pc) setCurrentImage(props.pcImage.src);
+  }, [mobile, tablet, pc, laptop]);
 
   return (
     <a
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${
-          mobile ? props.imageMobile.src : props.image.src
-        })`,
+        backgroundImage: `url(${currentImage})`,
       }}
     >
       {/* <Image
@@ -164,26 +199,30 @@ const Games: FC<GamesProps> = (props) => {
       {/* <GamesTitle></GamesTitle> */}
       <div className={s.games_row}>
         <Game
-          name={"COINFLIP"}
+          name={"Poker"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            "A game where you have to beat your opponent with a chip"
           }
           link={"/games/CoinFlip"}
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
-          image={CoinflipBackground}
-          imageMobile={pokerMobileBg}
+          pcImage={pokerMainBg}
+          tabletImage={pokerTabletBg}
+          laptopImage={pokerLaptopBg}
+          mobileImage={pokerMobileBg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            "A game where you have to beat your opponent with a chip"
           }
           link={"/games/RockPaperScissors"}
           image_colored={RPSColoredIcon}
           image_blend={RPSBlendIcon}
-          image={DiceBackground}
-          imageMobile={rockPaperScissorsMobileBg}
+          tabletImage={pokerTabletBg}
+          laptopImage={pokerLaptopBg}
+          mobileImage={pokerMobileBg}
+          pcImage={pokerMainBg}
         />
         {/* <Game
                 name={'ROCK PAPER SCISSORS'}
@@ -205,13 +244,15 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"DICE"}
           description={
-            "DICE GAME very long description that needs to be wrapped to the new line"
+            "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Dice"}
           image_colored={DiceColoredIcon}
           image_blend={DiceBlendIcon}
-          image={RPSBackground}
-          imageMobile={pokerMobileBg}
+          tabletImage={diceTabletBg}
+          laptopImage={diceLaptopBg}
+          mobileImage={diceMobileBg}
+          pcImage={diceMainBg}
         />
 
         {/* <Game

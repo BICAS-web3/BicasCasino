@@ -1,323 +1,328 @@
 .header {
-    height: 80px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding-left: 20px;
-    padding-right: 20px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #252525;
-    position: absolute;
-    z-index: 101;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #252525;
+  position: absolute;
+  z-index: 101;
 }
 
 // .header_profile_ico_wrap {
 //   position: relative;
 // }
 .header_profile_ico_block {
-    cursor: pointer;
-    border-radius: 50%;
-    user-select: none;
-    width: 50px;
-    height: 50px;
-    background: #faa61a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: var(--font-nunito-sans);
-    color: #fff;
-    font-size: 23px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    @media screen and (max-width: 650px) {
-        width: 32px;
-        height: 32px;
-    }
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+  width: 50px;
+  height: 50px;
+  background: #faa61a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-nunito-sans);
+  color: #fff;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  @media screen and (max-width: 650px) {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .emblem {
-    display: flex;
-    flex-direction: row;
-    column-gap: 8px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  justify-content: center;
+  align-items: center;
 }
 
 .burger {
-    width: 50px;
-    height: 50px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #191919;
-    border: 1px solid #202020;
-    border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #191919;
+  border: 1px solid #202020;
+  border-radius: 12px;
 }
 
 .burger:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .left_menu {
-    display: flex;
-    flex-direction: row;
-    column-gap: 42px;
-    justify-content: space-between;
-    align-items: center;
-    width: 237px;
-    padding-right: 36px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  column-gap: 42px;
+  justify-content: space-between;
+  align-items: center;
+  width: 237px;
+  padding-right: 36px;
+  box-sizing: border-box;
 }
 
 .right_menu {
-    display: flex;
-    flex-direction: row;
-    column-gap: 15px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  column-gap: 15px;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
-    display: flex;
-    width: 50px;
-    height: 50px;
-    justify-content: center;
-    align-items: center;
-    background-color: #191919;
-    border: 1px solid #202020;
-    border-radius: 50%;
-    position: relative;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  background-color: #191919;
+  border: 1px solid #202020;
+  border-radius: 50%;
+  position: relative;
 }
 
 .button img {
-    position: relative;
-    z-index: 0;
+  position: relative;
+  z-index: 0;
 }
 
 .button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .new_notification {
-    background-color: #f34b4b;
-    width: 7px;
-    height: 7px;
-    position: absolute;
-    z-index: 10;
-    right: 3px;
-    bottom: 4px;
-    border-radius: 50%;
+  background-color: #f34b4b;
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  z-index: 10;
+  right: 3px;
+  bottom: 4px;
+  border-radius: 50%;
 }
 
 .connect_wallet_button {
-    width: 179px;
-    height: 50px;
-    border-radius: 12px;
-    border: 1px solid #e5c787;
-    background-color: #0f0f0f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #eaeaea;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 21.6px;
-    letter-spacing: 4%;
-    font-family: var(--font-source-sans-3);
-    transition: 0.2s;
+  width: 179px;
+  height: 50px;
+  border-radius: 12px;
+  border: 1px solid #e5c787;
+  background-color: #0f0f0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaeaea;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21.6px;
+  letter-spacing: 4%;
+  font-family: var(--font-source-sans-3);
+  transition: 0.2s;
 }
 
 .connect_wallet_button:hover {
-    cursor: pointer;
-    box-shadow: 0px 0px 11px 0px #f9832c4d;
-    transition: 0.2s;
+  cursor: pointer;
+  box-shadow: 0px 0px 11px 0px #f9832c4d;
+  transition: 0.2s;
 }
 
 .links {
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    padding-left: 34px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-left: 34px;
+  box-sizing: border-box;
 }
 
 .link {
-    color: #eaeaea;
-    text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.3);
-    line-height: 22.78px;
-    letter-spacing: 0.04em;
-    text-align: justify;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: var(--font-source-sans-3);
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
+  color: #eaeaea;
+  text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.3);
+  line-height: 22.78px;
+  letter-spacing: 0.04em;
+  text-align: justify;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-source-sans-3);
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
 }
 
 .link:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .header_avaibleWallet_wrap {
-    visibility: hidden;
-    position: absolute;
-    opacity: 0;
-    right: 20px;
-    top: 85px;
-    transition: all 0.4s;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+  right: 20px;
+  top: 85px;
+  transition: all 0.4s;
 }
 
 .header_avaibleWallet_wrap.avaibleWallet_visible {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
-.header_avaibleWallet_wrap {}
+.header_avaibleWallet_wrap {
+}
 
 .link_active {
-    color: #eaeaea;
-    text-shadow: 0px 0px 11px #f9832c4d;
+  color: #eaeaea;
+  text-shadow: 0px 0px 11px #f9832c4d;
 }
 
 .header_mobile_closeSidebar_btn {
-    border: 0;
-    background: inherit;
+  border: 0;
+  background: inherit;
 }
 
 .icon {
-    width: 24px;
-    height: 25px;
+  width: 24px;
+  height: 25px;
 }
 
 .bottom_menu {
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-    display: none;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 56px;
-    z-index: 10;
-    background: #181818;
-    padding-left: 8px;
-    padding-right: 8px;
-    box-sizing: border-box;
-    flex-wrap: nowrap;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 56px;
+  z-index: 10;
+  background: #181818;
+  padding-left: 8px;
+  padding-right: 8px;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
 }
 
 .bottom_menu .element {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom_menu .element img {
-    width: 16px;
-    height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .bottom_menu .element svg {
-    width: 16px;
-    height: 16px;
+  width: 16px;
+  height: 16px;
 }
 
-.chat {}
+.chat {
+}
 
 @media only screen and (max-width: 1280px) {
-    .header {
-        height: 70px;
-    }
-    .links {
-        justify-content: start;
-    }
-    .link {
-        background-color: transparent;
-    }
-    .left_menu {
-        column-gap: 41px;
-        //width: 170px;
-    }
-    .button {
-        width: 50px;
-        height: 50px;
-    }
+  .header {
+    height: 70px;
+  }
+  .links {
+    justify-content: start;
+  }
+  .link {
+    background-color: transparent;
+  }
+  .left_menu {
+    column-gap: 41px;
+    //width: 170px;
+  }
+  .button {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 @media only screen and (max-width: 650px) {
-    .header_avaibleWallet_wrap {
-        width: 100%;
-        top: 0;
-        height: 100vh;
-        bottom: 0;
-        background: #181818;
-        left: 0;
-        right: 0;
-    }
-    .header {
-        height: 56px;
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-    .links,
+  .header_avaibleWallet_wrap {
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    bottom: 0;
+    background: #181818;
+    left: 0;
+    right: 0;
+  }
+  .button {
+    display: none;
+  }
+  .header {
+    height: 56px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .links,
     .link //.button
-    {
-        display: none;
-        width: 0px;
+  {
+    display: none;
+    width: 0px;
+  }
+  .header_profile_ico_wrap {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  .burger {
+    display: none;
+  }
+  .left_menu {
+    width: 100%;
+  }
+  .left_menu {
+    display: flex;
+    flex-direction: row;
+    column-gap: 42px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .emblem {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .connect_wallet_button {
+    width: 110px;
+    height: 32px;
+    border-radius: 5px;
+    font-size: 10px;
+    line-height: 12px;
+    box-shadow: 0px 0px 11px 0px #f9832c4d;
+  }
+  .bottom_menu {
+    display: flex;
+  }
+  .chat {
+    display: none;
+  }
+  .button {
+    width: 32px;
+    padding: 5px;
+    height: 32px;
+    img {
+      width: 18px;
+      height: 18px;
     }
-    .header_profile_ico_wrap {
-        width: 32px;
-        height: 32px;
-        font-size: 12px;
-    }
-    .burger {
-        display: none;
-    }
-    .left_menu {
-        width: 100%;
-    }
-    .left_menu {
-        display: flex;
-        flex-direction: row;
-        column-gap: 42px;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    .emblem {
-        display: flex;
-        justify-content: flex-start;
-    }
-    .connect_wallet_button {
-        width: 110px;
-        height: 32px;
-        border-radius: 5px;
-        font-size: 10px;
-        line-height: 12px;
-        box-shadow: 0px 0px 11px 0px #f9832c4d;
-    }
-    .bottom_menu {
-        display: flex;
-    }
-    .chat {
-        display: none;
-    }
-    .button {
-        width: 32px;
-        padding: 5px;
-        height: 32px;
-        img {
-            width: 18px;
-            height: 18px;
-        }
-    }
+  }
 }
