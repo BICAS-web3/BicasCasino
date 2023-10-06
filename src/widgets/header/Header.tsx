@@ -128,7 +128,9 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   );
 };
 
-interface RightMenuProps { };
+interface RightMenuProps {
+  isGame: boolean
+};
 const RightMenu: FC<RightMenuProps> = props => {
   const { isConnected, address } = useAccount();
 
@@ -183,7 +185,7 @@ const RightMenu: FC<RightMenuProps> = props => {
   };
   return (
     <div className={s.right_menu}>
-      <NetworkSelect />
+      <NetworkSelect isGame={props.isGame} />
       <div className={s.button}>
         <Image
           src={BellIcon}
@@ -264,7 +266,9 @@ const BottomMenu: FC<BottomMenuProps> = (props) => {
   );
 };
 
-export interface HeaderProps { }
+export interface HeaderProps {
+  isGame: boolean
+}
 export const Header: FC<HeaderProps> = props => {
   return (<>
     <>
@@ -272,7 +276,7 @@ export const Header: FC<HeaderProps> = props => {
         <LeftMenu />
         <Links />
         {/* <NetworkSelect /> */}
-        <RightMenu />
+        <RightMenu isGame={props.isGame} />
       </div>
       <BottomMenu />
     </>

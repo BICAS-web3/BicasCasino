@@ -3,7 +3,7 @@ import arbitrumIco from '../../public/media/networkSelect_icons/arbitrumIco.svg'
 import bnbIco from '../../public/media/networkSelect_icons/bnbChainIco.svg'
 import downIco from '../../public/media/networkSelect_icons/dropDownIco.svg'
 
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from 'next/image';
 import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
@@ -42,7 +42,10 @@ export const networksList = [
   }
 ]
 
-export const NetworkSelect = () => {
+export interface NetworkSelectProps {
+  isGame: boolean
+}
+export const NetworkSelect: FC<NetworkSelectProps> = props => {
   const { chain } = useNetwork();
 
 
@@ -109,7 +112,7 @@ export const NetworkSelect = () => {
               <div className={s.active_network_ico_wrap}>
                 <Image src={`/static/media/networks/${activeNetwork}.svg`} width={30} height={30} alt='' />
               </div>
-              <span className={s.active_network_title}>{currentBalance ? currentBalance : chain?.name}</span>
+              <span className={s.active_network_title}>{currentBalance && props.isGame ? currentBalance : chain?.name}</span>
               <Image className={s.active_network_dropDown_ico} src={downIco} width={9} height={6} alt='' />
             </div>
           )
