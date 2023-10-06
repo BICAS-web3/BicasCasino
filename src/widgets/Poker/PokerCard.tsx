@@ -3,6 +3,7 @@ import s from "./styles.module.scss";
 import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.png";
 import useSound from 'use-sound';
+import * as api from '@/shared/api';
 
 interface itemProps {
   img: StaticImageData;
@@ -21,7 +22,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
   const [cardWidth, setCardWidth] = useState(0);
   const aspectRatio = 1.5;
 
-  const [playRedrawSound] = useSound('/static/media/games_assets/poker/sounds/redrawCard.mp3', { volume: 1 });
+  const [playRedrawSound] = useSound(`/static/media/games_assets/poker/sounds/redrawCard.mp3`, { volume: 1 });
 
   useEffect(() => {
     if (cardRef.current) {
@@ -42,7 +43,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
       {!props.isEmptyCard ? (
         <>
           <div className={s.poker_table_card_front}>
-            <Image src={`/static/media/games_assets/poker/${props.coat}/${props.card}.svg`} alt="card-image" width={200} height={278} />
+            <Image src={`${api.BaseStaticUrl}/static/media/games_assets/poker/${props.coat}/${props.card}.svg`} alt="card-image" width={200} height={278} />
           </div>
           <div className={s.poker_table_card_back}>
             <Image src={backCard} alt="card-image" />
