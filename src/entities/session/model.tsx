@@ -12,6 +12,10 @@ export const $currentTokenDecimals = createStore<number>(0);
 export const $availableAmount = createStore<number>(0);
 export const $newBet = createStore<Api.T_BetInfo | null>(null);
 
+export const $currentBalance = createStore<number | null>(null);
+export const $currentAllowance = createStore<number | null>(null);
+export const $gameAddress = createStore<string | null>(null);
+
 // events
 export const setCurrentPage = createEvent<string>();
 export const logIn = createEvent<{ address: string }>();
@@ -24,7 +28,15 @@ export const setDecimals = createEvent<number>();
 export const setAvailableAmount = createEvent<number>();
 export const setNewBet = createEvent<Api.T_BetInfo>();
 
+export const setBalance = createEvent<number | null>();
+export const setAllowance = createEvent<number | null>();
+export const setGameAddress = createEvent<string | null>();
+
 // handlers
+$currentBalance.on(setBalance, (_, balance) => balance);
+$currentAllowance.on(setAllowance, (_, allowance) => allowance);
+$gameAddress.on(setGameAddress, (_, address) => address);
+
 $currentPage.on(setCurrentPage, (_, current_page) => current_page);
 
 $currentNetwork.on(pickNetwork, (_, picked_network) => picked_network);

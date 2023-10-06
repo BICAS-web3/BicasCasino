@@ -9,14 +9,21 @@ import tableBg from "@/public/media/poker_images/pokerBgImage.png";
 // import testCard5 from "@/public/media/poker_images/testCard5.png";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
-import { sessionModel } from "@/entities/session";
-import { useAccount } from "wagmi";
+import { useAccount, useContractEvent, useContractRead, useContractWrite, useNetwork } from "wagmi";
 import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from 'use-sound';
 import * as GameModel from "@/widgets/GamePage/model";
 export * as PokerModel from "./model";
 import * as PokerModel from "./model";
+import { settingsModel } from "@/entities/settings";
+import { sessionModel } from "@/entities/session";
+import { ABI as IPoker } from "@/shared/contracts/PokerABI";
+import { WagerModel } from "../WagerInputsBlock";
+import { WagerModel as WagerButtonModel } from '../Wager';
+import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+import * as api from '@/shared/api';
+import { TOKENS } from "@/shared/tokens";
 
 const initialArrayOfCards = [
   {
@@ -47,30 +54,218 @@ const initialArrayOfCards = [
 // };
 
 export interface PokerProps {
-  cardsState: boolean[],
-  setCardsState: any,
+  // cardsState: boolean[],
+  // setCardsState: any,
   //initialCards: T_Card[] | undefined,
   //gameState: any | undefined
 }
 
 export const Poker: FC<PokerProps> = (props) => {
   const [
-    newBet,
     playSounds,
-    gameState
+    gameState,
+    gameAddress,
+    currentBalance,
+    cryptoValue,
+    pickedToken,
+    Wagered,
+    setWagered,
+    allowance,
+    setGameStatus,
+    setWonStatus,
+    setLostStatus,
+    flipShowFlipCards,
+    setShowFlipCards
+    //gameStatus
+    //availableTokens
   ] = useUnit([
-    sessionModel.$newBet,
     GameModel.$playSounds,
-    PokerModel.$gameState
+    PokerModel.$gameState,
+    sessionModel.$gameAddress,
+    sessionModel.$currentBalance,
+    WagerModel.$cryptoValue,
+    WagerModel.$pickedToken,
+    WagerButtonModel.$Wagered,
+    WagerButtonModel.setWagered,
+    sessionModel.$currentAllowance,
+    GameModel.setGameStatus,
+    GameModel.setWonStatus,
+    GameModel.setLostStatus,
+    PokerModel.flipShowFlipCards,
+    PokerModel.setShowFlipCards
+    //GameModel.$gameStatus
+    //settingsModel.$AvailableTokens
   ]);
+
+
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
+  const { chain } = useNetwork();
 
+  const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const [playBackground, { stop: stopBackground }] = useSound('/static/media/games_assets/music/background1.wav', { volume: 0.1, loop: true });
   const [playDrawnCards] = useSound('/static/media/games_assets/poker/sounds/cardsEveryone.mp3');
   const [playNewCards] = useSound('/static/media/games_assets/poker/sounds/2cards.mp3');
   const [transactionHash, setTransactionHash] = useState<string>('');
+  const [inGame, setInGame] = useState<boolean>(false);
+
+  const [watchState, setWatchState] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   if (!gameStatus) {
+  //     setActiveCards(initialArrayOfCards);
+  //   }
+  // }, [gameStatus])
+
+  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+    chainId: chain?.id,
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'getVRFFee',
+    args: [500000],
+    // onSuccess: (fees: bigint) => {
+    //   console.log('fees', fees);
+    // },
+    watch: true,
+  });
+
+  const { data: GameState, refetch: fetchGameState } = useContractRead({
+    chainId: chain?.id,
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'VideoPoker_GetState',
+    args: [address],
+    //watch: watchState,
+    watch: true,
+    //blockTag: 'latest' as any
+  });
+
+  useEffect(() => {
+    if (GameState) {
+      if ((GameState as any).ingame) {
+
+        if (!(GameState as any).isFirstRequest && (GameState as any).requestID == 0) {
+          flipShowFlipCards();
+          setInGame(true);
+          setActiveCards((GameState as any).cardsInHand);
+          setWatchState(true);
+          //setShowRedraw(true);
+          // show redrawing cards info
+        }
+      } else {
+        // setCardsState([false, false, false, false, false]);
+        // setInGame(false);
+        // setShowRedraw(false);
+      }
+      setWatchState(false);
+    }
+  }, [GameState]);
+
+  const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite({
+    chainId: chain?.id,
+    address: (pickedToken?.contract_address as `0x${string}`),
+    abi: IERC20,
+    functionName: 'approve',
+    args: [gameAddress, currentBalance ? BigInt(currentBalance * 10000) * BigInt(100000000000000) : 0]
+  });
+
+  const { write: startPlaying, isSuccess: startedPlaying } = useContractWrite({
+    chainId: chain?.id,
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'VideoPoker_Start',
+    args: [BigInt(Math.floor(cryptoValue * 10000)) * BigInt(100000000000000), pickedToken?.contract_address],
+    value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10),
+    //gas: BigInt(500000)
+  });
+
+  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite({
+    chainId: chain?.id,
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    functionName: 'VideoPoker_Replace',
+    args: [cardsState],
+    value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0),
+    //gas: BigInt(500000)
+  });
+
+  useEffect(() => {
+    console.log("Pressed wager");
+    if (Wagered) {
+      if (inGame) {
+        setShowFlipCards(false);
+        finishPlaying();
+      } else {
+        console.log(cryptoValue, currentBalance);
+        if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
+          console.log('Allowance', allowance);
+          if (allowance && allowance <= cryptoValue) {
+            setAllowance();
+            //return;
+          } else {
+            setActiveCards(initialArrayOfCards);
+            startPlaying();
+          }
+        }
+      }
+      setWagered(false);
+    }
+  }, [Wagered]);
+
+  useEffect(() => {
+    setWatchState(true);
+  }, [startedPlaying]);
+
+  // useEffect(() => {
+  //   console.log("available tokens", availableTokens);
+  // }, [availableTokens])
+
+  useContractEvent({
+    address: (gameAddress as `0x${string}`),
+    abi: IPoker,
+    eventName: 'VideoPoker_Outcome_Event',
+    listener(log) {
+      console.log('Log', log);
+      if ((log[0] as any).eventName == 'VideoPoker_Outcome_Event') {
+        //console.log('Log', log);
+        console.log('address', ((log[0] as any).args.playerAddress as string));
+        console.log('address wallet', address?.toLowerCase());
+        if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
+          console.log("Found Log!");
+          setActiveCards((log[0] as any).args.playerHand);
+          setCardsState([false, false, false, false, false]);
+          setInGame(false);
+
+          const wagered = (log[0] as any).args.wager;
+          if ((log[0] as any).args.payout > 0) {
+            console.log("won");
+            const profit = (log[0] as any).args.payout;
+            console.log("profit", profit);
+            const multiplier = Number(profit / wagered);
+            console.log("multiplier", multiplier);
+            //console.log("token", ((log[0] as any).args.tokenAddress as string).toLowerCase());
+            const wagered_token = ((log[0] as any).args.tokenAddress as string).toLowerCase();
+            const token = TOKENS.find((tk) => tk.address == wagered_token)?.name//TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+            console.log("won token", token);
+            //console.log("available tokens", availableTokens);
+            const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+            setWonStatus({ profit: profitFloat, multiplier, token: token as string });
+            setGameStatus(GameModel.GameStatus.Won);
+          } else {
+            console.log("lost");
+            const wageredFloat = Number(wagered / BigInt(10000000000000000)) / 100;
+            console.log("wagered", wageredFloat);
+            setLostStatus(wageredFloat);
+            setGameStatus(GameModel.GameStatus.Lost);
+          }
+          //setShowRedraw(false);
+        }
+      } else {
+        console.log("Wrong Log!");
+      }
+    },
+  });
 
   useEffect(() => {
     console.log("Play sounds", playSounds);
@@ -95,25 +290,6 @@ export const Poker: FC<PokerProps> = (props) => {
 
   }, [playBackground]);
 
-  // useEffect(() => {
-  //   const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-  //   const run = async () => {
-  //     if (newBet && isConnected && newBet.player.toLowerCase() == address?.toLowerCase()) {
-  //       setTransactionHash(newBet.transaction_hash)
-  //       if (newBet.game_name == 'PokerStart') {
-  //         playDrawnCards();
-  //         setActiveCards(newBet.player_hand as any);
-  //       } else if (newBet.game_name == "Poker") {
-  //         playNewCards();
-  //         setActiveCards(newBet.player_hand as any);
-  //         await delay(5000);
-  //         setActiveCards(initialArrayOfCards);
-  //       }
-  //       //setTransactionHash(newBet.transaction_hash)
-  //     }
-  //   }
-  //   run();
-  // }, [newBet, isConnected]);
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards);
@@ -140,9 +316,9 @@ export const Poker: FC<PokerProps> = (props) => {
               return (item.number == -1 ?
                 <PokerCard
                   key={ind}
-                  isEmptyCard={true}
-                  coat={undefined}
-                  card={undefined}
+                  isEmptyCard={false}
+                  coat={0}
+                  card={0}
                   onClick={() => { }}
                 /> :
                 <PokerCard
@@ -151,9 +327,9 @@ export const Poker: FC<PokerProps> = (props) => {
                   coat={item.suit}
                   card={item.number}
                   onClick={() => {
-                    const cards = props.cardsState;
+                    const cards = cardsState;
                     cards[ind] = !cards[ind];
-                    props.setCardsState([...cards]);
+                    setCardsState([...cards]);
                   }} />)
             }
             )}

@@ -1,0 +1,92 @@
+.custom_range_input_wrap {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  background: #0f0f0f;
+  padding: 10px 15px;
+}
+
+.custom_range_input_layout {
+  margin-top: 20px;
+}
+
+.custom_range_input_title {
+  font-family: var(--font-source-sans-3);
+  color: #7e7e7e;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  margin-bottom: 5px;
+}
+
+.custom_range_input {
+  -webkit-appearance: none;
+  -moz-apperance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.custom_range_input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #d9d9d9;
+  border-radius: 50%;
+  filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25));
+  cursor: pointer;
+}
+
+.custom_range_input {
+  background: #202020;
+  width: 100%;
+  height: 6px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+}
+
+.custom_range_input_body {
+  position: relative;
+  width: 100%;
+  height: 6px;
+}
+
+.custom_range_track {
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 5px;
+    left: 0;
+    height: 5px;
+    width: var(--track-width);
+    background: linear-gradient(to right, #f8eeb8, #dbb370, #8e5b2d);
+  }
+}
+
+.custom_range_input_max_value {
+  color: #7e7e7e;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  font-family: var(--font-nunito-sans);
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+.custom_range_input_active_value {
+  min-width: 18px;
+  color: #eaeaea;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  font-family: var(--font-nunito-sans);
+  text-transform: uppercase;
+  margin-right: 5px;
+}

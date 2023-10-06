@@ -2,7 +2,7 @@
 const nextConfig = {}
 
 module.exports = {
-    basePath: '/test',
+    //basePath: '/',
     async rewrites() {
         return [
         ]

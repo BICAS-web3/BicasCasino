@@ -123,6 +123,44 @@
   align-items: unset;
 }
 
+.button {
+  position: relative;
+}
+
+.button:hover > .games_button_tooltip {
+  display: flex;
+}
+
+.games_button_tooltip {
+  white-space: nowrap;
+  position: absolute;
+  padding: 11px 20px;
+  left: 120%;
+  color: #7e7e7e;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 90%;
+  letter-spacing: 0.64px;
+  display: none;
+  font-family: var(--font-source-sans-3);
+  border-radius: 8px;
+  background: #282828;
+  justify-content: center;
+  align-items: center;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #282828 transparent transparent;
+    border-radius: 2px;
+  }
+}
+
 .buttons_holder {
   box-sizing: border-box;
   width: 100%;
@@ -133,6 +171,10 @@
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid #1d1d1d;
+}
+
+.tg_sidebar_ico {
+  margin-left: 5px;
 }
 
 .buttons_menu {
@@ -234,15 +276,28 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 17.94px;
+  background: #121212;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .game_row:hover {
-  cursor: pointer;
+  box-sizing: border-box;
+  border-left: 1px solid #e4c480;
+  margin-left: -1px;
+  background: linear-gradient(0.25turn, rgba(198, 149, 81, 0.041) 5%, #0d0d0d);
+  color: #e5c787;
+  svg > path {
+    fill: #e5c787;
+  }
 }
 
-.picked_game_row {
-  border-left: 1px solid #e4c480;
-  background: linear-gradient(0.25turn, rgba(198, 149, 81, 0.041) 5%, #0d0d0d);
+.button:hover {
+  background: #0d0d0d;
+  border-radius: 12px;
+  svg > path {
+    fill: #e5c787;
+  }
 }
 
 .support {
@@ -295,7 +350,7 @@
 
 @media only screen and (max-width: 1280px) {
   .side_bar_opened {
-    width: 18.75vw;
+    width: 257px;
     min-width: 200px;
     z-index: 10;
   }
@@ -315,19 +370,19 @@
     width: 80%;
   }
   .side_bar_closed {
-    width: 65px;
+    width: 90px;
   }
 }
 
 @media screen and (max-width: 996px) {
   .side_bar_closed {
-    width: 55px;
+    width: 90px;
   }
 }
 
 @media only screen and (max-width: 700px) {
   .side_bar_opened {
-    width: 18.75vw;
+    width: 240px;
     min-width: 200px;
     z-index: 3;
     min-height: 1576px;

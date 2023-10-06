@@ -16,6 +16,7 @@ import { SessionInit } from "../SessionSettings";
 
 interface LayoutProps {
   children?: any;
+  gameName: string | undefined
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [
@@ -35,7 +36,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       <SettingsInit />
       {wagmiConfig != null ?
         <WagmiConfig config={wagmiConfig}>
-          <SessionInit />
+          <SessionInit game={props.gameName} />
           <div className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}>
             <Header />
             <div className={`${s.side_bar_wrapper} ${isOpen && s.sideBar_opened}`}>

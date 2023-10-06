@@ -30,14 +30,16 @@ $AvailableRpcs.on(Api.getRpcsFx.doneData, (_, payload) => {
     return (payload.body as Api.T_Rpcs);
 })
 
-$AvailableTokens.on(Api.getTokens.doneData, (_, payload) => {
-    console.log(`Tokens: ${JSON.stringify(payload)}`);
-    return (payload.body as Api.T_Tokens);
-})
+// $AvailableTokens.on(Api.getTokens.doneData, (_, payload) => {
+//     console.log(`Tokens: ${JSON.stringify(payload)}`);
+//     return (payload.body as Api.T_Tokens);
+// }).on(setAvailableTokens, (_, tokens) => tokens);
+
+$AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
 
 $AvailableNetworks.on(setAvailableNetworks, (_, networks) => networks);
 $AvailableRpcs.on(setAvailableRpcs, (_, rpcs) => rpcs);
-$AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
+//$AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
 $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
     // var explorers_map = new Map<number, Api.T_BlockExplorerUrl>();
     // for (var exp of explorers.explorers) {

@@ -89,7 +89,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         {
           props.isGamePage && (
             <div className={s.customBets_switch_bets_btns}>
-              <button
+              {/* <button
                 className={s.customBets_btn}
                 data-active={activePage == Page.AllBets ? 'active' : ''}
                 onClick={() => {
@@ -103,7 +103,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 onClick={() => {
                   //setActivePage(Page.MyBets); 
                   //setFirstRun(true); 
-                }}>my bets</button>
+                }}>my bets</button> */}
             </div>
           )
         }

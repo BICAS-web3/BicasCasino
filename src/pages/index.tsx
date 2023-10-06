@@ -16,7 +16,7 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
-import { LiveBetsModel } from '@/widgets/LiveBets';
+import { LiveBetsModel, LiveBetsWS } from '@/widgets/LiveBets';
 import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
 import { SideBar, SideBarModel } from '@/widgets/SideBar';
 
@@ -36,12 +36,12 @@ import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { useUnit } from "effector-react";
 import { createStore } from "effector";
-import * as BlurModel from '@/widgets/Blur/model'
-import { Account } from "@/widgets/Account";
-import { Wager } from "@/widgets/Wager/Wager";
-import { LiveBetsWS } from '@/widgets/LiveBets';
-import { settingsModel } from '@/entities/settings';
-import { useAccount } from "wagmi";
+import * as BlurModel from "@/widgets/Blur/model";
+import { Poker } from "@/widgets/Poker/Poker";
+import PokerGame from "./games/Poker";
+import CoinFlipGame from "./games/CoinFlip";
+import { settingsModel } from "@/entities/settings";
+import { useAccount } from 'wagmi';
 import Link from "next/link";
 
 const mobileQuery = "(max-width: 650px)";
@@ -82,7 +82,9 @@ const Game: FC<GameProps> = (props) => {
         setMobile(false);
       }
     };
-    return () => { mediaQuery.onchange = null };
+    return () => {
+      mediaQuery.onchange = null;
+    };
   }, []);
   //const [mobile] = useMatchMedia(mobileQuery);
 
@@ -283,26 +285,20 @@ export default function Home() {
 
       <LiveBetsWS subscription_type={'SubscribeAll'} subscriptions={[]} />
       <Layout>
-
-        <div className={s.background_container}>
-          <Image
-            src={MainPageBackground}
-            alt={''}
-            className={s.background}
-          />
-          <div className={s.background_gradient}>
-
-          </div>
-
-        </div>
+        {/* <div> */}
 
         <div className={`${s.main_container}`}>
+          <div className={s.background_container}>
+            <Image src={MainPageBackground} alt={""} className={s.background} />
+            <div className={s.background_gradient}></div>
+          </div>
           <BannerInfo />
           <Games />
           <Total />
           <CustomBets title='Live bets' isMainPage={true} isGamePage={false} game={undefined} />
           {/* <LeaderBoard /> */}
         </div>
+        {/* </div> */}
       </Layout>
 
 

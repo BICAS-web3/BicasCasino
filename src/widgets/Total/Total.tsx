@@ -4,18 +4,24 @@ import s from './styles.module.scss';
 import locker from "../../public/media/total/locker.png";
 import star from "../../public/media/total/star.png";
 import trophy from "../../public/media/total/trophy.png";
+import { SideBarModel } from '../SideBar';
+import { useUnit } from 'effector-react';
 import * as Api from '@/shared/api';
 
 const triplex = (n: string): string => n.replace(/(?!^)(\d{3})(?=(\d{3})*$)/g, " $1");
 
 
 export interface TotalItemProps { description: string; image: any, dollar?: boolean, statistics: number | string };
-
-
 const TotalItem: FC<TotalItemProps> = props => {
-    return (<div className={s.total_item}>
+    const [
+        isSideBarOpen
+    ] = useUnit([
+        SideBarModel.$isOpen
+    ]);
 
-        <div className={s.total_item_image}>
+    return (<div className={`${s.total_item} ${isSideBarOpen && s.open_sidebar}`}>
+
+        {/* <div className={s.total_item_image}>
             <div className={s.total_item_bg_image}>
 
             </div>
@@ -23,14 +29,24 @@ const TotalItem: FC<TotalItemProps> = props => {
                 alt=''
                 className={s.image}
             />
+        </div> */}
+        <div className={s.total_item_overflow_container}>
+            <div className={s.total_item_bg_image}>
+
+            </div>
+
+            <div className={s.description}>
+                {props.description}
+            </div>
+            <div className={s.statistic}>
+                {props.dollar ? `$ ${props.statistics}` : `${props.statistics}`}
+            </div>
         </div>
 
-        <div className={s.description}>
-            {props.description}
-        </div>
-        <div className={s.statistic}>
-            {props.dollar ? `$ ${props.statistics}` : `${props.statistics}`}
-        </div>
+        <Image src={props.image}
+            alt=''
+            className={s.image}
+        />
     </div>);
 }
 

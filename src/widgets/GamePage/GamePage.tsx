@@ -21,27 +21,22 @@ import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
 
 import * as GameModel from './model';
 import { Notification } from "../Notification";
+import { WinMessage } from "@/widgets/WinMessage";
+import { LostMessage } from "@/widgets/LostMessage";
+import Image from "next/image";
 
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
   gameInfoText: string;
-  game: string;
-  onWager: (tokenAmount: number) => Promise<void>;
-  onTokenChange: (token: api.T_Token) => Promise<void>;
-  onTokenAmountChange: (tokenAmount: number) => void;
-  inGame: boolean
+  wagerContent: any;
 }
 
 export const GamePage: FC<GamePageProps> = ({
   children,
   gameTitle,
   gameInfoText,
-  game,
-  onWager,
-  onTokenChange,
-  onTokenAmountChange,
-  inGame
+  wagerContent,
 }) => {
 
   const { address, isConnected } = useAccount();
@@ -51,63 +46,61 @@ export const GamePage: FC<GamePageProps> = ({
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
 
-  //if (currentToken) {
-  // const { config } = usePrepareContractWrite({
-  //   address: (currentToken?.token.contract_address) as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: 'balanceOf',
-  //   args: [address],
-  //   enabled: true,
-  // });
+
   const { data: balance, error, isError, refetch: fetchBalance } = useContractRead({
     address: (currentToken?.token.contract_address) as `0x${string}`,
     abi: IERC20,
     functionName: 'balanceOf',
     args: [address],
   });
-  // useEffect(() => {
-  //   console.log('Data', data);
-  // }, [data]);
-  //}
 
   const [
-    availableTokens
+    availableTokens,
+    gameStatus,
+    setGameStatus,
+    profit,
+    multiplier,
+    token,
+    lost,
+    clearStatus
   ] = useUnit([
-    settingsModel.$AvailableTokens
+    settingsModel.$AvailableTokens,
+    GameModel.$gameStatus,
+    GameModel.setGameStatus,
+
+    GameModel.$profit,
+    GameModel.$multiplier,
+    GameModel.$token,
+    GameModel.$lost,
+    GameModel.clearStatus
   ]);
-
-  useEffect(() => {
-    const run = async () => {
-      const price = ((await api.GetTokenPriceFx(availableTokens.tokens[0].name)).body as api.T_TokenPrice).token_price;
-      setCurrentToken({ token: availableTokens.tokens[0], price: price, });
-      await onTokenChange(availableTokens.tokens[0]);
-    };
-    if (availableTokens.tokens.length != 0) {
-      run();
-
-    }
-  }, [availableTokens]);
-
-
-  // useEffect(() => {
-  //   if(!chain){
-  //     setAvailableTokens([]);
-  //     return;
-  //   }
-
-  // }, [chain]);
 
   const [setBlur] = useUnit([BlurModel.setBlur]);
 
-  const handleModalVisibilityChange = () => {
-    !modalVisibility && setBlur(true);
-    setModalVisibility(!modalVisibility);
-  };
+  // const handleModalVisibilityChange = () => {
+  //   !modalVisibility && setBlur(true);
+  //   setModalVisibility(!modalVisibility);
+  // };
 
   const closeModal = () => {
     setModalVisibility(false);
     setBlur(false);
   };
+
+  useEffect(() => {
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+    const run = async () => {
+      await sleep(2000);
+      clearStatus();
+    };
+    if (gameStatus == GameModel.GameStatus.Lost) {
+      run();
+    }
+  }, [gameStatus]);
+
+  // const won = false;
+  // const lost = false;
 
   return (
     <div className={s.game_layout}>
@@ -123,17 +116,16 @@ export const GamePage: FC<GamePageProps> = ({
             <div className={s.game_block}>
               <h2 className={s.game_title}>{gameTitle}</h2>
               {children}
+
+              {gameStatus == GameModel.GameStatus.Won && <div className={s.win_wrapper}>
+                <WinMessage tokenImage={<Image src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`} alt={''} width={30} height={30} />} profit={profit.toFixed(2)} multiplier={Number(multiplier.toFixed(2)).toString()} />
+              </div>}
+
+              {gameStatus == GameModel.GameStatus.Lost && <div className={s.lost_wrapper}>
+                <LostMessage amount={lost.toFixed(2)} />
+              </div>}
             </div>
-            <Wager
-              game={game}
-              tokenAvailableAmount={(balance as number | undefined) ? Number((balance as bigint) / BigInt(10000000000000000)) / 100 : 0}
-              tokenPrice={currentToken ? currentToken.price : 0}
-              onWager={onWager}
-              tokens={availableTokens.tokens}
-              activeToken={currentToken ? currentToken.token : undefined}
-              setActiveToken={undefined}
-              onTokenAmountChange={onTokenAmountChange}
-              wagerButtonActive={!inGame} />
+            <Wager wagerContent={wagerContent} />
           </div>
           <div>
             <CustomBets
@@ -141,23 +133,6 @@ export const GamePage: FC<GamePageProps> = ({
               isGamePage={true}
               isMainPage={false}
               game={undefined}
-            // bets={[
-            //   {
-            //     time: { date: "25.08.23", time: "17:05" },
-            //     game_name: "Dice",
-            //     player: "UserName",
-            //     wager: 11,
-            //     multiplier: 3,
-            //     profit: 5.34,
-            //     userBg: "#3DBCE5",
-            //     player_url: "test",
-            //     trx_url: "test",
-            //     game_url: "test",
-            //     network_icon: "test",
-            //     numBets: 1,
-            //     gameAddress: "0x563...4ba9",
-            //   },
-            // ]}
             />
           </div>
         </div>
