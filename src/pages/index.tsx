@@ -46,6 +46,7 @@ import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { useUnit } from "effector-react";
 import { createStore } from "effector";
 import * as BlurModel from "@/widgets/Blur/model";
+import * as SidebarModel from "@/widgets/SideBar/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
@@ -81,6 +82,8 @@ const Game: FC<GameProps> = (props) => {
   const [laptop, setLaptop] = useState(false);
   const [pc, setPC] = useState(false);
   const [currentImage, setCurrentImage] = useState(props.pcImage.src);
+
+  const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -124,7 +127,7 @@ const Game: FC<GameProps> = (props) => {
 
   return (
     <a
-      className={s.game_link}
+      className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
       href={props.link}
       style={{
         backgroundImage: `url(${currentImage})`,
