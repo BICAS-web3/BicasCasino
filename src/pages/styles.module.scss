@@ -7,24 +7,28 @@
 .main_container {
 	display: flex;
 	flex-direction: column;
-	row-gap: 60px;
+	row-gap: 50px;
 	width: calc(100% - 100px);
-	padding: 100px 50px 0 50px;
+	padding: 150px 50px 0 50px;
+
+	@media screen and (max-width: 815px) {
+		row-gap: 35px;
+	}
 
 	@media screen and (max-width: 650px) {
-		row-gap: 37px;
+		row-gap: 43px;
 	}
 
 	@media screen and (max-width: 530px) {
-		row-gap: 17px;
+		row-gap: 23px;
 	}
 
 	@media screen and (max-width: 420px) {
-		row-gap: 27px;
+		row-gap: 4px;
 	}
 
 	@media screen and (max-width: 350px) {
-		row-gap: 9px;
+		row-gap: 0;
 	}
 }
 
@@ -39,10 +43,10 @@
 .background_container {
 	position: absolute;
 	right: 0;
-	height: 714.267px;
+	height: 614.267px;
 	width: 100%;
 	z-index: -1;
-	top: 0;
+	top: -15px;
 
 	@media screen and (max-width: 1700px) {
 		height: 600px;
@@ -111,9 +115,11 @@
 	width: 100vw;
 	height: 350px;
 
-	@media screen and (min-width: 951px) {
+	@media screen and (min-width: 891px) {
 		display: none;
 	}
+
+
 
 	@media screen and (max-width: 650px) {
 		height: 260px;
@@ -124,11 +130,7 @@
 	}
 
 	@media screen and (max-width: 420px) {
-		height: 230px;
-	}
-
-	@media screen and (max-width: 350px) {
-		height: 210px;
+		height: 220px;
 	}
 }
 
@@ -140,7 +142,7 @@
 
 	//left: 90px;
 	//height: fit-content;
-	@media screen and (max-width: 950px) {
+	@media screen and (max-width: 890px) {
 		display: none;
 	}
 
@@ -347,9 +349,10 @@
 	}
 
 	.main_container {
-		padding-left: 30px;
-		padding-right: 30px;
+		padding-left: 20px;
+		padding-right: 20px;
 		width: 100%;
+		padding-top: 110px
 	}
 
 	.games,
@@ -387,7 +390,7 @@
 		right: 0px;
 		width: 100%;
 		top: 76px;
-		padding: 100px 0 0 0;
+		padding: 80px 0 0 0;
 	}
 
 	.games {
