@@ -35,9 +35,9 @@ export const CustomButton: FC<ICustomButton> = (props) => {
   if (props.link) {
     return (
       <Link href={props.link} target="_blank">
-        <a target="_blank" className={buttonClasses}>
+        <Link target="_blank" className={buttonClasses} href={""}>
           <span className={styles.text}>{props.text}</span>
-        </a>
+        </Link>
       </Link>
     );
   }

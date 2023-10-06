@@ -16,20 +16,20 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
-import { LiveBets } from "@/widgets/LiveBets";
-import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
-import { SideBar, SideBarModel } from "@/widgets/SideBar";
+import { LiveBetsModel, LiveBetsWS } from '@/widgets/LiveBets';
+import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
+import { SideBar, SideBarModel } from '@/widgets/SideBar';
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/PokerMobileBg.png";
 import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
 import CoinflipBackground from "@/public/media/games_assets/coinflip/Background.png";
+import PokerBackground from "@/public/media/games/poker.png";
 import RPSBackground from "@/public/media/games_assets/rock_paper_scissors/Background.png";
 import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
@@ -40,6 +40,9 @@ import * as BlurModel from "@/widgets/Blur/model";
 import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
+import { settingsModel } from "@/entities/settings";
+import { useAccount } from 'wagmi';
+import Link from "next/link";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -86,32 +89,23 @@ const Game: FC<GameProps> = (props) => {
   //const [mobile] = useMatchMedia(mobileQuery);
 
   return (
-    <a
+    <Link
       className={s.game_link}
       href={props.link}
       style={{
-        backgroundImage: `url(${
-          mobile ? props.imageMobile.src : props.image.src
-        })`,
+        backgroundImage: `url(${mobile ? props.imageMobile.src : props.image.src
+          })`,
       }}
     >
-      {/* <Image
-            src={DiceBackground}
-            alt={''}
-            className={s.game_image}
-        /> */}
       <div className={s.game}>
         <div className={s.game_info}>
           <div className={s.game_name}>
             {props.name}
-            {/* <div className={s.game_arrow}>
-                        {'>'}
-                    </div> */}
           </div>
           <div className={s.game_description}>{props.description}</div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 
@@ -131,32 +125,25 @@ const GameBlured: FC<GameProps> = (props) => {
   // const onMouseLeave = () => setIsHovered(false);
 
   return (
-    <div className={s.game_link}>
-      <div className={s.game_blured}>
-        <div className={s.comming_soon}>
-          <div>Comming Soon</div>
-        </div>
-        <div className={`${s.game_info} ${s.blured}`}>
+    <div
+      className={s.game_link}
+      style={{
+        backgroundImage: `url(${props.image.src})`,
+      }}
+    >
+      <div className={s.game}>
+        <div className={s.game_info}>
           <div className={s.game_name}>
             {props.name}
-            <div className={s.game_arrow}>{">"}</div>
           </div>
           <div className={s.game_description}>{props.description}</div>
         </div>
-
-        <Image
-          className={`${s.game_icon} ${s.blured}`}
-          src={props.image_colored}
-          alt=""
-          width={undefined}
-          height={undefined}
-        />
       </div>
     </div>
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -164,20 +151,20 @@ const Games: FC<GamesProps> = (props) => {
       {/* <GamesTitle></GamesTitle> */}
       <div className={s.games_row}>
         <Game
-          name={"COINFLIP"}
+          name={"POKER"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            "Basic Poker game, where you have to get lucky with card combination."
           }
-          link={"/games/CoinFlip"}
+          link={"/games/Poker"}
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
-          image={CoinflipBackground}
+          image={PokerBackground}
           imageMobile={pokerMobileBg}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
           description={
-            "COINFLIP GAME very long description that needs to be wrapped to the new line"
+            ""
           }
           link={"/games/RockPaperScissors"}
           image_colored={RPSColoredIcon}
@@ -196,16 +183,16 @@ const Games: FC<GamesProps> = (props) => {
 
       <div className={s.games_row}>
         {/* <GameBlured
-                name={'DICE'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/dice'}
-                image_colored={DiceColoredIcon}
-                image_blend={DiceBlendIcon}
-            /> */}
+          name={'DICE'}
+          description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
+          link={'/games/dice'}
+          image_colored={DiceColoredIcon}
+          image_blend={DiceBlendIcon}
+        /> */}
         <Game
           name={"DICE"}
           description={
-            "DICE GAME very long description that needs to be wrapped to the new line"
+            ""
           }
           link={"/games/Dice"}
           image_colored={DiceColoredIcon}
@@ -226,53 +213,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
-const GamesTitle: FC<GamesTitleProps> = (props) => {
-  return (
-    <div className={s.games_title}>
-      <div>Games</div>
-      {/* <div className={s.games_more}>
-            <div>
-                Show More
-            </div>
-            <div>
-                {'>'}
-            </div>
-        </div> */}
-    </div>
-  );
-};
-
-// interface TotalProps { name: string, value: string };
-// const Total: FC<TotalProps> = props => {
-//     return (<div className={s.total}>
-//         <div className={s.total_name}>
-//             {props.name}
-//         </div>
-//         <div className={s.total_value}>
-//             {props.value}
-//         </div>
-//     </div>)
-// }
-
-// interface TotalInfoProps { };
-// const TotalInfo: FC<TotalInfoProps> = props => {
-//     return (<div className={s.total_info}>
-//         <Total
-//             name="Total wagered"
-//             value="10000000" />
-
-//         <Total
-//             name="Total bets"
-//             value="10000000" />
-
-//         <Total
-//             name="Total users"
-//             value="10000000" />
-//     </div>)
-// }
-
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -281,6 +222,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     MainWallet.Open,
     BlurModel.setBlur,
   ]);
+
+  const { isConnected } = useAccount();
 
   const hideAvaibleWallet = () => {
     close();
@@ -305,14 +248,13 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     <div className={s.banner_info}>
       <div className={s.header}>Top 1 Casino on the WEB3</div>
       <div className={s.connect_wallet_container}>
-        <div className={s.text}>Login via Web3 wallets</div>
-        <div className={s.button} onClick={handleConnectWalletBtn}>
-          Connect Wallet
-        </div>
+        {!isConnected && <><div className={s.text}>Login via Web3 wallets</div>
+          <div className={s.button} onClick={handleConnectWalletBtn}>
+            Connect Wallet
+          </div></>}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -322,13 +264,27 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
 };
 
 export default function Home() {
+  const [
+    Bets,
+    AvailableBlocksExplorers
+  ] = useUnit([
+    LiveBetsModel.$Bets,
+    settingsModel.$AvailableBlocksExplorers
+  ]);
+
+  useEffect(() => {
+    console.log("New bets");
+  }, [Bets]);
+
+
   return (
     <>
       <Head>
         <title>NFT Play | Home page</title>
       </Head>
 
-      <Layout>
+      <LiveBetsWS subscription_type={'SubscribeAll'} subscriptions={[]} />
+      <Layout gameName={undefined}>
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
@@ -339,32 +295,12 @@ export default function Home() {
           <BannerInfo />
           <Games />
           <Total />
-          <CustomBets
-            title="Live bets"
-            isMainPage={true}
-            isGamePage={false}
-            bets={[
-              {
-                time: { date: "25.08.23", time: "17:05" },
-                game_name: "Dice",
-                player: "UserName",
-                wager: 11,
-                multiplier: 3,
-                profit: 5.34,
-                userBg: "#3DBCE5",
-                player_url: "test",
-                trx_url: "test",
-                game_url: "test",
-                network_icon: "test",
-                numBets: 1,
-                gameAddress: "0x563...4ba9",
-              },
-            ]}
-          />
-          <LeaderBoard />
+          <CustomBets title='Live bets' isMainPage={true} isGamePage={false} game={undefined} />
+          {/* <LeaderBoard /> */}
         </div>
         {/* </div> */}
       </Layout>
+
 
       {/* <Footer />
       <InvitesList />

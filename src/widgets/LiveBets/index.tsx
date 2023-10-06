@@ -1,2 +1,2 @@
 export * from './LiveBets';
-export * as Model from './model';
+export * as LiveBetsModel from './model';

@@ -6,6 +6,12 @@
   max-width: 185px;
 }
 
+.error {
+  .active_network_ico_wrap {
+    padding: 0;
+  }
+}
+
 .network_select_body {
   user-select: none;
   cursor: pointer;
