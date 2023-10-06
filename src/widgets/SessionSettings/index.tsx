@@ -35,57 +35,57 @@ export const SessionInit: FC<SessionInitProps> = props => {
         WagerModel.$pickedToken
     ]);
 
-    if (props.game) {
-        useEffect(() => {
-            if (!chain) {
-                return;
-            }
+    //if (props.game) {
+    useEffect(() => {
+        if (!chain || !props.game) {
+            return;
+        }
 
-            const run = async () => {
-                const game = (await Api.getGame({
-                    network_id: chain.id,
-                    game_name: props.game as string
-                })).body as Api.T_Game;
+        const run = async () => {
+            const game = (await Api.getGame({
+                network_id: chain.id,
+                game_name: props.game as string
+            })).body as Api.T_Game;
 
-                console.log("game", game);
+            console.log("game", game);
 
-                setGameAddress(game.address);
-            };
+            setGameAddress(game.address);
+        };
 
-            run();
-        }, [chain]);
+        run();
+    }, [chain]);
 
-        // const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
-        //     chainId: chain?.id,
-        //     address: (pickedToken?.contract_address as `0x${string}`),
-        //     abi: IERC20,
-        //     functionName: 'allowance',
-        //     args: [address, GameAddress],
-        //     watch: true,
-        // });
-        // useEffect(() => {
-        //     if (allowance) {
-        //         const new_allowance = Number((allowance as bigint) / BigInt(100000000000000)) / 10000;
-        //         console.log('allowance', new_allowance);
-        //         setAllowance(new_allowance);
-        //     }
-        // }, [allowance]);
+    // const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
+    //     chainId: chain?.id,
+    //     address: (pickedToken?.contract_address as `0x${string}`),
+    //     abi: IERC20,
+    //     functionName: 'allowance',
+    //     args: [address, GameAddress],
+    //     watch: true,
+    // });
+    // useEffect(() => {
+    //     if (allowance) {
+    //         const new_allowance = Number((allowance as bigint) / BigInt(100000000000000)) / 10000;
+    //         console.log('allowance', new_allowance);
+    //         setAllowance(new_allowance);
+    //     }
+    // }, [allowance]);
 
-        // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
-        //     address: (pickedToken?.contract_address as `0x${string}`),
-        //     abi: IERC20,
-        //     functionName: 'balanceOf',
-        //     args: [address],
-        //     watch: true,
-        // });
-        // useEffect(() => {
-        //     if (allowance) {
-        //         const new_balance = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
-        //         console.log('balance', new_balance);
-        //         setBalance(new_balance);
-        //     }
-        // }, [balance]);
-    }
+    // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
+    //     address: (pickedToken?.contract_address as `0x${string}`),
+    //     abi: IERC20,
+    //     functionName: 'balanceOf',
+    //     args: [address],
+    //     watch: true,
+    // });
+    // useEffect(() => {
+    //     if (allowance) {
+    //         const new_balance = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
+    //         console.log('balance', new_balance);
+    //         setBalance(new_balance);
+    //     }
+    // }, [balance]);
+    //}
 
     useEffect(() => {
         if (!isConnected && !chain) {
