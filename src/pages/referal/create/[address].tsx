@@ -54,7 +54,7 @@ export default function Subscribe() {
             <Head>
                 <title>NFT Play | Home page</title>
             </Head>
-            <Layout>
+            <Layout gameName={undefined}>
                 {router.query.address && <Referal referal_address={router.query.address as string} />}
                 {/* <div className={s.background_container}>
                     <Image
