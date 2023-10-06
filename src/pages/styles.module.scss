@@ -194,9 +194,10 @@
 }
 
 .game_link {
+  box-sizing: border-box;
   width: 100%;
   max-width: 640px;
-  min-width: 150px;
+  max-width: 146px;
   overflow: hidden;
   //display: block;
   position: relative;
@@ -288,7 +289,7 @@
 
 @media screen and (max-width: 650px) {
   .game_link {
-    max-width: 150px;
+    max-width: 146px;
     max-height: 120px;
   }
   .game_info {
@@ -376,7 +377,7 @@
     row-gap: 14px;
   }
   .games_row {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
   .games_row {
     width: 100%;
