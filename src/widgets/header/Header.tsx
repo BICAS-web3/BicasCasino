@@ -224,8 +224,8 @@ const RightMenu: FC<RightMenuProps> = props => {
               </div>
               {isHeaderAccOpened && (
                 <Account
-                  address={"0xa51313ffab4c570b484a26bd5d869c2f48e34477"}
-                  nickname={"Athena"}
+                  address={address as string}
+                  nickname={currentNickname}
                 />
               )}
             </div>
