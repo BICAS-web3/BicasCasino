@@ -181,48 +181,9 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GameProps {
-  name: string;
-  description: string;
-  link: string;
-  image_colored: any;
-  image_blend: any;
-  imageMobile: any;
-}
 
-const GameBlured: FC<GameProps> = (props) => {
-  // const [isHovering, setIsHovered] = useState(false);
 
-  // const onMouseEnter = () => setIsHovered(true);
-  // const onMouseLeave = () => setIsHovered(false);
-
-  return (
-    <div className={s.game_link}>
-      <div className={s.game_blured}>
-        <div className={s.comming_soon}>
-          <div>Comming Soon</div>
-        </div>
-        <div className={`${s.game_info} ${s.blured}`}>
-          <div className={s.game_name}>
-            {props.name}
-            <div className={s.game_arrow}>{">"}</div>
-          </div>
-          <div className={s.game_description}>{props.description}</div>
-        </div>
-
-        <Image
-          className={`${s.game_icon} ${s.blured}`}
-          src={props.image_colored}
-          alt=""
-          width={undefined}
-          height={undefined}
-        />
-      </div>
-    </div>
-  );
-};
-
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -235,8 +196,6 @@ const Games: FC<GamesProps> = (props) => {
             "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Poker"}
-          image_colored={CoinFlipColoredIcon}
-          image_blend={CoinFlipBlendIcon}
           pcImage={pokerMainBg}
           tabletImage={pokerTabletBg}
           laptopImage={pokerLaptopBg}
@@ -249,8 +208,6 @@ const Games: FC<GamesProps> = (props) => {
             "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Dice"}
-          image_colored={DiceColoredIcon}
-          image_blend={DiceBlendIcon}
           tabletImage={diceTabletBg}
           laptopImage={diceLaptopBg}
           mobileImage={diceMobileBg}
@@ -266,8 +223,6 @@ const Games: FC<GamesProps> = (props) => {
             "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Coinflip"}
-          image_colored={RPSColoredIcon}
-          image_blend={RPSBlendIcon}
           tabletImage={coinflipTabletBg}
           laptopImage={coinflipLaptopBg}
           mobileImage={coinflipMobileBg}
@@ -280,8 +235,6 @@ const Games: FC<GamesProps> = (props) => {
             "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Mines"}
-          image_colored={DiceColoredIcon}
-          image_blend={DiceBlendIcon}
           tabletImage={minesTabletBg}
           laptopImage={minesLaptopBg}
           mobileImage={minesMobileBg}
@@ -301,7 +254,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -347,7 +300,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -385,9 +338,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           Connect Wallet
         </div>
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
