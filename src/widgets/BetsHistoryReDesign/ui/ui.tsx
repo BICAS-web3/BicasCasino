@@ -163,7 +163,9 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
                         `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
                       wager={wager}
                       multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-                      profit={profit} />
+                      profit={profit}
+                      token={bet.token_name.toUpperCase()}
+                    />
                   </tr>);
               })}
           </tbody>
