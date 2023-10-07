@@ -9,14 +9,14 @@
 	flex-direction: column;
 	row-gap: 50px;
 	width: calc(100% - 100px);
-	padding: 150px 50px 0 50px;
+	padding: 120px 50px 0 50px;
 
 	@media screen and (max-width: 815px) {
 		row-gap: 35px;
 	}
 
 	@media screen and (max-width: 650px) {
-		row-gap: 43px;
+		row-gap: 23px;
 	}
 
 	@media screen and (max-width: 530px) {
@@ -24,12 +24,13 @@
 	}
 
 	@media screen and (max-width: 420px) {
-		row-gap: 4px;
+		row-gap: 14px;
 	}
 
 	@media screen and (max-width: 350px) {
 		row-gap: 0;
 	}
+
 }
 
 .main_area {
@@ -46,24 +47,17 @@
 	height: 614.267px;
 	width: 100%;
 	z-index: -1;
-	top: -15px;
+	top: 70px;
 
-	@media screen and (max-width: 1700px) {
-		height: 600px;
+
+	img {
+		width: 100%;
+		height: auto;
 	}
 
-	@media screen and (max-width: 1500px) {
-		height: 500px;
+	@media (max-width: 650px) {
+		top: 50px;
 	}
-
-	@media screen and (max-width: 1300px) {
-		height: 400px;
-	}
-
-	@media screen and (max-width: 1000px) {
-		height: 350px;
-	}
-
 }
 
 //////
@@ -109,51 +103,63 @@
 }
 
 /////
-.second_background {
-	position: absolute;
-	z-index: -1;
-	width: 100vw;
-	height: 350px;
 
-	@media screen and (min-width: 891px) {
-		display: none;
-	}
-
-
-
-	@media screen and (max-width: 650px) {
-		height: 260px;
-	}
-
-	@media screen and (max-width: 530px) {
-		height: 240px;
-	}
-
-	@media screen and (max-width: 420px) {
-		height: 220px;
-	}
-}
-
-.background {
+.first_background {
 	height: 100%;
-	position: absolute;
+	position: relative;
 	z-index: -1;
-	width: 100vw;
+	width: 100%;
 
 	//left: 90px;
 	//height: fit-content;
-	@media screen and (max-width: 890px) {
+
+	@media screen and (max-width: 1280px) {
 		display: none;
 	}
 
+
 }
 
-.background_gradient {
+
+.second_background {
+	position: relative;
+	z-index: -1;
 	height: 100%;
-	position: absolute;
-	z-index: 1;
 	width: 100%;
-	background: linear-gradient(0deg, #0f0f0f 0%, rgba(15, 15, 15, 0) 25.48%);
+
+	@media screen and (min-width: 1281px) {
+		display: none;
+	}
+
+	@media screen and (max-width: 900px) {
+		display: none;
+	}
+}
+
+.third_background {
+	height: 100%;
+	position: relative;
+	z-index: -1;
+	width: 100%;
+
+	@media screen and (min-width: 901px) {
+		display: none;
+	}
+
+	@media screen and (max-width: 450px) {
+		display: none;
+	}
+}
+
+.fourth_background {
+	height: 100%;
+	position: relative;
+	z-index: -1;
+	width: 100%;
+
+	@media screen and (min-width: 451px) {
+		display: none;
+	}
 }
 
 .side_bar_wrapper {

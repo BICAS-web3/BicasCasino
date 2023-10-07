@@ -19,6 +19,8 @@ import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 import { LiveBets } from "@/widgets/LiveBets";
 import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
 import MainPageSecondBackground from "@/public/media/misc/MainPageSecondBackground.png";
+import MainPageThirdBackground from "@/public/media/misc/MainPageThirdBackground.png";
+import MainPageFourthBackground from "@/public/media/misc/MainPageFourthBackground.png";
 import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
@@ -333,9 +335,10 @@ export default function Home() {
 
 				<div className={`${s.main_container}`}>
 					<div className={s.background_container}>
-						<Image src={MainPageBackground} alt={""} className={s.background} />
+						<Image src={MainPageBackground} alt={""} className={s.first_background} />
 						<Image src={MainPageSecondBackground} alt={""} className={s.second_background} />
-						<div className={s.background_gradient}></div>
+						<Image src={MainPageThirdBackground} alt={""} className={s.third_background} />
+						<Image src={MainPageFourthBackground} alt={""} className={s.fourth_background} />
 					</div>
 					<BannerInfo />
 					<Games />
