@@ -2,21 +2,30 @@
   display: flex;
   align-items: center;
   text-align: center;
-  width: 308px;
+  width: 100%;
   height: 38px;
   gap: 5px;
   justify-content: space-between;
   border-bottom: 1px solid #252525;
   padding: 10px 0;
+  @media screen and (max-width: 3840px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 1440px) {
+    width: 313px;
+  }
+  @media screen and (max-width: 1024px) {
+    width: 250px;
+  }
   @media screen and (max-width: 768px) {
-    max-width: 190px;
+    width: 190px;
   }
   @media screen and (max-width: 651px) {
-    max-width: 220px;
+    width: 160px;
   }
   @media screen and (max-width: 425px) {
     padding: 3px 0;
-    width: 140px;
+    width: 130px;
   }
   @media screen and (max-width: 320px) {
     width: 110px;

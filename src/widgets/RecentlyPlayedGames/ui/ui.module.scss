@@ -10,6 +10,9 @@
   @media screen and (max-width: 768px) {
     gap: 10px;
   }
+  @media screen and (max-width: 650px) {
+    background-color: transparent;
+  }
   @media screen and (max-width: 425px) {
     overflow-x: auto;
     white-space: nowrap;
