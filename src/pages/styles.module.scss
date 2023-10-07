@@ -197,7 +197,7 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 640px;
-  min-width: 146px;
+  min-width: 106px;
   overflow: hidden;
   //display: block;
   position: relative;
@@ -255,6 +255,7 @@
   }
   .game_link.sidebar_closed {
     max-width: 555px;
+    background-position-x: 100%;
   }
   .banner_info {
     //height: 169px;

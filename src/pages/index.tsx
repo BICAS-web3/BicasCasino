@@ -28,17 +28,29 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pcBg.png";
-import pokerLaptopBg from "@/public/media/games_assets/poker/1280bg.png";
-import pokerTabletBg from "@/public/media/games_assets/poker/tabletBg.png";
-import pokerMobileBg from "@/public/media/games_assets/poker/mobileBg.png";
-import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSidebarImg.png";
+import pokerMainBg from "@/public/media/games_assets/poker/pokerMainImg.png";
+import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
+import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.png";
+import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.png";
+import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSideBarImg.png";
+
+import coinflipMainBg from "@/public/media/games_assets/coinflip/mainBg.png";
+import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";
+import coinflipTabletBg from "@/public/media/games_assets/coinflip/tabletBg.png";
+import coinflipMobileBg from "@/public/media/games_assets/coinflip/mobileBg.png";
+import coinflipClosedSidebarImg from "@/public/media/games_assets/coinflip/closedSidebarImg.png";
 
 import diceMainBg from "@/public/media/games_assets/dice/dicePcImg.png";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.png";
 import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.png";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.png";
 import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.png";
+
+import minesMainBg from "@/public/media/games_assets/mines/mainBg.png";
+import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
+import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
+import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
+import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -132,7 +144,7 @@ const Game: FC<GameProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (mobile) setCurrentImage(props.laptopImage.src);
+    if (mobile) setCurrentImage(props.tabletImage.src);
     else if (tablet) setCurrentImage(props.tabletImage.src);
     else if (laptop) {
       // sidebarOpened
@@ -159,19 +171,9 @@ const Game: FC<GameProps> = (props) => {
         backgroundImage: `url(${currentImage})`,
       }}
     >
-      {/* <Image
-            src={DiceBackground}
-            alt={''}
-            className={s.game_image}
-        /> */}
       <div className={s.game}>
         <div className={s.game_info}>
-          <div className={s.game_name}>
-            {props.name}
-            {/* <div className={s.game_arrow}>
-                        {'>'}
-                    </div> */}
-          </div>
+          <div className={s.game_name}>{props.name}</div>
           <div className={s.game_description}>{props.description}</div>
         </div>
       </div>
@@ -228,11 +230,11 @@ const Games: FC<GamesProps> = (props) => {
       {/* <GamesTitle></GamesTitle> */}
       <div className={s.games_row}>
         <Game
-          name={"Poker"}
+          name={"POKER"}
           description={
             "A game where you have to beat your opponent with a chip"
           }
-          link={"/games/CoinFlip"}
+          link={"/games/Poker"}
           image_colored={CoinFlipColoredIcon}
           image_blend={CoinFlipBlendIcon}
           pcImage={pokerMainBg}
@@ -241,37 +243,6 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={pokerMobileBg}
           closedSidebarImage={pokerClosedSidebarImg}
         />
-        <Game
-          name={"ROCK PAPER SCISSORS"}
-          description={
-            "A game where you have to beat your opponent with a chip"
-          }
-          link={"/games/RockPaperScissors"}
-          image_colored={RPSColoredIcon}
-          image_blend={RPSBlendIcon}
-          tabletImage={pokerTabletBg}
-          laptopImage={pokerLaptopBg}
-          mobileImage={pokerMobileBg}
-          pcImage={pokerMainBg}
-          closedSidebarImage={pokerClosedSidebarImg}
-        />
-        {/* <Game
-                name={'ROCK PAPER SCISSORS'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/rock-paper-scissors'}
-                image_colored={RPSColoredIcon}
-                image_blend={RPSBlendIcon}
-            /> */}
-      </div>
-
-      <div className={s.games_row}>
-        {/* <GameBlured
-                name={'DICE'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/dice'}
-                image_colored={DiceColoredIcon}
-                image_blend={DiceBlendIcon}
-            /> */}
         <Game
           name={"DICE"}
           description={
@@ -285,6 +256,37 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={diceMobileBg}
           pcImage={diceMainBg}
           closedSidebarImage={diceClosedSidebarImg}
+        />
+      </div>
+
+      <div className={s.games_row}>
+        <Game
+          name={"COINFLIP"}
+          description={
+            "A game where you have to beat your opponent with a chip"
+          }
+          link={"/games/Coinflip"}
+          image_colored={RPSColoredIcon}
+          image_blend={RPSBlendIcon}
+          tabletImage={coinflipTabletBg}
+          laptopImage={coinflipLaptopBg}
+          mobileImage={coinflipMobileBg}
+          pcImage={coinflipMainBg}
+          closedSidebarImage={coinflipClosedSidebarImg}
+        />
+        <Game
+          name={"MINES"}
+          description={
+            "A game where you have to beat your opponent with a chip"
+          }
+          link={"/games/Mines"}
+          image_colored={DiceColoredIcon}
+          image_blend={DiceBlendIcon}
+          tabletImage={minesTabletBg}
+          laptopImage={minesLaptopBg}
+          mobileImage={minesMobileBg}
+          pcImage={minesMainBg}
+          closedSidebarImage={minesClosedSidebarImg}
         />
 
         {/* <Game
