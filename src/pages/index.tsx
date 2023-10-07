@@ -197,7 +197,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"POKER"}
           description={
-            "A game where you have to beat your opponent with a chip"
+            "Poker"
           }
           link={"/games/Poker"}
           pcImage={pokerMainBg}
@@ -209,7 +209,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"DICE"}
           description={
-            "A game where you have to beat your opponent with a chip"
+            ""
           }
           link={"/games/Dice"}
           tabletImage={diceTabletBg}
@@ -224,7 +224,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"COINFLIP"}
           description={
-            "A game where you have to beat your opponent with a chip"
+            ""
           }
           link={"/games/Coinflip"}
           tabletImage={coinflipTabletBg}
@@ -236,7 +236,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"MINES"}
           description={
-            "A game where you have to beat your opponent with a chip"
+            ""
           }
           link={"/games/Mines"}
           tabletImage={minesTabletBg}
