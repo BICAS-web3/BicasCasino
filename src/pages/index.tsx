@@ -414,34 +414,32 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <CoinFlipGame />
-
-      {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
-      <Layout gameName={undefined}> */}
-      {/* <div> */}
-      {/* 
-        <div className={`${s.main_container}`}>
-          <div className={s.background_container}>
-            <Image
-              src={currentImage}
-              alt="page-background"
-              className={s.background}
-            />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
-          <Games />
-          <Total />
-          <CustomBets
-            title="Live bets"
-            isMainPage={true}
-            isGamePage={false}
-            game={undefined}
-          /> */}
-      {/* <LeaderBoard /> */}
-      {/* </div> */}
-      {/* </div> */}
-      {/* // </Layout> */}
+      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
+      <Layout gameName={undefined}>
+        <div>
+          {/* 
+        // <div className={`${s.main_container}`}>
+        //   <div className={s.background_container}>
+        //     <Image
+        //       src={currentImage}
+        //       alt="page-background"
+        //       className={s.background}
+        //     />
+        //     <div className={s.background_gradient}></div>
+        //   </div>
+        //   <BannerInfo />
+        //   <Games />
+        //   <Total />
+        //   <CustomBets
+        //     title="Live bets"
+        //     isMainPage={true}
+        //     isGamePage={false}
+        //     game={undefined}
+        //   /> */}
+          {/* <LeaderBoard /> */}
+        </div>
+        {/* </div> */}
+      </Layout>
       {/* <Footer />
       <InvitesList />
       <GamesList />
