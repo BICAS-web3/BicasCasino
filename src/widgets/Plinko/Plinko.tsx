@@ -17,7 +17,6 @@ export const Plinko: FC<IPlinko> = () => {
           width={1418}
           height={680}
           quality={100}
-          layout="relative"
         />
       </div>
       <div className={styles.plinko_table}>
