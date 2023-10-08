@@ -127,7 +127,7 @@ export const Poker: FC<PokerProps> = (props) => {
     // onSuccess: (fees: bigint) => {
     //   console.log('fees', fees);
     // },
-    watch: true,
+    watch: isConnected,
   });
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
@@ -137,7 +137,7 @@ export const Poker: FC<PokerProps> = (props) => {
     functionName: 'VideoPoker_GetState',
     args: [address],
     //watch: watchState,
-    watch: true,
+    watch: isConnected,
     //blockTag: 'latest' as any
   });
 

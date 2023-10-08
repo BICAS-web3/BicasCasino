@@ -185,8 +185,6 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-
-
 interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
@@ -223,10 +221,8 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"COINFLIP"}
-          description={
-            ""
-          }
-          link={"/games/Coinflip"}
+          description={""}
+          link={"/games/CoinFlip"}
           tabletImage={coinflipTabletBg}
           laptopImage={coinflipLaptopBg}
           mobileImage={coinflipMobileBg}
