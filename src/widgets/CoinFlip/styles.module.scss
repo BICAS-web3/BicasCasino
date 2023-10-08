@@ -17,6 +17,11 @@
   z-index: -1;
 }
 
+.coinflip_block {
+  height: 100%;
+  width: 100%;
+}
+
 .coinflip_table_background_img {
   width: 100%;
   object-fit: cover;
@@ -45,14 +50,15 @@
 
 .coinflip_wrap {
   width: 100%;
-  height: 330px;
+  height: 370px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: absolute;
-  bottom: 250px;
+  bottom: 226px;
   left: 50%;
   transform: translateX(-50%);
+  gap: 40px;
 }
 
 @media screen and (min-width: 996px) {
@@ -65,10 +71,21 @@
   .coinflip_wrap {
     bottom: 110px;
     height: 207px;
+    gap: 25px;
+  }
+  .coinflip_block {
+    height: 154px;
+  }
+
+  .coinflip_table_background {
+    border-radius: 20px 20px 0 0;
   }
 }
 
 @media screen and (max-width: 650px) {
+  .coinflip_block {
+    height: 100%;
+  }
   .coinflip_wrap {
     bottom: 110px;
   }
@@ -82,6 +99,9 @@
     transform: translateX(-50%);
     bottom: 5px;
     font-size: 14px;
+  }
+  .coinflip_table_background {
+    border-radius: 0;
   }
 }
 

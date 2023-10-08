@@ -188,7 +188,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -251,7 +251,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -297,7 +297,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -341,9 +341,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -370,16 +369,18 @@ export default function Home() {
         setLaptop(true);
         setTablet(false);
         setPhone(false);
-      }
-      if (width <= 700) {
+      } else if (width <= 700) {
         setLaptop(false);
         setTablet(true);
         setPhone(false);
-      }
-      if (width <= 320) {
+      } else if (width <= 320) {
         setLaptop(false);
         setTablet(false);
         setPhone(true);
+      } else {
+        setLaptop(false);
+        setTablet(false);
+        setPhone(false);
       }
     };
 
@@ -420,7 +421,7 @@ export default function Home() {
 
         <div className={`${s.main_container}`}>
           <div className={s.background_container}>
-            <Image src={MainPageBackground} alt={""} className={s.background} />
+            <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
           </div>
           <BannerInfo />
