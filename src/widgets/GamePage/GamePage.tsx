@@ -7,6 +7,7 @@ import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
+import { Notification } from "../Notification";
 
 interface GamePageProps {
   children: ReactNode;
@@ -73,6 +74,9 @@ export const GamePage: FC<GamePageProps> = ({
               },
             ]}
           />
+        </div>
+        <div className={s.game_page_notification_wrap}>
+          <Notification />
         </div>
       </div>
     </div>
