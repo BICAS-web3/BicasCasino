@@ -170,7 +170,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
               return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
                 key={ind}
                 time={{
-                  date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+                  date: `${time.getDate()}.${time.getMonth() + 1}.${time.getFullYear()}`,
                   time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
                 }}
                 //game_url={`/games/${bet.game_name}`}

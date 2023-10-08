@@ -63,6 +63,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <div
               className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
                 }`}
+              onClick={() => { location.href = "/games/Poker" }}
             >
               <PokerButton />
               <div className={s.games_button_tooltip}>Poker</div>
@@ -70,6 +71,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <div
               className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
                 }`}
+              onClick={() => { location.href = "https://t.me/greekkeepers" }}
             >
               <SupportIcon />
               <div className={s.games_button_tooltip}>
@@ -128,13 +130,13 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <RPCButton />
                 Rock Paper Scissors
               </div>
-              <div className={s.game_row}>
+              <div className={s.game_row} onClick={() => { location.href = "/games/Poker" }}>
                 <PokerButton />
                 Poker
               </div>
             </div>
           </div>
-          <div className={s.support}>
+          <div className={s.support} onClick={() => { location.href = "https://t.me/greekkeepers" }}>
             <div className={s.icon_wrapper}>
               <SupportIcon />
             </div>

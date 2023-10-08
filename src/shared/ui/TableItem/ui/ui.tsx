@@ -5,6 +5,7 @@ import linkIco from "@/public/media/live_bets/linkIco.svg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import avatar from "@/public/media/player_icons/emptyAvatar.svg";
 import Link from "next/link";
+import * as api from "@/shared/api";
 
 export const TableItem: FC<IBetData> = (props) => {
   return (
@@ -49,7 +50,7 @@ export const TableItem: FC<IBetData> = (props) => {
       </td>
       <td className={styles.td}>
         <span className={styles.link_block}>
-          <img src={wagerIco.src} alt="wager-ico" className={styles.wagerIco} />
+          <img src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`} alt="wager-ico" className={styles.wagerIco} />
           <span className={styles.item_wager}>{props.wager}</span>
         </span>
       </td>
@@ -71,7 +72,7 @@ export const TableItem: FC<IBetData> = (props) => {
       <td className={styles.td}>
         <span className={styles.link_block}>
           <span className={styles.profit}>+{props.profit}</span>
-          <img src={wagerIco.src} alt="wager-ico" className={styles.wagerIco} />
+          <img src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`} alt="wager-ico" className={styles.wagerIco} />
         </span>
       </td>
     </>

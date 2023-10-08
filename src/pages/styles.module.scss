@@ -194,9 +194,10 @@
 }
 
 .game_link {
+  box-sizing: border-box;
   width: 100%;
   max-width: 640px;
-  min-width: 150px;
+  min-width: 106px;
   overflow: hidden;
   //display: block;
   position: relative;
@@ -204,25 +205,7 @@
   border: 1px solid #202020;
   border-radius: 20px;
   z-index: 1;
-  @media screen and (max-width: 650px) {
-    background-size: 100%;
-    background-position-y: -50px;
-  }
-  @media screen and (max-width: 452px) {
-    background-position-y: -30px;
-  }
-  @media screen and (max-width: 400px) {
-    background-position-y: -10px;
-  }
-  @media screen and (max-width: 370px) {
-    background-position-y: -125px;
-  }
-  @media screen and (max-width: 320px) {
-    background-position-y: -105px;
-  }
-  @media screen and (max-width: 300px) {
-    background-position-y: -85px;
-  }
+  background-position-y: 50%;
 }
 
 .game_info {
@@ -260,9 +243,19 @@
 }
 
 @media only screen and (max-width: 1280px) {
+  // .sidebar_closed
   .banner_info .header {
     font-size: 35px;
     line-height: 42px;
+  }
+  .game_link {
+    max-width: 360px;
+    max-height: 210px;
+    background-size: cover;
+  }
+  .game_link.sidebar_closed {
+    max-width: 555px;
+    background-position-x: 100%;
   }
   .banner_info {
     //height: 169px;
@@ -297,6 +290,25 @@
   .game_description {
     font-size: 16px;
     line-height: 23px;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .game_link.sidebar_closed {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .game_link {
+    max-width: 346px;
+    max-height: 120px;
+  }
+  .game_link.sidebar_closed {
+    max-width: 346px;
+  }
+  .game_info {
+    row-gap: 10px !important;
   }
 }
 
@@ -380,7 +392,7 @@
     row-gap: 14px;
   }
   .games_row {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
   .games_row {
     width: 100%;

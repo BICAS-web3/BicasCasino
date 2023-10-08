@@ -266,6 +266,9 @@
     left: 0;
     right: 0;
   }
+  .button {
+    display: none;
+  }
   .header {
     height: 56px;
     padding-left: 16px;
@@ -291,10 +294,10 @@
   .left_menu {
     display: flex;
     flex-direction: row;
-    column-gap: 15px;
-    padding-right: 20px;
+    column-gap: 42px;
     justify-content: flex-start;
     align-items: center;
+    padding-right: 15px;
   }
   .emblem {
     display: flex;
@@ -315,9 +318,12 @@
     display: none;
   }
   .button {
-    display: none;
-  }
-  .right_menu {
-    column-gap: 10px;
+    width: 32px;
+    padding: 5px;
+    height: 32px;
+    img {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

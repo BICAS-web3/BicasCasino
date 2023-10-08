@@ -10,7 +10,8 @@ interface IBetData {
   player_name: string
   wager: number,
   multiplier: number,
-  profit: number
+  profit: number,
+  token: string
 }
 
 

@@ -137,36 +137,40 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   }, []);
 
   return (
-    <div className={styles.table_container}>
+    <div className={styles.wrapper}>
       <h2 className={styles.title}>{props.title}</h2>
-      <table className={styles.table}>
-        <TitleTable />
-        <tbody className={styles.tbody}>
-          {bets && AvailableBlocksExplorers &&
-            bets.map((bet) => {
-              console.log("Bet", bet);
-              const time = new Date(bet.timestamp * 1000);
-              const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
-              const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
-              return (
-                <tr key={bet.id}>
-                  <TableItem
-                    trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
-                    time={{
-                      date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
-                      time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
-                    }}
-                    game_name={bet.game_name}
-                    player_address={bet.player}
-                    player_name={bet.player_nickname == null ?
-                      `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
-                    wager={wager}
-                    multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-                    profit={profit} />
-                </tr>);
-            })}
-        </tbody>
-      </table>
+      <div className={styles.table_container}>
+        <table className={styles.table}>
+          <TitleTable />
+          <tbody className={styles.tbody}>
+            {bets && AvailableBlocksExplorers &&
+              bets.map((bet) => {
+                console.log("Bet", bet);
+                const time = new Date(bet.timestamp * 1000);
+                const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+                const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+                return (
+                  <tr key={bet.id}>
+                    <TableItem
+                      trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
+                      time={{
+                        date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+                        time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
+                      }}
+                      game_name={bet.game_name}
+                      player_address={bet.player}
+                      player_name={bet.player_nickname == null ?
+                        `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
+                      wager={wager}
+                      multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+                      profit={profit}
+                      token={bet.token_name.toUpperCase()}
+                    />
+                  </tr>);
+              })}
+          </tbody>
+        </table>
+      </div>
       <div className={styles.button}>
         <CustomButton
           text="Load more"
@@ -181,3 +185,4 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
     </div>
   );
 };
+

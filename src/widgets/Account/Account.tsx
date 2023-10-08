@@ -96,7 +96,7 @@ export const Account: FC<AccountProps> = (props) => {
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
-            {props.nickname ? props.nickname : truncatedAddress}
+            {props.nickname && props.nickname.toLowerCase() != props.address.toLowerCase() ? props.nickname : truncatedAddress}
           </div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{truncatedAddress}</div>
