@@ -9,12 +9,20 @@ import { Environment } from '@react-three/drei';
 
 interface CoinFlipProps { }
 
-interface ModelProps {
-  action: "winner" | "loser";
-  play?: boolean;
+enum CoinAction {
+  Rotation = "Rotation",
+  HeadsHeads = "HeadsHeads",
+  HeadsTails = "HeadsTails",
+  TailsHeads = "TailsHeads",
+  TailsTails = "TailsTails",
+  Stop = ""
 }
 
-const Model: FC<ModelProps> = ({ action, play = false }) => {
+interface ModelProps {
+  action: CoinAction;
+}
+
+const Model: FC<ModelProps> = ({ action }) => {
   const { scene, animations } = useGLTF("/coinflip/coin_old.gltf");
   const { actions, mixer } = useAnimations(animations, scene);
 
@@ -27,20 +35,21 @@ const Model: FC<ModelProps> = ({ action, play = false }) => {
   console.log(scene);
 
   useEffect(() => {
-    if (play) {
+    if (action != CoinAction.Stop) {
       const current = actions[
-        //action === "winner" ? "TailsHeads" : "TailsTails"
-        "HeadsHeads"
+        action
       ] as AnimationAction;
       current.play();
       current.clampWhenFinished = true;
       console.log(current);
-      //current.setLoop(2200, 1);
+      if (action != CoinAction.Rotation) {
+        current.setLoop(2200, 1);
+      }
     }
-  }, [play, action]);
+  }, [action]);
 
   // @ts-ignore
-  return play ? <primitive object={scene} /> : null;
+  return <primitive object={scene} />;
 };
 
 export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
@@ -98,7 +107,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
                   color="#fff"
                 />
                 <pointLight position={[0, -10, 5]} intensity={100} color="#fff" /> */}
-                <Model action="winner" play={true} />
+                <Model action={CoinAction.Stop} />
               </Suspense>
             </Canvas>
           </div>
