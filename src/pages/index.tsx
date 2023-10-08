@@ -16,9 +16,9 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
-import { LiveBetsModel, LiveBetsWS } from '@/widgets/LiveBets';
-import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
-import { SideBar, SideBarModel } from '@/widgets/SideBar';
+import { LiveBetsModel, LiveBetsWS } from "@/widgets/LiveBets";
+import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
+import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
 import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
@@ -66,7 +66,7 @@ import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
-import { useAccount } from 'wagmi';
+import { useAccount } from "wagmi";
 import Link from "next/link";
 
 const mobileQuery = "(max-width: 650px)";
@@ -185,9 +185,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-
-
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -196,9 +194,7 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"POKER"}
-          description={
-            "Poker"
-          }
+          description={"Poker"}
           link={"/games/Poker"}
           pcImage={pokerMainBg}
           tabletImage={pokerTabletBg}
@@ -208,9 +204,7 @@ const Games: FC<GamesProps> = (props) => {
         />
         <Game
           name={"DICE"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Dice"}
           tabletImage={diceTabletBg}
           laptopImage={diceLaptopBg}
@@ -223,9 +217,7 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"COINFLIP"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Coinflip"}
           tabletImage={coinflipTabletBg}
           laptopImage={coinflipLaptopBg}
@@ -235,9 +227,7 @@ const Games: FC<GamesProps> = (props) => {
         />
         <Game
           name={"MINES"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Mines"}
           tabletImage={minesTabletBg}
           laptopImage={minesLaptopBg}
@@ -253,12 +243,25 @@ const Games: FC<GamesProps> = (props) => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />  */}
+        <Game
+          name={"PLINKO"}
+          description={
+            "PLINKO GAME"
+          }
+          link={"/games/Plinko"}
+          tabletImage={minesTabletBg}
+          laptopImage={minesLaptopBg}
+          mobileImage={minesMobileBg}
+          pcImage={minesMainBg}
+          closedSidebarImage={minesClosedSidebarImg}
+        />
       </div>
     </div>
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
+
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -304,7 +307,8 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps { }
+interface BannerInfoProps {}
+
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -339,13 +343,18 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     <div className={s.banner_info}>
       <div className={s.header}>Top 1 Casino on the WEB3</div>
       <div className={s.connect_wallet_container}>
-        {!isConnected && <><div className={s.text}>Login via Web3 wallets</div>
-          <div className={s.button} onClick={handleConnectWalletBtn}>
-            Connect Wallet
-          </div></>}
+        {!isConnected && (
+          <>
+            <div className={s.text}>Login via Web3 wallets</div>
+            <div className={s.button} onClick={handleConnectWalletBtn}>
+              Connect Wallet
+            </div>
+          </>
+        )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -355,18 +364,14 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
 };
 
 export default function Home() {
-  const [
-    Bets,
-    AvailableBlocksExplorers
-  ] = useUnit([
+  const [Bets, AvailableBlocksExplorers] = useUnit([
     LiveBetsModel.$Bets,
-    settingsModel.$AvailableBlocksExplorers
+    settingsModel.$AvailableBlocksExplorers,
   ]);
 
   useEffect(() => {
     console.log("New bets");
   }, [Bets]);
-
 
   return (
     <>
@@ -374,7 +379,7 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <LiveBetsWS subscription_type={'SubscribeAll'} subscriptions={[]} />
+      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
 
@@ -386,12 +391,16 @@ export default function Home() {
           <BannerInfo />
           <Games />
           <Total />
-          <CustomBets title='Live bets' isMainPage={true} isGamePage={false} game={undefined} />
+          <CustomBets
+            title="Live bets"
+            isMainPage={true}
+            isGamePage={false}
+            game={undefined}
+          />
           {/* <LeaderBoard /> */}
         </div>
         {/* </div> */}
       </Layout>
-
 
       {/* <Footer />
       <InvitesList />
