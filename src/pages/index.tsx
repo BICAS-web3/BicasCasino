@@ -16,9 +16,12 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
-import { LiveBetsModel, LiveBetsWS } from '@/widgets/LiveBets';
-import MainPageBackground from '@/public/media/misc/MainPageBackground.png';
-import { SideBar, SideBarModel } from '@/widgets/SideBar';
+import { LiveBetsModel, LiveBetsWS } from "@/widgets/LiveBets";
+import mainBg from "@/public/media/misc/mainBg.png";
+import laptopBg from "@/public/media/misc/1280Bg.png";
+import tabletBg from "@/public/media/misc/tabletBg.png";
+import phoneBg from "@/public/media/misc/phoneBg.png";
+import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import DiceBackground from "@/public/media/games_assets/dice/Background.png";
 import rockPaperScissorsMobileBg from "@/public/media/games_assets/rock_paper_scissors/rockPaperScissorsMobileBg.png";
@@ -66,7 +69,7 @@ import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
-import { useAccount } from 'wagmi';
+import { useAccount } from "wagmi";
 import Link from "next/link";
 
 const mobileQuery = "(max-width: 650px)";
@@ -185,9 +188,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-
-
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -196,9 +197,7 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"POKER"}
-          description={
-            "Poker"
-          }
+          description={"Poker"}
           link={"/games/Poker"}
           pcImage={pokerMainBg}
           tabletImage={pokerTabletBg}
@@ -208,9 +207,7 @@ const Games: FC<GamesProps> = (props) => {
         />
         <Game
           name={"DICE"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Dice"}
           tabletImage={diceTabletBg}
           laptopImage={diceLaptopBg}
@@ -223,9 +220,7 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"COINFLIP"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Coinflip"}
           tabletImage={coinflipTabletBg}
           laptopImage={coinflipLaptopBg}
@@ -235,9 +230,7 @@ const Games: FC<GamesProps> = (props) => {
         />
         <Game
           name={"MINES"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Mines"}
           tabletImage={minesTabletBg}
           laptopImage={minesLaptopBg}
@@ -258,7 +251,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -304,7 +297,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 //     </div>)
 // }
 
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -339,13 +332,18 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     <div className={s.banner_info}>
       <div className={s.header}>Top 1 Casino on the WEB3</div>
       <div className={s.connect_wallet_container}>
-        {!isConnected && <><div className={s.text}>Login via Web3 wallets</div>
-          <div className={s.button} onClick={handleConnectWalletBtn}>
-            Connect Wallet
-          </div></>}
+        {!isConnected && (
+          <>
+            <div className={s.text}>Login via Web3 wallets</div>
+            <div className={s.button} onClick={handleConnectWalletBtn}>
+              Connect Wallet
+            </div>
+          </>
+        )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -355,18 +353,60 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
 };
 
 export default function Home() {
-  const [
-    Bets,
-    AvailableBlocksExplorers
-  ] = useUnit([
+  const [Bets, AvailableBlocksExplorers] = useUnit([
     LiveBetsModel.$Bets,
-    settingsModel.$AvailableBlocksExplorers
+    settingsModel.$AvailableBlocksExplorers,
   ]);
+
+  const [currentImage, setCurrentImage] = useState(mainBg);
+  const [laptop, setLaptop] = useState(false);
+  const [tablet, setTablet] = useState(false);
+  const [phone, setPhone] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width <= 1280 && width > 700) {
+        setLaptop(true);
+        setTablet(false);
+        setPhone(false);
+      }
+      if (width <= 700) {
+        setLaptop(false);
+        setTablet(true);
+        setPhone(false);
+      }
+      if (width <= 320) {
+        setLaptop(false);
+        setTablet(false);
+        setPhone(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (laptop) {
+      setCurrentImage(laptopBg);
+    } else if (tablet) {
+      setCurrentImage(tabletBg);
+    } else if (phone) {
+      setCurrentImage(phoneBg);
+    } else {
+      setCurrentImage(mainBg);
+    }
+  }, [tablet, laptop]);
 
   useEffect(() => {
     console.log("New bets");
   }, [Bets]);
-
 
   return (
     <>
@@ -374,25 +414,32 @@ export default function Home() {
         <title>NFT Play | Home page</title>
       </Head>
 
-      <LiveBetsWS subscription_type={'SubscribeAll'} subscriptions={[]} />
+      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
           <div className={s.background_container}>
-            <Image src={MainPageBackground} alt={""} className={s.background} />
+            <Image
+              src={currentImage}
+              alt="page-background"
+              className={s.background}
+            />
             <div className={s.background_gradient}></div>
           </div>
           <BannerInfo />
           <Games />
           <Total />
-          <CustomBets title='Live bets' isMainPage={true} isGamePage={false} game={undefined} />
+          <CustomBets
+            title="Live bets"
+            isMainPage={true}
+            isGamePage={false}
+            game={undefined}
+          />
           {/* <LeaderBoard /> */}
         </div>
         {/* </div> */}
       </Layout>
-
-
       {/* <Footer />
       <InvitesList />
       <GamesList />
