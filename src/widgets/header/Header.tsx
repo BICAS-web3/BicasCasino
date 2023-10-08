@@ -179,7 +179,7 @@ const RightMenu: FC<RightMenuProps> = props => {
 
   const handleHeaderAccountVisibility = () => {
     if (!isHeaderAccOpened) {
-      setBlur(true);
+      //setBlur(true);
       openHeaderAcc();
     }
   };

@@ -119,15 +119,15 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   });
   useEffect(() => {
     if (balance) {
-      const new_balance = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
-      console.log('balance', new_balance);
+      console.log('balance', balance);
+      const new_balance = Number(balance as any / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [balance]);
   useEffect(() => {
-    if (pickedToken) {
-      const new_balance = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
-      console.log('balance', new_balance);
+    if (pickedToken && balance) {
+      console.log('balance', balance);
+      const new_balance = Number((balance as any) / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [pickedToken]);
