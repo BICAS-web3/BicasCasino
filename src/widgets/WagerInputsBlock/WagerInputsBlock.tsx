@@ -104,7 +104,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
 
   useEffect(() => {
     if (allowance) {
-      const new_allowance = Number((allowance as bigint) / BigInt(100000000000000)) / 10000;
+      const new_allowance = Number((allowance as any) / BigInt(100000000000000)) / 10000;
       console.log('allowance', new_allowance);
       setAllowance(new_allowance);
     }

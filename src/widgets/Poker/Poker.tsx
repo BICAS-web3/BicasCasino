@@ -9,7 +9,7 @@ import tableBg from "@/public/media/poker_images/pokerBgImage.png";
 // import testCard5 from "@/public/media/poker_images/testCard5.png";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
-import { useAccount, useContractEvent, useContractRead, useContractWrite, useNetwork } from "wagmi";
+import { useAccount, useContractEvent, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite } from "wagmi";
 import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from 'use-sound';
@@ -24,6 +24,7 @@ import { WagerModel as WagerButtonModel } from '../Wager';
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import * as api from '@/shared/api';
 import { TOKENS } from "@/shared/tokens";
+import { useDebounce } from "@/shared/tools";
 
 const initialArrayOfCards = [
   {
@@ -137,6 +138,7 @@ export const Poker: FC<PokerProps> = (props) => {
     functionName: 'VideoPoker_GetState',
     args: [address],
     //watch: watchState,
+    enabled: true,
     watch: isConnected,
     //blockTag: 'latest' as any
   });
@@ -162,50 +164,70 @@ export const Poker: FC<PokerProps> = (props) => {
     }
   }, [GameState]);
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite({
+  const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: (pickedToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
-    args: [gameAddress, currentBalance ? BigInt(currentBalance * 10000) * BigInt(100000000000000) : 0]
+    args: [gameAddress, useDebounce(currentBalance ? BigInt(currentBalance * 10000) * BigInt(100000000000000) : 0)]
   });
 
-  const { write: startPlaying, isSuccess: startedPlaying } = useContractWrite({
+  const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite(allowanceConfig);
+
+  const { config: startPlayingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Start',
-    args: [BigInt(Math.floor(cryptoValue * 10000)) * BigInt(100000000000000), pickedToken?.contract_address],
-    value: BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10),
-    //gas: BigInt(500000)
+    args: [useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)), pickedToken?.contract_address],
+    value: BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
+    enabled: true,
   });
 
-  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite({
+  const { write: startPlaying, isSuccess: startedPlaying, error } = useContractWrite(startPlayingConfig);
+
+  useEffect(() => {
+    console.log(startPlaying);
+  }, [startPlaying]);
+
+  const { config: finishPlayingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Replace',
-    args: [cardsState],
-    value: cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0),
-    //gas: BigInt(500000)
+    args: [useDebounce(cardsState)],
+    value: useDebounce(cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0)),
+    enabled: true
   });
 
+  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite(finishPlayingConfig);
+
   useEffect(() => {
-    console.log("Pressed wager");
     if (Wagered) {
+      console.log("Pressed wager");
       if (inGame) {
         setShowFlipCards(false);
-        finishPlaying();
+        if (finishPlaying) finishPlaying();
       } else {
         console.log(cryptoValue, currentBalance);
         if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
           console.log('Allowance', allowance);
           if (allowance && allowance <= cryptoValue) {
-            setAllowance();
+            console.log('Setting allowance');
+            if (setAllowance) setAllowance();
             //return;
           } else {
             setActiveCards(initialArrayOfCards);
-            startPlaying();
+            console.log("Starting playing",
+              startPlaying,
+              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+              BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
+              pickedToken?.contract_address
+            );
+            if (startPlaying) {
+              startPlaying();
+            }
+
           }
         }
       }

@@ -23,6 +23,10 @@
 }
 
 .poker_wager_drawing_cards_btn {
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    
     border-radius: 12px;
     background: linear-gradient( 114deg, #f8eeb8 -4.17%, #dbb370 59.03%, #8e5b2d 112.39%), #121212;
     width: 100%;

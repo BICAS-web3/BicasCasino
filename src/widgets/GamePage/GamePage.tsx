@@ -38,7 +38,7 @@ export const GamePage: FC<GamePageProps> = ({
   gameInfoText,
   wagerContent,
 }) => {
-
+  console.log("Redrawing game page");
   const { address, isConnected } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
   const [currentToken, setCurrentToken] = useState<{ token: api.T_Token, price: number }>();
