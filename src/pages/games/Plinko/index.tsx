@@ -15,7 +15,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <button className={styles.poker_wager_drawing_cards_btn} onClick={pressButton}>
-        Drawing cards
+        Place a Bet
       </button>
       <WagerLowerBtnsBlock game="poker" />
     </>
