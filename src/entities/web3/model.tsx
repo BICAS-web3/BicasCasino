@@ -13,6 +13,10 @@ import { createEvent, createStore, sample } from 'effector';
 import { settingsModel } from '../settings';
 
 
+const RPCS = {
+    bsc: ['https://bsc-dataseed1.binance.org/']
+}
+
 // variables
 export const $Chains = createStore<any | null>(null);
 export const $WagmiConfig = createStore<any | null>(null);
@@ -35,7 +39,10 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
         if (network.explorers.length == 0) {
             continue;
         }
-        const rpcs = { http: network.rpcs.map((value, _, __) => value.url) };
+
+        const rpcs = network.basic_info.network_id == 56 ?
+            { http: RPCS.bsc }
+            : { http: network.rpcs.map((value, _, __) => value.url) };
         chains.push({
             id: network.basic_info.network_id,
             name: network.basic_info.short_name,
