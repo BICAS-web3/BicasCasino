@@ -44,6 +44,8 @@
 }
 
 .coinflip_wrap {
+  width: 100%;
+  height: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,7 +63,8 @@
 
 @media screen and (max-width: 996px) {
   .coinflip_wrap {
-    bottom: 140px;
+    bottom: 110px;
+    height: 207px;
   }
 }
 
@@ -85,6 +88,7 @@
 @media screen and (max-width: 600px) {
   .coinflip_wrap {
     bottom: 65px;
+    height: 110px;
   }
 }
 
