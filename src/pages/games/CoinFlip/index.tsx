@@ -2,20 +2,26 @@ import { CoinFlip } from "@/widgets/CoinFlip/CoinFlip";
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { Layout } from "@/widgets/Layout";
 import s from "./styles.module.scss";
-import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput/CustomWagerRangeInput";
-import { CoinFlipWagerGainLoss } from "@/widgets/CoinFlip/CoinFlipWagerGainLoss/CoinFlipWagerGainLoss";
-import { CoinFlipProfitBlock } from "@/widgets/CoinFlip/CoinFlipProfitBlock/CoinFlipProfitBlock";
+import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
+import { SidePicker } from '@/widgets/CoinFlipSidePicker';
+import { useAccount } from "wagmi";
 
 const WagerContent = () => {
+  const { isConnected } = useAccount();
   return (
     <>
       <WagerInputsBlock />
-      <CustomWagerRangeInput inputTitle="Bets" min={0} max={10} />
-      <CoinFlipWagerGainLoss />
-      <CoinFlipProfitBlock />
-      <button className={s.connect_wallet_btn}>Connect Wallet</button>
+      <CustomWagerRangeInput inputTitle="Bets" min={0} max={100} />
+      <WagerGainLoss />
+      <ProfitBlock />
+      <SidePicker />
+      <button className={s.connect_wallet_btn}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
+      </button>
       <WagerLowerBtnsBlock game="coinflip" />
     </>
   );

@@ -274,46 +274,10 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
       <div>Games</div>
-      {/* <div className={s.games_more}>
-            <div>
-                Show More
-            </div>
-            <div>
-                {'>'}
-            </div>
-        </div> */}
     </div>
   );
 };
 
-// interface TotalProps { name: string, value: string };
-// const Total: FC<TotalProps> = props => {
-//     return (<div className={s.total}>
-//         <div className={s.total_name}>
-//             {props.name}
-//         </div>
-//         <div className={s.total_value}>
-//             {props.value}
-//         </div>
-//     </div>)
-// }
-
-// interface TotalInfoProps { };
-// const TotalInfo: FC<TotalInfoProps> = props => {
-//     return (<div className={s.total_info}>
-//         <Total
-//             name="Total wagered"
-//             value="10000000" />
-
-//         <Total
-//             name="Total bets"
-//             value="10000000" />
-
-//         <Total
-//             name="Total users"
-//             value="10000000" />
-//     </div>)
-// }
 
 interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
