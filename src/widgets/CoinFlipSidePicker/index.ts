@@ -1,0 +1,1 @@
+export { SidePicker } from './CoinFlipSidePicker';

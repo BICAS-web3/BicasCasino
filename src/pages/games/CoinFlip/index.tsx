@@ -4,9 +4,10 @@ import { Layout } from "@/widgets/Layout";
 import s from "./styles.module.scss";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
-import { CoinFlipProfitBlock } from "@/widgets/CoinFlipProfitBlock/CoinFlipProfitBlock";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
+import { SidePicker } from '@/widgets/CoinFlipSidePicker';
 import { useAccount } from "wagmi";
 
 const WagerContent = () => {
@@ -16,7 +17,8 @@ const WagerContent = () => {
       <WagerInputsBlock />
       <CustomWagerRangeInput inputTitle="Bets" min={0} max={100} />
       <WagerGainLoss />
-      <CoinFlipProfitBlock />
+      <ProfitBlock />
+      <SidePicker />
       <button className={s.connect_wallet_btn}>
         {isConnected ? "Place bet" : "Connect Wallet"}
       </button>

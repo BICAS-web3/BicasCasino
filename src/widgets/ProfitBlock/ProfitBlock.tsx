@@ -6,7 +6,7 @@ interface ProfitBlockProps { }
 export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
   const [totalWager, setTotalWager] = useState(0);
   const [maxPayout, setMaxPayout] = useState(0);
-  const [activeSide, setActiveSide] = useState("face");
+  // /const [activeSide, setActiveSide] = useState("face");
 
   return (
     <div className={s.coinflip_down_block}>
@@ -20,7 +20,7 @@ export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
           <span className={s.profit_total_maxPayout}>+{maxPayout}</span>
         </div>
       </div>
-      <div className={s.face_tails_wrap}>
+      {/* <div className={s.face_tails_wrap}>
         <div className={s.face_tails_block}>
           <div
             className={`${s.face_block} ${activeSide === "face" && s.face_tails_active
@@ -37,7 +37,7 @@ export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
             tails
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
