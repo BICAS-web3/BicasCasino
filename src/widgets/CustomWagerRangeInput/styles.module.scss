@@ -39,6 +39,34 @@
   cursor: pointer;
 }
 
+.custom_range_input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+.custom_range_input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d9d9d9;
+  border: none;
+  box-shadow: 0 0 2px black;
+}
+
+.custom_range_input::-moz-range-track {
+  background: transparent;
+  border: 0;
+}
+
+.custom_range_input::-moz-range-progress {
+  background: linear-gradient(to right, #f8eeb8, #dbb370, #8e5b2d);
+}
+
 .custom_range_input {
   background: #202020;
   width: 100%;

@@ -43,10 +43,17 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
       {!props.isEmptyCard ? (
         <>
           <div className={s.poker_table_card_front}>
-            <Image src={`${api.BaseStaticUrl}/media/games_assets/poker/${props.coat}/${props.card}.svg`} alt="card-image" width={200} height={278} />
+            <Image
+              src={`${api.BaseStaticUrl}/media/games_assets/poker/${props.coat}/${props.card}.svg`}
+              alt="card-image"
+              width={200}
+              height={278}
+              className={s.card_img}
+              onDragStart={() => false}
+            />
           </div>
           <div className={s.poker_table_card_back}>
-            <Image src={backCard} alt="card-image" />
+            <Image src={backCard} alt="card-image" className={s.card_img} onDragStart={() => false} />
           </div>
         </>
       ) : (

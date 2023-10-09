@@ -314,6 +314,9 @@
 
 // mobile
 @media only screen and (max-width: 650px) {
+  .main_container {
+    row-gap: 30px;
+  }
   .sidebarClosed {
     width: 100%;
   }
@@ -401,5 +404,11 @@
     width: 100%;
     height: 120px;
     border-radius: 12px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .background_container {
+    height: 180px;
   }
 }
