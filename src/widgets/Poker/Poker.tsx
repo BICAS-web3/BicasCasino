@@ -169,7 +169,7 @@ export const Poker: FC<PokerProps> = (props) => {
     address: (pickedToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
-    args: [gameAddress, useDebounce(currentBalance ? BigInt(currentBalance * 10000) * BigInt(100000000000000) : 0)]
+    args: [gameAddress, useDebounce(currentBalance ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000) : 0)]
   });
 
   const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite(allowanceConfig);
