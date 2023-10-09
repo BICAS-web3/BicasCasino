@@ -25,6 +25,20 @@
         background: linear-gradient(to bottom, #FFFFFF, #ECECEC, #D9D9D9, #BEBEBE, #CDCDCD);
       }
     }
+    .multipiler_container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .multipiler_cell{
+        font-size: 18px;
+        padding: 10px;
+        margin: 10px;
+        color: white;
+        border: 1px solid rgb(123, 99, 59);
+        box-shadow: rgb(123, 99, 59) 0 0 5px;
+        background-color: rgb(123, 99, 59);
+      }
+    }
   }
 }
 
