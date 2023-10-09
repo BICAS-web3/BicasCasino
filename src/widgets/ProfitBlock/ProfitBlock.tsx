@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import s from "./styles.module.scss";
 
-interface CoinFlipProfitBlockProps {}
+interface ProfitBlockProps { }
 
-export const CoinFlipProfitBlock: FC<CoinFlipProfitBlockProps> = ({}) => {
+export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
   const [totalWager, setTotalWager] = useState(0);
   const [maxPayout, setMaxPayout] = useState(0);
   const [activeSide, setActiveSide] = useState("face");
@@ -23,17 +23,15 @@ export const CoinFlipProfitBlock: FC<CoinFlipProfitBlockProps> = ({}) => {
       <div className={s.face_tails_wrap}>
         <div className={s.face_tails_block}>
           <div
-            className={`${s.face_block} ${
-              activeSide === "face" && s.face_tails_active
-            }`}
+            className={`${s.face_block} ${activeSide === "face" && s.face_tails_active
+              }`}
             onClick={() => setActiveSide("face")}
           >
             face
           </div>
           <div
-            className={`${s.tails_block} ${
-              activeSide === "tails" && s.face_tails_active
-            }`}
+            className={`${s.tails_block} ${activeSide === "tails" && s.face_tails_active
+              }`}
             onClick={() => setActiveSide("tails")}
           >
             tails
