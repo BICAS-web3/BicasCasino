@@ -99,11 +99,12 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     abi: IERC20,
     functionName: 'allowance',
     args: [address, GameAddress],
-    watch: true,
+    watch: isConnected,
   });
+
   useEffect(() => {
     if (allowance) {
-      const new_allowance = Number((allowance as bigint) / BigInt(100000000000000)) / 10000;
+      const new_allowance = Number((allowance as any) / BigInt(100000000000000)) / 10000;
       console.log('allowance', new_allowance);
       setAllowance(new_allowance);
     }
@@ -114,7 +115,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     abi: IERC20,
     functionName: 'balanceOf',
     args: [address],
-    watch: true,
+    watch: isConnected,
   });
   useEffect(() => {
     if (balance) {
