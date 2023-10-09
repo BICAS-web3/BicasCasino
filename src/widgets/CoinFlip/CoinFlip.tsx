@@ -6,6 +6,8 @@ import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, act } from "@react-three/fiber";
 import { AnimationAction } from "three";
 import { Environment } from '@react-three/drei';
+import { SidePickerModel } from "../CoinFlipSidePicker";
+import { useUnit } from "effector-react";
 
 interface CoinFlipProps { }
 
@@ -20,14 +22,19 @@ enum CoinAction {
 
 interface ModelProps {
   action: CoinAction;
+  initial: SidePickerModel.Side
 }
 
-const Model: FC<ModelProps> = ({ action }) => {
+const Model: FC<ModelProps> = ({ action, initial }) => {
   const { scene, animations } = useGLTF("/coinflip/coin_old.gltf");
   const { actions, mixer } = useAnimations(animations, scene);
 
   // scene.rotation.z = 1.3;
-  scene.rotation.y = -1.58;
+  if (initial == SidePickerModel.Side.Heads) {
+    scene.rotation.y = -1.58;
+  } else if (initial == SidePickerModel.Side.Tails) {
+    scene.rotation.y = 1.58;
+  }
   // scene.rotation.x = 3;
 
 
@@ -39,20 +46,28 @@ const Model: FC<ModelProps> = ({ action }) => {
       const current = actions[
         action
       ] as AnimationAction;
+      current.stop();
       current.play();
-      current.clampWhenFinished = true;
+      current.clampWhenFinished = false;
       console.log(current);
       if (action != CoinAction.Rotation) {
         current.setLoop(2200, 1);
       }
     }
-  }, [action]);
+  }, [initial]);
 
   // @ts-ignore
   return <primitive object={scene} />;
 };
 
 export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
+
+  const [
+    pickedSide
+  ] = useUnit([
+    SidePickerModel.$pickedSide,
+  ]);
+
   const [screenWidth, setScreenWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0
   );
@@ -92,7 +107,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
                 <ambientLight intensity={0.3} />
                 <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
                 <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <Model action={CoinAction.Stop} />
+                <Model
+                  action={pickedSide == SidePickerModel.Side.Heads ? CoinAction.TailsHeads : CoinAction.TailsHeads}
+                  initial={pickedSide} />
               </Suspense>
             </Canvas>
           </div>
