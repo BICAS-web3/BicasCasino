@@ -404,9 +404,9 @@ export default function Home() {
     }
   }, [tablet, laptop]);
 
-  useEffect(() => {
-    console.log("New bets");
-  }, [Bets]);
+  // useEffect(() =>
+  //   console.log("New bets");
+  // }, [Bets]);
 
   return (
     <>
