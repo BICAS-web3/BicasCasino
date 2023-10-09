@@ -40,7 +40,7 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
             min={min}
           />
         </div>
-        <span className={s.custom_range_input_max_value}>10</span>
+        <span className={s.custom_range_input_max_value}>{max}</span>
       </div>
     </div>
   );

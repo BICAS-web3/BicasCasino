@@ -7,15 +7,19 @@ import { CoinFlipWagerGainLoss } from "@/widgets/CoinFlip/CoinFlipWagerGainLoss/
 import { CoinFlipProfitBlock } from "@/widgets/CoinFlip/CoinFlipProfitBlock/CoinFlipProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
+import { useAccount } from "wagmi";
 
 const WagerContent = () => {
+  const { isConnected } = useAccount();
   return (
     <>
       <WagerInputsBlock />
-      <CustomWagerRangeInput inputTitle="Bets" min={0} max={10} />
+      <CustomWagerRangeInput inputTitle="Bets" min={0} max={100} />
       <CoinFlipWagerGainLoss />
       <CoinFlipProfitBlock />
-      <button className={s.connect_wallet_btn}>Connect Wallet</button>
+      <button className={s.connect_wallet_btn}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
+      </button>
       <WagerLowerBtnsBlock game="coinflip" />
     </>
   );

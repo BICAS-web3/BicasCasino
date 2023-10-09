@@ -83,9 +83,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
             <Canvas
               camera={{
                 position: [-9, 0, 0],
-                //near: 0.1,
                 fov: 20
-                //far: 1
               }}
               style={{ pointerEvents: "none" }}
             >
@@ -94,19 +92,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
                 <ambientLight intensity={0.3} />
                 <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
                 <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                {/* <pointLight
-                  position={[-10, 0, 0]}
-                  intensity={1}
-                  color="#fff"
-                /> */}
-                {/* <directionalLight intensity={100} position={[0, 0, -1]} />
-                <pointLight position={[0, 0, 0]} intensity={100} color="#fff" />
-                <pointLight
-                  position={[0, 0, 10]}
-                  intensity={100}
-                  color="#fff"
-                />
-                <pointLight position={[0, -10, 5]} intensity={100} color="#fff" /> */}
                 <Model action={CoinAction.Stop} />
               </Suspense>
             </Canvas>
