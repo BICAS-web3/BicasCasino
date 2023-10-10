@@ -14,6 +14,7 @@ import {
 } from 'wagmi';
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { sessionModel } from "@/entities/session";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 
 // const tokensList = [
@@ -46,6 +47,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     pickedToken,
     pickToken,
     unpickToken,
+    betsAmount
     //pressButton
   ] = useUnit([
     settingsModel.$AvailableTokens,
@@ -55,6 +57,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     WagerModel.$pickedToken,
     WagerModel.pickToken,
     WagerModel.unpickToken,
+    CustomWagerRangeInputModel.$pickedValue
     //WagerModel.pressButton
   ]);
 
@@ -182,7 +185,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
-              if (currency >= 5) {
+              if (currency * betsAmount >= 5) {
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
@@ -248,7 +251,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
               const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
-              if (currency >= 5) {
+              if (currency * betsAmount >= 5) {
                 const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
                 setCryptoValue(crypto_value);
               } else {

@@ -276,7 +276,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
         // if (finishPlaying) finishPlaying();
       } else {
         console.log(cryptoValue, currentBalance);
-        if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
+        const total_value = cryptoValue * betsAmount;
+        if (cryptoValue != 0 && currentBalance && total_value <= currentBalance) {
           console.log('Allowance', allowance);
           if (!allowance || (allowance && allowance <= cryptoValue)) {
             console.log('Setting allowance');
