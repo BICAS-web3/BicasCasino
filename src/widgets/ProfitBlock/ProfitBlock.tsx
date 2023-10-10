@@ -12,7 +12,7 @@ export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
     betsAmount
   ] = useUnit([
     WagerModel.$cryptoValue,
-    CustomWagerRangeInputModel.$pickedValue
+    CustomWagerRangeInputModel.$pickedValue,
   ]);
   // const [totalWager, setTotalWager] = useState(0);
   // const [maxPayout, setMaxPayout] = useState(0);

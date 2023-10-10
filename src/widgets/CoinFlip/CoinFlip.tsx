@@ -241,7 +241,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       console.log('Picked side', pickedSide);
       if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
         console.log("Found Log!");
-        const wagered = ((log[0] as any).args.wager as bigint) * (log[0] as any).args.numGames;
+        const wagered = BigInt(((log[0] as any).args.wager)) * BigInt((log[0] as any).args.numGames);
         if ((log[0] as any).args.payout > wagered) {
           console.log("won");
           const profit = (log[0] as any).args.payout;
