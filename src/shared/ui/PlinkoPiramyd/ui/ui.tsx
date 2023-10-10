@@ -8,7 +8,7 @@ interface IPlinkoPyramid {}
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
   const [rowCount, setRowCount] = useState(pickedValue);
-  const [multiplierCount, setMultiplierCount] = useState(pickedValue); // Изменяем начальное значение множителей
+  const [multiplierCount, setMultiplierCount] = useState(pickedValue);
 
   useEffect(() => {
     setRowCount(pickedValue);
