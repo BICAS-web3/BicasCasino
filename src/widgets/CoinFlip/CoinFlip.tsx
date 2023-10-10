@@ -20,6 +20,7 @@ import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
+import { useFeeData } from 'wagmi'
 
 interface CoinFlipProps { }
 
@@ -119,6 +120,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
+  const { data, isError, isLoading } = useFeeData();
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -148,7 +150,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
   });
 
   useEffect(() => {
-    if (GameState) {
+    if (GameState && !inGame) {
       if ((GameState as any).ingame) {
         if (!(GameState as any).isFirstRequest && (GameState as any).requestID == 0) {
           setInGame(true);
@@ -172,17 +174,26 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
 
   const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite(allowanceConfig);
 
+  const [fees, setFees] = useState<bigint>(BigInt(0));
+
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
     address: (gameAddress as `0x${string}`),
     abi: ICoinFlip,
     functionName: 'getVRFFee',
-    args: [500000],
+    args: [0],
     // onSuccess: (fees: bigint) => {
     //   console.log('fees', fees);
     // },
-    watch: isConnected,
+    watch: true,
   });
+
+  useEffect(() => {
+    console.log('gas price', data?.gasPrice);
+    if (VRFFees && data?.gasPrice) {
+      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(1000000) * data.gasPrice)) / BigInt(2));
+    }
+  }, [VRFFees, data]);
 
   const { config: startPlayingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -197,7 +208,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       stopGain ? useDebounce(BigInt(Math.floor(stopGain * 10000000)) * BigInt(100000000000)) : useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)) * BigInt(200),
       stopLoss ? useDebounce(BigInt(Math.floor(stopLoss * 10000000)) * BigInt(100000000000)) : useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)) * BigInt(200)
     ],
-    value: BigInt(VRFFees ? (VRFFees as bigint) / BigInt(2) : 0) * BigInt(10),
+    value: fees,
     enabled: true,
   });
 
@@ -214,43 +225,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     }
   }, [startedPlaying]);
 
-  const handleLog = (log: any) => {
-    console.log('Log', log);
-    console.log('address', ((log[0] as any).args.playerAddress as string));
-    console.log('address wallet', address?.toLowerCase());
-    console.log('Picked side', pickedSide);
-    if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
-      console.log("Found Log!");
-      const wagered = (log[0] as any).args.wager;
-      if ((log[0] as any).args.payout > 0) {
-        console.log("won");
-        const profit = (log[0] as any).args.payout;
-        console.log("profit", profit);
-        const multiplier = Number(profit / wagered);
-        console.log("multiplier", multiplier);
-        //console.log("token", ((log[0] as any).args.tokenAddress as string).toLowerCase());
-        const wagered_token = ((log[0] as any).args.tokenAddress as string).toLowerCase();
-        const token = TOKENS.find((tk) => tk.address == wagered_token)?.name//TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-        console.log("won token", token);
-        //console.log("available tokens", availableTokens);
-        const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-        setWonStatus({ profit: profitFloat, multiplier, token: token as string });
-        setGameStatus(GameModel.GameStatus.Won);
-        pickSide(pickedSide);
-      } else {
-        console.log("lost");
-        const wageredFloat = Number(wagered / BigInt(10000000000000000)) / 100;
-        console.log("wagered", wageredFloat);
-        setLostStatus(wageredFloat);
-        setGameStatus(GameModel.GameStatus.Lost);
-        console.log('Setting side to', pickedSide);
-        pickSide(pickedSide ^ 1);
-      }
-      setInGame(false);
-      setActivePicker(true);
-      //setShowRedraw(false);
-    }
-  };
+  useEffect(() => {
+    console.log(error);
+  }, [error])
 
   useContractEvent({
     address: (gameAddress as `0x${string}`),
@@ -286,7 +263,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
         }
-        setInGame(false);
         //setShowRedraw(false);
       }
     },
@@ -312,7 +288,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
               startPlaying,
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
               //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
-              pickedToken?.contract_address
+              pickedToken?.contract_address,
+              gameAddress,
+              VRFFees
             );
             if (startPlaying) {
               startPlaying();
@@ -326,12 +304,13 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
   }, [wagered]);
 
   useEffect(() => {
+    setActivePicker(true);
+    setInGame(false);
     if (gameStatus == GameModel.GameStatus.Won) {
       pickSide(pickedSide);
     } else if (gameStatus == GameModel.GameStatus.Lost) {
       pickSide(pickedSide ^ 1);
     }
-    setActivePicker(true);
   }, [gameStatus])
 
   // const [screenWidth, setScreenWidth] = useState(

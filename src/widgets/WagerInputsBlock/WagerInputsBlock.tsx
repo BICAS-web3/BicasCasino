@@ -191,7 +191,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
-            {/* {startedTyping && (cryptoValue * exchangeRate) < 5 && <TransactionWarn amount={5} network="Polygon" />} */}
+            {startedTyping && (cryptoValue * exchangeRate) < 5 && <TransactionWarn amount={5} network="" />}
             {pickedToken && <><Image
               alt="token-ico"
               src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
