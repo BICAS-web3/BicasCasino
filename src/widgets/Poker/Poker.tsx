@@ -169,6 +169,7 @@ export const Poker: FC<PokerProps> = (props) => {
     address: (pickedToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
+    enabled: true,
     args: [gameAddress, useDebounce(currentBalance ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000) : 0)]
   });
 
@@ -212,7 +213,7 @@ export const Poker: FC<PokerProps> = (props) => {
         console.log(cryptoValue, currentBalance);
         if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
           console.log('Allowance', allowance);
-          if (allowance && allowance <= cryptoValue) {
+          if (!allowance || (allowance && allowance <= cryptoValue)) {
             console.log('Setting allowance');
             if (setAllowance) setAllowance();
             //return;

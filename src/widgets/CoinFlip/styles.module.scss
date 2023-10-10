@@ -34,10 +34,6 @@
   position: relative;
 }
 
-.coinflip_wins_losses_list_clone {
-  display: none;
-}
-
 .coinflip_wins_losses_list {
   font-family: var(--font-source-sans-3);
   color: #fff;
@@ -46,6 +42,16 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.8px;
+
+  height: 29px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coinflip_wins_losses_list_clone {
+  display: none;
 }
 
 .coinflip_wrap {
