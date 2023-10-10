@@ -205,8 +205,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       pickedToken?.contract_address,
       pickedSide,
       betsAmount,
-      stopGain ? useDebounce(BigInt(Math.floor(stopGain * 10000000)) * BigInt(100000000000)) : useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)) * BigInt(200),
-      stopLoss ? useDebounce(BigInt(Math.floor(stopLoss * 10000000)) * BigInt(100000000000)) : useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)) * BigInt(200)
+      useDebounce(stopGain) ? BigInt(Math.floor(stopGain as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200),
+      useDebounce(stopLoss) ? BigInt(Math.floor(stopLoss as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200)
     ],
     value: fees,
     enabled: true,
