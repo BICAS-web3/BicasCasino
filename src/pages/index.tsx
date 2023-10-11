@@ -32,11 +32,11 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainImg.png";
+import pokerMainBg from "@/public/media/games_assets/poker/mainImg.png";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
 import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.png";
-import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSideBarImg.png";
+import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.png";
 
 import coinflipMainBg from "@/public/media/games_assets/coinflip/mainBg.png";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";
@@ -174,10 +174,8 @@ const Game: FC<GameProps> = (props) => {
     <a
       className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
       href={props.link}
-      style={{
-        backgroundImage: `url(${currentImage})`,
-      }}
     >
+      <img src={currentImage} className={s.game_link_img} alt="game-img" />
       <div className={s.game}>
         <div className={s.game_info}>
           <div className={s.game_name}>{props.name}</div>
@@ -188,7 +186,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -251,7 +249,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -260,8 +258,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   );
 };
 
-
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -305,8 +302,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
