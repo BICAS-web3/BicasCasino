@@ -9,7 +9,7 @@ import tableBg from "@/public/media/poker_images/pokerBgImage.png";
 // import testCard5 from "@/public/media/poker_images/testCard5.png";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
-import { useAccount, useContractEvent, useContractRead, useContractWrite, useNetwork, usePrepareContractWrite } from "wagmi";
+import { useAccount, useContractEvent, useContractRead, useContractWrite, useFeeData, useNetwork, usePrepareContractWrite } from "wagmi";
 import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from 'use-sound';
@@ -103,6 +103,7 @@ export const Poker: FC<PokerProps> = (props) => {
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
+  const { data, isError, isLoading } = useFeeData();
 
   const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const [playBackground, { stop: stopBackground }] = useSound('/static/media/games_assets/music/background1.wav', { volume: 0.1, loop: true });
@@ -124,7 +125,7 @@ export const Poker: FC<PokerProps> = (props) => {
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'getVRFFee',
-    args: [500000],
+    args: [0],
     // onSuccess: (fees: bigint) => {
     //   console.log('fees', fees);
     // },
@@ -169,10 +170,20 @@ export const Poker: FC<PokerProps> = (props) => {
     address: (pickedToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
+    enabled: true,
     args: [gameAddress, useDebounce(currentBalance ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000) : 0)]
   });
 
   const { write: setAllowance, isSuccess: allowanceIsSet } = useContractWrite(allowanceConfig);
+
+  const [fees, setFees] = useState<bigint>(BigInt(0));
+
+  useEffect(() => {
+    console.log('gas price', data?.gasPrice);
+    if (VRFFees && data?.gasPrice) {
+      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(1000000) * data.gasPrice)));
+    }
+  }, [VRFFees, data]);
 
   const { config: startPlayingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -180,7 +191,7 @@ export const Poker: FC<PokerProps> = (props) => {
     abi: IPoker,
     functionName: 'VideoPoker_Start',
     args: [useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)), pickedToken?.contract_address],
-    value: BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
+    value: fees,
     enabled: true,
   });
 
@@ -196,7 +207,7 @@ export const Poker: FC<PokerProps> = (props) => {
     abi: IPoker,
     functionName: 'VideoPoker_Replace',
     args: [useDebounce(cardsState)],
-    value: useDebounce(cardsState.find((el) => el) ? BigInt((VRFFees as bigint) ? (VRFFees as bigint) : 0) * BigInt(10) : BigInt(0)),
+    value: useDebounce(cardsState.find((el) => el) ? fees : BigInt(0)),
     enabled: true
   });
 
@@ -212,7 +223,7 @@ export const Poker: FC<PokerProps> = (props) => {
         console.log(cryptoValue, currentBalance);
         if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
           console.log('Allowance', allowance);
-          if (allowance && allowance <= cryptoValue) {
+          if (!allowance || (allowance && allowance <= cryptoValue)) {
             console.log('Setting allowance');
             if (setAllowance) setAllowance();
             //return;

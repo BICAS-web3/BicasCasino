@@ -14,6 +14,7 @@ import {
 } from 'wagmi';
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { sessionModel } from "@/entities/session";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 
 // const tokensList = [
@@ -46,6 +47,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     pickedToken,
     pickToken,
     unpickToken,
+    betsAmount
     //pressButton
   ] = useUnit([
     settingsModel.$AvailableTokens,
@@ -55,6 +57,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     WagerModel.$pickedToken,
     WagerModel.pickToken,
     WagerModel.unpickToken,
+    CustomWagerRangeInputModel.$pickedValue
     //WagerModel.pressButton
   ]);
 
@@ -75,6 +78,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [currencyInputValue, setCurrencyInputValue] = useState("0.0");
   const [tokenListVisibility, setTokenListVisibility] = useState(false);
   const [exchangeRate, setExchangeRate] = useState<number>(0);
+  const [startedTyping, setstartedTyping] = useState<boolean>(false);
 
   const handleChangeToken = (token: api.T_Token) => {
     pickToken(token);
@@ -132,36 +136,30 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     }
   }, [pickedToken]);
 
-  //const [wroteTo, setWroteTo] = useState<number>(0);
-
-  // useEffect(() => {
-  //   const num = Number(cryptoInputValue);
-  //   if (isNaN(num)) {
-  //     return;
-  //   }
-  //   console.log("Wager", num);
-  //   setCryptoValue(num);
-  //   setCurrencyInputValue(Number((num * exchangeRate).toFixed(7)).toString());
-  // }, [cryptoInputValue]);
-
-  // useEffect(() => {
-  //   const num = Number(currencyInputValue);
-  //   if (isNaN(num)) {
-  //     return;
-  //   }
-  //   console.log("exchange rate", exchangeRate);
-  //   const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
-  //   setCryptoValue(crypto_value);
-  //   setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
-  // }, [currencyInputValue]);
-
   useEffect(() => {
     if (!chain || chain.unsupported) {
       unpickToken();
     }
   }, [chain])
 
-  const cond = false;
+  useEffect(() => {
+
+    const num = Number(cryptoInputValue);
+    if (isNaN(num)) {
+      //setCryptoValue(0);
+      return;
+    }
+    const currency = num * exchangeRate;
+    console.log(cryptoInputValue, currency, betsAmount);
+    if (currency * betsAmount >= 5) {
+      console.log(currency * betsAmount >= 5);
+      setCryptoValue(num);
+    } else {
+      setCryptoValue(0);
+    }
+  }, [betsAmount])
+
+  const cond = true;
 
   return (
     <>
@@ -170,20 +168,27 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
           <input
             className={s.poker_wager_input_kripto}
             onChange={(e) => {
+              setstartedTyping(true);
               const numb = e.target.value
               setCryptoInputValue(numb);
               const num = Number(numb);
               if (isNaN(num)) {
+                setCryptoValue(0);
                 return;
               }
               console.log("Wager", num);
-              setCryptoValue(num);
-              setCurrencyInputValue(Number((num * exchangeRate).toFixed(7)).toString());
+              const currency = Number((num * exchangeRate).toFixed(7));
+              setCurrencyInputValue(currency.toString());
+              if (currency * betsAmount >= 5) {
+                setCryptoValue(num);
+              } else {
+                setCryptoValue(0);
+              }
             }}
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
-            {cond && <TransactionWarn amount={15} network="Polygon" />}
+            {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />}
             {pickedToken && <><Image
               alt="token-ico"
               src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
@@ -228,16 +233,24 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
           <input
             className={s.poker_wager_input_currency}
             onChange={(e) => {
+              setstartedTyping(true);
               const numb = e.target.value;
               setCurrencyInputValue(numb);
               const num = Number(numb);
               if (isNaN(num)) {
+                setCryptoValue(0);
                 return;
               }
               console.log("exchange rate", exchangeRate);
               const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
-              setCryptoValue(crypto_value);
+              //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
+              if (num * betsAmount >= 5) {
+                //const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
+                setCryptoValue(crypto_value);
+              } else {
+                setCryptoValue(0);
+              }
             }}
             value={currencyInputValue}
           />

@@ -1,7 +1,7 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 
 // variables
-export const $pickedValue = createStore<number>(5);
+export const $pickedValue = createStore<number>(1);
 
 
 // events

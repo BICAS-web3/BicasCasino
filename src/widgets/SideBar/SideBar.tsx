@@ -42,6 +42,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <div
               className={`${s.button} ${props.pickedGame == 0 ? s.button_picked : ""
                 }`}
+              onClick={() => { location.href = "/games/CoinFlip" }}
             >
               <CoinButton />
               <div className={s.games_button_tooltip}>Coinflip</div>
@@ -118,7 +119,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               </div>
             </div>
             <div className={s.game_rows}>
-              <div className={`${s.game_row} ${s.picked_game_row}`}>
+              <div className={`${s.game_row} ${s.picked_game_row}`}
+                onClick={() => { location.href = "/games/CoinFlip" }}
+              >
                 <CoinButton />
                 Coinflip
               </div>
