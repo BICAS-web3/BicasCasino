@@ -56,6 +56,12 @@ import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
+import plinkoMainBg from '@/public/media/games_assets/plinko/plinkoMainBg.png'
+import plinkoLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
+import plinkoTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
+import plinkoMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
+import plinkoClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
+
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
@@ -255,13 +261,13 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"PLINKO"}
           description={
-            "PLINKO GAME"
+            "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Plinko"}
           tabletImage={minesTabletBg}
           laptopImage={minesLaptopBg}
           mobileImage={minesMobileBg}
-          pcImage={minesMainBg}
+          pcImage={plinkoMainBg}
           closedSidebarImage={minesClosedSidebarImg}
         />
       </div>
