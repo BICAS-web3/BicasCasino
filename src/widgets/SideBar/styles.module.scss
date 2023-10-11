@@ -327,6 +327,9 @@
   background: #121212;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  &:last-child {
+    border-radius: 0 0 20px 20px;
+  }
 }
 
 .game_row:hover {
