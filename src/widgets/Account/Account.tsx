@@ -17,7 +17,7 @@ import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
 import * as HeaderAccModel from "@/widgets/Account/model";
 import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
-import { useDisconnect } from 'wagmi'
+import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 
 export enum Ewallet {
@@ -96,7 +96,10 @@ export const Account: FC<AccountProps> = (props) => {
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
-            {props.nickname && props.nickname.toLowerCase() != props.address.toLowerCase() ? props.nickname : truncatedAddress}
+            {props.nickname &&
+            props.nickname.toLowerCase() != props.address.toLowerCase()
+              ? props.nickname
+              : truncatedAddress}
           </div>
           <div className={s.profile_address}>
             <div className={s.profile_address}>{truncatedAddress}</div>
@@ -109,9 +112,23 @@ export const Account: FC<AccountProps> = (props) => {
       <div className={s.account_item}>
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
-        <AccountElement name="Profile" icon={ProfileIcon} onClick={() => { window.location.assign(`/account/${props.address.toLowerCase()}`) }} />
-        <AccountElement name="Explorer" icon={ExplorerIcon} onClick={undefined} />
-        <AccountElement name="Disconnect" icon={ExitIcon} onClick={() => disconnect()} />
+        <AccountElement
+          name="Profile"
+          icon={ProfileIcon}
+          onClick={() => {
+            window.location.assign(`/account/${props.address.toLowerCase()}`);
+          }}
+        />
+        <AccountElement
+          name="Explorer"
+          icon={ExplorerIcon}
+          onClick={undefined}
+        />
+        <AccountElement
+          name="Disconnect"
+          icon={ExitIcon}
+          onClick={() => disconnect()}
+        />
         {/* <AccountElement name="Explorer" icon={Explorer}/>
         <AccountElement name="Disconnect" icon={Exit}/> */}
       </div>

@@ -369,9 +369,9 @@ export default function Home() {
     }
   }, [tablet, laptop]);
 
-  useEffect(() => {
-    console.log("New bets");
-  }, [Bets]);
+  // useEffect(() =>
+  //   console.log("New bets");
+  // }, [Bets]);
 
   return (
     <>
@@ -401,6 +401,7 @@ export default function Home() {
         </div>
         {/* </div> */}
       </Layout>
+
       {/* <Footer />
       <InvitesList />
       <GamesList />

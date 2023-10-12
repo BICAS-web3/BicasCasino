@@ -21,7 +21,7 @@
 }
 
 .background_container {
-  height: 614.267px;
+  height: 454px;
   width: 100%;
   position: absolute;
   left: 0;
@@ -76,6 +76,7 @@
   width: 100%;
   //left: 90px;
   //height: fit-content;
+  object-fit: cover;
 }
 
 .background_gradient {

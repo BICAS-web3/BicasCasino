@@ -9,7 +9,9 @@ export interface IRecentlyGames {
   imgBackground: StaticImageData | string;
 }
 
-export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = (props) => {
+export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = (
+  props
+) => {
   return (
     <div className={styles.container}>
       <p className={styles.recently_played_heading}>recently played</p>
