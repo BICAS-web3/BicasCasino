@@ -1,38 +1,47 @@
-import { FC, ReactElement, useEffect, useState } from 'react';
-import Image from 'next/image';
-import s from './styles.module.scss';
-import AccountIcon from '@/public/media/player_icons/playerIcon1.png';
-import { useUnit } from 'effector-react';
-import { sessionModel } from '@/entities/session';
-import { settingsModel } from '@/entities/settings';
-import FacebookEmblem from '@/public/media/social_media/facebook.svg';
-import TwitterEmblem from '@/public/media/social_media/twitter.svg';
-import * as Api from '@/shared/api';
-import { web3 } from '@/entities/web3/index';
-import { BigNumber, ethers } from 'ethers';
-import Web3 from 'web3';
-import { ABI as IERC20 } from '@/shared/contracts/ERC20';
-import HeaderLogo from '@/public/media/brand_images/HeaderLogo.svg';
-import HeaderBrandText from '@/public/media/brand_images/HeaderBrandText.svg';
-import Burger from '@/public/media/misc/burger.svg';
-import ChatIcon from '@/public/media/misc/chatIcon.svg';
-import BellIcon from '@/public/media/misc/bellIcon.svg';
-import { SideBarModel } from '@/widgets/SideBar';
-import * as BlurModel from '@/widgets/Blur/model'
-import { CoinButton, DiceButton, RPCButton, PokerButton, GamesIcon, ArrowIcon, SupportIcon } from '@/shared/SVGs';
+import { FC, ReactElement, useEffect, useState } from "react";
+import Image from "next/image";
+import s from "./styles.module.scss";
+import AccountIcon from "@/public/media/player_icons/playerIcon1.png";
+import { useUnit } from "effector-react";
+import { sessionModel } from "@/entities/session";
+import { settingsModel } from "@/entities/settings";
+import FacebookEmblem from "@/public/media/social_media/facebook.svg";
+import TwitterEmblem from "@/public/media/social_media/twitter.svg";
+import * as Api from "@/shared/api";
+import { web3 } from "@/entities/web3/index";
+import { BigNumber, ethers } from "ethers";
+import Web3 from "web3";
+import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+import HeaderLogo from "@/public/media/brand_images/HeaderLogo.svg";
+import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
+import Burger from "@/public/media/misc/burger.svg";
+import ChatIcon from "@/public/media/misc/chatIcon.svg";
+import BellIcon from "@/public/media/misc/bellIcon.svg";
+import { SideBarModel } from "@/widgets/SideBar";
+import * as BlurModel from "@/widgets/Blur/model";
+import {
+  CoinButton,
+  DiceButton,
+  RPCButton,
+  PokerButton,
+  GamesIcon,
+  ArrowIcon,
+  SupportIcon,
+} from "@/shared/SVGs";
 import { NetworkSelect } from "@/widgets/NetworkSelect/NetworkSelect";
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
-import * as SidebarM from '@/widgets/SideBar/model'
+import * as SidebarM from "@/widgets/SideBar/model";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 //import { Open } from "@/widgets/header/model";
 import * as HeaderAccModel from "@/widgets/Account/model";
 import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../Account";
-import { useAccount } from 'wagmi';
-import TestProfilePic from '@/public/media/misc/TestProfilePic.svg';
-import Link from 'next/link';
+import { useAccount } from "wagmi";
+import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
+import Link from "next/link";
+import { checkPageClicking } from "@/shared/tools";
 
-interface EmblemProps { }
+interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
     <Link className={s.emblem} href="/">
@@ -42,7 +51,7 @@ const Emblem: FC<EmblemProps> = (props) => {
   );
 };
 
-interface LeftMenuProps { }
+interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
   const [flipOpen, isOpen] = useUnit([
     SideBarModel.flipOpen,
@@ -63,7 +72,7 @@ const LeftMenu: FC<LeftMenuProps> = (props) => {
   );
 };
 
-interface LinksProps { }
+interface LinksProps {}
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
@@ -75,7 +84,7 @@ const Links: FC<LinksProps> = (props) => {
   );
 };
 
-interface ConnectWalletButtonProps { }
+interface ConnectWalletButtonProps {}
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const [isOpen, isMainWalletOpen, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -102,10 +111,13 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
-  //         (document.documentElement.style.overflow = 'visible')
-  // }, [walletVisibility])
+  useEffect(() => {
+    if (walletVisibility) {
+      checkPageClicking({ blockDataId: "connect-wallet-block" }, (isBlock) => {
+        !isBlock && setWalletVisibility(false);
+      });
+    }
+  }, [walletVisibility]);
 
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
@@ -114,13 +126,17 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   };
 
   return (
-    <div className={s.connect_wallet_button_wrap}>
+    <div
+      className={s.connect_wallet_button_wrap}
+      data-id={"connect-wallet-block"}
+    >
       <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
         Connect Wallet
       </div>
       <div
-        className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-          }`}
+        className={`${s.header_avaibleWallet_wrap} ${
+          walletVisibility && s.avaibleWallet_visible
+        }`}
       >
         <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
       </div>
@@ -129,9 +145,9 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
 };
 
 interface RightMenuProps {
-  isGame: boolean
-};
-const RightMenu: FC<RightMenuProps> = props => {
+  isGame: boolean;
+}
+const RightMenu: FC<RightMenuProps> = (props) => {
   const { isConnected, address } = useAccount();
 
   const [screenWidth, setScreenWidth] = useState(0);
@@ -145,7 +161,7 @@ const RightMenu: FC<RightMenuProps> = props => {
     setBlur,
     logIn,
     currentNickname,
-    logOut
+    logOut,
   ] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.Close,
@@ -155,7 +171,7 @@ const RightMenu: FC<RightMenuProps> = props => {
     BlurModel.setBlur,
     sessionModel.logIn,
     sessionModel.$currentNickname,
-    sessionModel.logOut
+    sessionModel.logOut,
   ]);
 
   useEffect(() => {
@@ -165,7 +181,6 @@ const RightMenu: FC<RightMenuProps> = props => {
     }
 
     logIn({ address: (address as string).toLowerCase() });
-
   }, [address]);
 
   const closeSidebar = () => {
@@ -236,9 +251,9 @@ const RightMenu: FC<RightMenuProps> = props => {
       )}
     </div>
   );
-}
+};
 
-interface BottomMenuProps { }
+interface BottomMenuProps {}
 const BottomMenu: FC<BottomMenuProps> = (props) => {
   const [openSidebar] = useUnit([SideBarModel.Open]);
 
@@ -267,18 +282,20 @@ const BottomMenu: FC<BottomMenuProps> = (props) => {
 };
 
 export interface HeaderProps {
-  isGame: boolean
+  isGame: boolean;
 }
-export const Header: FC<HeaderProps> = props => {
-  return (<>
+export const Header: FC<HeaderProps> = (props) => {
+  return (
     <>
-      <div className={s.header}>
-        <LeftMenu />
-        <Links />
-        {/* <NetworkSelect /> */}
-        <RightMenu isGame={props.isGame} />
-      </div>
-      <BottomMenu />
+      <>
+        <div className={s.header}>
+          <LeftMenu />
+          <Links />
+          {/* <NetworkSelect /> */}
+          <RightMenu isGame={props.isGame} />
+        </div>
+        <BottomMenu />
+      </>
     </>
-  </>);
-}
+  );
+};
