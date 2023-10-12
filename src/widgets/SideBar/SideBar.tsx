@@ -32,22 +32,27 @@ const gamesList = [
   {
     title: "Coinflip",
     icon: "coin",
+    link: "/games/CoinFlip"
   },
   {
     title: "Dice",
     icon: "dice",
+    link: "/games/Dice"
   },
   {
     title: "Rock paper scissors",
     icon: "rps",
+    link: "/games/RPS"
   },
   {
     title: "Poker",
     icon: "poker",
+    link: "/games/Poker"
   },
   {
     title: "Mines",
     icon: "mines",
+    link: "/games/Mines"
   },
 ];
 
@@ -84,7 +89,9 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <div className={s.games_button_tooltip}>
               <div className={s.tooltip_games_list}>
                 {gamesList.map((item, ind) => (
-                  <div className={s.tooltip_games_list_item}>
+                  <div 
+                  className={s.tooltip_games_list_item} 
+                  onClick={() => { location.href = item.link }}>
                     <GameIcon iconId={item.icon} />
                     <span className={s.tooltip_games_list_item_title}>
                       {item.title}
