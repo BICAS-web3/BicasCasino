@@ -18,6 +18,7 @@ import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBetsModel, LiveBetsWS } from "@/widgets/LiveBets";
 import mainBg from "@/public/media/misc/mainBg.png";
+import mainBg2 from "@/public/media/misc/mainImg2.png";
 import laptopBg from "@/public/media/misc/1280Bg.png";
 import tabletBg from "@/public/media/misc/tabletBg.png";
 import phoneBg from "@/public/media/misc/phoneBg.png";
@@ -197,7 +198,7 @@ const Games: FC<GamesProps> = (props) => {
       <div className={s.games_row}>
         <Game
           name={"POKER"}
-          description={"Poker"}
+          description={""}
           link={"/games/Poker"}
           pcImage={pokerMainBg}
           tabletImage={pokerTabletBg}
@@ -316,35 +317,42 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
 };
 
 export default function Home() {
-  const [Bets, AvailableBlocksExplorers] = useUnit([
+  const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
     LiveBetsModel.$Bets,
     settingsModel.$AvailableBlocksExplorers,
+    SideBarModel.$isOpen,
   ]);
 
   const [currentImage, setCurrentImage] = useState(mainBg);
   const [laptop, setLaptop] = useState(false);
   const [tablet, setTablet] = useState(false);
   const [phone, setPhone] = useState(false);
+  const [main, setMain] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width <= 1280 && width > 700) {
+
+      if (width > 1280) {
+        setLaptop(false);
+        setTablet(false);
+        setPhone(false);
+        setMain(true);
+      } else if (width <= 1280 && width > 700) {
         setLaptop(true);
         setTablet(false);
         setPhone(false);
+        setMain(false);
       } else if (width <= 700) {
         setLaptop(false);
         setTablet(true);
         setPhone(false);
+        setMain(false);
       } else if (width <= 320) {
         setLaptop(false);
         setTablet(false);
         setPhone(true);
-      } else {
-        setLaptop(false);
-        setTablet(false);
-        setPhone(false);
+        setMain(false);
       }
     };
 
@@ -364,8 +372,8 @@ export default function Home() {
       setCurrentImage(tabletBg);
     } else if (phone) {
       setCurrentImage(phoneBg);
-    } else {
-      setCurrentImage(mainBg);
+    } else if (main) {
+      setCurrentImage(mainBg2);
     }
   }, [tablet, laptop]);
 
@@ -384,7 +392,11 @@ export default function Home() {
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
-          <div className={s.background_container}>
+          <div
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
+          >
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
           </div>
