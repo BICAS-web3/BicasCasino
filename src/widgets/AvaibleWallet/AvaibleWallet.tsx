@@ -9,7 +9,7 @@ import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
 import Close from "@/public/media/select_wallet/Close.svg";
 import { InfoIcon } from "@/shared/SVGs";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { SideBarModel } from "../SideBar";
 import * as MainWallet from "./model";
 import * as BlurModel from "@/widgets/Blur/model";
@@ -23,6 +23,7 @@ export interface WalletProps {
 }
 const Wallet: FC<WalletProps> = (props) => {
   const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
 
   const [isOpen, closeWallet, setBlur, isBlurActive] = useUnit([
@@ -36,6 +37,7 @@ const Wallet: FC<WalletProps> = (props) => {
   useEffect(() => {
     if (isConnected && isBlurActive) {
       setBlur(false);
+      document.documentElement.style.overflow = "visible";
     }
   }, [isConnected]);
 

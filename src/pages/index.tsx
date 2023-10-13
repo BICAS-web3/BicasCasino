@@ -72,6 +72,7 @@ import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
 import { useAccount } from "wagmi";
 import Link from "next/link";
+import { Blur } from "@/widgets/Blur/Blur";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -398,6 +399,7 @@ export default function Home() {
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
           </div>
+          <Blur />
           <BannerInfo />
           <Games />
           <Total />
