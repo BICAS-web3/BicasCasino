@@ -310,24 +310,6 @@
   }
 }
 
-@media screen and (max-width: 996px) {
-  .game_link.sidebar_closed > .game_link_img {
-    transform: translateX(-20%);
-  }
-  .game_link:hover > .game_link_img {
-    transform: scale(1.2) translateX(-20%);
-  }
-}
-
-@media screen and (max-width: 840px) {
-  .game_link.sidebar_closed > .game_link_img {
-    transform: translateX(0%);
-  }
-  .game_link:hover > .game_link_img {
-    transform: scale(1.2) translateX(0%);
-  }
-}
-
 @media screen and (max-width: 820px) {
   .game_link.sidebar_closed {
     width: 50%;
