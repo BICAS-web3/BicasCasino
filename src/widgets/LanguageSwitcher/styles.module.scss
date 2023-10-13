@@ -106,6 +106,8 @@
 .themes_block {
   display: flex;
   align-items: center;
+  border-radius: 12px;
+  border: 1px solid #202020;
 }
 
 .active_theme_block {

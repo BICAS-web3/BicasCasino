@@ -18,6 +18,7 @@ import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBetsModel, LiveBetsWS } from "@/widgets/LiveBets";
 import mainBg from "@/public/media/misc/mainBg.png";
+import mainBg2 from "@/public/media/misc/mainImg2.png";
 import laptopBg from "@/public/media/misc/1280Bg.png";
 import tabletBg from "@/public/media/misc/tabletBg.png";
 import phoneBg from "@/public/media/misc/phoneBg.png";
@@ -32,11 +33,11 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainImg.png";
+import pokerMainBg from "@/public/media/games_assets/poker/mainImg.png";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
 import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.png";
-import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSideBarImg.png";
+import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.png";
 
 import coinflipMainBg from "@/public/media/games_assets/coinflip/mainBg.png";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";
@@ -99,147 +100,146 @@ interface GameProps {
 }
 
 const Game: FC<GameProps> = (props) => {
-	const [mobile, setMobile] = useState(false);
-	const [tablet, setTablet] = useState(false);
-	const [laptop, setLaptop] = useState(false);
-	const [miniLaptop, setMiniLaptop] = useState(false);
-	const [pc, setPC] = useState(false);
-	const [currentImage, setCurrentImage] = useState(props.pcImage.src);
 
-	const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
+  const [mobile, setMobile] = useState(false);
+  const [tablet, setTablet] = useState(false);
+  const [laptop, setLaptop] = useState(false);
+  const [miniLaptop, setMiniLaptop] = useState(false);
+  const [pc, setPC] = useState(false);
+  const [currentImage, setCurrentImage] = useState(props.pcImage.src);
 
-	useEffect(() => {
-		const handleResize = () => {
-			const width = window.innerWidth;
-			if (width >= 650 && width < 700) {
-				setTablet(true);
-				setLaptop(false);
-				setPC(false);
-				setMiniLaptop(false);
-			} else if (width >= 700 && width < 840) {
-				setTablet(false);
-				setLaptop(true);
-				setPC(false);
-				setMiniLaptop(true);
-			} else if (width >= 700 && width < 1280) {
-				setTablet(false);
-				setLaptop(true);
-				setPC(false);
-				setMiniLaptop(false);
-			} else if (width >= 1280 && width < 1980) {
-				setTablet(false);
-				setLaptop(false);
-				setPC(true);
-				setMiniLaptop(false);
-			} else {
-				setTablet(false);
-				setLaptop(false);
-				setPC(false);
-				setMiniLaptop(false);
-			}
+  const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
 
-			setMobile(width <= 650);
-		};
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= 650 && width < 700) {
+        setTablet(true);
+        setLaptop(false);
+        setPC(false);
+        setMiniLaptop(false);
+      } else if (width >= 700 && width < 840) {
+        setTablet(false);
+        setLaptop(true);
+        setPC(false);
+        setMiniLaptop(true);
+      } else if (width >= 700 && width < 1280) {
+        setTablet(false);
+        setLaptop(true);
+        setPC(false);
+        setMiniLaptop(false);
+      } else if (width >= 1280 && width < 1980) {
+        setTablet(false);
+        setLaptop(false);
+        setPC(true);
+        setMiniLaptop(false);
+      } else {
+        setTablet(false);
+        setLaptop(false);
+        setPC(false);
+        setMiniLaptop(false);
+      }
 
-		handleResize();
+      setMobile(width <= 650);
+    };
 
-		window.addEventListener("resize", handleResize);
+    handleResize();
 
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
+    window.addEventListener("resize", handleResize);
 
-	useEffect(() => {
-		if (mobile) setCurrentImage(props.tabletImage.src);
-		else if (tablet) setCurrentImage(props.tabletImage.src);
-		else if (laptop) {
-			// sidebarOpened
-			//   ? setCurrentImage(props.laptopImage.src)
-			//   : setCurrentImage(props.closedSidebarImage.src);
-			// setCurrentImage(props.laptopImage.src);
-			if (!sidebarOpened) {
-				if (miniLaptop) {
-					setCurrentImage(props.laptopImage.src);
-				} else {
-					setCurrentImage(props.closedSidebarImage.src);
-				}
-			} else {
-				setCurrentImage(props.laptopImage.src);
-			}
-		} else if (pc) setCurrentImage(props.pcImage.src);
-	}, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop]);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-	return (
-		<a
-			className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
-			href={props.link}
-			style={{
-				backgroundImage: `url(${currentImage})`,
-			}}
-		>
-			<div className={s.game}>
-				<div className={s.game_info}>
-					<div className={s.game_name}>{props.name}</div>
-					<div className={s.game_description}>{props.description}</div>
-				</div>
-			</div>
-		</a>
-	);
+  useEffect(() => {
+    if (mobile) setCurrentImage(props.tabletImage.src);
+    else if (tablet) setCurrentImage(props.tabletImage.src);
+    else if (laptop) {
+      // sidebarOpened
+      //   ? setCurrentImage(props.laptopImage.src)
+      //   : setCurrentImage(props.closedSidebarImage.src);
+      // setCurrentImage(props.laptopImage.src);
+      if (!sidebarOpened) {
+        if (miniLaptop) {
+          setCurrentImage(props.laptopImage.src);
+        } else {
+          setCurrentImage(props.closedSidebarImage.src);
+        }
+      } else {
+        setCurrentImage(props.laptopImage.src);
+      }
+    } else if (pc) setCurrentImage(props.pcImage.src);
+  }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop]);
+
+  return (
+    <a
+      className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
+      href={props.link}
+    >
+      <img src={currentImage} className={s.game_link_img} alt="game-img" />
+      <div className={s.game}>
+        <div className={s.game_info}>
+          <div className={s.game_name}>{props.name}</div>
+          <div className={s.game_description}>{props.description}</div>
+        </div>
+      </div>
+    </a>
+  );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
-	return (
-		<div className={s.games}>
-			{/* <GamesTitle></GamesTitle> */}
-			<div className={s.games_row}>
-				<Game
-					name={"POKER"}
-					description={"Poker"}
-					link={"/games/Poker"}
-					pcImage={pokerMainBg}
-					tabletImage={pokerTabletBg}
-					laptopImage={pokerLaptopBg}
-					mobileImage={pokerMobileBg}
-					closedSidebarImage={pokerClosedSidebarImg}
-				/>
-				<Game
-					name={"DICE"}
-					description={""}
-					link={"/games/Dice"}
-					tabletImage={diceTabletBg}
-					laptopImage={diceLaptopBg}
-					mobileImage={diceMobileBg}
-					pcImage={diceMainBg}
-					closedSidebarImage={diceClosedSidebarImg}
-				/>
-			</div>
+  return (
+    <div className={s.games}>
+      {/* <GamesTitle></GamesTitle> */}
+      <div className={s.games_row}>
+        <Game
+          name={"POKER"}
+          description={""}
+          link={"/games/Poker"}
+          pcImage={pokerMainBg}
+          tabletImage={pokerTabletBg}
+          laptopImage={pokerLaptopBg}
+          mobileImage={pokerMobileBg}
+          closedSidebarImage={pokerClosedSidebarImg}
+        />
+        <Game
+          name={"DICE"}
+          description={""}
+          link={"/games/Dice"}
+          tabletImage={diceTabletBg}
+          laptopImage={diceLaptopBg}
+          mobileImage={diceMobileBg}
+          pcImage={diceMainBg}
+          closedSidebarImage={diceClosedSidebarImg}
+        />
+      </div>
 
-			<div className={s.games_row}>
-				<Game
-					name={"COINFLIP"}
-					description={""}
-					link={"/games/CoinFlip"}
-					tabletImage={coinflipTabletBg}
-					laptopImage={coinflipLaptopBg}
-					mobileImage={coinflipMobileBg}
-					pcImage={coinflipMainBg}
-					closedSidebarImage={coinflipClosedSidebarImg}
-				/>
-				<Game
-					name={"MINES"}
-					description={""}
-					link={"/games/Mines"}
-					tabletImage={minesTabletBg}
-					laptopImage={minesLaptopBg}
-					mobileImage={minesMobileBg}
-					pcImage={minesMainBg}
-					closedSidebarImage={minesClosedSidebarImg}
-				/>
+      <div className={s.games_row}>
+        <Game
+          name={"COINFLIP"}
+          description={""}
+          link={"/games/CoinFlip"}
+          tabletImage={coinflipTabletBg}
+          laptopImage={coinflipLaptopBg}
+          mobileImage={coinflipMobileBg}
+          pcImage={coinflipMainBg}
+          closedSidebarImage={coinflipClosedSidebarImg}
+        />
+        <Game
+          name={"MINES"}
+          description={""}
+          link={"/games/Mines"}
+          tabletImage={minesTabletBg}
+          laptopImage={minesLaptopBg}
+          mobileImage={minesMobileBg}
+          pcImage={minesMainBg}
+          closedSidebarImage={minesClosedSidebarImg}
+        />
 
-				{/* <Game
+        {/* <Game
                 name={'COINFLIP'}
                 description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
                 link={'/games/CoinFlip'}
@@ -251,7 +251,7 @@ const Games: FC<GamesProps> = (props) => {
 	);
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
 	return (
 		<div className={s.games_title}>
@@ -260,148 +260,160 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 	);
 };
 
-
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
-	const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
-		SideBarModel.$isOpen,
-		MainWallet.$isMainWalletOpen,
-		MainWallet.Close,
-		MainWallet.Open,
-		BlurModel.setBlur,
-	]);
+  const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
+    SideBarModel.$isOpen,
+    MainWallet.$isMainWalletOpen,
+    MainWallet.Close,
+    MainWallet.Open,
+    BlurModel.setBlur,
+  ]);
 
-	const { isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
-	const hideAvaibleWallet = () => {
-		close();
-		setBlur(false);
-		document.documentElement.style.overflow = "visible";
-	};
+  const hideAvaibleWallet = () => {
+    close();
+    setBlur(false);
+    document.documentElement.style.overflow = "visible";
+  };
 
-	const handleConnectWalletBtn = () => {
-		if (!isMainWalletOpen) {
-			open();
-			setBlur(true);
-			document.documentElement.style.overflow = "hidden";
-			window.scrollTo(0, 0);
-		} else {
-			close();
-			setBlur(false);
-			document.documentElement.style.overflow = "visible";
-		}
-	};
+  const handleConnectWalletBtn = () => {
+    if (!isMainWalletOpen) {
+      open();
+      setBlur(true);
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    } else {
+      close();
+      setBlur(false);
+      document.documentElement.style.overflow = "visible";
+    }
+  };
 
-	return (
-		<div className={s.banner_info}>
-			<div className={s.header}>Top 1 Casino on the WEB3</div>
-			<div className={s.connect_wallet_container}>
-				{!isConnected && (
-					<>
-						<div className={s.text}>Login via Web3 wallets</div>
-						<div className={s.button} onClick={handleConnectWalletBtn}>
-							Connect Wallet
-						</div>
-					</>
-				)}
-				<div
-					className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-						} ${isMainWalletOpen && s.walletVisible}`}
-				>
-					<AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className={s.banner_info}>
+      <div className={s.header}>Top 1 Casino on the WEB3</div>
+      <div className={s.connect_wallet_container}>
+        {!isConnected && (
+          <>
+            <div className={s.text}>Login via Web3 wallets</div>
+            <div className={s.button} onClick={handleConnectWalletBtn}>
+              Connect Wallet
+            </div>
+          </>
+        )}
+        <div
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
+        >
+          <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default function Home() {
-	const [Bets, AvailableBlocksExplorers] = useUnit([
-		LiveBetsModel.$Bets,
-		settingsModel.$AvailableBlocksExplorers,
-	]);
+  const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
+    LiveBetsModel.$Bets,
+    settingsModel.$AvailableBlocksExplorers,
+    SideBarModel.$isOpen,
+  ]);
 
-	const [currentImage, setCurrentImage] = useState(mainBg);
-	const [laptop, setLaptop] = useState(false);
-	const [tablet, setTablet] = useState(false);
-	const [phone, setPhone] = useState(false);
+  const [currentImage, setCurrentImage] = useState(mainBg);
+  const [laptop, setLaptop] = useState(false);
+  const [tablet, setTablet] = useState(false);
+  const [phone, setPhone] = useState(false);
+  const [main, setMain] = useState(false);
 
-	useEffect(() => {
-		const handleResize = () => {
-			const width = window.innerWidth;
-			if (width <= 1280 && width > 700) {
-				setLaptop(true);
-				setTablet(false);
-				setPhone(false);
-			} else if (width <= 700) {
-				setLaptop(false);
-				setTablet(true);
-				setPhone(false);
-			} else if (width <= 320) {
-				setLaptop(false);
-				setTablet(false);
-				setPhone(true);
-			} else {
-				setLaptop(false);
-				setTablet(false);
-				setPhone(false);
-			}
-		};
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
 
-		handleResize();
+      if (width > 1280) {
+        setLaptop(false);
+        setTablet(false);
+        setPhone(false);
+        setMain(true);
+      } else if (width <= 1280 && width > 700) {
+        setLaptop(true);
+        setTablet(false);
+        setPhone(false);
+        setMain(false);
+      } else if (width <= 700) {
+        setLaptop(false);
+        setTablet(true);
+        setPhone(false);
+        setMain(false);
+      } else if (width <= 320) {
+        setLaptop(false);
+        setTablet(false);
+        setPhone(true);
+        setMain(false);
+      }
+    };
 
-		window.addEventListener("resize", handleResize);
+    handleResize();
 
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
+    window.addEventListener("resize", handleResize);
 
-	useEffect(() => {
-		if (laptop) {
-			setCurrentImage(laptopBg);
-		} else if (tablet) {
-			setCurrentImage(tabletBg);
-		} else if (phone) {
-			setCurrentImage(phoneBg);
-		} else {
-			setCurrentImage(mainBg);
-		}
-	}, [tablet, laptop]);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-	useEffect(() => {
-		console.log("New bets");
-	}, [Bets]);
+  useEffect(() => {
+    if (laptop) {
+      setCurrentImage(laptopBg);
+    } else if (tablet) {
+      setCurrentImage(tabletBg);
+    } else if (phone) {
+      setCurrentImage(phoneBg);
+    } else if (main) {
+      setCurrentImage(mainBg2);
+    }
+  }, [tablet, laptop]);
 
-	return (
-		<>
-			<Head>
-				<title>NFT Play | Home page</title>
-			</Head>
+  // useEffect(() =>
+  //   console.log("New bets");
+  // }, [Bets]);
 
-			<LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
-			<Layout gameName={undefined}>
-				{/* <div> */}
+  return (
+    <>
+      <Head>
+        <title>NFT Play | Home page</title>
+      </Head>
 
-				<div className={`${s.main_container}`}>
-					<div className={s.background_container}>
-						<Image src={currentImage} alt={""} className={s.background} />
-						<div className={s.background_gradient}></div>
-					</div>
-					<BannerInfo />
-					<Games />
-					<Total />
-					<CustomBets
-						title="Live bets"
-						isMainPage={true}
-						isGamePage={false}
-						game={undefined}
-					/>
-					{/* <LeaderBoard /> */}
-				</div>
-				{/* </div> */}
-			</Layout>
-			{/* <Footer />
+      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
+      <Layout gameName={undefined}>
+        {/* <div> */}
+
+        <div className={`${s.main_container}`}>
+          <div
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
+          >
+            <Image src={currentImage} alt={""} className={s.background} />
+            <div className={s.background_gradient}></div>
+          </div>
+          <BannerInfo />
+          <Games />
+          <Total />
+          <CustomBets
+            title="Live bets"
+            isMainPage={true}
+            isGamePage={false}
+            game={undefined}
+          />
+          {/* <LeaderBoard /> */}
+        </div>
+        {/* </div> */}
+      </Layout>
+
+      {/* <Footer />
       <InvitesList />
       <GamesList />
       <ConnectWalletModal /> */}
