@@ -26,6 +26,55 @@ import Telegram from "@/public/media/social_media/Telegram.svg";
 import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
 import Insta from "@/public/media/social_media/Insta.svg";
 import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
+import { MinesButton } from "@/shared/SVGs/MinesButton";
+
+const gamesList = [
+  {
+    title: "Coinflip",
+    icon: "coin",
+    link: "/games/CoinFlip"
+  },
+  {
+    title: "Dice",
+    icon: "dice",
+    link: "/games/Dice"
+  },
+  {
+    title: "Rock paper scissors",
+    icon: "rps",
+    link: "/games/RPS"
+  },
+  {
+    title: "Poker",
+    icon: "poker",
+    link: "/games/Poker"
+  },
+  {
+    title: "Mines",
+    icon: "mines",
+    link: "/games/Mines"
+  },
+];
+
+interface GameIconProps {
+  iconId: string;
+}
+
+const GameIcon: FC<GameIconProps> = ({ iconId }) => {
+  if (iconId === "coin") {
+    return <CoinButton />;
+  } else if (iconId === "dice") {
+    return <DiceButton />;
+  } else if (iconId === "rps") {
+    return <RPCButton />;
+  } else if (iconId === "poker") {
+    return <PokerButton />;
+  } else if (iconId === "mines") {
+    return <MinesButton />;
+  } else {
+    return <h3>no games yet</h3>;
+  }
+};
 
 interface ClosedSideBarProps {
   pickedGame: number | null;
@@ -35,49 +84,88 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
     <>
       <div className={s.side_bar_upper}>
         <div>
-          <div className={` ${s.games_button}`}>
+          <div className={`${s.games_button}`}>
             <GamesIcon />
+            <div className={s.games_button_tooltip}>
+              <div className={s.tooltip_games_list}>
+                {gamesList.map((item, ind) => (
+                  <div 
+                  className={s.tooltip_games_list_item} 
+                  onClick={() => { location.href = item.link }}>
+                    <GameIcon iconId={item.icon} />
+                    <span className={s.tooltip_games_list_item_title}>
+                      {item.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           <div className={s.buttons_holder}>
             <div
-              className={`${s.button} ${props.pickedGame == 0 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 0 ? s.button_picked : ""
+              }`}
               onClick={() => { location.href = "/games/CoinFlip" }}
             >
-              <CoinButton />
-              <div className={s.games_button_tooltip}>Coinflip</div>
+              <div className={s.button}>
+                <CoinButton />
+                <div className={s.games_button_tooltip}>Coinflip</div>
+              </div>
+            </div>
+            <div className={s.button_wrap}>
+              <div
+                className={`${s.button} ${
+                  props.pickedGame == 1 ? s.button_picked : ""
+                }`}
+              >
+                <DiceButton />
+                <div className={s.games_button_tooltip}>Dice</div>
+              </div>
             </div>
             <div
-              className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 2 ? s.button_picked : ""
+              }`}
             >
-              <DiceButton />
-              <div className={s.games_button_tooltip}>Dice</div>
+              <div className={s.button}>
+                <RPCButton />
+                <div className={s.games_button_tooltip}>
+                  Rock paper scissors
+                </div>
+              </div>
             </div>
             <div
-              className={`${s.button} ${props.pickedGame == 2 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 3 ? s.button_picked : ""
+              }`}
+              onClick={() => {
+                location.href = "/games/Poker";
+              }}
             >
-              <RPCButton />
-              <div className={s.games_button_tooltip}>Rock paper scissors</div>
+              <div className={s.button}>
+                <PokerButton />
+                <div className={s.games_button_tooltip}>Poker</div>
+              </div>
             </div>
             <div
-              className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => { location.href = "/games/Poker" }}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 3 ? s.button_picked : ""
+              }`}
+              onClick={() => {
+                location.href = "https://t.me/greekkeepers";
+              }}
             >
-              <PokerButton />
-              <div className={s.games_button_tooltip}>Poker</div>
-            </div>
-            <div
-              className={`${s.button} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => { location.href = "https://t.me/greekkeepers" }}
-            >
-              <SupportIcon />
-              <div className={s.games_button_tooltip}>
-                Support{" "}
-                <Image className={s.tg_sidebar_ico} src={tgClosedSidebarIco} alt={""} />{" "}
+              <div className={s.button}>
+                <SupportIcon />
+                <div className={s.games_button_tooltip}>
+                  Support{" "}
+                  <Image
+                    className={s.tg_sidebar_ico}
+                    src={tgClosedSidebarIco}
+                    alt={""}
+                  />{" "}
+                </div>
               </div>
             </div>
           </div>
@@ -98,8 +186,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
           <div
-            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
-              }`}
+            className={`${s.buttons_menu} ${
+              gamesAreOpen ? "" : s.buttons_menu_closed
+            }`}
           >
             <div
               className={s.menu_header}
@@ -112,8 +201,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 GAMES
               </div>
               <div
-                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
-                  }`}
+                className={`${s.arrow} ${
+                  gamesAreOpen ? s.arrow_down : s.arrow_side
+                }`}
               >
                 <ArrowIcon />
               </div>
@@ -133,13 +223,23 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <RPCButton />
                 Rock Paper Scissors
               </div>
-              <div className={s.game_row} onClick={() => { location.href = "/games/Poker" }}>
+              <div
+                className={s.game_row}
+                onClick={() => {
+                  location.href = "/games/Poker";
+                }}
+              >
                 <PokerButton />
                 Poker
               </div>
             </div>
           </div>
-          <div className={s.support} onClick={() => { location.href = "https://t.me/greekkeepers" }}>
+          <div
+            className={s.support}
+            onClick={() => {
+              location.href = "https://t.me/greekkeepers";
+            }}
+          >
             <div className={s.icon_wrapper}>
               <SupportIcon />
             </div>
@@ -190,7 +290,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   );
 };
 
-export interface SideBarProps { }
+export interface SideBarProps {}
 export const SideBar: FC<SideBarProps> = (props) => {
   const [isOpen, currentPick] = useUnit([
     SideBarModel.$isOpen,
@@ -199,8 +299,9 @@ export const SideBar: FC<SideBarProps> = (props) => {
 
   return (
     <div
-      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
-        }`}
+      className={`${s.side_bar} ${
+        isOpen ? s.side_bar_opened : s.side_bar_closed
+      }`}
     >
       {isOpen ? (
         <OpenedSideBar pickedGame={currentPick} />

@@ -23,15 +23,12 @@
     padding: 0;
     max-width: 424px;
   }
-
   @media screen and (max-width: 375px) {
     max-width: 374px;
   }
-
   @media screen and (max-width: 320px) {
     max-width: 318px;
   }
-
   .recently_played_heading {
     font-family: var(--font-nunito-sans);
     font-size: 20px;
@@ -39,14 +36,13 @@
     line-height: 26px;
     letter-spacing: 0.04em;
     text-align: left;
-    color: #7E7E7E;
+    color: #7e7e7e;
     text-transform: uppercase;
     margin-left: 20px;
     @media screen and (max-width: 768px) {
       font-size: 14px;
     }
   }
-
   .recently_played_container {
     max-width: 100%;
     display: flex;
@@ -54,43 +50,36 @@
     overflow-x: hidden;
     justify-content: flex-start;
     flex-direction: column;
-
-
     @media screen and (max-width: 1280px) {
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
       gap: 50px;
     }
-
     @media screen and (max-width: 1024px) {
       gap: 26px;
     }
-
     @media screen and (max-width: 768px) {
       overflow-x: auto;
       white-space: nowrap;
       scrollbar-width: none;
-      -ms-overflow-style: none
+      -ms-overflow-style: none;
     }
-
     .game_item {
       max-width: 100%;
       max-height: fit-content;
       position: relative;
       cursor: grab;
       user-select: none;
-
       .game_image {
         width: 100%;
         border-radius: 10px;
         height: fit-content;
-
+        object-fit: cover;
         @media screen and (max-width: 3840px) {
           height: 230px;
           max-width: 440px;
         }
-
         @media screen and (max-width: 1573px) {
           height: 220px;
           max-width: 312px;
@@ -119,7 +108,6 @@
           max-width: 170px;
         }
       }
-
       .content {
         position: absolute;
         top: 25px;
@@ -130,9 +118,8 @@
         flex-direction: column;
         justify-content: flex-start;
         max-width: 100%;
-
         .game_title {
-          color: #E9E9F5;
+          color: #e9e9f5;
           text-transform: uppercase;
           font-family: var(--font-nunito-sans);
           font-size: 30px;
@@ -151,14 +138,13 @@
             line-height: 20px;
           }
         }
-
         .game_text {
           font-family: var(--font-source-sans-3);
           font-size: 20px;
           font-weight: 400;
           line-height: 28px;
           text-align: left;
-          color: #FFFFFFBF;
+          color: #ffffffbf;
           @media screen and (max-width: 1024px) {
             font-size: 18px;
             line-height: 26px;
@@ -181,23 +167,18 @@
       }
     }
   }
-
   .recently_played_container::-webkit-scrollbar {
     height: 8px;
     border-radius: 6px;
-
   }
-
   .recently_played_container::-webkit-scrollbar-thumb {
-    background-color: #7E7E7E;
+    background-color: #7e7e7e;
     border-radius: 6px;
   }
-
   .recently_played_container::-webkit-scrollbar-track {
     background-color: #151515;
     border-radius: 6px;
   }
-
   @media screen and (max-width: 1280px) {
     .game_item {
       max-width: calc(100% - 15px);

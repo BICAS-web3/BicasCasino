@@ -21,12 +21,21 @@
 }
 
 .background_container {
-  height: 614.267px;
+  height: 454px;
   width: 100%;
   position: absolute;
-  left: 0;
-  //z-index: -1;
+  right: 0;
   top: 80px;
+  transition: all 0.5s;
+}
+
+@media screen and (min-width: 996px) {
+  .background_sidebar_closed.background_sidebar_closed {
+    width: calc(100% - 90px);
+  }
+  .background_container {
+    width: calc(100% - 257px);
+  }
 }
 
 //////
@@ -76,6 +85,7 @@
   width: 100%;
   //left: 90px;
   //height: fit-content;
+  object-fit: cover;
 }
 
 .background_gradient {
@@ -176,20 +186,17 @@
 }
 
 .game {
+  position: relative;
+  z-index: 5;
   width: 100%;
   max-width: 640px;
   height: 256px;
   padding: 10px 20px;
-  // display: flex;
-  // flex-direction: row;
   padding: 32px;
-  //column-gap: 100px;
   column-gap: calc(5px + 5vw);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  // position: relative;
-  // z-index: 1;
   pointer-events: none;
 }
 
@@ -206,6 +213,17 @@
   border-radius: 20px;
   z-index: 1;
   background-position-y: 50%;
+}
+
+.game_link:hover > .game_link_img {
+  transform: scale(1.2);
+}
+
+.game_link_img {
+  transition: all 0.5s;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
 }
 
 .game_info {
@@ -251,11 +269,9 @@
   .game_link {
     max-width: 360px;
     max-height: 210px;
-    background-size: cover;
   }
   .game_link.sidebar_closed {
     max-width: 555px;
-    background-position-x: 100%;
   }
   .banner_info {
     //height: 169px;
@@ -268,6 +284,7 @@
     padding-left: 30px;
     padding-right: 30px;
     width: 100%;
+    row-gap: 35px;
   }
   .games,
   .games_row {
@@ -293,6 +310,18 @@
   }
 }
 
+@media screen and (max-width: 996px) {
+  .game_link.sidebar_closed > .game_link_img {
+    transform: translateX(-20%);
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .game_link.sidebar_closed > .game_link_img {
+    transform: translateX(0%);
+  }
+}
+
 @media screen and (max-width: 820px) {
   .game_link.sidebar_closed {
     width: 50%;
@@ -309,6 +338,9 @@
   }
   .game_info {
     row-gap: 10px !important;
+  }
+  .game_link_img {
+    width: 100%;
   }
 }
 
