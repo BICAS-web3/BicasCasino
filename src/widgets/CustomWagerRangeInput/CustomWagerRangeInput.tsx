@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
-import { CustomWagerRangeInputModel } from './';
+import { CustomWagerRangeInputModel } from "./";
 
 interface CustomWagerRangeInputProps {
   inputTitle: string;
@@ -15,17 +15,14 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   max,
 }) => {
   //const [value, setValue] = useState(5);
-  const [
-    pickedValue,
-    pickValue
-  ] = useUnit([
+  const [pickedValue, pickValue] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
-    CustomWagerRangeInputModel.pickValue
+    CustomWagerRangeInputModel.pickValue,
   ]);
 
   useEffect(() => {
     pickValue(min);
-  }, [])
+  }, []);
 
   const changeInputValue = (e: any) => {
     pickValue(Number(e.target.value));
