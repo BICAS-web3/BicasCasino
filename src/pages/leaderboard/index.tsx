@@ -222,12 +222,7 @@ export default function Home() {
 
 				<div className={`${s.main_container}`}>
 					<Total />
-					<LeaderBoard
-						title="Leader Board"
-						isMainPage={true}
-						isGamePage={false}
-						game={undefined}
-					/>
+					<LeaderBoard/>
 					{/* <LeaderBoard /> */}
 				</div>
 				{/* </div> */}
