@@ -76,30 +76,31 @@ import Link from "next/link";
 const mobileQuery = "(max-width: 650px)";
 
 const LinkIcon: FC<{}> = (p) => {
-  return (
-    <svg height="14px" width="14px" viewBox="0 0 18 18">
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"
-      ></path>
-      <path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path>
-    </svg>
-  );
+	return (
+		<svg height="14px" width="14px" viewBox="0 0 18 18">
+			<path
+				fill-rule="evenodd"
+				clip-rule="evenodd"
+				d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"
+			></path>
+			<path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path>
+		</svg>
+	);
 };
 
 interface GameProps {
-  name: string;
-  description: string;
-  link: string;
-  pcImage: StaticImageData;
-  laptopImage: StaticImageData;
-  tabletImage: StaticImageData;
-  mobileImage: StaticImageData;
-  closedSidebarImage: StaticImageData;
+	name: string;
+	description: string;
+	link: string;
+	pcImage: StaticImageData;
+	laptopImage: StaticImageData;
+	tabletImage: StaticImageData;
+	mobileImage: StaticImageData;
+	closedSidebarImage: StaticImageData;
 }
 
 const Game: FC<GameProps> = (props) => {
+
   const [mobile, setMobile] = useState(false);
   const [tablet, setTablet] = useState(false);
   const [laptop, setLaptop] = useState(false);
@@ -245,18 +246,18 @@ const Games: FC<GamesProps> = (props) => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />  */}
-      </div>
-    </div>
-  );
+			</div>
+		</div>
+	);
 };
 
 interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
-  return (
-    <div className={s.games_title}>
-      <div>Games</div>
-    </div>
-  );
+	return (
+		<div className={s.games_title}>
+			<div>Games</div>
+		</div>
+	);
 };
 
 interface BannerInfoProps {}
@@ -416,6 +417,6 @@ export default function Home() {
       <InvitesList />
       <GamesList />
       <ConnectWalletModal /> */}
-    </>
-  );
+		</>
+	);
 }
