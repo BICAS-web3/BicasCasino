@@ -32,7 +32,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         </div>
       );
     }
-
+    // [520, 80, 15, 10, 3, 2, 0.5, 0.3, 0.2, 0.3, 0.5, 2, 3, 10, 15, 80, 520]
     const multipliers = [];
     for (let i = 0; i < multiplierCount; i++) {
       const multiplierValue = (
