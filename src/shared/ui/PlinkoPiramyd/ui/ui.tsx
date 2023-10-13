@@ -2,17 +2,26 @@ import { FC, useEffect, useState } from "react";
 import styles from "./ui.module.scss";
 import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore } from "effector-react";
+import {newMultipliers} from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 
 interface IPlinkoPyramid {}
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
   const [rowCount, setRowCount] = useState(pickedValue);
-  const [multiplierCount, setMultiplierCount] = useState(pickedValue);
+  const [multipliers, setMultipliers] = useState<number[]>([]);
 
+  const updateMultipliers = (rowCount: number) => {
+    const newMultipliersArray = newMultipliers[rowCount];
+    if (newMultipliersArray) {
+      setMultipliers(newMultipliersArray);
+    } else {
+      setMultipliers(newMultipliers[8]);
+    }
+  };
   useEffect(() => {
     setRowCount(pickedValue);
-    setMultiplierCount(pickedValue + 1)
+    updateMultipliers(pickedValue);
   }, [pickedValue]);
 
   const generateRows = () => {
@@ -32,24 +41,15 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         </div>
       );
     }
-    // [520, 80, 15, 10, 3, 2, 0.5, 0.3, 0.2, 0.3, 0.5, 2, 3, 10, 15, 80, 520]
-    const multipliers = [];
-    for (let i = 0; i < multiplierCount; i++) {
-      const multiplierValue = (
-        middleIndex -
-        Math.abs(middleIndex - i) * 0.5
-      ).toFixed(1);
 
-      multipliers.push(
-        <div className={styles.multipiler_cell} key={i}>
-          {multiplierValue}
-        </div>
-      );
-    }
-
+    const multiplierElements = multipliers.map((value, i) => (
+      <div className={styles.multipiler_cell} key={i}>
+        {value}x
+      </div>
+    ));
     rows.push(
       <div className={styles.pyramid_row} key={rowCount}>
-        <div className={styles.multipiler_container}>{multipliers}</div>
+        <div className={styles.multipiler_container}>{multiplierElements}</div>
       </div>
     );
 
