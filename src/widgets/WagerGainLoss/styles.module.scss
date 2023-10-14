@@ -45,3 +45,9 @@
   font-weight: 700;
   line-height: 138.4%;
 }
+
+@media screen and (max-width: 650px) {
+  .gain_loss_limit_block {
+    border-radius: 5px;
+  }
+}

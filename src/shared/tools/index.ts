@@ -31,3 +31,33 @@ export const checkPageClicking = (
 
   window.addEventListener("click", clickEventHandler);
 };
+
+export const useDeviceType = () => {
+  const [deviceType, setDeviceType] = useState(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+
+      if (width > 1280) {
+        setDeviceType("main");
+      } else if (width <= 1280 && width > 700) {
+        setDeviceType("laptop");
+      } else if (width <= 700) {
+        setDeviceType("tablet");
+      } else if (width <= 320) {
+        setDeviceType("phone");
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return deviceType;
+};
