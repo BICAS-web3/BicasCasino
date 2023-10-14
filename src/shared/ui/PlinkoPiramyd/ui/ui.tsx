@@ -1,8 +1,21 @@
-import {FC, useEffect, useLayoutEffect, useState} from "react";
+import { FC, useEffect, useLayoutEffect, useState } from "react";
 import styles from "./ui.module.scss";
 import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore } from "effector-react";
-import {newMultipliers} from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
+import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
+
+// false = left, true = right
+
+const testBallPath = [true, false, false, true, true, true, false, false];
+
+interface PlinkoBallProps {
+  path: boolean[];
+}
+
+export const PlinkoBall: FC<PlinkoBallProps> = ({ path }) => {
+  return <div className={styles.plinko_ball}></div>;
+};
+
 interface IPlinkoPyramid {}
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
@@ -20,23 +33,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   };
 
   useLayoutEffect(() => {
-    const updateDotSizes = (rowCount:number) => {
-      const dotWidth = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '2px';
-      const dotHeight = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '2px';
-      document.documentElement.style.setProperty('--dot-width', dotWidth);
-      document.documentElement.style.setProperty('--dot-height', dotHeight);
-    }
+    const updateDotSizes = (rowCount: number) => {
+      const dotWidth = rowCount === 8 ? "5px" : rowCount === 9 ? "6px" : "2px";
+      const dotHeight = rowCount === 8 ? "5px" : rowCount === 9 ? "6px" : "2px";
+      document.documentElement.style.setProperty("--dot-width", dotWidth);
+      document.documentElement.style.setProperty("--dot-height", dotHeight);
+    };
     updateDotSizes(pickedValue);
   }, [pickedValue]);
 
   useEffect(() => {
     setRowCount(pickedValue);
     updateMultipliers(pickedValue);
-    console.log('PICKED VALUE',pickedValue)
+    console.log("PICKED VALUE", pickedValue);
   }, [pickedValue]);
 
   const generateRows = () => {
-
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
       const dots = [];

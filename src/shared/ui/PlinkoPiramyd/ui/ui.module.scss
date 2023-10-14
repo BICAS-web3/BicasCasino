@@ -4,17 +4,14 @@
   position: relative;
   flex-direction: column;
   align-items: center;
-
   .pyramid_row {
     .ball {
       display: none;
     }
-
     .dot_container {
       display: flex;
       justify-content: center;
       align-items: center;
-
       .dot {
         display: flex;
         justify-content: center;
@@ -22,10 +19,16 @@
         padding: 0;
         margin: 10px;
         border-radius: 50%;
-        background: linear-gradient(to bottom, #FFFFFF, #ECECEC, #D9D9D9, #BEBEBE, #CDCDCD);
+        background: linear-gradient(
+          to bottom,
+          #ffffff,
+          #ececec,
+          #d9d9d9,
+          #bebebe,
+          #cdcdcd
+        );
         width: var(--dot-width);
         height: var(--dot-height);
-
         @media screen and (max-width: 768px) {
           margin: 5px;
           padding: 3px;
@@ -34,24 +37,16 @@
           margin: 4px;
           padding: 1px;
         }
-
       }
-
     }
-
     .multipiler_container {
       display: flex;
       justify-content: center;
       align-items: center;
-
       @media screen and (max-width: 768px) {
-
       }
       @media screen and (max-width: 650px) {
-
       }
-
-
       .multipiler_cell {
         font-size: 18px;
         padding: 10px;
@@ -60,7 +55,6 @@
         border: 1px solid rgb(123, 99, 59);
         box-shadow: rgb(123, 99, 59) 0 0 5px;
         background-color: rgb(123, 99, 59);
-
         @media screen and (max-width: 768px) {
           margin: 4px;
           font-size: 6px;
@@ -76,3 +70,15 @@
   }
 }
 
+.plinko_ball {
+  width: 25px;
+  height: 25px;
+  @media screen and (max-width: 700px) {
+    width: 14px;
+    height: 14px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 7px;
+    height: 7px;
+  }
+}
