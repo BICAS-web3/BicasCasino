@@ -3,6 +3,7 @@ import styles from "./ui.module.scss";
 import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
+import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 
 // false = left, true = right
 
@@ -13,7 +14,11 @@ interface PlinkoBallProps {
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = ({ path }) => {
-  return <div className={styles.plinko_ball}></div>;
+  return (
+    <div className={styles.plinko_ball}>
+      <PlinkoBallIcon />
+    </div>
+  );
 };
 
 interface IPlinkoPyramid {}

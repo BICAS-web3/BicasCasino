@@ -5,9 +5,6 @@
 }
 
 .main_container {
-  display: flex;
-  flex-direction: column;
-  row-gap: 60px;
   width: calc(100% - 100px);
   padding: 100px 50px 0 50px;
 }
@@ -109,6 +106,7 @@
   row-gap: 51px;
   flex-direction: column;
   //justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 .banner_info .header {
@@ -168,13 +166,9 @@
   flex-direction: column;
   gap: 1vw;
   width: 100%;
+  margin-bottom: 60px;
 }
 
-// @media only screen and (max-width: 800px) {
-//     .games {
-//         row-gap: 18px;
-//     }
-// }
 .games_row {
   display: flex;
   flex-direction: row;
@@ -260,7 +254,87 @@
   word-break: break-word;
 }
 
+.main_advertaising_blocks {
+  display: flex;
+  justify-content: center;
+  column-gap: 1vw;
+  margin-bottom: 25px;
+}
+
+.main_advertaising_blocks_item {
+  height: 256px;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 20px;
+  background: #181818;
+  border: 1px solid #202020;
+  position: relative;
+  max-width: 640px;
+  cursor: pointer;
+  img {
+    position: absolute;
+    border-radius: 20px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 12px;
+    img {
+      border-radius: 12px;
+    }
+  }
+}
+
+.main_advertaising_blocks_item_body {
+  position: relative;
+  padding: 15px 25px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  @media screen and (max-width: 650px) {
+    padding: 5px 13px;
+  }
+}
+
+.main_advertaising_blocks_item_title {
+  color: #e9e9f5;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 35px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  @media screen and (max-width: 996px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 700px) {
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.main_advertaising_blocks_item_text {
+  color: #eaeaea;
+  font-family: var(--font-source-sans-3);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+  max-width: 70%;
+  @media screen and (max-width: 700px) {
+    font-size: 10px;
+    max-width: 100%;
+  }
+}
+
 @media only screen and (max-width: 1280px) {
+  .main_advertaising_blocks {
+    column-gap: 1.5vw;
+  }
   // .sidebar_closed
   .banner_info .header {
     font-size: 35px;
@@ -269,6 +343,9 @@
   .game_link {
     max-width: 360px;
     max-height: 210px;
+  }
+  .main_advertaising_blocks_item {
+    height: 210px;
   }
   .game_link.sidebar_closed {
     max-width: 555px;
@@ -284,7 +361,6 @@
     padding-left: 30px;
     padding-right: 30px;
     width: 100%;
-    row-gap: 35px;
   }
   .games,
   .games_row {
@@ -310,18 +386,6 @@
   }
 }
 
-@media screen and (max-width: 996px) {
-  .game_link.sidebar_closed > .game_link_img {
-    transform: translateX(-20%);
-  }
-}
-
-@media screen and (max-width: 840px) {
-  .game_link.sidebar_closed > .game_link_img {
-    transform: translateX(0%);
-  }
-}
-
 @media screen and (max-width: 820px) {
   .game_link.sidebar_closed {
     width: 50%;
@@ -329,9 +393,16 @@
 }
 
 @media screen and (max-width: 650px) {
+  .main_advertaising_blocks {
+    column-gap: 3.75vw;
+    margin: 8px;
+  }
   .game_link {
     max-width: 346px;
     max-height: 120px;
+  }
+  .main_advertaising_blocks_item {
+    height: 120px;
   }
   .game_link.sidebar_closed {
     max-width: 346px;
@@ -346,8 +417,18 @@
 
 // mobile
 @media only screen and (max-width: 650px) {
+  .banner_info {
+    margin-bottom: 15px;
+  }
+  .main_advertaising_blocks {
+    margin-bottom: 10px;
+  }
+  .games {
+    margin-bottom: 30px;
+  }
   .main_container {
     row-gap: 30px;
+    padding: 70px 0 0 0 !important;
   }
   .sidebarClosed {
     width: 100%;

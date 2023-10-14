@@ -57,11 +57,13 @@ import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
-import plinkoMainBg from '@/public/media/games_assets/plinko/plinkoMainBg.png'
+import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBg.png";
 import plinkoLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
 import plinkoTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import plinkoMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
+
+import advPoster from "@/public/media/testAdvertsImgs/poster.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -78,6 +80,8 @@ import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
 import { useAccount } from "wagmi";
 import Link from "next/link";
+import { Blur } from "@/widgets/Blur/Blur";
+import { useDeviceType } from "@/shared/tools";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -195,7 +199,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -270,7 +274,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -279,8 +283,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   );
 };
 
-
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -335,6 +338,70 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
+interface MainReplacementComponentProps {}
+const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
+  const { isConnected } = useAccount();
+  const device = useDeviceType();
+
+  const [sidebarOpened] = useUnit([SideBarModel.$isOpen]);
+  const [currentImage, setCurrentImage] = useState(mainBg);
+
+  useEffect(() => {
+    if (device === "laptop") {
+      setCurrentImage(laptopBg);
+    } else if (device === "tablet") {
+      setCurrentImage(tabletBg);
+    } else if (device === "phone") {
+      setCurrentImage(phoneBg);
+    } else if (device === "main") {
+      setCurrentImage(mainBg2);
+    }
+  }, [device]);
+
+  return (
+    <div>
+      {!isConnected ? (
+        <>
+          <div
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
+          >
+            <Image src={currentImage} alt={""} className={s.background} />
+            <div className={s.background_gradient}></div>
+          </div>
+          <BannerInfo />
+        </>
+      ) : (
+        <div className={s.main_advertaising_blocks}>
+          <div className={s.main_advertaising_blocks_item}>
+            <img src={advPoster.src} alt="banner-image" />
+            <div className={s.main_advertaising_blocks_item_body}>
+              <h3 className={s.main_advertaising_blocks_item_title}>
+                advertising poster
+              </h3>
+              <p className={s.main_advertaising_blocks_item_text}>
+                Замена баннера после привязки кошелька.
+              </p>
+            </div>
+          </div>
+          <div className={s.main_advertaising_blocks_item}>
+            <img src={advPoster.src} alt="banner-image" />
+            <div className={s.main_advertaising_blocks_item_body}>
+              <h3 className={s.main_advertaising_blocks_item_title}>
+                advertising poster
+              </h3>
+              <p className={s.main_advertaising_blocks_item_text}>
+                Замена баннера после привязки кошелька.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function Home() {
   const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
     LiveBetsModel.$Bets,
@@ -343,58 +410,20 @@ export default function Home() {
   ]);
 
   const [currentImage, setCurrentImage] = useState(mainBg);
-  const [laptop, setLaptop] = useState(false);
-  const [tablet, setTablet] = useState(false);
-  const [phone, setPhone] = useState(false);
-  const [main, setMain] = useState(false);
+
+  const device = useDeviceType();
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-
-      if (width > 1280) {
-        setLaptop(false);
-        setTablet(false);
-        setPhone(false);
-        setMain(true);
-      } else if (width <= 1280 && width > 700) {
-        setLaptop(true);
-        setTablet(false);
-        setPhone(false);
-        setMain(false);
-      } else if (width <= 700) {
-        setLaptop(false);
-        setTablet(true);
-        setPhone(false);
-        setMain(false);
-      } else if (width <= 320) {
-        setLaptop(false);
-        setTablet(false);
-        setPhone(true);
-        setMain(false);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (laptop) {
+    if (device === "laptop") {
       setCurrentImage(laptopBg);
-    } else if (tablet) {
+    } else if (device === "tablet") {
       setCurrentImage(tabletBg);
-    } else if (phone) {
+    } else if (device === "phone") {
       setCurrentImage(phoneBg);
-    } else if (main) {
+    } else if (device === "main") {
       setCurrentImage(mainBg2);
     }
-  }, [tablet, laptop]);
+  }, [device]);
 
   // useEffect(() =>
   //   console.log("New bets");
@@ -411,15 +440,8 @@ export default function Home() {
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
-          <div
-            className={`${s.background_container} ${
-              !sidebarOpened && s.background_sidebar_closed
-            }`}
-          >
-            <Image src={currentImage} alt={""} className={s.background} />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
+          <Blur />
+          <MainReplacementComponent />
           <Games />
           <Total />
           <CustomBets
