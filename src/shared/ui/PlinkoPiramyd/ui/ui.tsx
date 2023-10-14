@@ -21,8 +21,8 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
 
   useLayoutEffect(() => {
     const updateDotSizes = (rowCount:number) => {
-      const dotWidth = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '3px';
-      const dotHeight = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '3px';
+      const dotWidth = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '2px';
+      const dotHeight = rowCount === 8 ? '5px' : rowCount === 9 ? '6px' : '2px';
       document.documentElement.style.setProperty('--dot-width', dotWidth);
       document.documentElement.style.setProperty('--dot-height', dotHeight);
     }
