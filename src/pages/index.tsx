@@ -33,11 +33,11 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainImg.png";
+import pokerMainBg from "@/public/media/games_assets/poker/mainImg.png";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
 import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.png";
-import pokerClosedSidebarImg from "@/public/media/games_assets/poker/pokerClosedSideBarImg.png";
+import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.png";
 
 import coinflipMainBg from "@/public/media/games_assets/coinflip/mainBg.png";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";

@@ -20,7 +20,7 @@ export const Plinko: FC<IPlinko> = () => {
         />
       </div>
       <div className={styles.plinko_table}>
-        <div className={styles.piramyd}>
+        <div className={styles.pyramid}>
           <PlinkoPyramid />
         </div>
       </div>
