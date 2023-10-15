@@ -15,6 +15,13 @@ interface PlinkoBallProps {
 export const PlinkoBall: FC<PlinkoBallProps> = ({}) => {
   const ballRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (ballRef.current?.offsetTop === 0) {
+      ballRef.current.style.animation = styles.fallingRight;
+      console.log("hitted ");
+    }
+  }, []);
+
   return (
     <div className={styles.plinko_ball} ref={ballRef}>
       <PlinkoBallIcon />
