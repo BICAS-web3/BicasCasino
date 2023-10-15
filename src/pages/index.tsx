@@ -185,10 +185,8 @@ const Game: FC<GameProps> = (props) => {
     <a
       className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
       href={props.link}
-      style={{
-        backgroundImage: `url(${currentImage})`,
-      }}
     >
+      <img src={currentImage} className={s.game_link_img} alt="game-img" />
       <div className={s.game}>
         <div className={s.game_info}>
           <div className={s.game_name}>{props.name}</div>
@@ -454,6 +452,7 @@ export default function Home() {
         </div>
         {/* </div> */}
       </Layout>
+
       {/* <Footer />
       <InvitesList />
       <GamesList />
