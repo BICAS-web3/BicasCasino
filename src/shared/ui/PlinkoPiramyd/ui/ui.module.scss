@@ -5,25 +5,20 @@
   position: relative;
   margin-bottom: 80px;
   align-items: center;
-
   @media screen and (max-width: 996px) {
     margin-bottom: 40px;
   }
-
   @media screen and (max-width: 650px) {
     margin-bottom: 20px;
   }
-
   .pyramid_row {
     .ball {
       display: none;
     }
-
     .dot_container {
       display: flex;
       justify-content: center;
       align-items: center;
-
       .dot {
         display: flex;
         justify-content: center;
@@ -31,34 +26,32 @@
         padding: 0;
         margin: 11px 15px;
         border-radius: 50%;
-        background: linear-gradient(to bottom,
-            #ffffff,
-            #ececec,
-            #d9d9d9,
-            #bebebe,
-            #cdcdcd);
+        background: linear-gradient(
+          to bottom,
+          #ffffff,
+          #ececec,
+          #d9d9d9,
+          #bebebe,
+          #cdcdcd
+        );
         width: var(--dot-width);
         height: var(--dot-height);
-
         @media screen and (max-width: 996px) {
           margin: 6px 11.5px;
         }
-
         @media screen and (max-width: 650px) {
           margin: 4px 7.5px;
         }
       }
     }
-
     .multipiler_container {
       display: flex;
       justify-content: center;
       align-items: center;
-
-      @media screen and (max-width: 768px) {}
-
-      @media screen and (max-width: 650px) {}
-
+      @media screen and (max-width: 768px) {
+      }
+      @media screen and (max-width: 650px) {
+      }
       .multipiler_cell {
         font-size: 10px;
         padding: 10px 0;
@@ -74,14 +67,12 @@
         border: 1px solid rgb(123, 99, 59);
         box-shadow: rgb(123, 99, 59) 0 0 5px;
         background-color: rgb(123, 99, 59);
-
         @media screen and (max-width: 996px) {
           font-size: 7.5px;
           width: 25px;
           height: 18px;
           padding: 0;
         }
-
         @media screen and (max-width: 650px) {
           font-size: 5px;
           padding: 0;
@@ -107,11 +98,34 @@
   left: 50%;
   transform: translateX(-50%);
   width: fit-content;
-  // animation: mainFalling 5s 3s ease forwards;
-  animation: fallingBottom 5s 2s ease forwards;
+  animation: mainFalling 5s 3s ease forwards;
+  // animation: fallingBottom 5s 2s ease forwards;
 }
 
-// @keyframes mainFalling {
+@keyframes mainFalling {
+  0% {
+    top: -50px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.plinko_ball.mainRight {
+  animation: mainTurningRight 0.5s;
+}
+
+@keyframes mainTurningRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+///// test --->
+// @keyframes fallingBottom {
 //   0% {
 //     top: -50px;
 //   }
@@ -119,34 +133,11 @@
 //     top: 100%;
 //   }
 // }
-// .plinko_ball.mainRight {
-//   animation: mainTurningRight 0.5s;
-// }
-// @keyframes mainTurningRight {
+// @keyframes fallingRight {
 //   0% {
-//     transform: translateX(0);
+//     left: 50%;
 //   }
 //   100% {
-//     transform: translateX(30px);
+//     left: calc(50% + 20px);
 //   }
 // }
-///// test --->
-@keyframes fallingBottom {
-  0% {
-    top: -50px;
-  }
-
-  100% {
-    top: 100%;
-  }
-}
-
-@keyframes fallingRight {
-  0% {
-    left: 50%;
-  }
-
-  100% {
-    left: calc(50% + 20px);
-  }
-}
