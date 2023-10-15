@@ -4,9 +4,8 @@ import Image from "next/image";
 import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage2.png";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
-import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 
-interface IPlinko {}
+interface IPlinko { }
 
 export const Plinko: FC<IPlinko> = () => {
   return (
