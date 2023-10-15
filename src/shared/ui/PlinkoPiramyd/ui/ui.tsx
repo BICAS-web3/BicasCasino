@@ -21,16 +21,17 @@ export const PlinkoBall: FC<PlinkoBallProps> = props => {
 
   useEffect(() => {
     if (pathIndex >= props.path.length) {
-      setBallTop(ballTop + 26);
+      setBallTop(ballTop + 26); // last movement to the basket
       return;
     }
     if (pathIndex == -1) {
-      setBallTop(-11);
+      setBallTop(-11); // first movement from the starting position
       setPathIndex(pathIndex + 1);
       return;
     }
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
+      // main body of the loop
       const point = props.path[pathIndex];
       setBallTop(ballTop + 26);
 
