@@ -15,8 +15,8 @@ interface PlinkoBallProps {
 export const PlinkoBall: FC<PlinkoBallProps> = props => {
   const ballRef = useRef<HTMLDivElement>(null);
 
-  const [ballTop, setBallTop] = useState<number>(-37);
-  const [ballLeft, setBallLeft] = useState<number>(-10);
+  const [ballTop, setBallTop] = useState<number>(-37); // starting position top/Y
+  const [ballLeft, setBallLeft] = useState<number>(-10); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-1);
 
   useEffect(() => {
