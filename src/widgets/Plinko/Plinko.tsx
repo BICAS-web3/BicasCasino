@@ -1,8 +1,10 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage2.png";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
+import { useStore, useUnit } from "effector-react";
+import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 
 interface IPlinko {}
 

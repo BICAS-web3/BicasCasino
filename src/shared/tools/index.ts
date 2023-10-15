@@ -32,8 +32,10 @@ export const checkPageClicking = (
   window.addEventListener("click", clickEventHandler);
 };
 
+type DeviceType = "main" | "bigTablet" | "laptop" | "tablet" | "phone";
+
 export const useDeviceType = () => {
-  const [deviceType, setDeviceType] = useState(null);
+  const [deviceType, setDeviceType] = useState<DeviceType>("main");
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,11 +43,11 @@ export const useDeviceType = () => {
 
       if (width > 1280) {
         setDeviceType("main");
-      } else if (width <= 996) {
+      } else if (width <= 996 && width > 700) {
         setDeviceType("bigTablet");
       } else if (width <= 1280 && width > 700) {
         setDeviceType("laptop");
-      } else if (width <= 700) {
+      } else if (width <= 700 && width > 320) {
         setDeviceType("tablet");
       } else if (width <= 320) {
         setDeviceType("phone");

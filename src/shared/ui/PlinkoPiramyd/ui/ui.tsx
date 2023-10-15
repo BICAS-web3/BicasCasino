@@ -1,4 +1,4 @@
-import { FC, useEffect, useLayoutEffect, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
 import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore } from "effector-react";
@@ -13,8 +13,10 @@ interface PlinkoBallProps {
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = ({}) => {
+  const ballRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className={styles.plinko_ball}>
+    <div className={styles.plinko_ball} ref={ballRef}>
       <PlinkoBallIcon />
     </div>
   );
@@ -101,5 +103,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
     return rows;
   };
 
-  return <div className={styles.container}>{generateRows()}</div>;
+  return (
+    <div className={styles.container}>
+      {generateRows()}
+      <div className={styles.plinko_ball_container}>
+        <PlinkoBall path={testBallPath} />
+      </div>
+    </div>
+  );
 };

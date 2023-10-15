@@ -5,6 +5,8 @@ interface PlinkoBallIconProps {}
 export const PlinkoBallIcon: FC<PlinkoBallIconProps> = ({}) => {
   const device = useDeviceType();
 
+  console.log(device);
+
   return (
     <>
       {device === "main" ? (
