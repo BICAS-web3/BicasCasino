@@ -181,10 +181,8 @@ const Game: FC<GameProps> = (props) => {
     <a
       className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
       href={props.link}
-      style={{
-        backgroundImage: `url(${currentImage})`,
-      }}
     >
+      <img src={currentImage} className={s.game_link_img} alt="game-img" />
       <div className={s.game}>
         <div className={s.game_info}>
           <div className={s.game_name}>{props.name}</div>
@@ -195,7 +193,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -270,7 +268,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -279,8 +277,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   );
 };
 
-
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -432,6 +429,7 @@ export default function Home() {
         </div>
         {/* </div> */}
       </Layout>
+
       {/* <Footer />
       <InvitesList />
       <GamesList />
