@@ -29,13 +29,11 @@
         );
         width: var(--dot-width);
         height: var(--dot-height);
-        @media screen and (max-width: 768px) {
-          margin: 5px;
-          padding: 3px;
+        @media screen and (max-width: 996px) {
+          margin: 6px 11.5px;
         }
         @media screen and (max-width: 650px) {
-          margin: 4px;
-          padding: 1px;
+          margin: 4px 7.5px;
         }
       }
     }
@@ -48,22 +46,31 @@
       @media screen and (max-width: 650px) {
       }
       .multipiler_cell {
-        font-size: 18px;
-        padding: 10px;
+        font-size: 10px;
+        padding: 10px 0;
+        font-family: var(--font-source-sans-3);
         margin-right: 1px;
         color: white;
+        width: 34px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        align-items: center;
         border: 1px solid rgb(123, 99, 59);
         box-shadow: rgb(123, 99, 59) 0 0 5px;
         background-color: rgb(123, 99, 59);
-        @media screen and (max-width: 768px) {
-          margin: 4px;
-          font-size: 6px;
-          padding: 2px 0;
+        @media screen and (max-width: 996px) {
+          font-size: 7.5px;
+          width: 25px;
+          height: 18px;
+          padding: 0;
         }
         @media screen and (max-width: 650px) {
-          margin: 2px;
-          font-size: 3px;
-          padding: 1px;
+          font-size: 5px;
+          padding: 0;
+          width: 17px;
+          height: 12px;
         }
       }
     }
@@ -71,14 +78,14 @@
 }
 
 .plinko_ball {
-  width: 25px;
-  height: 25px;
-  @media screen and (max-width: 700px) {
-    width: 14px;
-    height: 14px;
-  }
-  @media screen and (max-width: 320px) {
-    width: 7px;
-    height: 7px;
-  }
+  // width: 25px;
+  // height: 25px;
+  // @media screen and (max-width: 700px) {
+  //   width: 14px;
+  //   height: 14px;
+  // }
+  // @media screen and (max-width: 320px) {
+  //   width: 7px;
+  //   height: 7px;
+  // }
 }

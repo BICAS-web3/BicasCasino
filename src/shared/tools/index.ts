@@ -41,6 +41,8 @@ export const useDeviceType = () => {
 
       if (width > 1280) {
         setDeviceType("main");
+      } else if (width <= 996) {
+        setDeviceType("bigTablet");
       } else if (width <= 1280 && width > 700) {
         setDeviceType("laptop");
       } else if (width <= 700) {

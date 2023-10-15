@@ -4,16 +4,15 @@ import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
+import { useDeviceType } from "@/shared/tools";
 
-// false = left, true = right
-
-const testBallPath = [true, false, false, true, true, true, false, false];
+const testBallPath = [true, true, false, false, false, true, false, true];
 
 interface PlinkoBallProps {
   path: boolean[];
 }
 
-export const PlinkoBall: FC<PlinkoBallProps> = ({ path }) => {
+export const PlinkoBall: FC<PlinkoBallProps> = ({}) => {
   return (
     <div className={styles.plinko_ball}>
       <PlinkoBallIcon />
@@ -27,6 +26,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
   const [rowCount, setRowCount] = useState(pickedValue);
   const [multipliers, setMultipliers] = useState<number[]>([]);
+  const device = useDeviceType();
 
   const updateMultipliers = (rowCount: number) => {
     const newMultipliersArray = newMultipliers[rowCount];
@@ -39,13 +39,31 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
 
   useLayoutEffect(() => {
     const updateDotSizes = (rowCount: number) => {
-      const dotWidth = rowCount === 8 ? "5px" : rowCount === 9 ? "6px" : "2px";
-      const dotHeight = rowCount === 8 ? "5px" : rowCount === 9 ? "6px" : "2px";
+      const dotWidth =
+        device === "main"
+          ? "5px"
+          : device === "bigTablet"
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
+      const dotHeight =
+        device === "main"
+          ? "5px"
+          : device === "bigTablet"
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
     updateDotSizes(pickedValue);
-  }, [pickedValue]);
+  }, [device]);
 
   useEffect(() => {
     setRowCount(pickedValue);
