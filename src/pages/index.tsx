@@ -57,6 +57,14 @@ import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
+import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBg.png";
+import plinkoLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
+import plinkoTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
+import plinkoMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
+import plinkoClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
+
+import advPoster from "@/public/media/testAdvertsImgs/poster.png";
+
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
@@ -72,35 +80,36 @@ import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
 import { useAccount } from "wagmi";
 import Link from "next/link";
+import { Blur } from "@/widgets/Blur/Blur";
+import { useDeviceType } from "@/shared/tools";
 
 const mobileQuery = "(max-width: 650px)";
 
 const LinkIcon: FC<{}> = (p) => {
-	return (
-		<svg height="14px" width="14px" viewBox="0 0 18 18">
-			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"
-			></path>
-			<path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path>
-		</svg>
-	);
+  return (
+    <svg height="14px" width="14px" viewBox="0 0 18 18">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2 2V16H16V9H18V16C18 17.1 17.1 18 16 18H2C0.89 18 0 17.1 0 16V2C0 0.9 0.89 0 2 0H9V2H2Z"
+      ></path>
+      <path d="M11 0V2H14.59L4.76 11.83L6.17 13.24L16 3.41V7H18V0H11Z"></path>
+    </svg>
+  );
 };
 
 interface GameProps {
-	name: string;
-	description: string;
-	link: string;
-	pcImage: StaticImageData;
-	laptopImage: StaticImageData;
-	tabletImage: StaticImageData;
-	mobileImage: StaticImageData;
-	closedSidebarImage: StaticImageData;
+  name: string;
+  description: string;
+  link: string;
+  pcImage: StaticImageData;
+  laptopImage: StaticImageData;
+  tabletImage: StaticImageData;
+  mobileImage: StaticImageData;
+  closedSidebarImage: StaticImageData;
 }
 
 const Game: FC<GameProps> = (props) => {
-
   const [mobile, setMobile] = useState(false);
   const [tablet, setTablet] = useState(false);
   const [laptop, setLaptop] = useState(false);
@@ -246,18 +255,30 @@ const Games: FC<GamesProps> = (props) => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />  */}
-			</div>
-		</div>
-	);
+        <Game
+          name={"PLINKO"}
+          description={
+            "A game where you have to beat your opponent with a chip"
+          }
+          link={"/games/Plinko"}
+          tabletImage={minesTabletBg}
+          laptopImage={minesLaptopBg}
+          mobileImage={minesMobileBg}
+          pcImage={plinkoMainBg}
+          closedSidebarImage={minesClosedSidebarImg}
+        />
+      </div>
+    </div>
+  );
 };
 
 interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
-	return (
-		<div className={s.games_title}>
-			<div>Games</div>
-		</div>
-	);
+  return (
+    <div className={s.games_title}>
+      <div>Games</div>
+    </div>
+  );
 };
 
 interface BannerInfoProps {}
@@ -315,6 +336,70 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
+interface MainReplacementComponentProps {}
+const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
+  const { isConnected } = useAccount();
+  const device = useDeviceType();
+
+  const [sidebarOpened] = useUnit([SideBarModel.$isOpen]);
+  const [currentImage, setCurrentImage] = useState(mainBg);
+
+  useEffect(() => {
+    if (device === "laptop") {
+      setCurrentImage(laptopBg);
+    } else if (device === "tablet") {
+      setCurrentImage(tabletBg);
+    } else if (device === "phone") {
+      setCurrentImage(phoneBg);
+    } else if (device === "main") {
+      setCurrentImage(mainBg2);
+    }
+  }, [device]);
+
+  return (
+    <div>
+      {!isConnected ? (
+        <>
+          <div
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
+          >
+            <Image src={currentImage} alt={""} className={s.background} />
+            <div className={s.background_gradient}></div>
+          </div>
+          <BannerInfo />
+        </>
+      ) : (
+        <div className={s.main_advertaising_blocks}>
+          <div className={s.main_advertaising_blocks_item}>
+            <img src={advPoster.src} alt="banner-image" />
+            <div className={s.main_advertaising_blocks_item_body}>
+              <h3 className={s.main_advertaising_blocks_item_title}>
+                advertising poster
+              </h3>
+              <p className={s.main_advertaising_blocks_item_text}>
+                Замена баннера после привязки кошелька.
+              </p>
+            </div>
+          </div>
+          <div className={s.main_advertaising_blocks_item}>
+            <img src={advPoster.src} alt="banner-image" />
+            <div className={s.main_advertaising_blocks_item_body}>
+              <h3 className={s.main_advertaising_blocks_item_title}>
+                advertising poster
+              </h3>
+              <p className={s.main_advertaising_blocks_item_text}>
+                Замена баннера после привязки кошелька.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function Home() {
   const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
     LiveBetsModel.$Bets,
@@ -323,58 +408,20 @@ export default function Home() {
   ]);
 
   const [currentImage, setCurrentImage] = useState(mainBg);
-  const [laptop, setLaptop] = useState(false);
-  const [tablet, setTablet] = useState(false);
-  const [phone, setPhone] = useState(false);
-  const [main, setMain] = useState(false);
+
+  const device = useDeviceType();
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-
-      if (width > 1280) {
-        setLaptop(false);
-        setTablet(false);
-        setPhone(false);
-        setMain(true);
-      } else if (width <= 1280 && width > 700) {
-        setLaptop(true);
-        setTablet(false);
-        setPhone(false);
-        setMain(false);
-      } else if (width <= 700) {
-        setLaptop(false);
-        setTablet(true);
-        setPhone(false);
-        setMain(false);
-      } else if (width <= 320) {
-        setLaptop(false);
-        setTablet(false);
-        setPhone(true);
-        setMain(false);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (laptop) {
+    if (device === "laptop") {
       setCurrentImage(laptopBg);
-    } else if (tablet) {
+    } else if (device === "tablet") {
       setCurrentImage(tabletBg);
-    } else if (phone) {
+    } else if (device === "phone") {
       setCurrentImage(phoneBg);
-    } else if (main) {
+    } else if (device === "main") {
       setCurrentImage(mainBg2);
     }
-  }, [tablet, laptop]);
+  }, [device]);
 
   // useEffect(() =>
   //   console.log("New bets");
@@ -391,15 +438,8 @@ export default function Home() {
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
-          <div
-            className={`${s.background_container} ${
-              !sidebarOpened && s.background_sidebar_closed
-            }`}
-          >
-            <Image src={currentImage} alt={""} className={s.background} />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
+          <Blur />
+          <MainReplacementComponent />
           <Games />
           <Total />
           <CustomBets
@@ -417,6 +457,6 @@ export default function Home() {
       <InvitesList />
       <GamesList />
       <ConnectWalletModal /> */}
-		</>
-	);
+    </>
+  );
 }

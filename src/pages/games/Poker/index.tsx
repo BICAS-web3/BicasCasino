@@ -13,6 +13,7 @@ import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
+import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);

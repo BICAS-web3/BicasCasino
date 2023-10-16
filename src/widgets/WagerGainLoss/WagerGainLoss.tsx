@@ -3,26 +3,25 @@ import s from "./styles.module.scss";
 import { WagerGainLossModel } from ".";
 import { useUnit } from "effector-react";
 
-interface WagerGainLoss { }
+interface WagerGainLoss {}
 
-export const WagerGainLoss: FC<WagerGainLoss> = ({ }) => {
-  const [
-    pickStopLoss,
-    pickStopGain
-  ] = useUnit([
+export const WagerGainLoss: FC<WagerGainLoss> = ({}) => {
+  const [pickStopLoss, pickStopGain] = useUnit([
     WagerGainLossModel.pickStopLoss,
-    WagerGainLossModel.pickStopGain
+    WagerGainLossModel.pickStopGain,
   ]);
 
-  const pickValue = (setValue: (value: number | null) => number | null, value: string) => {
+  const pickValue = (
+    setValue: (value: number | null) => number | null,
+    value: string
+  ) => {
     let num = parseFloat(value);
     if (!isNaN(num)) {
       setValue(num);
     } else {
       setValue(null);
     }
-  }
-
+  };
 
   return (
     <div className={s.gain_loss_block}>

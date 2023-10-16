@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "../Wager/styles.module.scss";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
@@ -11,6 +11,7 @@ import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
+import { checkPageClicking } from "@/shared/tools";
 
 const pokerHandMultiplierList = [
   {
@@ -66,8 +67,22 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
   const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
     useState(false);
 
+  useEffect(() => {
+    if (infoModalVisibility || handMultiplierBlockVisibility) {
+      checkPageClicking({ blockDataId: "wager-lower-btns" }, (isBlock) => {
+        if (!isBlock) {
+          setInfoModalVisibility(false);
+          setHandMultiplierBlockVisibility(false);
+        }
+      });
+    }
+  }, [infoModalVisibility, handMultiplierBlockVisibility]);
+
   return (
-    <div className={s.poker_wager_lower_btns_block}>
+    <div
+      className={s.poker_wager_lower_btns_block}
+      data-id={"wager-lower-btns"}
+    >
       <button
         className={s.poker_wager_sound_btn}
         onClick={() => switchSounds()}
