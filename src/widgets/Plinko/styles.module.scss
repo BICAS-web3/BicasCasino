@@ -41,3 +41,16 @@
     }
   }
 }
+
+.plinko_svg_icon {
+  width: 20px;
+  height: 20px;
+  @media screen and (max-width: 996px) {
+    width: 10px;
+    height: 10px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 7px;
+    height: 7px;
+  }
+}

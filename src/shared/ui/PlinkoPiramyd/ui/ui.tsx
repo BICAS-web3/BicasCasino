@@ -30,7 +30,9 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
       if (device == "bigTablet") {
         setBallLeft(-5);
       } else if (device == "main") {
-        setBallLeft(-30);
+        setBallLeft(-10);
+      } else {
+        setBallLeft(-4);
       }
     }
   }, [device]);
@@ -49,6 +51,11 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
       movingDeep = 26;
       lastMove = 26;
       sidesMove = 17.5;
+    } else {
+      firstMove = -10;
+      movingDeep = 11;
+      lastMove = 5;
+      sidesMove = 9;
     }
 
     if (pathIndex >= props.path.length) {
@@ -65,7 +72,6 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
       // main body of the loop
       const point = props.path[pathIndex];
       setBallTop(ballTop + movingDeep);
-      console.log("ballLeft", ballLeft);
       if (point) {
         setBallLeft(ballLeft + sidesMove);
       } else {
@@ -91,7 +97,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   );
 };
 
-interface IPlinkoPyramid { }
+interface IPlinkoPyramid {}
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
@@ -114,22 +120,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
