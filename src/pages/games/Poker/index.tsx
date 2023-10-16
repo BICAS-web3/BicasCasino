@@ -46,6 +46,7 @@ export default function PokerGame() {
           gameInfoText="test"
           gameTitle="poker"
           wagerContent={<WagerContent />}
+          isPoker={true}
         >
           <Poker />
           {/* show when need to redraw cards */}

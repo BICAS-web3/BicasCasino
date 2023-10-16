@@ -12,24 +12,26 @@ import {
   useContractWrite,
   useContractRead,
   useWaitForTransaction,
-  useAccount
-} from 'wagmi';
-import * as api from '@/shared/api';
+  useAccount,
+} from "wagmi";
+import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
 
-import * as GameModel from './model';
+import * as GameModel from "./model";
 import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
+import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock";
 
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
   gameInfoText: string;
   wagerContent: any;
+  isPoker: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -37,20 +39,28 @@ export const GamePage: FC<GamePageProps> = ({
   gameTitle,
   gameInfoText,
   wagerContent,
+  isPoker,
 }) => {
   console.log("Redrawing game page");
   const { address, isConnected } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [currentToken, setCurrentToken] = useState<{ token: api.T_Token, price: number }>();
+  const [currentToken, setCurrentToken] = useState<{
+    token: api.T_Token;
+    price: number;
+  }>();
 
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
 
-
-  const { data: balance, error, isError, refetch: fetchBalance } = useContractRead({
-    address: (currentToken?.token.contract_address) as `0x${string}`,
+  const {
+    data: balance,
+    error,
+    isError,
+    refetch: fetchBalance,
+  } = useContractRead({
+    address: currentToken?.token.contract_address as `0x${string}`,
     abi: IERC20,
-    functionName: 'balanceOf',
+    functionName: "balanceOf",
     args: [address],
   });
 
@@ -62,7 +72,7 @@ export const GamePage: FC<GamePageProps> = ({
     multiplier,
     token,
     lost,
-    clearStatus
+    clearStatus,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
@@ -72,7 +82,7 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.$multiplier,
     GameModel.$token,
     GameModel.$lost,
-    GameModel.clearStatus
+    GameModel.clearStatus,
   ]);
 
   const [setBlur] = useUnit([BlurModel.setBlur]);
@@ -104,7 +114,6 @@ export const GamePage: FC<GamePageProps> = ({
 
   return (
     <div className={s.game_layout}>
-
       <div className={s.game_wrap}>
         <GamePageModal
           text={gameInfoText}
@@ -117,15 +126,31 @@ export const GamePage: FC<GamePageProps> = ({
               <h2 className={s.game_title}>{gameTitle}</h2>
               {children}
 
-              {gameStatus == GameModel.GameStatus.Won && <div className={s.win_wrapper}>
-                <WinMessage tokenImage={<Image src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`} alt={''} width={30} height={30} />} profit={profit.toFixed(2)} multiplier={Number(multiplier.toFixed(2)).toString()} />
-              </div>}
+              {gameStatus == GameModel.GameStatus.Won && (
+                <div className={s.win_wrapper}>
+                  <WinMessage
+                    tokenImage={
+                      <Image
+                        src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+                        alt={""}
+                        width={30}
+                        height={30}
+                      />
+                    }
+                    profit={profit.toFixed(2)}
+                    multiplier={Number(multiplier.toFixed(2)).toString()}
+                  />
+                </div>
+              )}
 
-              {gameStatus == GameModel.GameStatus.Lost && <div className={s.lost_wrapper}>
-                <LostMessage amount={lost.toFixed(2)} />
-              </div>}
+              {gameStatus == GameModel.GameStatus.Lost && (
+                <div className={s.lost_wrapper}>
+                  <LostMessage amount={lost.toFixed(2)} />
+                </div>
+              )}
             </div>
             <Wager wagerContent={wagerContent} />
+            <GamePageBottomBlock isPoker={isPoker} />
           </div>
           <div>
             <CustomBets
@@ -136,7 +161,7 @@ export const GamePage: FC<GamePageProps> = ({
             />
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
