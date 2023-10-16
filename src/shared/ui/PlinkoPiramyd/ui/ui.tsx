@@ -26,19 +26,26 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   let sidesMove = 0;
 
   useEffect(() => {
-    device == "bigTablet" ? setBallLeft(-5) : setBallLeft(-10);
+    if (device) {
+      if (device == "bigTablet") {
+        setBallLeft(-5);
+      } else if (device == "main") {
+        setBallLeft(-30);
+      }
+    }
   }, [device]);
 
   useEffect(() => {
+    if (!device) {
+      return;
+    }
     if (device === "bigTablet") {
       movingDeep = 15;
-      // setBallLeft(-5);
       firstMove = -9;
       lastMove = 11;
       sidesMove = 13;
     } else if (device === "main") {
       firstMove = -11;
-      // setBallLeft(-10);
       movingDeep = 26;
       lastMove = 26;
       sidesMove = 17.5;
@@ -58,19 +65,17 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
       // main body of the loop
       const point = props.path[pathIndex];
       setBallTop(ballTop + movingDeep);
-
+      console.log("ballLeft", ballLeft);
       if (point) {
-        console.log("sdfsdfsd", ballLeft);
         setBallLeft(ballLeft + sidesMove);
       } else {
-        console.log("sdfsdfsd", ballLeft);
         setBallLeft(ballLeft - sidesMove);
       }
       await sleep(200); // animation length
       setPathIndex(pathIndex + 1);
     };
     run();
-  }, [pathIndex]);
+  }, [pathIndex, device]);
 
   return (
     <div
@@ -86,7 +91,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   );
 };
 
-interface IPlinkoPyramid {}
+interface IPlinkoPyramid { }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
@@ -109,22 +114,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };

@@ -35,7 +35,7 @@ export const checkPageClicking = (
 type DeviceType = "main" | "bigTablet" | "laptop" | "tablet" | "phone";
 
 export const useDeviceType = () => {
-  const [deviceType, setDeviceType] = useState<DeviceType>("main");
+  const [deviceType, setDeviceType] = useState<DeviceType | undefined>(undefined);
 
   useEffect(() => {
     const handleResize = () => {

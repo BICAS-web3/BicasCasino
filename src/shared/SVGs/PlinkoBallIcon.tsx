@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { useDeviceType } from "../tools";
 
-interface PlinkoBallIconProps {}
-export const PlinkoBallIcon: FC<PlinkoBallIconProps> = ({}) => {
+interface PlinkoBallIconProps { }
+export const PlinkoBallIcon: FC<PlinkoBallIconProps> = ({ }) => {
   const device = useDeviceType();
 
-  console.log(device);
+  //console.log(device);
 
   return (
     <>
