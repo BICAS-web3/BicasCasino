@@ -1,0 +1,43 @@
+.plinko_levels_list {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  background: #202020;
+  border-radius: 12px;
+}
+
+.plinko_level_btn {
+  background: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  color: #7e7e7e;
+  border: none;
+  width: 100%;
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  font-family: var(--font-nunito-sans);
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+  border-radius: 12px;
+}
+
+.plinko_level_btn.active {
+  color: #eaeaea;
+  background: #2e2e2e;
+}
+
+.plinko_levels_list_title {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
