@@ -14,6 +14,7 @@ import {WagerGainLoss} from "@/widgets/WagerGainLoss";
 import {ProfitBlock} from "@/widgets/ProfitBlock";
 import {SidePicker} from "@/widgets/CoinFlipSidePicker";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+import {CustomRiskSelector} from "@/widgets/CustomRiskSelector/CustomRiskSelector";
 
 const WagerContent = () => {
     const { isConnected } = useAccount();
@@ -27,6 +28,7 @@ const WagerContent = () => {
             <button className={s.connect_wallet_btn}>
                 {isConnected ? "Place a bet" : "Connect Wallet"}
             </button>
+            <CustomRiskSelector />
             <WagerLowerBtnsBlock game="plinko" />
         </>
     );

@@ -5,6 +5,7 @@ import { useStore } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
+import {riskLevel, riskModel} from "@/widgets/CustomRiskSelector/model";
 
 const testBallPath = [true, true, false, false, false, true, false, true];
 
@@ -36,13 +37,16 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const [rowCount, setRowCount] = useState(pickedValue);
   const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
+  const riskLevelValue = riskModel.getState().riskLevel;
+  const newMultipliersArray = riskLevelValue && newMultipliers[riskLevelValue] && newMultipliers[riskLevelValue][rowCount];
 
-  const updateMultipliers = (rowCount: number) => {
-    const newMultipliersArray = newMultipliers[rowCount];
+  const updateMultipliers = (rowCount:number) => {
+    const riskLevelValue = riskModel.getState().riskLevel;
+    const newMultipliersArray = riskLevelValue && newMultipliers[riskLevelValue] && newMultipliers[riskLevelValue][rowCount];
     if (newMultipliersArray) {
       setMultipliers(newMultipliersArray);
     } else {
-      setMultipliers(newMultipliers[8]);
+      setMultipliers(newMultipliers["easyMultipliers"][8]);
     }
   };
 
