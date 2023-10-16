@@ -3,6 +3,35 @@
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
   column-gap: 20px;
+  @media screen and (max-width: 1450px) {
+    grid-template-columns: 290px 120px 1fr 1fr;
+  }
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: 290px 120px 100px 1fr;
+  }
+}
+
+.poker_hands_titles_list {
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+  display: grid;
+  margin-bottom: 20px;
+  @media screen and (max-width: 1450px) {
+    grid-template-columns: 290px 120px 1fr 1fr;
+  }
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: 290px 120px 100px 1fr;
+  }
+}
+
+.poker_hands_titles_list_item {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.48px;
 }
 
 .poker_hand_cards_example {

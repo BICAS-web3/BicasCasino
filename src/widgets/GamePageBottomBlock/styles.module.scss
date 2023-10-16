@@ -6,6 +6,9 @@
   border-top: 2px solid #0f0f0f;
   grid-column: 1/3;
   box-sizing: border-box;
+  @media screen and (max-width: 996px) {
+    display: none;
+  }
 }
 
 .game_page_bottom_wrap_header {

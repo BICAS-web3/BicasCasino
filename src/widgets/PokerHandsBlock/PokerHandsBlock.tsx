@@ -24,10 +24,10 @@ export const PokerHandsBlock: FC<PokerHandsBlockProps> = ({}) => {
   return (
     <div className={s.poker_hands_list_block}>
       <div className={s.poker_hands_titles_list}>
-        <span>Example</span>
-        <span>Name</span>
-        <span>Multiplier</span>
-        <span>Description</span>
+        <span className={s.poker_hands_titles_list_item}>Example</span>
+        <span className={s.poker_hands_titles_list_item}>Name</span>
+        <span className={s.poker_hands_titles_list_item}>Multiplier</span>
+        <span className={s.poker_hands_titles_list_item}>Description</span>
       </div>
       <div className={s.poker_hands_list}>
         {pokerHands &&
