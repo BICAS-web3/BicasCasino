@@ -94,50 +94,6 @@
 
 .plinko_ball {
   position: relative;
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
   width: fit-content;
-  animation: mainFalling 5s 3s ease forwards;
-  // animation: fallingBottom 5s 2s ease forwards;
+  transition: all 0.2s linear;
 }
-
-@keyframes mainFalling {
-  0% {
-    top: -50px;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-.plinko_ball.mainRight {
-  animation: mainTurningRight 0.5s;
-}
-
-@keyframes mainTurningRight {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(30px);
-  }
-}
-
-///// test --->
-// @keyframes fallingBottom {
-//   0% {
-//     top: -50px;
-//   }
-//   100% {
-//     top: 100%;
-//   }
-// }
-// @keyframes fallingRight {
-//   0% {
-//     left: 50%;
-//   }
-//   100% {
-//     left: calc(50% + 20px);
-//   }
-// }
