@@ -1,29 +1,17 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
 import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
-import { useStore } from "effector-react";
-import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
+import { useStore, useUnit } from "effector-react";
+import {
+  easyMultipliers,
+  hardMultipliers,
+  normalMultipliers,
+} from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
+import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 
-const testBallPath = [
-  true,
-  true,
-  false,
-  false,
-  false,
-  true,
-  false,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-  true,
-];
+const testBallPath = [true, true, false, false, false, true, false, true];
 
 interface PlinkoBallProps {
   path: boolean[];
@@ -121,13 +109,25 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const [rowCount, setRowCount] = useState(pickedValue);
   const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
+  const [currentLevel, setCurrentLevel] = useState("");
 
-  const updateMultipliers = (rowCount: number) => {
-    const newMultipliersArray = newMultipliers[rowCount];
-    if (newMultipliersArray) {
-      setMultipliers(newMultipliersArray);
-    } else {
-      setMultipliers(newMultipliers[8]);
+  const [level] = useUnit([levelModel.$level]);
+
+  useEffect(() => {
+    setCurrentLevel(level);
+  }, [level]);
+
+  const updateMultipliers = (rowCount: number, lvl: string) => {
+    const easyMultipliersArray = easyMultipliers[rowCount];
+    const normalMultipliersArray = normalMultipliers[rowCount];
+    const hardMultipliersArray = hardMultipliers[rowCount];
+
+    if (lvl == "easy") {
+      setMultipliers(easyMultipliersArray);
+    } else if (lvl == "normal") {
+      setMultipliers(normalMultipliersArray);
+    } else if (lvl == "hard") {
+      setMultipliers(hardMultipliersArray);
     }
   };
 
@@ -160,8 +160,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   }, [device]);
 
   useEffect(() => {
-    setRowCount(16);
-    updateMultipliers(pickedValue);
+    updateMultipliers(pickedValue, currentLevel);
+  }, [pickedValue, currentLevel]);
+
+  useEffect(() => {
+    setRowCount(pickedValue);
+
     console.log("PICKED VALUE", pickedValue);
   }, [pickedValue]);
 
