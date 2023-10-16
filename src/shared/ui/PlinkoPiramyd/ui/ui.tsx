@@ -6,7 +6,24 @@ import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
 
-const testBallPath = [true, true, false, false, false, true, false, true];
+const testBallPath = [
+  true,
+  true,
+  false,
+  false,
+  false,
+  true,
+  false,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+];
 
 interface PlinkoBallProps {
   path: boolean[];
@@ -143,7 +160,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   }, [device]);
 
   useEffect(() => {
-    setRowCount(pickedValue);
+    setRowCount(16);
     updateMultipliers(pickedValue);
     console.log("PICKED VALUE", pickedValue);
   }, [pickedValue]);
