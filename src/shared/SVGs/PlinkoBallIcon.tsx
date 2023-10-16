@@ -38,7 +38,7 @@ export const PlinkoBallIcon: FC<PlinkoBallIconProps> = ({}) => {
             </radialGradient>
           </defs>
         </svg>
-      ) : device === "tablet" ? (
+      ) : device === "bigTablet" ? (
         <svg
           width="10"
           height="10"

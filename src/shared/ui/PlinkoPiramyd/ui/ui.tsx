@@ -12,20 +12,44 @@ interface PlinkoBallProps {
   path: boolean[];
 }
 
-export const PlinkoBall: FC<PlinkoBallProps> = props => {
+export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
 
   const [ballTop, setBallTop] = useState<number>(-37); // starting position top/Y
-  const [ballLeft, setBallLeft] = useState<number>(-10); // starting position left/X
+  const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-1);
+  const device = useDeviceType();
+
+  let lastMove = 0;
+  let firstMove = 0;
+  let movingDeep = 0;
+  let sidesMove = 0;
 
   useEffect(() => {
+    device == "bigTablet" ? setBallLeft(-5) : setBallLeft(-10);
+  }, [device]);
+
+  useEffect(() => {
+    if (device === "bigTablet") {
+      movingDeep = 15;
+      // setBallLeft(-5);
+      firstMove = -9;
+      lastMove = 11;
+      sidesMove = 13;
+    } else if (device === "main") {
+      firstMove = -11;
+      // setBallLeft(-10);
+      movingDeep = 26;
+      lastMove = 26;
+      sidesMove = 17.5;
+    }
+
     if (pathIndex >= props.path.length) {
-      setBallTop(ballTop + 26); // last movement to the basket
+      setBallTop(ballTop + lastMove); // last movement to the basket
       return;
     }
     if (pathIndex == -1) {
-      setBallTop(-11); // first movement from the starting position
+      setBallTop(firstMove); // first movement from the starting position
       setPathIndex(pathIndex + 1);
       return;
     }
@@ -33,31 +57,36 @@ export const PlinkoBall: FC<PlinkoBallProps> = props => {
     const run = async () => {
       // main body of the loop
       const point = props.path[pathIndex];
-      setBallTop(ballTop + 26);
+      setBallTop(ballTop + movingDeep);
 
       if (point) {
-        setBallLeft(ballLeft + 17.5);
+        console.log("sdfsdfsd", ballLeft);
+        setBallLeft(ballLeft + sidesMove);
       } else {
-        setBallLeft(ballLeft - 17.5);
+        console.log("sdfsdfsd", ballLeft);
+        setBallLeft(ballLeft - sidesMove);
       }
       await sleep(200); // animation length
       setPathIndex(pathIndex + 1);
-
-    }
+    };
     run();
   }, [pathIndex]);
 
   return (
-    <div className={styles.plinko_ball} ref={ballRef} style={{
-      top: `${ballTop}px`,
-      left: `calc(50% + ${ballLeft}px)`
-    }}>
+    <div
+      className={styles.plinko_ball}
+      ref={ballRef}
+      style={{
+        top: `${ballTop}px`,
+        left: `calc(50% + ${ballLeft}px)`,
+      }}
+    >
       <PlinkoBallIcon />
     </div>
   );
 };
 
-interface IPlinkoPyramid { }
+interface IPlinkoPyramid {}
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   const pickedValue = useStore($pickedValue);
@@ -80,22 +109,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
