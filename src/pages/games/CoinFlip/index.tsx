@@ -7,7 +7,7 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
-import { SidePicker } from '@/widgets/CoinFlipSidePicker';
+import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import { WagerModel } from "@/widgets/Wager";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
@@ -40,6 +40,7 @@ export default function CoinFlipGame() {
       />
       <div className={s.coinflip_container}>
         <GamePage
+          isPoker={false}
           gameInfoText="test"
           gameTitle="coinflip"
           wagerContent={<WagerContent />}
