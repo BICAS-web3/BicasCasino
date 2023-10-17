@@ -157,7 +157,7 @@ export const Plinko: FC<IPlinko> = () => {
     ],
     value: fees,
     enabled: true,
-    gas: BigInt(3000000),
+    //gas: BigInt(3000000),
   });
 
   const { write: startPlaying, isSuccess: startedPlaying, error } = useContractWrite(startPlayingConfig);
