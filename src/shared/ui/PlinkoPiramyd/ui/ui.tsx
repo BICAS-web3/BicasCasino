@@ -102,9 +102,11 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   );
 };
 
-interface IPlinkoPyramid {}
+interface IPlinkoPyramid {
+  path: boolean[] | undefined
+}
 
-export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
+export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   const pickedValue = useStore($pickedValue);
   const [rowCount, setRowCount] = useState(pickedValue);
   const [multipliers, setMultipliers] = useState<number[]>([]);
@@ -137,22 +139,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
@@ -202,9 +204,10 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = () => {
   return (
     <div className={styles.container}>
       {generateRows()}
-      <div className={styles.plinko_ball_container}>
-        <PlinkoBall path={testBallPath} />
-      </div>
+      {props.path &&
+        <div className={styles.plinko_ball_container}>
+          <PlinkoBall path={props.path} />
+        </div>}
     </div>
   );
 };

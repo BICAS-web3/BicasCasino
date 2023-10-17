@@ -18,16 +18,17 @@ import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock
 
 const WagerContent = () => {
   const { isConnected } = useAccount();
+  const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <>
-      <SidePicker />
+      {/* <SidePicker /> */}
       <WagerInputsBlock />
       <PlinkoLevelsBlock />
       <CustomWagerRangeInput inputTitle="Rows" min={8} max={16} />
       {/*<WagerGainLoss />*/}
       {/*<ProfitBlock />*/}
-      <button className={s.connect_wallet_btn}>
-        {isConnected ? "Place a bet" : "Connect Wallet"}
+      <button className={s.connect_wallet_btn} onClick={pressButton}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="plinko" />
     </>
