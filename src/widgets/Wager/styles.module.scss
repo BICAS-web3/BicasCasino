@@ -124,7 +124,7 @@
 }
 
 .poker_wager_lower_btns_block {
-  display: flex;
+  display: none;
   gap: 15px;
   margin-top: 30px;
   height: 100%;
@@ -145,27 +145,27 @@
   border-radius: 12px;
 }
 
-.poker_wager_info_btn_wrap {
-  position: relative;
-}
-
 .poker_wager_info_modal_block {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
-  min-width: 410px;
-  border-radius: 20px;
+  position: fixed;
   background: #202020;
   padding: 25px 15px;
   cursor: default;
+  box-sizing: border-box;
   visibility: hidden;
-  height: fit-content;
-  bottom: calc(100% + 10px);
-  left: 30%;
-  transform: translateX(-65%);
+  height: calc(100% - 70px);
+  top: 70px;
   opacity: 0;
+  z-index: 11;
+  width: 100%;
+  left: 0;
   transition: all 0.4s;
+  @media screen and (max-width: 650px) {
+    top: 56px;
+    height: calc(100% - 112px);
+  }
   &.active {
     visibility: visible;
     opacity: 1;
@@ -184,19 +184,25 @@
 }
 
 .poker_wager_info_modal_text {
-  font-family: var(--font-source-sans-3);
+  margin-top: 20px;
+  max-width: 90%;
   color: #eaeaea;
-  font-size: 14px;
+  font-family: var(--font-source-sans-3);
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
+  font-weight: 300;
+  line-height: 160%;
+  letter-spacing: 0.8px;
+  @media screen and (max-width: 650px) {
+    max-width: 100%;
+  }
 }
 
 .poker_wager_info_modal_close_ico {
   position: absolute;
-  top: 30px;
+  top: 15px;
   cursor: pointer;
-  right: 20px;
+  right: 15px;
 }
 
 .poker_wager_drawing_cards_btn {
@@ -294,13 +300,15 @@
   transition: all 0.4s;
   opacity: 0;
   visibility: hidden;
-  width: 235px;
+  width: 100%;
+  z-index: 100;
   border-radius: 20px;
   background: #202020;
-  position: absolute;
-  padding: 20px 0;
-  right: 0;
+  position: fixed;
+  left: 0;
+  top: 70px;
   user-select: none;
+  height: calc(100% - 70px);
 }
 
 .handMultiplierActive {
@@ -362,6 +370,17 @@
   line-height: 110%;
 }
 
+.ellipse_blur_wrap {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  top: 50px;
+  right: -100px;
+  @media screen and (max-width: 650px) {
+    top: 70%;
+  }
+}
+
 @media screen and (max-width: 996px) {
   .poker_wager_wrap {
     border-top: 1px solid #202020;
@@ -372,11 +391,9 @@
     border-radius: 0 0 20px 20px;
     max-width: 100%;
   }
-  .poker_wager_info_modal_block {
-    transform: translateX(-20%);
-  }
   .poker_wager_lower_btns_block {
     position: absolute;
+    display: flex;
     top: 10px;
     right: 10px;
     margin-top: 0;
@@ -390,38 +407,14 @@
   }
 }
 
-@media screen and (min-width: 700px) {
-  .hand_multiplier_block {
-    bottom: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-60%);
-  }
-}
-
 @media screen and (max-width: 700px) {
-  .hand_multiplier_block {
-    top: calc(100% + 10px);
-    height: fit-content;
-    right: 0;
-  }
   .poker_wager_drawing_cards_btn {
     width: 100%;
     margin: 20px auto;
   }
-  .poker_wager_info_modal_block {
-    top: 50px;
-    right: 0;
-    bottom: 50px;
-    left: -115px;
-    transform: translateX(-65%);
-  }
 }
 
 @media screen and (max-width: 650px) {
-  .poker_wager_info_modal_block {
-    min-width: 200px;
-    align-items: start;
-  }
   .poker_wager_info_modal_title {
     font-size: 14px;
   }
@@ -437,12 +430,11 @@
   .poker_wager_input_currency {
     font-size: 14px;
   }
-  .poker_wager_info_modal_block {
-    bottom: 50px;
-    left: -40px;
-    // transform: translateX(-85%);
-  }
   .poker_wager_lower_btns_block {
     gap: 7px;
+  }
+  .hand_multiplier_block {
+    height: calc(100% - 112px);
+    top: 56px;
   }
 }

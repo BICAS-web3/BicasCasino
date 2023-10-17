@@ -1,16 +1,19 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "../Wager/styles.module.scss";
 import infoIco from "@/public/media/Wager_icons/infoIco.svg";
 import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
 import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
-import closeIco from "@/public/media/Wager_icons/closeIco.svg";
+import closeIco from "@/public/media/pokerHandsImages/closeIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import closeBtnIco from "@/public/media/Wager_icons/closeDownBtnsIco.svg";
 import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
+import * as PokerHandsM from "@/widgets/PokerHandsBlock/model";
+import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
+import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
 
 const pokerHandMultiplierList = [
   {
@@ -62,9 +65,19 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
   ]);
 
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
-  //const [soundState, setSoundState] = useState(true);
-  const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
-    useState(false);
+
+  const [handMultiplierBlockVisibility, setHandVisibility] = useUnit([
+    PokerHandsM.$isOpen,
+    PokerHandsM.setVisibility,
+  ]);
+
+  useEffect(() => {
+    if (handMultiplierBlockVisibility) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "visible";
+    }
+  }, [handMultiplierBlockVisibility]);
 
   return (
     <div className={s.poker_wager_lower_btns_block}>
@@ -94,23 +107,28 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
             infoModalVisibility && s.active
           }`}
         >
+          <div className={s.ellipse_blur_wrap}>
+            <CustomEllipseBlur />
+          </div>
           <Image
             src={closeIco}
             alt="close-ico"
             onClick={() => setInfoModalVisibility(false)}
             className={s.poker_wager_info_modal_close_ico}
           />
-          <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
-          <p className={s.poker_wager_info_modal_text}>Poker</p>
+          <p className={s.poker_wager_info_modal_text}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, vel,
+            atque debitis sequi quis ducimus quod assumenda esse quasi veniam
+            quaerat optio vitae rerum doloribus! Fugiat architecto dolor
+            reiciendis nihil.
+          </p>
         </div>
       </div>
       {game && game === "poker" && (
         <div className={s.hand_multiplier_wrap}>
           <div
             className={s.hand_multiplier_ico_wrap}
-            onClick={() =>
-              setHandMultiplierBlockVisibility(!handMultiplierBlockVisibility)
-            }
+            onClick={() => setHandVisibility(!handMultiplierBlockVisibility)}
           >
             {handMultiplierBlockVisibility ? (
               <Image alt="open-hand-light-ico" src={closeBtnIco} />
@@ -123,24 +141,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
               handMultiplierBlockVisibility && s.handMultiplierActive
             }`}
           >
-            <div className={s.hand_multiplier_block_header}>
-              <span className={s.hand_multiplier_block_header_title}>Hand</span>
-              <span className={s.hand_multiplier_block_header_title}>
-                Multiplier
-              </span>
-            </div>
-            <div className={s.hand_multiplier_list}>
-              {pokerHandMultiplierList.map((hand, id) => (
-                <div className={s.hand_multiplier_list_item}>
-                  <span className={s.hand_multiplier_list_item_title}>
-                    {hand.title}
-                  </span>
-                  <span className={s.hand_multiplier_list_item_multiplier}>
-                    {hand.multiplier}×
-                  </span>
-                </div>
-              ))}
-            </div>
+            <PokerHandsBlock />
           </div>
         </div>
       )}

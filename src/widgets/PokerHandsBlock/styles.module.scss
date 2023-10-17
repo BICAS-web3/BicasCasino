@@ -1,5 +1,22 @@
 .poker_hands_list_block {
+  position: relative;
   padding-top: 30px;
+  background: #181818;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  @media screen and (max-width: 996px) {
+    height: 100%;
+  }
+}
+
+.poker_hands_desktopHidden_btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: inherit;
+  border: none;
+  cursor: pointer;
 }
 
 .poker_hands_list_item {
@@ -31,6 +48,21 @@
   @media screen and (max-width: 1050px) {
     grid-template-columns: 290px 120px 70px 1fr;
   }
+  @media screen and (max-width: 996px) {
+    &:last-child {
+      border-radius: 0;
+      padding: 8px 40px;
+    }
+    column-gap: 10px;
+    grid-template-columns: 150px 160px 1fr;
+  }
+  @media screen and (max-width: 650px) {
+    padding: 8px 16px;
+    grid-template-columns: 150px 87px 1fr;
+    &:last-child {
+      padding: 8px 16px;
+    }
+  }
 }
 
 .poker_hands_list_item[data-bg="true"] {
@@ -52,6 +84,13 @@
   @media screen and (max-width: 1050px) {
     grid-template-columns: 290px 120px 70px 1fr;
   }
+  @media screen and (max-width: 996px) {
+    grid-template-columns: 150px 50px 1fr;
+    column-gap: 10px;
+  }
+  @media screen and (max-width: 650px) {
+    padding: 8px 16px;
+  }
 }
 
 .poker_hands_titles_list_item {
@@ -62,6 +101,18 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.48px;
+  @media screen and (max-width: 996px) {
+    &:last-child {
+      display: none;
+    }
+    &[data-id="multp"] {
+      text-align: end;
+    }
+  }
+  @media screen and (max-width: 650px) {
+    text-align: start;
+    font-size: 10px;
+  }
 }
 
 .poker_hand_cards_example {
@@ -78,6 +129,10 @@
   font-weight: 700;
   line-height: 130%;
   letter-spacing: 0.64px;
+  text-wrap: nowrap;
+  @media screen and (max-width: 650px) {
+    font-size: 12px !important;
+  }
 }
 
 .poker_hand_multiplier {
@@ -88,6 +143,9 @@
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
+  @media screen and (max-width: 650px) {
+    font-size: 14px !important;
+  }
 }
 
 .poker_hand_description {
@@ -98,4 +156,40 @@
   font-weight: 300;
   line-height: 130%;
   letter-spacing: 0.56px;
+}
+
+.ellipse_blur_wrap {
+  display: none;
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  right: 0;
+  bottom: 100px;
+  @media screen and (max-width: 996px) {
+    display: block;
+  }
+  @media screen and (max-width: 650px) {
+    display: block;
+    right: -100px;
+    bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .poker_hand_description_block {
+    display: none;
+  }
+  .poker_hand_multiplier_block,
+  .poker_hand_cards_example {
+    display: flex;
+    justify-content: end;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .poker_hand_name_block,
+  .poker_hand_cards_example {
+    display: flex;
+    justify-content: start;
+  }
 }
