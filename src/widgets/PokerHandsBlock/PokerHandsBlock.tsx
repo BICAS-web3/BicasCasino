@@ -210,6 +210,8 @@ export const PokerHandsBlock: FC<PokerHandsBlockProps> = ({}) => {
 
   const [setHandVisibility] = useUnit([PokerHandM.setVisibility]);
 
+  // test
+
   return (
     <div className={s.poker_hands_list_block}>
       <div className={s.ellipse_blur_wrap}>
