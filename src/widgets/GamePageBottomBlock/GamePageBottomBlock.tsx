@@ -11,11 +11,26 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
   const [accordionActive, setAccordionActive] = useState(false);
   const [currentItem, setCurrentItem] = useState("poker");
 
-  const toggleItem = () => {
-    // if (currentItem === ind) {
-    //   return setCurrentItem(null);
-    // }
-    // setCurrentItem(ind);
+  const showTableHandler = () => {
+    setCurrentItem("poker");
+    if (!accordionActive) {
+      setAccordionActive(true);
+    } else if (accordionActive && currentItem == "about") {
+      setCurrentItem("poker");
+    } else if (accordionActive && currentItem == "poker") {
+      setAccordionActive(false);
+    }
+  };
+
+  const aboutHandler = () => {
+    setCurrentItem("about");
+    if (!accordionActive) {
+      setAccordionActive(true);
+    } else if (accordionActive && currentItem == "poker") {
+      setCurrentItem("about");
+    } else if (accordionActive && currentItem == "about") {
+      setAccordionActive(false);
+    }
   };
 
   return (
@@ -25,7 +40,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
           <div
             className={`${s.game_page_bottom_show_table_btn} 
           ${s.game_page_bottom_wrap_header_accordion_btn}`}
-            onClick={() => setAccordionActive(!accordionActive)}
+            onClick={showTableHandler}
           >
             Show table <ArrowDownIcon />
           </div>
@@ -33,27 +48,37 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
         <div
           className={`${s.game_page_bottom_about_the_game_btn} 
           ${s.game_page_bottom_wrap_header_accordion_btn}`}
-          onClick={() => setAccordionActive(!accordionActive)}
+          onClick={aboutHandler}
         >
           About the Game <ArrowDownIcon />
         </div>
       </div>
       <div
         className={`${s.game_page_bottom_wrap_accordion} ${
-          accordionActive && s.active
+          -accordionActive && s.active
         }`}
       >
-        {currentItem == "poker" && (
+        <div
+          className={`${s.poker_showTable_wrap} ${
+            currentItem == "poker" && s.pokerActive
+          }`}
+        >
           <PokerHandsBlock />
-          // <p className={s.about_text}>
-          //   Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-          //   explicabo, repellat quibusdam aut impedit mollitia, rerum libero
-          //   praesentium ducimus ab dolore sunt dolores ipsa! Vel maxime nam
-          //   beatae aspernatur quis ex sed nemo eligendi voluptate necessitatibus
-          //   repudiandae deleniti reprehenderit aut ab suscipit, possimus
-          //   explicabo asperiores, ut sint quaerat adipisci labore.
-          // </p>
-        )}
+        </div>
+        <div
+          className={`${s.aboutTheGame_wrap} ${
+            currentItem == "about" && s.aboutActive
+          }`}
+        >
+          <p className={s.about_text}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
+            explicabo, repellat quibusdam aut impedit mollitia, rerum libero
+            praesentium ducimus ab dolore sunt dolores ipsa! Vel maxime nam
+            beatae aspernatur quis ex sed nemo eligendi voluptate necessitatibus
+            repudiandae deleniti reprehenderit aut ab suscipit, possimus
+            explicabo asperiores, ut sint quaerat adipisci labore.
+          </p>
+        </div>
       </div>
     </div>
   );

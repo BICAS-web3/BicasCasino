@@ -1,17 +1,44 @@
+.poker_hands_list_block {
+  padding-top: 30px;
+}
+
 .poker_hands_list_item {
+  border-bottom: 1px solid #252525;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  transition: all 0.4s;
+  padding: 14px 0 0 0;
   column-gap: 20px;
+  padding: 8px 40px;
+  &:first-child {
+    border-top: 1px solid #252525;
+  }
+  &:last-child {
+    border-bottom: none;
+    border-radius: 0 0 20px 20px;
+    padding: 8px 40px 30px 40px;
+  }
+  &:hover {
+    background: #212121 !important;
+  }
   @media screen and (max-width: 1450px) {
     grid-template-columns: 290px 120px 1fr 1fr;
   }
   @media screen and (max-width: 1200px) {
     grid-template-columns: 290px 120px 100px 1fr;
   }
+  @media screen and (max-width: 1050px) {
+    grid-template-columns: 290px 120px 70px 1fr;
+  }
+}
+
+.poker_hands_list_item[data-bg="true"] {
+  background: #1a1a1a;
 }
 
 .poker_hands_titles_list {
+  padding: 0 40px;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 20px;
   display: grid;
@@ -21,6 +48,9 @@
   }
   @media screen and (max-width: 1200px) {
     grid-template-columns: 290px 120px 100px 1fr;
+  }
+  @media screen and (max-width: 1050px) {
+    grid-template-columns: 290px 120px 70px 1fr;
   }
 }
 
