@@ -19,6 +19,71 @@ import { pickSide } from "../CoinFlipSidePicker/model";
 import { ABI as IPlinko } from "@/shared/contracts/PlinkoABI";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 
+
+// const testBallPath = [
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, true, true, false, true, true, false, false, false, false, false],
+//   [true, true, true, true, true, true, true, true, true, true, false, false, false, true, false, true],
+//   [false, true, false, true, true, false, false, false, false, true, true, false, false, false, false, false],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, true, true, false, false,],
+//   [true, true, false, false, false, true, false, true, true, true, false, false, false, false, false, false,],
+//   [true, true, true, true, true, true, true, true, false, false, false, false, false, false, true, true],
+//   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, true, true,],
+//   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
+// ];
+
+
 interface IPlinko { }
 
 export const Plinko: FC<IPlinko> = () => {
@@ -233,6 +298,11 @@ export const Plinko: FC<IPlinko> = () => {
 
   useEffect(() => {
     if (wagered) {
+      // if (path) {
+      //   setPath(undefined)
+      // } else {
+      //   setPath(testBallPath);
+      // }
       console.log("Pressed wager");
       if (inGame) {
         // setShowFlipCards(false);

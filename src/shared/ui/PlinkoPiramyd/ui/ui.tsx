@@ -12,7 +12,6 @@ import { useDeviceType } from "@/shared/tools";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
 
-const testBallPath = [true, true, false, false, false, true, false, true];
 
 interface PlinkoBallProps {
   path: boolean[];
@@ -22,11 +21,11 @@ interface PlinkoBallProps {
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
 
-  const [playDing, { stop: stopBackground }] = useSound('/static/media/games_assets/plinko/plinkoDing.mp3', { volume: 0.4, loop: false });
+  const [playDing, { stop: stopDing }] = useSound('/static/media/games_assets/plinko/plinkoDing.mp3', { volume: 0.4, loop: false });
 
-  const [ballTop, setBallTop] = useState<number>(-70); // starting position top/Y
+  const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
-  const [pathIndex, setPathIndex] = useState<number>(-1);
+  const [pathIndex, setPathIndex] = useState<number>(-2);
   const device = useDeviceType();
 
   let lastMove = 0;
@@ -38,10 +37,22 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
     if (device) {
       if (device == "bigTablet") {
         setBallLeft(-5);
+        movingDeep = 15;
+        firstMove = -9;
+        lastMove = 11;
+        sidesMove = 13;
       } else if (device == "main") {
         setBallLeft(-10);
+        firstMove = -11;
+        movingDeep = 26;
+        lastMove = 26;
+        sidesMove = 17.5;
       } else {
         setBallLeft(-4);
+        firstMove = -10;
+        movingDeep = 11;
+        lastMove = 5;
+        sidesMove = 9;
       }
     }
   }, [device]);
@@ -70,44 +81,58 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
     if (pathIndex >= props.path.length) {
       setBallTop(ballTop + lastMove); // last movement to the basket
       console.log("Animation finished");
-      props.setAnimationFinished(true);
+      //props.setAnimationFinished(true);
       return;
     }
-    if (pathIndex == -1) {
-      setBallTop(firstMove); // first movement from the starting position
-      setPathIndex(pathIndex + 1);
-      props.setAnimationFinished(false);
-      playDing();
-      return;
-    }
+
+
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
       // main body of the loop
-      playDing();
-      const point = props.path[pathIndex];
-      setBallTop(ballTop + movingDeep);
-      if (point) {
-        setBallLeft(ballLeft + sidesMove);
+      if (pathIndex < 0) {
+        if (pathIndex == -1) {
+          playDing();
+          //await sleep(200);
+          setBallTop(firstMove); // first movement from the starting position
+          setPathIndex(pathIndex + 1);
+
+        } else if (pathIndex == -2) {
+          console.log("TEXT");
+          await sleep(200);
+          console.log("TEXT1");
+          setPathIndex(pathIndex + 1);
+        }
       } else {
-        setBallLeft(ballLeft - sidesMove);
+        if (pathIndex == 1) {
+          props.setAnimationFinished(true);
+        }
+        playDing();
+        const point = props.path[pathIndex];
+        setBallTop(ballTop + movingDeep);
+        if (point) {
+          setBallLeft(ballLeft + sidesMove);
+        } else {
+          setBallLeft(ballLeft - sidesMove);
+        }
+        await sleep(200); // animation length
+        setPathIndex(pathIndex + 1);
       }
-      await sleep(200); // animation length
-      setPathIndex(pathIndex + 1);
     };
     run();
   }, [pathIndex, device]);
 
   return (
-    <div
+    <>{pathIndex < props.path.length ? <div
       className={styles.plinko_ball}
       ref={ballRef}
       style={{
         top: `${ballTop}px`,
         left: `calc(50% + ${ballLeft}px)`,
+        transition: ballLeft == 0 ? "" : "all 0.2s linear",
       }}
     >
       <PlinkoBallIcon />
-    </div>
+    </div> : <></>}</>
   );
 };
 
@@ -125,6 +150,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   const [animationFinished, setAnimationFinished] = useState<boolean>(true);
   const [pathIndex, setPathIndex] = useState<number>(0);
   const [path, setPath] = useState<boolean[] | undefined>(undefined);
+  const [balls, setBalls] = useState<any[]>([]);
 
   useEffect(() => {
     console.log("path, animation finished", props.path, animationFinished);
@@ -132,13 +158,19 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       if (animationFinished) {
         if (pathIndex == props.path.length) {
           //props.setFinishedAnimation(true);
-          setPath(undefined);
+          //setPath(undefined);
           setPathIndex(0);
+          //setBalls([]);
           //setAnimationFinished(false);
           return;
         }
         console.log("Changing path", pathIndex);
         setAnimationFinished(false);
+        setBalls([...balls, <PlinkoBall
+          path={props.path[pathIndex]}
+          setAnimationFinished={setAnimationFinished}
+          key={pathIndex.toString()}
+        />])
         setPath(props.path[pathIndex]);
         setPathIndex(pathIndex + 1);
       }
@@ -246,12 +278,13 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   return (
     <div className={styles.container}>
       {generateRows()}
-      {path && !animationFinished &&
+      {path &&
         <div className={styles.plinko_ball_container}>
-          <PlinkoBall
+          {/* <PlinkoBall
             path={path}
             setAnimationFinished={setAnimationFinished}
-          />
+          /> */}
+          {balls}
         </div>}
     </div>
   );
