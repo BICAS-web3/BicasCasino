@@ -31,9 +31,10 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   };
 
   useEffect(() => {
+    const rangeWidthPercentage = ((pickedValue - min) / (max - min)) * 100;
     document.documentElement.style.setProperty(
       "--track-width",
-      `${(pickedValue / max) * 100}%`
+      `${rangeWidthPercentage}%`
     );
   }, [pickedValue]);
 
