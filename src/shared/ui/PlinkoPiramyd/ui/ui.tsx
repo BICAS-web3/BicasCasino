@@ -128,17 +128,30 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
 
   useEffect(() => {
     console.log("path, animation finished", props.path, animationFinished);
-    if (props.path && animationFinished) {
-      if (pathIndex == props.path.length) {
-        //props.setFinishedAnimation(true);
-        setPath(undefined);
+    if (props.path) {
+      if (animationFinished) {
+        if (pathIndex == props.path.length) {
+          //props.setFinishedAnimation(true);
+          setPath(undefined);
+          setPathIndex(0);
+          //setAnimationFinished(false);
+          return;
+        }
+        console.log("Changing path", pathIndex);
         setAnimationFinished(false);
-        return;
+        setPath(props.path[pathIndex]);
+        setPathIndex(pathIndex + 1);
       }
-      console.log("Changing path", pathIndex);
-      setAnimationFinished(false);
-      setPath(props.path[pathIndex]);
-      setPathIndex(pathIndex + 1);
+      // if (pathIndex == props.path.length) {
+      //   //props.setFinishedAnimation(true);
+      //   setPath(undefined);
+      //   setAnimationFinished(false);
+      //   return;
+      // }
+      // console.log("Changing path", pathIndex);
+      // setAnimationFinished(false);
+      // setPath(props.path[pathIndex]);
+      // setPathIndex(pathIndex + 1);
     }
   }, [animationFinished, props.path]);
 

@@ -179,6 +179,7 @@ export const Plinko: FC<IPlinko> = () => {
 
   useEffect(() => {
     if (startedPlaying) {
+      setPath(undefined);
       //setActivePicker(false);
       setInGame(true);
     }
@@ -256,7 +257,6 @@ export const Plinko: FC<IPlinko> = () => {
               VRFFees
             );
             if (startPlaying) {
-              setPath(undefined);
               startPlaying();
             }
 
