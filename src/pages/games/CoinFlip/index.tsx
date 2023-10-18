@@ -2,7 +2,7 @@ import { CoinFlip } from "@/widgets/CoinFlip/CoinFlip";
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { Layout } from "@/widgets/Layout";
 import s from "./styles.module.scss";
-import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import { CustomWagerRangeInput, CustomWagerRangeInputModel } from "@/widgets/CustomWagerRangeInput";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
@@ -19,7 +19,7 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <CustomWagerRangeInput inputTitle="Bets" min={1} max={100} />
+      <CustomWagerRangeInput inputTitle="Bets" min={1} max={100} inputType={CustomWagerRangeInputModel.RangeType.Bets} />
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
