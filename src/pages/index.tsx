@@ -197,7 +197,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -258,7 +258,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"PLINKO"}
           description={
-            "A game where you have to beat your opponent with a chip"
+            ""
           }
           link={"/games/Plinko"}
           tabletImage={minesTabletBg}
@@ -272,7 +272,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -281,7 +281,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   );
 };
 
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -325,9 +325,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -336,7 +335,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps {}
+interface MainReplacementComponentProps { }
 const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
   const { isConnected } = useAccount();
   const device = useDeviceType();
@@ -361,9 +360,8 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
       {!isConnected ? (
         <>
           <div
-            className={`${s.background_container} ${
-              !sidebarOpened && s.background_sidebar_closed
-            }`}
+            className={`${s.background_container} ${!sidebarOpened && s.background_sidebar_closed
+              }`}
           >
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
