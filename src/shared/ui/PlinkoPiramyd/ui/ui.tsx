@@ -1,6 +1,6 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
-import { $pickedValue } from "@/widgets/CustomWagerRangeInput/model";
+import { $pickedValue, $pickedRows } from "@/widgets/CustomWagerRangeInput/model";
 import { useStore, useUnit } from "effector-react";
 import {
   easyMultipliers,
@@ -10,17 +10,21 @@ import {
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
+import useSound from "use-sound";
 
 const testBallPath = [true, true, false, false, false, true, false, true];
 
 interface PlinkoBallProps {
   path: boolean[];
+  setAnimationFinished: any
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
 
-  const [ballTop, setBallTop] = useState<number>(-37); // starting position top/Y
+  const [playDing, { stop: stopBackground }] = useSound('/static/media/games_assets/plinko/plinkoDing.mp3', { volume: 0.4, loop: false });
+
+  const [ballTop, setBallTop] = useState<number>(-70); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-1);
   const device = useDeviceType();
@@ -65,16 +69,21 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
 
     if (pathIndex >= props.path.length) {
       setBallTop(ballTop + lastMove); // last movement to the basket
+      console.log("Animation finished");
+      props.setAnimationFinished(true);
       return;
     }
     if (pathIndex == -1) {
       setBallTop(firstMove); // first movement from the starting position
       setPathIndex(pathIndex + 1);
+      props.setAnimationFinished(false);
+      playDing();
       return;
     }
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
       // main body of the loop
+      playDing();
       const point = props.path[pathIndex];
       setBallTop(ballTop + movingDeep);
       if (point) {
@@ -103,15 +112,35 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
 };
 
 interface IPlinkoPyramid {
-  path: boolean[] | undefined
+  path: boolean[][] | undefined,
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
-  const pickedValue = useStore($pickedValue);
-  const [rowCount, setRowCount] = useState(pickedValue);
+  const pickedRows = useStore($pickedRows);
+  const [rowCount, setRowCount] = useState(pickedRows);
   const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
   const [currentLevel, setCurrentLevel] = useState("");
+
+  const [animationFinished, setAnimationFinished] = useState<boolean>(true);
+  const [pathIndex, setPathIndex] = useState<number>(0);
+  const [path, setPath] = useState<boolean[] | undefined>(undefined);
+
+  useEffect(() => {
+    console.log("path, animation finished", props.path, animationFinished);
+    if (props.path && animationFinished) {
+      if (pathIndex == props.path.length) {
+        //props.setFinishedAnimation(true);
+        setPath(undefined);
+        setAnimationFinished(false);
+        return;
+      }
+      console.log("Changing path", pathIndex);
+      setAnimationFinished(false);
+      setPath(props.path[pathIndex]);
+      setPathIndex(pathIndex + 1);
+    }
+  }, [animationFinished, props.path]);
 
   const [level] = useUnit([levelModel.$level]);
 
@@ -158,18 +187,18 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
-    updateDotSizes(pickedValue);
+    updateDotSizes(pickedRows);
   }, [device]);
 
   useEffect(() => {
-    updateMultipliers(pickedValue, currentLevel);
-  }, [pickedValue, currentLevel]);
+    updateMultipliers(pickedRows, currentLevel);
+  }, [pickedRows, currentLevel]);
 
   useEffect(() => {
-    setRowCount(pickedValue);
+    setRowCount(pickedRows);
 
-    console.log("PICKED VALUE", pickedValue);
-  }, [pickedValue]);
+    console.log("PICKED VALUE", pickedRows);
+  }, [pickedRows]);
 
   const generateRows = () => {
     const rows = [];
@@ -204,9 +233,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   return (
     <div className={styles.container}>
       {generateRows()}
-      {props.path &&
+      {path && !animationFinished &&
         <div className={styles.plinko_ball_container}>
-          <PlinkoBall path={props.path} />
+          <PlinkoBall
+            path={path}
+            setAnimationFinished={setAnimationFinished}
+          />
         </div>}
     </div>
   );

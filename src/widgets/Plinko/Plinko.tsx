@@ -28,6 +28,7 @@ export const Plinko: FC<IPlinko> = () => {
     wagered,
     setWagered,
     rowsAmount,
+    pickedValue,
     gameAddress,
     pickedToken,
     currentBalance,
@@ -44,6 +45,7 @@ export const Plinko: FC<IPlinko> = () => {
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
+    CustomWagerRangeInputModel.$pickedRows,
     CustomWagerRangeInputModel.$pickedValue,
     sessionModel.$gameAddress,
     WagerModel.$pickedToken,
@@ -59,15 +61,24 @@ export const Plinko: FC<IPlinko> = () => {
     levelModel.$level
   ]);
 
+
+
+
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const { data, isError, isLoading } = useFeeData();
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
-  const [path, setPath] = useState<boolean[] | undefined>(undefined);
+  const [path, setPath] = useState<boolean[][] | undefined>(undefined);
 
   const [playBackground, { stop: stopBackground }] = useSound('/static/media/games_assets/music/background2.wav', { volume: 0.1, loop: true });
+  const [playLost, { stop: stopLost }] = useSound('/static/media/games_assets/music/loseSound.mp3', { volume: 1, loop: false });
+  const [playWon, { stop: stopWon }] = useSound('/static/media/games_assets/music/winSound.mp3', { volume: 1, loop: false });
+
+  useEffect(() => {
+    setPath(undefined);
+  }, [rowsAmount]);
 
   useEffect(() => {
     console.log("Play sounds", playSounds);
@@ -151,7 +162,7 @@ export const Plinko: FC<IPlinko> = () => {
       //pickedSide,
       rowsAmount,
       pickedLevel == 'easy' ? 0 : pickedLevel == 'normal' ? 1 : 2,
-      1,
+      pickedValue,
       useDebounce(stopGain) ? BigInt(Math.floor(stopGain as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200),
       useDebounce(stopLoss) ? BigInt(Math.floor(stopLoss as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200)
     ],
@@ -190,8 +201,9 @@ export const Plinko: FC<IPlinko> = () => {
       if (((log[0] as any).args.playerAddress as string).toLowerCase() == address?.toLowerCase()) {
         console.log("Found Log!");
         const wagered = BigInt(((log[0] as any).args.wager)) * BigInt((log[0] as any).args.numGames);
-        setPath((log[0] as any).args.paths[0]);
+        setPath((log[0] as any).args.paths);
         if ((log[0] as any).args.payout > wagered) {
+          playWon();
           console.log("won");
           const profit = (log[0] as any).args.payout;
           console.log("profit", profit);
@@ -206,6 +218,7 @@ export const Plinko: FC<IPlinko> = () => {
           setWonStatus({ profit: profitFloat, multiplier, token: token as string });
           setGameStatus(GameModel.GameStatus.Won);
         } else {
+          playLost();
           console.log("lost");
           const wageredFloat = Number(wagered / BigInt(10000000000000000)) / 100;
           console.log("wagered", wageredFloat);
@@ -278,7 +291,7 @@ export const Plinko: FC<IPlinko> = () => {
       </div>
       <div className={styles.plinko_table}>
         <div className={styles.pyramid}>
-          <PlinkoPyramid path={path} />
+          {path ? <PlinkoPyramid path={path} /> : <PlinkoPyramid path={undefined} />}
         </div>
       </div>
     </div>
