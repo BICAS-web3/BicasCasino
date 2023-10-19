@@ -63,6 +63,8 @@ import plinkoTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import plinkoMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBannerBg.png";
+
 import advPoster from "@/public/media/testAdvertsImgs/poster.png";
 
 import { Account } from "@/widgets/Account";
@@ -82,6 +84,7 @@ import { useAccount } from "wagmi";
 import Link from "next/link";
 import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
+import { useRouter } from "next/router";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -255,6 +258,8 @@ const Games: FC<GamesProps> = (props) => {
                 image_colored={CoinFlipColoredIcon}
                 image_blend={CoinFlipBlendIcon}
             />  */}
+      </div>
+      <div className={s.games_row}>
         <Game
           name={"PLINKO"}
           description={
@@ -266,6 +271,16 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={minesMobileBg}
           pcImage={plinkoMainBg}
           closedSidebarImage={minesClosedSidebarImg}
+        />
+        <Game
+          name={"ROCK PAPER SCISSORS"}
+          description={""}
+          link={"/games/RockPaperScissors"}
+          tabletImage={rpsMainBg}
+          laptopImage={rpsMainBg}
+          mobileImage={rpsMainBg}
+          pcImage={rpsMainBg}
+          closedSidebarImage={rpsMainBg}
         />
       </div>
     </div>

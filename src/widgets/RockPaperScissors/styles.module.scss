@@ -1,76 +1,25 @@
-.background_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    justify-items: center;
-    width: fit-content;
-
+.rps_table_wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
-.game_menu {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    column-gap: 10px;
-    row-gap: 16px;
-    width: fit-content;
-}
-
-.settings {
-    //width: 392px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-}
-
-
-.picker{
+.rps_table_background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  .rps_table_background_img {
+    border-radius: 20px 0 0 20px;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    column-gap: 8px;
-}
-
-.pick{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height:100%;
-}
-
-.pick:hover{
-    cursor: pointer;
-}
-
-.pick_active{
-    border: 3px solid #c69e55ff;
-}
-
-.pick_icon{
-    opacity:30%;
-}
-
-.pick_icon_active{
-    opacity:100%;
-}
-
-.pick_background{
-    padding: 0px;
-}
-
-.symbol_display{
-    display: flex;
-    flex-direction: row;
-    width: 400px;
-    column-gap: 16px;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.VS{
-    font-family: var(--font-neue-machina);
-    font-weight: 700;
-    font-size: calc(16px + 3vw);
-    color:white;
+    object-fit: cover;
+    height: 100%;
+    @media screen and (max-width: 996px) {
+      border-radius: 20px 20px 0 0;
+    }
+  }
 }

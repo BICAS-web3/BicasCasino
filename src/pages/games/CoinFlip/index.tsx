@@ -20,7 +20,6 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <CustomWagerRangeInput inputTitle="Bets" min={1} max={100} />
-      <CustomWagerRangeInput inputTitle="Betasdasdass" min={10} max={30} />
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
