@@ -25,6 +25,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     web3.$WagmiConfig
   ]);
 
+
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
 
   useEffect(() => {
