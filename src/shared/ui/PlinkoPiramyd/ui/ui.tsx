@@ -245,6 +245,17 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
     console.log("PICKED VALUE", pickedRows);
   }, [pickedRows]);
 
+  const [multipliersSteps, setMultipliersSteps] = useState<number>(countMultipliersSteps(multipliers.length));
+
+  // Стилизация Кубиков со значениями
+  function countMultipliersSteps(length: number): number {
+    return ((length - 1) / 2);
+  }
+
+  useEffect(() => {
+    setMultipliersSteps(countMultipliersSteps(multipliers.length));
+  }, [multipliers.length]);
+
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
@@ -260,17 +271,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
         </div>
       );
     }
-
-    // Стилизация Кубиков со значениями
-    function countMultipliersSteps(length: number): number {
-      return ((length - 1) / 2);
-    }
-
-    const [multipliersSteps, setMultipliersSteps] = useState<number>(countMultipliersSteps(multipliers.length));
-
-    useEffect(() => {
-      setMultipliersSteps(countMultipliersSteps(multipliers.length));
-    }, [multipliers.length]);
 
     // Назначение цветов
     interface InterfaceMultipliersColor {
