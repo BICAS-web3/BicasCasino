@@ -7,9 +7,31 @@ import { GamePage } from "@/widgets/GamePage/GamePage";
 import { useRouter } from "next/router";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
+import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
+import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import { WagerModel } from "@/widgets/Wager";
+import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
+import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
+import { useAccount } from "wagmi";
+import { useUnit } from "effector-react";
+import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 const WagerContent = () => {
-  return <></>;
+  const { isConnected } = useAccount();
+  const [pressButton] = useUnit([WagerModel.pressButton]);
+  return (
+    <>
+      <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
+      <CustomWagerRangeInput inputTitle="Multiple Bets" min={1} max={10} />
+      <WagerGainLoss />
+      <RpsPicker />
+      <button className={s.connect_wallet_btn} onClick={pressButton}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
+      </button>
+      <WagerLowerBtnsBlock game="rps" />
+    </>
+  );
 };
 
 export default function RockPaperScissorsGame() {
@@ -21,6 +43,7 @@ export default function RockPaperScissorsGame() {
       />
       <div className={s.rps_container}>
         <GamePage
+          isPoker={false}
           gameInfoText="rps"
           gameTitle="rock paper scissors"
           wagerContent={<WagerContent />}

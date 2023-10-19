@@ -330,6 +330,9 @@
   &:last-child {
     border-radius: 0 0 20px 20px;
   }
+  svg {
+    width: 18px;
+  }
 }
 
 .game_row:hover {

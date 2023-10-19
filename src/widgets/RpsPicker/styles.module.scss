@@ -1,0 +1,28 @@
+.rps_picker_block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 6px;
+  margin-top: 20px;
+}
+
+.rps_picker_block_item {
+  border-radius: 5px;
+  background: #202020;
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  align-items: end;
+  justify-content: center;
+  padding: 9px 18px;
+  @media screen and (max-width: 650px) {
+    border-radius: 5px !important;
+  }
+}
+
+.rps_picker_block_item:first-child {
+  border-radius: 12px 5px 5px 12px;
+}
+
+.rps_picker_block_item:last-child {
+  border-radius: 5px 12px 12px 5px;
+}
