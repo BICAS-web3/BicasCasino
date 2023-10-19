@@ -7,7 +7,7 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
-import { SidePicker } from '@/widgets/CoinFlipSidePicker';
+import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import { WagerModel } from "@/widgets/Wager";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
@@ -20,6 +20,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <CustomWagerRangeInput inputTitle="Bets" min={1} max={100} />
+      <CustomWagerRangeInput inputTitle="Betasdasdass" min={10} max={30} />
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />

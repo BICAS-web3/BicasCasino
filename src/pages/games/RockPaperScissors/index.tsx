@@ -1,19 +1,25 @@
-import Image from 'next/image';
-import { GameLayout } from '../../../widgets/GameLayout/layout';
-import { GameInfo } from '@/widgets/GameInfo';
+import Image from "next/image";
+import { GameLayout } from "../../../widgets/GameLayout/layout";
+import { GameInfo } from "@/widgets/GameInfo";
+import s from "./styles.module.scss";
+import { Layout } from "@/widgets/Layout";
+import { GamePage } from "@/widgets/GamePage/GamePage";
 
-import MinimalIcon from '@/public/media/games_assets/rock_paper_scissors/minimal_icon.svg';
-// import { LiveBets } from '@/widgets/LiveBets';
-//import { RPS } from '@/widgets/RockPaperScissors';
+const WagerContent = () => {
+  return <></>;
+};
 
 export default function RockPaperScissors() {
-
-    return (
-        // <GameLayout gameName={'RockPaperScissors'} children={[
-        //     <GameInfo name={'Rock-Paper-Scissors'} description={'A classic game of Chinese origins.\nChoose rock, paper or scissors and place your bet. There is a 33% chance to draw, win or lose determined by which action you choose.'} image={MinimalIcon} />,
-        //     // s,
-        //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["RockPaperScissors"]} />
-        // ]} />
-        <></>
-    );
+  return (
+    <Layout gameName={"CoinFlip"}>
+      <div className={s.rps_container}>
+        <GamePage
+          isPoker={false}
+          gameInfoText="test"
+          gameTitle="coinflip"
+          wagerContent={<WagerContent />}
+        ></GamePage>
+      </div>
+    </Layout>
+  );
 }
