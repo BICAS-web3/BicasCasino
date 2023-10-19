@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
 
     console.log(partner_address, site_id, sub_id);
 
-    await fetch(new URL(`/partner/site/subid/click/${partner_address}/${site_id}/${sub_id}`, "http://backend:8282"), {
+    await fetch(new URL(`/partner/site/subid/click/${partner_address}/${site_id}/${sub_id}`, "http://127.0.0.1:8282"), {
         method: "POST",
     }).catch((r) => { console.log(r) });
 
