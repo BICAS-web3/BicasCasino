@@ -245,6 +245,17 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
     console.log("PICKED VALUE", pickedRows);
   }, [pickedRows]);
 
+  const [multipliersSteps, setMultipliersSteps] = useState<number>(countMultipliersSteps(multipliers.length));
+
+  // Стилизация Кубиков со значениями
+  function countMultipliersSteps(length: number): number {
+    return ((length - 1) / 2);
+  }
+
+  useEffect(() => {
+    setMultipliersSteps(countMultipliersSteps(multipliers.length));
+  }, [multipliers.length]);
+
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
@@ -261,10 +272,55 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       );
     }
 
+    // Назначение цветов
+    interface InterfaceMultipliersColor {
+      r: number,
+      g: number,
+      b: number,
+    }
+    // rgba(205, 93, 33, 1) rgba(255, 170, 92, 1)
+    const multipliersColorCenter: string = "rgba(255, 170, 92, 1)"; // вот цвета. Крайние и центральный. Надо, чтобы обязательно затемнялись. На высветвление надо другое делать
+    const multipliersColorStart: InterfaceMultipliersColor = {
+      r: 205,
+      g: 93,
+      b: 33, // это тоже цвета 
+    };
+    const multipliersColorEnd: InterfaceMultipliersColor = {
+      r: 255,
+      g: 170,
+      b: 92,
+    };
+    // Высчитывание цвета на один шаг
+    const calcMultipliersColor: InterfaceMultipliersColor = {
+      r: (multipliersColorEnd.r - multipliersColorStart.r) / multipliersSteps,
+      g: (multipliersColorEnd.g - multipliersColorStart.g) / multipliersSteps,
+      b: (multipliersColorEnd.b - multipliersColorStart.b) / multipliersSteps,
+    }
+
+    function multipliersBackground(i: number): string {
+      if (i !== multipliersSteps) {
+        if (i / (multipliersSteps / 2) < 2) {
+          const formula: number = (calcMultipliersColor.r * (i + 1));
+          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula}, ${multipliersColorStart.b + formula})`;
+
+        } else if (i / (multipliersSteps / 2) > 2) {
+          const formula: number = (calcMultipliersColor.r * (((multipliersSteps * 2) + 1) - i))
+          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula}, ${multipliersColorStart.b + formula})`;
+
+        }
+      }
+      return multipliersColorCenter
+    }
+
     const multiplierElements = multipliers.map((value, i) => (
-      <div className={styles.multipiler_cell} key={i}>
-        {value}x
-      </div>
+      <div className={styles.multipiler_cell} key={i} >
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z" fill={multipliersBackground(i)} />
+        </svg>
+        <span>
+          {value}x
+        </span>
+      </div >
     ));
     rows.push(
       <div className={styles.pyramid_row} key={rowCount}>
