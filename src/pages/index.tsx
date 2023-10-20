@@ -82,6 +82,7 @@ import { useAccount } from "wagmi";
 import Link from "next/link";
 import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
+import { PopUpBonus } from "@/widgets/PopUpBonus";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -197,7 +198,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   return (
@@ -257,9 +258,7 @@ const Games: FC<GamesProps> = (props) => {
             />  */}
         <Game
           name={"PLINKO"}
-          description={
-            ""
-          }
+          description={""}
           link={"/games/Plinko"}
           tabletImage={minesTabletBg}
           laptopImage={minesLaptopBg}
@@ -272,7 +271,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -281,7 +280,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
   );
 };
 
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -325,8 +324,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -335,7 +335,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps { }
+interface MainReplacementComponentProps {}
 const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
   const { isConnected } = useAccount();
   const device = useDeviceType();
@@ -360,8 +360,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
       {!isConnected ? (
         <>
           <div
-            className={`${s.background_container} ${!sidebarOpened && s.background_sidebar_closed
-              }`}
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
           >
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
@@ -436,6 +437,7 @@ export default function Home() {
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
+          <PopUpBonus />
           <Blur />
           <MainReplacementComponent />
           <Games />
