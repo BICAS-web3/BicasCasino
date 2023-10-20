@@ -92,14 +92,6 @@ export const PopUpBonus: FC = () => {
     setBlur(false);
     document.documentElement.style.overflow = "visible";
   };
-  useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.style.height = "100vh";
-    return () => {
-      document.documentElement.style.overflow = "visible";
-      document.documentElement.style.height = "auto";
-    };
-  }, []);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -114,28 +106,32 @@ export const PopUpBonus: FC = () => {
     isSuccess && setVisibility && setVisibility(false);
     setWalletVisibility(false);
   }, [isSuccess, setVisibility]);
-
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100vh";
+    return () => {
+      document.documentElement.style.overflow = "visible";
+      document.documentElement.style.height = "auto";
+    };
+  }, []);
+  const closeModal = () => {
+    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.height = "auto";
+    setClose(true);
+    setBlur(false);
+  };
+  if (!close) {
+    // setBlur(true);
+    document.documentElement.style.overflow = "hidden";
+    window.screenY = 0;
+  }
   return (
-    <div
-      onClick={() => {
-        document.documentElement.style.overflow = "visible";
-        document.documentElement.style.height = "auto";
-        setClose(true);
-      }}
-      className={clsx(s.wrapper, close && s.closed)}
-    >
+    <div onClick={closeModal} className={clsx(s.wrapper, close && s.closed)}>
       <article
         onClick={(e) => e.stopPropagation()}
         className={clsx(s.banner, visibility && !isConnected && s.move_banner)}
       >
-        <CloseIcon
-          onClick={() => {
-            document.documentElement.style.overflow = "visible";
-            document.documentElement.style.height = "auto";
-            setClose(true);
-          }}
-          className={s.closeIcon}
-        />
+        <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
           <Image className={s.img} src={banner} alt="100%" />
         </div>
