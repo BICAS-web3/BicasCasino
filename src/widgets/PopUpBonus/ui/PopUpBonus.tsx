@@ -19,20 +19,22 @@ export const PopUpBonus: FC = () => {
 
   const [close, setClose] = useState(false);
   const [visibility, setVisibility] = useState(false);
-
+  document.documentElement.style.overflow = "hidden";
+  document.documentElement.style.height = "100vh";
   useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.style.height = "100vh";
-
     return () => {
       document.documentElement.style.overflow = "visible";
-      document.documentElement.style.height = "100vh";
+      document.documentElement.style.height = "auto";
     };
-  });
+  }, [close]);
 
   return (
     <div
-      onClick={() => setClose((prev) => !prev)}
+      onClick={() => {
+        document.documentElement.style.overflow = "visible";
+        document.documentElement.style.height = "auto";
+        setClose(true);
+      }}
       className={clsx(s.wrapper, close && s.closed)}
     >
       <article
@@ -40,7 +42,11 @@ export const PopUpBonus: FC = () => {
         className={clsx(s.banner, visibility && s.move_banner)}
       >
         <CloseIcon
-          onClick={() => setClose((prev) => !prev)}
+          onClick={() => {
+            document.documentElement.style.overflow = "visible";
+            document.documentElement.style.height = "auto";
+            setClose(true);
+          }}
           className={s.closeIcon}
         />
         <div className={s.img_wrapper}>

@@ -6,17 +6,14 @@ import { useAccount } from "wagmi";
 
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { SideBarModel } from "@/widgets/SideBar";
+
 import * as BlurModel from "@/widgets/Blur/model";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 
-import { checkPageClicking } from "@/shared/tools";
-
 import s from "./style.module.scss";
-
 interface ConnectWalletButtonProps {
   setVisibility?: (el: boolean) => void;
 }
-
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   setVisibility,
 }) => {
@@ -36,34 +33,45 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 
     if (!walletVisibility) {
       setWalletVisibility(true);
-      setBlur(true);
+      // setBlur(true);
+      // document.documentElement.style.overflow = "hidden";
+      // window.scrollTo(0, 0);
     } else {
       setWalletVisibility(false);
-      setBlur(false);
+      // setBlur(false);
+      // document.documentElement.style.overflow = "visible";
     }
   };
 
   useEffect(() => {
     setVisibility && setVisibility(walletVisibility);
-    if (walletVisibility) {
-      checkPageClicking({ blockDataId: "connect-wallet-block" }, (isBlock) => {
-        !isBlock && setWalletVisibility(false);
-      });
-    }
+    // if (walletVisibility) {
+    //   checkPageClicking({ blockDataId: "connect-wallet-block" }, (isBlock) => {
+    //     !isBlock && setWalletVisibility(false);
+    //   });
+    // }
 
     if (!walletVisibility) {
       setWalletVisibility(false);
       setBlur(false);
+      // document.documentElement.style.overflow = "visible";
     }
   }, [walletVisibility]);
 
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
     setBlur(false);
+    document.documentElement.style.overflow = "visible";
   };
-
+  useEffect(() => {
+    return () => {
+      document.documentElement.style.overflow = "visible";
+      document.documentElement.style.height = "auto";
+      setBlur(false);
+    };
+  }, []);
   return (
-    <div data-id={"connect-wallet-block"}>
+    <div data-id={"connect-wallet-block"} onClick={(e) => e.stopPropagation()}>
       <button
         className={s.connect_wallet_button}
         onClick={() =>
