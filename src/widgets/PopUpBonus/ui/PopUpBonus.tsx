@@ -101,11 +101,20 @@ export const PopUpBonus: FC = () => {
     enabled: true,
   });
   const { write, isSuccess } = useContractWrite(allowanceConfig);
-
+  alert(isSuccess);
+  const closeModal = () => {
+    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.height = "auto";
+    setClose(true);
+    setBlur(false);
+  };
   useEffect(() => {
-    isSuccess && setVisibility && setVisibility(false);
+    if (isSuccess && setVisibility) {
+      closeModal();
+      setVisibility(false);
+    }
     setWalletVisibility(false);
-  }, [isSuccess, setVisibility]);
+  }, [isSuccess]);
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
     document.documentElement.style.height = "100vh";
@@ -114,12 +123,7 @@ export const PopUpBonus: FC = () => {
       document.documentElement.style.height = "auto";
     };
   }, []);
-  const closeModal = () => {
-    document.documentElement.style.overflow = "visible";
-    document.documentElement.style.height = "auto";
-    setClose(true);
-    setBlur(false);
-  };
+
   if (!close) {
     // setBlur(true);
     document.documentElement.style.overflow = "hidden";
