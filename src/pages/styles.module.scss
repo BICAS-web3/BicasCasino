@@ -167,16 +167,20 @@
   gap: 1vw;
   width: 100%;
   margin-bottom: 60px;
+  align-items: center;
 }
 
 .games_row {
-  display: flex;
-  flex-direction: row;
+  display: grid;
   gap: 1vw;
-  flex-wrap: nowrap;
+  grid-template-columns: repeat(3, 1fr);
   // align-items: center;
   justify-content: center;
-  width: 100%;
+  width: fit-content;
+}
+
+.sidebar_closed {
+  grid-template-columns: 1fr 1fr;
 }
 
 .game {
@@ -340,6 +344,9 @@
     font-size: 35px;
     line-height: 42px;
   }
+  .games_row {
+    justify-items: center;
+  }
   .game_link {
     max-width: 360px;
     max-height: 210px;
@@ -352,6 +359,9 @@
   }
   .banner_info {
     //height: 169px;
+  }
+  .games_row {
+    grid-template-columns: 1fr 1fr;
   }
   .connect_wallet_container .button {
     height: 47px;
@@ -383,12 +393,6 @@
   .game_description {
     font-size: 16px;
     line-height: 23px;
-  }
-}
-
-@media screen and (max-width: 820px) {
-  .game_link.sidebar_closed {
-    width: 50%;
   }
 }
 
@@ -473,7 +477,6 @@
     top: 56px;
   }
   .game_link {
-    width: 48%;
     height: 120px;
     border-radius: 12px;
   }
@@ -523,5 +526,11 @@
 @media screen and (max-width: 320px) {
   .background_container {
     height: 180px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .game_link {
+    max-width: 556px;
   }
 }

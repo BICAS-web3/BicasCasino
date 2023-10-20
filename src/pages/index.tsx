@@ -33,38 +33,43 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/mainImg.png";
+import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBanner.png";
+import pokerMainBgClosed from "@/public/media/games_assets/poker/pokerMainBg2.png";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
 import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.png";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.png";
 
-import coinflipMainBg from "@/public/media/games_assets/coinflip/mainBg.png";
+import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBanner.png";
+import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.png";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";
 import coinflipTabletBg from "@/public/media/games_assets/coinflip/tabletBg.png";
 import coinflipMobileBg from "@/public/media/games_assets/coinflip/mobileBg.png";
 import coinflipClosedSidebarImg from "@/public/media/games_assets/coinflip/closedSidebarImg.png";
 
-import diceMainBg from "@/public/media/games_assets/dice/dicePcImg.png";
+import diceMainBg from "@/public/media/games_assets/dice/diceMainBanner.png";
+import diceMainBgClosed from "@/public/media/games_assets/dice/diceMainBg2.png";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.png";
 import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.png";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.png";
 import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.png";
 
-import minesMainBg from "@/public/media/games_assets/mines/mainBg.png";
+import minesMainBg from "@/public/media/games_assets/mines/minesMainBanner.png";
+import minesMainBgClosed from "@/public/media/games_assets/mines/minesMainBg2.png";
 import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
 import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
 
-import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBg.png";
-import plinkoLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
-import plinkoTabletBg from "@/public/media/games_assets/mines/tabletBg.png";
-import plinkoMobileBg from "@/public/media/games_assets/mines/mobileBg.png";
-import plinkoClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.png";
+import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import plinkoMainBgClosed from "@/public/media/games_assets/plinko/plinkoMainBg2.png";
+import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
 
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBannerBg.png";
-
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.png";
+import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.png";
 import advPoster from "@/public/media/testAdvertsImgs/poster.png";
 
 import { Account } from "@/widgets/Account";
@@ -106,6 +111,7 @@ interface GameProps {
   description: string;
   link: string;
   pcImage: StaticImageData;
+  pcImageClosed: StaticImageData;
   laptopImage: StaticImageData;
   tabletImage: StaticImageData;
   mobileImage: StaticImageData;
@@ -181,7 +187,13 @@ const Game: FC<GameProps> = (props) => {
       } else {
         setCurrentImage(props.laptopImage.src);
       }
-    } else if (pc) setCurrentImage(props.pcImage.src);
+    } else if (pc) {
+      if (!sidebarOpened) {
+        setCurrentImage(props.pcImage.src);
+      } else {
+        setCurrentImage(props.pcImage.src);
+      }
+    }
   }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop]);
 
   return (
@@ -203,10 +215,12 @@ const Game: FC<GameProps> = (props) => {
 interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
+  const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
+
   return (
     <div className={s.games}>
       {/* <GamesTitle></GamesTitle> */}
-      <div className={s.games_row}>
+      <div className={`${s.games_row} ${sidebarOpened && s.sidebar_closed}`}>
         <Game
           name={"POKER"}
           description={""}
@@ -216,6 +230,7 @@ const Games: FC<GamesProps> = (props) => {
           laptopImage={pokerLaptopBg}
           mobileImage={pokerMobileBg}
           closedSidebarImage={pokerClosedSidebarImg}
+          pcImageClosed={pokerMainBgClosed}
         />
         <Game
           name={"DICE"}
@@ -226,10 +241,8 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={diceMobileBg}
           pcImage={diceMainBg}
           closedSidebarImage={diceClosedSidebarImg}
+          pcImageClosed={diceMainBgClosed}
         />
-      </div>
-
-      <div className={s.games_row}>
         <Game
           name={"COINFLIP"}
           description={""}
@@ -239,6 +252,7 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={coinflipMobileBg}
           pcImage={coinflipMainBg}
           closedSidebarImage={coinflipClosedSidebarImg}
+          pcImageClosed={coinflipMainBgClosed}
         />
         <Game
           name={"MINES"}
@@ -249,28 +263,20 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={minesMobileBg}
           pcImage={minesMainBg}
           closedSidebarImage={minesClosedSidebarImg}
+          pcImageClosed={minesMainBgClosed}
         />
-
-        {/* <Game
-                name={'COINFLIP'}
-                description={'COINFLIP GAME very long description that needs to be wrapped to the new line'}
-                link={'/games/CoinFlip'}
-                image_colored={CoinFlipColoredIcon}
-                image_blend={CoinFlipBlendIcon}
-            />  */}
-      </div>
-      <div className={s.games_row}>
         <Game
           name={"PLINKO"}
           description={
             "A game where you have to beat your opponent with a chip"
           }
           link={"/games/Plinko"}
-          tabletImage={minesTabletBg}
-          laptopImage={minesLaptopBg}
-          mobileImage={minesMobileBg}
+          tabletImage={plinkoTabletBg}
+          laptopImage={plinkoLaptopBg}
+          mobileImage={plinkoMobileBg}
           pcImage={plinkoMainBg}
-          closedSidebarImage={minesClosedSidebarImg}
+          closedSidebarImage={plinkoClosedSidebarImg}
+          pcImageClosed={plinkoMainBgClosed}
         />
         <Game
           name={"ROCK PAPER SCISSORS"}
@@ -281,6 +287,7 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={rpsMainBg}
           pcImage={rpsMainBg}
           closedSidebarImage={rpsMainBg}
+          pcImageClosed={rpsMainBgClosed}
         />
       </div>
     </div>
