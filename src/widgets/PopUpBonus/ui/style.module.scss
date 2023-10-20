@@ -2,11 +2,11 @@
   background: rgba(15, 15, 15, 0.7);
   backdrop-filter: blur(10px);
   position: fixed;
-  top: 80px;
+  top: 0;
   left: 0;
-  height: calc(100vh - 80px);
+  height: 100vh;
   width: 100vw;
-  z-index: 254444;
+  z-index: 101;
   display: flex;
   justify-content: center;
   align-items: center;
