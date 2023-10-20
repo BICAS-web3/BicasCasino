@@ -89,9 +89,9 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <div className={s.games_button_tooltip}>
               <div className={s.tooltip_games_list}>
                 {gamesList.map((item, ind) => (
-                  <div 
-                  className={s.tooltip_games_list_item} 
-                  onClick={() => { location.href = item.link }}>
+                  <div
+                    className={s.tooltip_games_list_item}
+                    onClick={() => { location.href = item.link }}>
                     <GameIcon iconId={item.icon} />
                     <span className={s.tooltip_games_list_item_title}>
                       {item.title}
@@ -103,9 +103,8 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           </div>
           <div className={s.buttons_holder}>
             <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 0 ? s.button_picked : ""
-              }`}
+              className={`${s.button_wrap} ${props.pickedGame == 0 ? s.button_picked : ""
+                }`}
               onClick={() => { location.href = "/games/CoinFlip" }}
             >
               <div className={s.button}>
@@ -115,18 +114,16 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             </div>
             <div className={s.button_wrap}>
               <div
-                className={`${s.button} ${
-                  props.pickedGame == 1 ? s.button_picked : ""
-                }`}
+                className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
+                  }`}
               >
                 <DiceButton />
                 <div className={s.games_button_tooltip}>Dice</div>
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 2 ? s.button_picked : ""
-              }`}
+              className={`${s.button_wrap} ${props.pickedGame == 2 ? s.button_picked : ""
+                }`}
             >
               <div className={s.button}>
                 <RPCButton />
@@ -136,9 +133,8 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
+              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
+                }`}
               onClick={() => {
                 location.href = "/games/Poker";
               }}
@@ -149,11 +145,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
+              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
+                }`}
               onClick={() => {
-                location.href = "https://t.me/greekkeepers";
+                location.href = "https://t.me/GKSupportt";
               }}
             >
               <div className={s.button}>
@@ -186,9 +181,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
           <div
-            className={`${s.buttons_menu} ${
-              gamesAreOpen ? "" : s.buttons_menu_closed
-            }`}
+            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
+              }`}
           >
             <div
               className={s.menu_header}
@@ -201,9 +195,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 GAMES
               </div>
               <div
-                className={`${s.arrow} ${
-                  gamesAreOpen ? s.arrow_down : s.arrow_side
-                }`}
+                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
+                  }`}
               >
                 <ArrowIcon />
               </div>
@@ -237,7 +230,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           <div
             className={s.support}
             onClick={() => {
-              location.href = "https://t.me/greekkeepers";
+              location.href = "https://t.me/GKSupportt";
             }}
           >
             <div className={s.icon_wrapper}>
@@ -268,7 +261,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <Image src={Twitter} alt={""} width={30} height={30} />
               </a>
               <a
-                href="https://t.me/greekkeepers"
+                href="https://t.me/GKSupportt"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -290,7 +283,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   );
 };
 
-export interface SideBarProps {}
+export interface SideBarProps { }
 export const SideBar: FC<SideBarProps> = (props) => {
   const [isOpen, currentPick] = useUnit([
     SideBarModel.$isOpen,
@@ -299,9 +292,8 @@ export const SideBar: FC<SideBarProps> = (props) => {
 
   return (
     <div
-      className={`${s.side_bar} ${
-        isOpen ? s.side_bar_opened : s.side_bar_closed
-      }`}
+      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
+        }`}
     >
       {isOpen ? (
         <OpenedSideBar pickedGame={currentPick} />
