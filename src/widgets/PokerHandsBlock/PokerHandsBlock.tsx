@@ -11,9 +11,9 @@ import oneC5 from "@/public/media/pokerHandsImages/1c5.svg";
 import twoC3 from "@/public/media/pokerHandsImages/2c3.svg";
 import twoC4 from "@/public/media/pokerHandsImages/2c4.svg";
 
-import threeC1 from "@/public/media/pokerHandsImages/3c1.svg";
-import threeC2 from "@/public/media/pokerHandsImages/3c2.svg";
-import threeC3 from "@/public/media/pokerHandsImages/3c3.svg";
+import threeC1 from "@/public/media/pokerHandsImages/thrc1.svg";
+import threeC2 from "@/public/media/pokerHandsImages/thrc2.svg";
+import threeC3 from "@/public/media/pokerHandsImages/thrc3.svg";
 
 import fourC1 from "@/public/media/pokerHandsImages/4c1.svg";
 import fourC2 from "@/public/media/pokerHandsImages/4c2.svg";
@@ -34,7 +34,6 @@ import sixC4 from "@/public/media/pokerHandsImages/6c4.svg";
 import sixC5 from "@/public/media/pokerHandsImages/6c5.svg";
 
 import sevenC1 from "@/public/media/pokerHandsImages/7c1.svg";
-import sevenC2 from "@/public/media/pokerHandsImages/7c2.svg";
 import sevenC3 from "@/public/media/pokerHandsImages/7c3.svg";
 import sevenC4 from "@/public/media/pokerHandsImages/7c4.svg";
 import sevenC5 from "@/public/media/pokerHandsImages/7c5.svg";
