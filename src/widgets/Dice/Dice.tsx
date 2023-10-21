@@ -786,20 +786,7 @@ export const Dice: FC<DiceProps> = (props) => {
   if (documentWidth < 700) bgImage = dice_mobile;
   return (
     <div className={s.dice_container}>
-      <Image className={s.cube} src={dice_cube} alt="cube" />
-      <Image className={s.background} src={bgImage!} alt="test" />
-      {/* <LineP */}
-      {RollValue}
-      <input
-        className={clsx(s.line_picker_slider, rollOver ? "" : s.reverse)}
-        onChange={onChange}
-        value={RollValue}
-        type="range"
-        min={0.1}
-        max={95}
-        step={0.1}
-      />
-      {/* <LinePicker /> */}
+      <LinePicker />
     </div>
   );
 };

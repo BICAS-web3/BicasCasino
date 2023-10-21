@@ -86,16 +86,61 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  accent-color: red;
 }
 .line_picker_slider {
-  accent-color: red;
+  accent-color: var(--Gold-solid, #ffe09d);
+  // accent-color: red;
+  background-color: red;
   width: 436px;
   border-radius: 5px;
-  background-color: red;
+  background-color: transparent;
+  border: transparent;
   position: relative;
   z-index: 3;
   margin-bottom: 55px;
+  // &:hover {
+  //   accent-color: var(--Gold-solid, #ffe09d);
+  //   outline: none;
+  //   border: none;
+  // }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #d9d9d9 !important;
+    accent-color: red;
+    filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25)) !important;
+    cursor: pointer;
+    position: relative;
+
+    // margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  }
+  &::-ms-track {
+    // width: 100%;
+    cursor: pointer;
+
+    /* Hides the slider so custom styles can be added */
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  &::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #d9d9d9 !important;
+    filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25)) !important;
+    cursor: pointer;
+  }
+  &::-ms-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    background: #d9d9d9 !important;
+    filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25)) !important;
+    cursor: pointer;
+  }
 }
 // .line_picker_slider {
 //   margin-bottom: 10px;
@@ -109,57 +154,11 @@
 //   height: 6px;
 // }
 
-// .line_picker_slider::-ms-track {
-//   // width: 100%;
-//   cursor: pointer;
-
-//   /* Hides the slider so custom styles can be added */
-//   background: transparent;
-//   border-color: transparent;
-//   color: transparent;
-// }
-
 // // /* Special styling for WebKit/Blink */
-// .line_picker_slider::-webkit-slider-thumb {
-//   -webkit-appearance: none;
-//   height: 16px;
-//   width: 16px;
-//   border-radius: 10px;
-//   background: #d9d9d9;
-//   filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25));
-//   cursor: pointer;
-//   position: relative;
-//   &::after {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 200px;
-//     height: 6px;
-//     background: red;
-//     z-index: 30;
-//   }
-//   // margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-// }
 
 // // /* All the same stuff for Firefox */
-// .line_picker_slider::-moz-range-thumb {
-//   height: 16px;
-//   width: 16px;
-//   border-radius: 10px;
-//   background: #d9d9d9;
-//   filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25));
-//   cursor: pointer;
-// }
 
 // // /* All the same stuff for IE */
-// .line_picker_slider::-ms-thumb {
-//   height: 16px;
-//   width: 16px;
-//   border-radius: 10px;
-//   background: #d9d9d9;
-//   filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25));
-//   cursor: pointer;
-// }
 
 // .picked_number {
 //   font-family: var(--font-neue-machina);
@@ -168,38 +167,6 @@
 //   color: white;
 //   display: flex;
 //   justify-content: center;
-// }
-
-// .line_picker_slider::-moz-range-track {
-//   background-color: #0de0ae;
-// }
-// .line_picker_slider::-moz-range-progress {
-//   background-color: #ff5555;
-// }
-// .line_picker_slider::-ms-fill-upper {
-//   background-color: #0de0ae;
-// }
-// .line_picker_slider::-ms-fill-lower {
-//   background-color: #ff5555;
-// }
-
-// .line_picker_slider::-webkit-slider-runnable-track {
-//   top: -8px;
-//   height: 4px;
-//   background-color: #0de0ae;
-// }
-
-// .line_picker_slider.reverse::-moz-range-track {
-//   background-color: #ff5555;
-// }
-// .line_picker_slider.reverse::-moz-range-progress {
-//   background-color: #0de0ae;
-// }
-// .line_picker_slider.reverse::-ms-fill-upper {
-//   background-color: #ff5555;
-// }
-// .line_picker_slider.reverse::-ms-fill-lower {
-//   background-color: #0de0ae;
 // }
 
 .background {
