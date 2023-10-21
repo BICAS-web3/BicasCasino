@@ -14,7 +14,7 @@ import { useAccount } from 'wagmi'
 import styles from './styles.module.scss'
 
 type Props = {}
-const WagerContent = () => {
+const WagerContent = () => {git 
 	const { isConnected } = useAccount()
 	const [pressButton] = useUnit([WagerModel.pressButton])
 	return (
