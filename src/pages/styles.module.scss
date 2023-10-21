@@ -210,7 +210,6 @@
   border: 1px solid #202020;
   border-radius: 20px;
   z-index: 1;
-  background-position-y: 50%;
 }
 
 .game_link:hover > .game_link_img {
@@ -339,7 +338,22 @@
   .main_advertaising_blocks {
     column-gap: 1.5vw;
   }
-  // .sidebar_closed
+  .game_link {
+    &:nth-child(5),
+    &:nth-child(6) {
+      img {
+        left: -90px;
+      }
+    }
+  }
+  .sidebar_closed {
+    &:nth-child(5),
+    &:nth-child(6) {
+      img {
+        left: 0;
+      }
+    }
+  }
   .banner_info .header {
     font-size: 35px;
     line-height: 42px;
@@ -396,6 +410,17 @@
   }
 }
 
+@media screen and (max-width: 700px) {
+  .game_link {
+    &:nth-child(5),
+    &:nth-child(6) {
+      img {
+        left: -160px;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 650px) {
   .main_advertaising_blocks {
     column-gap: 3.75vw;
@@ -404,6 +429,14 @@
   .game_link {
     max-width: 346px;
     max-height: 120px;
+    @media screen and (max-width: 700px) {
+      &:nth-child(5),
+      &:nth-child(6) {
+        img {
+          left: 0;
+        }
+      }
+    }
   }
   .main_advertaising_blocks_item {
     height: 120px;
@@ -520,6 +553,13 @@
     width: 100%;
     height: 120px;
     border-radius: 12px;
+    &:nth-child(5),
+    &:nth-child(6) {
+      img {
+        width: auto;
+        left: -90px;
+      }
+    }
   }
 }
 

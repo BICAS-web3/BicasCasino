@@ -89,7 +89,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
         }
       });
     }
-  }, [infoModalVisibility, handMultiplierBlockVisibility]);
+  }, [infoModalVisibility, handMultiplierBlockVisibility, setHandVisibility]);
 
   return (
     <div
