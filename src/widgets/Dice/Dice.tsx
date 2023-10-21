@@ -791,7 +791,8 @@ export const Dice: FC<DiceProps> = (props) => {
       {/* <LineP */}
       {RollValue}
       <div className={s.range_container}>
-        <span>0.1</span>
+        <span className={s.roll_range_value}>{RollValue}</span>
+        <span className={s.roll_range_min}>0.1</span>
         <input
           className={clsx(s.line_picker_slider, rollOver ? "" : s.reverse)}
           onChange={onChange}
@@ -801,7 +802,7 @@ export const Dice: FC<DiceProps> = (props) => {
           max={95}
           step={0.1}
         />
-        <span>95</span>
+        <span className={s.roll_range_max}>95</span>
       </div>
     </div>
   );

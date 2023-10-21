@@ -87,22 +87,38 @@
   height: 100%;
   width: 100%;
 }
+
+.range_container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 10px;
+  span {
+    color: #eaeaea;
+    text-align: center;
+    font-family: var(--font-nunito-sans);
+    // font-size: 14px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 150.8%; /* 21.112px */
+    text-transform: uppercase;
+  }
+}
+
+.roll_range_value {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -37px;
+}
+
 .line_picker_slider {
   accent-color: var(--Gold-solid, #ffe09d);
-  // accent-color: red;
-  background-color: red;
   width: 436px;
   border-radius: 5px;
-  background-color: transparent;
-  border: transparent;
-  position: relative;
-  z-index: 3;
   margin-bottom: 55px;
-  // &:hover {
-  //   accent-color: var(--Gold-solid, #ffe09d);
-  //   outline: none;
-  //   border: none;
-  // }
+  height: 6px;
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 16px;
@@ -113,14 +129,10 @@
     filter: drop-shadow(-2px 0px 2px rgba(0, 0, 0, 0.25)) !important;
     cursor: pointer;
     position: relative;
-
-    // margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
   &::-ms-track {
-    // width: 100%;
     cursor: pointer;
 
-    /* Hides the slider so custom styles can be added */
     background: transparent;
     border-color: transparent;
     color: transparent;
@@ -142,32 +154,6 @@
     cursor: pointer;
   }
 }
-// .line_picker_slider {
-//   margin-bottom: 10px;
-//   //-webkit-appearance: none;
-//   appearance: none;
-//   width: 436px;
-//   border-radius: 5px;
-//   background: #202020;
-//   position: relative;
-//   z-index: 20;
-//   height: 6px;
-// }
-
-// // /* Special styling for WebKit/Blink */
-
-// // /* All the same stuff for Firefox */
-
-// // /* All the same stuff for IE */
-
-// .picked_number {
-//   font-family: var(--font-neue-machina);
-//   font-weight: 700;
-//   font-size: 32px;
-//   color: white;
-//   display: flex;
-//   justify-content: center;
-// }
 
 .background {
   position: absolute;
@@ -215,3 +201,39 @@
   position: relative;
   z-index: 5;
 }
+
+// .line_picker_slider::-moz-range-track {
+//   background-color: #ffe09d;
+// }
+// .line_picker_slider::-moz-range-progress {
+//   background-color: #ff5555;
+// }
+// .line_picker_slider::-ms-fill-upper {
+//   // background-color: #0de0ae;
+// }
+// .line_picker_slider::-ms-fill-lower {
+//   background-color: #ff5555;
+// }
+
+// .line_picker_slider::-webkit-slider-runnable-track {
+//   // top: -8px;
+//   // height: 4px;
+//   background-color: #0de0ae;
+// }
+
+// .line_picker_slider.reverse::-moz-range-track {
+//   background-color: black;
+// }
+// .line_picker_slider.reverse::-moz-range-progress {
+//   background-color: black;
+// }
+// .line_picker_slider.reverse::-ms-fill-upper {
+//   background-color: black;
+// }
+// .line_picker_slider.reverse::-ms-fill-lower {
+//   background-color: black;
+// }
+
+// .line_picker_slider.reverse {
+//   background: red !important;
+// }
