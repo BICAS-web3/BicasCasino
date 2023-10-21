@@ -119,7 +119,7 @@ export const PopUpBonus: FC = () => {
   //? contract to add bonus
   const { config: ClaimBonusConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x369850ad3fF02448011c77d0B15E1E12644A8532",
+    address: "0x5518E648341147B0F4041c5e2a2cca41BDc723a0",
     abi,
     functionName: "claimBonus",
     enabled: true,
@@ -159,7 +159,6 @@ export const PopUpBonus: FC = () => {
   //? shorten call claim func
   const claimBonus = () => {
     if (claimed === false) {
-      console.log("precall ", claimed);
       if (chain?.id !== 42161) {
         switchNetwork && switchNetwork!(42161);
         claimBouns?.();
