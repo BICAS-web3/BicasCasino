@@ -172,6 +172,9 @@ export const PopUpBonus: FC = () => {
     }
   };
 
+  useEffect(() => {
+    claimed === true && closeModal();
+  }, [claimed]);
   return (
     <div onClick={closeModal} className={clsx(s.wrapper, close && s.closed)}>
       <article
