@@ -1,175 +1,214 @@
-.background_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    justify-items: center;
-    width: 85%;
+// .background_container {
+// display: flex;
+// flex-direction: row;
+// justify-content: center;
+// justify-items: center;
+// width: 85%;
+// }
+
+// .game_menu {
+// display: flex;
+// flex-direction: row;
+// flex-wrap: wrap-reverse;
+// column-gap: 10px;
+// row-gap: 16px;
+// width: 100%;
+// }
+
+// .settings {
+// //width: 392px;
+// display: flex;
+// flex-direction: column;
+// row-gap: 16px;
+// width: 100%;
+// }
+
+// .game_info{
+// width: 100%;
+// display: flex;
+// flex-direction: row;
+// justify-content: space-between;
+// column-gap: 8px;
+// }
+
+// .win_chance_container{
+// display: flex;
+// justify-content: center;
+// align-items: center;
+// }
+
+// .game_info_text{
+// width: 100%;
+// font-family: var(--font-neue-machina);
+// font-weight: 700;
+// font-size: 16px;
+// line-height: 19.2px;
+// color: white;
+// display: flex;
+// justify-content: center;
+// }
+
+// .game_info_background{
+// box-sizing: border-box;
+// }
+
+// .game_info_output{
+// -webkit-appearance: none;
+// appearance: none;
+// font-family: var(--font-neue-machina);
+// font-weight: 900;
+// font-size: 18px;
+// width: 100%;
+// background: rgba(255, 255, 255, 0.1);
+// height: 30px;
+// border: none;
+// border-radius: 5px;
+// color:#FFFFFF;
+// padding-left: 5px;
+// display: flex;
+// justify-content: center;
+// align-items: center;
+// }
+
+// .line_picker_container{
+// height: 60px;
+// width: 100%;
+// display: flex;
+// flex-direction: column;
+// justify-content: center;
+// align-content: center;
+// }
+
+// .line_picker_slider{
+// //-webkit-appearance: none;
+// appearance: none;
+// width: 100%;
+// background: transparent;
+// }
+
+// .line_picker_slider::-ms-track {
+// width: 100%;
+// cursor: pointer;
+
+// /* Hides the slider so custom styles can be added */
+// background: transparent;
+// border-color: transparent;
+// color: transparent;
+// }
+
+// /* Special styling for WebKit/Blink */
+// .line_picker_slider::-webkit-slider-thumb {
+// -webkit-appearance: none;
+// border: 1px solid #000000;
+// height: 16px;
+// width: 16px;
+// border-radius: 10px;
+// background: #0DE0AE;
+// cursor: pointer;
+// margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+// box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+// }
+
+// /* All the same stuff for Firefox */
+// .line_picker_slider::-moz-range-thumb {
+// box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+// border: 1px solid #000000;
+// height: 16px;
+// width: 16px;
+// border-radius: 10px;
+// background: #0DE0AE;
+// cursor: pointer;
+// }
+
+// /* All the same stuff for IE */
+// .line_picker_slider::-ms-thumb {
+// box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+// border: 1px solid #000000;
+// height: 16px;
+// width: 16px;
+// border-radius: 10px;
+// background: #0DE0AE;
+// cursor: pointer;
+// }
+
+// .picked_number{
+// font-family: var(--font-neue-machina);
+// font-weight: 700;
+// font-size: 32px;
+// color:white;
+// display: flex;
+// justify-content: center;
+// }
+
+// .line_picker_slider::-moz-range-track {
+// background-color: #0DE0AE;
+// }
+// .line_picker_slider::-moz-range-progress {
+// background-color: #FF5555;
+// }
+// .line_picker_slider::-ms-fill-upper {
+// background-color: #0DE0AE;
+// }
+// .line_picker_slider::-ms-fill-lower {
+// background-color: #FF5555;
+// }
+
+// .line_picker_slider::-webkit-slider-runnable-track{
+// top:-8px;
+// height: 4px;
+// background-color: #0DE0AE;
+// }
+
+// .line_picker_slider.reverse::-moz-range-track {
+// background-color: #FF5555;
+// }
+// .line_picker_slider.reverse::-moz-range-progress {
+// background-color: #0DE0AE;
+// }
+// .line_picker_slider.reverse::-ms-fill-upper {
+// background-color: #FF5555;
+// }
+// .line_picker_slider.reverse::-ms-fill-lower {
+// background-color: #0DE0AE;
+// }
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.game_menu {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    column-gap: 10px;
-    row-gap: 16px;
-    width: 100%;
+.cube {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 502px;
+  height: 284px;
+  animation: cube_animation 5s linear 0s infinite alternate;
 }
 
-.settings {
-    //width: 392px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 16px;
-    width: 100%;
-}
-
-.game_info{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    column-gap: 8px;
-}
-
-.win_chance_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.game_info_text{
-    width: 100%;
-    font-family: var(--font-neue-machina);
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19.2px;
-    color: white;
-    display: flex;
-    justify-content: center;
-}
-
-.game_info_background{
-    box-sizing: border-box;
-}
-
-.game_info_output{
-    -webkit-appearance: none;
-    appearance: none;
-    font-family: var(--font-neue-machina);
-    font-weight: 900;
-    font-size: 18px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    height: 30px;
-    border: none;
-    border-radius: 5px;
-    color:#FFFFFF;
-    padding-left: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.line_picker_container{
-    height: 60px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-}
-
-.line_picker_slider{
-    //-webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    background: transparent;
-}
-
-.line_picker_slider::-ms-track {
-    width: 100%;
-    cursor: pointer;
-  
-    /* Hides the slider so custom styles can be added */
-    background: transparent; 
-    border-color: transparent;
-    color: transparent;
-}
-
-/* Special styling for WebKit/Blink */
-.line_picker_slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: 1px solid #000000;
-    height: 16px;
-    width: 16px;
-    border-radius: 10px;
-    background: #0DE0AE;
-    cursor: pointer;
-    margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
-}
-  
-  /* All the same stuff for Firefox */
-.line_picker_slider::-moz-range-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 16px;
-    width: 16px;
-    border-radius: 10px;
-    background: #0DE0AE;
-    cursor: pointer;
-}
-  
-  /* All the same stuff for IE */
-.line_picker_slider::-ms-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 16px;
-    width: 16px;
-    border-radius: 10px;
-    background: #0DE0AE;
-    cursor: pointer;
-}
-
-.picked_number{
-    font-family: var(--font-neue-machina);
-    font-weight: 700;
-    font-size: 32px;
-    color:white;
-    display: flex;
-    justify-content: center;
-}
-
-
-
-.line_picker_slider::-moz-range-track {
-    background-color: #0DE0AE;
-}
-.line_picker_slider::-moz-range-progress {
-    background-color: #FF5555;
-}
-.line_picker_slider::-ms-fill-upper {
-    background-color: #0DE0AE;
-}
-.line_picker_slider::-ms-fill-lower {
-    background-color: #FF5555;
-}
-
-.line_picker_slider::-webkit-slider-runnable-track{
-    top:-8px;
-    height: 4px;
-    background-color: #0DE0AE;
-}
-
-.line_picker_slider.reverse::-moz-range-track {
-    background-color: #FF5555;
-}
-.line_picker_slider.reverse::-moz-range-progress {
-    background-color: #0DE0AE;
-}
-.line_picker_slider.reverse::-ms-fill-upper {
-    background-color: #FF5555;
-}
-.line_picker_slider.reverse::-ms-fill-lower {
-    background-color: #0DE0AE;
+@keyframes cube_animation {
+  0% {
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  25% {
+    top: 47%;
+    transform: translateX(-50%) translateY(-50%) scale(1.05);
+  }
+  50% {
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  75% {
+    top: 53%;
+    transform: translateX(-50%) translateY(-50%) scale(0.95);
+  }
+  100% {
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
