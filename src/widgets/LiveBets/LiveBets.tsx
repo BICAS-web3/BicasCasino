@@ -51,7 +51,7 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
         ? ((await Api.getAllLastBets()).body as Api.T_Bets)
         : ((await Api.getGamesAllLastBets(props.subscriptions[0]))
             .body as Api.T_Bets);
-    setBets(bets.bets);
+    setBets(bets?.bets);
     console.log(bets);
     console.log(Bets);
     //setGotBets(true);

@@ -34,7 +34,7 @@ export const setWagmiConfig = createEvent<any>();
 // handlers
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
-  console.log("Networks", payload);
+  console.log("Networks11", payload);
   const networks = payload.body as Api.T_Networks;
 
   var chains = [];

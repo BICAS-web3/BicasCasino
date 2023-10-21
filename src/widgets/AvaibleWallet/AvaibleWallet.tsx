@@ -23,7 +23,7 @@ export interface WalletProps {
 }
 const Wallet: FC<WalletProps> = (props) => {
   const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
 
   const [isOpen, closeWallet, setBlur, isBlurActive] = useUnit([
