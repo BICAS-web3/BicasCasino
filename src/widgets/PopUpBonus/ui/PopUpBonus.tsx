@@ -147,6 +147,15 @@ export const PopUpBonus: FC = () => {
     document.documentElement.style.overflow = "hidden";
     window.screenY = 0;
   }
+
+  //? close all func
+  const closeModal = () => {
+    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.height = "auto";
+    setClose(true);
+    setBlur(false);
+  };
+
   //? shorten call claim func
   const claimBonus = () => {
     if (claimed === false) {
@@ -158,16 +167,11 @@ export const PopUpBonus: FC = () => {
       } else {
         claimBouns?.();
       }
+    } else {
+      closeModal();
     }
   };
 
-  //? close all func
-  const closeModal = () => {
-    document.documentElement.style.overflow = "visible";
-    document.documentElement.style.height = "auto";
-    setClose(true);
-    setBlur(false);
-  };
   return (
     <div onClick={closeModal} className={clsx(s.wrapper, close && s.closed)}>
       <article
