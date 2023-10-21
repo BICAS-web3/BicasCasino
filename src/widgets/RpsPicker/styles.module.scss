@@ -6,16 +6,29 @@
 }
 
 .rps_picker_block_item {
+  cursor: pointer;
   border-radius: 5px;
   background: #202020;
   display: flex;
   box-sizing: border-box;
   width: 100%;
   align-items: end;
+  transition: all 0.3s;
   justify-content: center;
   padding: 9px 18px;
   @media screen and (max-width: 650px) {
     border-radius: 5px !important;
+  }
+  & > svg > path,
+  & > svg > g > path {
+    transition: all 0.3s;
+  }
+  &:hover > svg > path,
+  &:hover > svg > g > path {
+    fill: #eaeaea;
+  }
+  &:hover {
+    background: #2e2e2e;
   }
 }
 
