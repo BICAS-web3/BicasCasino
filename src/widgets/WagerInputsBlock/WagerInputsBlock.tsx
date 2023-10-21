@@ -96,6 +96,18 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     }
   }, [availableTokens]);
 
+  useEffect(() => {
+    const run = async (token: string) => {
+      const price = ((await api.GetTokenPriceFx(token)).body as api.T_TokenPrice).token_price;
+      setExchangeRate(price);
+    };
+    console.log("available tokens", availableTokens);
+    if (pickedToken) {
+      //pickToken(availableTokens.tokens[0]);
+      run(pickedToken.name);
+    }
+  }, [pickedToken]);
+
 
   const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
     chainId: chain?.id,
