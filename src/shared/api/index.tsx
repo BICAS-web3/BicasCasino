@@ -199,6 +199,26 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
   }
 );
 
+export type T_ConnectWallet = {
+    partner_wallet: string,
+    signature: string,
+    site_id: number,
+    sub_id: number,
+    user_wallet: string
+};
+export const connectWalletPartner = createEffect<T_ConnectWallet, T_ApiResponse, string>(
+    async form => {
+        return fetch(`${BaseApiUrl}/partner/site/subid/connect`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+        }).then(async res => await res.json()).catch(e => (e));
+    }
+)
+
 export type T_CreateReferal = {
   refer_to: string;
   referal: string;
