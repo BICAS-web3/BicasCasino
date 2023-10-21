@@ -34,6 +34,7 @@ import sixC4 from "@/public/media/pokerHandsImages/6c4.svg";
 import sixC5 from "@/public/media/pokerHandsImages/6c5.svg";
 
 import sevenC1 from "@/public/media/pokerHandsImages/7c1.svg";
+import sevenC2 from "@/public/media/pokerHandsImages/7c2.svg";
 import sevenC3 from "@/public/media/pokerHandsImages/7c3.svg";
 import sevenC4 from "@/public/media/pokerHandsImages/7c4.svg";
 import sevenC5 from "@/public/media/pokerHandsImages/7c5.svg";
