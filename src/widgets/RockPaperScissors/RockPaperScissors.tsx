@@ -90,7 +90,6 @@ export const RockPaperScissors = () => {
             <Suspense fallback={null}>
               <Environment preset="dawn" />
               <ambientLight intensity={0.3} />
-              <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
               <directionalLight intensity={2.5} position={[-2, 10, 0]} />
               <pointLight position={[0, -10, 5]} intensity={0.5} color="#fff" />
               <Model side={"/rps/paperCard.glb"} left={true} />
