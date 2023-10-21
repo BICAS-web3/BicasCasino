@@ -13,26 +13,57 @@ interface ModelProps {
 const Model: FC<ModelProps> = ({ side, left }) => {
   const { scene, animations } = useGLTF(side);
   const { actions, mixer } = useAnimations(animations, scene);
+  const [is1280, setIs1280] = useState(false);
+  const [is996, setIs996] = useState(false);
+  const [more1280, setMore1280] = useState(false);
 
-  // scene.rotation.z = 1.3;
-  // if (initial == SidePickerModel.Side.Heads) {
-  //   scene.rotation.y = -1.58;
-  // } else if (initial == SidePickerModel.Side.Tails) {
-  //   scene.rotation.y = 1.58;
-  // }
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1280 && window.innerWidth > 996) {
+        setIs1280(true);
+        setIs996(false);
+      } else if (window.innerWidth < 996) {
+        setIs1280(false);
+        setIs996(true);
+      } else {
+        setIs1280(false);
+        setIs996(false);
+      }
+    };
 
-  scene.rotation.z = 0.75;
-  scene.rotation.x = 5;
-  scene.position.y = -5;
-  scene.position.x = !left ? 0 : -0.9;
-  scene.position.z = !left ? 0 : 0.9;
+    handleResize();
 
-  scene.scale.y = 1.3;
-  scene.scale.x = 1.3;
+    window.addEventListener("resize", handleResize);
 
-  console.log(scene, side);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-  // scene.position.x = 1;
+  useEffect(() => {
+    scene.rotation.z = 0.75;
+    scene.rotation.x = 5;
+    scene.position.y = -6;
+    scene.position.x = !left ? 0 : -0.9;
+    scene.position.z = !left ? 0 : 0.9;
+
+    if (is1280) {
+      scene.scale.set(0.7, 0.7, 1);
+      scene.position.y = -3;
+      scene.position.x = !left ? 0.2 : -0.5;
+      scene.position.z = !left ? -0.2 : 0.5;
+    } else if (is996) {
+      console.log("is996");
+      scene.scale.set(1.4, 1.4, 1);
+      scene.position.y = -5;
+      scene.position.x = !left ? 0.2 : -0.9;
+      scene.position.z = !left ? -0.2 : 0.9;
+    } else {
+      scene.scale.set(1.6, 1.5, 1);
+    }
+
+    console.log(scene, side);
+  }, [is1280, side, left, is996]);
 
   // @ts-ignore
   return <primitive object={scene} />;
