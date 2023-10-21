@@ -1,6 +1,6 @@
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { Layout } from "@/widgets/Layout";
-// import styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";

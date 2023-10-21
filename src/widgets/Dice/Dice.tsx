@@ -1,3 +1,4 @@
+import { Model as RollSettingModel } from "@/widgets/RollSetting";
 // import Image from "next/image";
 // import {
 // FC,
@@ -40,72 +41,72 @@
 // import dice_mobile from "@/public/media/dice_images//dice_mobile.png";
 // import dice_medium from "@/public/media/dice_images/dice_medium.png";
 
-// interface LinePickerProps {}
-// const LinePicker: FC<LinePickerProps> = (props) => {
-// const [RollValue, rollOver, setRollValue] = useUnit([
-// RollSettingModel.$RollValue,
-// RollSettingModel.$RollOver,
-// RollSettingModel.setRollValue,
-// ]);
+interface LinePickerProps {}
+const LinePicker: FC<LinePickerProps> = (props) => {
+  const [RollValue, rollOver, setRollValue] = useUnit([
+    RollSettingModel.$RollValue,
+    RollSettingModel.$RollOver,
+    RollSettingModel.setRollValue,
+  ]);
 
-// const onChange = async (event: {
-// target: {
-// value: SetStateAction<string>;
-// };
-// }) => {
-// const number_string = event.target.value.toString();
-// var numb = Number(number_string);
-// console.log("Rolls settings", numb, number_string);
-// if (
-// Number.isNaN(numb) ||
-// number_string.charAt(0) == "+" ||
-// number_string.charAt(0) == "-"
-// ) {
-// console.log("bas number");
-// return;
-// }
-// // if (!rollOver) {
-// // numb = 100 - numb;
-// // }
-// if (rollOver) {
-// if (numb < 5) {
-// setRollValue(5);
-// //setRollString("5");
-// return;
-// }
-// if (numb > 99.9) {
-// return;
-// }
-// } else {
-// if (numb < 0.1) {
-// setRollValue(0.1);
-// //setRollString("0.1");
-// return;
-// }
-// if (numb > 95) {
-// return;
-// }
-// }
+  const onChange = async (event: {
+    target: {
+      value: SetStateAction<string>;
+    };
+  }) => {
+    const number_string = event.target.value.toString();
+    var numb = Number(number_string);
+    console.log("Rolls settings", numb, number_string);
+    if (
+      Number.isNaN(numb) ||
+      number_string.charAt(0) == "+" ||
+      number_string.charAt(0) == "-"
+    ) {
+      console.log("bas number");
+      return;
+    }
+    // if (!rollOver) {
+    // numb = 100 - numb;
+    // }
+    if (rollOver) {
+      if (numb < 5) {
+        setRollValue(5);
+        //setRollString("5");
+        return;
+      }
+      if (numb > 99.9) {
+        return;
+      }
+    } else {
+      if (numb < 0.1) {
+        setRollValue(0.1);
+        //setRollString("0.1");
+        return;
+      }
+      if (numb > 95) {
+        return;
+      }
+    }
 
-// setRollValue(numb);
-// //setRollString(number_string);
-// };
+    setRollValue(numb);
+    //setRollString(number_string);
+  };
 
-// return (
-// <div className={s.line_picker_container}>
-// <div className={s.picked_number}>{RollValue}</div>
-// <input
-// type="range"
-// min={rollOver ? 0 : 0.1}
-// max={rollOver ? 99.9 : 95}
-// step={0.01}
-// value={RollValue}
-// onChange={onChange}
-// className={`${s.line_picker_slider} ${rollOver ? "" : s.reverse}`}
-// ></input>
-// </div>
-// );
-// };
+  return (
+    <div className={s.line_picker_container}>
+      <div className={s.picked_number}>{RollValue}</div>
+      <input
+        type="range"
+        min={rollOver ? 0 : 0.1}
+        max={rollOver ? 99.9 : 95}
+        step={0.01}
+        value={RollValue}
+        onChange={onChange}
+        className={`${s.line_picker_slider} ${rollOver ? "" : s.reverse}`}
+      ></input>
+    </div>
+  );
+};
 
 // interface GameInfoProps {}
 // const GameInfo: FC<GameInfoProps> = (props) => {
@@ -689,7 +690,15 @@
 // );
 // };
 import Image from "next/image";
-import { FC, ReactNode, SetStateAction, useEffect, useState, use } from "react";
+import {
+  FC,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+  use,
+  ChangeEvent,
+} from "react";
 import { Background, SecondaryBackground } from "../GameInterface";
 import s from "./styles.module.scss";
 import {
@@ -723,6 +732,8 @@ import dice_mobile from "@/public/media/dice_images/dice_mobile.png";
 
 import dice_tablet from "@/public/media/dice_images/dice_tablet.png";
 
+import clsx from "clsx";
+
 //export * from './Dice';
 
 export interface DiceProps {}
@@ -739,6 +750,9 @@ export const Dice: FC<DiceProps> = (props) => {
     gameStuts,
     betsAmount,
     setBetsAmount,
+    rollOver,
+    RollValue,
+    setRollValue,
   ] = useUnit([
     GameModel.$playSounds,
     GameModel.setGameStatus,
@@ -750,8 +764,19 @@ export const Dice: FC<DiceProps> = (props) => {
     GameModel.$gameStatus,
     DiceModel.$betsAmount,
     DiceModel.setBetsAmount,
+    RollSettingModel.$RollOver,
+    RollSettingModel.$RollValue,
+    RollSettingModel.setRollValue,
   ]);
   const [inGame, setInGame] = useState<boolean>(false);
+
+  const onChange = (el: ChangeEvent<HTMLInputElement>) => {
+    const number_value = Number(el.target.value.toString());
+    // if (number_value < 5) {
+    //   setRollValue(1);
+    // }
+    setRollValue(number_value);
+  };
 
   let bgImage;
   const documentWidth = document.documentElement.clientWidth;
@@ -760,9 +785,21 @@ export const Dice: FC<DiceProps> = (props) => {
   if (documentWidth > 700 && documentWidth < 1280) bgImage = dice_tablet;
   if (documentWidth < 700) bgImage = dice_mobile;
   return (
-    <div className=" w-full h-full bg-red-200 relative">
+    <div className={s.dice_container}>
       <Image className={s.cube} src={dice_cube} alt="cube" />
       <Image className={s.background} src={bgImage!} alt="test" />
+      {/* <LineP */}
+      {RollValue}
+      <input
+        className={clsx(s.line_picker_slider, rollOver ? "" : s.reverse)}
+        onChange={onChange}
+        value={RollValue}
+        type="range"
+        min={0.1}
+        max={95}
+        step={0.1}
+      />
+      {/* <LinePicker /> */}
     </div>
   );
 };
