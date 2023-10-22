@@ -13,8 +13,6 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 
-import banner from "@/public/media/banner/banner.png";
-
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { SideBarModel } from "@/widgets/SideBar";
 
@@ -25,13 +23,16 @@ import { ABI as abi } from "@/shared/contracts/ClaimBonusABI";
 import { checkPageClicking } from "@/shared/tools";
 import { CloseIcon } from "@/shared/SVGs";
 
+import banner_desktop from "@/public/media/banner_images/banner_desktop.png";
+import banner_medium from "@/public/media/banner_images/banner_medium.png";
+import banner_mobile from "@/public/media/banner_images/banner_mobile.png";
+
 import s from "./style.module.scss";
 
 import clsx from "clsx";
 
 export const PopUpBonus: FC = () => {
   const [claimed, setClaimed] = useState<boolean>();
-
   const [close, setClose] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [walletVisibility, setWalletVisibility] = useState(false);
@@ -39,6 +40,13 @@ export const PopUpBonus: FC = () => {
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
+
+  let bgImage;
+  const documentWidth = document.documentElement.clientWidth;
+
+  if (documentWidth > 1280) bgImage = banner_desktop;
+  if (documentWidth > 700 && documentWidth < 1280) bgImage = banner_medium;
+  if (documentWidth < 700) bgImage = banner_mobile;
 
   //? Read func to check of claimed bonus
   const {
@@ -75,7 +83,7 @@ export const PopUpBonus: FC = () => {
 
     if (!walletVisibility) {
       setWalletVisibility(true);
-      setBlur(true);
+      // setBlur(true);
       document.documentElement.style.overflow = "hidden";
       window.scrollTo(0, 0);
     } else {
@@ -174,15 +182,28 @@ export const PopUpBonus: FC = () => {
   useEffect(() => {
     claimed === true && closeModal();
   }, [claimed]);
+
+  if (claimed === true) return;
   return (
-    <div onClick={closeModal} className={clsx(s.wrapper, close && s.closed)}>
+    <div
+      onClick={closeModal}
+      className={clsx(
+        s.wrapper,
+        close && s.closed,
+        visibility && !isConnected ? s.wrapper_index : s.index_return
+      )}
+    >
       <article
         onClick={(e) => e.stopPropagation()}
-        className={clsx(s.banner, visibility && !isConnected && s.move_banner)}
+        className={clsx(
+          s.banner,
+          visibility && !isConnected && s.move_banner,
+          address && isConnected && s.claimBanner
+        )}
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <Image className={s.img} src={banner} alt="100%" />
+          <Image className={s.img} src={bgImage!} alt="100%" />
         </div>
         <h2 className={s.title}>
           {!isConnected ? "Receive your first 100$ bonus" : "Claim your bonus"}
@@ -201,21 +222,21 @@ export const PopUpBonus: FC = () => {
               }
             }}
           >
-            {address
+            {address && isConnected
               ? chain?.id !== 42161
                 ? "Switch"
                 : "Claim"
               : "Connect Wallet"}
           </button>
-          <div
-            className={`${s.header_avaibleWallet_wrap} ${
-              walletVisibility && s.avaibleWallet_visible
-            }`}
-          >
-            {!address && (
+          {!address && !isConnected && (
+            <div
+              className={`${s.header_avaibleWallet_wrap} ${
+                walletVisibility && s.avaibleWallet_visible
+              }`}
+            >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </article>
     </div>
