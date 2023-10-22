@@ -699,7 +699,7 @@ import {
   use,
   ChangeEvent,
 } from "react";
-import { Background, SecondaryBackground } from "../GameInterface";
+import { Background, SecondaryBackground, Slider } from "../GameInterface";
 import s from "./styles.module.scss";
 import {
   MultipleBets,
@@ -793,13 +793,14 @@ export const Dice: FC<DiceProps> = (props) => {
       <div className={s.range_container}>
         <span className={s.roll_range_value}>{RollValue}</span>
         <span className={s.roll_range_min}>0.1</span>
+        <div className={s.custom_range_input_body}></div>
         <input
-          className={clsx(s.line_picker_slider, rollOver ? "" : s.reverse)}
-          onChange={onChange}
-          value={RollValue}
           type="range"
-          min={0.1}
+          className={clsx(s.line_picker_slider, rollOver ? "" : s.reverse)}
+          value={RollValue}
+          onChange={onChange}
           max={95}
+          min={0.1}
           step={0.1}
         />
         <span className={s.roll_range_max}>95</span>
