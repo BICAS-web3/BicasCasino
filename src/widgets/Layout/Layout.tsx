@@ -21,7 +21,6 @@ interface LayoutProps {
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
 
-
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
 
   useEffect(() => {
@@ -34,6 +33,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
+          <PopUpBonus />
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >
@@ -43,7 +43,6 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             >
               <SideBar />
             </div>
-            <PopUpBonus />
 
             {/* <Blur /> */}
             <main className={s.main_area}>{children}</main>

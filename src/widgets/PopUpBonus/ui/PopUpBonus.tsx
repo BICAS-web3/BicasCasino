@@ -66,6 +66,7 @@ export const PopUpBonus: FC = () => {
   useEffect(() => {
     if (readSuccess) {
       setClaimed(claimedState as boolean);
+      localStorage.setItem("claimed", JSON.stringify(claimedState));
     }
   }, [claimedState, readSuccess, isFetching]);
 
@@ -182,8 +183,10 @@ export const PopUpBonus: FC = () => {
   useEffect(() => {
     claimed === true && closeModal();
   }, [claimed]);
-
-  if (claimed === true) return;
+  const claimedFromStorage = localStorage.getItem("claimed")
+    ? JSON.parse(localStorage.getItem("claimed")!)
+    : false;
+  if (claimedFromStorage === true || claimed === true) return;
   return (
     <div
       onClick={closeModal}
