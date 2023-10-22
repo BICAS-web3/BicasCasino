@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "http://127.0.0.1:8585/api";
+export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
@@ -144,21 +144,21 @@ export type T_Totals = {
 export type T_ApiResponse = {
   status: string;
   body:
-    | T_ErrorText
-    | T_Networks
-    | T_Rpcs
-    | T_Token
-    | T_Game
-    | T_Nickname
-    | T_Player
-    | T_Bets
-    | T_Tokens
-    | T_GameAbi
-    | T_BlockExplorers
-    | T_Totals
-    | T_LatestGames
-    | T_PlayerTotals
-    | T_TokenPrice;
+  | T_ErrorText
+  | T_Networks
+  | T_Rpcs
+  | T_Token
+  | T_Game
+  | T_Nickname
+  | T_Player
+  | T_Bets
+  | T_Tokens
+  | T_GameAbi
+  | T_BlockExplorers
+  | T_Totals
+  | T_LatestGames
+  | T_PlayerTotals
+  | T_TokenPrice;
 };
 
 export type T_GetUsername = {
@@ -198,6 +198,26 @@ export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export type T_ConnectWallet = {
+  partner_wallet: string,
+  signature: string,
+  site_id: number,
+  sub_id: number,
+  user_wallet: string
+};
+export const connectWalletPartner = createEffect<T_ConnectWallet, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/partner/site/subid/connect`, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(form)
+    }).then(async res => await res.json()).catch(e => (e));
+  }
+)
 
 export type T_CreateReferal = {
   refer_to: string;
@@ -352,8 +372,7 @@ export type T_GetUserBets = {
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async (form) => {
     return fetch(
-      `${BaseApiUrl}/bets/player/${form.address}/${
-        form.starting_id != null ? form.starting_id : ""
+      `${BaseApiUrl}/bets/player/${form.address}/${form.starting_id != null ? form.starting_id : ""
       }`,
       {
         method: "GET",
@@ -370,8 +389,7 @@ export const getUserBetsInc = createEffect<
   string
 >(async (form) => {
   return fetch(
-    `${BaseApiUrl}/bets/player/inc/${form.address}/${
-      form.starting_id != null ? form.starting_id : ""
+    `${BaseApiUrl}/bets/player/inc/${form.address}/${form.starting_id != null ? form.starting_id : ""
     }`,
     {
       method: "GET",
