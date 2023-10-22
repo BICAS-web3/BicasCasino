@@ -64,11 +64,12 @@ import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSideb
 import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
 import plinkoMainBgClosed from "@/public/media/games_assets/plinko/plinkoMainBg2.png";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
-import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoTabletImg.png";
 import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
 
 import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.png";
+import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.png";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.png";
 import advPoster from "@/public/media/testAdvertsImgs/poster.png";
 
@@ -122,6 +123,7 @@ const Game: FC<GameProps> = (props) => {
   const [mobile, setMobile] = useState(false);
   const [tablet, setTablet] = useState(false);
   const [laptop, setLaptop] = useState(false);
+  const [is996, setIs996] = useState(false);
   const [miniLaptop, setMiniLaptop] = useState(false);
   const [pc, setPC] = useState(false);
   const [currentImage, setCurrentImage] = useState(props.pcImage.src);
@@ -131,30 +133,41 @@ const Game: FC<GameProps> = (props) => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width >= 650 && width < 700) {
+      if (width > 650 && width < 700) {
         setTablet(true);
         setLaptop(false);
         setPC(false);
         setMiniLaptop(false);
-      } else if (width >= 700 && width < 840) {
+        setIs996(false);
+      } else if (width > 700 && width < 840) {
         setTablet(false);
         setLaptop(true);
         setPC(false);
         setMiniLaptop(true);
-      } else if (width >= 700 && width < 1280) {
+        setIs996(false);
+      } else if (width > 996 && width < 1280) {
         setTablet(false);
         setLaptop(true);
         setPC(false);
+        setIs996(false);
         setMiniLaptop(false);
-      } else if (width >= 1280 && width < 1980) {
+      } else if (width > 1280 && width < 1980) {
         setTablet(false);
         setLaptop(false);
         setPC(true);
         setMiniLaptop(false);
+        setIs996(false);
+      } else if (width < 996) {
+        setTablet(false);
+        setLaptop(false);
+        setPC(false);
+        setMiniLaptop(false);
+        setIs996(true);
       } else {
         setTablet(false);
         setLaptop(false);
         setPC(false);
+        setIs996(false);
         setMiniLaptop(false);
       }
 
@@ -179,7 +192,7 @@ const Game: FC<GameProps> = (props) => {
       //   : setCurrentImage(props.closedSidebarImage.src);
       // setCurrentImage(props.laptopImage.src);
       if (!sidebarOpened) {
-        if (miniLaptop) {
+        if (miniLaptop || is996) {
           setCurrentImage(props.laptopImage.src);
         } else {
           setCurrentImage(props.closedSidebarImage.src);
@@ -194,11 +207,11 @@ const Game: FC<GameProps> = (props) => {
         setCurrentImage(props.pcImage.src);
       }
     }
-  }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop]);
+  }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop, is996]);
 
   return (
     <a
-      className={`${s.game_link} ${!sidebarOpened && s.sidebar_closed}`}
+      className={`${s.game_link} ${!sidebarOpened && s.sidebar_game_closed}`}
       href={props.link}
     >
       <img src={currentImage} className={s.game_link_img} alt="game-img" />
@@ -220,7 +233,7 @@ const Games: FC<GamesProps> = (props) => {
   return (
     <div className={s.games}>
       {/* <GamesTitle></GamesTitle> */}
-      <div className={`${s.games_row} ${sidebarOpened && s.sidebar_closed}`}>
+      <div className={`${s.games_row} ${!sidebarOpened && s.sidebar_closed}`}>
         <Game
           name={"POKER"}
           description={""}
@@ -282,7 +295,7 @@ const Games: FC<GamesProps> = (props) => {
           name={"ROCK PAPER SCISSORS"}
           description={""}
           link={"/games/RockPaperScissors"}
-          tabletImage={rpsMainBg}
+          tabletImage={rpsTabletBg}
           laptopImage={rpsMainBg}
           mobileImage={rpsMainBg}
           pcImage={rpsMainBg}

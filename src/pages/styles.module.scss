@@ -173,7 +173,7 @@
 .games_row {
   display: grid;
   gap: 1vw;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   // align-items: center;
   justify-content: center;
   width: fit-content;
@@ -221,6 +221,7 @@
   height: 100%;
   position: absolute;
   object-fit: cover;
+  width: 100%;
 }
 
 .game_info {
@@ -334,25 +335,39 @@
   }
 }
 
+@media screen and (min-width: 1280px) {
+  .game_link.sidebar_game_closed {
+    width: 100%;
+  }
+  .game_link {
+    width: 638px;
+  }
+  .games_row.sidebar_closed {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 1650px) {
+  .sidebar_closed {
+    grid-template-columns: 1fr 1fr;
+  }
+  .games_row {
+    width: 100%;
+  }
+  .games_row.sidebar_closed {
+    width: fit-content;
+  }
+  .game_link {
+    width: 100%;
+  }
+}
+
 @media only screen and (max-width: 1280px) {
   .main_advertaising_blocks {
     column-gap: 1.5vw;
   }
-  .game_link {
-    &:nth-child(5),
-    &:nth-child(6) {
-      img {
-        left: -90px;
-      }
-    }
-  }
   .sidebar_closed {
-    &:nth-child(5),
-    &:nth-child(6) {
-      img {
-        left: 0;
-      }
-    }
+    grid-template-columns: 555px 555px;
   }
   .banner_info .header {
     font-size: 35px;
@@ -361,7 +376,7 @@
   .games_row {
     justify-items: center;
   }
-  .game_link {
+  .game_link.false {
     max-width: 360px;
     max-height: 210px;
   }
@@ -370,6 +385,9 @@
   }
   .game_link.sidebar_closed {
     max-width: 555px;
+  }
+  .games_row.sidebar_closed {
+    width: 100%;
   }
   .banner_info {
     //height: 169px;
@@ -412,12 +430,7 @@
 
 @media screen and (max-width: 700px) {
   .game_link {
-    &:nth-child(5),
-    &:nth-child(6) {
-      img {
-        left: -160px;
-      }
-    }
+    height: 210px;
   }
 }
 
@@ -429,14 +442,6 @@
   .game_link {
     max-width: 346px;
     max-height: 120px;
-    @media screen and (max-width: 700px) {
-      &:nth-child(5),
-      &:nth-child(6) {
-        img {
-          left: 0;
-        }
-      }
-    }
   }
   .main_advertaising_blocks_item {
     height: 120px;
@@ -553,24 +558,11 @@
     width: 100%;
     height: 120px;
     border-radius: 12px;
-    &:nth-child(5),
-    &:nth-child(6) {
-      img {
-        width: auto;
-        left: -90px;
-      }
-    }
   }
 }
 
 @media screen and (max-width: 320px) {
   .background_container {
     height: 180px;
-  }
-}
-
-@media screen and (min-width: 1920px) {
-  .game_link {
-    max-width: 556px;
   }
 }
