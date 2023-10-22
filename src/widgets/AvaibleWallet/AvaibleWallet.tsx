@@ -77,14 +77,14 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
       </div>
       <div className={s.connect_text}>Connect Wallet</div>
       <div className={s.select_wallet}>
-        <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />
-        <Wallet name="Injected" icon={Trust_wallet} connector={connectors[3]} />
-        <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
-        <Wallet
+        {connectors[0].ready && <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />}
+        {connectors[3].ready && <Wallet name="Injected" icon={Trust_wallet} connector={connectors[3]} />}
+        {connectors[2].ready && <Wallet
           name="WalletConnect"
           icon={WalletConnect}
           connector={connectors[2]}
-        />
+        />}
+        {connectors[1].ready && <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />}
       </div>
       <div className={s.info}>
         <Link
