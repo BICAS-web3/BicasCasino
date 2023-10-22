@@ -44,7 +44,7 @@ const WagerContent = () => {
       <button className={s.connect_wallet_btn} onClick={pressButton}>
         {isConnected ? "Place bet" : "Connect Wallet"}
       </button>
-      <WagerLowerBtnsBlock game="Dice" />
+      <WagerLowerBtnsBlock showSound={false} game="Dice" />
     </>
   );
 };
@@ -62,7 +62,6 @@ export default function DiceGame() {
           gameTitle="Dice"
           wagerContent={<WagerContent />}
         >
-          {/* <Plinko /> */}
           <Dice />
         </GamePage>
       </div>

@@ -9,7 +9,7 @@
 .game {
   display: grid;
   grid-template-columns: 1fr minmax(220px, 17vw);
-  margin-bottom: 40px;
+  //! margin-bottom: 40px; !-------------------------------------
 }
 
 .game_block {
@@ -19,7 +19,7 @@
   position: relative;
 }
 
-.poker_flip_cards_info_wrapper{
+.poker_flip_cards_info_wrapper {
   position: absolute;
   left: calc(50% - 150px);
   bottom: 5px;
@@ -131,10 +131,9 @@
   }
 }
 
-
 //////////////////////////////////////////////////
 
-.win_wrapper{
+.win_wrapper {
   position: absolute;
   left: calc(50% - 191px);
   bottom: 215px;
@@ -149,29 +148,28 @@
 }
 
 @media screen and (max-width: 996px) {
-  .win_wrapper{
-      bottom: 96px;
+  .win_wrapper {
+    bottom: 96px;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .win_wrapper{
-      left: calc(50% - 157px);
+  .win_wrapper {
+    left: calc(50% - 157px);
   }
 }
 
 @media screen and (max-width: 660px) {
-  .lost_wrapper{
-      left: calc(50% - 72px);
-      top: auto;
-      bottom: 0px;
+  .lost_wrapper {
+    left: calc(50% - 72px);
+    top: auto;
+    bottom: 0px;
   }
 }
 
 @media screen and (max-width: 600px) {
-
-  .win_wrapper{
-      left: calc(50vw - 157px);
-      top: calc(50vh - 112px);
+  .win_wrapper {
+    left: calc(50vw - 157px);
+    top: calc(50vh - 112px);
   }
 }
