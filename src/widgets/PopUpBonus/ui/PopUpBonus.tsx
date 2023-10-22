@@ -206,7 +206,7 @@ export const PopUpBonus: FC = () => {
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <Image className={s.img} src={bgImage!} alt="100%" />
+          <Image className={s.img} src={bgImage || banner_desktop} alt="100%" />
         </div>
         <h2 className={s.title}>
           {!isConnected ? "Receive your first 100$ bonus" : "Claim your bonus"}
