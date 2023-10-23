@@ -65,3 +65,16 @@ export const useDeviceType = () => {
 
   return deviceType;
 };
+
+
+
+export const FB_PIXEL_ID = '1797283080715437';
+
+export const pageview = () => {
+  (window as any).fbq('track', 'PageView')
+}
+
+// https://developers.facebook.com/docs/facebook-pixel/advanced/
+export const event = (name: any, options = {}) => {
+  (window as any).fbq('track', name, options)
+}

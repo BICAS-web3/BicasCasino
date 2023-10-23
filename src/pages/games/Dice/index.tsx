@@ -1,19 +1,71 @@
-// import Image from 'next/image';
-// import { GameLayout } from '../../../widgets/GameLayout/layout';
-// import { GameInfo } from '@/widgets/GameInfo';
+import { GamePage } from "@/widgets/GamePage/GamePage";
+import { Layout } from "@/widgets/Layout";
+import styles from "./styles.module.scss";
+import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
+import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { LiveBetsWS } from "@/widgets/LiveBets";
+import { WagerModel } from "@/widgets/Wager";
+import { useUnit } from "effector-react";
+// import { Plinko } from "@/widgets/Plinko/Plinko";
+import { useAccount } from "wagmi";
+import {
+  CustomWagerRangeInput,
+  CustomWagerRangeInputModel,
+} from "@/widgets/CustomWagerRangeInput";
+import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
+import { SidePicker } from "@/widgets/CoinFlipSidePicker";
+import s from "@/pages/games/CoinFlip/styles.module.scss";
+import { Dice } from "@/widgets/Dice/Dice";
+// import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 
-// import MinimalIcon from '@/public/media/games_assets/dice/minimal_icon.svg';
-// // import { LiveBets } from '@/widgets/LiveBets';
-// import { Dice as DiceWidget } from '@/widgets/Dice';
+const WagerContent = () => {
+  const { isConnected } = useAccount();
+  const [pressButton] = useUnit([WagerModel.pressButton]);
+  return (
+    <>
+      {/* <SidePicker /> */}
+      <WagerInputsBlock />
+      <CustomWagerRangeInput
+        inputTitle="Number of balls"
+        min={1}
+        max={60}
+        inputType={CustomWagerRangeInputModel.RangeType.Bets}
+      />
+      {/* <PlinkoLevelsBlock /> */}
+      <CustomWagerRangeInput
+        inputTitle="Rows"
+        min={8}
+        max={16}
+        inputType={CustomWagerRangeInputModel.RangeType.Rows}
+      />
+      {/*<WagerGainLoss />*/}
+      {/*<ProfitBlock />*/}
+      <button className={s.connect_wallet_btn} onClick={pressButton}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
+      </button>
+      <WagerLowerBtnsBlock game="Dice" />
+    </>
+  );
+};
 
-export default function Dice() {
-
-    return (
-        // <GameLayout gameName={'Dice'} children={[
-        //     <GameInfo name={'Dice'} description={'Dice is the most popular crypto casino game, with its roots originating from 2012 as Bitcoin’s use case for gambling came into existence.\nIt is a simple game of chance with easy customisable betting mechanics. Slide the bar left and the multiplier reward for winning your bet increases, while sacrificing the win chance. Slide the bar to the right, and the opposite happens.'} image={MinimalIcon} />,
-        //     <DiceWidget />,
-        //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["Dice"]} />
-        // ]} />
-        <></>
-    );
+export default function DiceGame() {
+  return (
+    <Layout gameName="Dice">
+      <LiveBetsWS
+        subscription_type={"Subscribe"}
+        subscriptions={["Dice", "Dicetart"]}
+      />
+      <div className={styles.dice_container}>
+        <GamePage
+          gameInfoText="test"
+          gameTitle="Dice"
+          wagerContent={<WagerContent />}
+        >
+          {/* <Plinko /> */}
+          <Dice />
+        </GamePage>
+      </div>
+    </Layout>
+  );
 }

@@ -11,6 +11,10 @@ export const TOKENS: T_Token[] = [
     {
         name: "DRAX",
         address: "0x7f7f49b6128f7cb89baab704f6ea1662a270455b"
+    },
+    {
+        name: "DRAXB",
+        address: "0x5518e648341147b0f4041c5e2a2cca41bdc723a0"
     }
 ]
 
