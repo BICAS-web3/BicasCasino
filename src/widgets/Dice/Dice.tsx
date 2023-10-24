@@ -171,7 +171,7 @@ export const Dice: FC<DiceProps> = (props) => {
           />
         </button>
       </div>
-      <div className={s.demo}>
+      <div className={s.dice_value_container}>
         {diceValue.map((dice) => (
           <div key={dice.id} className={s.dice_under_conteiner}>
             <h3 className={s.dice_under_title}>

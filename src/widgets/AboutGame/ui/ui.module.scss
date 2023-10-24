@@ -1,11 +1,14 @@
 .about_game {
   position: relative;
-  padding: 8px 312px 8px 40px;
+  padding: 8px 20px 8px 40px;
   border-top: 2px solid var(--black-10-f, #0f0f0f);
   background: var(--gray-218, #181818);
   margin-bottom: 40px;
   border-radius: 0px 0px 20px 20px;
   border-top: 2px solid var(--black-10-f, #0f0f0f);
+  @media (min-width: 1600px) {
+    padding: 8px 312px 8px 40px;
+  }
 }
 
 .about_game_button {
@@ -34,12 +37,16 @@
 .about_game_text {
   // position: absolute;
   color: #fff;
+  font-size: 14px;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.7px;
   transition: all 0.5s;
+  @media (min-width: 700px) {
+    font-size: 16px;
+    letter-spacing: 0.8px;
+  }
 }
 
 .dice_close {
@@ -50,7 +57,7 @@
   line-height: 0%;
 }
 .dice_open {
-  max-height: 400px;
+  max-height: 1000px;
   opacity: 1;
   z-index: 1;
   transition: all 0.5s;

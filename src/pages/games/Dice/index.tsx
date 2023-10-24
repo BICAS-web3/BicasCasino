@@ -1,6 +1,5 @@
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { Layout } from "@/widgets/Layout";
-import styles from "./styles.module.scss";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
@@ -16,35 +15,46 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+import styles from "./styles.module.scss";
 import { Dice } from "@/widgets/Dice/Dice";
+import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import clsx from "clsx";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 
 const WagerContent = () => {
+  const isMobile = document.documentElement.clientWidth < 700;
   const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <>
+      {isMobile && (
+        <button className={s.connect_wallet_btn} onClick={pressButton}>
+          {isConnected ? "Place bet" : "Connect Wallet"}
+        </button>
+      )}
       {/* <SidePicker /> */}
       <WagerInputsBlock />
-      <CustomWagerRangeInput
+      {/* <CustomWagerRangeInput
         inputTitle="Number of balls"
         min={1}
         max={60}
         inputType={CustomWagerRangeInputModel.RangeType.Bets}
-      />
+      /> */}
       {/* <PlinkoLevelsBlock /> */}
       <CustomWagerRangeInput
-        inputTitle="Rows"
-        min={8}
-        max={16}
-        inputType={CustomWagerRangeInputModel.RangeType.Rows}
+        inputTitle="Bets"
+        min={50}
+        max={100}
+        inputType={CustomWagerRangeInputModel.RangeType.Bets}
       />
-      {/*<WagerGainLoss />*/}
-      {/*<ProfitBlock />*/}
-      <button className={s.connect_wallet_btn} onClick={pressButton}>
-        {isConnected ? "Place bet" : "Connect Wallet"}
-      </button>
-      <WagerLowerBtnsBlock showSound={false} game="Dice" />
+      <WagerGainLoss />
+      <ProfitBlock />
+      {!isMobile && (
+        <button className={s.connect_wallet_btn} onClick={pressButton}>
+          {isConnected ? "Place bet" : "Connect Wallet"}
+        </button>
+      )}
+      {/* <WagerLowerBtnsBlock showSound={false} game="Dice" /> */}
     </>
   );
 };
