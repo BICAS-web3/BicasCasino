@@ -1,5 +1,6 @@
 import s from "./styles.module.scss";
 import { LeaderBoardItem } from "@/widgets/LeaderBoard/LeaderBoardItem";
+import clsx from "clsx";
 import { FC, useEffect, useState } from "react";
 
 //demo
@@ -99,20 +100,26 @@ const col2 = sortedL.slice(5);
 interface LeaderBoardProps {}
 
 export const LeaderBoard: FC<LeaderBoardProps> = () => {
-  const isMobile = window.innerWidth;
   const [list, setList] = useState(leadersList);
+
+  const isMobile = window.innerWidth <= 650;
 
   useEffect(() => {
     window.innerWidth <= 650 && setList(list.slice(0, 5));
   }, []);
 
-  const showList = () => {
-    if (isMobile && list.length > 5) {
-      setList(list.slice(0, 5));
-    } else {
+  const fullList = list.length > 5;
+
+  const setListSize = () => {
+    if (isMobile && !fullList) {
       setList(leadersList);
+      console.log("full");
+    } else {
+      setList(list.slice(0, 5));
+      console.log("part");
     }
   };
+
   return (
     <div className={s.leader_board_wrap}>
       <h2 className={s.leader_board_title}>Leader Board</h2>
@@ -121,14 +128,17 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
           <span className={s.leader_board_list_titles_item}>Rank</span>
           <span className={s.leader_board_list_titles_item}>Player</span>
           <span
-            className={s.leader_board_list_titles_item}
-            data-id="address_board_list_title"
+            className={clsx(
+              s.leader_board_list_titles_item,
+              s.leader_board_list_titles_item_address
+            )}
+            // data-id="address_board_list_title"
           >
             Address
           </span>
           <span className={s.leader_board_list_titles_item}>Volume</span>
         </div>
-        <div className={s.leader_board_row_titles_block}>
+        {/* <div className={s.leader_board_row_titles_block}>
           <span className={s.leader_board_list_titles_item}>Rank</span>
           <span className={s.leader_board_list_titles_item}>Player</span>
           <span
@@ -138,14 +148,14 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
             Address
           </span>
           <span className={s.leader_board_list_titles_item}>Volume</span>
-        </div>
+        </div> */}
       </div>
       <div className={s.leader_board_list}>
         {list && list.map((item, ind) => <LeaderBoardItem {...item} />)}
       </div>
       <div className={s.leaderBoard_loadMore_btn_block}>
-        <button onClick={showList} className={s.leaderBoard_loadMore_btn}>
-          Load {isMobile && list.length > 5 ? "Less" : "More"}
+        <button onClick={setListSize} className={s.leaderBoard_loadMore_btn}>
+          Load {fullList ? "Less" : "More"}
         </button>
       </div>
     </div>

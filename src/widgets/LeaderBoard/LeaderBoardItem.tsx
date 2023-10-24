@@ -36,12 +36,13 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
           <span className={s.leader_board_list_item_player_icon_title}>B</span>
         </div>
         <span className={s.leader_board_list_item_player_title}>{player}</span>
+        <div className={s.leader_board_list_item_link}>
+          <Image alt="link-ico" src={linkIco} width="22" height="22" />
+        </div>
       </div>
+
       <div className={s.leader_board_list_item_address_block}>
         <span className={s.leader_board_list_item_address}>{address}</span>
-      </div>
-      <div className={s.leader_board_list_item_link}>
-        <Image alt="link-ico" src={linkIco} width="22" height="22" />
       </div>
       <div className={s.leader_board_list_item_volume_block}>
         <span className={s.leader_board_list_item_volume}>{volume}</span>
