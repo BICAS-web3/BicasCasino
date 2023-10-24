@@ -74,6 +74,20 @@ export let leadersList = [
     volume: "37,298,200",
     playerBg: "#F57731;",
   },
+  {
+    rank: 11,
+    player: "UserName",
+    address: "0x563...4ba9",
+    volume: "37,298,200",
+    playerBg: "#FAA61A;",
+  },
+  {
+    rank: 12,
+    player: "UserName",
+    address: "0x563...4ba9",
+    volume: "37,298,200",
+    playerBg: "#F57731;",
+  },
 ];
 
 const sortedL = leadersList.slice();
@@ -85,12 +99,20 @@ const col2 = sortedL.slice(5);
 interface LeaderBoardProps {}
 
 export const LeaderBoard: FC<LeaderBoardProps> = () => {
+  const isMobile = window.innerWidth;
   const [list, setList] = useState(leadersList);
 
   useEffect(() => {
     window.innerWidth <= 650 && setList(list.slice(0, 5));
   }, []);
 
+  const showList = () => {
+    if (isMobile && list.length > 5) {
+      setList(list.slice(0, 5));
+    } else {
+      setList(leadersList);
+    }
+  };
   return (
     <div className={s.leader_board_wrap}>
       <h2 className={s.leader_board_title}>Leader Board</h2>
@@ -122,7 +144,9 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         {list && list.map((item, ind) => <LeaderBoardItem {...item} />)}
       </div>
       <div className={s.leaderBoard_loadMore_btn_block}>
-        <button className={s.leaderBoard_loadMore_btn}>Load More</button>
+        <button onClick={showList} className={s.leaderBoard_loadMore_btn}>
+          Load {isMobile && list.length > 5 ? "Less" : "More"}
+        </button>
       </div>
     </div>
   );

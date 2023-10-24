@@ -22,9 +22,26 @@
 }
 
 .leader_board_list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
+  height: 515px;
+  overflow-y: scroll;
+  scrollbar-width: 6px;
+  scrollbar-color: var(--gray-436, #363636) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    width: 6px;
+    background: var(--gray-436, #363636);
+    border-radius: 3px;
+  }
+
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  @media (max-width: 650px) {
+    height: auto;
+  }
 }
 
 .leader_board_list_item_rank_block,
@@ -333,7 +350,7 @@
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 650px) {
   .leader_board_title {
     font-size: 16px;
     font-weight: 600;
