@@ -33,7 +33,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          {/* <PopUpBonus /> */}
+          <PopUpBonus />
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >

@@ -305,10 +305,6 @@
 
 // mobile
 @media only screen and (max-width: 650px) {
-  .main_container {
-    row-gap: 30px;
-  }
-
   .sidebarClosed {
     width: 100%;
   }
@@ -318,7 +314,8 @@
     right: 0px;
     width: 100%;
     top: 76px;
-    padding: 100px 0 0 0;
+    padding: 72px 0 0 0;
+    row-gap: 18px;
   }
 
   .games {
