@@ -191,7 +191,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
   useEffect(() => {
     console.log('gas price', data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
-      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(1000000) * data.gasPrice)) / BigInt(2));
+      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(1000000) * data.gasPrice)));
     }
   }, [VRFFees, data]);
 
