@@ -11,9 +11,9 @@ import oneC5 from "@/public/media/pokerHandsImages/1c5.svg";
 import twoC3 from "@/public/media/pokerHandsImages/2c3.svg";
 import twoC4 from "@/public/media/pokerHandsImages/2c4.svg";
 
-import threeC1 from "@/public/media/pokerHandsImages/3c1.svg";
-import threeC2 from "@/public/media/pokerHandsImages/3c2.svg";
-import threeC3 from "@/public/media/pokerHandsImages/3c3.svg";
+import threeC1 from "@/public/media/pokerHandsImages/thrc1.svg";
+import threeC2 from "@/public/media/pokerHandsImages/thrc2.svg";
+import threeC3 from "@/public/media/pokerHandsImages/thrc3.svg";
 
 import fourC1 from "@/public/media/pokerHandsImages/4c1.svg";
 import fourC2 from "@/public/media/pokerHandsImages/4c2.svg";
