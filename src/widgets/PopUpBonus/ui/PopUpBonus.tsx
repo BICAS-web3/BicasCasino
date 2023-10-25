@@ -78,22 +78,21 @@ export const PopUpBonus: FC = () => {
 
   //? connect wallet func
   const handleConnectWalletBtn = () => {
+    if (chain?.id !== 42161 && address) {
+      switchNetwork!(42161);
+    }
     if (isMainWalletOpen) {
       return null;
     }
 
     if (!walletVisibility) {
       setWalletVisibility(true);
-      // setBlur(true);
       document.documentElement.style.overflow = "hidden";
       window.scrollTo(0, 0);
     } else {
       setWalletVisibility(false);
       setBlur(false);
       document.documentElement.style.overflow = "visible";
-    }
-    if (chain?.id !== 42161 && address) {
-      switchNetwork!(42161);
     }
   };
 
@@ -158,16 +157,12 @@ export const PopUpBonus: FC = () => {
 
   //? shorten call claim func
   const claimBonus = () => {
-    if (claimed === false) {
-      if (chain?.id !== 42161) {
-        switchNetwork && switchNetwork!(42161);
-        claimBouns?.();
-        return;
-      } else {
-        claimBouns?.();
-      }
+    if (!isConnected) {
+      handleConnectWalletBtn();
+    } else if (chain?.id !== 42161) {
+      switchNetwork!(42161);
     } else {
-      closeModal();
+      claimBouns?.();
     }
   };
 
@@ -223,16 +218,7 @@ export const PopUpBonus: FC = () => {
           data-id={"connect-wallet-block"}
           onClick={(e) => e.stopPropagation()}
         >
-          <button
-            className={s.connect_wallet_button}
-            onClick={() => {
-              if (!isConnected) {
-                handleConnectWalletBtn();
-              } else {
-                claimBonus();
-              }
-            }}
-          >
+          <button className={s.connect_wallet_button} onClick={claimBonus}>
             {address && isConnected
               ? chain?.id !== 42161
                 ? "Switch"
