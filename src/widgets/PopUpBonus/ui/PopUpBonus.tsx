@@ -64,9 +64,9 @@ export const PopUpBonus: FC = () => {
   });
 
   useEffect(() => {
-    if (readSuccess) {
+    if (readSuccess && address) {
       setClaimed(claimedState as boolean);
-      localStorage.setItem("claimed", JSON.stringify(claimedState));
+      localStorage.setItem(address, JSON.stringify(claimedState));
     }
   }, [claimedState, readSuccess, isFetching]);
 
@@ -143,15 +143,6 @@ export const PopUpBonus: FC = () => {
     setWalletVisibility(false);
   }, [isSuccess]);
 
-  useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.style.height = "100vh";
-    return () => {
-      document.documentElement.style.overflow = "visible";
-      document.documentElement.style.height = "auto";
-    };
-  }, []);
-
   if (!close) {
     document.documentElement.style.overflow = "hidden";
     window.screenY = 0;
@@ -181,12 +172,29 @@ export const PopUpBonus: FC = () => {
   };
 
   useEffect(() => {
-    claimed === true && closeModal();
+    claimed === true && isConnected && closeModal();
   }, [claimed]);
-  const claimedFromStorage = localStorage.getItem("claimed")
-    ? JSON.parse(localStorage.getItem("claimed")!)
-    : false;
-  if (claimedFromStorage === true || claimed === true) return;
+
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100vh";
+    return () => {
+      document.documentElement.style.overflow = "visible";
+      document.documentElement.style.height = "auto";
+    };
+  }, []);
+  const claimedFromStorage =
+    address && localStorage.getItem(address)
+      ? JSON.parse(localStorage.getItem(address)!)
+      : false;
+  if (
+    (address && claimedFromStorage === true) ||
+    (address && claimed === true)
+  ) {
+    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.height = "auto";
+    return;
+  }
   return (
     <div
       onClick={closeModal}
