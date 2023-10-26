@@ -1,73 +1,154 @@
-import { Model as RollSettingModel } from "@/widgets/RollSetting";
-import Image from "next/image";
-import { FC, useEffect, useState, ChangeEvent, useRef } from "react";
-import s from "./styles.module.scss";
+import { FC, useEffect, useState, ChangeEvent, useRef, Suspense } from "react";
 
-import * as DiceModel from "./model";
-import { sessionModel } from "@/entities/session";
+import {
+  useAccount,
+  useContractEvent,
+  useContractRead,
+  useContractWrite,
+  useFeeData,
+  useNetwork,
+  usePrepareContractWrite,
+} from "wagmi";
+
 import { useUnit } from "effector-react";
-import { BigNumber, ethers } from "ethers";
-import * as Api from "@/shared/api";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { BetStatus, Model as BetStatusModel } from "@/widgets/BetStatus";
-import { web3 } from "@/entities/web3";
-import { Firework } from "../Firework";
+
+import Image from "next/image";
+
+import useSound from "use-sound";
+
+import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
 
+import { sessionModel } from "@/entities/session";
+
+import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+import { ABI as DiceAbi } from "@/shared/contracts/DiceAbi";
+import { useDebounce } from "@/shared/tools";
+import { TOKENS } from "@/shared/tokens";
+
 import dice_cube from "@/public/media/dice_images/dice_cube.png";
-
 import dice_desktop from "@/public/media/dice_images/dice_desctop.png";
-
 import dice_medium from "@/public/media/dice_images/dice_medium.png";
-
 import dice_mobile from "@/public/media/dice_images/dice_mobile.png";
-
 import dice_tablet from "@/public/media/dice_images/dice_tablet.png";
-
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
-
 import dice_precentage from "@/public/media/dice_icons/dice_precentage.svg";
 import dice_close from "@/public/media/dice_icons/dice_close.svg";
 import dice_swap from "@/public/media/dice_icons/dice_swap.svg";
 
-//export * from './Dice';
+import * as DiceModel from "./model";
+import { WagerModel as WagerButtonModel } from "../Wager";
+import { WagerModel } from "../WagerInputsBlock";
+import { WagerGainLossModel } from "../WagerGainLoss";
+import { SidePickerModel } from "../CoinFlipSidePicker";
 
+import s from "./styles.module.scss";
+import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
+import { AnimationAction } from "three";
+import { Canvas } from "@react-three/fiber";
+import { DiceCanvas } from "./DiceModel";
+
+enum CoinAction {
+  Rotation = "Rotation",
+  HeadsHeads = "HeadsHeads",
+  HeadsTails = "HeadsTails",
+  TailsHeads = "TailsHeads",
+  TailsTails = "TailsTails",
+  Stop = "",
+}
+
+interface ModelProps {
+  action: CoinAction;
+  initial: SidePickerModel.Side;
+}
 export interface DiceProps {}
+const Model: FC = () => {
+  // { action, initial }
+  const { scene, animations } = useGLTF("/dice/dice.gltf");
+  // const { actions, mixer } = useAnimations(animations, scene);
 
-export const Dice: FC<DiceProps> = (props) => {
+  // scene.rotation.z = 1.3;
+  // if (initial == SidePickerModel.Side.Heads) {
+  //   scene.rotation.y = -1.58;
+  // } else if (initial == SidePickerModel.Side.Tails) {
+  //   scene.rotation.y = 1.58;
+  // }
+  // scene.rotation.x = 3;
+
+  // console.log(scene);
+
+  // useEffect(() => {
+  //   const rotation = actions[CoinAction.Rotation] as AnimationAction;
+  //   rotation.stop();
+  //   if (action != CoinAction.Stop) {
+  //     const current = actions[action] as AnimationAction;
+  //     current.stop();
+  //     current.play();
+  //     current.clampWhenFinished = false;
+  //     console.log(current);
+  //     if (action != CoinAction.Rotation) {
+  //       current.setLoop(2200, 1);
+  //     }
+  //   }
+  // }, [initial, action]);
+
+  // @ts-ignore
+  return <primitive object={scene} />;
+  // return <></>;
+};
+export const Dice: FC<DiceProps> = () => {
+  const { isConnected, address } = useAccount();
   const [
+    wagered,
     playSounds,
     switchSounds,
     setGameStatus,
     setLostStatus,
     setWonStatus,
-    won,
-    setWon,
     gameAddress,
-    gameStuts,
+    gameStatus,
     betsAmount,
-    setBetsAmount,
     rollOver,
     RollValue,
     setRollValue,
     currentNetwork,
+    pickedToken,
+    cryptoValue,
+    stopLoss,
+    stopGain,
+    pickedSide,
+    setActivePicker,
+    pickSide,
+    currentBalance,
+    setWagered,
+    allowance,
+    // multiplier,
   ] = useUnit([
+    WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
     GameModel.setGameStatus,
     GameModel.setLostStatus,
     GameModel.setWonStatus,
-    BetStatusModel.$Won,
-    BetStatusModel.setWon,
     sessionModel.$gameAddress,
     GameModel.$gameStatus,
     DiceModel.$betsAmount,
-    DiceModel.setBetsAmount,
     RollSettingModel.$RollOver,
     RollSettingModel.$RollValue,
     RollSettingModel.setRollValue,
     sessionModel.$currentNetwork,
+    WagerModel.$pickedToken,
+    WagerModel.$cryptoValue,
+    WagerGainLossModel.$stopLoss,
+    WagerGainLossModel.$stopGain,
+    SidePickerModel.$pickedSide,
+    SidePickerModel.setActive,
+    SidePickerModel.pickSide,
+    sessionModel.$currentBalance,
+    WagerButtonModel.setWagered,
+    sessionModel.$currentAllowance,
+    // GameModel.$multiplier,
   ]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +156,7 @@ export const Dice: FC<DiceProps> = (props) => {
 
     setRollValue(number_value);
   };
+  const { data } = useFeeData();
 
   let bgImage;
   const documentWidth = document.documentElement.clientWidth;
@@ -83,8 +165,8 @@ export const Dice: FC<DiceProps> = (props) => {
   if (documentWidth > 700 && documentWidth < 1280) bgImage = dice_tablet;
   if (documentWidth < 700) bgImage = dice_mobile;
   const win_chance = rollOver ? 100 - RollValue : RollValue;
-  const multiplier = 0.99 * (100 / win_chance);
-
+  // const multiplier = 0.99 * (100 / win_chance);
+  const multiplier = 99000000000 / win_chance;
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
 
@@ -93,8 +175,10 @@ export const Dice: FC<DiceProps> = (props) => {
   );
   const changeBetween = () => {
     if (rollValueBetween === "Under") {
+      setRollValue(rollOver ? RollValue : 100 - RollValue);
       setRollValueBetween("Over");
     } else {
+      setRollValue(rollOver ? 100 - RollValue : RollValue);
       setRollValueBetween("Under");
     }
   };
@@ -108,7 +192,233 @@ export const Dice: FC<DiceProps> = (props) => {
     rangeElement?.style.setProperty("--range-width", `${rangeWidth}px`);
   }, [RollValue]);
 
-  const total = (win_chance / RollValue) * multiplier;
+  const { chain } = useNetwork();
+  // const total = (win_chance / RollValue) * multiplier;
+  const total = Math.floor((win_chance / RollValue) * multiplier);
+  //?-----------------------------------------------------------------
+
+  const [inGame, setInGame] = useState<boolean>(false);
+  const [fees, setFees] = useState<bigint>(BigInt(0));
+  const bigNum = 100000000000;
+  const { config: startPlayingConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: DiceAbi,
+    functionName: "Dice_Play",
+    args: [
+      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+      pickedToken?.contract_address,
+      pickedSide,
+      betsAmount,
+      useDebounce(stopGain)
+        ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+        : BigInt(Math.floor(cryptoValue * 10000000)) *
+          BigInt(bigNum) *
+          BigInt(200),
+      useDebounce(stopLoss)
+        ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+        : BigInt(Math.floor(cryptoValue * 10000000)) *
+          BigInt(bigNum) *
+          BigInt(200),
+    ],
+    value: fees,
+    enabled: true,
+  });
+
+  const [playBackground, { stop: stopBackground }] = useSound(
+    "/static/media/games_assets/music/background2.wav",
+    { volume: 0.1, loop: true }
+  );
+  const {
+    write: startPlaying,
+    isSuccess: startedPlaying,
+    error,
+  } = useContractWrite(startPlayingConfig);
+
+  useEffect(() => {
+    console.log("Play sounds", playSounds);
+    if (!playSounds) {
+      stopBackground();
+    } else {
+      playBackground();
+    }
+  }, [playSounds]);
+
+  const { data: GameState, refetch: fetchGameState } = useContractRead({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: DiceAbi,
+    functionName: "Dice_GetState",
+    args: [address],
+    enabled: true,
+    watch: isConnected,
+  });
+
+  useEffect(() => {
+    if (GameState && !inGame) {
+      if ((GameState as any).ingame) {
+        if (
+          !(GameState as any).isFirstRequest &&
+          (GameState as any).requestID == 0
+        ) {
+          setInGame(true);
+          setActivePicker(false);
+          pickSide((GameState as any).isHeads as number);
+        }
+      } else {
+        setInGame(false);
+      }
+    }
+  }, [GameState]);
+  const { config: allowanceConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: pickedToken?.contract_address as `0x${string}`,
+    abi: IERC20,
+    functionName: "approve",
+    enabled: true,
+    args: [
+      gameAddress,
+      useDebounce(
+        currentBalance
+          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+          : 0
+      ),
+    ],
+  });
+
+  const { write: setAllowance, isSuccess: allowanceIsSet } =
+    useContractWrite(allowanceConfig);
+
+  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: DiceAbi,
+    functionName: "getVRFFee",
+    args: [0],
+    // onSuccess: (fees: bigint) => {
+    //   console.log('fees', fees);
+    // },
+    watch: true,
+  });
+
+  useEffect(() => {
+    console.log("gas price", data?.gasPrice);
+    if (VRFFees && data?.gasPrice) {
+      setFees(
+        (BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+          BigInt(1000000) * data.gasPrice) /
+          BigInt(2)
+      );
+    }
+  }, [VRFFees, data]);
+
+  //!---
+  useEffect(() => {
+    console.log("Picked side", pickedSide);
+  }, [pickedSide]);
+
+  useEffect(() => {
+    if (startedPlaying) {
+      setActivePicker(false);
+      setInGame(true);
+    }
+  }, [startedPlaying]);
+
+  useContractEvent({
+    address: gameAddress as `0x${string}`,
+    abi: DiceAbi,
+    eventName: "Dice_Outcome_Event",
+    listener(log) {
+      //handleLog(log)
+      if (
+        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+        address?.toLowerCase()
+      ) {
+        console.log("Found Log!");
+        const wagered =
+          BigInt((log[0] as any).args.wager) *
+          BigInt((log[0] as any).args.numGames);
+        if ((log[0] as any).args.payout > wagered) {
+          console.log("won");
+          const profit = (log[0] as any).args.payout;
+          console.log("profit", profit);
+          const multiplier = Number(profit / wagered);
+          console.log("multiplier", multiplier);
+          const wagered_token = (
+            (log[0] as any).args.tokenAddress as string
+          ).toLowerCase();
+          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+          console.log("won token", token);
+          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+          setWonStatus({
+            profit: profitFloat,
+            multiplier,
+            token: token as string,
+          });
+          setGameStatus(GameModel.GameStatus.Won);
+        } else {
+          console.log("lost");
+          const wageredFloat =
+            Number(wagered / BigInt(10000000000000000)) / 100;
+          console.log("wagered", wageredFloat);
+          setLostStatus(wageredFloat);
+          setGameStatus(GameModel.GameStatus.Lost);
+        }
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (wagered) {
+      console.log("Pressed wager");
+      if (inGame) {
+        // setShowFlipCards(false);
+        // if (finishPlaying) finishPlaying();
+      } else {
+        console.log(cryptoValue, currentBalance);
+        const total_value = cryptoValue * betsAmount;
+        if (
+          cryptoValue != 0 &&
+          currentBalance &&
+          total_value <= currentBalance
+        ) {
+          console.log("Allowance", allowance);
+          if (!allowance || (allowance && allowance <= cryptoValue)) {
+            console.log("Setting allowance");
+            if (setAllowance) setAllowance();
+            //return;
+          } else {
+            //setActiveCards(initialArrayOfCards);
+            console.log(
+              "Starting playing",
+              startPlaying,
+              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+              //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
+              pickedToken?.contract_address,
+              gameAddress,
+              VRFFees
+            );
+            if (startPlaying) {
+              startPlaying();
+            }
+          }
+        }
+      }
+      setWagered(false);
+    }
+  }, [wagered]);
+
+  useEffect(() => {
+    setActivePicker(true);
+    setInGame(false);
+    if (gameStatus == GameModel.GameStatus.Won) {
+      pickSide(pickedSide);
+    } else if (gameStatus == GameModel.GameStatus.Lost) {
+      pickSide(pickedSide ^ 1);
+    }
+  }, [gameStatus]);
+
+  //?--------------------------------------------------------
 
   const diceValue = [
     {
@@ -138,17 +448,20 @@ export const Dice: FC<DiceProps> = (props) => {
   ];
   return (
     <div className={s.dice}>
+      <div className={s.model}>
+        <DiceCanvas />
+      </div>
       <div className={s.dice_container}>
         <Image className={s.cube} src={dice_cube} alt="cube" />
         <Image className={s.background} src={bgImage!} alt="test" />
         <div className={s.range_container}>
           <span className={s.roll_range_value}>{RollValue}</span>
-          <span className={s.roll_range_min}>0.1</span>
+          <span className={s.roll_range_min}>5</span>
           <div className={s.custom_range_input_body}></div>
           <input
             className={s.dice_range}
             type="range"
-            min="0.1"
+            min="1"
             max="95"
             value={RollValue}
             onChange={onChange}
