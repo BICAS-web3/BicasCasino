@@ -9,62 +9,39 @@ export const DiceModel = () => {
   return (
     <group>
       <ambientLight position={[0, 0, 0]} intensity={2000} />
-      {/* <hemisphereLight
-        position={[1, 4, 5]}
-        intensity={500}
-        groundColor="white"
-      /> */}
       <spotLight
         position={[10, 4, 5]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
       <spotLight
         position={[-5, 42, -1]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
       <spotLight
         position={[-14, 20, -1]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
       <spotLight
         position={[10, -14, 0]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
       <spotLight
         position={[-10, -10, -1]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
       <spotLight
         position={[10, 10, 1]}
-        // angle={0.12}
-        // penumbra={1}
-        // scale={50}
-        intensity={1000}
+        intensity={5000}
         castShadow
         shadow-mapSize={1000}
       />
@@ -118,7 +95,7 @@ export const DiceCanvas = () => {
           enableZoom={false}
           enableRotate={true}
           maxPolarAngle={Math.PI / 2}
-          minPolarAngle={1}
+          minPolarAngle={0}
         />
         <DiceModel />
       </Suspense>
