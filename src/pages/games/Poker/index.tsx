@@ -20,7 +20,7 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <button className={s.poker_wager_drawing_cards_btn} onClick={pressButton}>
+      <button className={s.poker_wager_drawing_cards_btn} onClick={() => { pressButton(); (window as any).fbq('track', 'Purchase'); }}>
         Drawing cards
       </button>
       <WagerLowerBtnsBlock game="poker" />

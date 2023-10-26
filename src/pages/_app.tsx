@@ -22,9 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', ${fbq.FB_PIXEL_ID});
+            fbq('init', '326275033324451');
+            fbq('init', '1482796345845307');
+            fbq('track', 'PageView');
           `,
         }}
       />
+
       <EffectorNext values={pageProps?.values}>
         <Fonts />
         <Component {...pageProps} />

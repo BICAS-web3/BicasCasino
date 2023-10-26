@@ -28,7 +28,7 @@ const WagerContent = () => {
       <CustomWagerRangeInput inputTitle="Rows" min={8} max={16} inputType={CustomWagerRangeInputModel.RangeType.Rows} />
       {/*<WagerGainLoss />*/}
       {/*<ProfitBlock />*/}
-      <button className={s.connect_wallet_btn} onClick={pressButton}>
+      <button className={s.connect_wallet_btn} onClick={() => { pressButton(); (window as any).fbq('track', 'Purchase'); }}>
         {isConnected ? "Place bet" : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="plinko" />
