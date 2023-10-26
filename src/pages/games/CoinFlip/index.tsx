@@ -23,7 +23,7 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      <button className={s.connect_wallet_btn} onClick={() => { pressButton(); (window as any).fbq('track', 'Purchase'); }}>
+      <button className={s.connect_wallet_btn} onClick={() => { pressButton(); (window as any).fbq('track', 'Purchase', { value: 0.00, currency: 'USD' }); }}>
         {isConnected ? "Place bet" : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="coinflip" />
