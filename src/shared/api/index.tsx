@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "http://127.0.0.1:8585/api";
+export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
@@ -274,6 +274,18 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
       .then(async (res) => await res.json())
       .catch((e) => {
         console.log(1, e);
+      });
+  }
+);
+
+export const getLeaderboard = createEffect<void, T_ApiResponse, string>(
+  async (_) => {
+    return fetch(`${BaseApiUrl}/general/leaderboard/volume/daily`, {
+      method: "GET",
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => {
+        console.log(e);
       });
   }
 );
