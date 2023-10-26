@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "/api";
+export const BaseApiUrl = "http://127.0.0.1:8585/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
