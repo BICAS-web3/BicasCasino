@@ -7,19 +7,6 @@ import s from "./styles.module.scss";
 import clsx from "clsx";
 
 import * as Api from "@/shared/api";
-{
-  /* <div className={s.leader_board_row_titles_block}>
-<span className={s.leader_board_list_titles_item}>Rank</span>
-<span className={s.leader_board_list_titles_item}>Player</span>
-<span
-  className={s.leader_board_list_titles_item}
-  data-id="address_board_list_title"
->
-  Address
-</span>
-<span className={s.leader_board_list_titles_item}>Volume</span>
-</div> */
-}
 
 export interface LeaderBoardItem {
   nickname: string;
@@ -33,9 +20,9 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
   const [apiResponse, setApiResponse] = useState<any | LeaderBoardItem[]>(null);
   const [list, setList] = useState<any | LeaderBoardItem[]>(null);
   const getData = async () => {
-    const bets = await Api.getLeaderboard();
-    setApiResponse(bets.body);
-    setList(bets.body);
+    const leaderItem = await Api.getLeaderboard();
+    setApiResponse(leaderItem.body);
+    setList(leaderItem.body);
   };
   useEffect(() => {
     getData();

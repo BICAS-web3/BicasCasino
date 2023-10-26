@@ -5,12 +5,10 @@ import Image from "next/image";
 import linkIco from "@/public/media/leaderBoard_images/linkIco.svg";
 import { shortenAddress, useMediaQuery } from "@/shared/tools";
 
+import { LeaderBoardItem as ItemProps } from "./LeaderBoard";
 import s from "./styles.module.scss";
 
-interface LeaderBoardItemProps {
-  nickname: string;
-  player: string;
-  total: number;
+interface LeaderBoardItemProps extends ItemProps {
   ind: number;
 }
 
