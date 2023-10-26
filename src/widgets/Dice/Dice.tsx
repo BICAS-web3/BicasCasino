@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, ChangeEvent, useRef, Suspense } from "react";
+import { FC, useEffect, useState, ChangeEvent, useRef } from "react";
 
 import {
   useAccount,
@@ -42,12 +42,9 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
+import { DiceCanvas } from "./DiceModel";
 
 import s from "./styles.module.scss";
-import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
-import { AnimationAction } from "three";
-import { Canvas } from "@react-three/fiber";
-import { DiceCanvas } from "./DiceModel";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -58,45 +55,8 @@ enum CoinAction {
   Stop = "",
 }
 
-interface ModelProps {
-  action: CoinAction;
-  initial: SidePickerModel.Side;
-}
 export interface DiceProps {}
-const Model: FC = () => {
-  // { action, initial }
-  const { scene, animations } = useGLTF("/dice/dice.gltf");
-  // const { actions, mixer } = useAnimations(animations, scene);
 
-  // scene.rotation.z = 1.3;
-  // if (initial == SidePickerModel.Side.Heads) {
-  //   scene.rotation.y = -1.58;
-  // } else if (initial == SidePickerModel.Side.Tails) {
-  //   scene.rotation.y = 1.58;
-  // }
-  // scene.rotation.x = 3;
-
-  // console.log(scene);
-
-  // useEffect(() => {
-  //   const rotation = actions[CoinAction.Rotation] as AnimationAction;
-  //   rotation.stop();
-  //   if (action != CoinAction.Stop) {
-  //     const current = actions[action] as AnimationAction;
-  //     current.stop();
-  //     current.play();
-  //     current.clampWhenFinished = false;
-  //     console.log(current);
-  //     if (action != CoinAction.Rotation) {
-  //       current.setLoop(2200, 1);
-  //     }
-  //   }
-  // }, [initial, action]);
-
-  // @ts-ignore
-  return <primitive object={scene} />;
-  // return <></>;
-};
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [

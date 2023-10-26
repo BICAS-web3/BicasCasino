@@ -24,7 +24,6 @@ import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
-import { AboutGame } from "../AboutGame";
 
 interface GamePageProps {
   children: ReactNode;
@@ -149,7 +148,6 @@ export const GamePage: FC<GamePageProps> = ({
             </div>
             <Wager wagerContent={wagerContent} />
           </div>
-          <AboutGame about_game="Lorem ipsum dolor sit amet consectetur. Congue ante quis elementum cursus et neque sit. Dictumst ut aliquet cras metus fames tristique fringilla at. Sit eget lobortis in nullam curabitur cras. In velit aliquet eget convallis amet quis sollicitudin ac. Sed ultrices libero laoreet ornare nec pellentesque egestas massa. Risus odio etiam eget viverra tempus nulla semper donec sit. Non mollis euismod quis nibh sit. Egestas malesuada mauris adipiscing et sit. Mauris nunc porttitor ipsum ultricies ullamcorper nunc. Gravida et libero ac adipiscing ut habitant pretium bibendum. Quam gravida vel posuere viverra morbi." />
           <div>
             <CustomBets
               title="Live bets"

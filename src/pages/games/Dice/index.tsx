@@ -54,7 +54,7 @@ const WagerContent = () => {
           {isConnected ? "Place bet" : "Connect Wallet"}
         </button>
       )}
-      {/* <WagerLowerBtnsBlock showSound={false} game="Dice" /> */}
+      {/* <WagerLowerBtnsBlock game="Dice" /> */}
     </>
   );
 };

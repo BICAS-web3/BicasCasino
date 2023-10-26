@@ -54,13 +54,9 @@ const pokerHandMultiplierList = [
 
 interface WagerLowerBtnsBlockProps {
   game: string;
-  showSound?: boolean;
 }
 
-export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
-  game,
-  showSound = true,
-}) => {
+export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
   const [playSounds, switchSounds] = useUnit([
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -87,47 +83,42 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
       className={s.poker_wager_lower_btns_block}
       data-id={"wager-lower-btns"}
     >
-      {showSound && (
-        <>
-          {" "}
-          <button
-            className={s.poker_wager_sound_btn}
-            onClick={() => switchSounds()}
-          >
-            {playSounds ? (
-              <Image alt="sound-ico" src={soundIco} />
-            ) : (
-              <Image alt="sound-ico-off" src={soundOffIco} />
-            )}
-          </button>
-          <div className={s.poker_wager_info_btn_wrap}>
-            <button
-              className={s.poker_wager_info_btn}
-              onClick={() => setInfoModalVisibility(!infoModalVisibility)}
-            >
-              {infoModalVisibility ? (
-                <Image alt="info-ico-light" src={closeBtnIco} />
-              ) : (
-                <Image alt="info-ico-default" src={infoIco} />
-              )}
-            </button>
-            <div
-              className={`${s.poker_wager_info_modal_block} ${
-                infoModalVisibility && s.active
-              }`}
-            >
-              <Image
-                src={closeIco}
-                alt="close-ico"
-                onClick={() => setInfoModalVisibility(false)}
-                className={s.poker_wager_info_modal_close_ico}
-              />
-              <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
-              <p className={s.poker_wager_info_modal_text}>Poker</p>
-            </div>
-          </div>
-        </>
-      )}
+      <button
+        className={s.poker_wager_sound_btn}
+        onClick={() => switchSounds()}
+      >
+        {playSounds ? (
+          <Image alt="sound-ico" src={soundIco} />
+        ) : (
+          <Image alt="sound-ico-off" src={soundOffIco} />
+        )}
+      </button>
+      <div className={s.poker_wager_info_btn_wrap}>
+        <button
+          className={s.poker_wager_info_btn}
+          onClick={() => setInfoModalVisibility(!infoModalVisibility)}
+        >
+          {infoModalVisibility ? (
+            <Image alt="info-ico-light" src={closeBtnIco} />
+          ) : (
+            <Image alt="info-ico-default" src={infoIco} />
+          )}
+        </button>
+        <div
+          className={`${s.poker_wager_info_modal_block} ${
+            infoModalVisibility && s.active
+          }`}
+        >
+          <Image
+            src={closeIco}
+            alt="close-ico"
+            onClick={() => setInfoModalVisibility(false)}
+            className={s.poker_wager_info_modal_close_ico}
+          />
+          <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
+          <p className={s.poker_wager_info_modal_text}>Poker</p>
+        </div>
+      </div>
       {game && game === "poker" && (
         <div className={s.hand_multiplier_wrap}>
           <div
