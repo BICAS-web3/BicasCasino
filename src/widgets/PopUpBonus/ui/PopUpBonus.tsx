@@ -64,9 +64,9 @@ export const PopUpBonus: FC = () => {
   });
 
   useEffect(() => {
-    if (readSuccess) {
+    if (readSuccess && address) {
       setClaimed(claimedState as boolean);
-      localStorage.setItem("claimed", JSON.stringify(claimedState));
+      localStorage.setItem(address, JSON.stringify(claimedState));
     }
   }, [claimedState, readSuccess, isFetching]);
 
@@ -78,22 +78,21 @@ export const PopUpBonus: FC = () => {
 
   //? connect wallet func
   const handleConnectWalletBtn = () => {
+    if (chain?.id !== 42161 && address) {
+      switchNetwork!(42161);
+    }
     if (isMainWalletOpen) {
       return null;
     }
 
     if (!walletVisibility) {
       setWalletVisibility(true);
-      // setBlur(true);
       document.documentElement.style.overflow = "hidden";
       window.scrollTo(0, 0);
     } else {
       setWalletVisibility(false);
       setBlur(false);
       document.documentElement.style.overflow = "visible";
-    }
-    if (chain?.id !== 42161 && address) {
-      switchNetwork!(42161);
     }
   };
 
@@ -143,15 +142,6 @@ export const PopUpBonus: FC = () => {
     setWalletVisibility(false);
   }, [isSuccess]);
 
-  useEffect(() => {
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.style.height = "100vh";
-    return () => {
-      document.documentElement.style.overflow = "visible";
-      document.documentElement.style.height = "auto";
-    };
-  }, []);
-
   if (!close) {
     document.documentElement.style.overflow = "hidden";
     window.screenY = 0;
@@ -167,26 +157,39 @@ export const PopUpBonus: FC = () => {
 
   //? shorten call claim func
   const claimBonus = () => {
-    if (claimed === false) {
-      if (chain?.id !== 42161) {
-        switchNetwork && switchNetwork!(42161);
-        claimBouns?.();
-        return;
-      } else {
-        claimBouns?.();
-      }
+    if (!isConnected) {
+      handleConnectWalletBtn();
+    } else if (chain?.id !== 42161) {
+      switchNetwork!(42161);
     } else {
-      closeModal();
+      claimBouns?.();
     }
   };
 
   useEffect(() => {
-    claimed === true && closeModal();
+    claimed === true && isConnected && closeModal();
   }, [claimed]);
-  const claimedFromStorage = localStorage.getItem("claimed")
-    ? JSON.parse(localStorage.getItem("claimed")!)
-    : false;
-  if (claimedFromStorage === true || claimed === true) return;
+
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100vh";
+    return () => {
+      document.documentElement.style.overflow = "visible";
+      document.documentElement.style.height = "auto";
+    };
+  }, []);
+  const claimedFromStorage =
+    address && localStorage.getItem(address)
+      ? JSON.parse(localStorage.getItem(address)!)
+      : false;
+  if (
+    (address && claimedFromStorage === true) ||
+    (address && claimed === true)
+  ) {
+    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.height = "auto";
+    return;
+  }
   return (
     <div
       onClick={closeModal}
@@ -215,16 +218,7 @@ export const PopUpBonus: FC = () => {
           data-id={"connect-wallet-block"}
           onClick={(e) => e.stopPropagation()}
         >
-          <button
-            className={s.connect_wallet_button}
-            onClick={() => {
-              if (!isConnected) {
-                handleConnectWalletBtn();
-              } else {
-                claimBonus();
-              }
-            }}
-          >
+          <button className={s.connect_wallet_button} onClick={claimBonus}>
             {address && isConnected
               ? chain?.id !== 42161
                 ? "Switch"

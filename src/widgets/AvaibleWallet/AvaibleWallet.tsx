@@ -45,6 +45,7 @@ const Wallet: FC<WalletProps> = (props) => {
     <div
       className={s.select_wallet_item}
       onClick={() => {
+        (window as any).fbq('track', 'Lead');
         closeWallet();
         //setBlur(false);
         connect({ connector: props.connector });
