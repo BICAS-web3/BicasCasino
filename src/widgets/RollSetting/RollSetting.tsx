@@ -26,7 +26,7 @@ const UpperControlls: FC<UpperControllsProps> = props => {
         <div className={s.roll_over}>
             {`Roll ${rollOver ? "Over" : "Under"}`}
         </div>
-        <div className={s.roll_flip} onClick={() => flipRollOver(RollValue)}>
+        <div className={s.roll_flip} onClick={() => { console.log("RollChange"); flipRollOver(RollValue); }}>
             <Image
                 src={ArrowsIcon}
                 alt={''}

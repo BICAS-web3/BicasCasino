@@ -43,7 +43,7 @@ const WagerContent = () => {
       {/* <PlinkoLevelsBlock /> */}
       <CustomWagerRangeInput
         inputTitle="Bets"
-        min={50}
+        min={1}
         max={100}
         inputType={CustomWagerRangeInputModel.RangeType.Bets}
       />
@@ -64,11 +64,11 @@ export default function DiceGame() {
     <Layout gameName="Dice">
       <LiveBetsWS
         subscription_type={"Subscribe"}
-        subscriptions={["Dice", "Dicetart"]}
+        subscriptions={["Dice"]}
       />
       <div className={styles.dice_container}>
         <GamePage
-          gameInfoText="test"
+          gameInfoText="Dice"
           gameTitle="Dice"
           wagerContent={<WagerContent />}
         >
