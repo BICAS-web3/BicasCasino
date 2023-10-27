@@ -13,6 +13,7 @@ import RPSBlendIcon from "@/public/media/games_assets/rock_paper_scissors/icon_b
 import DiceColoredIcon from "@/public/media/games_assets/dice/icon_colored.svg";
 import DiceBlendIcon from "@/public/media/games_assets/dice/icon_blend.svg";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
+import * as Api from "@/shared/api";
 
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
@@ -157,11 +158,6 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
 };
 
 export default function Home() {
-  const [Bets, AvailableBlocksExplorers] = useUnit([
-    LiveBetsModel.$Bets,
-    settingsModel.$AvailableBlocksExplorers,
-  ]);
-
   const [currentImage, setCurrentImage] = useState(mainBg);
   const [laptop, setLaptop] = useState(false);
   const [tablet, setTablet] = useState(false);
@@ -209,21 +205,14 @@ export default function Home() {
       setCurrentImage(mainBg);
     }
   }, [tablet, laptop]);
-
-  useEffect(() => {
-    console.log("New bets");
-  }, [Bets]);
-
+  console.log("rerender main page");
   return (
     <>
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
-        {/* <div> */}
-
         <div className={`${s.main_container}`}>
           <Total />
           <LeaderBoard />
-          {/* <LeaderBoard /> */}
         </div>
         {/* </div> */}
       </Layout>

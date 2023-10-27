@@ -6,6 +6,9 @@ import { getLocalizationFx } from "@/shared/api";
 export const $Localization = createStore<Api.T_Localization>({});
 export const $AvailableNetworks = createStore<Api.T_Networks>({ networks: [] });
 export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
+
+export const $AvailableLeaderbord = createStore<Api.T_Lider>([]);
+
 export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
 export const $AvailableBlocksExplorers = createStore<Map<
   number,
@@ -18,6 +21,13 @@ export const queryAvailableNetworks = createEvent();
 export const queryAvailableRpcs = createEvent<{ network_id: number }>();
 export const setAvailableNetworks = createEvent<Api.T_Networks>();
 export const setAvailableRpcs = createEvent<Api.T_Rpcs>();
+
+export const setAvailableLeader = createEvent<Api.T_Lider>();
+export const queryAvailableLeader = createEvent<{
+  return: string;
+  time: string;
+}>();
+
 export const setAvailableTokens = createEvent<Api.T_Tokens>();
 export const queryAvailableTokens = createEvent<{ network_id: number }>();
 export const setAvailableExplorers = createEvent<Map<number, string>>();
@@ -42,6 +52,9 @@ $AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
 
 $AvailableNetworks.on(setAvailableNetworks, (_, networks) => networks);
 $AvailableRpcs.on(setAvailableRpcs, (_, rpcs) => rpcs);
+
+$AvailableLeaderbord.on(setAvailableLeader, (_, leaderbord) => leaderbord);
+
 //$AvailableTokens.on(setAvailableTokens, (_, tokens) => tokens);
 $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
   // var explorers_map = new Map<number, Api.T_BlockExplorerUrl>();
@@ -53,6 +66,10 @@ $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
 });
 
 // logic
+sample({
+  clock: queryAvailableLeader,
+  target: Api.getLeaderboard,
+});
 sample({
   clock: getLocalization,
   target: Api.getLocalizationFx,

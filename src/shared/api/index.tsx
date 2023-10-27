@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io/api";
+export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
@@ -42,6 +42,8 @@ export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>;
 };
 
+export type T_Lider = Array<T_LeaderBoardResponse>;
+
 export type T_BlockExplorerUrl = {
   id: number;
   network_id: number;
@@ -76,6 +78,12 @@ export type T_Nickname = {
   id: number;
   address: string;
   nickname: string;
+};
+
+export type T_LeaderBoardResponse = {
+  nickname: string;
+  player: string;
+  total: number;
 };
 
 export type T_Player = {
@@ -165,6 +173,11 @@ export type T_GetUsername = {
   address: string;
 };
 
+export type T_GetLeaderBoard = {
+  return: string;
+  time: string;
+};
+
 export type T_SetUsername = {
   address: string;
   nickname: string;
@@ -183,6 +196,26 @@ export type T_PlayerTotals = {
 export type T_TokenPrice = {
   token_price: number;
 };
+
+export type TypeLeadboardApi =
+  | "Daily_volume"
+  | "Weekly_volume"
+  | "Monthly_volume"
+  | "All Time_volume"
+  | "Daily_profit"
+  | "Weekly_profit"
+  | "Monthly_profit"
+  | "All Time_profit";
+export const TypeLeadboardApi = [
+  "Daily_volume",
+  "Weekly_volume",
+  "Monthly_volume",
+  "All Time_volume",
+  "Daily_profit",
+  "Weekly_profit",
+  "Monthly_profit",
+  "All Time_profit",
+] as const;
 
 export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
   async (form) => {
@@ -278,17 +311,22 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
   }
 );
 
-export const getLeaderboard = createEffect<void, T_ApiResponse, string>(
-  async (_) => {
-    return fetch(`${BaseApiUrl}/general/leaderboard/volume/daily`, {
+export const getLeaderboard = createEffect<
+  T_GetLeaderBoard,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `${BaseApiUrl}/general/leaderboard/${form?.return}/${form?.time}`,
+    {
       method: "GET",
-    })
-      .then(async (res) => await res.json())
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-);
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => {
+      console.log(e);
+    });
+});
 
 export type T_GetRpcs = {
   network_id: number;

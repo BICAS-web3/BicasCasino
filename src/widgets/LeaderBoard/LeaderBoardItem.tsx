@@ -3,12 +3,13 @@ import { FC } from "react";
 import Image from "next/image";
 
 import linkIco from "@/public/media/leaderBoard_images/linkIco.svg";
-import { shortenAddress, useMediaQuery } from "@/shared/tools";
 
-import { LeaderBoardItem as ItemProps } from "./LeaderBoard";
+import { shortenAddress, useMediaQuery } from "@/shared/tools";
+import { T_LeaderBoardResponse } from "@/shared/api";
+
 import s from "./styles.module.scss";
 
-interface LeaderBoardItemProps extends ItemProps {
+interface LeaderBoardItemProps extends T_LeaderBoardResponse {
   ind: number;
 }
 
@@ -22,19 +23,14 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
   return (
     <div className={s.leader_board_list_item}>
       <div className={s.leader_board_list_item_rank_block}>
-        <span
-          className={s.leader_board_list_item_rank}
-          // data-top={rank <= 3 && true}
-        >
-          {ind + 1}
-        </span>
+        <span className={s.leader_board_list_item_rank}>{ind + 1}</span>
       </div>
       <div className={s.leader_board_list_item_player_block}>
-        <div
-          className={s.leader_board_list_item_player_icon}
-          // style={{ background: playerBg }}
-        >
-          <span className={s.leader_board_list_item_player_icon_title}>B</span>
+        <div className={s.leader_board_list_item_player_icon}>
+          <span className={s.leader_board_list_item_player_icon_title}>
+            {" "}
+            {nickname ? nickname[0].toUpperCase() : "N"}
+          </span>
         </div>
         <span className={s.leader_board_list_item_player_title}>
           {nickname || "No Name"}
@@ -51,7 +47,7 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
       </div>
       <div className={s.leader_board_list_item_volume_block}>
         <span className={s.leader_board_list_item_volume}>
-          {total?.toFixed(2)}
+          {total.toFixed(2)}
         </span>
       </div>
     </div>

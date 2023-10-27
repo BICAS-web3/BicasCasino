@@ -1,37 +1,32 @@
 import { FC, useEffect, useState } from "react";
 
-import { LeaderBoardItem } from "@/widgets/LeaderBoard/LeaderBoardItem";
-
-import s from "./styles.module.scss";
+import { useUnit } from "effector-react";
 
 import clsx from "clsx";
 
+import { settingsModel } from "@/entities/settings";
+
 import * as Api from "@/shared/api";
 
-export interface LeaderBoardItem {
-  nickname: string;
-  player: string;
-  total: number;
-}
+import s from "./styles.module.scss";
+import { LeaderBoardItem } from "./LeaderBoardItem";
 
-interface LeaderBoardProps {}
+export const LeaderBoard: FC<{}> = () => {
+  const [apiResponse] = useUnit([settingsModel.$AvailableLeaderbord]);
+  const [list, setList] = useState<any | Api.T_LeaderBoardResponse[]>(
+    apiResponse
+  );
 
-export const LeaderBoard: FC<LeaderBoardProps> = () => {
-  const [apiResponse, setApiResponse] = useState<any | LeaderBoardItem[]>(null);
-  const [list, setList] = useState<any | LeaderBoardItem[]>(null);
-  const getData = async () => {
-    const leaderItem = await Api.getLeaderboard();
-    setApiResponse(leaderItem.body);
-    setList(leaderItem.body);
-  };
   useEffect(() => {
-    getData();
-  }, []);
-
+    setList(apiResponse);
+  }, [apiResponse]);
   const isMobile = window.innerWidth <= 650;
 
   useEffect(() => {
-    window.innerWidth <= 650 && setList(apiResponse?.slice(0, 5));
+    window.innerWidth <= 650 &&
+      setList(
+        apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
+      );
   }, [apiResponse]);
 
   const fullList = list?.length > 5;
@@ -39,10 +34,10 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
   const setListSize = () => {
     if (isMobile && !fullList) {
       setList(apiResponse);
-      console.log("full");
     } else {
-      setList(apiResponse.slice(0, 5));
-      console.log("part");
+      setList(
+        apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
+      );
     }
   };
 
@@ -58,38 +53,28 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
               s.leader_board_list_titles_item,
               s.leader_board_list_titles_item_address
             )}
-            // data-id="address_board_list_title"
           >
             Address
           </span>
           <span className={s.leader_board_list_titles_item}>Volume</span>
         </div>
-        {/* <div className={s.leader_board_row_titles_block}>
-          <span className={s.leader_board_list_titles_item}>Rank</span>
-          <span className={s.leader_board_list_titles_item}>Player</span>
-          <span
-            className={s.leader_board_list_titles_item}
-            data-id="address_board_list_title"
-          >
-            Address
-          </span>
-          <span className={s.leader_board_list_titles_item}>Volume</span>
-        </div> */}
       </div>
       <div className={s.leader_board_list}>
         {list && list.length > 0 ? (
-          list.map((item: LeaderBoardItem, ind: number) => (
-            <LeaderBoardItem key={ind} {...item} ind={ind} />
+          list.map((item: Api.T_LeaderBoardResponse, ind: number) => (
+            <LeaderBoardItem key={ind + item.total} {...item} ind={ind} />
           ))
         ) : (
           <span className={s.no_data}>No Data yet</span>
         )}
       </div>
-      <div className={s.leaderBoard_loadMore_btn_block}>
-        <button onClick={setListSize} className={s.leaderBoard_loadMore_btn}>
-          Load {fullList ? "Less" : "More"}
-        </button>
-      </div>
+      {apiResponse?.length > 5 && (
+        <div className={s.leaderBoard_loadMore_btn_block}>
+          <button onClick={setListSize} className={s.leaderBoard_loadMore_btn}>
+            Load {fullList ? "Less" : "More"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
