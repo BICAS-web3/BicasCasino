@@ -29,7 +29,7 @@ export const TotalItem: FC<TotalItemProps> = (props) => {
         </div> */}
         <div className={s.statistic}>
           {/* {props.dollar ? `$ ${props.statistics}` : `${props.statistics}`} */}
-          {props.statistics}
+          ${props.statistics}
         </div>
       </div>
 
