@@ -56,7 +56,7 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps { }
+export interface DiceProps {}
 
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
@@ -121,15 +121,16 @@ export const Dice: FC<DiceProps> = () => {
   };
   const { data } = useFeeData();
 
-  let bgImage;
-  const documentWidth = document.documentElement.clientWidth;
-  if (documentWidth > 1910) bgImage = dice_desktop;
-  if (documentWidth > 1280 && documentWidth < 1920) bgImage = dice_medium;
-  if (documentWidth > 700 && documentWidth < 1280) bgImage = dice_tablet;
-  if (documentWidth < 700) bgImage = dice_mobile;
+  let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
+  // const documentWidth = document.documentElement.clientWidth;
+  // if (documentWidth > 1910) bgImage = dice_desktop;
+  // if (documentWidth > 1280 && documentWidth < 1920) bgImage = dice_medium;
+  // if (documentWidth > 700 && documentWidth < 1280) bgImage = dice_tablet;
+  // if (documentWidth < 700) bgImage = dice_mobile;
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   // const multiplier = 0.99 * (100 / win_chance);
-  const multiplier = ((BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100)));
+  const multiplier =
+    (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
 
@@ -178,13 +179,13 @@ export const Dice: FC<DiceProps> = () => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value: fees,
     enabled: true,
@@ -270,8 +271,8 @@ export const Dice: FC<DiceProps> = () => {
     console.log("gas price", data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
       setFees(
-        (BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * data.gasPrice)
+        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+          BigInt(1000000) * data.gasPrice
       );
     }
   }, [VRFFees, data]);
@@ -383,7 +384,7 @@ export const Dice: FC<DiceProps> = () => {
 
   useEffect(() => {
     console.log("Multiplier", multiplier);
-  }, [multiplier])
+  }, [multiplier]);
 
   const diceValue = [
     {
@@ -396,10 +397,7 @@ export const Dice: FC<DiceProps> = () => {
     {
       id: 2,
       title: "Roll",
-      value:
-        rollOver ?
-          rollOverNumber.toFixed(2)
-          : rollUnderNumber.toFixed(2),
+      value: rollOver ? rollOverNumber.toFixed(2) : rollUnderNumber.toFixed(2),
       img_src: dice_swap,
       img_alt: "swap",
     },
@@ -419,7 +417,13 @@ export const Dice: FC<DiceProps> = () => {
       </div>
       <div className={s.dice_container}>
         <Image className={s.cube} src={dice_cube} alt="cube" />
-        <Image className={s.background} src={bgImage!} alt="test" />
+        <div className={s.dice_table_background}>
+          <Image
+            className={s.dice_table_background_img}
+            src={bgImage}
+            alt="test"
+          />
+        </div>
         <div className={s.range_container}>
           <span className={s.roll_range_value}>{RollValue}</span>
           <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
@@ -454,7 +458,8 @@ export const Dice: FC<DiceProps> = () => {
         {diceValue.map((dice) => (
           <div key={dice.id} className={s.dice_under_conteiner}>
             <h3 className={s.dice_under_title}>
-              {dice.title} {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
+              {dice.title}{" "}
+              {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
             </h3>
             <div className={s.dice_under_data}>
               <span className={s.dice_under_value}>{dice.value}</span>

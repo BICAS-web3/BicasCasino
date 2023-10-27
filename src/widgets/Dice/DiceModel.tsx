@@ -1,12 +1,54 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import {
+  OrbitControls,
+  Preload,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import { CanvasLoader } from "../CanvasLoader";
-
+import { Object3D } from "three";
+enum CoinAction {
+  Rotation = "Rotation",
+  HeadsHeads = "HeadsHeads",
+  HeadsTails = "HeadsTails",
+  TailsHeads = "TailsHeads",
+  TailsTails = "TailsTails",
+  Stop = "",
+}
 export const DiceModel = () => {
-  const computer = useGLTF("/dice/dice.gltf");
+  const { scene, animations } = useGLTF("/dice/dice.gltf");
+  const { actions, mixer } = useAnimations(animations, scene);
+
+  const modelRef = useRef<Object3D>(null);
+
+  useEffect(() => {
+    if (modelRef.current) {
+      const animationDuration = 1;
+      const targetRotationY = Math.PI * 4;
+
+      const updateRotation = (elapsedTime: number) => {
+        const rotation =
+          (elapsedTime / (animationDuration * 1000)) * targetRotationY;
+        modelRef.current!.rotation.y = rotation;
+      };
+
+      let start: any = null;
+
+      const animate = (timestamp: number) => {
+        if (!start) start = timestamp;
+        const elapsedTime = timestamp - start;
+        updateRotation(elapsedTime);
+        if (elapsedTime < animationDuration * 1000) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    }
+  }, []);
   const diceLight = [
     [10, 4, 5],
     [-5, 42, -1],
@@ -17,7 +59,7 @@ export const DiceModel = () => {
   ];
   return (
     <group>
-      <ambientLight position={[0, 0, 0]} intensity={2000} />
+      {/* <ambientLight position={[0, 0, 0]} intensity={2000} /> */}
       {diceLight.map((el, i) => (
         <spotLight
           key={i}
@@ -28,10 +70,15 @@ export const DiceModel = () => {
         />
       ))}
       <primitive
-        object={computer.scene}
-        scale={0.5}
-        position={[-1, -5.5, -0.5]}
-        rotation={[0, -1, -0.1]}
+        ref={modelRef}
+        object={scene}
+        scale={window.innerWidth > 996 ? 0.5 : 0.25}
+        position={[
+          window.innerWidth > 996 ? -0.5 : 0.5,
+          window.innerWidth > 996 ? -4.5 : -1.5,
+          window.innerWidth > 996 ? -0.4 : -0.1,
+        ]}
+        // rotation={[0, -1, -0.1]}
       />
     </group>
   );
@@ -47,12 +94,12 @@ export const DiceCanvas = () => {
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
+        {/* <OrbitControls
           enableZoom={false}
           enableRotate={true}
           maxPolarAngle={Math.PI / 2}
-          minPolarAngle={0}
-        />
+          minPolarAngle={Math.PI / 2}
+        /> */}
         <DiceModel />
       </Suspense>
 
