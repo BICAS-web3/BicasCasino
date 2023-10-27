@@ -43,6 +43,7 @@ import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
 import { DiceCanvas } from "./DiceModel";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import s from "./styles.module.scss";
 
@@ -55,7 +56,7 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps {}
+export interface DiceProps { }
 
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
@@ -70,6 +71,7 @@ export const Dice: FC<DiceProps> = () => {
     gameStatus,
     betsAmount,
     rollOver,
+    flipRollOver,
     RollValue,
     setRollValue,
     currentNetwork,
@@ -93,8 +95,9 @@ export const Dice: FC<DiceProps> = () => {
     GameModel.setWonStatus,
     sessionModel.$gameAddress,
     GameModel.$gameStatus,
-    DiceModel.$betsAmount,
+    CustomWagerRangeInputModel.$pickedValue,
     RollSettingModel.$RollOver,
+    RollSettingModel.flipRollOver,
     RollSettingModel.$RollValue,
     RollSettingModel.setRollValue,
     sessionModel.$currentNetwork,
@@ -126,21 +129,22 @@ export const Dice: FC<DiceProps> = () => {
   if (documentWidth < 700) bgImage = dice_mobile;
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   // const multiplier = 0.99 * (100 / win_chance);
-  const multiplier = 99000000000 / win_chance;
+  const multiplier = ((BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100)));
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
 
-  const [rollValueBetween, setRollValueBetween] = useState<"Over" | "Under">(
-    "Over"
-  );
+  // const [rollValueBetween, setRollValueBetween] = useState<"Over" | "Under">(
+  //   "Over"
+  // );
   const changeBetween = () => {
-    if (rollValueBetween === "Under") {
-      setRollValue(rollOver ? RollValue : 100 - RollValue);
-      setRollValueBetween("Over");
-    } else {
-      setRollValue(rollOver ? 100 - RollValue : RollValue);
-      setRollValueBetween("Under");
-    }
+    // if (rollValueBetween === "Under") {
+    //   setRollValue(rollOver ? RollValue : 100 - RollValue);
+    //   setRollValueBetween("Over");
+    // } else {
+    //   setRollValue(rollOver ? 100 - RollValue : RollValue);
+    //   setRollValueBetween("Under");
+    // }
+    flipRollOver(RollValue);
   };
 
   const rangeRef = useRef<HTMLInputElement>(null);
@@ -154,7 +158,7 @@ export const Dice: FC<DiceProps> = () => {
 
   const { chain } = useNetwork();
   // const total = (win_chance / RollValue) * multiplier;
-  const total = Math.floor((win_chance / RollValue) * multiplier);
+  //const total = Math.floor((win_chance / RollValue) * multiplier);
   //?-----------------------------------------------------------------
 
   const [inGame, setInGame] = useState<boolean>(false);
@@ -167,19 +171,20 @@ export const Dice: FC<DiceProps> = () => {
     functionName: "Dice_Play",
     args: [
       useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+      multiplier,
       pickedToken?.contract_address,
-      pickedSide,
+      rollOver,
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
     ],
     value: fees,
     enabled: true,
@@ -266,16 +271,12 @@ export const Dice: FC<DiceProps> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         (BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * data.gasPrice) /
-          BigInt(2)
+          BigInt(1000000) * data.gasPrice)
       );
     }
   }, [VRFFees, data]);
 
   //!---
-  useEffect(() => {
-    console.log("Picked side", pickedSide);
-  }, [pickedSide]);
 
   useEffect(() => {
     if (startedPlaying) {
@@ -380,11 +381,15 @@ export const Dice: FC<DiceProps> = () => {
 
   //?--------------------------------------------------------
 
+  useEffect(() => {
+    console.log("Multiplier", multiplier);
+  }, [multiplier])
+
   const diceValue = [
     {
       id: 1,
       title: "Multiplier",
-      value: multiplier.toFixed(2),
+      value: (Number(multiplier) / 10000).toFixed(4),
       img_src: dice_close,
       img_alt: "close",
     },
@@ -392,8 +397,8 @@ export const Dice: FC<DiceProps> = () => {
       id: 2,
       title: "Roll",
       value:
-        rollValueBetween === "Over"
-          ? rollOverNumber.toFixed(2)
+        rollOver ?
+          rollOverNumber.toFixed(2)
           : rollUnderNumber.toFixed(2),
       img_src: dice_swap,
       img_alt: "swap",
@@ -406,6 +411,7 @@ export const Dice: FC<DiceProps> = () => {
       img_alt: "%",
     },
   ];
+
   return (
     <div className={s.dice}>
       <div className={s.model}>
@@ -416,27 +422,27 @@ export const Dice: FC<DiceProps> = () => {
         <Image className={s.background} src={bgImage!} alt="test" />
         <div className={s.range_container}>
           <span className={s.roll_range_value}>{RollValue}</span>
-          <span className={s.roll_range_min}>5</span>
+          <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
           <div className={s.custom_range_input_body}></div>
           <input
             className={s.dice_range}
             type="range"
-            min="1"
-            max="95"
+            min={rollOver ? 5 : 0.1}
+            max={rollOver ? 99.9 : 95}
             value={RollValue}
             onChange={onChange}
             ref={rangeRef}
             step={0.1}
           />
-          <span className={s.roll_range_max}>95</span>
+          <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
         </div>
-        <div className={s.dice_about}>
+        {/* <div className={s.dice_about}>
           <span className={s.green_color}>32</span>
           <span className={s.red_color}>343</span>
           <span>
             Total: <span className={s.green_color}>{total.toFixed(2)}</span>
           </span>
-        </div>
+        </div> */}
         <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
           <Image
             src={playSounds ? soundIco : soundOffIco}
@@ -448,7 +454,7 @@ export const Dice: FC<DiceProps> = () => {
         {diceValue.map((dice) => (
           <div key={dice.id} className={s.dice_under_conteiner}>
             <h3 className={s.dice_under_title}>
-              {dice.title} {dice.title === "Roll" && rollValueBetween}
+              {dice.title} {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
             </h3>
             <div className={s.dice_under_data}>
               <span className={s.dice_under_value}>{dice.value}</span>
