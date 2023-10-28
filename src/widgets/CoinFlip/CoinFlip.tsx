@@ -39,7 +39,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import { WagerGainLossModel } from "../WagerGainLoss";
 
-interface CoinFlipProps {}
+interface CoinFlipProps { }
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -86,7 +86,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   return <primitive object={scene} />;
 };
 
-export const CoinFlip: FC<CoinFlipProps> = ({}) => {
+export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
   const [
     playSounds,
     pickedSide,
@@ -208,11 +208,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   useEffect(() => {
     console.log("gas price", data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
-      setFees(
-        (BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * data.gasPrice) /
-          BigInt(2)
-      );
+      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(1000000) * data.gasPrice)));
     }
   }, [VRFFees, data]);
 
@@ -230,16 +226,16 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value: fees,
     enabled: true,
@@ -379,8 +375,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
                     inGame
                       ? CoinAction.Rotation
                       : pickedSide == SidePickerModel.Side.Heads
-                      ? CoinAction.TailsHeads
-                      : CoinAction.TailsHeads
+                        ? CoinAction.TailsHeads
+                        : CoinAction.TailsHeads
                   }
                   initial={pickedSide}
                 />

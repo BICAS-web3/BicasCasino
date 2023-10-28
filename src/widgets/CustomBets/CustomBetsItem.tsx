@@ -49,7 +49,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         <span className={s.customBets_list_item_address}>{`${props.player_address.slice(0, 5)}...${props.player_address.slice(38, 42)}`}</span>
       </div>
       <div className={s.customBets_list_item_transaction_block}>
-        <Image src={`${api.BaseStaticUrl}/account/${props.player_address}`} width={22} height={22} alt="" />
+        <Image src={linkIco} width={22} height={22} alt="" />
       </div>
       <div className={s.customBets_list_item_wager_block}>
         <img src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`} alt="wager-ico" />

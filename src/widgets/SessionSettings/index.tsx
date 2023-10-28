@@ -7,16 +7,18 @@ import { WagerModel } from '../WagerInputsBlock';
 import {
     useNetwork,
     useAccount,
-    useContractRead
+    useContractRead,
+    useSignMessage
 } from 'wagmi';
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { queryAvailableTokens } from '@/entities/settings/model';
+import { useSearchParams } from 'next/navigation'
 
 export interface SessionInitProps {
     game: string | undefined
 };
 export const SessionInit: FC<SessionInitProps> = props => {
-    const { isConnected } = useAccount();
+    const { isConnected, address } = useAccount();
     const { chain } = useNetwork();
 
     const [
@@ -54,6 +56,43 @@ export const SessionInit: FC<SessionInitProps> = props => {
 
         run();
     }, [chain]);
+
+    const { signMessage, variables, data: signMessageData } = useSignMessage();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        const firstTime = localStorage.getItem("firstTime");
+        console.log('first time', firstTime);
+
+        // const run = async () => {
+
+        // };
+
+        if (!firstTime && isConnected) {
+            //localStorage.setItem('firstTime', 'false');
+            //run();
+            const partner_wallet = searchParams.get('partner_address');
+            const site_id = searchParams.get('site_id');
+            const sub_id = searchParams.get('sub_id');
+            const msg = `CONNECT WALLET ${partner_wallet} ${(address as string).toLowerCase()} ${site_id} ${sub_id}`
+            signMessage({ message: msg });
+        }
+    }, [isConnected, address])
+
+    useEffect(() => {
+        ; (async () => {
+            if (variables?.message && signMessageData) {
+                await Api.connectWalletPartner({
+                    user_wallet: (address as string).toLowerCase(),
+                    partner_wallet: searchParams.get('partner_address') as string,
+                    site_id: Number(searchParams.get('site_id')),
+                    sub_id: Number(searchParams.get('sub_id')),
+                    signature: signMessageData.slice(2)
+                });
+                localStorage.setItem('firstTime', 'false');
+            }
+        })()
+    }, [signMessageData, variables?.message])
 
     // const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
     //     chainId: chain?.id,

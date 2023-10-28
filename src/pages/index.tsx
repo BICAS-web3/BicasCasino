@@ -437,7 +437,6 @@ export default function Home() {
         {/* <div> */}
 
         <div className={`${s.main_container}`}>
-          <PopUpBonus />
           <Blur />
           <MainReplacementComponent />
           <Games />
