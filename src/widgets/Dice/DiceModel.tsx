@@ -6,7 +6,10 @@ import { Preload, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Object3D } from "three";
 
+import * as GameModel from "@/widgets/GamePage/model";
+
 import { CanvasLoader } from "../CanvasLoader";
+import { useUnit } from "effector-react";
 
 interface DiceModelProps {
   inGame?: boolean;
@@ -15,6 +18,8 @@ interface DiceModelProps {
 export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
   const { scene } = useGLTF("/dice/dice.gltf");
   const { isConnected } = useAccount();
+
+  const [gameStatus] = useUnit([GameModel.$gameStatus]);
 
   const modelRef = useRef<Object3D>(null);
 
@@ -41,10 +46,10 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
     }
   };
   useEffect(() => {
-    if (inGame && isConnected) {
+    if (inGame && isConnected && gameStatus !== null) {
       updateRotation(performance.now());
     }
-  }, [inGame, isConnected]);
+  }, [inGame, isConnected, gameStatus]);
 
   //? Rotation when page is loaded
   useEffect(() => {
