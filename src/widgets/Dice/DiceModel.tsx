@@ -37,8 +37,6 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
       const rotation = (elapsedTime / animationDuration) * targetRotationY;
       if (modelRef.current) modelRef.current.rotation.y = rotation;
 
-      console.log("IN GAME DICE", inGameRef.current);
-      console.log("GAME STATUS", gameStatus);
       if (inGameRef.current) {
         requestAnimationFrame(animate);
       }

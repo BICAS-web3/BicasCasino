@@ -354,10 +354,6 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [gameStatus]);
 
-  useEffect(() => {
-    console.log("IN GAME", inGame);
-  }, [inGame]);
-
 
   const rangeRef = useRef<HTMLInputElement>(null);
 
