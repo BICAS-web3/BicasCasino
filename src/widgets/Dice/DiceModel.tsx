@@ -11,10 +11,10 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { CanvasLoader } from "../CanvasLoader";
 import { useUnit } from "effector-react";
 
+
 interface DiceModelProps {
   inGame?: boolean;
 }
-
 export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
   const { scene } = useGLTF("/dice/dice.gltf");
   const { isConnected } = useAccount();
@@ -22,6 +22,7 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
   const [gameStatus] = useUnit([GameModel.$gameStatus]);
 
   const modelRef = useRef<Object3D>(null);
+  const inGameRef = useRef<boolean | undefined>(inGame);
 
   //! I'll make code more clean, without same pieces
   //? fucntion to make rotation if user in game and connected
@@ -36,16 +37,19 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
       const rotation = (elapsedTime / animationDuration) * targetRotationY;
       if (modelRef.current) modelRef.current.rotation.y = rotation;
 
-      if (inGame) {
+      console.log("IN GAME DICE", inGameRef.current);
+      console.log("GAME STATUS", gameStatus);
+      if (inGameRef.current) {
         requestAnimationFrame(animate);
       }
     };
 
-    if (inGame) {
+    if (inGameRef.current) {
       requestAnimationFrame(animate);
     }
   };
   useEffect(() => {
+    inGameRef.current = inGame;
     if (inGame && isConnected && gameStatus === null) {
       updateRotation(performance.now());
     }

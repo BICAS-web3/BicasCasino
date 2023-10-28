@@ -54,7 +54,7 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps {}
+export interface DiceProps { }
 
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
@@ -152,13 +152,13 @@ export const Dice: FC<DiceProps> = () => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
     ],
     value: fees,
     enabled: true,
@@ -246,7 +246,7 @@ export const Dice: FC<DiceProps> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * data.gasPrice
+        BigInt(1000000) * data.gasPrice
       );
     }
   }, [VRFFees, data]);
@@ -354,6 +354,11 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [gameStatus]);
 
+  useEffect(() => {
+    console.log("IN GAME", inGame);
+  }, [inGame]);
+
+
   const rangeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -363,8 +368,7 @@ export const Dice: FC<DiceProps> = () => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${
-        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
