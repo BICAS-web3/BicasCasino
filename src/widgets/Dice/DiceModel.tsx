@@ -46,7 +46,7 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
     }
   };
   useEffect(() => {
-    if (inGame && isConnected && gameStatus !== null) {
+    if (inGame && isConnected && gameStatus === null) {
       updateRotation(performance.now());
     }
   }, [inGame, isConnected, gameStatus]);
