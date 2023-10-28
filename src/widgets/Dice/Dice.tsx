@@ -29,15 +29,12 @@ import { TOKENS } from "@/shared/tokens";
 import dice_cube from "@/public/media/dice_images/dice_cube.png";
 import dice_desktop from "@/public/media/dice_images/dice_desctop.png";
 import dice_medium from "@/public/media/dice_images/dice_medium.png";
-import dice_mobile from "@/public/media/dice_images/dice_mobile.png";
-import dice_tablet from "@/public/media/dice_images/dice_tablet.png";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import dice_precentage from "@/public/media/dice_icons/dice_precentage.svg";
 import dice_close from "@/public/media/dice_icons/dice_close.svg";
 import dice_swap from "@/public/media/dice_icons/dice_swap.svg";
 
-import * as DiceModel from "./model";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
@@ -46,6 +43,7 @@ import { DiceCanvas } from "./DiceModel";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import s from "./styles.module.scss";
+import clsx from "clsx";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -85,7 +83,6 @@ export const Dice: FC<DiceProps> = () => {
     currentBalance,
     setWagered,
     allowance,
-    // multiplier,
   ] = useUnit([
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
@@ -111,7 +108,6 @@ export const Dice: FC<DiceProps> = () => {
     sessionModel.$currentBalance,
     WagerButtonModel.setWagered,
     sessionModel.$currentAllowance,
-    // GameModel.$multiplier,
   ]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
@@ -122,11 +118,7 @@ export const Dice: FC<DiceProps> = () => {
   const { data } = useFeeData();
 
   let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
-  // const documentWidth = document.documentElement.clientWidth;
-  // if (documentWidth > 1910) bgImage = dice_desktop;
-  // if (documentWidth > 1280 && documentWidth < 1920) bgImage = dice_medium;
-  // if (documentWidth > 700 && documentWidth < 1280) bgImage = dice_tablet;
-  // if (documentWidth < 700) bgImage = dice_mobile;
+
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   // const multiplier = 0.99 * (100 / win_chance);
   const multiplier =
@@ -134,28 +126,9 @@ export const Dice: FC<DiceProps> = () => {
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
 
-  // const [rollValueBetween, setRollValueBetween] = useState<"Over" | "Under">(
-  //   "Over"
-  // );
   const changeBetween = () => {
-    // if (rollValueBetween === "Under") {
-    //   setRollValue(rollOver ? RollValue : 100 - RollValue);
-    //   setRollValueBetween("Over");
-    // } else {
-    //   setRollValue(rollOver ? 100 - RollValue : RollValue);
-    //   setRollValueBetween("Under");
-    // }
     flipRollOver(RollValue);
   };
-
-  const rangeRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const rangeElement = rangeRef.current;
-    const rangeWidth = (RollValue / 95) * rangeElement!.offsetWidth;
-
-    rangeElement?.style.setProperty("--range-width", `${rangeWidth}px`);
-  }, [RollValue]);
 
   const { chain } = useNetwork();
   // const total = (win_chance / RollValue) * multiplier;
@@ -236,6 +209,7 @@ export const Dice: FC<DiceProps> = () => {
       }
     }
   }, [GameState]);
+
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -380,7 +354,20 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [gameStatus]);
 
-  //?--------------------------------------------------------
+  const rangeRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    let num = rollOver ? 102 : 95;
+    const rangeElement = rangeRef.current;
+    const rangeWidth = (RollValue / num) * rangeElement!.offsetWidth;
+
+    rangeElement?.style.setProperty(
+      "--range-width",
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      }px`
+    );
+  }, [RollValue, rollOver]);
 
   useEffect(() => {
     console.log("Multiplier", multiplier);
@@ -413,7 +400,7 @@ export const Dice: FC<DiceProps> = () => {
   return (
     <div className={s.dice}>
       <div className={s.model}>
-        <DiceCanvas />
+        <DiceCanvas inGame={inGame} />
       </div>
       <div className={s.dice_container}>
         <Image className={s.cube} src={dice_cube} alt="cube" />
@@ -429,7 +416,10 @@ export const Dice: FC<DiceProps> = () => {
           <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
           <div className={s.custom_range_input_body}></div>
           <input
-            className={s.dice_range}
+            className={clsx(
+              s.dice_range,
+              rollOver ? s.dice_over : s.dice_under
+            )}
             type="range"
             min={rollOver ? 5 : 0.1}
             max={rollOver ? 99.9 : 95}

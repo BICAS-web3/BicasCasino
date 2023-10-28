@@ -1,37 +1,56 @@
-import { Suspense, useEffect, useRef } from "react";
+import { FC, Suspense, useEffect, useRef } from "react";
 
-import {
-  OrbitControls,
-  Preload,
-  useAnimations,
-  useGLTF,
-} from "@react-three/drei";
+import { useAccount } from "wagmi";
+
+import { Preload, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { Object3D } from "three";
 
 import { CanvasLoader } from "../CanvasLoader";
-import { Object3D } from "three";
-enum CoinAction {
-  Rotation = "Rotation",
-  HeadsHeads = "HeadsHeads",
-  HeadsTails = "HeadsTails",
-  TailsHeads = "TailsHeads",
-  TailsTails = "TailsTails",
-  Stop = "",
+
+interface DiceModelProps {
+  inGame?: boolean;
 }
-export const DiceModel = () => {
-  const { scene, animations } = useGLTF("/dice/dice.gltf");
-  const { actions, mixer } = useAnimations(animations, scene);
+
+export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
+  const { scene } = useGLTF("/dice/dice.gltf");
+  const { isConnected } = useAccount();
 
   const modelRef = useRef<Object3D>(null);
 
+  //! I'll make code more clean, without same pieces
+  //? fucntion to make rotation if user in game and connected
+  const updateRotation = (timestamp: number) => {
+    const targetRotationY = Math.PI * 4;
+    const animationDuration = 3000;
+    const start = performance.now();
+
+    const animate = () => {
+      const now = performance.now();
+      const elapsedTime = now - start;
+      const rotation = (elapsedTime / animationDuration) * targetRotationY;
+      if (modelRef.current) modelRef.current.rotation.y = rotation;
+
+      if (inGame) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    if (inGame) {
+      requestAnimationFrame(animate);
+    }
+  };
+  useEffect(() => {
+    if (inGame && isConnected) {
+      updateRotation(performance.now());
+    }
+  }, [inGame, isConnected]);
+
+  //? Rotation when page is loaded
   useEffect(() => {
     if (modelRef.current) {
-      const animationDuration = 1;
-      const targetRotationY = Math.PI * 4;
-
       const updateRotation = (elapsedTime: number) => {
-        const rotation =
-          (elapsedTime / (animationDuration * 1000)) * targetRotationY;
+        const rotation = (elapsedTime / 1000) * 12.566370614359172;
         modelRef.current!.rotation.y = rotation;
       };
 
@@ -41,7 +60,7 @@ export const DiceModel = () => {
         if (!start) start = timestamp;
         const elapsedTime = timestamp - start;
         updateRotation(elapsedTime);
-        if (elapsedTime < animationDuration * 1000) {
+        if (elapsedTime < 1000) {
           requestAnimationFrame(animate);
         }
       };
@@ -59,7 +78,6 @@ export const DiceModel = () => {
   ];
   return (
     <group>
-      {/* <ambientLight position={[0, 0, 0]} intensity={2000} /> */}
       {diceLight.map((el, i) => (
         <spotLight
           key={i}
@@ -78,15 +96,16 @@ export const DiceModel = () => {
           window.innerWidth > 996 ? -4.5 : -1.5,
           window.innerWidth > 996 ? -0.4 : -0.1,
         ]}
-        // rotation={[0, -1, -0.1]}
       />
     </group>
   );
 };
 
-//?-------------------------------------
+interface DiceCanvasProps {
+  inGame?: boolean;
+}
 
-export const DiceCanvas = () => {
+export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
   return (
     <Canvas
       frameloop="always"
@@ -94,13 +113,7 @@ export const DiceCanvas = () => {
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        {/* <OrbitControls
-          enableZoom={false}
-          enableRotate={true}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        /> */}
-        <DiceModel />
+        <DiceModel inGame={inGame} />
       </Suspense>
 
       <Preload all />
