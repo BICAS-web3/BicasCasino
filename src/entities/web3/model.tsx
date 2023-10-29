@@ -18,6 +18,7 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import * as Api from "@/shared/api";
 import { createEvent, createStore, sample } from "effector";
 import { settingsModel } from "../settings";
+import Web3 from "web3";
 
 const RPCS = {
   bsc: ["https://bsc-dataseed1.binance.org/"],
@@ -108,6 +109,10 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
     publicClient: configuredChains.publicClient,
   });
 
+  const web3Provider = new Web3.providers.HttpProvider(
+    configuredChains.chains[0].rpcUrls.public.http[0]
+  );
+  const web3 = new Web3(web3Provider);
   setWagmiConfig(config);
 
   return configureChains(chains, publicClient);

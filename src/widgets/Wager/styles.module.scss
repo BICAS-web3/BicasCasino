@@ -8,8 +8,11 @@
 }
 
 .poker_wager_block {
-  padding: 20px;
   height: calc(100% - 40px);
+  padding: 16px;
+  @media (min-width: 700px) {
+    padding: 20px;
+  }
 }
 
 .poker_wager_title {
@@ -466,5 +469,9 @@
 
   .poker_wager_block {
     padding: 8px;
+
+    @media (max-width: 700px) {
+      padding: 20px;
+    }
   }
 }
