@@ -73,6 +73,7 @@ export const Account: FC<AccountProps> = (props) => {
   ]);
 
   const handleHeaderAccClose = () => {
+    document.documentElement.style.overflow = "visible";
     setBlur(false);
     closeHeaderAccount();
   };
