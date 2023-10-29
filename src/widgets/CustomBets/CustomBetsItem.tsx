@@ -32,7 +32,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         </Link>
       </div>
       <div className={s.customBets_list_item_game_block}>
-        <Link href={`${api.BaseStaticUrl}/games/${props.game_name}`} target='_blank' className={s.customBets_list_item_game_link_block}>
+        <Link href={`/games/${props.game_name}`} target='_blank' className={s.customBets_list_item_game_link_block}>
           <img src={gameIco.src} className={s.customBets_list_item_game_ico} alt="game-ico-preview" />
           <span className={s.customBets_list_item_game}>{props.game_name}</span>
         </Link>
