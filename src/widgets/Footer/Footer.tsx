@@ -4,6 +4,7 @@ import s from "./styles.module.scss";
 import Discord from "@/public/media/social_media/Discord.svg";
 import Twitter from "@/public/media/social_media/Twitter.svg";
 import Telegram from "@/public/media/social_media/Telegram.svg";
+import Facebook from "@/public/media/social_media/facebook.svg";
 import Insta from "@/public/media/social_media/Insta.svg";
 import Eagle from "@/public/media/brand_images/GKEagle.png";
 import Greek_Keepers from "@/public/media/brand_images/Greek_Keepers.png";
@@ -61,28 +62,28 @@ export const Footer: FC<FooterProps> = (props) => {
 
             <div className={s.icons_list}>
               <Link
-                href="https://example.com/"
+                href="https://discord.gg/ReJVd2xJSk"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Image src={Discord} alt={""} width={30} height={30} />
               </Link>
               <Link
-                href="https://example.com/"
+                href="https://twitter.com/GreekKeepers"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Image src={Twitter} alt={""} width={30} height={30} />
               </Link>
               <Link
-                href="https://example.com/"
+                href="https://www.facebook.com/profile.php?id=100092326343777"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Image src={Telegram} alt={""} width={30} height={30} />
+                <Image src={Facebook} alt={""} width={30} height={30} />
               </Link>
               <Link
-                href="https://example.com/"
+                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
                 target="_blank"
                 rel="noopener noreferrer"
               >
