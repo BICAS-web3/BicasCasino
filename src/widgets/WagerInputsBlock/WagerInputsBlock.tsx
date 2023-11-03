@@ -163,7 +163,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     }
     const currency = num * exchangeRate;
     console.log(cryptoInputValue, currency, betsAmount);
-    if (currency < 5) {
+    if (num * betsAmount >= 5) {
       console.log(currency * betsAmount >= 5);
       setCryptoValue(num);
     } else {
@@ -191,7 +191,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
-              if (currency < 5) {
+              if (num * betsAmount >= 5) {
+                console.log('Crypto value', num);
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
