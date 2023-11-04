@@ -224,7 +224,7 @@ export const Poker: FC<PokerProps> = (props) => {
         console.log(cryptoValue, currentBalance);
         if (cryptoValue != 0 && currentBalance && cryptoValue <= currentBalance) {
           console.log('Allowance', allowance);
-          if (!allowance || (allowance && allowance <= cryptoValue)) {
+          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
             console.log('Setting allowance');
             if (setAllowance) setAllowance();
             //return;

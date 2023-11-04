@@ -186,7 +186,7 @@ export const Plinko: FC<IPlinko> = () => {
     address: (pickedToken?.contract_address as `0x${string}`),
     abi: IERC20,
     functionName: 'approve',
-    enabled: true,
+    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
     args: [gameAddress, useDebounce(currentBalance ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000) : 0)]
   });
 
@@ -212,7 +212,7 @@ export const Plinko: FC<IPlinko> = () => {
     console.log('gas price', data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
       setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * data.gasPrice)));
-      console.log("vrf fee", (BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * data.gasPrice)));
+      console.log("vrf fee", (BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * (data.gasPrice + (data.gasPrice / BigInt(4))))));
     }
   }, [VRFFees, data]);
 
@@ -231,7 +231,7 @@ export const Plinko: FC<IPlinko> = () => {
       useDebounce(stopGain) ? BigInt(Math.floor(stopGain as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200),
       useDebounce(stopLoss) ? BigInt(Math.floor(stopLoss as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200)
     ],
-    value: fees,
+    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * pickedValue) * BigInt(100000000000)) : BigInt(0)),
     enabled: true,
     //gas: BigInt(3000000),
   });
@@ -312,7 +312,7 @@ export const Plinko: FC<IPlinko> = () => {
         const total_value = cryptoValue * 1;
         if (cryptoValue != 0 && currentBalance && total_value <= currentBalance) {
           console.log('Allowance', allowance);
-          if (!allowance || (allowance && allowance <= cryptoValue)) {
+          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
             console.log('Setting allowance');
             if (setAllowance) setAllowance();
             //return;
