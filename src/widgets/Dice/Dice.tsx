@@ -160,7 +160,7 @@ export const Dice: FC<DiceProps> = () => {
         BigInt(bigNum) *
         BigInt(200),
     ],
-    value: fees,
+    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) * BigInt(100000000000)) : BigInt(0)),
     enabled: true,
   });
 
@@ -215,7 +215,7 @@ export const Dice: FC<DiceProps> = () => {
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: true,
+    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
     args: [
       gameAddress,
       useDebounce(
@@ -246,7 +246,7 @@ export const Dice: FC<DiceProps> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * data.gasPrice
+        BigInt(1000000) * (data.gasPrice + (data.gasPrice / BigInt(4)))
       );
     }
   }, [VRFFees, data]);
@@ -319,7 +319,7 @@ export const Dice: FC<DiceProps> = () => {
           total_value <= currentBalance
         ) {
           console.log("Allowance", allowance);
-          if (!allowance || (allowance && allowance <= cryptoValue)) {
+          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
             //return;
