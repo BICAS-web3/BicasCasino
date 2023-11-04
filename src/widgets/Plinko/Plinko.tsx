@@ -211,7 +211,7 @@ export const Plinko: FC<IPlinko> = () => {
   useEffect(() => {
     console.log('gas price', data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
-      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * data.gasPrice)));
+      setFees((BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * (data.gasPrice + (data.gasPrice / BigInt(4))))));
       console.log("vrf fee", (BigInt(VRFFees ? (VRFFees as bigint) : 0) + (BigInt(2000000) * (data.gasPrice + (data.gasPrice / BigInt(4))))));
     }
   }, [VRFFees, data]);
@@ -222,7 +222,7 @@ export const Plinko: FC<IPlinko> = () => {
     abi: IPlinko,
     functionName: 'Plinko_Play',
     args: [
-      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)),
+      BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
       pickedToken?.contract_address,
       //pickedSide,
       rowsAmount,
@@ -231,7 +231,7 @@ export const Plinko: FC<IPlinko> = () => {
       useDebounce(stopGain) ? BigInt(Math.floor(stopGain as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200),
       useDebounce(stopLoss) ? BigInt(Math.floor(stopLoss as number * 10000000)) * BigInt(100000000000) : BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(200)
     ],
-    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * pickedValue) * BigInt(100000000000)) : BigInt(0)),
+    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(pickedValue)) : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
     //gas: BigInt(3000000),
@@ -321,11 +321,13 @@ export const Plinko: FC<IPlinko> = () => {
             //setActiveCards(initialArrayOfCards);
             console.log("Starting playing",
               startPlaying,
-              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+              fees,
               //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
               pickedToken?.contract_address,
               gameAddress,
-              VRFFees
+              VRFFees,
+              fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000) * BigInt(pickedValue)) : BigInt(0)),
+              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
             );
             if (startPlaying) {
               startPlaying();
