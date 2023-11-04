@@ -115,7 +115,7 @@ export const Dice: FC<DiceProps> = () => {
 
     setRollValue(number_value);
   };
-  const { data } = useFeeData();
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
 

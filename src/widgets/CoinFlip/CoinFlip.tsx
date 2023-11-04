@@ -129,7 +129,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData();
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);

@@ -103,7 +103,7 @@ export const Poker: FC<PokerProps> = (props) => {
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
-  const { data, isError, isLoading } = useFeeData();
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const [playBackground, { stop: stopBackground }] = useSound('/static/media/games_assets/music/background1.wav', { volume: 0.1, loop: true });

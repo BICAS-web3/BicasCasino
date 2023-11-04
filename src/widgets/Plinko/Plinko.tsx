@@ -131,7 +131,7 @@ export const Plinko: FC<IPlinko> = () => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData();
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -233,6 +233,7 @@ export const Plinko: FC<IPlinko> = () => {
     ],
     value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * pickedValue) * BigInt(100000000000)) : BigInt(0)),
     enabled: true,
+    //gasPrice: data?.gasPrice
     //gas: BigInt(3000000),
   });
 
@@ -251,7 +252,7 @@ export const Plinko: FC<IPlinko> = () => {
   }, [startedPlaying]);
 
   useEffect(() => {
-    console.log(error);
+    console.log('PLINKO ERROR', error);
   }, [error])
 
   useContractEvent({
