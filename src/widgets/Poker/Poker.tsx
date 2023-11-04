@@ -207,8 +207,8 @@ export const Poker: FC<PokerProps> = (props) => {
     address: (gameAddress as `0x${string}`),
     abi: IPoker,
     functionName: 'VideoPoker_Replace',
-    args: [useDebounce(cardsState)],
-    value: useDebounce(cardsState.find((el) => el) ? fees : BigInt(0)),
+    args: [cardsState.map((el) => el ? 1 : 0)],
+    value: cardsState.find((el) => el) ? fees : BigInt(0),
     enabled: true
   });
 

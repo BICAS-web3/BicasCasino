@@ -172,7 +172,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     }
     const currency = num * exchangeRate;
     console.log(cryptoInputValue, currency, betsAmount);
-    if (num * betsAmount >= 5) {
+    if (true) {
       console.log(currency * betsAmount >= 5);
       setCryptoValue(num);
     } else {
@@ -200,7 +200,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
-              if (num * betsAmount >= 5) {
+              if (true) {
                 console.log('Crypto value', num);
                 setCryptoValue(num);
               } else {
@@ -210,7 +210,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
-            {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />}
+            {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}
             {pickedToken && <><Image
               alt="token-ico"
               src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
@@ -267,7 +267,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
               //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
-              if (num * betsAmount >= 5) {
+              if (true) {
                 //const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
                 setCryptoValue(crypto_value);
               } else {
