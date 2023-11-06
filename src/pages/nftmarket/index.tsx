@@ -184,7 +184,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_5]);
+  }, []);
   useEffect(() => {
     if (isSuccessFee_4) {
       setModels((prevModels) => {
@@ -196,7 +196,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_4]);
+  }, []);
   useEffect(() => {
     if (isSuccessFee_3) {
       setModels((prevModels) => {
@@ -208,7 +208,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_3]);
+  }, []);
   useEffect(() => {
     if (isSuccessFee_2) {
       setModels((prevModels) => {
@@ -220,7 +220,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_2]);
+  }, []);
   useEffect(() => {
     if (isSuccessFee_1) {
       setModels((prevModels) => {
@@ -232,7 +232,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_1]);
+  }, []);
   useEffect(() => {
     if (isSuccessFee_0) {
       setModels((prevModels) => {
@@ -244,7 +244,7 @@ const ConnectMarket: FC = () => {
         return updatedModels;
       });
     }
-  }, [isSuccessFee_0]);
+  }, []);
 
   useEffect(() => {
     if (chain?.id !== 97 && address) {
