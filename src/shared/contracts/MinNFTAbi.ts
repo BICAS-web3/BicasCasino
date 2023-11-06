@@ -11,6 +11,16 @@ export const ABI = [
         name: "godTokenUris",
         type: "string[]",
       },
+      {
+        internalType: "uint256",
+        name: "_transferFee",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "gods",
+        type: "uint256",
+      },
     ],
     stateMutability: "nonpayable",
     type: "constructor",
@@ -133,9 +143,9 @@ export const ABI = [
     inputs: [
       {
         indexed: false,
-        internalType: "enum NftCollection.God",
+        internalType: "uint256",
         name: "god",
-        type: "uint8",
+        type: "uint256",
       },
       {
         indexed: false,
@@ -189,6 +199,19 @@ export const ABI = [
       },
     ],
     name: "Transfer",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+    ],
+    name: "TransferFeeWasSet",
     type: "event",
   },
   {
@@ -258,28 +281,9 @@ export const ABI = [
     name: "getGod",
     outputs: [
       {
-        internalType: "enum NftCollection.God",
-        name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
-        name: "index",
-        type: "uint256",
-      },
-    ],
-    name: "getGodTokenUris",
-    outputs: [
-      {
-        internalType: "string",
         name: "",
-        type: "string",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -330,6 +334,19 @@ export const ABI = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "maxGods",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -404,23 +421,23 @@ export const ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "from",
+        name: "_from",
         type: "address",
       },
       {
         internalType: "address",
-        name: "to",
+        name: "_to",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "_tokenId",
         type: "uint256",
       },
     ],
     name: "safeTransferFrom",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -472,6 +489,19 @@ export const ABI = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+    ],
+    name: "setTransferFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes4",
         name: "interfaceId",
         type: "bytes4",
@@ -505,7 +535,7 @@ export const ABI = [
     inputs: [
       {
         internalType: "uint256",
-        name: "tokenId",
+        name: "index",
         type: "uint256",
       },
     ],
@@ -538,9 +568,45 @@ export const ABI = [
         type: "uint256",
       },
     ],
+    name: "transfer",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "transferFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_from",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_to",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
     name: "transferFrom",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "pure",
     type: "function",
   },
   {

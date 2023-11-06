@@ -34,14 +34,34 @@ export const setWagmiConfig = createEvent<any>();
 // handlers
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
-  console.log("Networks11", payload);
   const networks = payload.body as Api.T_Networks;
-
+  console.log("Networks11", JSON.stringify(networks));
   var chains = [];
   var publicClient = [];
   var explorers = new Map<number, string>();
 
-  for (var network of networks.networks) {
+  for (var network of networks.networks.concat([
+    {
+      basic_info: {
+        network_id: 97,
+        network_name: "BNB Smart Chain Testnet",
+        short_name: "BSC",
+        currency_name: "tBNB",
+        currency_symbol: "tBNB",
+        decimals: 18,
+      },
+      rpcs: [
+        {
+          id: 3,
+          network_id: 97,
+          url: "https://bsc-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3",
+        },
+      ],
+      explorers: [
+        { id: 3, network_id: 97, url: "https://testnet.bscscan.com/" },
+      ],
+    },
+  ])) {
     if (network.explorers.length == 0) {
       continue;
     }
