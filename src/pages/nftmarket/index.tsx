@@ -239,11 +239,11 @@ const ConnectMarket: FC = () => {
   //   }
   // }, [isSuccessFee_0]);
 
-  // useEffect(() => {
-  //   if (chain?.id !== 56 && address) {
-  //     switchNetwork?.(56);
-  //   }
-  // }, [address]);
+  useEffect(() => {
+    if (chain?.id !== 56 && address) {
+      switchNetwork?.(56);
+    }
+  }, [address]);
 
   return (
     <>
@@ -273,7 +273,7 @@ const ConnectMarket: FC = () => {
           index = i % 450;
         } else if (i >= 625) {
           cAddress = MODEL_5_2;
-          cFee = BigInt(2300000000000000);
+          cFee = BigInt(230000000000000000);
           index = i % 625;
         }
         console.log(cFee);
