@@ -42,7 +42,13 @@ export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>;
 };
 
+export type T_NFTMarket = {
+  nfts: Array<T_NFT_MarketResponse>;
+};
+
 export type T_Lider = Array<T_LeaderBoardResponse>;
+
+export type T_Market = Array<T_LeaderBoardResponse>;
 
 export type T_BlockExplorerUrl = {
   id: number;
@@ -149,6 +155,11 @@ export type T_Totals = {
   sum: number;
 };
 
+export type T_NFT_MarketResponse = {
+  lvl: number;
+  id: number;
+};
+
 export type T_ApiResponse = {
   status: string;
   body:
@@ -166,7 +177,8 @@ export type T_ApiResponse = {
     | T_Totals
     | T_LatestGames
     | T_PlayerTotals
-    | T_TokenPrice;
+    | T_TokenPrice
+    | T_NFTMarket;
 };
 
 export type T_GetUsername = {
@@ -464,6 +476,20 @@ export const GetGameById = createEffect<number, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+export const GetNftMarket = createEffect<
+  T_NFT_MarketResponse,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `https://game.greekkeepers.io/nft/metadata/${form.lvl}/${form.id}.json`,
+    {
+      method: "GET",
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
 
 export const GetTotalsFx = createEffect<void, T_ApiResponse, string>(
   async (_) => {

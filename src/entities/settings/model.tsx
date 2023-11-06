@@ -10,6 +10,8 @@ export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
 export const $AvailableLeaderbord = createStore<Api.T_Lider>([]);
 
 export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
+
+export const $AvilablesNftMarket = createStore<Api.T_NFTMarket>({ nfts: [] });
 export const $AvailableBlocksExplorers = createStore<Map<
   number,
   string
@@ -23,10 +25,13 @@ export const setAvailableNetworks = createEvent<Api.T_Networks>();
 export const setAvailableRpcs = createEvent<Api.T_Rpcs>();
 
 export const setAvailableLeader = createEvent<Api.T_Lider>();
+
 export const queryAvailableLeader = createEvent<{
   return: string;
   time: string;
 }>();
+
+export const queryNftMarket = createEvent<Api.T_NFT_MarketResponse>();
 
 export const setAvailableTokens = createEvent<Api.T_Tokens>();
 export const queryAvailableTokens = createEvent<{ network_id: number }>();
@@ -66,6 +71,10 @@ $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
 });
 
 // logic
+sample({
+  clock: queryNftMarket,
+  target: Api.GetNftMarket,
+});
 sample({
   clock: queryAvailableLeader,
   target: Api.getLeaderboard,
