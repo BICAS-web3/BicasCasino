@@ -21,8 +21,8 @@ export interface NFTCardProps {
 export const NFTCard: FC<NFTCardProps> = (props) => {
   const { name, number, price, id, contractAddress, fee, img } = props;
 
-  const { config: mintNftConfig } = usePrepareContractWrite({
-    chainId: 97,
+  const { config: mintNftConfig, error } = usePrepareContractWrite({
+    //chainId: 97,
     address: contractAddress as `0x${string}`,
     abi,
     functionName: "mintNft",
@@ -32,6 +32,8 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
   });
 
   const { write: mintNft } = useContractWrite(mintNftConfig);
+
+  //if (error) console.log(error);
 
   return (
     <article onClick={() => mintNft?.()} className={s.nft}>

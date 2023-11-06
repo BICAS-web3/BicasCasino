@@ -18,6 +18,7 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import * as Api from "@/shared/api";
 import { createEvent, createStore, sample } from "effector";
 import { settingsModel } from "../settings";
+import Web3 from "web3";
 
 const RPCS = {
   bsc: ["https://bsc-dataseed1.binance.org/"],
@@ -34,34 +35,14 @@ export const setWagmiConfig = createEvent<any>();
 // handlers
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
+  console.log("Networks11", payload);
   const networks = payload.body as Api.T_Networks;
-  console.log("Networks11", JSON.stringify(networks));
+
   var chains = [];
   var publicClient = [];
   var explorers = new Map<number, string>();
 
-  for (var network of networks.networks.concat([
-    {
-      basic_info: {
-        network_id: 97,
-        network_name: "BNB Smart Chain Testnet",
-        short_name: "BSC",
-        currency_name: "tBNB",
-        currency_symbol: "tBNB",
-        decimals: 18,
-      },
-      rpcs: [
-        {
-          id: 3,
-          network_id: 97,
-          url: "https://bsc-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3",
-        },
-      ],
-      explorers: [
-        { id: 3, network_id: 97, url: "https://testnet.bscscan.com/" },
-      ],
-    },
-  ])) {
+  for (var network of networks.networks) {
     if (network.explorers.length == 0) {
       continue;
     }
@@ -128,6 +109,10 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
     publicClient: configuredChains.publicClient,
   });
 
+  const web3Provider = new Web3.providers.HttpProvider(
+    configuredChains.chains[0].rpcUrls.public.http[0]
+  );
+  const web3 = new Web3(web3Provider);
   setWagmiConfig(config);
 
   return configureChains(chains, publicClient);
