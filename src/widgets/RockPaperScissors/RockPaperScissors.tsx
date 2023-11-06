@@ -22,7 +22,6 @@
 // import ScissorsIcon from '@/public/media/games_assets/rock_paper_scissors/scissors.svg';
 // import ColoredScissorsIcon from '@/public/media/games_assets/rock_paper_scissors/scissors_colored.svg';
 
-
 // interface RPSPickerProps {
 //     betPlaced: boolean
 // };
@@ -36,7 +35,6 @@
 //         RPSModel.pickSymbol,
 
 //     ]);
-
 
 //     return (<div className={s.picker}>
 //         <SecondaryBackground children={[
@@ -129,7 +127,6 @@
 //         />
 //     </div>)
 // }
-
 
 // export interface RPSProps { };
 // export const RPS: FC<RPSProps> = props => {
@@ -306,7 +303,6 @@
 //         await checkERC20Amount((currentToken?.contract_address) as string);
 //     }
 
-
 //     const checkERC20Amount = async (token_address: string) => {
 //         const ethereum = new ethers.providers.Web3Provider((window.ethereum as any));
 //         const web3Utils = new Web3();
@@ -412,7 +408,6 @@
 //         setTotalWager(wager * betsAmount);
 //     }
 
-
 //     const [resultsPending, set_results_pending] = useState(false);
 
 //     const NewBetHandle = (bet: Api.T_BetInfo) => {
@@ -494,7 +489,6 @@
 //         const tokenContract = new ethers.Contract(tokenAddress as string, IERC20, signer);
 
 //         let fees = await rps_contract.getVRFFee(1000000);
-
 
 //         let allowance = await tokenContract.allowance(currentWalletAddress, Game.address);
 

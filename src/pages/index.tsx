@@ -377,9 +377,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
               <h3 className={s.main_advertaising_blocks_item_title}>
                 advertising poster
               </h3>
-              <p className={s.main_advertaising_blocks_item_text}>
+              {/* <p className={s.main_advertaising_blocks_item_text}>
                 Замена баннера после привязки кошелька.
-              </p>
+              </p> */}
             </div>
           </div>
           <div className={s.main_advertaising_blocks_item}>
@@ -388,9 +388,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
               <h3 className={s.main_advertaising_blocks_item_title}>
                 advertising poster
               </h3>
-              <p className={s.main_advertaising_blocks_item_text}>
+              {/* <p className={s.main_advertaising_blocks_item_text}>
                 Замена баннера после привязки кошелька.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

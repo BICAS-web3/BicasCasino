@@ -10,7 +10,8 @@ import * as api from "@/shared/api";
 import {
   useNetwork,
   useAccount,
-  useContractRead
+  useContractRead,
+  useBalance
 } from 'wagmi';
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { sessionModel } from "@/entities/session";
@@ -115,7 +116,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     abi: IERC20,
     functionName: 'allowance',
     args: [address, GameAddress],
-    watch: isConnected,
+    watch: isConnected && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
   });
 
   useEffect(() => {
@@ -126,24 +127,32 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     }
   }, [allowance]);
 
-  const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
-    address: (pickedToken?.contract_address as `0x${string}`),
-    abi: IERC20,
-    functionName: 'balanceOf',
-    args: [address],
-    watch: isConnected,
+  // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
+  //   address: (pickedToken?.contract_address as `0x${string}`),
+  //   abi: IERC20,
+  //   functionName: 'balanceOf',
+  //   args: [address],
+  //   watch: isConnected
+  // });
+
+  const { data: balance } = useBalance({
+    address: address,
+    token: pickedToken?.contract_address == '0x0000000000000000000000000000000000000000' ? undefined : pickedToken?.contract_address as `0x${string}`,
+    watch: true,
   });
+
   useEffect(() => {
+
     if (balance) {
-      console.log('balance', balance);
-      const new_balance = Number(balance as any / BigInt(100000000000000)) / 10000;
+      console.log('balance', balance.value);
+      const new_balance = Number(balance.value as any / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [balance]);
   useEffect(() => {
     if (pickedToken && balance) {
       console.log('balance', balance);
-      const new_balance = Number((balance as any) / BigInt(100000000000000)) / 10000;
+      const new_balance = Number((balance.value as any) / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [pickedToken]);
@@ -192,6 +201,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
               if (true) {
+                console.log('Crypto value', num);
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
@@ -200,7 +210,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
-            {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />}
+            {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}
             {pickedToken && <><Image
               alt="token-ico"
               src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
@@ -257,7 +267,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
               //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
-              if (num * betsAmount >= 5) {
+              if (true) {
                 //const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
                 setCryptoValue(crypto_value);
               } else {
@@ -292,7 +302,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             <span className={s.poker_wager_double_title}>2x</span>
           </div>
           <div className={s.poker_wager_max_block} onClick={() => {
-            const newCryptoValue = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
+            const newCryptoValue = Number((balance?.value as bigint) / BigInt(100000000000000)) / 10000;
             setCryptoValue(newCryptoValue);
             setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
 

@@ -32,7 +32,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         </Link>
       </div>
       <div className={s.customBets_list_item_game_block}>
-        <Link href={`${api.BaseStaticUrl}/games/${props.game_name}`} target='_blank' className={s.customBets_list_item_game_link_block}>
+        <Link href={`/games/${props.game_name}`} target='_blank' className={s.customBets_list_item_game_link_block}>
           <img src={gameIco.src} className={s.customBets_list_item_game_ico} alt="game-ico-preview" />
           <span className={s.customBets_list_item_game}>{props.game_name}</span>
         </Link>
@@ -53,7 +53,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
       </div>
       <div className={s.customBets_list_item_wager_block}>
         <img src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`} alt="wager-ico" />
-        <span className={s.customBets_list_item_wager}>{props.wager}</span>
+        <span className={s.customBets_list_item_wager}>{parseFloat(props.wager.toFixed(2))}</span>
       </div>
       <div className={s.customBets_list_item_multiplier_block}>
         <span className={s.customBets_list_item_multiplier}>{props.multiplier}x</span>
