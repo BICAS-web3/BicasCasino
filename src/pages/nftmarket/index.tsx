@@ -47,7 +47,7 @@ const ConnectMarket: FC = () => {
           Array.from({ length: model.count }).map(async (_, index) => {
             const data = await Api.GetNftMarket({
               lvl: model.lvl,
-              id: index + 1,
+              id: index,
             });
             return data;
           })
@@ -124,127 +124,127 @@ const ConnectMarket: FC = () => {
   //   watch: isConnected,
   // });
 
-  const { data: mintFee_0, isSuccess: isSuccessFee_0 } = useContractRead({
-    chainId: 97,
-    address: models[0].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
-  const { data: mintFee_1, isSuccess: isSuccessFee_1 } = useContractRead({
-    chainId: 97,
-    address: models[1].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
-  const { data: mintFee_2, isSuccess: isSuccessFee_2 } = useContractRead({
-    chainId: 97,
-    address: models[2].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
-  const { data: mintFee_3, isSuccess: isSuccessFee_3 } = useContractRead({
-    chainId: 97,
-    address: models[3].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
-  const { data: mintFee_4, isSuccess: isSuccessFee_4 } = useContractRead({
-    chainId: 97,
-    address: models[4].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
-  const { data: mintFee_5, isSuccess: isSuccessFee_5 } = useContractRead({
-    chainId: 97,
-    address: models[5].contractModel,
-    abi,
-    functionName: "getMintFee",
-    args: [],
-    enabled: true,
-  });
+  // const { data: mintFee_0, isSuccess: isSuccessFee_0 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[0].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
+  // const { data: mintFee_1, isSuccess: isSuccessFee_1 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[1].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
+  // const { data: mintFee_2, isSuccess: isSuccessFee_2 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[2].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
+  // const { data: mintFee_3, isSuccess: isSuccessFee_3 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[3].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
+  // const { data: mintFee_4, isSuccess: isSuccessFee_4 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[4].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
+  // const { data: mintFee_5, isSuccess: isSuccessFee_5 } = useContractRead({
+  //   chainId: 97,
+  //   address: models[5].contractModel,
+  //   abi,
+  //   functionName: "getMintFee",
+  //   args: [],
+  //   enabled: true,
+  // });
 
-  useEffect(() => {
-    if (isSuccessFee_5) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[5] = {
-          contractModel: models[5].contractModel,
-          fee: mintFee_5,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_5]);
-  useEffect(() => {
-    if (isSuccessFee_4) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[4] = {
-          contractModel: models[4].contractModel,
-          fee: mintFee_4,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_4]);
-  useEffect(() => {
-    if (isSuccessFee_3) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[3] = {
-          contractModel: models[3].contractModel,
-          fee: mintFee_3,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_3]);
-  useEffect(() => {
-    if (isSuccessFee_2) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[2] = {
-          contractModel: models[2].contractModel,
-          fee: mintFee_2,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_2]);
-  useEffect(() => {
-    if (isSuccessFee_1) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[1] = {
-          contractModel: models[1].contractModel,
-          fee: mintFee_1,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_1]);
-  useEffect(() => {
-    if (isSuccessFee_0) {
-      setModels((prevModels) => {
-        const updatedModels = [...prevModels];
-        updatedModels[0] = {
-          contractModel: models[0].contractModel,
-          fee: mintFee_0,
-        };
-        return updatedModels;
-      });
-    }
-  }, [isSuccessFee_0]);
+  // useEffect(() => {
+  //   if (isSuccessFee_5) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[5] = {
+  //         contractModel: models[5].contractModel,
+  //         fee: mintFee_5,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_5]);
+  // useEffect(() => {
+  //   if (isSuccessFee_4) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[4] = {
+  //         contractModel: models[4].contractModel,
+  //         fee: mintFee_4,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_4]);
+  // useEffect(() => {
+  //   if (isSuccessFee_3) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[3] = {
+  //         contractModel: models[3].contractModel,
+  //         fee: mintFee_3,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_3]);
+  // useEffect(() => {
+  //   if (isSuccessFee_2) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[2] = {
+  //         contractModel: models[2].contractModel,
+  //         fee: mintFee_2,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_2]);
+  // useEffect(() => {
+  //   if (isSuccessFee_1) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[1] = {
+  //         contractModel: models[1].contractModel,
+  //         fee: mintFee_1,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_1]);
+  // useEffect(() => {
+  //   if (isSuccessFee_0) {
+  //     setModels((prevModels) => {
+  //       const updatedModels = [...prevModels];
+  //       updatedModels[0] = {
+  //         contractModel: models[0].contractModel,
+  //         fee: mintFee_0,
+  //       };
+  //       return updatedModels;
+  //     });
+  //   }
+  // }, [isSuccessFee_0]);
 
   useEffect(() => {
     if (chain?.id !== 97 && address) {
@@ -259,24 +259,24 @@ const ConnectMarket: FC = () => {
         let cFee;
         if (i < 25) {
           cAddress = MODEL_1;
-          cFee = mintFee_0;
-        } else if (i > 25 && i < 70) {
+          cFee = BigInt(1);//BigInt(29000000000000000000);
+        } else if (i >= 25 && i < 70) {
           cAddress = MODEL_2;
-          cFee = mintFee_1;
-        } else if (i > 70 && i < 200) {
+          cFee = BigInt(1); //9000000000000000000
+        } else if (i >= 70 && i < 200) {
           cAddress = MODEL_3;
-          cFee = mintFee_2;
-        } else if (i > 200 && i < 450) {
+          cFee = BigInt(1); //1890000000000000000
+        } else if (i >= 200 && i < 450) {
           cAddress = MODEL_4;
-          cFee = mintFee_3;
-        } else if (i > 450 && i < 625) {
+          cFee = BigInt(1); //660000000000000000
+        } else if (i >= 450 && i < 625) {
           cAddress = MODEL_5_1;
-          cFee = mintFee_4;
-        } else if (i > 625) {
+          cFee = BigInt(1); //230000000000000000
+        } else if (i >= 625) {
           cAddress = MODEL_5_2;
-          cFee = mintFee_5;
+          cFee = BigInt(1); //230000000000000000
         }
-        console.log(mintFee_0, mintFee_1, mintFee_3, mintFee_4);
+        console.log(cFee);
         return (
           <NFTCard
             fee={cFee}
@@ -284,9 +284,9 @@ const ConnectMarket: FC = () => {
             img={item?.image}
             name={item?.name}
             number={i}
-            price={34}
+            price={Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000}
             key={i}
-            id={i + 1}
+            id={i}
           />
         );
       })}
