@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { ABI as abi } from "@/shared/contracts/MinNFTAbi";
 
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 
 import s from "./styles.module.scss";
 
@@ -20,8 +20,6 @@ export interface NFTCardProps {
 
 export const NFTCard: FC<NFTCardProps> = (props) => {
   const { name, number, price, id, contractAddress, fee, img } = props;
-
-  const { isConnected } = useAccount();
 
   const { config: mintNftConfig } = usePrepareContractWrite({
     chainId: 97,
@@ -50,7 +48,7 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
         <span className={s.nft_name}>{name}</span>
         <span className={s.nft_number}>#{number}</span>
       </div>
-      <span className={s.nft_price}>{price} ETH</span>
+      <span className={s.nft_price}>{price} BNB</span>
     </article>
   );
 };

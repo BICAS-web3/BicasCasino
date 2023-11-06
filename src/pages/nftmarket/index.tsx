@@ -1,18 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import {
-  useAccount,
-  useContractRead,
-  useNetwork,
-  useSwitchNetwork,
-} from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import * as Api from "@/shared/api";
 
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { NFTCard } from "@/widgets/NFTCard";
-
-import { ABI as abi } from "@/shared/contracts/MinNFTAbi";
 
 import {
   MODEL_1,
@@ -264,23 +257,23 @@ const ConnectMarket: FC = () => {
           index = i;
         } else if (i >= 25 && i < 70) {
           cAddress = MODEL_2;
-          cFee = 9000000000000000000
+          cFee = 9000000000000000000;
           index = i % 25;
         } else if (i >= 70 && i < 200) {
           cAddress = MODEL_3;
-          cFee = 1890000000000000000
+          cFee = 1890000000000000000;
           index = i % 70;
         } else if (i >= 200 && i < 450) {
           cAddress = MODEL_4;
-          cFee = 660000000000000000
+          cFee = 660000000000000000;
           index = i % 200;
         } else if (i >= 450 && i < 625) {
           cAddress = MODEL_5_1;
-          cFee = 230000000000000000
+          cFee = 230000000000000000;
           index = i % 450;
         } else if (i >= 625) {
           cAddress = MODEL_5_2;
-          cFee = 230000000000000000
+          cFee = 230000000000000000;
           index = i % 625;
         }
         console.log(cFee);
@@ -291,7 +284,9 @@ const ConnectMarket: FC = () => {
             img={item?.image}
             name={item?.name}
             number={index as number}
-            price={Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000}
+            price={
+              Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000
+            }
             key={i}
             id={i}
           />
