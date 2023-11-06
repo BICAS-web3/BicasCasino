@@ -12,8 +12,8 @@ import {
   MODEL_2,
   MODEL_3,
   MODEL_4,
-  MODEL_5_1,
-  MODEL_5_2,
+  // MODEL_5_1,
+  // MODEL_5_2,
 } from "@/shared/nftContractAddress";
 
 import s from "./style.module.scss";
@@ -58,8 +58,8 @@ const ConnectMarket: FC = () => {
     { contractModel: MODEL_2, fee: 0 },
     { contractModel: MODEL_3, fee: 0 },
     { contractModel: MODEL_4, fee: 0 },
-    { contractModel: MODEL_5_1, fee: 0 },
-    { contractModel: MODEL_5_2, fee: 0 },
+    // { contractModel: MODEL_5_1, fee: 0 },
+    // { contractModel: MODEL_5_2, fee: 0 },
   ]);
 
   // const { data: getNft_5, isSuccess: getNftSuccess_5 } = useContractRead({
@@ -263,18 +263,10 @@ const ConnectMarket: FC = () => {
           cAddress = MODEL_3;
           cFee = BigInt(1890000000000000000);
           index = i % 70;
-        } else if (i >= 200 && i < 450) {
+        } else if (i >= 200) {
           cAddress = MODEL_4;
           cFee = BigInt(660000000000000000);
           index = i % 200;
-        } else if (i >= 450 && i < 625) {
-          cAddress = MODEL_5_1;
-          cFee = BigInt(230000000000000000);
-          index = i % 450;
-        } else if (i >= 625) {
-          cAddress = MODEL_5_2;
-          cFee = BigInt(230000000000000000);
-          index = i % 625;
         }
         console.log(cFee);
         return (
