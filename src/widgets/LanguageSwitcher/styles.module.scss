@@ -160,3 +160,11 @@
     width: calc(100% - 40px);
   }
 }
+
+.arr_icon {
+  transition: all 0.5s;
+}
+
+.arr_icon_open {
+  transform: scaleY(-1);
+}
