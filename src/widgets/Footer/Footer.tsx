@@ -51,7 +51,7 @@ export const Footer: FC<FooterProps> = (props) => {
               <Link href="" className={s.footer_text}>
                 Profile
               </Link>
-              <Link href="" className={s.footer_text}>
+              <Link href="/nftmarket" className={s.footer_text}>
                 NFT Market
               </Link>
               <Link href="" className={s.footer_text}>
