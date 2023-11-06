@@ -142,6 +142,7 @@
 }
 
 .games_button {
+  cursor: pointer;
   width: auto;
   height: 39px;
   border-bottom: 1px solid #1d1d1d;
@@ -238,7 +239,7 @@
   //overflow-y: hidden;
   position: relative;
   transition: height 1s;
-  height: 270px;
+  height: 320px;
 }
 
 .buttons_menu_closed {
@@ -311,6 +312,7 @@
 }
 
 .game_row {
+  text-decoration: none;
   width: 100%;
   height: 50px;
   box-sizing: border-box;
@@ -332,7 +334,7 @@
   }
 }
 
-.game_row:hover {
+.game_active {
   box-sizing: border-box;
   border-left: 1px solid #e4c480;
   margin-left: -1px;
@@ -343,11 +345,11 @@
   }
 }
 
-.button:hover {
+.closed_sb_active_page {
   background: #0d0d0d;
   border-radius: 12px;
   svg > path {
-    fill: #e5c787;
+    fill: #ffe09d;
   }
 }
 
