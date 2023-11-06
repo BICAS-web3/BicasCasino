@@ -21,22 +21,22 @@ export interface NFTCardProps {
 export const NFTCard: FC<NFTCardProps> = (props) => {
   const { name, number, price, id, contractAddress, fee, img } = props;
 
-  // const { isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
-  // const { config: mintNftConfig } = usePrepareContractWrite({
-  //   chainId: 97,
-  //   address: contractAddress as `0x${string}`,
-  //   abi,
-  //   functionName: "mintNft",
-  //   enabled: true,
-  //   args: [id],
-  //   value: fee,
-  // });
+  const { config: mintNftConfig } = usePrepareContractWrite({
+    chainId: 97,
+    address: contractAddress as `0x${string}`,
+    abi,
+    functionName: "mintNft",
+    enabled: true,
+    args: [id],
+    value: fee,
+  });
 
-  // const { write: mintNft } = useContractWrite(mintNftConfig);
-  console.log(3);
+  const { write: mintNft } = useContractWrite(mintNftConfig);
+
   return (
-    <article className={s.nft}>
+    <article onClick={() => mintNft?.()} className={s.nft}>
       <div className={s.nft_image}>
         <Image
           layout="responsive"
