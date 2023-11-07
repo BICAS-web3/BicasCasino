@@ -224,7 +224,12 @@ export const PopUpBonus: FC = () => {
                 ? "Switch"
                 : "Claim"
               : "Connect Wallet"}
-          </button>
+          </button>{" "}
+          <p className={s.banner_wallet_text}>
+            *To receive the bonus you need to connect your cryptocurrency wallet
+            (we support <span>only Trust Wallet </span> and{" "}
+            <span>Metamask</span>).
+          </p>
           {!address && !isConnected && (
             <div
               className={`${s.header_avaibleWallet_wrap} ${
