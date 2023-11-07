@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io//api";
+export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
