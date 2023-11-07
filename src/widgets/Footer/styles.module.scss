@@ -31,6 +31,12 @@
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(4, 1fr);
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 650px) {
+    display: none;
+  }
 }
 
 .footer_below {
@@ -87,6 +93,53 @@
   text-decoration: none;
 }
 
+//icons
+.ico_wrap {
+  border-radius: 50%;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:first-child {
+    padding-right: 3px;
+  }
+}
+
+.tg_ico_wrap {
+  background: #172f39;
+}
+
+.inst_wrap {
+  background: #391627;
+}
+
+.twitter_wrap {
+  background: #121f24;
+}
+
+.discord_wrap {
+  background: #25263f;
+}
+
+.facebook_wrap {
+  background: #102c3e;
+}
+
+.reddit_wrap {
+  background: #3f1a0c;
+}
+
+.medium_wrap {
+  background: #0c2e22;
+}
+
+.main_wrap {
+  background: #3a3026;
+}
+
+//
 @media screen and (max-width: 1280px) {
   .footer_mainPages_list {
     grid-template-columns: 1fr;
