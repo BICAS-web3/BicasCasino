@@ -318,41 +318,6 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           {/* <div className={s.language_settings}>
                 </div> */}
         </div>
-        <div className={s.lower_blocks}>
-          <div className={s.social_networks}>
-            Our social networks
-            <div className={s.icons}>
-              <a
-                href="https://discord.gg/ReJVd2xJSk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Discord} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://twitter.com/GreekKeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Twitter} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://t.me/GKSupportt"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Telegram} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Insta} alt={""} width={30} height={30} />
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
       <div className={s.side_bar_lower}></div>
     </>

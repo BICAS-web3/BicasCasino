@@ -335,13 +335,30 @@
 }
 
 .game_active {
-  box-sizing: border-box;
-  border-left: 1px solid #e4c480;
-  margin-left: -1px;
-  background: linear-gradient(0.25turn, rgba(198, 149, 81, 0.041) 5%, #0d0d0d);
-  color: #e5c787;
-  svg > path {
-    fill: #e5c787;
+  position: relative;
+  overflow: hidden;
+  background: #181818;
+  &::after {
+    content: "";
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    display: block;
+    background: rgba(198, 149, 81, 0.9);
+    position: absolute;
+    left: -5px;
+    filter: blur(4px);
+  }
+  &::before {
+    content: "";
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: block;
+    background: rgba(198, 149, 81, 0.9);
+    position: absolute;
+    left: -12px;
+    filter: blur(20px);
   }
 }
 

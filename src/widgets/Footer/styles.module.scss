@@ -1,143 +1,141 @@
 .footer {
-    background: var(--Gray-1, #151515);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    grid-column: 1/3;
-    grid-row: 2;
-    z-index: 10;
-    align-self: end;
-    margin-top: 100px;
+  background: var(--Gray-1, #151515);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  grid-column: 1/3;
+  grid-row: 2;
+  z-index: 10;
+  align-self: end;
+  margin-top: 100px;
 }
 
 .footer_container {
-    margin: 0 auto;
-    width: calc(100% - 540px);
+  margin: 0 auto;
+  width: calc(100% - 540px);
 }
 
 .footer_body {
-    //background: var(--Gray-1, #151515);
-    padding: 30px;
-    display: flex;
-    width: 100%;
-    align-items: start;
-    justify-content: space-between;
-    gap: 20px;
+  //background: var(--Gray-1, #151515);
+  padding: 30px;
+  display: flex;
+  width: 100%;
+  align-items: start;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .icons_list {
-    display: flex;
-    gap: 15px;
-}
-.footer_below{
-    color: #494949;
-    text-align: center;
-    font-family: var(--font-nunito-sans);
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 128.16%;
-    background: #0F0F0F;
-    width: 100%;
-    padding: 30px 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
 }
 
-.logo{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.footer_below {
+  color: #494949;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 128.16%;
+  background: #0f0f0f;
+  width: 100%;
+  padding: 30px 0;
 }
 
-.games_list{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.games_list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .footer_mainPages_list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 40%;
-    gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 40%;
+  gap: 15px;
 }
 
-.footer_text{
-    color: #AAA;
-    font-family: var(--font-nunito-sans);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 128.16%;
-    letter-spacing: 0.56px;
-    text-transform: uppercase;
-    text-decoration: none;
+.footer_text {
+  color: #aaa;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 128.16%;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+  text-decoration: none;
 }
+
 .game_row {
-    color: #7E7E7E;
-    font-family: var(--font-nunito-sans);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 128.16%;
-    text-decoration: none;
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 128.16%;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 1280px) {
-    .footer_mainPages_list {
-        grid-template-columns: 1fr;
-        width: auto;
-        gap: 17px;
-    }
-
-    .footer_container {
-        width: calc(100% - 480px);
-    }
-
-    .footer_body {
-        padding: 40px 0;
-    }
+  .footer_mainPages_list {
+    grid-template-columns: 1fr;
+    width: auto;
+    gap: 17px;
+  }
+  .footer_container {
+    width: calc(100% - 480px);
+  }
+  .footer_body {
+    padding: 40px 0;
+  }
 }
 
 @media screen and (max-width: 1080px) {
-    .footer_container {
-        width: 100%;
-    }
-
-    .footer_body {
-        padding: 40px 20px;
-        width: auto;
-    }
+  .footer_container {
+    width: 100%;
+  }
+  .footer_body {
+    padding: 40px 20px;
+    width: auto;
+  }
 }
 
 @media screen and (max-width: 700px) {
-    .icons_list {
-        flex-direction: column;
-    }
+  .icons_list {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 650px) {
-    .footer_mainPages_list, .games_list, .logo {
-        display: none;
-    }
-
-    .icons_list {
-        flex-direction: row;
-        justify-content: space-evenly;
-        width: 100%;
-    }
-
-    .footer_body {
-        justify-content: center;
-    }
-
-    .footer {
-        background: inherit;
-        height: 350px;
-    }
-
-    .footer_below {
-        background: #121212;
-    }
+  .footer_mainPages_list,
+  .games_list,
+  .logo {
+    display: none;
+  }
+  .icons_list {
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  .footer_body {
+    justify-content: center;
+  }
+  .footer {
+    background: inherit;
+    height: 350px;
+  }
+  .footer_below {
+    background: #121212;
+  }
 }

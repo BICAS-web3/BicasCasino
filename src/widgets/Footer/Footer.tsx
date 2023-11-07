@@ -61,7 +61,7 @@ export const Footer: FC<FooterProps> = (props) => {
             </div>
 
             <div className={s.icons_list}>
-              <Link
+              {/* <Link
                 href="https://discord.gg/ReJVd2xJSk"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -88,7 +88,7 @@ export const Footer: FC<FooterProps> = (props) => {
                 rel="noopener noreferrer"
               >
                 <Image src={Insta} alt={""} width={30} height={30} />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
