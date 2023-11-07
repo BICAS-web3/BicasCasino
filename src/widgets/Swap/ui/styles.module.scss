@@ -1,0 +1,43 @@
+.swap {
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 217px;
+  border-radius: 20px;
+  background-color: #121212;
+  flex-direction: row;
+  column-gap: 11px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding-left: 25px;
+  &:hover {
+    .swap_icon {
+      color: white;
+    }
+  }
+}
+.icon_wrapper {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swap_icon {
+  color: #7e7e7e;
+  transition: all 0.5s;
+  &:hover {
+    color: white;
+  }
+}
+
+.large_header_text {
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 21px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #eaeaea;
+}

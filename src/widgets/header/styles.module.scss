@@ -3,12 +3,13 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-left: 20px;
+  // padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
   border-bottom: 1px solid #252525;
-  position: absolute;
+  position: fixed;
   z-index: 102;
+  background-color: #0b0d11;
 }
 
 // .header_profile_ico_wrap {
@@ -66,9 +67,11 @@
   column-gap: 42px;
   justify-content: space-between;
   align-items: center;
-  width: 237px;
+  width: 257px;
   padding-right: 36px;
   box-sizing: border-box;
+  background-color: #181818;
+  padding-left: 20px;
 }
 
 .right_menu {

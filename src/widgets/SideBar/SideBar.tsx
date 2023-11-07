@@ -27,32 +27,33 @@ import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
 import Insta from "@/public/media/social_media/Insta.svg";
 import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
+import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
 
 const gamesList = [
   {
     title: "Coinflip",
     icon: "coin",
-    link: "/games/CoinFlip"
+    link: "/games/CoinFlip",
   },
   {
     title: "Dice",
     icon: "dice",
-    link: "/games/Dice"
+    link: "/games/Dice",
   },
   {
     title: "Rock paper scissors",
     icon: "rps",
-    link: "/games/RPS"
+    link: "/games/RPS",
   },
   {
     title: "Poker",
     icon: "poker",
-    link: "/games/Poker"
+    link: "/games/Poker",
   },
   {
     title: "Mines",
     icon: "mines",
-    link: "/games/Mines"
+    link: "/games/Mines",
   },
 ];
 
@@ -91,7 +92,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
                 {gamesList.map((item, ind) => (
                   <div
                     className={s.tooltip_games_list_item}
-                    onClick={() => { location.href = item.link }}>
+                    onClick={() => {
+                      location.href = item.link;
+                    }}
+                  >
                     <GameIcon iconId={item.icon} />
                     <span className={s.tooltip_games_list_item_title}>
                       {item.title}
@@ -103,9 +107,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           </div>
           <div className={s.buttons_holder}>
             <div
-              className={`${s.button_wrap} ${props.pickedGame == 0 ? s.button_picked : ""
-                }`}
-              onClick={() => { location.href = "/games/CoinFlip" }}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 0 ? s.button_picked : ""
+              }`}
+              onClick={() => {
+                location.href = "/games/CoinFlip";
+              }}
             >
               <div className={s.button}>
                 <CoinButton />
@@ -114,16 +121,18 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             </div>
             <div className={s.button_wrap}>
               <div
-                className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
-                  }`}
+                className={`${s.button} ${
+                  props.pickedGame == 1 ? s.button_picked : ""
+                }`}
               >
                 <DiceButton />
                 <div className={s.games_button_tooltip}>Dice</div>
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${props.pickedGame == 2 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 2 ? s.button_picked : ""
+              }`}
             >
               <div className={s.button}>
                 <RPCButton />
@@ -133,8 +142,9 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 3 ? s.button_picked : ""
+              }`}
               onClick={() => {
                 location.href = "/games/Poker";
               }}
@@ -145,8 +155,9 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
             <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
+              className={`${s.button_wrap} ${
+                props.pickedGame == 3 ? s.button_picked : ""
+              }`}
               onClick={() => {
                 location.href = "https://t.me/GKSupportt";
               }}
@@ -166,7 +177,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           </div>
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
+      {/* <div className={s.side_bar_lower}></div> */}
     </>
   );
 };
@@ -181,8 +192,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
           <div
-            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
-              }`}
+            className={`${s.buttons_menu} ${
+              gamesAreOpen ? "" : s.buttons_menu_closed
+            }`}
           >
             <div
               className={s.menu_header}
@@ -195,15 +207,19 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 GAMES
               </div>
               <div
-                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
-                  }`}
+                className={`${s.arrow} ${
+                  gamesAreOpen ? s.arrow_down : s.arrow_side
+                }`}
               >
                 <ArrowIcon />
               </div>
             </div>
             <div className={s.game_rows}>
-              <div className={`${s.game_row} ${s.picked_game_row}`}
-                onClick={() => { location.href = "/games/CoinFlip" }}
+              <div
+                className={`${s.game_row} ${s.picked_game_row}`}
+                onClick={() => {
+                  location.href = "/games/CoinFlip";
+                }}
               >
                 <CoinButton />
                 Coinflip
@@ -238,11 +254,17 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>SUPPORT</div>
           </div>
+          <div className={s.swap} onClick={() => console.log("open swap")}>
+            <div className={s.icon_wrapper}>
+              <SwaptIcon className={s.swap_icon} />
+            </div>
+            <div className={s.large_header_text}>SWAP</div>
+          </div>
           <LanguageSwitcher />
           {/* <div className={s.language_settings}>
                 </div> */}
         </div>
-        <div className={s.lower_blocks}>
+        {/* <div className={s.lower_blocks}>
           <div className={s.social_networks}>
             Our social networks
             <div className={s.icons}>
@@ -276,14 +298,14 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className={s.side_bar_lower}></div>
+      {/* <div className={s.side_bar_lower}></div> */}
     </>
   );
 };
 
-export interface SideBarProps { }
+export interface SideBarProps {}
 export const SideBar: FC<SideBarProps> = (props) => {
   const [isOpen, currentPick] = useUnit([
     SideBarModel.$isOpen,
@@ -292,8 +314,9 @@ export const SideBar: FC<SideBarProps> = (props) => {
 
   return (
     <div
-      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
-        }`}
+      className={`${s.side_bar} ${
+        isOpen ? s.side_bar_opened : s.side_bar_closed
+      }`}
     >
       {isOpen ? (
         <OpenedSideBar pickedGame={currentPick} />

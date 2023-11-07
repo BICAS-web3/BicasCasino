@@ -293,15 +293,13 @@ export interface HeaderProps {
 export const Header: FC<HeaderProps> = (props) => {
   return (
     <>
-      <>
-        <div className={s.header}>
-          <LeftMenu />
-          <Links />
-          {/* <NetworkSelect /> */}
-          <RightMenu isGame={props.isGame} />
-        </div>
-        <BottomMenu />
-      </>
+      <div className={s.header}>
+        <LeftMenu />
+        <Links />
+        {/* <NetworkSelect /> */}
+        <RightMenu isGame={props.isGame} />
+      </div>
+      <BottomMenu />
     </>
   );
 };
