@@ -8,7 +8,7 @@
   box-sizing: border-box;
   border-bottom: 1px solid #252525;
   position: absolute;
-  z-index: 101;
+  z-index: 102;
 }
 
 // .header_profile_ico_wrap {
@@ -313,6 +313,7 @@
   }
   .bottom_menu {
     display: flex;
+    z-index: 11;
   }
   .chat {
     display: none;

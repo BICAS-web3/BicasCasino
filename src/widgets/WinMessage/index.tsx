@@ -4,6 +4,7 @@ import CloseIcon from "@/public/media/misc/close.svg";
 import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
+import useSound from "use-sound";
 
 export interface WinMessageProps {
   tokenImage: any;
@@ -15,6 +16,7 @@ export const WinMessage: FC<WinMessageProps> = (props) => {
     GameModel.clearStatus,
     GameModel.$profit,
   ]);
+
   return (
     <div className={s.win_message}>
       <div className={s.close} onClick={clearStatus}>
