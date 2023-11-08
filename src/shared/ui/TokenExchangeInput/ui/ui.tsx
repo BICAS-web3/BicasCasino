@@ -1,7 +1,7 @@
-"use clients"
-import React, {FC, useState} from "react";
+"use clients";
+import React, { FC, useState } from "react";
 import styles from "./ui.module.scss";
-import {IToken} from "@/shared/ui/TokenExchangeDropdown";
+import { IToken } from "@/shared/ui/TokenExchangeDropdown";
 
 export const TokenExchangeInput: FC<{}> = () => {
   const [selectedToken, setSelectedToken] = useState<IToken | null>(null);
@@ -15,13 +15,13 @@ export const TokenExchangeInput: FC<{}> = () => {
     <div className={styles.token_exchange}>
       <div className={styles.form_group}>
         <input
-          type='string'
-          inputMode='numeric'
+          className={styles.input}
+          type="string"
+          inputMode="numeric"
           placeholder="000.000"
           onChange={handleAmountChange}
         />
       </div>
     </div>
-  )
-}
-
+  );
+};

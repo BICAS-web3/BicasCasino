@@ -28,6 +28,7 @@ import Insta from "@/public/media/social_media/Insta.svg";
 import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
+import { Swap } from "../Swap";
 
 const gamesList = [
   {
@@ -254,12 +255,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>SUPPORT</div>
           </div>
-          <div className={s.swap} onClick={() => console.log("open swap")}>
-            <div className={s.icon_wrapper}>
-              <SwaptIcon className={s.swap_icon} />
-            </div>
-            <div className={s.large_header_text}>SWAP</div>
-          </div>
+          <Swap />
           <LanguageSwitcher />
           {/* <div className={s.language_settings}>
                 </div> */}

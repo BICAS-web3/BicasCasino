@@ -70,8 +70,10 @@
   width: 257px;
   padding-right: 36px;
   box-sizing: border-box;
-  background-color: #181818;
   padding-left: 20px;
+  @media (min-width: 650px) {
+    background-color: #181818;
+  }
 }
 
 .right_menu {

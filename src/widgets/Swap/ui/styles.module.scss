@@ -1,4 +1,7 @@
 .swap {
+  width: 100%;
+}
+.swap_button_open {
   cursor: pointer;
   box-sizing: border-box;
   width: 217px;
@@ -14,6 +17,9 @@
     .swap_icon {
       color: white;
     }
+  }
+  @media (max-width: 650px) {
+    width: 100%;
   }
 }
 .icon_wrapper {
@@ -40,4 +46,207 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #eaeaea;
+}
+
+.swap_block {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 12px;
+  background: var(--gray-218-night, #181818);
+  transform: translateY(-50%) translateX(-50%) scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s;
+  z-index: 11;
+  width: 100vw;
+  @media (min-width: 1920px) {
+    width: 480px;
+    padding-bottom: 30px;
+  }
+  @media (min-width: 700px) {
+    border-radius: 20px;
+    width: 410px;
+    padding-bottom: 40px;
+  }
+  @media (max-width: 650px) {
+    top: 200vh;
+    left: 0;
+    transform: translateY(0) translateX(0) scaleY(0);
+  }
+}
+
+.swap_block_open {
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%) scaleY(1);
+  opacity: 1;
+  visibility: visible;
+  @media (max-width: 650px) {
+    width: 100%;
+    height: 100vh;
+    top: 56px;
+    left: 0;
+    transform: translateY(0) translateX(0) scaleY(1);
+  }
+}
+
+.swap_head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: space-between;
+  padding: 20px 20px 20px 20px;
+  color: var(--White-1, #eaeaea);
+  text-align: center;
+  font-family: var(--font-source-sans-3);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.96px;
+  border-bottom: 1px solid var(--gray-3125-night, #252525);
+  @media (min-width: 1920px) {
+    padding: 20px 20px 20px 20px;
+    align-items: center;
+    font-size: 24px;
+    line-height: 130%;
+  }
+  @media (min-width: 700px) {
+    padding: 25px 20px 15px 20px;
+    align-items: start;
+    font-size: 30px;
+    line-height: 140%;
+  }
+  @media (max-width: 650px) {
+    padding: 12.5px 10px;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+}
+
+.swap_close_icon {
+  color: #3e3e3e;
+  margin-left: auto;
+  margin-right: 17px;
+  cursor: pointer;
+  transition: all 0.5s;
+  @media (max-width: 1920px) {
+    margin-top: 5px;
+  }
+  &:hover {
+    color: white;
+  }
+}
+
+.swap_body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @media (min-width: 1920px) {
+    padding: 0 40px;
+  }
+  padding: 0 30px;
+  @media (max-width: 650px) {
+    padding: 0 40px;
+  }
+}
+
+.swap_button {
+  padding: 12px 10px;
+  border-radius: 12px;
+  background: linear-gradient(
+    114deg,
+    #f8eeb8 -4.17%,
+    #dbb370 59.03%,
+    #8e5b2d 112.39%
+  );
+  color: var(--black-10-f-night, #0f0f0f);
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 145%;
+  letter-spacing: 0.72px;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  @media (max-width: 1920px) {
+    margin-top: 5px;
+  }
+  @media (max-width: 650px) {
+    // height: 40px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.48px;
+    padding: 11.5px 10px;
+    width: 148px;
+    margin: 0 auto;
+  }
+}
+
+.swap_under_title {
+  margin: 0 auto;
+  color: var(--gray-57-e-night, #7e7e7e);
+  font-family: var(--font-source-sans-3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.72px;
+}
+
+.swap_arr {
+  color: #7e7e7e;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid #363636 1px;
+  background-color: #202020;
+  border-radius: 100%;
+  margin: 0 auto;
+  transition: all 0.5s;
+  cursor: pointer;
+  &:hover {
+    color: white;
+  }
+}
+
+.swap_main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.initial_exchange {
+  display: flex;
+  height: 50px;
+  @media (max-width: 650px) {
+    height: 40px;
+  }
+}
+
+.blur {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100vw - 277px);
+  height: 100vh;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: all 0.3s;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.blur_open {
+  transform: scaleY(1);
+  opacity: 1;
 }
