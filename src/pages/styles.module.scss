@@ -343,7 +343,7 @@
   }
 }
 
-@media screen and (min-width: 1920px) {
+@media screen and (min-width: 1921px) {
   .game_link {
     max-width: 638px;
   }
@@ -399,7 +399,7 @@
   }
   .game_link[data-id="PLINKO"] {
     img {
-      left: -160px;
+      left: -110px;
       width: auto;
     }
   }
@@ -442,6 +442,15 @@
   .game_description {
     font-size: 16px;
     line-height: 23px;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .game_link[data-id="PLINKO"] {
+    img {
+      left: -220px;
+      width: auto;
+    }
   }
 }
 
