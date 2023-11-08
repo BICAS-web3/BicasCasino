@@ -25,6 +25,7 @@ import * as SideBarModel from "./model";
 
 import { Swap } from "../Swap";
 import { SettingIcon } from "@/shared/SVGs/SettingIcon";
+import { StarIcon } from "@/shared/SVGs/StarIcon";
 
 const gamesList = [
   {
@@ -80,132 +81,134 @@ interface ClosedSideBarProps {
 const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
   return (
     <div className={s.side_bar_upper}>
-      <div>
-        <div className={`${s.games_button}`}>
-          <GamesIcon />
-          <div className={s.games_button_tooltip}>
-            <div className={s.tooltip_games_list}>
-              {gamesList.map((item, ind) => (
-                <div
-                  className={s.tooltip_games_list_item}
-                  onClick={() => {
-                    location.href = item.link;
-                  }}
-                >
-                  <GameIcon iconId={item.icon} />
-                  <span className={s.tooltip_games_list_item_title}>
-                    {item.title}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className={s.buttons_holder}>
-          <div
-            className={`${s.button_wrap} ${
-              props.pickedGame == 0 ? s.button_picked : ""
-            }`}
-            onClick={() => {
-              location.href = "/games/CoinFlip";
-            }}
-          >
-            <div className={s.button}>
-              <CoinButton />
-              <div className={s.games_button_tooltip}>Coinflip</div>
-            </div>
-          </div>
-          <div className={s.button_wrap}>
-            <div
-              className={`${s.button} ${
-                props.pickedGame == 1 ? s.button_picked : ""
-              }`}
-            >
-              <DiceButton />
-              <div className={s.games_button_tooltip}>Dice</div>
-            </div>
-          </div>
-          <div
-            className={`${s.button_wrap} ${
-              props.pickedGame == 2 ? s.button_picked : ""
-            }`}
-          >
-            <div className={s.button}>
-              <RPCButton />
-              <div className={s.games_button_tooltip}>Rock paper scissors</div>
-            </div>
-          </div>
-          <div
-            className={`${s.button_wrap} ${
-              props.pickedGame == 3 ? s.button_picked : ""
-            }`}
-            onClick={() => {
-              location.href = "/games/Poker";
-            }}
-          >
-            <div className={s.button}>
-              <PokerButton />
-              <div className={s.games_button_tooltip}>Poker</div>
-            </div>
-          </div>
-          <div
-            className={clsx(
-              s.button_wrap,
-              props.pickedGame == 3 && s.button_picked,
-              s.border_wrapper
-            )}
-            onClick={() => {
-              location.href = "/leaderboard";
-            }}
-          >
-            <div className={clsx(s.button, s.button_leaderboard)}>
-              <LeaderboardIcon />
-              <div className={s.games_button_tooltip}>Leaderboard</div>
-            </div>
-          </div>
-          <Swap
-            closeClassName={clsx(
-              s.button_wrap,
-              props.pickedGame == 3 && s.button_picked,
-              s.swap_wrapper
-            )}
-          />
-          <div
-            className={clsx(
-              s.button_wrap,
-              props.pickedGame == 3 && s.button_picked,
-              s.border_wrapper
-            )}
-            onClick={() => {
-              location.href = "https://t.me/GKSupportt";
-            }}
-          >
-            <div className={s.button}>
-              <SupportIcon />
-              <div className={s.games_button_tooltip}>
-                Support{" "}
-                <Image
-                  className={s.tg_sidebar_ico}
-                  src={tgClosedSidebarIco}
-                  alt={""}
-                />{" "}
+      <div className={`${s.games_button}`}>
+        <GamesIcon />
+        <div className={s.games_button_tooltip}>
+          <div className={s.tooltip_games_list}>
+            {gamesList.map((item, ind) => (
+              <div
+                className={s.tooltip_games_list_item}
+                onClick={() => {
+                  location.href = item.link;
+                }}
+              >
+                <GameIcon iconId={item.icon} />
+                <span className={s.tooltip_games_list_item_title}>
+                  {item.title}
+                </span>
               </div>
-            </div>
+            ))}
           </div>
-          <div
-            className={clsx(s.button_wrap, s.border_wrapper)}
-            onClick={() => {
-              location.href = "/leaderboard";
-            }}
-          >
-            <div className={s.settings}>
-              <SettingIcon />
-              <div className={s.games_button_tooltip}>Setting</div>
-            </div>
-          </div>
-          <LanguageSwitcher />
         </div>
       </div>
+      <div className={s.buttons_holder}>
+        <div
+          className={`${s.button_wrap} ${
+            props.pickedGame == 0 ? s.button_picked : ""
+          }`}
+          onClick={() => {
+            location.href = "/games/CoinFlip";
+          }}
+        >
+          <div className={s.button}>
+            <CoinButton />
+            <div className={s.games_button_tooltip}>Coinflip</div>
+          </div>
+        </div>
+        <div className={s.button_wrap}>
+          <div
+            className={`${s.button} ${
+              props.pickedGame == 1 ? s.button_picked : ""
+            }`}
+          >
+            <DiceButton />
+            <div className={s.games_button_tooltip}>Dice</div>
+          </div>
+        </div>
+        <div
+          className={`${s.button_wrap} ${
+            props.pickedGame == 2 ? s.button_picked : ""
+          }`}
+        >
+          <div className={s.button}>
+            <RPCButton />
+            <div className={s.games_button_tooltip}>Rock paper scissors</div>
+          </div>
+        </div>
+        <div
+          className={`${s.button_wrap} ${
+            props.pickedGame == 3 ? s.button_picked : ""
+          }`}
+          onClick={() => {
+            location.href = "/games/Poker";
+          }}
+        >
+          <div className={s.button}>
+            <PokerButton />
+            <div className={s.games_button_tooltip}>Poker</div>
+          </div>
+        </div>
+        <div
+          className={clsx(
+            s.button_wrap,
+            props.pickedGame == 3 && s.button_picked,
+            s.border_wrapper
+          )}
+          onClick={() => {
+            location.href = "/leaderboard";
+          }}
+        >
+          <div className={clsx(s.button, s.button_leaderboard)}>
+            <LeaderboardIcon />
+            <div className={s.games_button_tooltip}>Leaderboard</div>
+          </div>
+        </div>
+        <Swap
+          closeClassName={clsx(
+            s.button_wrap,
+            props.pickedGame == 3 && s.button_picked,
+            s.swap_wrapper
+          )}
+        />
+        <div
+          className={clsx(
+            s.button_wrap,
+            props.pickedGame == 3 && s.button_picked,
+            s.border_wrapper
+          )}
+          onClick={() => {
+            location.href = "https://t.me/GKSupportt";
+          }}
+        >
+          <div className={s.button}>
+            <SupportIcon />
+            <div className={s.games_button_tooltip}>
+              Support{" "}
+              <Image
+                className={s.tg_sidebar_ico}
+                src={tgClosedSidebarIco}
+                alt={""}
+              />{" "}
+            </div>
+          </div>
+        </div>
+        <div
+          className={clsx(s.button_wrap, s.border_wrapper)}
+          onClick={() => {
+            location.href = "/leaderboard";
+          }}
+        >
+          <div className={s.settings}>
+            <SettingIcon />
+            <div className={s.games_button_tooltip}>Setting</div>
+          </div>
+        </div>
+        <LanguageSwitcher />
+      </div>
+      <span className={s.star_icon}>
+        {" "}
+        <StarIcon />
+      </span>
     </div>
   );
 };
