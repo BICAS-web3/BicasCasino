@@ -7,6 +7,9 @@ import { LanguageItem } from "@/widgets/LanguageSwitcher/LanguageItem";
 import { FC } from "react";
 import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
 import sunIco from "@/public/media/sidebar_icons/sunIco.svg";
+import { useUnit } from "effector-react";
+import { $isOpen } from "../SideBar/model";
+import clsx from "clsx";
 
 export const languages = [
   {
@@ -39,7 +42,9 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
     setLanguagesList(languages.filter((item) => item.id !== activeLanguage.id));
   }, [activeLanguage]);
 
-  return (
+  const [isOpen] = useUnit([$isOpen]);
+
+  return isOpen ? (
     <div className={s.language_switcher_wrap}>
       <div className={s.language_switcher_title_block}>
         <Image alt="settings-ico" src={settingsIco} width={18} height={18} />
@@ -89,5 +94,38 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
         </div>
       </div>
     </div>
+  ) : (
+    <>
+      <div className={s.language_closed}>
+        {languagesList &&
+          languagesList.map((item, _) => (
+            <LanguageItem
+              setLanguagesListVisibility={setLanguagesListVisibility}
+              setActiveLanguage={setActiveLanguage}
+              {...item}
+              key={item.id}
+            />
+          ))}
+      </div>
+      <div className={clsx(s.themes_block, s.themes_block_closed)}>
+        {activeTheme === "dark" ? (
+          <div
+            className={`${s.theme_block} ${activeTheme === "dark" && s.active}`}
+            onClick={handleChangeTheme}
+          >
+            <Image alt="moon-ico" src={moonIco} />
+          </div>
+        ) : (
+          <div
+            className={`${s.theme_block} ${
+              activeTheme === "light" && s.active
+            }`}
+            onClick={handleChangeTheme}
+          >
+            <Image alt="sun-ico" src={sunIco} />
+          </div>
+        )}
+      </div>
+    </>
   );
 };

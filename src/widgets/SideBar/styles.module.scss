@@ -104,6 +104,14 @@
   align-items: center;
   box-sizing: border-box;
 }
+.settings {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
 
 .button_picked {
   background-color: #0d0d0d;
@@ -232,17 +240,16 @@
 .buttons_menu {
   box-sizing: border-box;
   width: 217px;
-  border-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   background-color: #121212;
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  //justify-content: center;
   align-items: center;
-  //overflow-y: hidden;
   position: relative;
   transition: height 1s;
-  height: 270px;
+  height: 320px;
 }
 
 .buttons_menu_closed {
@@ -331,9 +338,6 @@
   background: #121212;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  &:last-child {
-    border-radius: 0 0 20px 20px;
-  }
 }
 
 .game_row:hover {
@@ -366,6 +370,14 @@
   align-items: center;
   height: 50px;
   padding-left: 25px;
+  svg path {
+    transition: all 0.5s;
+  }
+  &:hover {
+    svg path {
+      fill: #e5c787;
+    }
+  }
 }
 
 .language_settings {
@@ -501,7 +513,7 @@
   padding-left: 25px;
   &:hover {
     .swap_icon {
-      color: white;
+      color: rgba(229, 199, 135, 1);
     }
   }
 }
@@ -510,6 +522,80 @@
   color: #7e7e7e;
   transition: all 0.5s;
   &:hover {
-    color: white;
+    color: rgba(229, 199, 135, 1);
+  }
+}
+
+.leaderboard {
+  width: 217px;
+  height: 50px;
+  box-sizing: border-box;
+  padding-left: 25px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 11px;
+  align-items: center;
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17.94px;
+  background: #121212;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0 0 20px 20px;
+  margin-top: -5px;
+  // border-top: 1px solid #1d1d1d;
+  position: relative;
+  &::after {
+    position: absolute;
+    width: calc(100% - 50px);
+    content: "";
+    height: 1px;
+    background-color: #1d1d1d;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  svg path {
+    transition: all 0.5s;
+  }
+  &:hover {
+    color: #e5c787;
+    svg path {
+      fill: #e5c787;
+    }
+  }
+  @media (max-width: 650px) {
+    width: 100%;
+  }
+}
+
+.border_wrapper {
+  margin: 5px 0;
+  padding: 5px 0;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0px;
+    top: 0;
+    height: 1px;
+    background-color: #1d1d1d;
+  }
+}
+.swap_wrapper {
+  margin: 5px 0;
+  padding: 5px 0;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    width: calc(100% + 50px);
+    left: -30px;
+    top: 0;
+    height: 1px;
+    background-color: #1d1d1d;
   }
 }

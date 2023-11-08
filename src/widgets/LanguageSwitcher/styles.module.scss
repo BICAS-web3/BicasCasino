@@ -80,6 +80,11 @@
   line-height: 128.16%;
 }
 
+.languages_list_item_opened {
+  font-size: 12px;
+  color: var(--gray-57-e-night, #7e7e7e);
+}
+
 .theme_block {
   cursor: pointer;
   padding: 10px;
@@ -108,6 +113,10 @@
   align-items: center;
   border-radius: 12px;
   border: 1px solid #202020;
+}
+
+.themes_block_closed {
+  margin-top: 15px;
 }
 
 .active_theme_block {
@@ -159,4 +168,15 @@
   .language_switcher_wrap {
     width: calc(100% - 40px);
   }
+}
+
+.language_closed {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--gray-320-night, #202020);
+  margin-top: 10px;
 }
