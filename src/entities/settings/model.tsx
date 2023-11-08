@@ -31,7 +31,7 @@ export const queryAvailableLeader = createEvent<{
   time: string;
 }>();
 
-export const queryNftMarket = createEvent<Api.T_NFT_MarketResponse>();
+export const queryNftMarket = createEvent<number>();
 
 export const setAvailableTokens = createEvent<Api.T_Tokens>();
 export const queryAvailableTokens = createEvent<{ network_id: number }>();

@@ -33,13 +33,14 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
 
   const { write: mintNft } = useContractWrite(mintNftConfig);
 
+  console.log("nft card component");
   //if (error) console.log(error);
 
   return (
     <article onClick={() => mintNft?.()} className={s.nft}>
       <div className={s.nft_image}>
         <Image
-          layout="responsive"
+          // objectFit="cover"
           width={1024}
           height={1024}
           src={img}

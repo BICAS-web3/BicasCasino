@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "/api";
+export const BaseApiUrl = "https://game.greekkeepers.io/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
@@ -156,7 +156,6 @@ export type T_Totals = {
 };
 
 export type T_NFT_MarketResponse = {
-  lvl: number;
   id: number;
 };
 
@@ -476,20 +475,19 @@ export const GetGameById = createEffect<number, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
-export const GetNftMarket = createEffect<
-  T_NFT_MarketResponse,
-  T_ApiResponse,
-  string
->(async (form) => {
-  return fetch(
-    `https://game.greekkeepers.io/nft/metadata/${form.lvl}/${form.id}.json`,
-    {
-      method: "GET",
-    }
-  )
-    .then(async (res) => await res.json())
-    .catch((e) => e);
-});
+export const GetNftMarket = createEffect<number, T_ApiResponse, string>(
+  async (id) => {
+    return fetch(
+      // `https://game.greekkeepers.io/nft/metadata/${form.lvl}/${form.id}.json`,
+      `https://game.greekkeepers.io/nft/metadata/${id}.json`,
+      {
+        method: "GET",
+      }
+    )
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
 
 export const GetTotalsFx = createEffect<void, T_ApiResponse, string>(
   async (_) => {

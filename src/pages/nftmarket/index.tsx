@@ -12,21 +12,19 @@ import {
   MODEL_2,
   MODEL_3,
   MODEL_4,
-  // MODEL_5_1,
-  // MODEL_5_2,
 } from "@/shared/nftContractAddress";
 
 import s from "./style.module.scss";
 
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
-  const levels = [
-    { lvl: 1, count: 25 },
-    { lvl: 2, count: 45 },
-    { lvl: 3, count: 130 },
-    { lvl: 4, count: 250 },
-    { lvl: 5, count: 350 },
-  ];
+  // const levels = [
+  //   { lvl: 1, count: 25 },
+  //   { lvl: 2, count: 45 },
+  //   { lvl: 3, count: 130 },
+  //   { lvl: 4, count: 250 },
+  //   { lvl: 5, count: 350 },
+  // ];
 
   const { address, isConnected } = useAccount();
 
@@ -34,18 +32,24 @@ const ConnectMarket: FC = () => {
   const { switchNetwork } = useSwitchNetwork();
 
   const setDefaultValue = async () => {
+    // await Promise.all(
+    //   levels.map(async (model) => {
+    //     const nftData = await Promise.all(
+    //       Array.from({ length: model.count }).map(async (_, index) => {
+    //         const data = await Api.GetNftMarket({
+    //           lvl: model.lvl,
+    //           id: index,
+    //         });
+    //         return data;
+    //       })
+    //     );
+    //     setNfts((prev: any) => [...prev, ...nftData]);
+    //   })
+    // );
     await Promise.all(
-      levels.map(async (model) => {
-        const nftData = await Promise.all(
-          Array.from({ length: model.count }).map(async (_, index) => {
-            const data = await Api.GetNftMarket({
-              lvl: model.lvl,
-              id: index,
-            });
-            return data;
-          })
-        );
-        setNfts((prev: any) => [...prev, ...nftData]);
+      Array.from({ length: 800 }).map(async (_, id) => {
+        const data = await Api.GetNftMarket(id);
+        setNfts((prev: any) => [...prev, data]);
       })
     );
   };
@@ -244,7 +248,7 @@ const ConnectMarket: FC = () => {
       switchNetwork?.(56);
     }
   }, [address]);
-
+  console.log("nft market component");
   return (
     <>
       {nfts.map((item: any, i: number) => {
