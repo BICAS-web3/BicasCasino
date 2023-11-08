@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import clsx from "clsx";
 
@@ -25,6 +25,8 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
   const [tokenTo, setTokenTo] = useState<any>();
 
   const [isSidebarOpen] = useUnit([$isOpen]);
+
+  useEffect(() => {}, []);
 
   return (
     <>

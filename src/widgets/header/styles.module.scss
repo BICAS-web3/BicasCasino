@@ -9,7 +9,32 @@
   border-bottom: 1px solid #252525;
   position: fixed;
   z-index: 102;
-  // background-color: #0b0d11;
+  &::after {
+    transition: width 0.5s;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 80px;
+    width: calc(100vw - 272.5px);
+    background-color: #0b0d11;
+    z-index: -1;
+    height: 100%;
+    @media (max-width: 650px) {
+      display: none;
+    }
+  }
+}
+
+.header_close {
+  transition: width 0.5s;
+  &::after {
+    transition: width 0.5s;
+    width: calc(100vw - 105px);
+    @media (max-width: 650px) {
+      display: none;
+    }
+  }
 }
 
 // .header_profile_ico_wrap {
