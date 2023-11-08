@@ -177,6 +177,9 @@
   // align-items: center;
   justify-content: center;
   width: fit-content;
+  @media screen and (max-width: 1920px) {
+    width: 100%;
+  }
 }
 
 .sidebar_closed {
@@ -201,7 +204,6 @@
 .game_link {
   box-sizing: border-box;
   width: 100%;
-  max-width: 640px;
   min-width: 106px;
   overflow: hidden;
   //display: block;
@@ -335,12 +337,21 @@
   }
 }
 
+@media screen and (max-width: 1920px) {
+  .game_link {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .game_link {
+    max-width: 638px;
+  }
+}
+
 @media screen and (min-width: 1280px) {
   .game_link.sidebar_game_closed {
     width: 100%;
-  }
-  .game_link {
-    width: 638px;
   }
   .games_row.sidebar_closed {
     grid-template-columns: repeat(3, 1fr);
@@ -385,6 +396,12 @@
   }
   .game_link.sidebar_closed {
     max-width: 555px;
+  }
+  .game_link[data-id="PLINKO"] {
+    img {
+      left: -160px;
+      width: auto;
+    }
   }
   .games_row.sidebar_closed {
     width: 100%;
@@ -431,6 +448,12 @@
 @media screen and (max-width: 700px) {
   .game_link {
     height: 210px;
+  }
+  .game_link[data-id="PLINKO"] {
+    img {
+      left: 0;
+      width: 100%;
+    }
   }
 }
 

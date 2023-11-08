@@ -187,10 +187,6 @@ const Game: FC<GameProps> = (props) => {
     if (mobile) setCurrentImage(props.tabletImage.src);
     else if (tablet) setCurrentImage(props.tabletImage.src);
     else if (laptop) {
-      // sidebarOpened
-      //   ? setCurrentImage(props.laptopImage.src)
-      //   : setCurrentImage(props.closedSidebarImage.src);
-      // setCurrentImage(props.laptopImage.src);
       if (!sidebarOpened) {
         if (miniLaptop || is996) {
           setCurrentImage(props.laptopImage.src);
@@ -213,6 +209,7 @@ const Game: FC<GameProps> = (props) => {
     <a
       className={`${s.game_link} ${!sidebarOpened && s.sidebar_game_closed}`}
       href={props.link}
+      data-id={props.name}
     >
       <img src={currentImage} className={s.game_link_img} alt="game-img" />
       <div className={s.game}>
