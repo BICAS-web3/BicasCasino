@@ -18,34 +18,28 @@ import s from "./style.module.scss";
 
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
-  // const levels = [
-  //   { lvl: 1, count: 25 },
-  //   { lvl: 2, count: 45 },
-  //   { lvl: 3, count: 130 },
-  //   { lvl: 4, count: 250 },
-  //   { lvl: 5, count: 350 },
-  // ];
 
-  const { address, isConnected } = useAccount();
+  const [openseaData, setOpenseaData] = useState<any[]>([]);
+
+  const { address } = useAccount();
 
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
 
+  const getOpenseaData = async () => {
+    const data = await Api.getDataFromOpensea("");
+    setOpenseaData(data);
+  };
+
+  useEffect(() => {
+    if (openseaData?.length <= 0) {
+      getOpenseaData();
+    } else {
+      console.log(232323, openseaData);
+    }
+  }, [openseaData]);
+
   const setDefaultValue = async () => {
-    // await Promise.all(
-    //   levels.map(async (model) => {
-    //     const nftData = await Promise.all(
-    //       Array.from({ length: model.count }).map(async (_, index) => {
-    //         const data = await Api.GetNftMarket({
-    //           lvl: model.lvl,
-    //           id: index,
-    //         });
-    //         return data;
-    //       })
-    //     );
-    //     setNfts((prev: any) => [...prev, ...nftData]);
-    //   })
-    // );
     await Promise.all(
       Array.from({ length: 800 }).map(async (_, id) => {
         const data = await Api.GetNftMarket(id);
@@ -53,18 +47,9 @@ const ConnectMarket: FC = () => {
       })
     );
   };
-  useEffect(() => {
-    nfts.length === 0 && setDefaultValue();
-  }, []);
-
-  const [models, setModels] = useState<any[]>([
-    { contractModel: MODEL_1, fee: 0 },
-    { contractModel: MODEL_2, fee: 0 },
-    { contractModel: MODEL_3, fee: 0 },
-    { contractModel: MODEL_4, fee: 0 },
-    // { contractModel: MODEL_5_1, fee: 0 },
-    // { contractModel: MODEL_5_2, fee: 0 },
-  ]);
+  // useEffect(() => {
+  //   nfts.length === 0 && setDefaultValue();
+  // }, []);
 
   // const { data: getNft_5, isSuccess: getNftSuccess_5 } = useContractRead({
   //   chainId: 97,

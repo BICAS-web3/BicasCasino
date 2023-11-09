@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "/api";
-export const BaseStaticUrl = "/static";
+export const BaseApiUrl = "https://game.greekkeepers.io//api";
+export const BaseStaticUrl = "https://game.greekkeepers.io//static";
 
 export type T_ErrorText = {
   error: string;
@@ -208,6 +208,11 @@ export type T_TokenPrice = {
   token_price: number;
 };
 
+export type T_OpenseaData = {
+  listings: any[];
+  next: string;
+};
+
 export type TypeLeadboardApi =
   | "Daily_volume"
   | "Weekly_volume"
@@ -289,6 +294,27 @@ export const createReferealFx = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+
+//?-----------------
+
+export const getDataFromOpensea = createEffect<string, any, string>(
+  async (next) => {
+    return fetch(
+      `https://api.opensea.io/api/v2/listings/collection/greekkeepers/all`,
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "x-api-key": "a48ba3aa9843421a922596fe4fdb682e",
+        },
+      }
+    )
+      .then(async (res) => await res.json())
+      .catch((e) => console.log(4545, e));
+  }
+);
+
+//?-----------------
 
 export const getLocalizationFx = createEffect<string, T_Localization, string>(
   async (language) => {
