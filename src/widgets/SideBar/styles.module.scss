@@ -5,31 +5,32 @@
   //max-height: 2581px;
   grid-column: 1;
   position: fixed;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto !important;
+  overflow: visible;
+  &.side_bar_closed > .side_bar_upper {
+    min-height: calc(100% - 130px);
+  }
+}
+
+.open_sb_block {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    transform: rotate(180deg);
+  }
 }
 
 .side_bar_upper {
   background-color: #181818;
-  // max-height: 1080px;
-  // height: 1080px;
-  height: 100%;
   width: 100%;
-  height: 100vh;
-  padding-top: 116px;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  // row-gap: 5px;
+  padding-top: 100px;
   padding-bottom: 30px;
-  // box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media (min-width: 650px) {
-    height: 100vh;
-    max-height: 100vh;
-  }
-  // justify-content: space-between;
 }
 
 .upper_blocks {
@@ -76,6 +77,40 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.bonus_button_block {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 217px;
+  min-height: 50px;
+  padding-left: 25px;
+  border-radius: 20px;
+  background: #121212;
+  color: #979797;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 21px;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+  @media screen and (max-width: 1280px) {
+    width: 83%;
+  }
+  svg {
+    margin-right: 11px;
+  }
+}
+
+.closed_sb_bonus_ico {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .side_bar_lower {
@@ -160,6 +195,7 @@
 }
 
 .games_button {
+  padding-bottom: 20px;
   cursor: pointer;
   width: auto;
   height: 39px;
@@ -247,21 +283,119 @@
 .buttons_menu {
   box-sizing: border-box;
   width: 217px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-radius: 20px;
   background-color: #121212;
-  padding-top: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: relative;
-  transition: height 1s;
-  height: 320px;
+  transition: all 1s;
+  min-height: 345px;
 }
 
 .buttons_menu_closed {
-  height: 60px;
-  transition: height 1s;
+  max-height: 50px !important;
+  min-height: 50px !important;
+  transition: all 1s;
+  .menu_header {
+    border-bottom: 1px solid #121212;
+  }
+}
+
+.closed_sb_other_info_list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-bottom: 1px solid #1d1d1d;
+  padding-bottom: 20px;
+}
+
+.sidebar_close_block {
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 20px;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 217px;
+  padding: 0 16px;
+  min-height: 50px;
+  color: #979797;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 128.16%;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+  @media screen and (max-width: 1280px) {
+    width: 83%;
+  }
+}
+
+.sb_closed_bottom_block {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.sb_closed_bottom_block_item {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+}
+
+.sb_closed_language_title {
+  color: var(--gray-57-e-night, #7e7e7e);
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 128.16%;
+}
+
+.closed_sb_other_info_list_item {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  &::after {
+    content: "";
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(198, 149, 81, 0.9);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(10px);
+  }
+  &:hover {
+    background: #0f0f0f;
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+    svg {
+      path {
+        fill: #ffe09d;
+      }
+    }
+  }
 }
 
 .buttons_menu_closed .game_rows {
@@ -272,8 +406,9 @@
 }
 
 .menu_header {
+  padding: 0 25px;
   height: 50px;
-  width: 167px;
+  width: 100%;
   border-bottom: 1px solid #1d1d1d;
   box-sizing: border-box;
   display: flex;
@@ -295,12 +430,20 @@
   justify-content: center;
   align-items: center;
   height: 18px;
+}
+
+.header_icon_title {
   font-family: var(--font-nunito-sans);
   color: #eaeaea;
   font-size: 16px;
-  line-height: 20.51px;
+  margin-top: 1px;
   letter-spacing: 4%;
   font-weight: 800;
+  text-transform: uppercase;
+}
+
+.closed_sb_group {
+  width: calc(100% - 20px);
 }
 
 .arrow {
@@ -311,20 +454,22 @@
 }
 
 .arrow_down svg {
+  height: 9px;
   transition: 0.5s;
-  transform: rotate(180deg);
+  transform: rotate(0deg);
 }
 
 .arrow_side svg {
+  height: 9px;
   transition: 0.5s;
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
 
 .game_rows {
   width: 100%;
   position: absolute;
   z-index: 1;
-  top: 70px;
+  top: 50px;
   transition: 1s;
 }
 
@@ -386,9 +531,25 @@
 
 .support {
   box-sizing: border-box;
-  width: 217px;
-  border-radius: 20px;
-  background-color: #121212;
+  flex-direction: row;
+  column-gap: 11px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding-left: 25px;
+  svg path {
+    transition: all 0.5s;
+  }
+  &:hover {
+    svg path {
+      fill: #e5c787;
+    }
+  }
+}
+
+.oth_info_list_item {
+  cursor: pointer;
+  box-sizing: border-box;
   flex-direction: row;
   column-gap: 11px;
   display: flex;
@@ -434,6 +595,7 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #eaeaea;
+  text-transform: uppercase;
 }
 
 .support:hover {
@@ -527,9 +689,6 @@
 .swap {
   cursor: pointer;
   box-sizing: border-box;
-  width: 217px;
-  border-radius: 20px;
-  background-color: #121212;
   flex-direction: row;
   column-gap: 11px;
   display: flex;
@@ -551,8 +710,18 @@
   }
 }
 
-.leaderboard {
+.sb_other_info_list {
+  border-radius: 20px;
+  display: flex;
+  background: #121212;
+  flex-direction: column;
   width: 217px;
+  @media screen and (max-width: 1280px) {
+    width: 83%;
+  }
+}
+
+.leaderboard {
   height: 50px;
   box-sizing: border-box;
   padding-left: 25px;

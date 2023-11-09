@@ -369,6 +369,56 @@
   }
 }
 
+.poker_wager_halve_block:hover {
+  border-radius: 0 0 0 12px;
+}
+
+.poker_wager_max_block {
+  border-radius: 0 0 12px 0;
+}
+
+.poker_wager_halve_block,
+.poker_wager_double_block {
+  border-right: 1px solid #3e3e3e;
+}
+
+.poker_wager_halve_title,
+.poker_wager_double_title,
+.poker_wager_max_title {
+  font-family: var(--font-nunito-sans);
+  color: var(--Gray-5, #7e7e7e);
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%;
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+}
+
+.poker_wager_increase_block {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #202020;
+  border-radius: 0 0 12px 12px;
+}
+
+.poker_wager_halve_block,
+.poker_wager_double_block,
+.poker_wager_max_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+  &:hover {
+    background-color: #282828;
+    span {
+      color: #eaeaea;
+    }
+  }
+}
+
 @media screen and (max-width: 996px) {
   .poker_wager_wrap {
     border-top: 1px solid #202020;

@@ -54,20 +54,8 @@ const Emblem: FC<EmblemProps> = (props) => {
 
 interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
-  const [flipOpen, isOpen] = useUnit([
-    SideBarModel.flipOpen,
-    SideBarModel.$isOpen,
-  ]);
   return (
     <div className={s.left_menu}>
-      <div
-        className={s.burger}
-        onClick={() => {
-          flipOpen();
-        }}
-      >
-        <Image src={Burger} alt={""} width={22.5} height={15} />
-      </div>
       <Emblem />
     </div>
   );

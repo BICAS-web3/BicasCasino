@@ -1,17 +1,9 @@
 import { FC, useEffect, useState, Suspense } from "react";
-
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useFeeData,
-} from "wagmi";
-
+import s from "./styles.module.scss";
+import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
 import Image from "next/image";
-
+import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
+import { Canvas, act } from "@react-three/fiber";
 import { AnimationAction } from "three";
 import { Environment } from "@react-three/drei";
 import { SidePickerModel } from "../CoinFlipSidePicker";
@@ -29,32 +21,13 @@ import {
   useNetwork,
   usePrepareContractWrite,
 } from "wagmi";
-import { Canvas } from "@react-three/fiber";
-import { useAnimations, useGLTF, Environment } from "@react-three/drei";
-
-import { useUnit } from "effector-react";
-
 import { sessionModel } from "@/entities/session";
-
-import * as GameModel from "@/widgets/GamePage/model";
-
-import s from "./styles.module.scss";
-
-import useSound from "use-sound";
-
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
+import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
-
-import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
-import { SidePickerModel } from "../CoinFlipSidePicker";
-import { WagerModel as WagerButtonModel } from "../Wager";
-import { WagerModel } from "../WagerInputsBlock";
-import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-
-import { WagerGainLossModel } from "../WagerGainLoss";
 
 interface CoinFlipProps {}
 
