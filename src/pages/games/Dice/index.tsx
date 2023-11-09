@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import { Dice } from "@/widgets/Dice/Dice";
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import clsx from "clsx";
+import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 
 const WagerContent = () => {
@@ -61,20 +62,22 @@ const WagerContent = () => {
 
 export default function DiceGame() {
   return (
-    <Layout gameName="Dice">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Dice"]}
-      />
-      <div className={styles.dice_container}>
-        <GamePage
-          gameInfoText="Dice"
-          gameTitle="Dice"
-          wagerContent={<WagerContent />}
-        >
-          <Dice />
-        </GamePage>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>Games - Dice</title>
+      </Head>
+      <Layout activePageLink="/games/Dice" gameName="Dice">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Dice"]} />
+        <div className={styles.dice_container}>
+          <GamePage
+            gameInfoText="Dice"
+            gameTitle="Dice"
+            wagerContent={<WagerContent />}
+          >
+            <Dice />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

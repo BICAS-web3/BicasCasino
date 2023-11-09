@@ -33,6 +33,18 @@
   z-index: 11;
 }
 
+.game_body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  @media screen and (max-width: 1280px) {
+    gap: 20px;
+  }
+  @media screen and (max-width: 700px) {
+    gap: 15px;
+  }
+}
+
 .game_title {
   margin: 20px 0 0 20px;
   position: absolute;
@@ -133,24 +145,6 @@
   }
 }
 
-.poker_wager_sound_btn {
-  cursor: pointer;
-  z-index: 5;
-  background: #202020;
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
-
-//////////////////////////////////////////////////
 //////////////////////////////////////////////////
 .win_wrapper {
   position: absolute;
