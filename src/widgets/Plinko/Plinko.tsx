@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage2.png";
+import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
