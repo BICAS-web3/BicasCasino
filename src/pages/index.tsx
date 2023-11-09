@@ -90,7 +90,7 @@ import { useAccount } from "wagmi";
 import Link from "next/link";
 import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
-import { useRouter } from "next/router";
+import { PopUpBonus } from "@/widgets/PopUpBonus";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -277,9 +277,7 @@ const Games: FC<GamesProps> = (props) => {
         />
         <Game
           name={"PLINKO"}
-          description={
-            "A game where you have to beat your opponent with a chip"
-          }
+          description={""}
           link={"/games/Plinko"}
           tabletImage={plinkoTabletBg}
           laptopImage={plinkoLaptopBg}
@@ -410,9 +408,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
               <h3 className={s.main_advertaising_blocks_item_title}>
                 advertising poster
               </h3>
-              <p className={s.main_advertaising_blocks_item_text}>
+              {/* <p className={s.main_advertaising_blocks_item_text}>
                 Замена баннера после привязки кошелька.
-              </p>
+              </p> */}
             </div>
           </div>
           <div className={s.main_advertaising_blocks_item}>
@@ -421,9 +419,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
               <h3 className={s.main_advertaising_blocks_item_title}>
                 advertising poster
               </h3>
-              <p className={s.main_advertaising_blocks_item_text}>
+              {/* <p className={s.main_advertaising_blocks_item_text}>
                 Замена баннера после привязки кошелька.
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

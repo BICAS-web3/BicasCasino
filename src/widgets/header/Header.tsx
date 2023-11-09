@@ -40,6 +40,7 @@ import { useAccount } from "wagmi";
 import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
 import Link from "next/link";
 import { checkPageClicking } from "@/shared/tools";
+import clsx from "clsx";
 
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
@@ -215,7 +216,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
           // height={25}
           className={s.icon}
         />
-        <div className={s.new_notification}></div>
+        {/* <div className={s.new_notification}></div> */}
       </div>
       <div className={`${s.button} ${s.chat}`}>
         <Image
@@ -291,17 +292,16 @@ export interface HeaderProps {
   isGame: boolean;
 }
 export const Header: FC<HeaderProps> = (props) => {
+  const [isOpen] = useUnit([SidebarM.$isOpen]);
   return (
     <>
-      <>
-        <div className={s.header}>
-          <LeftMenu />
-          <Links />
-          {/* <NetworkSelect /> */}
-          <RightMenu isGame={props.isGame} />
-        </div>
-        <BottomMenu />
-      </>
+      <div className={clsx(s.header, !isOpen && s.header_close)}>
+        <LeftMenu />
+        <Links />
+        {/* <NetworkSelect /> */}
+        <RightMenu isGame={props.isGame} />
+      </div>
+      <BottomMenu />
     </>
   );
 };

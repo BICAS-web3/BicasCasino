@@ -1,9 +1,17 @@
 import { FC, useEffect, useState, Suspense } from "react";
-import s from "./styles.module.scss";
-import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
+
+import {
+  useAccount,
+  useContractEvent,
+  useContractRead,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useFeeData,
+} from "wagmi";
+
 import Image from "next/image";
-import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
-import { Canvas, act } from "@react-three/fiber";
+
 import { AnimationAction } from "three";
 import { Environment } from "@react-three/drei";
 import { SidePickerModel } from "../CoinFlipSidePicker";
@@ -21,13 +29,32 @@ import {
   useNetwork,
   usePrepareContractWrite,
 } from "wagmi";
+import { Canvas } from "@react-three/fiber";
+import { useAnimations, useGLTF, Environment } from "@react-three/drei";
+
+import { useUnit } from "effector-react";
+
 import { sessionModel } from "@/entities/session";
+
+import * as GameModel from "@/widgets/GamePage/model";
+
+import s from "./styles.module.scss";
+
+import useSound from "use-sound";
+
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
-import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
+
+import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
+import { SidePickerModel } from "../CoinFlipSidePicker";
+import { WagerModel as WagerButtonModel } from "../Wager";
+import { WagerModel } from "../WagerInputsBlock";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
+
+import { WagerGainLossModel } from "../WagerGainLoss";
 
 interface CoinFlipProps {}
 
@@ -49,7 +76,6 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   const { scene, animations } = useGLTF("/coinflip/coin_old.gltf");
   const { actions, mixer } = useAnimations(animations, scene);
 
-  // scene.rotation.z = 1.3;
   if (initial == SidePickerModel.Side.Heads) {
     scene.rotation.y = -1.58;
   } else if (initial == SidePickerModel.Side.Tails) {
@@ -121,7 +147,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData();
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -134,8 +160,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   useEffect(() => {
     console.log("Play sounds", playSounds);
     if (!playSounds) {
-      // /stopSounds();
-      //sounds.background.pause();
       stopBackground();
     } else {
       playBackground();
@@ -150,7 +174,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     args: [address],
     enabled: true,
     watch: isConnected,
-    //blockTag: 'latest' as any
   });
 
   useEffect(() => {
@@ -175,7 +198,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: true,
+    enabled:
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -197,9 +222,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     abi: ICoinFlip,
     functionName: "getVRFFee",
     args: [0],
-    // onSuccess: (fees: bigint) => {
-    //   console.log('fees', fees);
-    // },
     watch: true,
   });
 
@@ -207,9 +229,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     console.log("gas price", data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
       setFees(
-        (BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * data.gasPrice) /
-          BigInt(2)
+        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -239,7 +260,14 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
           BigInt(100000000000) *
           BigInt(200),
     ],
-    value: fees,
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0)),
     enabled: true,
   });
 
@@ -248,10 +276,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     isSuccess: startedPlaying,
     error,
   } = useContractWrite(startPlayingConfig);
-
-  useEffect(() => {
-    console.log("Picked side", pickedSide);
-  }, [pickedSide]);
 
   useEffect(() => {
     if (startedPlaying) {
@@ -269,11 +293,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     abi: ICoinFlip,
     eventName: "CoinFlip_Outcome_Event",
     listener(log) {
-      //handleLog(log)
-      console.log("Log", log);
-      console.log("address", (log[0] as any).args.playerAddress as string);
-      console.log("address wallet", address?.toLowerCase());
-      console.log("Picked side", pickedSide);
       if (
         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
         address?.toLowerCase()
@@ -319,31 +338,28 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     if (wagered) {
       console.log("Pressed wager");
       if (inGame) {
-        // setShowFlipCards(false);
-        // if (finishPlaying) finishPlaying();
       } else {
-        console.log(cryptoValue, currentBalance);
         const total_value = cryptoValue * betsAmount;
         if (
           cryptoValue != 0 &&
           currentBalance &&
           total_value <= currentBalance
         ) {
-          console.log("Allowance", allowance);
-          if (!allowance || (allowance && allowance <= cryptoValue)) {
-            console.log("Setting allowance");
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
             if (setAllowance) setAllowance();
-            //return;
           } else {
-            //setActiveCards(initialArrayOfCards);
             console.log(
               "Starting playing",
               startPlaying,
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-              //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
               pickedToken?.contract_address,
               gameAddress,
-              VRFFees
+              VRFFees,
+              fees
             );
             if (startPlaying) {
               startPlaying();
@@ -365,26 +381,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     }
   }, [gameStatus]);
 
-  // const [screenWidth, setScreenWidth] = useState(
-  //   typeof window !== "undefined" ? window.innerWidth : 0
-  // );
-
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setScreenWidth(window.innerWidth);
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (wagered) {
-  //     setWaitingResult(true);
-  //   }
-  // }, [is]);
-
   return (
     <div className={s.coinflip_table_wrap}>
       <div className={s.coinflip_table_background}>
@@ -396,7 +392,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
       </div>
       <div className={s.coinflip_table}>
         <div className={s.coinflip_wrap}>
-          {/* <h2 className={s.coinflip_wins_losses_list}>0 winning / 0 loss</h2> */}
           <div className={s.coinflip_block}>
             <Canvas
               camera={{
@@ -424,11 +419,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
             </Canvas>
           </div>
         </div>
-        {/* <h2
-          className={`${s.coinflip_wins_losses_list} ${s.coinflip_wins_losses_list_clone}`}
-        >
-          0 winning / 0 loss
-        </h2> */}
       </div>
     </div>
   );

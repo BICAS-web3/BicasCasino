@@ -7,11 +7,12 @@ import { useUnit } from "effector-react";
 import { settingsModel } from "@/entities/settings";
 import { WagerModel } from ".";
 import * as api from "@/shared/api";
-import { useNetwork, useAccount, useContractRead } from "wagmi";
+import { useNetwork, useAccount, useContractRead, useBalance } from "wagmi";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { sessionModel } from "@/entities/session";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-import { parseAbiItem } from "viem";
+import { useDropdown } from "@/shared/tools";
+import clsx from "clsx";
 
 // const tokensList = [
 //   {
@@ -31,13 +32,9 @@ import { parseAbiItem } from "viem";
 //   },
 // ];
 
-interface WagerInputsBlockProps {
-  wagerVariants?: number[];
-}
+interface WagerInputsBlockProps {}
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
-  wagerVariants,
-}) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [
     availableTokens,
     cryptoValue,
@@ -71,7 +68,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
 
   const [cryptoInputValue, setCryptoInputValue] = useState("0.0");
   const [currencyInputValue, setCurrencyInputValue] = useState("0.0");
-  const [tokenListVisibility, setTokenListVisibility] = useState(false);
+  // const [tokenListVisibility, setTokenListVisibility] = useState(false);
+  const { dropdownRef, isOpen, toggle, close } = useDropdown();
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [startedTyping, setstartedTyping] = useState<boolean>(false);
 
@@ -94,6 +92,20 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
     }
   }, [availableTokens]);
 
+  useEffect(() => {
+    const run = async (token: string) => {
+      const price = (
+        (await api.GetTokenPriceFx(token)).body as api.T_TokenPrice
+      ).token_price;
+      setExchangeRate(price);
+    };
+    console.log("available tokens", availableTokens);
+    if (pickedToken) {
+      //pickToken(availableTokens.tokens[0]);
+      run(pickedToken.name);
+    }
+  }, [pickedToken]);
+
   const {
     data: allowance,
     isError: allowanceError,
@@ -105,7 +117,10 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
     abi: IERC20,
     functionName: "allowance",
     args: [address, GameAddress],
-    watch: isConnected,
+    watch:
+      isConnected &&
+      pickedToken?.contract_address !=
+        "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -117,23 +132,29 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
     }
   }, [allowance]);
 
-  const {
-    data: balance,
-    error,
-    isError: balanceError,
-    refetch: fetchBalance,
-  } = useContractRead({
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "balanceOf",
-    args: [address],
-    watch: isConnected,
+  // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
+  //   address: (pickedToken?.contract_address as `0x${string}`),
+  //   abi: IERC20,
+  //   functionName: 'balanceOf',
+  //   args: [address],
+  //   watch: isConnected
+  // });
+
+  const { data: balance } = useBalance({
+    address: address,
+    token:
+      pickedToken?.contract_address ==
+      "0x0000000000000000000000000000000000000000"
+        ? undefined
+        : (pickedToken?.contract_address as `0x${string}`),
+    watch: true,
   });
+
   useEffect(() => {
     if (balance) {
-      console.log("balance", balance);
+      console.log("balance", balance.value);
       const new_balance =
-        Number((balance as any) / BigInt(100000000000000)) / 10000;
+        Number((balance.value as any) / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [balance]);
@@ -141,7 +162,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
     if (pickedToken && balance) {
       console.log("balance", balance);
       const new_balance =
-        Number((balance as any) / BigInt(100000000000000)) / 10000;
+        Number((balance.value as any) / BigInt(100000000000000)) / 10000;
       setBalance(new_balance);
     }
   }, [pickedToken]);
@@ -160,7 +181,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
     }
     const currency = num * exchangeRate;
     console.log(cryptoInputValue, currency, betsAmount);
-    if (currency * betsAmount >= 5) {
+    if (true) {
       console.log(currency * betsAmount >= 5);
       setCryptoValue(num);
     } else {
@@ -172,7 +193,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
 
   return (
     <>
-      <div className={s.poker_wager_inputs_block}>
+      <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div className={s.poker_wager_input_kripto_block}>
           <input
             className={s.poker_wager_input_kripto}
@@ -188,7 +209,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
               console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
-              if (currency * betsAmount >= 5) {
+              if (true) {
+                console.log("Crypto value", num);
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
@@ -197,22 +219,22 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
-            {startedTyping && cryptoValue * exchangeRate * betsAmount < 5 && (
-              <TransactionWarn amount={5} network="" />
-            )}
+            {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}
             {pickedToken && (
               <>
                 <Image
                   alt="token-ico"
                   src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
-                  onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                  // onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                  onClick={toggle}
                   width={30}
                   height={30}
                 />
                 <div
-                  className={`${s.poker_wager_tokens_list_wrap} ${
-                    tokenListVisibility && s.token_list_visible
-                  }`}
+                  className={clsx(
+                    s.poker_wager_tokens_list_wrap,
+                    isOpen && s.token_list_visible
+                  )}
                 >
                   <div className={s.poker_wager_tokens_list}>
                     <h1 className={s.poker_wager_tokens_list_title}>
@@ -263,7 +285,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
               const crypto_value = exchangeRate > 0 ? num / exchangeRate : 0;
               //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
-              if (num * betsAmount >= 5) {
+              if (true) {
                 //const crypto_value = exchangeRate > 0 ? (num / exchangeRate) : 0;
                 setCryptoValue(crypto_value);
               } else {
@@ -277,75 +299,53 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({
           </div>
         </div>
         <div className={s.poker_wager_increase_block}>
-          {wagerVariants ? (
-            wagerVariants.map((item, ind) => (
-              <div className={s.poker_wager_increase_block_item}>
-                <span className={s.poker_wager_increase_block_item_title}>
-                  {item}
-                </span>
-              </div>
-            ))
-          ) : (
-            <>
-              <div
-                className={s.poker_wager_increase_block_item}
-                onClick={() => {
-                  const newCryptoValue = cryptoValue / 2;
-                  setCryptoValue(newCryptoValue);
-                  setCryptoInputValue(
-                    Number(newCryptoValue.toFixed(7)).toString()
-                  );
+          <div
+            className={s.poker_wager_halve_block}
+            onClick={() => {
+              const newCryptoValue = cryptoValue / 2;
+              setCryptoValue(newCryptoValue);
+              setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
 
-                  const newCurrencyValue = newCryptoValue * exchangeRate;
-                  setCurrencyInputValue(
-                    Number(newCurrencyValue.toFixed(7)).toString()
-                  );
-                }}
-              >
-                <span className={s.poker_wager_increase_block_item_title}>
-                  1/2
-                </span>
-              </div>
-              <div
-                className={s.poker_wager_increase_block_item}
-                onClick={() => {
-                  const newCryptoValue = cryptoValue * 2;
-                  setCryptoValue(newCryptoValue);
-                  setCryptoInputValue(
-                    Number(newCryptoValue.toFixed(7)).toString()
-                  );
+              const newCurrencyValue = newCryptoValue * exchangeRate;
+              setCurrencyInputValue(
+                Number(newCurrencyValue.toFixed(7)).toString()
+              );
+            }}
+          >
+            <span className={s.poker_wager_halve_title}>1/2</span>
+          </div>
+          <div
+            className={s.poker_wager_double_block}
+            onClick={() => {
+              const newCryptoValue = cryptoValue * 2;
+              setCryptoValue(newCryptoValue);
+              setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
 
-                  const newCurrencyValue = newCryptoValue * exchangeRate;
-                  setCurrencyInputValue(
-                    Number(newCurrencyValue.toFixed(7)).toString()
-                  );
-                }}
-              >
-                <span className={s.poker_wager_double_title}>2x</span>
-              </div>
-              <div
-                className={s.poker_wager_increase_block_item}
-                onClick={() => {
-                  const newCryptoValue =
-                    Number((balance as bigint) / BigInt(100000000000000)) /
-                    10000;
-                  setCryptoValue(newCryptoValue);
-                  setCryptoInputValue(
-                    Number(newCryptoValue.toFixed(7)).toString()
-                  );
+              const newCurrencyValue = newCryptoValue * exchangeRate;
+              setCurrencyInputValue(
+                Number(newCurrencyValue.toFixed(7)).toString()
+              );
+            }}
+          >
+            <span className={s.poker_wager_double_title}>2x</span>
+          </div>
+          <div
+            className={s.poker_wager_max_block}
+            onClick={() => {
+              const newCryptoValue =
+                Number((balance?.value as bigint) / BigInt(100000000000000)) /
+                10000;
+              setCryptoValue(newCryptoValue);
+              setCryptoInputValue(Number(newCryptoValue.toFixed(7)).toString());
 
-                  const newCurrencyValue = newCryptoValue * exchangeRate;
-                  setCurrencyInputValue(
-                    Number(newCurrencyValue.toFixed(7)).toString()
-                  );
-                }}
-              >
-                <span className={s.poker_wager_increase_block_item_title}>
-                  max
-                </span>
-              </div>
-            </>
-          )}
+              const newCurrencyValue = newCryptoValue * exchangeRate;
+              setCurrencyInputValue(
+                Number(newCurrencyValue.toFixed(7)).toString()
+              );
+            }}
+          >
+            <span className={s.poker_wager_max_title}>max</span>
+          </div>
         </div>
       </div>
     </>
