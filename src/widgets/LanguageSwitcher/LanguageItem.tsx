@@ -14,12 +14,14 @@ interface LanguageItemProps {
   title: string;
   id: string;
   setActiveLanguage: (language: Language) => void;
-  setLanguagesListVisibility: (isVisible: boolean) => void;
+  // setLanguagesListVisibility: (isVisible: boolean) => void;
+  close: () => void;
 }
 
 export const LanguageItem: FC<LanguageItemProps> = (props) => {
   const setLanguage = () => {
-    props.setLanguagesListVisibility(false);
+    // props.setLanguagesListVisibility(false);
+    props.close();
     const activeLanguage = languages.filter((item) => item.id === props.id)[0];
     props.setActiveLanguage(activeLanguage);
   };

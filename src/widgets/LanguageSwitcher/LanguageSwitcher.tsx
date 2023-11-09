@@ -10,6 +10,7 @@ import sunIco from "@/public/media/sidebar_icons/sunIco.svg";
 import { useUnit } from "effector-react";
 import { $isOpen } from "../SideBar/model";
 import clsx from "clsx";
+import { useDropdown } from "@/shared/tools";
 
 export const languages = [
   {
@@ -26,13 +27,14 @@ interface LanguageSwitcherProps {}
 
 export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
   const [activeLanguage, setActiveLanguage] = useState(languages[0]);
-  const [languagesListVisibility, setLanguagesListVisibility] = useState(false);
+  // const [languagesListVisibility, setLanguagesListVisibility] = useState(false);
+  const { dropdownRef, isOpen: isVisible, toggle, close } = useDropdown();
   const [languagesList, setLanguagesList] = useState(languages);
   const [activeTheme, setActiveTheme] = useState("dark");
 
-  const setListVisibility = () => {
-    setLanguagesListVisibility(!languagesListVisibility);
-  };
+  // const setListVisibility = () => {
+  //   setLanguagesListVisibility(!languagesListVisibility);
+  // };
 
   const handleChangeTheme = () => {
     activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
@@ -51,19 +53,19 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
         <h2 className={s.language_switcher_title}>language</h2>
       </div>
       <div className={s.language_switcher_block}>
-        <div className={s.language_switcher} onClick={setListVisibility}>
+        <div className={s.language_switcher} onClick={toggle}>
           <h3 className={s.active_language_title}>{activeLanguage.title}</h3>
           <Image alt="down-ico" src={downIco} width={9} height={5} />
         </div>
         <div
-          className={`${s.languages_list} ${
-            languagesListVisibility && s.visible
-          }`}
+          ref={dropdownRef}
+          className={`${s.languages_list} ${isVisible && s.visible}`}
         >
           {languagesList &&
             languagesList.map((item, _) => (
               <LanguageItem
-                setLanguagesListVisibility={setLanguagesListVisibility}
+                // setLanguagesListVisibility={setLanguagesListVisibility}
+                close={close}
                 setActiveLanguage={setActiveLanguage}
                 {...item}
                 key={item.id}
@@ -100,7 +102,8 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
         {languagesList &&
           languagesList.map((item, _) => (
             <LanguageItem
-              setLanguagesListVisibility={setLanguagesListVisibility}
+              // setLanguagesListVisibility={setLanguagesListVisibility}
+              close={close}
               setActiveLanguage={setActiveLanguage}
               {...item}
               key={item.id}
