@@ -54,5 +54,8 @@
   @media screen and (max-width: 650px) {
     font-size: 12px;
     width: 140px;
+    height: 40px;
+    max-height: 40px;
+    min-height: 40px;
   }
 }

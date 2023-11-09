@@ -42,3 +42,9 @@
 .test {
   padding: 0 auto;
 }
+
+.connect_wallet_btn {
+  @media (max-width: 700px) {
+    height: 40px;
+  }
+}

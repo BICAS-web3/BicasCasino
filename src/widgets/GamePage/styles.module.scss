@@ -8,7 +8,7 @@
 
 .game {
   display: grid;
-  grid-template-columns: 1fr minmax(220px, 17vw);
+  grid-template-columns: 1fr 292px; // minmax(292px, 16.25vw)
   //! margin-bottom: 40px; !-------------------------------------
 }
 

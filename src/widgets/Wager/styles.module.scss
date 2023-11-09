@@ -36,12 +36,24 @@
   flex-direction: column;
 }
 
+.poker_wager_input_currency_block {
+  @media (min-width: 1280px) {
+    height: 50px;
+    box-sizing: border-box;
+  }
+}
+.poker_wager_input_kripto_block {
+  @media (min-width: 1280px) {
+    height: 50px;
+    box-sizing: border-box;
+  }
+}
 .poker_wager_input_kripto_block,
 .poker_wager_input_currency_block {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 8px 15px;
 }
 
 .poker_wager_input_kripto_ico_block {
@@ -52,7 +64,9 @@
 .poker_wager_input_currency_block {
   border-top: 1px solid #252525;
 }
-
+.poker_wager_input_currency_ico {
+  margin-right: 3px;
+}
 .poker_wager_input_kripto,
 .poker_wager_input_currency {
   background: inherit;
@@ -79,22 +93,21 @@
 
 .poker_wager_increase_block {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background: #202020;
   border-radius: 0 0 12px 12px;
+  overflow: hidden;
 }
 
-.poker_wager_halve_block,
-.poker_wager_double_block,
-.poker_wager_max_block {
+.poker_wager_halve_block {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 11px 15px;
   cursor: pointer;
 
   &:hover {
-    background-color: #282828;
+    background: var(--switch-in-game-2-e-night, #2e2e2e);
 
     span {
       color: #eaeaea;
@@ -102,17 +115,15 @@
   }
 }
 
-.poker_wager_halve_block:hover {
-  border-radius: 0 0 0 12px;
-}
-
 .poker_wager_max_block {
   border-radius: 0 0 12px 0;
 }
 
-.poker_wager_halve_block,
-.poker_wager_double_block {
+.poker_wager_halve_block {
   border-right: 1px solid #3e3e3e;
+  &:last-child {
+    border: none;
+  }
 }
 
 .poker_wager_halve_title,
@@ -208,10 +219,12 @@
 
 .poker_wager_drawing_cards_btn {
   border-radius: 12px;
-  background: linear-gradient(114deg,
+  background: linear-gradient(
+      114deg,
       #f8eeb8 -4.17%,
       #dbb370 59.03%,
-      #8e5b2d 112.39%),
+      #8e5b2d 112.39%
+    ),
     #121212;
   width: 100%;
   border: none;

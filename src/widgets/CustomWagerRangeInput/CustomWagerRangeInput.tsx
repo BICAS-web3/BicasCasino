@@ -1,7 +1,9 @@
-import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { FC, useEffect } from "react";
 import { useUnit } from "effector-react";
+
 import { CustomWagerRangeInputModel } from "./";
+
+import s from "./styles.module.scss";
 
 interface CustomWagerRangeInputProps {
   inputTitle: string;
@@ -16,7 +18,6 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   max,
   inputType,
 }) => {
-  //const [value, setValue] = useState(5);
   const [pickedValue, pickValue] = useUnit([
     inputType == CustomWagerRangeInputModel.RangeType.Bets
       ? CustomWagerRangeInputModel.$pickedValue
@@ -57,6 +58,17 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>
+      </div>
+      <div className={s.custom_range_setter}>
+        {[15, 25, 50, 100].map((val) => (
+          <div
+            className={s.custom_range_setter_item}
+            onClick={() => pickValue(val)}
+            key={val}
+          >
+            {val}
+          </div>
+        ))}
       </div>
     </div>
   );
