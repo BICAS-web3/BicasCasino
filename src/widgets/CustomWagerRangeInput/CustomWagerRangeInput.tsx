@@ -7,17 +7,23 @@ interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
+  inputType?: CustomWagerRangeInputModel.RangeType;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   inputTitle,
   min,
   max,
+  inputType,
 }) => {
   //const [value, setValue] = useState(5);
   const [pickedValue, pickValue] = useUnit([
-    CustomWagerRangeInputModel.$pickedValue,
-    CustomWagerRangeInputModel.pickValue,
+    inputType == CustomWagerRangeInputModel.RangeType.Bets
+      ? CustomWagerRangeInputModel.$pickedValue
+      : CustomWagerRangeInputModel.$pickedRows,
+    inputType == CustomWagerRangeInputModel.RangeType.Bets
+      ? CustomWagerRangeInputModel.pickValue
+      : CustomWagerRangeInputModel.pickRows,
   ]);
 
   useEffect(() => {

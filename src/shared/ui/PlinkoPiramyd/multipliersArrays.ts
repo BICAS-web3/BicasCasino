@@ -3,6 +3,7 @@ interface IMultipliersObject {
     [key: number]: number[];
   };
 }
+
 export const newMultipliers: IMultipliersObject = {
   easyMultipliers: {
     16: [
