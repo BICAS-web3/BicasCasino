@@ -482,10 +482,25 @@
     font-size: 12px;
     width: 100%;
   }
+  .poker_wager_inputs_block,
+  .poker_wager_sound_btn,
+  .poker_wager_info_btn,
+  .hand_multiplier_ico_wrap {
+    border-radius: 5px;
+  }
   .poker_wager_title,
   .poker_wager_input_kripto,
   .poker_wager_input_currency {
     font-size: 14px;
+  }
+  .poker_wager_max_block {
+    border-radius: 0 0 5px 0;
+  }
+  .poker_wager_halve_block {
+    border-radius: 0 0 0 5px;
+  }
+  .poker_wager_increase_block {
+    border-radius: 0 0 5px 5px;
   }
   .poker_wager_info_modal_block {
     bottom: 50px;

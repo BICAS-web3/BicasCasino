@@ -7,13 +7,27 @@
   position: fixed;
   min-height: 100vh;
   overflow-y: auto !important;
-  overflow: visible;
+  overflow-x: hidden !important;
   &.side_bar_closed > .side_bar_upper {
     min-height: calc(100% - 130px);
+  }
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #202020;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #3e3e3e;
+    border-radius: 4px;
+  }
+  @media screen and (max-width: 650px) {
+    background-color: #0f0f0f;
   }
 }
 
 .open_sb_block {
+  cursor: pointer;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
@@ -41,6 +55,9 @@
   align-items: center;
   row-gap: 5px;
   box-sizing: border-box;
+  @media screen and (max-width: 650px) {
+    padding-bottom: 30px;
+  }
 }
 
 .lower_blocks {
@@ -99,6 +116,9 @@
   text-transform: uppercase;
   @media screen and (max-width: 1280px) {
     width: 83%;
+  }
+  @media screen and (max-width: 650px) {
+    width: 100%;
   }
   svg {
     margin-right: 11px;
@@ -206,8 +226,8 @@
   position: relative;
   .games_button_tooltip {
     padding: 0;
-    left: 100%;
-    top: 5%;
+    left: 80px;
+    top: 172px;
     &::before {
       top: 7%;
     }
@@ -235,10 +255,10 @@
 
 .games_button_tooltip {
   white-space: nowrap;
-  position: absolute;
+  position: fixed;
   padding: 11px 20px;
-  left: 140%;
-  top: 15%;
+  left: 100px;
+  top: 100px;
   color: #7e7e7e;
   font-size: 16px;
   font-style: normal;
@@ -331,6 +351,9 @@
   text-transform: uppercase;
   @media screen and (max-width: 1280px) {
     width: 83%;
+  }
+  @media screen and (max-width: 650px) {
+    display: none;
   }
 }
 
@@ -608,9 +631,6 @@
     min-width: 200px;
     z-index: 10;
   }
-  .side_bar_upper {
-    height: 832px;
-  }
   .side_bar_lower {
     height: 1369px;
   }
@@ -643,7 +663,7 @@
     height: 100%;
   }
   .side_bar_upper {
-    height: 832px;
+    padding: 16px 16px 50px 16px !important;
   }
   .side_bar_lower {
     min-height: 744px;
@@ -654,9 +674,6 @@
 @media only screen and (max-width: 650px) {
   .side_bar_wrapper {
     display: none;
-  }
-  .buttons_menu {
-    padding: 0 25px;
   }
   .menu_header {
     width: 100%;
@@ -674,10 +691,9 @@
   }
   .side_bar_upper {
     gap: 3px;
-    height: 100%;
     background: #0f0f0f;
-    padding: 20px;
-    width: calc(100% - 40px);
+    padding: 16px;
+    width: calc(100% - 32px);
   }
   .buttons_menu,
   .social_networks,
@@ -718,6 +734,9 @@
   width: 217px;
   @media screen and (max-width: 1280px) {
     width: 83%;
+  }
+  @media screen and (max-width: 650px) {
+    width: 100%;
   }
 }
 

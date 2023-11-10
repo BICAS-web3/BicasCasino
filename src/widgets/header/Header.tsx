@@ -180,7 +180,8 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
   const closeSidebar = () => {
     close();
-    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.background = "visible";
+    document.documentElement.classList.remove("scroll-disable");
   };
 
   useEffect(() => {
@@ -254,8 +255,7 @@ const BottomMenu: FC<BottomMenuProps> = (props) => {
 
   const openSB = () => {
     openSidebar();
-    window.scrollTo(0, 0);
-    document.documentElement.style.overflow = "hidden";
+    document.documentElement.classList.add("scroll-disable");
   };
 
   return (
