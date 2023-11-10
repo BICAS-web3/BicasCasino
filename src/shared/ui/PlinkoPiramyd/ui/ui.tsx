@@ -1,29 +1,29 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
-import { $pickedValue, $pickedRows } from "@/widgets/CustomWagerRangeInput/model";
-import { useStore, useUnit } from "effector-react";
 import {
-  easyMultipliers,
-  hardMultipliers,
-  normalMultipliers,
-} from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
+  $pickedValue,
+  $pickedRows,
+} from "@/widgets/CustomWagerRangeInput/model";
+import { useStore, useUnit } from "effector-react";
+import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
 
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
 
-
-
 interface PlinkoBallProps {
   path: boolean[];
-  setAnimationFinished: any
+  setAnimationFinished: any;
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
 
-  const [playDing, { stop: stopDing }] = useSound('/static/media/games_assets/plinko/plinkoDing.mp3', { volume: 0.4, loop: false });
+  const [playDing, { stop: stopDing }] = useSound(
+    "/static/media/games_assets/plinko/plinkoDing.mp3",
+    { volume: 0.4, loop: false }
+  );
 
   const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
@@ -87,7 +87,6 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
       return;
     }
 
-
     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
     const run = async () => {
       // main body of the loop
@@ -97,7 +96,6 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
           //await sleep(200);
           setBallTop(firstMove); // first movement from the starting position
           setPathIndex(pathIndex + 1);
-
         } else if (pathIndex == -2) {
           console.log("TEXT");
           await sleep(200);
@@ -124,25 +122,31 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   }, [pathIndex, device]);
 
   return (
-    <>{pathIndex < props.path.length ? <div
-      className={styles.plinko_ball}
-      ref={ballRef}
-      style={{
-        top: `${ballTop}px`,
-        left: `calc(50% + ${ballLeft}px)`,
-        transition: ballLeft == 0 ? "" : "all 0.2s linear",
-      }}
-    >
-      <PlinkoBallIcon />
-    </div> : <></>}</>
+    <>
+      {pathIndex < props.path.length ? (
+        <div
+          className={styles.plinko_ball}
+          ref={ballRef}
+          style={{
+            top: `${ballTop}px`,
+            left: `calc(50% + ${ballLeft}px)`,
+            transition: ballLeft == 0 ? "" : "all 0.2s linear",
+          }}
+        >
+          <PlinkoBallIcon />
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
 interface IPlinkoPyramid {
-  path: boolean[][] | undefined,
+  path: boolean[][] | undefined;
 }
 
-export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
+export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const pickedRows = useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
   const [multipliers, setMultipliers] = useState<number[]>([]);
@@ -169,11 +173,14 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
         }
         console.log("Changing path", pathIndex);
         setAnimationFinished(false);
-        setBalls([...balls, <PlinkoBall
-          path={props.path[pathIndex]}
-          setAnimationFinished={setAnimationFinished}
-          key={pathIndex.toString()}
-        />])
+        setBalls([
+          ...balls,
+          <PlinkoBall
+            path={props.path[pathIndex]}
+            setAnimationFinished={setAnimationFinished}
+            key={pathIndex.toString()}
+          />,
+        ]);
         setPath(props.path[pathIndex]);
         setPathIndex(pathIndex + 1);
       }
@@ -197,9 +204,9 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   }, [level]);
 
   const updateMultipliers = (rowCount: number, lvl: string) => {
-    const easyMultipliersArray = easyMultipliers[rowCount];
-    const normalMultipliersArray = normalMultipliers[rowCount];
-    const hardMultipliersArray = hardMultipliers[rowCount];
+    const easyMultipliersArray = newMultipliers.easyMultipliers[rowCount];
+    const normalMultipliersArray = newMultipliers.normalMultipliers[rowCount];
+    const hardMultipliersArray = newMultipliers.hardMultipliers[rowCount];
 
     if (lvl == "easy") {
       setMultipliers(easyMultipliersArray);
@@ -207,7 +214,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       setMultipliers(normalMultipliersArray);
     } else if (lvl == "hard") {
       setMultipliers(hardMultipliersArray);
-
     }
   };
 
@@ -217,22 +223,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
@@ -249,11 +255,13 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
     console.log("PICKED VALUE", pickedRows);
   }, [pickedRows]);
 
-  const [multipliersSteps, setMultipliersSteps] = useState<number>(countMultipliersSteps(multipliers.length));
+  const [multipliersSteps, setMultipliersSteps] = useState<number>(
+    countMultipliersSteps(multipliers.length)
+  );
 
   // Стилизация Кубиков со значениями
   function countMultipliersSteps(length: number): number {
-    return ((length - 1) / 2);
+    return (length - 1) / 2;
   }
 
   useEffect(() => {
@@ -278,16 +286,16 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
 
     // Назначение цветов
     interface InterfaceMultipliersColor {
-      r: number,
-      g: number,
-      b: number,
+      r: number;
+      g: number;
+      b: number;
     }
     // rgba(205, 93, 33, 1) rgba(255, 170, 92, 1)
     const multipliersColorCenter: string = "rgba(255, 170, 92, 1)"; // вот цвета. Крайние и центральный. Надо, чтобы обязательно затемнялись. На высветвление надо другое делать
     const multipliersColorStart: InterfaceMultipliersColor = {
       r: 205,
       g: 93,
-      b: 33, // это тоже цвета 
+      b: 33, // это тоже цвета
     };
     const multipliersColorEnd: InterfaceMultipliersColor = {
       r: 255,
@@ -299,32 +307,44 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       r: (multipliersColorEnd.r - multipliersColorStart.r) / multipliersSteps,
       g: (multipliersColorEnd.g - multipliersColorStart.g) / multipliersSteps,
       b: (multipliersColorEnd.b - multipliersColorStart.b) / multipliersSteps,
-    }
+    };
 
     function multipliersBackground(i: number): string {
       if (i !== multipliersSteps) {
         if (i / (multipliersSteps / 2) < 2) {
-          const formula: number = (calcMultipliersColor.r * (i + 1));
-          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula}, ${multipliersColorStart.b + formula})`;
-
+          const formula: number = calcMultipliersColor.r * (i + 1);
+          return `rgb(${multipliersColorStart.r + formula}, ${
+            multipliersColorStart.g + formula
+          }, ${multipliersColorStart.b + formula})`;
         } else if (i / (multipliersSteps / 2) > 2) {
-          const formula: number = (calcMultipliersColor.r * (((multipliersSteps * 2) + 1) - i))
-          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula}, ${multipliersColorStart.b + formula})`;
-
+          const formula: number =
+            calcMultipliersColor.r * (multipliersSteps * 2 + 1 - i);
+          return `rgb(${multipliersColorStart.r + formula}, ${
+            multipliersColorStart.g + formula
+          }, ${multipliersColorStart.b + formula})`;
         }
       }
-      return multipliersColorCenter
+      return multipliersColorCenter;
     }
 
     const multiplierElements = multipliers.map((value, i) => (
-      <div className={styles.multipiler_cell} key={i} >
-        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24" fill="none">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z" fill={multipliersBackground(i)} />
+      <div className={styles.multipiler_cell} key={i}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="34"
+          height="24"
+          viewBox="0 0 34 24"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
+            fill={multipliersBackground(i)}
+          />
         </svg>
-        <span>
-          {value}x
-        </span>
-      </div >
+        <span>{value}x</span>
+      </div>
     ));
     rows.push(
       <div className={styles.pyramid_row} key={rowCount}>
@@ -338,14 +358,15 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   return (
     <div className={styles.container}>
       {generateRows()}
-      {path &&
+      {path && (
         <div className={styles.plinko_ball_container}>
           {/* <PlinkoBall
             path={path}
             setAnimationFinished={setAnimationFinished}
           /> */}
           {balls}
-        </div>}
+        </div>
+      )}
     </div>
   );
 };
