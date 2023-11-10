@@ -14,20 +14,27 @@ import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import { useAccount, useConnect } from "wagmi";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const { isConnected } = useAccount();
+  const { connectors, connect } = useConnect();
   return (
     <>
       <WagerInputsBlock />
       <button
         className={s.poker_wager_drawing_cards_btn}
         onClick={() => {
-          pressButton();
-          (window as any).fbq("track", "Purchase", {
-            value: 0.0,
-            currency: "USD",
-          });
+          if (!isConnected) {
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }
         }}
       >
         Drawing cards

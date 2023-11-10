@@ -12,7 +12,7 @@ import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtn
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import { WagerModel } from "@/widgets/Wager";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import clsx from "clsx";
@@ -20,6 +20,7 @@ import clsx from "clsx";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected } = useAccount();
+  const { connectors, connect } = useConnect();
   return (
     <>
       <WagerInputsBlock />
@@ -35,11 +36,15 @@ const WagerContent = () => {
       <button
         className={clsx(s.connect_wallet_btn, s.mobile)}
         onClick={() => {
-          pressButton();
-          (window as any).fbq("track", "Purchase", {
-            value: 0.0,
-            currency: "USD",
-          });
+          if (!isConnected) {
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }
         }}
       >
         {isConnected ? "Place bet" : "Connect Wallet"}

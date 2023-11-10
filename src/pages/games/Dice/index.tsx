@@ -4,7 +4,7 @@ import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
@@ -18,6 +18,7 @@ import { Dice } from "@/widgets/Dice/Dice";
 const WagerContent = () => {
   const isMobile = document.documentElement.clientWidth < 700;
   const { isConnected } = useAccount();
+  const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <>
@@ -34,11 +35,15 @@ const WagerContent = () => {
         <button
           className={s.connect_wallet_btn}
           onClick={() => {
-            pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
+            if (!isConnected) {
+              connect({ connector: connectors[0] });
+            } else {
+              pressButton();
+              (window as any).fbq("track", "Purchase", {
+                value: 0.0,
+                currency: "USD",
+              });
+            }
           }}
         >
           {isConnected ? "Place bet" : "Connect Wallet"}

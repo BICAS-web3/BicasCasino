@@ -13,6 +13,7 @@ import {
   useContractRead,
   useWaitForTransaction,
   useAccount,
+  useConnect,
 } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
@@ -50,6 +51,7 @@ export const GamePage: FC<GamePageProps> = ({
     price: number;
   }>();
 
+  const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
   const isMobile = document.documentElement.clientWidth < 700;
@@ -158,17 +160,21 @@ export const GamePage: FC<GamePageProps> = ({
                   <button
                     className={clsx(style.connect_wallet_btn, s.mobile)}
                     onClick={() => {
-                      pressButton();
-                      (window as any).fbq("track", "Purchase", {
-                        value: 0.0,
-                        currency: "USD",
-                      });
+                      if (!isConnected) {
+                        connect({ connector: connectors[0] });
+                      } else {
+                        pressButton();
+                        (window as any).fbq("track", "Purchase", {
+                          value: 0.0,
+                          currency: "USD",
+                        });
+                      }
                     }}
                   >
-                    {customTitle
+                    {isConnected
                       ? customTitle
-                      : isConnected
-                      ? "Place bet"
+                        ? customTitle
+                        : "Place bet"
                       : "Connect Wallet"}
                   </button>
                 ) : (
