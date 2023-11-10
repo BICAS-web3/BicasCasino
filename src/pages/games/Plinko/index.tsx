@@ -72,6 +72,7 @@ export default function PlinkoGame() {
         />
         <div className={styles.plinko_container}>
           <GamePage
+            isPoker={false}
             gameInfoText="test"
             gameTitle="plinko"
             wagerContent={<WagerContent />}

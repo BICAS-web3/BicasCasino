@@ -52,7 +52,7 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
             onChange={changeInputValue}
             max={max}
             min={min}
-            style={{ "--sx": `${trackWidth}%` }}
+            style={{ "--sx": `${trackWidth}%` } as any}
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>

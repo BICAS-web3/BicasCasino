@@ -32,7 +32,9 @@ import clsx from "clsx";
 //   },
 // ];
 
-interface WagerInputsBlockProps {}
+interface WagerInputsBlockProps {
+  wagerVariants?: number[];
+}
 
 export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [

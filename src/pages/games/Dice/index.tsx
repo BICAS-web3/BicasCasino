@@ -70,6 +70,7 @@ export default function DiceGame() {
         <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Dice"]} />
         <div className={styles.dice_container}>
           <GamePage
+            isPoker={false}
             gameInfoText="Dice"
             gameTitle="Dice"
             wagerContent={<WagerContent />}

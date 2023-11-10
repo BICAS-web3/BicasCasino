@@ -92,7 +92,7 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
 
 interface ClosedSideBarProps {
   pickedGame: number | null;
-  activePage: string;
+  activePage: string | undefined;
 }
 const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
   const [flipOpen, isOpen] = useUnit([
@@ -163,7 +163,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
 
 interface OpenedSideBarProps {
   pickedGame: number | null;
-  activePage: string;
+  activePage: string | undefined;
 }
 const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   const [gamesAreOpen, setOpen] = useState(true);
@@ -309,7 +309,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
 };
 
 export interface SideBarProps {
-  activePage: string;
+  activePage: string | undefined;
 }
 export const SideBar: FC<SideBarProps> = ({ activePage }) => {
   const [isOpen, currentPick] = useUnit([

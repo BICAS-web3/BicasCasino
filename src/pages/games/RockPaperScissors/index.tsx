@@ -23,7 +23,12 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
-      <CustomWagerRangeInput inputTitle="Multiple Bets" min={1} max={10} />
+      <CustomWagerRangeInput
+        inputType={"rps-inp"}
+        inputTitle="Multiple Bets"
+        min={1}
+        max={10}
+      />
       <WagerGainLoss />
       <RpsPicker />
       <button className={s.connect_wallet_btn} onClick={pressButton}>
