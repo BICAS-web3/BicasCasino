@@ -7,12 +7,14 @@ interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
+  inputType: any;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   inputTitle,
   min,
   max,
+  inputType,
 }) => {
   const [value, setValue] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
