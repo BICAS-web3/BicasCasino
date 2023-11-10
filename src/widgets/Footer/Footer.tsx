@@ -1,11 +1,16 @@
 import Image from "next/image";
 import { FC, JSX, useEffect, useState } from "react";
 import s from "./styles.module.scss";
-import Discord from "@/public/media/social_media/Discord.svg";
-import Twitter from "@/public/media/social_media/Twitter.svg";
-import Telegram from "@/public/media/social_media/Telegram.svg";
-import Facebook from "@/public/media/social_media/facebook.svg";
-import Insta from "@/public/media/social_media/Insta.svg";
+
+import discord from "@/public/media/social_media/discordIco.png";
+import inst from "@/public/media/social_media/instIco.png";
+import medium from "@/public/media/social_media/mediumIco.png";
+import tg from "@/public/media/social_media/tgIco.png";
+import facebook from "@/public/media/social_media/facebookIco.png";
+import twitter from "@/public/media/social_media/twitterIco.png";
+import mainIco from "@/public/media/social_media/mainIco.png";
+import reddit from "@/public/media/social_media/redditIco.png";
+
 import Eagle from "@/public/media/brand_images/GKEagle.png";
 import Greek_Keepers from "@/public/media/brand_images/Greek_Keepers.png";
 import Link from "next/link";
@@ -62,6 +67,70 @@ export const Footer: FC<FooterProps> = (props) => {
 
             <div className={s.icons_list}>
               <Link
+                href="https://t.me/greekkeepers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.tg_ico_wrap} ${s.ico_wrap}`}
+              >
+                <Image src={tg} alt={"telegram"} />
+              </Link>
+              <Link
+                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.inst_wrap}`}
+              >
+                <Image src={inst} alt={"inst"} />
+              </Link>
+              <Link
+                href="https://twitter.com/GreekKeepers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.twitter_wrap}`}
+              >
+                <Image src={twitter} alt={"twitter"} />
+              </Link>
+              <Link
+                href="https://discord.gg/ReJVd2xJSk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.discord_wrap}`}
+              >
+                <Image src={discord} alt={"discord"} />
+              </Link>
+              <Link
+                href="https://www.facebook.com/profile.php?id=100092326343777"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.facebook_wrap}`}
+              >
+                <Image src={facebook} alt={"facebook"} />
+              </Link>
+              <Link
+                href="https://www.reddit.com/user/GreekKeepers/?rdt=59831"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.reddit_wrap}`}
+              >
+                <Image src={reddit} alt={"reddit"} />
+              </Link>
+              <Link
+                href="https://medium.com/@greekkeepers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.medium_wrap}`}
+              >
+                <Image src={medium} alt={"medium"} />
+              </Link>
+              <Link
+                href="https://www.greekkeepers.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${s.ico_wrap} ${s.main_wrap}`}
+              >
+                <Image src={mainIco} alt={"greekkeepres-main"} />
+              </Link>
+              {/* <Link
                 href="https://discord.gg/ReJVd2xJSk"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -88,7 +157,7 @@ export const Footer: FC<FooterProps> = (props) => {
                 rel="noopener noreferrer"
               >
                 <Image src={Insta} alt={""} width={30} height={30} />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
