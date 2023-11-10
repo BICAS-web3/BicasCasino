@@ -21,11 +21,6 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <>
-      {isMobile && (
-        <button className={s.connect_wallet_btn} onClick={pressButton}>
-          {isConnected ? "Place bet" : "Connect Wallet"}
-        </button>
-      )}
       <WagerInputsBlock />
       <CustomWagerRangeInput
         inputTitle="Bets"
@@ -36,8 +31,17 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       {!isMobile && (
-        <button className={s.connect_wallet_btn} onClick={pressButton}>
-          {isConnected ? "Placddde bet" : "Connect Wallet"}
+        <button
+          className={s.connect_wallet_btn}
+          onClick={() => {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }}
+        >
+          {isConnected ? "Place bet" : "Connect Wallet"}
         </button>
       )}
     </>

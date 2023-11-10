@@ -175,3 +175,10 @@
     top: calc(50vh - 112px);
   }
 }
+
+.mobile {
+  margin: 0 auto 8px auto !important;
+  @media (min-width: 650px) {
+    display: none;
+  }
+}

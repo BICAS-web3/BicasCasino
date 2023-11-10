@@ -215,6 +215,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                   onClick={toggle}
                   width={30}
                   height={30}
+                  className={s.icon}
                 />
                 <div
                   className={clsx(

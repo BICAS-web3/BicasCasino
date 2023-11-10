@@ -15,6 +15,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
+import clsx from "clsx";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -32,7 +33,7 @@ const WagerContent = () => {
       <ProfitBlock />
       <SidePicker />
       <button
-        className={s.connect_wallet_btn}
+        className={clsx(s.connect_wallet_btn, s.mobile)}
         onClick={() => {
           pressButton();
           (window as any).fbq("track", "Purchase", {

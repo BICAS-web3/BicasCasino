@@ -48,3 +48,9 @@
     height: 40px;
   }
 }
+
+.mobile {
+  @media (min-width: 650px) {
+    display: none;
+  }
+}

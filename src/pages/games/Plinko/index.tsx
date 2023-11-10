@@ -18,6 +18,7 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import clsx from "clsx";
 
 const WagerContent = () => {
   const { isConnected } = useAccount();
@@ -39,10 +40,9 @@ const WagerContent = () => {
         max={16}
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
-      {/*<WagerGainLoss />*/}
-      {/*<ProfitBlock />*/}
+
       <button
-        className={s.connect_wallet_btn}
+        className={clsx(s.connect_wallet_btn, styles.mobile)}
         onClick={() => {
           pressButton();
           (window as any).fbq("track", "Purchase", {

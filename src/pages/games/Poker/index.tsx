@@ -20,7 +20,16 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <button className={s.poker_wager_drawing_cards_btn} onClick={() => { pressButton(); (window as any).fbq('track', 'Purchase', { value: 0.00, currency: 'USD' }); }}>
+      <button
+        className={s.poker_wager_drawing_cards_btn}
+        onClick={() => {
+          pressButton();
+          (window as any).fbq("track", "Purchase", {
+            value: 0.0,
+            currency: "USD",
+          });
+        }}
+      >
         Drawing cards
       </button>
       <WagerLowerBtnsBlock game="poker" />
@@ -33,9 +42,6 @@ export default function PokerGame() {
     PokerModel.$showFlipCards,
     PokerModel.flipShowFlipCards,
   ]);
-  const flipCards = false;
-  //const won = false;
-  //const lost = false;
   return (
     <Layout gameName="Poker">
       <LiveBetsWS
@@ -44,6 +50,7 @@ export default function PokerGame() {
       />
       <div className={s.poker_container}>
         <GamePage
+          customTitle="Drawing cards"
           gameInfoText="test"
           gameTitle="poker"
           wagerContent={<WagerContent />}
