@@ -42,6 +42,9 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
     );
   }, [pickedValue]);
 
+  const value = max / 4;
+  const arrData =
+    max > 25 ? [15, 25, 50, max] : [min, value * 2, value * 3, max];
   return (
     <div className={s.custom_range_input_layout}>
       <h3 className={s.custom_range_input_title}>{inputTitle}</h3>
@@ -60,7 +63,7 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
         <span className={s.custom_range_input_max_value}>{max}</span>
       </div>
       <div className={s.custom_range_setter}>
-        {[15, 25, 50, 100].map((val) => (
+        {arrData.map((val) => (
           <div
             className={s.custom_range_setter_item}
             onClick={() => pickValue(val)}
