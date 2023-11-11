@@ -50,7 +50,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   const { actions, mixer } = useAnimations(animations, scene);
 
   if (initial == SidePickerModel.Side.Heads) {
-    scene.rotation.y = -1.58;
+    scene.rotation.y = -1.82;
   } else if (initial == SidePickerModel.Side.Tails) {
     scene.rotation.y = 1.58;
   }

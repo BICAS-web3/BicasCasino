@@ -62,10 +62,10 @@ export default function PokerGame() {
         />
         <div className={s.poker_container}>
           <GamePage
+            isPoker={true}
             customTitle="Drawing cards"
             gameInfoText="test"
             gameTitle="poker"
-            isPoker={true}
             wagerContent={<WagerContent />}
           >
             <Poker />

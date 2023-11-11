@@ -68,9 +68,9 @@ export default function CoinFlipGame() {
         />
         <div className={s.coinflip_container}>
           <GamePage
+            isPoker={false}
             gameInfoText="test"
             gameTitle="coinflip"
-            isPoker={false}
             wagerContent={<WagerContent />}
           >
             <CoinFlip />
