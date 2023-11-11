@@ -7,6 +7,8 @@ import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
+import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -25,6 +27,7 @@ import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
+import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock";
 import clsx from "clsx";
 import { WagerModel } from "@/widgets/Wager";
 
@@ -33,6 +36,7 @@ interface GamePageProps {
   gameTitle: string;
   gameInfoText: string;
   wagerContent: any;
+  isPoker: boolean;
   customTitle?: string;
 }
 
@@ -41,6 +45,7 @@ export const GamePage: FC<GamePageProps> = ({
   gameTitle,
   gameInfoText,
   wagerContent,
+  isPoker,
   customTitle = false,
 }) => {
   console.log("Redrawing game page");
@@ -76,6 +81,8 @@ export const GamePage: FC<GamePageProps> = ({
     token,
     lost,
     clearStatus,
+    playSounds,
+    switchSounds,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
@@ -86,6 +93,8 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.$token,
     GameModel.$lost,
     GameModel.clearStatus,
+    GameModel.$playSounds,
+    GameModel.switchSounds,
   ]);
 
   const [setBlur] = useUnit([BlurModel.setBlur]);
@@ -128,6 +137,16 @@ export const GamePage: FC<GamePageProps> = ({
           <div className={s.game}>
             <div className={s.game_block}>
               <h2 className={s.game_title}>{gameTitle}</h2>
+              <button
+                className={s.poker_wager_sound_btn}
+                onClick={() => switchSounds()}
+              >
+                {playSounds ? (
+                  <Image alt="sound-ico" src={soundIco} />
+                ) : (
+                  <Image alt="sound-ico-off" src={soundOffIco} />
+                )}
+              </button>
               {children}
 
               {gameStatus == GameModel.GameStatus.Won && (
@@ -153,7 +172,6 @@ export const GamePage: FC<GamePageProps> = ({
                 </div>
               )}
             </div>
-
             <Wager
               ButtonElement={
                 isMobile ? (
@@ -183,6 +201,7 @@ export const GamePage: FC<GamePageProps> = ({
               }
               wagerContent={wagerContent}
             />
+            <GamePageBottomBlock isPoker={isPoker} gameText={""} />
           </div>
           <div>
             <CustomBets

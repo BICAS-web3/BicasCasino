@@ -1,18 +1,61 @@
 import Image from "next/image";
 import { GameLayout } from "../../../widgets/GameLayout/layout";
 import { GameInfo } from "@/widgets/GameInfo";
+import s from "./styles.module.scss";
+import { Layout } from "@/widgets/Layout";
+import { GamePage } from "@/widgets/GamePage/GamePage";
+import { useRouter } from "next/router";
+import { LiveBetsWS } from "@/widgets/LiveBets";
+import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
+import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
+import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import { WagerModel } from "@/widgets/Wager";
+import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
+import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
+import { useAccount } from "wagmi";
+import { useUnit } from "effector-react";
+import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
-import MinimalIcon from "@/public/media/games_assets/rock_paper_scissors/minimal_icon.svg";
-// import { LiveBets } from '@/widgets/LiveBets';
-//import { RPS } from '@/widgets/RockPaperScissors';
-
-export default function RockPaperScissors() {
+const WagerContent = () => {
+  const { isConnected } = useAccount();
+  const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
-    // <GameLayout gameName={'RockPaperScissors'} children={[
-    //     <GameInfo name={'Rock-Paper-Scissors'} description={'A classic game of Chinese origins.\nChoose rock, paper or scissors and place your bet. There is a 33% chance to draw, win or lose determined by which action you choose.'} image={MinimalIcon} />,
-    //     // s,
-    //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["RockPaperScissors"]} />
-    // ]} />
-    <></>
+    <>
+      <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
+      <CustomWagerRangeInput
+        inputType={"rps-inp"}
+        inputTitle="Multiple Bets"
+        min={1}
+        max={10}
+      />
+      <WagerGainLoss />
+      <RpsPicker />
+      <button className={s.connect_wallet_btn} onClick={pressButton}>
+        {isConnected ? "Place bet" : "Connect Wallet"}
+      </button>
+      <WagerLowerBtnsBlock game="rps" />
+    </>
+  );
+};
+
+export default function RockPaperScissorsGame() {
+  return (
+    <Layout gameName={"RockPaperScissors"}>
+      <LiveBetsWS
+        subscription_type={"Subscribe"}
+        subscriptions={["Plinko", "PlinkoStart"]}
+      />
+      <div className={s.rps_container}>
+        <GamePage
+          isPoker={false}
+          gameInfoText="rps"
+          gameTitle="rock paper scissors"
+          wagerContent={<WagerContent />}
+        >
+          <RockPaperScissors />
+        </GamePage>
+      </div>
+    </Layout>
   );
 }

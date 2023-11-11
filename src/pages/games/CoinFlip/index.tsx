@@ -70,6 +70,7 @@ export default function CoinFlipGame() {
           <GamePage
             gameInfoText="test"
             gameTitle="coinflip"
+            isPoker={false}
             wagerContent={<WagerContent />}
           >
             <CoinFlip />

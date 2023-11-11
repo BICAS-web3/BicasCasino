@@ -3,12 +3,10 @@
     width: 100%;
   }
 }
+
 .swap_button_open {
   cursor: pointer;
   box-sizing: border-box;
-  width: 217px;
-  border-radius: 20px;
-  background-color: #121212;
   flex-direction: row;
   column-gap: 11px;
   display: flex;
@@ -27,6 +25,7 @@
     width: 100%;
   }
 }
+
 .icon_wrapper {
   width: 18px;
   height: 18px;
@@ -48,7 +47,7 @@
   line-height: 21px;
   letter-spacing: 0.04em;
   text-align: left;
-  color: #eaeaea;
+  color: #7e7e7e;
 }
 
 .swap_block {
@@ -118,6 +117,7 @@
     right: 0;
   }
 }
+
 .swap_sidebar_open.swap_block_open {
   @media (max-width: 1200px) {
     transform: translateY(-50%) translateX(0) scaleY(1);
@@ -262,6 +262,7 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .initial_exchange {
   display: flex;
   height: 50px;
@@ -322,6 +323,7 @@
 .button {
   position: relative;
 }
+
 .button {
   width: 50px;
   height: 50px;
@@ -330,6 +332,7 @@
   align-items: center;
   box-sizing: border-box;
 }
+
 .button:hover > .games_button_tooltip {
   display: flex;
 }
@@ -368,6 +371,7 @@
     border-radius: 2px;
   }
 }
+
 .button:hover > .games_button_tooltip {
   display: flex;
 }

@@ -36,7 +36,9 @@ import s from "../Wager/styles.module.scss";
 //   },
 // ];
 
-interface WagerInputsBlockProps {}
+interface WagerInputsBlockProps {
+  wagerVariants?: number[];
+}
 
 export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [
@@ -222,14 +224,16 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                 <Image
                   alt="token-ico"
                   src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
-                  onClick={() => toggle()}
+                  // onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                  onClick={toggle}
                   width={30}
                   height={30}
                 />
                 <div
-                  className={`${s.poker_wager_tokens_list_wrap} ${
+                  className={clsx(
+                    s.poker_wager_tokens_list_wrap,
                     isOpen && s.token_list_visible
-                  }`}
+                  )}
                 >
                   <div className={s.poker_wager_tokens_list}>
                     <h1 className={s.poker_wager_tokens_list_title}>

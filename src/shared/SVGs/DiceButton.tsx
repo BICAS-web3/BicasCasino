@@ -4,11 +4,11 @@ export interface DiceButtonProps {}
 export const DiceButton: FC<DiceButtonProps> = (props) => {
   return (
     <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="19"
+      height="18"
+      viewBox="0 0 19 18"
+      fill="none"
     >
       <path
         fill-rule="evenodd"

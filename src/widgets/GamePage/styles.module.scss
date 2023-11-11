@@ -13,7 +13,7 @@
 }
 
 .game_block {
-  border-radius: 20px 0 0 20px;
+  border-radius: 20px 0 0 0;
   min-height: 680px;
   width: 100%;
   position: relative;
@@ -138,11 +138,26 @@
 
 @media screen and (max-width: 600px) {
   .game_block {
-    // height: 254px;
-    // min-height: 100%;
     height: auto;
     min-height: 254px;
   }
+}
+
+.poker_wager_sound_btn {
+  cursor: pointer;
+  z-index: 5;
+  background: #202020;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 
 //////////////////////////////////////////////////
@@ -163,6 +178,9 @@
 @media screen and (max-width: 996px) {
   .win_wrapper {
     bottom: 96px;
+  }
+  .poker_wager_sound_btn {
+    display: none;
   }
 }
 
