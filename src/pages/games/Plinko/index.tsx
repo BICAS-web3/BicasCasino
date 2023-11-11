@@ -8,20 +8,19 @@ import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { Plinko } from "@/widgets/Plinko/Plinko";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
-import { WagerGainLoss } from "@/widgets/WagerGainLoss";
-import { ProfitBlock } from "@/widgets/ProfitBlock";
-import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import Head from "next/head";
+import clsx from "clsx";
 
 const WagerContent = () => {
+  const { connectors, connect } = useConnect();
   const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
@@ -41,16 +40,19 @@ const WagerContent = () => {
         max={16}
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
-      {/*<WagerGainLoss />*/}
-      {/*<ProfitBlock />*/}
+
       <button
-        className={s.connect_wallet_btn}
+        className={clsx(s.connect_wallet_btn, styles.mobile)}
         onClick={() => {
-          pressButton();
-          (window as any).fbq("track", "Purchase", {
-            value: 0.0,
-            currency: "USD",
-          });
+          if (!isConnected) {
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }
         }}
       >
         {isConnected ? "Place bet" : "Connect Wallet"}
@@ -58,7 +60,6 @@ const WagerContent = () => {
       <WagerLowerBtnsBlock game="plinko" />
     </>
   );
-
 };
 
 export default function PlinkoGame() {

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
+
 import { CustomWagerRangeInputModel } from "./";
+
+import s from "./styles.module.scss";
 
 interface CustomWagerRangeInputProps {
   inputTitle: string;
@@ -39,6 +41,9 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
     setTrackWidth(newTrackWidth);
   }, [value]);
 
+  // const value = max / 4;
+  const arrData =
+    max > 25 ? [15, 25, 50, max] : [min, value * 2, value * 3, max];
   return (
     <div className={s.custom_range_input_layout}>
       <h3 className={s.custom_range_input_title}>{inputTitle}</h3>
@@ -56,6 +61,17 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>
+      </div>
+      <div className={s.custom_range_setter}>
+        {arrData.map((val) => (
+          <div
+            className={s.custom_range_setter_item}
+            onClick={() => pickValue(val)}
+            key={val}
+          >
+            {val}
+          </div>
+        ))}
       </div>
     </div>
   );

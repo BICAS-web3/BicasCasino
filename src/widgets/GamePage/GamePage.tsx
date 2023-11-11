@@ -15,18 +15,21 @@ import {
   useContractRead,
   useWaitForTransaction,
   useAccount,
+  useConnect,
 } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
-
+import style from "@/pages/games/CoinFlip/styles.module.scss";
 import * as GameModel from "./model";
 import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
 import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock";
+import clsx from "clsx";
+import { WagerModel } from "@/widgets/Wager";
 
 interface GamePageProps {
   children: ReactNode;
@@ -34,6 +37,7 @@ interface GamePageProps {
   gameInfoText: string;
   wagerContent: any;
   isPoker: boolean;
+  customTitle?: string;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -42,6 +46,7 @@ export const GamePage: FC<GamePageProps> = ({
   gameInfoText,
   wagerContent,
   isPoker,
+  customTitle = false,
 }) => {
   console.log("Redrawing game page");
   const { address, isConnected } = useAccount();
@@ -51,9 +56,10 @@ export const GamePage: FC<GamePageProps> = ({
     price: number;
   }>();
 
+  const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
-
+  const isMobile = document.documentElement.clientWidth < 700;
   const {
     data: balance,
     error,
@@ -118,6 +124,7 @@ export const GamePage: FC<GamePageProps> = ({
   // const won = false;
   // const lost = false;
 
+  const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <div className={s.game_layout}>
       <div className={s.game_wrap}>
@@ -165,7 +172,35 @@ export const GamePage: FC<GamePageProps> = ({
                 </div>
               )}
             </div>
-            <Wager wagerContent={wagerContent} />
+            <Wager
+              ButtonElement={
+                isMobile ? (
+                  <button
+                    className={clsx(style.connect_wallet_btn, s.mobile)}
+                    onClick={() => {
+                      if (!isConnected) {
+                        connect({ connector: connectors[0] });
+                      } else {
+                        pressButton();
+                        (window as any).fbq("track", "Purchase", {
+                          value: 0.0,
+                          currency: "USD",
+                        });
+                      }
+                    }}
+                  >
+                    {isConnected
+                      ? customTitle
+                        ? customTitle
+                        : "Place bet"
+                      : "Connect Wallet"}
+                  </button>
+                ) : (
+                  <></>
+                )
+              }
+              wagerContent={wagerContent}
+            />
             <GamePageBottomBlock isPoker={isPoker} gameText={""} />
           </div>
           <div>

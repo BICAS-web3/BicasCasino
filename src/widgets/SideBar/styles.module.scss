@@ -514,6 +514,9 @@
   background: #121212;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  &:hover {
+    color: #ffe09d;
+  }
 }
 
 .game_active {
@@ -617,7 +620,7 @@
   line-height: 21px;
   letter-spacing: 0.04em;
   text-align: left;
-  color: #eaeaea;
+  color: #979797;
   text-transform: uppercase;
 }
 

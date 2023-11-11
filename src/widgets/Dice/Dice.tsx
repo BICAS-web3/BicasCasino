@@ -54,7 +54,7 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps { }
+export interface DiceProps {}
 
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
@@ -152,15 +152,22 @@ export const Dice: FC<DiceProps> = () => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
-    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) * BigInt(100000000000)) : BigInt(0)),
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0)),
     enabled: true,
   });
 
@@ -215,7 +222,9 @@ export const Dice: FC<DiceProps> = () => {
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
+    enabled:
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -246,7 +255,7 @@ export const Dice: FC<DiceProps> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + (data.gasPrice / BigInt(4)))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -319,7 +328,11 @@ export const Dice: FC<DiceProps> = () => {
           total_value <= currentBalance
         ) {
           console.log("Allowance", allowance);
-          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
             //return;
@@ -354,7 +367,6 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [gameStatus]);
 
-
   const rangeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -364,7 +376,8 @@ export const Dice: FC<DiceProps> = () => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
@@ -430,13 +443,6 @@ export const Dice: FC<DiceProps> = () => {
           />
           <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
         </div>
-        {/* <div className={s.dice_about}>
-          <span className={s.green_color}>32</span>
-          <span className={s.red_color}>343</span>
-          <span>
-            Total: <span className={s.green_color}>{total.toFixed(2)}</span>
-          </span>
-        </div> */}
         <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
           <Image
             src={playSounds ? soundIco : soundOffIco}
@@ -451,15 +457,22 @@ export const Dice: FC<DiceProps> = () => {
               {dice.title}{" "}
               {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
             </h3>
-            <div className={s.dice_under_data}>
+            <div className={clsx(s.dice_under_data)}>
               <span className={s.dice_under_value}>{dice.value}</span>
-              <Image
-                onClick={() => {
-                  dice.title === "Roll" && changeBetween();
-                }}
-                src={dice.img_src}
-                alt={dice.img_src}
-              />
+              <div
+                className={clsx(
+                  s.dice_under_img,
+                  dice.title === "Roll" && s.dice_under_data_medium
+                )}
+              >
+                <Image
+                  onClick={() => {
+                    dice.title === "Roll" && changeBetween();
+                  }}
+                  src={dice.img_src}
+                  alt={dice.img_src}
+                />
+              </div>
             </div>
           </div>
         ))}

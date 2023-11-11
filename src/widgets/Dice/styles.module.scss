@@ -178,10 +178,23 @@
   background: var(--black-10-f, #0f0f0f);
   border-radius: 12px;
   overflow: hidden;
-  img {
-    padding: 15px;
-    cursor: pointer;
+  margin-top: 6px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
   }
+}
+
+.dice_under_img {
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dice_under_data_medium {
+  background-color: #202020;
 }
 
 .dice_close_icon {

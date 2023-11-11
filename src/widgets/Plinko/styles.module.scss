@@ -54,3 +54,28 @@
     height: 7px;
   }
 }
+
+.helmet {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  @media (max-width: 1500px) {
+    right: -80px;
+  }
+  @media (max-width: 1280px) {
+    display: none;
+  }
+}
+.statue {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  @media (max-width: 1500px) {
+    left: -80px;
+  }
+  @media (max-width: 1280px) {
+    display: none;
+  }
+}
