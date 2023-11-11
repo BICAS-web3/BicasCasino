@@ -39,7 +39,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import { WagerGainLossModel } from "../WagerGainLoss";
 
-interface CoinFlipProps { }
+interface CoinFlipProps {}
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -86,7 +86,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   return <primitive object={scene} />;
 };
 
-export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
+export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   const [
     playSounds,
     pickedSide,
@@ -180,7 +180,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
+    enabled:
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -210,7 +212,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + (data.gasPrice / BigInt(4)))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -229,18 +231,25 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
-    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) * BigInt(100000000000)) : BigInt(0)),
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0)),
     enabled: true,
   });
 
@@ -318,7 +327,11 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
           currentBalance &&
           total_value <= currentBalance
         ) {
-          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
             if (setAllowance) setAllowance();
           } else {
             console.log(
@@ -379,8 +392,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
                     inGame
                       ? CoinAction.Rotation
                       : pickedSide == SidePickerModel.Side.Heads
-                        ? CoinAction.TailsHeads
-                        : CoinAction.TailsHeads
+                      ? CoinAction.TailsHeads
+                      : CoinAction.TailsHeads
                   }
                   initial={pickedSide}
                 />

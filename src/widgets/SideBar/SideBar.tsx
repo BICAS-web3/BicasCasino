@@ -1,14 +1,10 @@
+import { FC, useState } from "react";
+import { useUnit } from "effector-react";
 import Image from "next/image";
-import {
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-  use,
-  MouseEvent,
-} from "react";
+import clsx from "clsx";
+
 import s from "./styles.module.scss";
+
 import {
   CoinButton,
   DiceButton,
@@ -18,15 +14,18 @@ import {
   ArrowIcon,
   SupportIcon,
 } from "@/shared/SVGs";
-import { useUnit } from "effector-react";
-import * as SideBarModel from "./model";
-import Discord from "@/public/media/social_media/Discord.svg";
-import Twitter from "@/public/media/social_media/Twitter.svg";
-import Telegram from "@/public/media/social_media/Telegram.svg";
-import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
-import Insta from "@/public/media/social_media/Insta.svg";
-import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
+import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
+
+import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
+
+import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
+
+import * as SideBarModel from "./model";
+
+import { Swap } from "../Swap";
+import { SettingIcon } from "@/shared/SVGs/SettingIcon";
+import { StarIcon } from "@/shared/SVGs/StarIcon";
 import { PlinkoButton } from "@/shared/SVGs/PlinkoButton";
 
 const gamesList = [
@@ -213,8 +212,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             </div>
           </div>
         </div>
+        <LanguageSwitcher />
       </div>
-      <div className={s.side_bar_lower}></div>
+      <span className={s.star_icon}>
+        {" "}
+        <StarIcon />
+      </span>
     </>
   );
 };
@@ -302,6 +305,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 Plinko
               </div>
             </div>
+          </div>{" "}
+          <div
+            className={clsx(s.leaderboard)}
+            onClick={() => {
+              location.href = "/games/CoinFlip";
+            }}
+          >
+            <LeaderboardIcon />
+            LeaderBoard
           </div>
           <div
             className={s.support}
@@ -314,12 +326,12 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>SUPPORT</div>
           </div>
+          <Swap />
           <LanguageSwitcher />
           {/* <div className={s.language_settings}>
                 </div> */}
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
     </>
   );
 };

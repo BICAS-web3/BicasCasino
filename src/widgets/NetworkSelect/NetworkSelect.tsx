@@ -5,6 +5,7 @@ import downIco from "../../public/media/networkSelect_icons/dropDownIco.svg";
 
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
+
 import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
 import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
@@ -15,15 +16,6 @@ import { useAccount, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { useDropdown } from "@/shared/tools";
 import clsx from "clsx";
-
-//import { useState, useEffect } from "react";
-//import Image from 'next/image';
-//import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
-//import { useUnit } from 'effector-react';
-//import { web3 } from '@/entities/web3';
-//import { useNetwork, useSwitchNetwork } from 'wagmi'
-//import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
-//import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
 
 export const networksList = [
   // {
@@ -47,13 +39,11 @@ export interface NetworkSelectProps {
   isGame: boolean;
 }
 export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
-  const { toggle, dropdownRef, isOpen, close } = useDropdown();
-
   const { chain } = useNetwork();
+  const { isOpen, toggle, close, dropdownRef } = useDropdown();
 
-  const [networkListVisibility, setNetworkListVisibility] = useState(false);
   const [activeNetwork, setActiveNetwork] = useState<number | undefined>(-1);
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
   const [networkList, currentBalance] = useUnit([
     web3.$Chains,
@@ -94,7 +84,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
 
   return (
     <>
-      {isConnected ? (
+      {isConnected && (
         <div ref={dropdownRef} className={s.network_select_wrap}>
           {activeNetwork === undefined ? (
             <NetworkError networkChange={toggle} />
@@ -134,16 +124,6 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
               {activeNetwork === undefined && (
                 <NetworkErrorText error_text="wrong network" />
               )}
-
-              {/* <div className={s.network_select_body} onClick={handleNetworkListVChange} >
-                <div className={s.active_network_ico_wrap}>
-                    <Image src={activeNetwork.ico} width={30} height={30} alt='' />
-                </div>
-                <span className={s.active_network_title}>{activeNetwork.title}</span>
-                <Image className={s.active_network_dropDown_ico} src={downIco} width={9} height={6} alt='' />
-            </div>
-            <div className={s.networks_list_wrap} style={{ visibility: networkListVisibility && 'visible', opacity: networkListVisibility && '1' }} > */}
-
               <div className={s.networks_list_title_wrap}>
                 <h3 className={s.networks_list_title}>Select a network</h3>
               </div>
@@ -160,7 +140,6 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                         id={item.id}
                         networkList={networkList}
                         setActiveNetwork={setActiveNetwork}
-                        setNetworkVisibility={setNetworkListVisibility}
                         close={close}
                       />
                     );
@@ -169,8 +148,6 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
             </>
           </div>
         </div>
-      ) : (
-        <></>
       )}
     </>
   );

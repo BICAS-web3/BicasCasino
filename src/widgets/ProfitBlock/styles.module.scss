@@ -10,7 +10,7 @@
 }
 
 .coinflip_down_block {
-  margin-top: 20px;
+  margin-top: 14px;
   position: relative;
 
   &::after {
@@ -21,7 +21,7 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #3e3e3e;
+    background: #252525;
   }
 }
 
@@ -60,7 +60,7 @@
 }
 
 .face_tails_wrap {
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .face_tails_block {

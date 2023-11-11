@@ -42,6 +42,14 @@ export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>;
 };
 
+export type T_NFTMarket = {
+  nfts: Array<T_NFT_MarketResponse>;
+};
+
+export type T_Lider = Array<T_LeaderBoardResponse>;
+
+export type T_Market = Array<T_LeaderBoardResponse>;
+
 export type T_BlockExplorerUrl = {
   id: number;
   network_id: number;
@@ -76,6 +84,12 @@ export type T_Nickname = {
   id: number;
   address: string;
   nickname: string;
+};
+
+export type T_LeaderBoardResponse = {
+  nickname: string;
+  player: string;
+  total: number;
 };
 
 export type T_Player = {
@@ -141,6 +155,10 @@ export type T_Totals = {
   sum: number;
 };
 
+export type T_NFT_MarketResponse = {
+  id: number;
+};
+
 export type T_ApiResponse = {
   status: string;
   body:
@@ -158,11 +176,17 @@ export type T_ApiResponse = {
     | T_Totals
     | T_LatestGames
     | T_PlayerTotals
-    | T_TokenPrice;
+    | T_TokenPrice
+    | T_NFTMarket;
 };
 
 export type T_GetUsername = {
   address: string;
+};
+
+export type T_GetLeaderBoard = {
+  return: string;
+  time: string;
 };
 
 export type T_SetUsername = {
@@ -183,6 +207,31 @@ export type T_PlayerTotals = {
 export type T_TokenPrice = {
   token_price: number;
 };
+
+export type T_OpenseaData = {
+  listings: any[];
+  next: string;
+};
+
+export type TypeLeadboardApi =
+  | "Daily_volume"
+  | "Weekly_volume"
+  | "Monthly_volume"
+  | "All Time_volume"
+  | "Daily_profit"
+  | "Weekly_profit"
+  | "Monthly_profit"
+  | "All Time_profit";
+export const TypeLeadboardApi = [
+  "Daily_volume",
+  "Weekly_volume",
+  "Monthly_volume",
+  "All Time_volume",
+  "Daily_profit",
+  "Weekly_profit",
+  "Monthly_profit",
+  "All Time_profit",
+] as const;
 
 export const setUsernameFx = createEffect<T_SetUsername, T_ApiResponse, string>(
   async (form) => {
@@ -246,6 +295,27 @@ export const createReferealFx = createEffect<
     .catch((e) => e);
 });
 
+//?-----------------
+
+export const getDataFromOpensea = createEffect<string, any, string>(
+  async (next) => {
+    return fetch(
+      `https://api.opensea.io/api/v2/listings/collection/greekkeepers/all`,
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          "x-api-key": "a48ba3aa9843421a922596fe4fdb682e",
+        },
+      }
+    )
+      .then(async (res) => await res.json())
+      .catch((e) => console.log(4545, e));
+  }
+);
+
+//?-----------------
+
 export const getLocalizationFx = createEffect<string, T_Localization, string>(
   async (language) => {
     return fetch(`${BaseStaticUrl}/localizations/${language}.json`, {
@@ -277,6 +347,23 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
       });
   }
 );
+
+export const getLeaderboard = createEffect<
+  T_GetLeaderBoard,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(
+    `${BaseApiUrl}/general/leaderboard/${form?.return}/${form?.time}`,
+    {
+      method: "GET",
+    }
+  )
+    .then(async (res) => await res.json())
+    .catch((e) => {
+      console.log(e);
+    });
+});
 
 export type T_GetRpcs = {
   network_id: number;
@@ -410,6 +497,19 @@ export const GetGameById = createEffect<number, T_ApiResponse, string>(
     return fetch(`${BaseApiUrl}/game/get/${game_id}`, {
       method: "GET",
     })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+export const GetNftMarket = createEffect<number, T_ApiResponse, string>(
+  async (id) => {
+    return fetch(
+      // `https://game.greekkeepers.io/nft/metadata/${form.lvl}/${form.id}.json`,
+      `https://game.greekkeepers.io/nft/metadata/${id}.json`,
+      {
+        method: "GET",
+      }
+    )
       .then(async (res) => await res.json())
       .catch((e) => e);
   }

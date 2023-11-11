@@ -10,15 +10,16 @@ export interface NetworkSelectItemProps {
   id: number;
   networkList: any;
   setActiveNetwork: any;
-  setNetworkVisibility: any;
+  // setNetworkVisibility: any;
   close: () => void;
 }
 export const NetworkSelectItem: FC<NetworkSelectItemProps> = (props) => {
   const { switchNetwork } = useSwitchNetwork();
 
   const handleActiveNetworkChange = () => {
-    props.close();
+    // props.close();
     // props.setNetworkVisibility(false)
+    props.close();
     //const activeNetwork = networksList.filter(item => item.id === props.id)[0]
     //props.setActiveNetwork(props.id)
     switchNetwork?.(props.id);
