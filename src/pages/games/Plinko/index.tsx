@@ -17,6 +17,7 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import Head from "next/head";
 
@@ -57,6 +58,7 @@ const WagerContent = () => {
       <WagerLowerBtnsBlock game="plinko" />
     </>
   );
+
 };
 
 export default function PlinkoGame() {

@@ -47,10 +47,11 @@ export interface NetworkSelectProps {
   isGame: boolean;
 }
 export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
-  const { chain } = useNetwork();
-  const { isOpen, toggle, close, dropdownRef } = useDropdown();
+  const { toggle, dropdownRef, isOpen, close } = useDropdown();
 
-  // const [networkListVisibility, setNetworkListVisibility] = useState(false);
+  const { chain } = useNetwork();
+
+  const [networkListVisibility, setNetworkListVisibility] = useState(false);
   const [activeNetwork, setActiveNetwork] = useState<number | undefined>(-1);
   const { address, isConnected } = useAccount();
 
@@ -93,7 +94,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
 
   return (
     <>
-      {isConnected && (
+      {isConnected ? (
         <div ref={dropdownRef} className={s.network_select_wrap}>
           {activeNetwork === undefined ? (
             <NetworkError networkChange={toggle} />
@@ -111,7 +112,10 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                 {currentBalance && props.isGame ? currentBalance : chain?.name}
               </span>
               <Image
-                className={s.active_network_dropDown_ico}
+                className={clsx(
+                  s.active_network_dropDown_ico,
+                  isOpen && s.active_network_dropDown_ico_open
+                )}
                 src={downIco}
                 width={9}
                 height={6}
@@ -156,7 +160,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                         id={item.id}
                         networkList={networkList}
                         setActiveNetwork={setActiveNetwork}
-                        // setNetworkVisibility={setNetworkListVisibility}
+                        setNetworkVisibility={setNetworkListVisibility}
                         close={close}
                       />
                     );
@@ -165,6 +169,8 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
             </>
           </div>
         </div>
+      ) : (
+        <></>
       )}
     </>
   );
