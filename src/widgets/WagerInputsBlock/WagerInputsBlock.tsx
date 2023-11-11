@@ -1,21 +1,21 @@
 import { FC, useEffect, useState } from "react";
-import { useNetwork, useAccount, useContractRead, useBalance } from "wagmi";
-import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { settingsModel } from "@/entities/settings";
 import { sessionModel } from "@/entities/session";
 
 import dollarIco from "@/public/media/Wager_icons/dollarIco.svg";
-
+import { TransactionWarn } from "../TransactionWarn.tsx/TransactionWarn";
+import { useUnit } from "effector-react";
+import { settingsModel } from "@/entities/settings";
+import { WagerModel } from ".";
+import * as api from "@/shared/api";
+import { useNetwork, useAccount, useContractRead, useBalance } from "wagmi";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDropdown } from "@/shared/tools";
-import * as api from "@/shared/api";
 
-import { WagerModel } from ".";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-
+import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
 
 // const tokensList = [
@@ -127,9 +127,18 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     if (allowance) {
       const new_allowance =
         Number((allowance as any) / BigInt(100000000000000)) / 10000;
+      console.log("allowance", new_allowance);
       setAllowance(new_allowance);
     }
   }, [allowance]);
+
+  // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
+  //   address: (pickedToken?.contract_address as `0x${string}`),
+  //   abi: IERC20,
+  //   functionName: 'balanceOf',
+  //   args: [address],
+  //   watch: isConnected
+  // });
 
   const { data: balance } = useBalance({
     address: address,
@@ -207,21 +216,20 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
             value={cryptoInputValue}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
+            {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}
             {pickedToken && (
               <>
                 <Image
                   alt="token-ico"
                   src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
-                  onClick={toggle}
+                  onClick={() => toggle()}
                   width={30}
                   height={30}
-                  className={s.icon}
                 />
                 <div
-                  className={clsx(
-                    s.poker_wager_tokens_list_wrap,
+                  className={`${s.poker_wager_tokens_list_wrap} ${
                     isOpen && s.token_list_visible
-                  )}
+                  }`}
                 >
                   <div className={s.poker_wager_tokens_list}>
                     <h1 className={s.poker_wager_tokens_list_title}>
@@ -268,7 +276,9 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                 setCryptoValue(0);
                 return;
               }
+              console.log("exchange rate", exchangeRate);
               const crypto_value = exchangeRate > 0 ? num / exchangeRate : 0;
+              //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());
               if (true) {
                 setCryptoValue(crypto_value);

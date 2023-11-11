@@ -55,7 +55,13 @@ export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
       <div className={s.language_switcher_block}>
         <div className={s.language_switcher} onClick={toggle}>
           <h3 className={s.active_language_title}>{activeLanguage.title}</h3>
-          <Image alt="down-ico" src={downIco} width={9} height={5} />
+          <Image
+            className={clsx(s.arr_icon, isOpen && s.arr_icon_open)}
+            alt="down-ico"
+            src={downIco}
+            width={9}
+            height={5}
+          />
         </div>
         <div
           ref={dropdownRef}

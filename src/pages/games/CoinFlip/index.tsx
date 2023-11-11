@@ -15,6 +15,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
+import Head from "next/head";
 import clsx from "clsx";
 
 const WagerContent = () => {
@@ -56,20 +57,25 @@ const WagerContent = () => {
 
 export default function CoinFlipGame() {
   return (
-    <Layout gameName={"CoinFlip"}>
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["CoinFlip"]}
-      />
-      <div className={s.coinflip_container}>
-        <GamePage
-          gameInfoText="test"
-          gameTitle="coinflip"
-          wagerContent={<WagerContent />}
-        >
-          <CoinFlip />
-        </GamePage>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>Games - Coinflip</title>
+      </Head>
+      <Layout activePageLink="/games/CoinFlip" gameName={"CoinFlip"}>
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["CoinFlip"]}
+        />
+        <div className={s.coinflip_container}>
+          <GamePage
+            gameInfoText="test"
+            gameTitle="coinflip"
+            wagerContent={<WagerContent />}
+          >
+            <CoinFlip />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

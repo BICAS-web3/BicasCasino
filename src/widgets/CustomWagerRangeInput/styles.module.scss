@@ -108,7 +108,7 @@
 }
 
 .custom_range_input_active_value {
-  min-width: 18px;
+  min-width: 25px;
   color: #eaeaea;
   font-size: 14px;
   font-style: normal;
@@ -117,6 +117,8 @@
   font-family: var(--font-nunito-sans);
   text-transform: uppercase;
   margin-right: 5px;
+  width: 25px;
+  margin-right: 10px;
 }
 
 .custom_range_setter {

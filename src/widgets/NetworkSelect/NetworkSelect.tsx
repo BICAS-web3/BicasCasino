@@ -1,24 +1,21 @@
-import { FC, useEffect, useState } from "react";
-import { useAccount, useNetwork } from "wagmi";
-import { useUnit } from "effector-react";
-import Image from "next/image";
-
+import s from "./styles.module.scss";
 import arbitrumIco from "../../public/media/networkSelect_icons/arbitrumIco.svg";
 import bnbIco from "../../public/media/networkSelect_icons/bnbChainIco.svg";
 import downIco from "../../public/media/networkSelect_icons/dropDownIco.svg";
 
+import { FC, useEffect, useState } from "react";
+import Image from "next/image";
+
 import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
 import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
-
+import errorInfoIco from "../../public/media/networkSelect_icons/errorInfoIco.svg";
 import { web3 } from "@/entities/web3";
+import { useUnit } from "effector-react";
+import { useAccount, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
-
 import { useDropdown } from "@/shared/tools";
-
 import clsx from "clsx";
-
-import s from "./styles.module.scss";
 
 export const networksList = [
   // {
@@ -71,6 +68,19 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
     }
     setActiveNetwork(chain.id);
   }, [chain]);
+
+  //const [networkListVisibility, setNetworkListVisibility] = useState<boolean>(false);
+  //const [activeNetwork, setActiveNetwork] = useState(networksList[0]);
+
+  //const [
+  //    Chains
+  //] = useUnit([
+  //    web3.$Chains,
+  //]);
+
+  //useEffect(() => {
+  //    console.log("Chains", Chains);
+  //}, [Chains]);
 
   return (
     <>

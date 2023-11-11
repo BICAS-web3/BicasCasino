@@ -17,6 +17,7 @@ import { PopUpBonus } from "../PopUpBonus";
 interface LayoutProps {
   children?: any;
   gameName: string | undefined;
+  activePageLink?: string;
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
@@ -41,7 +42,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             <div
               className={`${s.side_bar_wrapper} ${isOpen && s.sideBar_opened}`}
             >
-              <SideBar />
+              <SideBar activePage={props.activePageLink} />
             </div>
 
             {/* <Blur /> */}

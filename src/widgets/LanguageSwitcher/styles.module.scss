@@ -180,3 +180,11 @@
   background: var(--gray-320-night, #202020);
   margin-top: 10px;
 }
+
+.arr_icon {
+  transition: all 0.5s;
+}
+
+.arr_icon_open {
+  transform: scaleY(-1);
+}

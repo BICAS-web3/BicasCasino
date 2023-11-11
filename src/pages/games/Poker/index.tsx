@@ -14,6 +14,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
 
 const WagerContent = () => {
@@ -50,40 +51,45 @@ export default function PokerGame() {
     PokerModel.flipShowFlipCards,
   ]);
   return (
-    <Layout gameName="Poker">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Poker", "PokerStart"]}
-      />
-      <div className={s.poker_container}>
-        <GamePage
-          customTitle="Drawing cards"
-          gameInfoText="test"
-          gameTitle="poker"
-          wagerContent={<WagerContent />}
-        >
-          <Poker />
-          {/* show when need to redraw cards */}
+    <>
+      <Head>
+        <title>Games - Poker</title>
+      </Head>
+      <Layout activePageLink="/games/Poker" gameName="Poker">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Poker", "PokerStart"]}
+        />
+        <div className={s.poker_container}>
+          <GamePage
+            customTitle="Drawing cards"
+            gameInfoText="test"
+            gameTitle="poker"
+            wagerContent={<WagerContent />}
+          >
+            <Poker />
+            {/* show when need to redraw cards */}
 
-          {showFlipCards && (
-            <div className={s.poker_flip_cards_info_wrapper}>
-              <PokerFlipCardsInfo
-                onCLick={() => {
-                  flipShowFlipCards();
-                }}
-              />
-            </div>
-          )}
+            {showFlipCards && (
+              <div className={s.poker_flip_cards_info_wrapper}>
+                <PokerFlipCardsInfo
+                  onCLick={() => {
+                    flipShowFlipCards();
+                  }}
+                />
+              </div>
+            )}
 
-          {/* {won && <div className={s.poker_win_wrapper}>
+            {/* {won && <div className={s.poker_win_wrapper}>
             <WinMessage tokenImage={<Image src={DraxToken} alt={''} />} profit={"3760.00"} multiplier={"1.98"} />
           </div>}
 
           {lost && <div className={s.poker_lost_wrapper}>
             <LostMessage amount={"3760.00"} />
           </div>} */}
-        </GamePage>
-      </div>
-    </Layout>
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

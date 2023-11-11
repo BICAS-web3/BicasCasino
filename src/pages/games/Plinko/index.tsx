@@ -14,7 +14,9 @@ import {
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import Head from "next/head";
 import clsx from "clsx";
 
 const WagerContent = () => {
@@ -62,20 +64,25 @@ const WagerContent = () => {
 
 export default function PlinkoGame() {
   return (
-    <Layout gameName="Plinko">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Plinko", "PlinkoStart"]}
-      />
-      <div className={styles.plinko_container}>
-        <GamePage
-          gameInfoText="test"
-          gameTitle="plinko"
-          wagerContent={<WagerContent />}
-        >
-          <Plinko />
-        </GamePage>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>Games - Plinko</title>
+      </Head>
+      <Layout activePageLink="/games/Plinko" gameName="Plinko">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Plinko", "PlinkoStart"]}
+        />
+        <div className={styles.plinko_container}>
+          <GamePage
+            gameInfoText="test"
+            gameTitle="plinko"
+            wagerContent={<WagerContent />}
+          >
+            <Plinko />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

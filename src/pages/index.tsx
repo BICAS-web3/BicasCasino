@@ -429,7 +429,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NFT Play | Home page</title>
+        <title>GreekKeepers: WEB 3.0 Crypto Games</title>
       </Head>
 
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
