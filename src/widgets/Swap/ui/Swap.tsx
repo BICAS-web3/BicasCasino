@@ -44,10 +44,8 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
             className={clsx(closeClassName, s.swap_button_closed)}
             onClick={toggle}
           >
-            <div className={s.button}>
-              <SwaptIcon className={s.swap_icon} />
-              <div className={s.games_button_tooltip}>Swap</div>
-            </div>
+            <SwaptIcon className={s.swap_icon} />
+            <div className={s.games_button_tooltip}>Swap</div>
           </div>
         )}
         <article

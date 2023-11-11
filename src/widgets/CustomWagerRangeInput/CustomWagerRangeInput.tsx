@@ -63,11 +63,11 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
         <span className={s.custom_range_input_max_value}>{max}</span>
       </div>
       <div className={s.custom_range_setter}>
-        {arrData.map((val) => (
+        {arrData.map((val, i) => (
           <div
             className={s.custom_range_setter_item}
             onClick={() => pickValue(val)}
-            key={val}
+            key={i}
           >
             {val}
           </div>
