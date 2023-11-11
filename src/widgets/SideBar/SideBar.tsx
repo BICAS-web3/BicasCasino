@@ -93,6 +93,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
     <>
       <div className={s.side_bar_upper}>
         <div>
+          npm
           <div className={`${s.games_button}`}>
             <GamesIcon />
             <div className={s.games_button_tooltip}>

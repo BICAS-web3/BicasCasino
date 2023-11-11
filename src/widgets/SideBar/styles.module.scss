@@ -383,6 +383,13 @@
   padding-left: 25px;
 }
 
+.game_row {
+  transition: all 0.3s;
+  &:hover {
+    color: #ffe09d;
+  }
+}
+
 .language_settings {
   box-sizing: border-box;
   width: 217px;
