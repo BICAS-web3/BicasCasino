@@ -39,6 +39,8 @@ import { Account } from "../Account";
 import { useAccount } from "wagmi";
 import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
 import Link from "next/link";
+import { checkPageClicking } from "@/shared/tools";
+import clsx from "clsx";
 
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
@@ -52,20 +54,8 @@ const Emblem: FC<EmblemProps> = (props) => {
 
 interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
-  const [flipOpen, isOpen] = useUnit([
-    SideBarModel.flipOpen,
-    SideBarModel.$isOpen,
-  ]);
   return (
     <div className={s.left_menu}>
-      <div
-        className={s.burger}
-        onClick={() => {
-          flipOpen();
-        }}
-      >
-        <Image src={Burger} alt={""} width={22.5} height={15} />
-      </div>
       <Emblem />
     </div>
   );
@@ -110,10 +100,19 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     }
   };
 
-  // useEffect(() => {
-  //     walletVisibility ? (document.documentElement.style.overflow = 'hidden') :
-  //         (document.documentElement.style.overflow = 'visible')
-  // }, [walletVisibility])
+  useEffect(() => {
+    if (walletVisibility) {
+      checkPageClicking({ blockDataId: "connect-wallet-block" }, (isBlock) => {
+        !isBlock && setWalletVisibility(false);
+      });
+    }
+
+    if (!walletVisibility) {
+      setWalletVisibility(false);
+      setBlur(false);
+      document.documentElement.style.overflow = "visible";
+    }
+  }, [walletVisibility]);
 
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
@@ -122,7 +121,10 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   };
 
   return (
-    <div className={s.connect_wallet_button_wrap}>
+    <div
+      className={s.connect_wallet_button_wrap}
+      data-id={"connect-wallet-block"}
+    >
       <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
         Connect Wallet
       </div>
@@ -178,7 +180,8 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
   const closeSidebar = () => {
     close();
-    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.background = "visible";
+    document.documentElement.classList.remove("scroll-disable");
   };
 
   useEffect(() => {
@@ -202,7 +205,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
           // height={25}
           className={s.icon}
         />
-        <div className={s.new_notification}></div>
+        {/* <div className={s.new_notification}></div> */}
       </div>
       <div className={`${s.button} ${s.chat}`}>
         <Image
@@ -252,8 +255,7 @@ const BottomMenu: FC<BottomMenuProps> = (props) => {
 
   const openSB = () => {
     openSidebar();
-    window.scrollTo(0, 0);
-    document.documentElement.style.overflow = "hidden";
+    document.documentElement.classList.add("scroll-disable");
   };
 
   return (
@@ -278,17 +280,16 @@ export interface HeaderProps {
   isGame: boolean;
 }
 export const Header: FC<HeaderProps> = (props) => {
+  const [isOpen] = useUnit([SidebarM.$isOpen]);
   return (
     <>
-      <>
-        <div className={s.header}>
-          <LeftMenu />
-          <Links />
-          {/* <NetworkSelect /> */}
-          <RightMenu isGame={props.isGame} />
-        </div>
-        <BottomMenu />
-      </>
+      <div className={clsx(s.header, !isOpen && s.header_close)}>
+        <LeftMenu />
+        <Links />
+        {/* <NetworkSelect /> */}
+        <RightMenu isGame={props.isGame} />
+      </div>
+      <BottomMenu />
     </>
   );
 };

@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
+import closeIco from "@/public/media/sidebar_icons/closeIco.png";
 
 import s from "./styles.module.scss";
 
@@ -27,6 +28,12 @@ import { Swap } from "../Swap";
 import { SettingIcon } from "@/shared/SVGs/SettingIcon";
 import { StarIcon } from "@/shared/SVGs/StarIcon";
 import { PlinkoButton } from "@/shared/SVGs/PlinkoButton";
+import { BonusIco } from "@/shared/SVGs/BonusIco";
+import { NftIco } from "@/shared/SVGs/NftIco";
+import { AffilateIco } from "@/shared/SVGs/AffilateIco";
+import { HTPico } from "@/shared/SVGs/HTPico";
+import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
+import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
 
 const gamesList = [
   {
@@ -88,10 +95,21 @@ interface ClosedSideBarProps {
   activePage: string | undefined;
 }
 const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+
   return (
     <>
       <div className={s.side_bar_upper}>
-        <div>
+        <div className={s.closed_sb_group}>
+          <div className={s.open_sb_block} onClick={() => flipOpen()}>
+            <Image src={closeIco} alt="open-sidebar-ico" />
+          </div>
+          <div className={s.closed_sb_bonus_ico}>
+            <BonusIco />
+          </div>
           <div className={`${s.games_button}`}>
             <GamesIcon />
             <div className={s.games_button_tooltip}>
@@ -112,112 +130,33 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className={s.buttons_holder}>
-            <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 0 ? s.button_picked : ""
-              }`}
-              onClick={() => {
-                location.href = "/games/CoinFlip";
-              }}
-            >
-              <div
-                className={`${s.button} ${
-                  props.activePage === "/games/CoinFlip" &&
-                  s.closed_sb_active_page
-                }`}
-              >
-                <CoinButton />
-                <div className={s.games_button_tooltip}>Coinflip</div>
-              </div>
-            </div>
-            <div className={s.button_wrap}>
-              <div
-                className={`${s.button} ${
-                  props.pickedGame == 1 ? s.button_picked : ""
-                } ${
-                  props.activePage === "/games/Dice" && s.closed_sb_active_page
-                }`}
-              >
-                <DiceButton />
-                <div className={s.games_button_tooltip}>Dice</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 2 ? s.button_picked : ""
-              } `}
-            >
-              <div className={s.button}>
-                <RPCButton />
-                <div className={s.games_button_tooltip}>
-                  Rock paper scissors
-                </div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
-              onClick={() => {
-                location.href = "/games/Poker";
-              }}
-            >
-              <div
-                className={`${s.button} ${
-                  props.activePage === "/games/Poker" && s.closed_sb_active_page
-                }`}
-              >
-                <PokerButton />
-                <div className={s.games_button_tooltip}>Poker</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 4 ? s.button_picked : ""
-              }`}
-              onClick={() => {
-                location.href = "/games/Plinko";
-              }}
-            >
-              <div
-                className={`${s.button} ${
-                  props.activePage === "/games/Plinko" &&
-                  s.closed_sb_active_page
-                }`}
-              >
-                <PlinkoButton />
-                <div className={s.games_button_tooltip}>Plinko</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${
-                props.pickedGame == 3 ? s.button_picked : ""
-              }`}
-              onClick={() => {
-                location.href = "https://t.me/GKSupportt";
-              }}
-            >
-              <div className={s.button}>
-                <SupportIcon />
-                <div className={s.games_button_tooltip}>
-                  Support{" "}
-                  <Image
-                    className={s.tg_sidebar_ico}
-                    src={tgClosedSidebarIco}
-                    alt={""}
-                  />{" "}
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className={s.closed_sb_other_info_list}>
+          <div className={s.closed_sb_other_info_list_item}>
+            <NftIco />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <AffilateIco />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <HTPico />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <SwaptIcon />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <SupportIcon />
           </div>
         </div>
-        <LanguageSwitcher />
+        <div className={s.sb_closed_bottom_block}>
+          <div className={s.sb_closed_bottom_block_item}>
+            <span className={s.sb_closed_language_title}>En</span>
+          </div>
+          <div className={s.sb_closed_bottom_block_item}>
+            <Image src={moonIco} alt="dark-theme-ico" />
+          </div>
+        </div>
       </div>
-      <span className={s.star_icon}>
-        {" "}
-        <StarIcon />
-      </span>
     </>
   );
 };
@@ -228,14 +167,29 @@ interface OpenedSideBarProps {
 }
 const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   const [gamesAreOpen, setOpen] = useState(true);
+
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+
   return (
     <>
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
+          <div className={s.sidebar_close_block} onClick={() => flipOpen()}>
+            <span>dashboard</span>
+            <Image src={closeIco} alt="close-ico" />
+          </div>
+          <div className={s.bonus_button_block}>
+            <BonusIco />
+            bonus
+          </div>
           <div
-            className={`${s.buttons_menu} ${
-              gamesAreOpen ? "" : s.buttons_menu_closed
-            }`}
+            className={clsx(
+              s.buttons_menu,
+              !gamesAreOpen && s.buttons_menu_closed
+            )}
           >
             <div
               className={s.menu_header}
@@ -245,19 +199,19 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <div className={s.header_icon_container}>
                 <GamesIcon />
-                GAMES
+                <span className={s.header_icon_title}>games</span>
               </div>
               <div
-                className={`${s.arrow} ${
-                  gamesAreOpen ? s.arrow_down : s.arrow_side
-                }`}
+                className={
+                  (s.arrow, gamesAreOpen ? s.arrow_down : s.arrow_side)
+                }
               >
                 <ArrowIcon />
               </div>
             </div>
             <div className={s.game_rows}>
               <div
-                className={`${s.game_row} ${s.picked_game_row} ${
+                className={`${s.game_row} ${
                   props.activePage === "/games/CoinFlip" && s.game_active
                 }`}
                 onClick={() => {
@@ -304,32 +258,50 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <PlinkoButton />
                 Plinko
               </div>
+              <div
+                className={clsx(s.leaderboard)}
+                onClick={() => {
+                  location.href = "/games/CoinFlip";
+                }}
+              >
+                <LeaderboardIcon />
+                LeaderBoard
+              </div>
             </div>
-          </div>{" "}
-          <div
-            className={clsx(s.leaderboard)}
-            onClick={() => {
-              location.href = "/games/CoinFlip";
-            }}
-          >
-            <LeaderboardIcon />
-            LeaderBoard
           </div>
-          <div
-            className={s.support}
-            onClick={() => {
-              location.href = "https://t.me/GKSupportt";
-            }}
-          >
-            <div className={s.icon_wrapper}>
-              <SupportIcon />
+          <div className={s.sb_other_info_list}>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <NftIco />
+              </div>
+              <div className={s.large_header_text}>nft market</div>
             </div>
-            <div className={s.large_header_text}>SUPPORT</div>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <AffilateIco />
+              </div>
+              <div className={s.large_header_text}>affiliate</div>
+            </div>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <HTPico />
+              </div>
+              <div className={s.large_header_text}>how to play</div>
+            </div>
+            <div
+              className={s.support}
+              onClick={() => {
+                location.href = "https://t.me/GKSupportt";
+              }}
+            >
+              <div className={s.icon_wrapper}>
+                <SupportIcon />
+              </div>
+              <div className={s.large_header_text}>support</div>
+            </div>
+            <Swap />
           </div>
-          <Swap />
           <LanguageSwitcher />
-          {/* <div className={s.language_settings}>
-                </div> */}
         </div>
       </div>
     </>

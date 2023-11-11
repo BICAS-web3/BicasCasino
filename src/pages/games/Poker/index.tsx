@@ -66,6 +66,7 @@ export default function PokerGame() {
             customTitle="Drawing cards"
             gameInfoText="test"
             gameTitle="poker"
+            isPoker={true}
             wagerContent={<WagerContent />}
           >
             <Poker />

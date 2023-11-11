@@ -69,7 +69,8 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
     setActiveNetwork(chain.id);
   }, [chain]);
 
-  //const [networkListVisibility, setNetworkListVisibility] = useState<boolean>(false);
+  const [networkListVisibility, setNetworkListVisibility] =
+    useState<boolean>(false);
   //const [activeNetwork, setActiveNetwork] = useState(networksList[0]);
 
   //const [
@@ -84,7 +85,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
 
   return (
     <>
-      {isConnected && (
+      {isConnected ? (
         <div ref={dropdownRef} className={s.network_select_wrap}>
           {activeNetwork === undefined ? (
             <NetworkError networkChange={toggle} />
@@ -140,6 +141,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                         id={item.id}
                         networkList={networkList}
                         setActiveNetwork={setActiveNetwork}
+                        setNetworkVisibility={setNetworkListVisibility}
                         close={close}
                       />
                     );
@@ -148,6 +150,8 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
             </>
           </div>
         </div>
+      ) : (
+        <></>
       )}
     </>
   );

@@ -27,14 +27,9 @@ interface LanguageSwitcherProps {}
 
 export const LanguageSwitcher: FC<LanguageSwitcherProps> = (props) => {
   const [activeLanguage, setActiveLanguage] = useState(languages[0]);
-  // const [languagesListVisibility, setLanguagesListVisibility] = useState(false);
   const { dropdownRef, isOpen: isVisible, toggle, close } = useDropdown();
   const [languagesList, setLanguagesList] = useState(languages);
   const [activeTheme, setActiveTheme] = useState("dark");
-
-  // const setListVisibility = () => {
-  //   setLanguagesListVisibility(!languagesListVisibility);
-  // };
 
   const handleChangeTheme = () => {
     activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");

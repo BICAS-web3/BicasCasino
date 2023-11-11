@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 
 import { CustomWagerRangeInputModel } from "./";
@@ -9,7 +9,7 @@ interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
-  inputType?: CustomWagerRangeInputModel.RangeType;
+  inputType: any;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
@@ -18,46 +18,46 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   max,
   inputType,
 }) => {
+  const [value, setValue] = useState(0);
+  const [trackWidth, setTrackWidth] = useState(0);
   const [pickedValue, pickValue] = useUnit([
-    inputType == CustomWagerRangeInputModel.RangeType.Bets
-      ? CustomWagerRangeInputModel.$pickedValue
-      : CustomWagerRangeInputModel.$pickedRows,
-    inputType == CustomWagerRangeInputModel.RangeType.Bets
-      ? CustomWagerRangeInputModel.pickValue
-      : CustomWagerRangeInputModel.pickRows,
+    CustomWagerRangeInputModel.$pickedValue,
+    CustomWagerRangeInputModel.pickValue,
   ]);
 
   useEffect(() => {
     pickValue(min);
+    setValue(min);
   }, []);
 
   const changeInputValue = (e: any) => {
     pickValue(Number(e.target.value));
+    setValue(Number(e.target.value));
   };
 
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--track-width",
-      `${(pickedValue / max) * 100}%`
-    );
-  }, [pickedValue]);
+    const newTrackWidth =
+      value === min ? 0 : ((value - min) / (max - min)) * 100;
+    setTrackWidth(newTrackWidth);
+  }, [value]);
 
-  const value = max / 4;
+  // const value = max / 4;
   const arrData =
     max > 25 ? [15, 25, 50, max] : [min, value * 2, value * 3, max];
   return (
     <div className={s.custom_range_input_layout}>
       <h3 className={s.custom_range_input_title}>{inputTitle}</h3>
       <div className={s.custom_range_input_wrap}>
-        <span className={s.custom_range_input_active_value}>{pickedValue}</span>
+        <span className={s.custom_range_input_active_value}>{value}</span>
         <div className={s.custom_range_input_body}>
           <input
             type="range"
             className={`${s.custom_range_input} ${s.custom_range_track}`}
-            value={pickedValue}
+            value={value}
             onChange={changeInputValue}
             max={max}
             min={min}
+            style={{ "--sx": `${trackWidth}%` } as any}
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>

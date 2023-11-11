@@ -4,9 +4,11 @@ import { ArrowDownIcon } from "@/shared/SVGs/ArrowDownIcon";
 import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
 interface GamePageBottomBlockProps {
   isPoker?: boolean;
+  gameText?: string;
 }
 export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
   isPoker,
+  gameText,
 }) => {
   const [accordionActive, setAccordionActive] = useState(false);
   const [currentItem, setCurrentItem] = useState("poker");

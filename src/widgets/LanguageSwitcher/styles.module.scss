@@ -15,7 +15,7 @@
 
 .language_switcher_title {
   font-family: var(--font-nunito-sans);
-  color: #eaeaea;
+  color: #7e7e7e;
   font-size: 16px;
   font-style: normal;
   font-weight: 800;
@@ -130,7 +130,7 @@
 .active_theme_title {
   font-family: var(--font-source-sans-3);
   margin-bottom: 5px;
-  color: #eaeaea;
+  color: #7e7e7e;
   text-transform: capitalize;
   font-size: 14px;
   font-style: normal;
@@ -179,12 +179,10 @@
   border-radius: 12px;
   background: var(--gray-320-night, #202020);
   margin-top: 10px;
-}
-
-.arr_icon {
-  transition: all 0.5s;
-}
-
-.arr_icon_open {
-  transform: scaleY(-1);
+  .arr_icon {
+    transition: all 0.5s;
+  }
+  .arr_icon_open {
+    transform: scaleY(-1);
+  }
 }

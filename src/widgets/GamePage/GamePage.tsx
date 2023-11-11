@@ -172,7 +172,6 @@ export const GamePage: FC<GamePageProps> = ({
                 </div>
               )}
             </div>
-
             <Wager
               ButtonElement={
                 isMobile ? (
@@ -202,6 +201,7 @@ export const GamePage: FC<GamePageProps> = ({
               }
               wagerContent={wagerContent}
             />
+            <GamePageBottomBlock isPoker={isPoker} gameText={""} />
           </div>
           <div>
             <CustomBets
