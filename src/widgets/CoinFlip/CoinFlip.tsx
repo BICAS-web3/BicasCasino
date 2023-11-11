@@ -1,6 +1,4 @@
 import { FC, useEffect, useState, Suspense } from "react";
-<<<<<<< HEAD
-=======
 import s from "./styles.module.scss";
 import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
 import Image from "next/image";
@@ -15,7 +13,6 @@ import { WagerModel } from "../WagerInputsBlock";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
->>>>>>> f23329f0ec4c7218f37169dfd041aebaa68e5645
 import {
   useAccount,
   useContractEvent,
@@ -24,39 +21,10 @@ import {
   useNetwork,
   usePrepareContractWrite,
 } from "wagmi";
-<<<<<<< HEAD
-import { Canvas, act } from "@react-three/fiber";
-import Image from "next/image";
-import { sessionModel } from "@/entities/session";
-
-import * as GameModel from "@/widgets/GamePage/model";
-
-import s from "./styles.module.scss";
-import { AnimationAction } from "three";
-import useSound from "use-sound";
-import { useUnit } from "effector-react";
-import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { useDebounce } from "@/shared/tools";
-import { TOKENS } from "@/shared/tokens";
-import {
-  OrbitControls,
-  useAnimations,
-  useGLTF,
-  Environment,
-} from "@react-three/drei";
-import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
-import { SidePickerModel } from "../CoinFlipSidePicker";
-import { WagerModel as WagerButtonModel } from "../Wager";
-import { WagerModel } from "../WagerInputsBlock";
-import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-import { useFeeData } from "wagmi";
-=======
 import { sessionModel } from "@/entities/session";
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
->>>>>>> f23329f0ec4c7218f37169dfd041aebaa68e5645
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
