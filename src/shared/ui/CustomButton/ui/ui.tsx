@@ -11,6 +11,7 @@ interface ICustomButton {
   text?: string;
   textColor?: "gold" | "white" | "dark" | "gray";
   link?: string;
+  className?: string;
 }
 
 // {
@@ -29,7 +30,8 @@ export const CustomButton: FC<ICustomButton> = (props) => {
     props.size && styles[props.size],
     props.color && styles[props.color],
     props.radius && styles[props.radius],
-    props.textColor && styles[`text_${props.textColor}`]
+    props.textColor && styles[`text_${props.textColor}`],
+    props.className
   );
 
   if (props.link) {

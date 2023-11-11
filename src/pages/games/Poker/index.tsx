@@ -13,13 +13,31 @@ import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
+import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import Head from "next/head";
+import { useAccount, useConnect } from "wagmi";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const { isConnected } = useAccount();
+  const { connectors, connect } = useConnect();
   return (
     <>
       <WagerInputsBlock />
-      <button className={s.poker_wager_drawing_cards_btn} onClick={pressButton}>
+      <button
+        className={s.poker_wager_drawing_cards_btn}
+        onClick={() => {
+          if (!isConnected) {
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }
+        }}
+      >
         Drawing cards
       </button>
       <WagerLowerBtnsBlock game="poker" />
@@ -32,44 +50,47 @@ export default function PokerGame() {
     PokerModel.$showFlipCards,
     PokerModel.flipShowFlipCards,
   ]);
-  const flipCards = false;
-  //const won = false;
-  //const lost = false;
   return (
-    <Layout gameName="Poker">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Poker", "PokerStart"]}
-      />
-      <div className={s.poker_container}>
-        <GamePage
-          gameInfoText="test"
-          gameTitle="poker"
-          wagerContent={<WagerContent />}
-          isPoker={true}
-        >
-          <Poker />
-          {/* show when need to redraw cards */}
+    <>
+      <Head>
+        <title>Games - Poker</title>
+      </Head>
+      <Layout activePageLink="/games/Poker" gameName="Poker">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Poker", "PokerStart"]}
+        />
+        <div className={s.poker_container}>
+          <GamePage
+            isPoker={true}
+            customTitle="Drawing cards"
+            gameInfoText="test"
+            gameTitle="poker"
+            wagerContent={<WagerContent />}
+          >
+            <Poker />
+            {/* show when need to redraw cards */}
 
-          {showFlipCards && (
-            <div className={s.poker_flip_cards_info_wrapper}>
-              <PokerFlipCardsInfo
-                onCLick={() => {
-                  flipShowFlipCards();
-                }}
-              />
-            </div>
-          )}
+            {showFlipCards && (
+              <div className={s.poker_flip_cards_info_wrapper}>
+                <PokerFlipCardsInfo
+                  onCLick={() => {
+                    flipShowFlipCards();
+                  }}
+                />
+              </div>
+            )}
 
-          {/* {won && <div className={s.poker_win_wrapper}>
+            {/* {won && <div className={s.poker_win_wrapper}>
             <WinMessage tokenImage={<Image src={DraxToken} alt={''} />} profit={"3760.00"} multiplier={"1.98"} />
           </div>}
 
           {lost && <div className={s.poker_lost_wrapper}>
             <LostMessage amount={"3760.00"} />
           </div>} */}
-        </GamePage>
-      </div>
-    </Layout>
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

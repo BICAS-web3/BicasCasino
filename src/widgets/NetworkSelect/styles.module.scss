@@ -102,6 +102,13 @@
 
 .active_network_dropDown_ico {
   margin: 0px 13px;
+  transition: all 0.5s;
+  opacity: 0.4;
+}
+
+.active_network_dropDown_ico_open {
+  transform: scaleY(-1);
+  opacity: 1;
 }
 
 .networks_list_wrap {
@@ -114,6 +121,11 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.4s;
+}
+
+.networks_list_wrap_open {
+  opacity: 1;
+  visibility: visible;
 }
 
 .networks_list_title_wrap {

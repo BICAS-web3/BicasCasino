@@ -1,28 +1,21 @@
-import s from './styles.module.scss'
-import arbitrumIco from '../../public/media/networkSelect_icons/arbitrumIco.svg'
-import bnbIco from '../../public/media/networkSelect_icons/bnbChainIco.svg'
-import downIco from '../../public/media/networkSelect_icons/dropDownIco.svg'
+import s from "./styles.module.scss";
+import arbitrumIco from "../../public/media/networkSelect_icons/arbitrumIco.svg";
+import bnbIco from "../../public/media/networkSelect_icons/bnbChainIco.svg";
+import downIco from "../../public/media/networkSelect_icons/dropDownIco.svg";
 
 import { FC, useEffect, useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
+
 import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
 import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
-import errorInfoIco from '../../public/media/networkSelect_icons/errorInfoIco.svg';
-import { web3 } from '@/entities/web3';
-import { useUnit } from 'effector-react';
-import { useAccount, useNetwork } from 'wagmi';
+import errorInfoIco from "../../public/media/networkSelect_icons/errorInfoIco.svg";
+import { web3 } from "@/entities/web3";
+import { useUnit } from "effector-react";
+import { useAccount, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
-
-//import { useState, useEffect } from "react";
-//import Image from 'next/image';
-//import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
-//import { useUnit } from 'effector-react';
-//import { web3 } from '@/entities/web3';
-//import { useNetwork, useSwitchNetwork } from 'wagmi'
-//import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
-//import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
-
+import { useDropdown } from "@/shared/tools";
+import clsx from "clsx";
 
 export const networksList = [
   // {
@@ -32,33 +25,29 @@ export const networksList = [
   // },
   {
     ico: bnbIco,
-    title: 'bnb chain',
-    id: 5
+    title: "bnb chain",
+    id: 5,
   },
   {
     ico: arbitrumIco,
-    title: 'arbitrum',
-    id: 6
-  }
-]
+    title: "arbitrum",
+    id: 6,
+  },
+];
 
 export interface NetworkSelectProps {
-  isGame: boolean
+  isGame: boolean;
 }
-export const NetworkSelect: FC<NetworkSelectProps> = props => {
+export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
   const { chain } = useNetwork();
+  const { isOpen, toggle, close, dropdownRef } = useDropdown();
 
-
-  const [networkListVisibility, setNetworkListVisibility] = useState(false);
   const [activeNetwork, setActiveNetwork] = useState<number | undefined>(-1);
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
 
-  const [
-    networkList,
-    currentBalance
-  ] = useUnit([
+  const [networkList, currentBalance] = useUnit([
     web3.$Chains,
-    sessionModel.$currentBalance
+    sessionModel.$currentBalance,
   ]);
 
   useEffect(() => {
@@ -70,7 +59,9 @@ export const NetworkSelect: FC<NetworkSelectProps> = props => {
       return;
     }
 
-    const network = networkList.chains.find((network: any) => network.id == chain.id);
+    const network = networkList.chains.find(
+      (network: any) => network.id == chain.id
+    );
     if (network == undefined) {
       setActiveNetwork(undefined);
       return;
@@ -91,71 +82,73 @@ export const NetworkSelect: FC<NetworkSelectProps> = props => {
   //    console.log("Chains", Chains);
   //}, [Chains]);
 
-
-  const handleNetworkListVChange = () => {
-    !networkListVisibility
-      ? setNetworkListVisibility(true)
-      : setNetworkListVisibility(false);
-  };
-
-  const visibilityStyle = networkListVisibility ? "visible" : "hidden";
-
   return (
-    <>{isConnected ?
-      <div className={s.network_select_wrap}>
-
-        {
-          activeNetwork === undefined ? (
-            <NetworkError networkChange={handleNetworkListVChange} />
+    <>
+      {isConnected && (
+        <div ref={dropdownRef} className={s.network_select_wrap}>
+          {activeNetwork === undefined ? (
+            <NetworkError networkChange={toggle} />
           ) : (
-            <div className={s.network_select_body} onClick={handleNetworkListVChange} >
+            <div className={s.network_select_body} onClick={toggle}>
               <div className={s.active_network_ico_wrap}>
-                <Image src={`/static/media/networks/${activeNetwork}.svg`} width={30} height={30} alt='' />
+                <Image
+                  src={`/static/media/networks/${activeNetwork}.svg`}
+                  width={30}
+                  height={30}
+                  alt=""
+                />
               </div>
-              <span className={s.active_network_title}>{currentBalance && props.isGame ? currentBalance : chain?.name}</span>
-              <Image className={s.active_network_dropDown_ico} src={downIco} width={9} height={6} alt='' />
+              <span className={s.active_network_title}>
+                {currentBalance && props.isGame ? currentBalance : chain?.name}
+              </span>
+              <Image
+                className={clsx(
+                  s.active_network_dropDown_ico,
+                  isOpen && s.active_network_dropDown_ico_open
+                )}
+                src={downIco}
+                width={9}
+                height={6}
+                alt=""
+              />
             </div>
-          )
-        }
-        <div className={`${s.networks_list_wrap} ${activeNetwork === undefined && s.undefined_network}`} style={{ visibility: visibilityStyle, opacity: `${networkListVisibility && "1"}` }} >
-          <>
-            {
-              activeNetwork === undefined && <NetworkErrorText error_text='wrong network' />
-            }
-
-            {/* <div className={s.network_select_body} onClick={handleNetworkListVChange} >
-                <div className={s.active_network_ico_wrap}>
-                    <Image src={activeNetwork.ico} width={30} height={30} alt='' />
-                </div>
-                <span className={s.active_network_title}>{activeNetwork.title}</span>
-                <Image className={s.active_network_dropDown_ico} src={downIco} width={9} height={6} alt='' />
-            </div>
-            <div className={s.networks_list_wrap} style={{ visibility: networkListVisibility && 'visible', opacity: networkListVisibility && '1' }} > */}
-
-            <div className={s.networks_list_title_wrap}>
-              <h3 className={s.networks_list_title}>Select a network</h3>
-            </div>
-            <div className={s.networks_list}>
-              {
-                networkList && networkList.chains.map((item: any, ind: number) => {
-                  if (item.id == activeNetwork) {
-                    return (<></>);
-                  }
-                  return (
-                    <NetworkSelectItem
-                      key={ind}
-                      title={item.network}
-                      id={item.id}
-                      networkList={networkList}
-                      setActiveNetwork={setActiveNetwork}
-                      setNetworkVisibility={setNetworkListVisibility}
-                    />);
-                })
-
-              }
-            </div>
-          </>
+          )}
+          <div
+            className={clsx(
+              s.networks_list_wrap,
+              isOpen && s.networks_list_wrap_open,
+              activeNetwork === undefined && s.undefined_network
+            )}
+          >
+            <>
+              {activeNetwork === undefined && (
+                <NetworkErrorText error_text="wrong network" />
+              )}
+              <div className={s.networks_list_title_wrap}>
+                <h3 className={s.networks_list_title}>Select a network</h3>
+              </div>
+              <div className={s.networks_list}>
+                {networkList &&
+                  networkList.chains.map((item: any, ind: number) => {
+                    if (item.id == activeNetwork) {
+                      return <></>;
+                    }
+                    return (
+                      <NetworkSelectItem
+                        key={ind}
+                        title={item.network}
+                        id={item.id}
+                        networkList={networkList}
+                        setActiveNetwork={setActiveNetwork}
+                        close={close}
+                      />
+                    );
+                  })}
+              </div>
+            </>
+          </div>
         </div>
-      </div> : <></>}</>
-  )
-}
+      )}
+    </>
+  );
+};

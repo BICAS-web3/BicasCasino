@@ -8,8 +8,8 @@
 
 .game {
   display: grid;
-  grid-template-columns: 1fr minmax(220px, 17vw);
-  margin-bottom: 40px;
+  grid-template-columns: 1fr 292px; // minmax(292px, 16.25vw)
+  //! margin-bottom: 40px; !-------------------------------------
 }
 
 .game_block {
@@ -31,6 +31,18 @@
   bottom: 100px;
   right: 20px;
   z-index: 11;
+}
+
+.game_body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  @media screen and (max-width: 1280px) {
+    gap: 20px;
+  }
+  @media screen and (max-width: 700px) {
+    gap: 15px;
+  }
 }
 
 .game_title {
@@ -99,6 +111,23 @@
   line-height: 20px;
 }
 
+.poker_wager_sound_btn {
+  cursor: pointer;
+  z-index: 5;
+  background: #202020;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
 .game_page_modal_close_btn {
   position: absolute;
   right: 20px;
@@ -126,26 +155,11 @@
 
 @media screen and (max-width: 600px) {
   .game_block {
-    height: 254px;
-    min-height: 100%;
+    // height: 254px;
+    // min-height: 100%;
+    height: auto;
+    min-height: 254px;
   }
-}
-
-.poker_wager_sound_btn {
-  cursor: pointer;
-  z-index: 5;
-  background: #202020;
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  position: absolute;
-  right: 20px;
-  top: 20px;
 }
 
 //////////////////////////////////////////////////
@@ -167,9 +181,6 @@
   .win_wrapper {
     bottom: 96px;
   }
-  .poker_wager_sound_btn {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 700px) {
@@ -190,5 +201,12 @@
   .win_wrapper {
     left: calc(50vw - 157px);
     top: calc(50vh - 112px);
+  }
+}
+
+.mobile {
+  margin: 0 auto 8px auto !important;
+  @media (min-width: 650px) {
+    display: none;
   }
 }

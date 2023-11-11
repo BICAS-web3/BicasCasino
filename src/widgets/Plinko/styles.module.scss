@@ -1,0 +1,81 @@
+.plinko_table_wrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .plinko_table_background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    .plinko_table_background_img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px 0 0 20px;
+      @media screen and (max-width: 996px) {
+        border-radius: 20px 20px 0 0 !important;
+      }
+      @media screen and (max-width: 650px) {
+        border-radius: 0 !important;
+      }
+    }
+  }
+  .plinko_table {
+    height: 100%;
+    .pyramid {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      height: calc(100% - 40px);
+      width: calc(100% - 40px);
+      gap: 1.5vw;
+      padding: 20px;
+      @media screen and (max-width: 650px) {
+        width: calc(100% - 0px);
+        padding: 20px 0;
+      }
+    }
+  }
+}
+
+.plinko_svg_icon {
+  width: 20px;
+  height: 20px;
+  @media screen and (max-width: 996px) {
+    width: 10px;
+    height: 10px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+.helmet {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  @media (max-width: 1500px) {
+    right: -80px;
+  }
+  @media (max-width: 1280px) {
+    display: none;
+  }
+}
+.statue {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  @media (max-width: 1500px) {
+    left: -80px;
+  }
+  @media (max-width: 1280px) {
+    display: none;
+  }
+}

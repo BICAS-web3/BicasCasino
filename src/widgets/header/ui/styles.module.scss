@@ -3,12 +3,23 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-left: 20px;
-  padding-right: 20px;
   box-sizing: border-box;
-  border-bottom: 1px solid #252525;
-  position: absolute;
-  z-index: 101;
+  position: fixed;
+  z-index: 102;
+  border-bottom: 1px solid var(--gray-3125-night, #252525);
+  background: var(--black-10-f-night, #0f0f0f);
+  padding: 15px 20px;
+}
+
+.header_close {
+  transition: width 0.5s;
+  &::after {
+    transition: width 0.5s;
+    width: calc(100vw - 105px);
+    @media (max-width: 650px) {
+      display: none;
+    }
+  }
 }
 
 // .header_profile_ico_wrap {
@@ -66,9 +77,13 @@
   column-gap: 42px;
   justify-content: space-between;
   align-items: center;
-  width: 237px;
+  width: 257px;
   padding-right: 36px;
   box-sizing: border-box;
+  padding-left: 20px;
+  @media (min-width: 650px) {
+    // background-color: #181818;
+  }
 }
 
 .right_menu {
@@ -89,6 +104,7 @@
   border: 1px solid #202020;
   border-radius: 50%;
   position: relative;
+  box-sizing: border-box;
 }
 
 .button img {
@@ -112,7 +128,7 @@
 }
 
 .connect_wallet_button {
-  width: 179px;
+  width: 191px;
   height: 50px;
   border-radius: 12px;
   border: 1px solid #e5c787;
@@ -127,6 +143,9 @@
   letter-spacing: 4%;
   font-family: var(--font-source-sans-3);
   transition: 0.2s;
+  @media (max-width: 650px) {
+    width: 179px;
+  }
 }
 
 .connect_wallet_button:hover {
@@ -313,6 +332,7 @@
   }
   .bottom_menu {
     display: flex;
+    z-index: 11;
   }
   .chat {
     display: none;

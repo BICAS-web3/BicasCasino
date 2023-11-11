@@ -32,7 +32,7 @@
     #121212;
   width: 100%;
   border: none;
-  margin-top: 10px;
+  margin-top: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,11 +46,23 @@
   letter-spacing: 0.72px;
   cursor: pointer;
   @media screen and (max-width: 996px) {
-    margin: 20px auto;
+    // margin: 20px auto;
+    margin: 0 auto 14px auto;
     width: 240px;
+    max-height: 50px;
   }
   @media screen and (max-width: 650px) {
     font-size: 12px;
     width: 140px;
+    height: 40px;
+    max-height: 40px;
+    min-height: 40px;
+    border-radius: 5px;
+  }
+}
+
+.mobile {
+  @media (max-width: 650px) {
+    display: none;
   }
 }

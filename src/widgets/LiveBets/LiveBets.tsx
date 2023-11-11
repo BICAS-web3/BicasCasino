@@ -30,40 +30,38 @@ interface timeProps {
   date: string;
 }
 
-
 export interface LiveBetsWSProps {
-  subscription_type: string,
-  subscriptions: string[]
+  subscription_type: string;
+  subscriptions: string[];
 }
-export const LiveBetsWS: FC<LiveBetsWSProps> = props => {
-  const [Bets,
-    newBet,
-    setBets,
-    availableBlocksExplorers,
-    setNewBet
-  ] = useUnit([
+export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
+  const [Bets, newBet, setBets, availableBlocksExplorers, setNewBet] = useUnit([
     Model.$Bets,
     Model.newBet,
     Model.setBets,
     settingsModel.$AvailableBlocksExplorers,
-    sessionModel.setNewBet
+    sessionModel.setNewBet,
   ]);
 
   const [socket, setSocket] = useState<any | null>(null);
 
   const getBets = async () => {
-    var bets = props.subscriptions.length == 0 ? (await Api.getAllLastBets()).body as Api.T_Bets : (await Api.getGamesAllLastBets(props.subscriptions[0])).body as Api.T_Bets;
-    setBets(bets.bets);
+    var bets =
+      props.subscriptions.length == 0
+        ? ((await Api.getAllLastBets()).body as Api.T_Bets)
+        : ((await Api.getGamesAllLastBets(props.subscriptions[0]))
+            .body as Api.T_Bets);
+    setBets(bets?.bets);
     console.log(bets);
     console.log(Bets);
     //setGotBets(true);
-  }
+  };
 
   useEffect(() => {
     const run = async () => {
       console.log("Getting bets");
       await getBets();
-    }
+    };
     run();
   }, [availableBlocksExplorers]);
 
@@ -74,27 +72,37 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = props => {
       return;
     }
     setNewBet(data);
-    if (data.game_name != 'PokerStart') {
+    if (data.game_name != "PokerStart") {
       newBet(data);
     }
     //setGotBets(true);
   };
 
   useEffect(() => {
-
     console.log("mapping bets");
 
     if (socket != null) {
       return;
     }
     console.log("Connecting to WebSocket server...");
-    var newSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}/api/updates`);
+    var newSocket = new WebSocket(
+      `${window.location.protocol === "https:" ? "wss" : "ws"}://${
+        window.location.host
+      }/api/updates`
+    );
 
-    newSocket.onopen = (_) => { newSocket.send(JSON.stringify({ type: props.subscription_type, payload: props.subscriptions })); };
+    newSocket.onopen = (_) => {
+      newSocket.send(
+        JSON.stringify({
+          type: props.subscription_type,
+          payload: props.subscriptions,
+        })
+      );
+    };
 
     newSocket.onmessage = onMessage;
     setSocket(newSocket);
   }, []);
 
-  return (<></>);
-}
+  return <></>;
+};

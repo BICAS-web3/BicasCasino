@@ -1,31 +1,35 @@
-import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { FC, useEffect } from "react";
 import { useUnit } from "effector-react";
-import { CustomWagerRangeInputModel } from './';
+
+import { CustomWagerRangeInputModel } from "./";
+
+import s from "./styles.module.scss";
 
 interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
+  inputType?: CustomWagerRangeInputModel.RangeType;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   inputTitle,
   min,
   max,
+  inputType,
 }) => {
-  //const [value, setValue] = useState(5);
-  const [
-    pickedValue,
-    pickValue
-  ] = useUnit([
-    CustomWagerRangeInputModel.$pickedValue,
-    CustomWagerRangeInputModel.pickValue
+  const [pickedValue, pickValue] = useUnit([
+    inputType == CustomWagerRangeInputModel.RangeType.Bets
+      ? CustomWagerRangeInputModel.$pickedValue
+      : CustomWagerRangeInputModel.$pickedRows,
+    inputType == CustomWagerRangeInputModel.RangeType.Bets
+      ? CustomWagerRangeInputModel.pickValue
+      : CustomWagerRangeInputModel.pickRows,
   ]);
 
   useEffect(() => {
     pickValue(min);
-  }, [])
+  }, []);
 
   const changeInputValue = (e: any) => {
     pickValue(Number(e.target.value));
@@ -38,6 +42,9 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
     );
   }, [pickedValue]);
 
+  const value = max / 4;
+  const arrData =
+    max > 25 ? [15, 25, 50, max] : [min, value * 2, value * 3, max];
   return (
     <div className={s.custom_range_input_layout}>
       <h3 className={s.custom_range_input_title}>{inputTitle}</h3>
@@ -54,6 +61,17 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>
+      </div>
+      <div className={s.custom_range_setter}>
+        {arrData.map((val) => (
+          <div
+            className={s.custom_range_setter_item}
+            onClick={() => pickValue(val)}
+            key={val}
+          >
+            {val}
+          </div>
+        ))}
       </div>
     </div>
   );
