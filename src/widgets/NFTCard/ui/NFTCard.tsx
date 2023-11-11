@@ -33,19 +33,18 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
 
   const { write: mintNft } = useContractWrite(mintNftConfig);
 
-  console.log("nft card component");
-  //if (error) console.log(error);
-
   return (
-    <article onClick={() => mintNft?.()} className={s.nft}>
+    <article
+      onClick={() => {
+        window.open(
+          `https://element.market/assets/polygon/0x0d9399e7b92f17352448ad73dd5111de0f292685/${id}`,
+          "_blank"
+        );
+      }}
+      className={s.nft}
+    >
       <div className={s.nft_image}>
-        <Image
-          // objectFit="cover"
-          width={1024}
-          height={1024}
-          src={img}
-          alt="nft_img"
-        />
+        <Image width={1024} height={1024} src={img} alt="nft_img" />
       </div>
       <div className={s.nft_about}>
         <span className={s.nft_name}>{name}</span>
