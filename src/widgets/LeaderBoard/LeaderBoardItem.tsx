@@ -8,6 +8,7 @@ import { shortenAddress, useMediaQuery } from "@/shared/tools";
 import { T_LeaderBoardResponse } from "@/shared/api";
 
 import s from "./styles.module.scss";
+import clsx from "clsx";
 
 interface LeaderBoardItemProps extends T_LeaderBoardResponse {
   ind: number;
@@ -23,7 +24,16 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
   return (
     <div className={s.leader_board_list_item}>
       <div className={s.leader_board_list_item_rank_block}>
-        <span className={s.leader_board_list_item_rank}>{ind + 1}</span>
+        <span
+          className={clsx(
+            s.leader_board_list_item_rank,
+            ind === 0 && s.leader_board_list_item_rank_gold,
+            ind === 1 && s.leader_board_list_item_rank_gold,
+            ind === 2 && s.leader_board_list_item_rank_gold
+          )}
+        >
+          {ind + 1}
+        </span>
       </div>
       <div className={s.leader_board_list_item_player_block}>
         <div className={s.leader_board_list_item_player_icon}>

@@ -121,6 +121,7 @@ export const Total: FC<{}> = () => {
                   image={image}
                   dollar
                   statistics={item.total.toFixed(2)}
+                  id={i}
                 />
               );
             })}
