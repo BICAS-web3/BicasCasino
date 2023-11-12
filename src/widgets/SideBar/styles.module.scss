@@ -123,6 +123,7 @@
   svg {
     margin-right: 11px;
   }
+  position: relative;
 }
 
 .closed_sb_bonus_ico {
@@ -590,6 +591,7 @@
       fill: #e5c787;
     }
   }
+  position: relative;
 }
 
 .language_settings {
@@ -830,4 +832,14 @@
   @media (max-width: 650px) {
     display: none;
   }
+}
+
+.soon_page {
+  text-transform: none;
+  position: absolute;
+  color: white;
+  bottom: 0;
+  right: 20px;
+  font-size: 9px;
+  transform: rotate(1deg);
 }

@@ -244,6 +244,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   useEffect(() => {
     updateMultipliers(pickedRows, currentLevel);
+    console.log("sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", pickedRows);
   }, [pickedRows, currentLevel]);
 
   useEffect(() => {

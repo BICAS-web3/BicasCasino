@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 
-import { CustomWagerRangeInputModel } from "./";
-import * as plinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
+import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
+
 import s from "./styles.module.scss";
 
 interface CustomWagerRangeInputProps {
@@ -21,8 +21,8 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   const [value, setValue] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
   const [pickPlinkoRows, rows] = useUnit([
-    plinkoRowsM.pickRows,
-    plinkoRowsM.$pickedRows,
+    PlinkoRowsM.pickRows,
+    PlinkoRowsM.$pickedRows,
   ]);
 
   useEffect(() => {
@@ -37,8 +37,15 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   }, [value]);
 
   const changeInputValue = (e: any) => {
-    // pickValue(Number(e.target.value));
     setValue(Number(e.target.value));
+  };
+
+  const handleInputBtns = (val: any) => {
+    setValue(val);
+
+    if (inputType === "plinkoRows") {
+      pickPlinkoRows(val);
+    }
   };
 
   useEffect(() => {
@@ -49,7 +56,15 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
 
   // const value = max / 4;
   const arrData =
-    max > 25 ? [15, 25, 50, max] : [min, value * 2, value * 3, max];
+    max > 25
+      ? [15, 25, 50, max]
+      : [
+          min,
+          Math.ceil(min + (max - min) / 4),
+          ,
+          Math.ceil(min + (max - min) / 2),
+          max,
+        ];
   return (
     <div className={s.custom_range_input_layout}>
       <h3 className={s.custom_range_input_title}>{inputTitle}</h3>
@@ -69,11 +84,11 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
         <span className={s.custom_range_input_max_value}>{max}</span>
       </div>
       <div className={s.custom_range_setter}>
-        {arrData.map((val) => (
+        {arrData.map((val, i) => (
           <div
             className={s.custom_range_setter_item}
-            onClick={() => setValue(val)}
-            key={val}
+            onClick={() => handleInputBtns(val)}
+            key={i}
           >
             {val}
           </div>
