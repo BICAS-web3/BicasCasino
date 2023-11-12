@@ -357,6 +357,22 @@
   position: relative;
 }
 
+.pick_token_group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dd_ico_img {
+  transition: all 0.3s;
+}
+
+.opened_list {
+  .dd_ico_img {
+    transform: rotate(180deg);
+  }
+}
+
 .hand_multiplier_block_header {
   display: flex;
   align-items: center;

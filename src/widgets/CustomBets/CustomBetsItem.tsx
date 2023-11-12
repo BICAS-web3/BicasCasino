@@ -119,7 +119,13 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
         </span>
       </div>
       <div className={s.customBets_list_item_profit_block}>
-        <span className={s.customBets_list_item_profit}>+{props.profit}</span>
+        <span
+          className={`${s.customBets_list_item_profit} ${
+            props.profit <= 0 && s.lose_profit
+          }`}
+        >
+          {props.profit}
+        </span>
         <img
           src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`}
           alt="wager-ico"

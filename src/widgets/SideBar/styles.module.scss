@@ -8,9 +8,6 @@
   min-height: 100vh;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  &.side_bar_closed > .side_bar_upper {
-    min-height: calc(100% - 130px);
-  }
   &::-webkit-scrollbar {
     width: 4px;
   }
@@ -666,9 +663,6 @@
     z-index: 3;
     min-height: 1576px;
     height: 100%;
-  }
-  .side_bar_upper {
-    padding: 16px 16px 50px 16px !important;
   }
   .side_bar_lower {
     min-height: 744px;

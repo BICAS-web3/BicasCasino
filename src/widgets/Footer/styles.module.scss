@@ -19,8 +19,9 @@
 
 .footer_body {
   //background: var(--Gray-1, #151515);
-  padding: 30px;
-  display: flex;
+  padding: 30px 50px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
   align-items: start;
   justify-content: space-between;
