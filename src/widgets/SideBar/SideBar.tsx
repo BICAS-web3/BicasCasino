@@ -141,9 +141,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           <div className={s.closed_sb_other_info_list_item}>
             <HTPico />
           </div>
-          <div className={s.closed_sb_other_info_list_item}>
+          {/* <div className={s.closed_sb_other_info_list_item}>
             <SwaptIcon />
-          </div>
+          </div> */}
+          <Swap closeClassName={s.closed_sb_other_info_list_item} />
           <div className={s.closed_sb_other_info_list_item}>
             <SupportIcon />
           </div>
@@ -183,7 +184,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <div className={s.bonus_button_block}>
             <BonusIco />
-            bonus
+            bonus<span className={s.soon_page}>Soon…</span>
           </div>
           <div
             className={clsx(
@@ -261,7 +262,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <div
                 className={clsx(s.leaderboard)}
                 onClick={() => {
-                  location.href = "/games/CoinFlip";
+                  location.href = "/leaderboard";
                 }}
               >
                 <LeaderboardIcon />
@@ -274,19 +275,25 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <div className={s.icon_wrapper}>
                 <NftIco />
               </div>
-              <div className={s.large_header_text}>nft market</div>
+              <div className={s.large_header_text}>
+                nft market <span className={s.soon_page}>Soon…</span>
+              </div>
             </div>
             <div className={s.oth_info_list_item}>
               <div className={s.icon_wrapper}>
                 <AffilateIco />
               </div>
-              <div className={s.large_header_text}>affiliate</div>
+              <div className={s.large_header_text}>
+                affiliate <span className={s.soon_page}>Soon…</span>
+              </div>
             </div>
             <div className={s.oth_info_list_item}>
               <div className={s.icon_wrapper}>
                 <HTPico />
               </div>
-              <div className={s.large_header_text}>how to play</div>
+              <div className={s.large_header_text}>
+                how to play <span className={s.soon_page}>Soon…</span>
+              </div>
             </div>
             <div
               className={s.support}

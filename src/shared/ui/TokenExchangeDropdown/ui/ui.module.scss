@@ -23,8 +23,12 @@
     outline: none;
     cursor: pointer;
     height: 50px;
+    transition: all 0.5s;
   }
 
+  .selected_token_open {
+    border-radius: 12px 12px 0 0;
+  }
   .token_icon {
     width: 30px;
     height: 30px;
@@ -70,7 +74,7 @@
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transition: max-height 0.3s ease-in-out, opacity 0.5s ease-in-out;
   }
 
   .token_list.open {
@@ -103,13 +107,8 @@
     }
   }
 
-  .selected_token,
-  .token_item_selected:hover {
+  .selected_token {
     background-color: #202020;
-    border-radius: 12px;
-    @media screen and (max-width: 869px) {
-      border-radius: 5px;
-    }
     @media screen and (max-width: 425px) {
       max-width: 140px;
     }
