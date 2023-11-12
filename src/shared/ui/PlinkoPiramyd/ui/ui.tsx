@@ -1,9 +1,6 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
-import {
-  $pickedValue,
-  $pickedRows,
-} from "@/widgets/CustomWagerRangeInput/model";
+import { $pickedRows } from "../model";
 import { useStore, useUnit } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
