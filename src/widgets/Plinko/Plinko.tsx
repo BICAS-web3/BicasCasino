@@ -9,9 +9,9 @@ import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
-import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
 import { sessionModel } from "@/entities/session";
 import { WagerGainLossModel } from "../WagerGainLoss";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce } from "@/shared/tools";
 import {
@@ -101,6 +101,7 @@ export const Plinko: FC<IPlinko> = () => {
     wagered,
     setWagered,
     rowsAmount,
+    pickedValue,
     gameAddress,
     pickedToken,
     currentBalance,
@@ -117,7 +118,8 @@ export const Plinko: FC<IPlinko> = () => {
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
-    PlinkoRowsM.$pickedRows,
+    CustomWagerRangeInputModel.$pickedRows,
+    CustomWagerRangeInputModel.$pickedValue,
     sessionModel.$gameAddress,
     WagerModel.$pickedToken,
     sessionModel.$currentBalance,
