@@ -27,7 +27,7 @@ const ConnectMarket: FC = () => {
     await Promise.all(
       Array.from({ length: 800 }).map(async (_, id) => {
         const data = await Api.GetNftMarket(id);
-        setNfts((prev: any) => [...prev, data]);
+        setNfts((prev: any) => [...prev, { ...data, id }]);
       })
     );
   };
@@ -76,7 +76,7 @@ const ConnectMarket: FC = () => {
               Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000
             }
             key={i}
-            id={i}
+            id={item.id}
           />
         );
       })}
