@@ -78,6 +78,9 @@
 
 .poker_table_card_back {
   transform: rotateY(180deg);
+  img {
+    background: black;
+  }
 }
 
 .poker_table_card_front,
