@@ -1,8 +1,9 @@
 .language_switcher_wrap {
   border-radius: 20px;
   background: #121212;
-  padding: 10px 25px;
-  width: calc(217px - 50px);
+  padding: 10px 15px;
+  width: 217px;
+  box-sizing: border-box;
 }
 
 .language_switcher_title_block {
@@ -153,10 +154,6 @@
 }
 
 @media screen and (max-width: 1280px) {
-  .language_switcher_wrap {
-    width: calc(83% - 40px);
-    padding: 10px 15px 10px 25px;
-  }
   .theme_block {
     width: 10px;
     height: 10px;

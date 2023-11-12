@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
-import closeIco from "@/public/media/sidebar_icons/closeIco.png";
 
 import s from "./styles.module.scss";
 
@@ -34,6 +33,7 @@ import { AffilateIco } from "@/shared/SVGs/AffilateIco";
 import { HTPico } from "@/shared/SVGs/HTPico";
 import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
 import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
+import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 
 const gamesList = [
   {
@@ -105,7 +105,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
       <div className={s.side_bar_upper}>
         <div className={s.closed_sb_group}>
           <div className={s.open_sb_block} onClick={() => flipOpen()}>
-            <Image src={closeIco} alt="open-sidebar-ico" />
+            <CloseSbIco />
           </div>
           <div className={s.closed_sb_bonus_ico}>
             <BonusIco />
@@ -180,7 +180,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
         <div className={s.upper_blocks}>
           <div className={s.sidebar_close_block} onClick={() => flipOpen()}>
             <span>dashboard</span>
-            <Image src={closeIco} alt="close-ico" />
+            <CloseSbIco />
           </div>
           <div className={s.bonus_button_block}>
             <BonusIco />
@@ -198,7 +198,11 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 setOpen(!gamesAreOpen);
               }}
             >
-              <div className={s.header_icon_container}>
+              <div
+                className={`${s.header_icon_container} ${
+                  !gamesAreOpen && s.games_closed
+                }`}
+              >
                 <GamesIcon />
                 <span className={s.header_icon_title}>games</span>
               </div>
