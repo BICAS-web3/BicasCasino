@@ -43,43 +43,44 @@ const ConnectMarket: FC = () => {
   console.log("nft market component");
   return (
     <>
-      {nfts.map((item: any, i: number) => {
-        let cAddress;
-        let cFee;
-        let index;
-        if (i < 25) {
-          cAddress = MODEL_1;
-          cFee = BigInt(29000000000000000000);
-          index = i;
-        } else if (i >= 25 && i < 70) {
-          cAddress = MODEL_2;
-          cFee = BigInt(9000000000000000000);
-          index = i % 25;
-        } else if (i >= 70 && i < 200) {
-          cAddress = MODEL_3;
-          cFee = BigInt(1890000000000000000);
-          index = i % 70;
-        } else if (i >= 200) {
-          cAddress = MODEL_4;
-          cFee = BigInt(660000000000000000);
-          index = i % 200;
-        }
-        console.log(item);
-        return (
-          <NFTCard
-            fee={cFee}
-            contractAddress={cAddress}
-            img={item?.image}
-            name={item?.name}
-            number={index as number}
-            price={
-              Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000
-            }
-            key={i}
-            id={item.id}
-          />
-        );
-      })}
+      {nfts
+        .sort((first: any, second: any) => first.id - second.id)
+        .map((item: any, i: number) => {
+          let cAddress;
+          let cFee;
+          let index;
+          if (i < 25) {
+            cAddress = MODEL_1;
+            cFee = BigInt(29000000000000000000);
+            index = i;
+          } else if (i >= 25 && i < 70) {
+            cAddress = MODEL_2;
+            cFee = BigInt(9000000000000000000);
+            index = i % 25;
+          } else if (i >= 70 && i < 200) {
+            cAddress = MODEL_3;
+            cFee = BigInt(1890000000000000000);
+            index = i % 70;
+          } else if (i >= 200) {
+            cAddress = MODEL_4;
+            cFee = BigInt(660000000000000000);
+            index = i % 200;
+          }
+          return (
+            <NFTCard
+              fee={cFee}
+              contractAddress={cAddress}
+              img={item?.image}
+              name={item?.name}
+              number={index as number}
+              price={
+                Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000
+              }
+              key={i}
+              id={item.id}
+            />
+          );
+        })}
     </>
   );
 };
