@@ -117,7 +117,7 @@ const pokerHands = [
     cardsListMobile: [mob1c1, mob1c2, mob1c3, mob1c4, mob1c5],
     multiplier: 1,
     description:
-      "Вам необходимо чтобы на столе собралась пара карт которая будет выше десятки! ( Валет, Дама, Король, Туз)",
+      "You need a pair of cards on the table that are higher than a ten! (Jack, Queen, King, Ace).",
   },
   {
     handName: "Two Pairs",
@@ -125,7 +125,7 @@ const pokerHands = [
     cardsListMobile: [mob2c1, mob2c2, mob2c3, mob2c4, mob2c5],
     multiplier: 2,
     description:
-      "Вам необходимо собрать на столе две пары, это должны быть любые карты вне зависимости от их масти и- достоинства",
+      "You need to collect two pairs on the table, it should be any cards regardless of their suit and value",
   },
   {
     handName: "Three of a kind",
@@ -133,7 +133,7 @@ const pokerHands = [
     cardsListMobile: [mob3c1, mob3c2, mob3c3, mob3c4, mob3c5],
     multiplier: 3,
     description:
-      "Вам необходимо собрать на столе три одинаковых карты по достоинству",
+      "You need to collect three identical cards of the same value on the table",
   },
   {
     handName: "Straight",
@@ -141,14 +141,14 @@ const pokerHands = [
     cardsListMobile: [mob4c1, mob4c2, mob4c3, mob4c4, mob4c5],
     multiplier: 5,
     description:
-      "Вам необходимо собрать на столе пять карт по достоинству подряд",
+      "You need to collect five cards on the table by value in a row",
   },
   {
     handName: "Flush",
     cardsList: [fiveC1, fiveC2, fiveC3, fiveC4, fiveC5],
     cardsListMobile: [mob5c1, mob5c2, mob5c3, mob5c4, mob5c5],
     multiplier: 6,
-    description: "Вам необходимо собрать на столе пять карт одинаковой масти",
+    description: "You need to collect five cards of the same suit on the table",
   },
   {
     handName: "Full House",
@@ -156,7 +156,7 @@ const pokerHands = [
     cardsListMobile: [mob6c1, mob6c2, mob6c3, mob6c4, mob6c5],
     multiplier: 8,
     description:
-      "Вам необходимо собрать на столе тройку любого достоинства и масти и к ним любую пару пару",
+      "You need to collect on the table a three of any value and suit and any pair of pairs to them",
   },
   {
     handName: "Four of a kind",
@@ -164,7 +164,7 @@ const pokerHands = [
     cardsListMobile: [mob7c1, mob7c2, mob7c3, mob7c4, mob7c5],
     multiplier: 30,
     description:
-      "Вам необходимо собрать на столе 4 одинаковых карты любой масти и достоинства",
+      "You need to collect 4 identical cards of any suit and value on the table",
   },
   {
     handName: "Straight Flush",
@@ -172,7 +172,7 @@ const pokerHands = [
     cardsListMobile: [mob8c1, mob8c2, mob8c3, mob8c4, mob8c5],
     multiplier: 50,
     description:
-      "Вам необходимо собрать на столе пять карт по достоинству подряд одной масти",
+      "You need to collect on the table five cards of the same suit in a row of the same value",
   },
   {
     handName: "Royal Flush",
@@ -180,7 +180,7 @@ const pokerHands = [
     cardsListMobile: [mob9c1, mob9c2, mob9c3, mob9c4, mob9c5],
     multiplier: 100,
     description:
-      "Вам необходимо собрать на столе следующие карты одной масти: Десятка, Валет, Дама, Король, Туз",
+      "You need to collect the following cards of the same suit on the table: Ten, Jack, Queen, King, Ace",
   },
 ];
 
