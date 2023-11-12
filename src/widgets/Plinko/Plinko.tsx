@@ -9,9 +9,9 @@ import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
-import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
 import { sessionModel } from "@/entities/session";
 import { WagerGainLossModel } from "../WagerGainLoss";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce } from "@/shared/tools";
 import {
@@ -93,7 +93,7 @@ import statue from "@/public/media/plinko_images/statue.png";
 //   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
 // ];
 
-interface IPlinko {}
+interface IPlinko { }
 
 export const Plinko: FC<IPlinko> = () => {
   const [
@@ -101,6 +101,7 @@ export const Plinko: FC<IPlinko> = () => {
     wagered,
     setWagered,
     rowsAmount,
+    pickedValue,
     gameAddress,
     pickedToken,
     currentBalance,
@@ -117,7 +118,8 @@ export const Plinko: FC<IPlinko> = () => {
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
-    PlinkoRowsM.$pickedRows,
+    CustomWagerRangeInputModel.$pickedRows,
+    CustomWagerRangeInputModel.$pickedValue,
     sessionModel.$gameAddress,
     WagerModel.$pickedToken,
     sessionModel.$currentBalance,
@@ -238,12 +240,12 @@ export const Plinko: FC<IPlinko> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
       console.log(
         "vrf fee",
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -259,28 +261,28 @@ export const Plinko: FC<IPlinko> = () => {
       //pickedSide,
       rowsAmount,
       pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
-      rowsAmount,
+      pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(rowsAmount)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -386,7 +388,7 @@ export const Plinko: FC<IPlinko> = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -397,18 +399,21 @@ export const Plinko: FC<IPlinko> = () => {
               "Starting playing",
               startPlaying,
               fees,
+              pickedValue,
+              rowsAmount,
+              cryptoValue,
               //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
               pickedToken?.contract_address,
               gameAddress,
               VRFFees,
               fees +
-                (pickedToken &&
+              (pickedToken &&
                 pickedToken.contract_address ==
-                  "0x0000000000000000000000000000000000000000"
-                  ? BigInt(Math.floor(cryptoValue * 10000000)) *
-                    BigInt(100000000000) *
-                    BigInt(rowsAmount)
-                  : BigInt(0)),
+                "0x0000000000000000000000000000000000000000"
+                ? BigInt(Math.floor(cryptoValue * 10000000)) *
+                BigInt(100000000000) *
+                BigInt(pickedValue)
+                : BigInt(0)),
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
             );
             if (startPlaying) {

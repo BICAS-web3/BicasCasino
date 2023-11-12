@@ -8,7 +8,10 @@ import { useRouter } from "next/router";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
-import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import {
+  CustomWagerRangeInput,
+  CustomWagerRangeInputModel,
+} from "@/widgets/CustomWagerRangeInput";
 import { WagerModel } from "@/widgets/Wager";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
@@ -24,7 +27,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
       <CustomWagerRangeInput
-        inputType={"rps-inp"}
+        inputType={CustomWagerRangeInputModel.RangeType.Bets}
         inputTitle="Multiple Bets"
         min={1}
         max={10}

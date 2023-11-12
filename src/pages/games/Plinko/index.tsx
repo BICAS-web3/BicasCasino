@@ -38,7 +38,7 @@ const WagerContent = () => {
         inputTitle="Rows"
         min={8}
         max={16}
-        inputType="plinkoRows"
+        inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
 
       <button
