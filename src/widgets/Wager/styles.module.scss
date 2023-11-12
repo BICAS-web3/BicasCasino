@@ -105,8 +105,8 @@
 }
 
 .poker_wager_increase_block {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  // grid-template-columns: repeat(5, 1fr);
   background: #202020;
   border-radius: 0 0 12px 12px;
   overflow: hidden;
@@ -116,7 +116,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 11px 15px;
+  // padding: 11px 15px;
   cursor: pointer;
   &:hover {
     background: var(--switch-in-game-2-e-night, #2e2e2e);
@@ -135,6 +135,7 @@
 
 .poker_wager_halve_block {
   border-right: 1px solid #3e3e3e;
+  width: 50px;
   &:last-child {
     border: none;
   }
@@ -443,7 +444,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 10px 0;
+  width: 100%;
   cursor: pointer;
   &:hover {
     background-color: #282828;

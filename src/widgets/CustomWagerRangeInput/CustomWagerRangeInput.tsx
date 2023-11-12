@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 
-import { CustomWagerRangeInputModel } from "./";
+import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
 
 import s from "./styles.module.scss";
 
@@ -9,7 +9,7 @@ interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
-  inputType: any;
+  inputType?: any;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
@@ -20,19 +20,32 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
 }) => {
   const [value, setValue] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
-  const [pickedValue, pickValue] = useUnit([
-    CustomWagerRangeInputModel.$pickedValue,
-    CustomWagerRangeInputModel.pickValue,
+  const [pickPlinkoRows, rows] = useUnit([
+    PlinkoRowsM.pickRows,
+    PlinkoRowsM.$pickedRows,
   ]);
 
   useEffect(() => {
-    pickValue(min);
+    pickPlinkoRows(8);
     setValue(min);
   }, []);
 
+  useEffect(() => {
+    if (inputType === "plinkoRows") {
+      pickPlinkoRows(value);
+    }
+  }, [value]);
+
   const changeInputValue = (e: any) => {
-    pickValue(Number(e.target.value));
     setValue(Number(e.target.value));
+  };
+
+  const handleInputBtns = (val: any) => {
+    setValue(val);
+
+    if (inputType === "plinkoRows") {
+      pickPlinkoRows(val);
+    }
   };
 
   useEffect(() => {
@@ -74,10 +87,7 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
         {arrData.map((val, i) => (
           <div
             className={s.custom_range_setter_item}
-            onClick={() => {
-              pickValue(val as number);
-              setValue(val as number);
-            }}
+            onClick={() => handleInputBtns(val)}
             key={i}
           >
             {val}

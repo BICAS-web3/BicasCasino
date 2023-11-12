@@ -9,7 +9,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
-import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
+import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
 import { sessionModel } from "@/entities/session";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
@@ -101,7 +101,6 @@ export const Plinko: FC<IPlinko> = () => {
     wagered,
     setWagered,
     rowsAmount,
-    pickedValue,
     gameAddress,
     pickedToken,
     currentBalance,
@@ -118,8 +117,7 @@ export const Plinko: FC<IPlinko> = () => {
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
-    CustomWagerRangeInputModel.$pickedRows,
-    CustomWagerRangeInputModel.$pickedValue,
+    PlinkoRowsM.$pickedRows,
     sessionModel.$gameAddress,
     WagerModel.$pickedToken,
     sessionModel.$currentBalance,
@@ -261,7 +259,7 @@ export const Plinko: FC<IPlinko> = () => {
       //pickedSide,
       rowsAmount,
       pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
-      pickedValue,
+      rowsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
           BigInt(100000000000)
@@ -282,7 +280,7 @@ export const Plinko: FC<IPlinko> = () => {
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
           BigInt(100000000000) *
-          BigInt(pickedValue)
+          BigInt(rowsAmount)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -409,7 +407,7 @@ export const Plinko: FC<IPlinko> = () => {
                   "0x0000000000000000000000000000000000000000"
                   ? BigInt(Math.floor(cryptoValue * 10000000)) *
                     BigInt(100000000000) *
-                    BigInt(pickedValue)
+                    BigInt(rowsAmount)
                   : BigInt(0)),
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
             );

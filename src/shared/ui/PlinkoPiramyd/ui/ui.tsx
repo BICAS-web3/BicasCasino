@@ -1,9 +1,6 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./ui.module.scss";
-import {
-  $pickedValue,
-  $pickedRows,
-} from "@/widgets/CustomWagerRangeInput/model";
+import { $pickedRows } from "../model";
 import { useStore, useUnit } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
@@ -247,6 +244,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   useEffect(() => {
     updateMultipliers(pickedRows, currentLevel);
+    console.log("sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", pickedRows);
   }, [pickedRows, currentLevel]);
 
   useEffect(() => {
