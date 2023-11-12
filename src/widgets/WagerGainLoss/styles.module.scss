@@ -2,7 +2,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 5px;
-  margin-top: 20px;
+  margin-top: 14px;
+  position: relative;
 }
 
 .stop_gain_block,
@@ -22,7 +23,7 @@
 }
 
 .gain_loss_limit_block {
-  margin-top: 5px;
+  margin-top: 6px;
   border-radius: 12px;
   background: #0f0f0f;
   padding: 10px 20px;

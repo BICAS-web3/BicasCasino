@@ -1,14 +1,11 @@
+import { FC, useState } from "react";
+import { useUnit } from "effector-react";
 import Image from "next/image";
-import {
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-  use,
-  MouseEvent,
-} from "react";
+import clsx from "clsx";
+import closeIco from "@/public/media/sidebar_icons/closeIco.png";
+
 import s from "./styles.module.scss";
+
 import {
   CoinButton,
   DiceButton,
@@ -18,41 +15,56 @@ import {
   ArrowIcon,
   SupportIcon,
 } from "@/shared/SVGs";
-import { useUnit } from "effector-react";
-import * as SideBarModel from "./model";
-import Discord from "@/public/media/social_media/Discord.svg";
-import Twitter from "@/public/media/social_media/Twitter.svg";
-import Telegram from "@/public/media/social_media/Telegram.svg";
-import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
-import Insta from "@/public/media/social_media/Insta.svg";
-import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
+import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
+
+import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
+
+import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
+
+import * as SideBarModel from "./model";
+
+import { Swap } from "../Swap";
+import { SettingIcon } from "@/shared/SVGs/SettingIcon";
+import { StarIcon } from "@/shared/SVGs/StarIcon";
+import { PlinkoButton } from "@/shared/SVGs/PlinkoButton";
+import { BonusIco } from "@/shared/SVGs/BonusIco";
+import { NftIco } from "@/shared/SVGs/NftIco";
+import { AffilateIco } from "@/shared/SVGs/AffilateIco";
+import { HTPico } from "@/shared/SVGs/HTPico";
+import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
+import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
 
 const gamesList = [
   {
     title: "Coinflip",
     icon: "coin",
-    link: "/games/CoinFlip"
+    link: "/games/CoinFlip",
   },
   {
     title: "Dice",
     icon: "dice",
-    link: "/games/Dice"
+    link: "/games/Dice",
   },
   {
     title: "Rock paper scissors",
     icon: "rps",
-    link: "/games/RPS"
+    link: "/games/RPS",
   },
   {
     title: "Poker",
     icon: "poker",
-    link: "/games/Poker"
+    link: "/games/Poker",
   },
   {
     title: "Mines",
     icon: "mines",
-    link: "/games/Mines"
+    link: "/games/Mines",
+  },
+  {
+    title: "Plinko",
+    icon: "plinko",
+    link: "/games/Plinko",
   },
 ];
 
@@ -71,6 +83,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <PokerButton />;
   } else if (iconId === "mines") {
     return <MinesButton />;
+  } else if (iconId === "plinko") {
+    return <PlinkoButton />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -78,12 +92,24 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
 
 interface ClosedSideBarProps {
   pickedGame: number | null;
+  activePage: string | undefined;
 }
 const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+
   return (
     <>
       <div className={s.side_bar_upper}>
-        <div>
+        <div className={s.closed_sb_group}>
+          <div className={s.open_sb_block} onClick={() => flipOpen()}>
+            <Image src={closeIco} alt="open-sidebar-ico" />
+          </div>
+          <div className={s.closed_sb_bonus_ico}>
+            <BonusIco />
+          </div>
           <div className={`${s.games_button}`}>
             <GamesIcon />
             <div className={s.games_button_tooltip}>
@@ -91,7 +117,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
                 {gamesList.map((item, ind) => (
                   <div
                     className={s.tooltip_games_list_item}
-                    onClick={() => { location.href = item.link }}>
+                    onClick={() => {
+                      location.href = item.link;
+                    }}
+                  >
                     <GameIcon iconId={item.icon} />
                     <span className={s.tooltip_games_list_item_title}>
                       {item.title}
@@ -101,88 +130,67 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
               </div>
             </div>
           </div>
-          <div className={s.buttons_holder}>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 0 ? s.button_picked : ""
-                }`}
-              onClick={() => { location.href = "/games/CoinFlip" }}
-            >
-              <div className={s.button}>
-                <CoinButton />
-                <div className={s.games_button_tooltip}>Coinflip</div>
-              </div>
-            </div>
-            <div className={s.button_wrap}>
-              <div
-                className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
-                  }`}
-              >
-                <DiceButton />
-                <div className={s.games_button_tooltip}>Dice</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 2 ? s.button_picked : ""
-                }`}
-            >
-              <div className={s.button}>
-                <RPCButton />
-                <div className={s.games_button_tooltip}>
-                  Rock paper scissors
-                </div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => {
-                location.href = "/games/Poker";
-              }}
-            >
-              <div className={s.button}>
-                <PokerButton />
-                <div className={s.games_button_tooltip}>Poker</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => {
-                location.href = "https://t.me/GKSupportt";
-              }}
-            >
-              <div className={s.button}>
-                <SupportIcon />
-                <div className={s.games_button_tooltip}>
-                  Support{" "}
-                  <Image
-                    className={s.tg_sidebar_ico}
-                    src={tgClosedSidebarIco}
-                    alt={""}
-                  />{" "}
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className={s.closed_sb_other_info_list}>
+          <div className={s.closed_sb_other_info_list_item}>
+            <NftIco />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <AffilateIco />
+          </div>
+          <div className={s.closed_sb_other_info_list_item}>
+            <HTPico />
+          </div>
+          {/* <div className={s.closed_sb_other_info_list_item}>
+            <SwaptIcon />
+          </div> */}
+          <Swap closeClassName={s.closed_sb_other_info_list_item} />
+          <div className={s.closed_sb_other_info_list_item}>
+            <SupportIcon />
+          </div>
+        </div>
+        <div className={s.sb_closed_bottom_block}>
+          <div className={s.sb_closed_bottom_block_item}>
+            <span className={s.sb_closed_language_title}>En</span>
+          </div>
+          <div className={s.sb_closed_bottom_block_item}>
+            <Image src={moonIco} alt="dark-theme-ico" />
           </div>
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
     </>
   );
 };
 
 interface OpenedSideBarProps {
   pickedGame: number | null;
+  activePage: string | undefined;
 }
 const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   const [gamesAreOpen, setOpen] = useState(true);
+
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+
   return (
     <>
       <div className={s.side_bar_upper}>
         <div className={s.upper_blocks}>
+          <div className={s.sidebar_close_block} onClick={() => flipOpen()}>
+            <span>dashboard</span>
+            <Image src={closeIco} alt="close-ico" />
+          </div>
+          <div className={s.bonus_button_block}>
+            <BonusIco />
+            bonus<span className={s.soon_page}>Soon…</span>
+          </div>
           <div
-            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
-              }`}
+            className={clsx(
+              s.buttons_menu,
+              !gamesAreOpen && s.buttons_menu_closed
+            )}
           >
             <div
               className={s.menu_header}
@@ -192,23 +200,36 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <div className={s.header_icon_container}>
                 <GamesIcon />
-                GAMES
+                <span className={s.header_icon_title}>games</span>
               </div>
               <div
-                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
-                  }`}
+                className={
+                  (s.arrow, gamesAreOpen ? s.arrow_down : s.arrow_side)
+                }
               >
                 <ArrowIcon />
               </div>
             </div>
             <div className={s.game_rows}>
-              <div className={`${s.game_row} ${s.picked_game_row}`}
-                onClick={() => { location.href = "/games/CoinFlip" }}
+              <div
+                className={`${s.game_row} ${
+                  props.activePage === "/games/CoinFlip" && s.game_active
+                }`}
+                onClick={() => {
+                  location.href = "/games/CoinFlip";
+                }}
               >
                 <CoinButton />
                 Coinflip
               </div>
-              <div className={s.game_row}>
+              <div
+                className={`${s.game_row} ${
+                  props.activePage === "/games/Dice" && s.game_active
+                }`}
+                onClick={() => {
+                  location.href = "/games/Dice";
+                }}
+              >
                 <DiceButton />
                 Dice
               </div>
@@ -217,7 +238,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 Rock Paper Scissors
               </div>
               <div
-                className={s.game_row}
+                className={`${s.game_row} ${
+                  props.activePage === "/games/Poker" && s.game_active
+                }`}
                 onClick={() => {
                   location.href = "/games/Poker";
                 }}
@@ -225,66 +248,77 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <PokerButton />
                 Poker
               </div>
+              <div
+                className={`${s.game_row} ${
+                  props.activePage === "/games/Plinko" && s.game_active
+                }`}
+                onClick={() => {
+                  location.href = "/games/Plinko";
+                }}
+              >
+                <PlinkoButton />
+                Plinko
+              </div>
+              <div
+                className={clsx(s.leaderboard)}
+                onClick={() => {
+                  location.href = "/leaderboard";
+                }}
+              >
+                <LeaderboardIcon />
+                LeaderBoard
+              </div>
             </div>
           </div>
-          <div
-            className={s.support}
-            onClick={() => {
-              location.href = "https://t.me/GKSupportt";
-            }}
-          >
-            <div className={s.icon_wrapper}>
-              <SupportIcon />
+          <div className={s.sb_other_info_list}>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <NftIco />
+              </div>
+              <div className={s.large_header_text}>
+                nft market <span className={s.soon_page}>Soon…</span>
+              </div>
             </div>
-            <div className={s.large_header_text}>SUPPORT</div>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <AffilateIco />
+              </div>
+              <div className={s.large_header_text}>
+                affiliate <span className={s.soon_page}>Soon…</span>
+              </div>
+            </div>
+            <div className={s.oth_info_list_item}>
+              <div className={s.icon_wrapper}>
+                <HTPico />
+              </div>
+              <div className={s.large_header_text}>
+                how to play <span className={s.soon_page}>Soon…</span>
+              </div>
+            </div>
+            <div
+              className={s.support}
+              onClick={() => {
+                location.href = "https://t.me/GKSupportt";
+              }}
+            >
+              <div className={s.icon_wrapper}>
+                <SupportIcon />
+              </div>
+              <div className={s.large_header_text}>support</div>
+            </div>
+            <Swap />
           </div>
           <LanguageSwitcher />
-          {/* <div className={s.language_settings}>
-                </div> */}
-        </div>
-        <div className={s.lower_blocks}>
-          <div className={s.social_networks}>
-            Our social networks
-            <div className={s.icons}>
-              <a
-                href="https://discord.gg/ReJVd2xJSk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Discord} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://twitter.com/GreekKeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Twitter} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://t.me/GKSupportt"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Telegram} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Insta} alt={""} width={30} height={30} />
-              </a>
-            </div>
-          </div>
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
     </>
   );
 };
 
-export interface SideBarProps { }
-export const SideBar: FC<SideBarProps> = (props) => {
+export interface SideBarProps {
+  activePage: string | undefined;
+}
+export const SideBar: FC<SideBarProps> = ({ activePage }) => {
   const [isOpen, currentPick] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
@@ -292,13 +326,14 @@ export const SideBar: FC<SideBarProps> = (props) => {
 
   return (
     <div
-      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
-        }`}
+      className={`${s.side_bar} ${
+        isOpen ? s.side_bar_opened : s.side_bar_closed
+      }`}
     >
       {isOpen ? (
-        <OpenedSideBar pickedGame={currentPick} />
+        <OpenedSideBar pickedGame={currentPick} activePage={activePage} />
       ) : (
-        <ClosedSideBar pickedGame={currentPick} />
+        <ClosedSideBar pickedGame={currentPick} activePage={activePage} />
       )}
     </div>
   );

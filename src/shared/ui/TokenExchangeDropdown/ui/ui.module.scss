@@ -4,10 +4,14 @@
   font-family: var(--font-nunito-sans);
   font-size: 12px;
   font-weight: 700;
-  line-height: 18px;;
+  line-height: 18px;
   text-align: left;
-  color: #FFFFFF;
+  color: #ffffff;
   position: relative;
+  height: 50px;
+  @media (max-width: 650px) {
+    height: 40px;
+  }
 
   .selected_token {
     display: flex;
@@ -18,12 +22,17 @@
     border: none;
     outline: none;
     cursor: pointer;
+    height: 50px;
+    transition: all 0.5s;
   }
 
+  .selected_token_open {
+    border-radius: 12px 12px 0 0;
+  }
   .token_icon {
     width: 30px;
     height: 30px;
-    @media(320px <=width <= 700px) {
+    @media (320px <=width <= 700px) {
       width: 24px;
       height: 24px;
     }
@@ -59,19 +68,19 @@
     border: none;
     outline: none;
     z-index: 1;
-    @media(320px <=width <= 700px) {
+    @media (320px <=width <= 700px) {
       top: 33px;
     }
     opacity: 0;
     max-height: 0;
     overflow: hidden;
-    transition: max-height .5s ease-in-out, opacity .5s ease-in-out;
+    transition: max-height 0.3s ease-in-out, opacity 0.5s ease-in-out;
   }
 
   .token_list.open {
     opacity: 1;
     max-height: 250px;
-    @media(max-width: 425px) {
+    @media (max-width: 425px) {
       border-radius: 5px;
       max-width: 140px;
       top: 30px;
@@ -98,19 +107,14 @@
     }
   }
 
-  .selected_token, .token_item_selected:hover {
+  .selected_token {
     background-color: #202020;
-    border-radius: 12px;
-    @media screen and (max-width: 869px) {
-      border-radius: 5px;
-    }
     @media screen and (max-width: 425px) {
       max-width: 140px;
     }
   }
 
   .token_item:hover {
-    background-color: #363636
+    background-color: #363636;
   }
 }
-

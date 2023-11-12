@@ -36,17 +36,21 @@
   position: relative;
   opacity: 1;
   z-index: 103;
-  min-height: 349px;
-  padding: 30px 31px 20px 32px;
+  min-height: 370px;
+  padding: 40px 10px 10px 10px;
   height: fit-content;
   top: 76px;
   box-sizing: border-box;
 
   @media (min-width: 700px) {
-    padding: 40px 65px 30px 65px;
+    padding: 54px 10px 20px 10px;
     min-height: 466px;
     top: 90px;
     border-radius: 20px;
+
+    @media (min-width: 700px) {
+      min-height: 482px;
+    }
   }
   @media (min-width: 850px) {
     top: 0;
@@ -54,18 +58,18 @@
 
   @media (min-width: 1280px) {
     min-height: 670px;
-    padding: 72px 58px 51px 58px;
-    // margin-top: 50px;
+    padding: 30px 58px 30px 58px;
   }
   @media (min-width: 1920px) {
-    padding: 30px 59px 40px 59px;
+    padding: 72px 58px 30px 58px;
     min-height: 670px;
+    height: 700px;
   }
 
   &.move_banner {
     transition: all 0.8s;
     box-shadow: 1px 1px 45px 50px rgba(238, 208, 110, 0.25);
-    // mb
+
     @media (min-width: 850px) {
       margin-right: 400px;
     }
@@ -80,7 +84,6 @@
   }
 }
 
-// 272
 .closed {
   transition: all 0.8s;
   transform: scaleY(0);
@@ -94,6 +97,9 @@
   left: 0;
   overflow: hidden;
   border-radius: 20px;
+  @media (max-width: 650px) {
+    border-radius: 12px;
+  }
 }
 
 .img {
@@ -109,6 +115,7 @@
 }
 
 .title {
+  margin: 0 auto;
   color: #f2e1a9;
   text-align: center;
   font-family: var(--font-nunito-sans);
@@ -129,7 +136,7 @@
   @media (min-width: 1280px) {
     letter-spacing: 2px;
     font-size: 50px;
-    max-width: 447px;
+    max-width: 444px;
   }
 }
 
@@ -140,14 +147,15 @@
   right: 0;
   transition: all 0.5s;
   color: #7e7e7e;
+  padding: 10px;
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
     color: white;
   }
   @media (min-width: 700px) {
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
   }
 }
 
@@ -229,15 +237,40 @@
     min-width: 296px;
     right: -400px;
   }
-  // @media (min-width: 850px) {
-  // transform: translateX(0);
-  // right: -400px;
-  // top: 0px;
-  // position: absolute;
-  // }
 }
 
 .header_avaibleWallet_wrap.avaibleWallet_visible {
   visibility: visible;
   opacity: 1;
+}
+
+.banner_wallet_text {
+  max-width: 220px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+  color: var(--white-1-ea-night, #eaeaea);
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.48px;
+  span {
+    font-weight: 700;
+  }
+  @media (min-width: 700px) {
+    max-width: 376px;
+    font-size: 12px;
+    margin-top: 16px;
+    letter-spacing: 0.56px;
+    line-height: 140%;
+  }
+  @media (min-width: 1200px) {
+    max-width: 436px;
+    font-size: 14px;
+    margin-top: 30px;
+    letter-spacing: 0.56px;
+  }
 }

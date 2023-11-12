@@ -11,6 +11,10 @@ html {
   min-width: 264px;
 }
 
+html.scroll-disable {
+  overflow: hidden !important;
+}
+
 body {
   overflow-x: hidden;
 }

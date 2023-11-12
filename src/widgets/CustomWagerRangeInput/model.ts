@@ -1,8 +1,8 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export enum RangeType {
-    Bets,
-    Rows
+  Bets,
+  Rows,
 }
 
 // variables

@@ -12,6 +12,9 @@ import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
 import { checkPageClicking } from "@/shared/tools";
+import * as PokerHandsM from "@/widgets/PokerHandsBlock/model";
+import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
+import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
 
 const pokerHandMultiplierList = [
   {
@@ -64,35 +67,27 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
 
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   //const [soundState, setSoundState] = useState(true);
-  const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
-    useState(false);
+  const [handMultiplierBlockVisibility, setHandVisibility] = useUnit([
+    PokerHandsM.$isOpen,
+    PokerHandsM.setVisibility,
+  ]);
 
   useEffect(() => {
     if (infoModalVisibility || handMultiplierBlockVisibility) {
       checkPageClicking({ blockDataId: "wager-lower-btns" }, (isBlock) => {
         if (!isBlock) {
           setInfoModalVisibility(false);
-          setHandMultiplierBlockVisibility(false);
+          setHandVisibility(false);
         }
       });
     }
-  }, [infoModalVisibility, handMultiplierBlockVisibility]);
+  }, [infoModalVisibility, handMultiplierBlockVisibility, setHandVisibility]);
 
   return (
     <div
       className={s.poker_wager_lower_btns_block}
       data-id={"wager-lower-btns"}
     >
-      <button
-        className={s.poker_wager_sound_btn}
-        onClick={() => switchSounds()}
-      >
-        {playSounds ? (
-          <Image alt="sound-ico" src={soundIco} />
-        ) : (
-          <Image alt="sound-ico-off" src={soundOffIco} />
-        )}
-      </button>
       <div className={s.poker_wager_info_btn_wrap}>
         <button
           className={s.poker_wager_info_btn}
@@ -123,9 +118,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
         <div className={s.hand_multiplier_wrap}>
           <div
             className={s.hand_multiplier_ico_wrap}
-            onClick={() =>
-              setHandMultiplierBlockVisibility(!handMultiplierBlockVisibility)
-            }
+            onClick={() => setHandVisibility(!handMultiplierBlockVisibility)}
           >
             {handMultiplierBlockVisibility ? (
               <Image alt="open-hand-light-ico" src={closeBtnIco} />
