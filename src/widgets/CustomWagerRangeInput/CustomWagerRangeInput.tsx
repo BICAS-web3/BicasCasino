@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import { CustomWagerRangeInputModel } from "./";
-import * as PlinkoRowsM from "@/shared/ui/PlinkoPiramyd/model";
 
 import s from "./styles.module.scss";
 
