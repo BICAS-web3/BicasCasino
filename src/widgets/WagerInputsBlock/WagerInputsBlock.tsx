@@ -72,8 +72,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
 
-  const [cryptoInputValue, setCryptoInputValue] = useState("000.000");
-  const [currencyInputValue, setCurrencyInputValue] = useState("000.000");
+  const [cryptoInputValue, setCryptoInputValue] = useState("");
+  const [currencyInputValue, setCurrencyInputValue] = useState("");
   const { dropdownRef, isOpen, toggle, close } = useDropdown();
   const [exchangeRate, setExchangeRate] = useState<number>(0);
   const [startedTyping, setstartedTyping] = useState<boolean>(false);
@@ -195,6 +195,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div className={s.poker_wager_input_kripto_block}>
           <input
+            placeholder="0.0"
             className={s.poker_wager_input_kripto}
             onChange={(e) => {
               setstartedTyping(true);
@@ -270,6 +271,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
         </div>
         <div className={s.poker_wager_input_currency_block}>
           <input
+            placeholder="0.0"
             className={s.poker_wager_input_currency}
             onChange={(e) => {
               setstartedTyping(true);
