@@ -100,6 +100,7 @@ export const Plinko: FC<IPlinko> = () => {
     playSounds,
     wagered,
     setWagered,
+    rowsAmount,
     pickedValue,
     gameAddress,
     pickedToken,
@@ -118,6 +119,7 @@ export const Plinko: FC<IPlinko> = () => {
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
     CustomWagerRangeInputModel.$pickedRows,
+    CustomWagerRangeInputModel.$pickedValue,
     sessionModel.$gameAddress,
     WagerModel.$pickedToken,
     sessionModel.$currentBalance,
@@ -155,7 +157,7 @@ export const Plinko: FC<IPlinko> = () => {
 
   useEffect(() => {
     setPath(undefined);
-  }, [pickedValue]);
+  }, [rowsAmount]);
 
   useEffect(() => {
     console.log("Play sounds", playSounds);
@@ -257,7 +259,7 @@ export const Plinko: FC<IPlinko> = () => {
       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
       pickedToken?.contract_address,
       //pickedSide,
-      pickedValue,
+      rowsAmount,
       pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
       pickedValue,
       useDebounce(stopGain)
@@ -280,7 +282,7 @@ export const Plinko: FC<IPlinko> = () => {
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
           BigInt(100000000000) *
-          BigInt(pickedValue)
+          BigInt(rowsAmount)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -407,7 +409,7 @@ export const Plinko: FC<IPlinko> = () => {
                   "0x0000000000000000000000000000000000000000"
                   ? BigInt(Math.floor(cryptoValue * 10000000)) *
                     BigInt(100000000000) *
-                    BigInt(pickedValue)
+                    BigInt(rowsAmount)
                   : BigInt(0)),
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
             );
