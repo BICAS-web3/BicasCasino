@@ -9,9 +9,9 @@
   z-index: 101;
   display: flex;
   justify-content: center;
-  @media (min-width: 850px) {
-    // min-height: 466px;
-    align-items: center;
+  @media (min-width: 650px) {
+    height: calc(100vh - 70px);
+    top: 70px;
   }
 }
 
@@ -39,41 +39,35 @@
   min-height: 370px;
   padding: 40px 10px 10px 10px;
   height: fit-content;
-  top: 76px;
+  top: 0;
   box-sizing: border-box;
-
   @media (min-width: 700px) {
     padding: 54px 10px 20px 10px;
-    min-height: 466px;
-    top: 90px;
+    min-height: 482px;
     border-radius: 20px;
-
-    @media (min-width: 700px) {
-      min-height: 482px;
-    }
+    top: 50px;
   }
-  @media (min-width: 850px) {
-    top: 0;
-  }
-
   @media (min-width: 1280px) {
-    min-height: 670px;
-    padding: 30px 58px 30px 58px;
+    min-height: 570px;
+    padding: 30px 38px 30px 38px;
+    top: 70px;
   }
-  @media (min-width: 1920px) {
+  @media (min-width: 1920px) and (min-height: 1000px) {
     padding: 72px 58px 30px 58px;
     min-height: 670px;
-    height: 700px;
+    top: 125px;
   }
-  @media (min-width: 1280px) and (max-height: 850px) {
-    padding: 30px 20px 15px 20px;
-    top: 40px;
-    min-height: 580px;
+  @media (max-width: 650px) {
+    top: 76px;
   }
-  @media (min-width: 650px) and (max-height: 685px) {
-    min-height: 500px;
-    padding: 30px 20px 15px 20px;
-    top: 35px;
+  @media (min-width: 650px) and (max-height: 650px) {
+    top: 20px;
+    // transform: scaleY(0.9);
+  }
+  @media (min-width: 1280px) and (max-height: 740px) {
+    top: 30px;
+    min-height: 530px;
+    padding: 30px 28px 30px 28px;
   }
 
   &.move_banner {
@@ -86,13 +80,13 @@
   }
 }
 
-.claimBanner {
-  padding: 43px 31px 20px 32px;
+// .claimBanner {
+//   padding: 43px 31px 20px 32px;
 
-  @media (min-width: 700px) {
-    padding: 75px 65px 30px 65px;
-  }
-}
+//   @media (min-width: 700px) {
+//     padding: 75px 65px 30px 65px;
+//   }
+// }
 
 .closed {
   transition: all 0.8s;
@@ -153,10 +147,10 @@
   @media (min-width: 1280px) and (max-height: 850px) {
     font-size: 40px;
   }
-  @media (min-width: 650px) and (max-height: 685px) {
-    font-size: 35px;
-    max-width: 350px;
-  }
+  // @media (min-width: 650px) and (max-height: 685px) {
+  //   font-size: 35px;
+  //   max-width: 350px;
+  // }
 }
 
 .closeIcon {
@@ -296,7 +290,7 @@
     margin-top: 30px;
     letter-spacing: 0.56px;
   }
-  @media (min-width: 650px) and (max-height: 685px) {
-    margin-top: 5px;
-  }
+  // @media (min-width: 650px) and (max-height: 685px) {
+  //   margin-top: 5px;
+  // }
 }

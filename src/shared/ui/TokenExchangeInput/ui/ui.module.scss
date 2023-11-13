@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   border-radius: 12px;
-  margin-left: -18px;
   width: 100%;
   .form_group {
     display: flex;
@@ -10,6 +9,7 @@
     width: 100%;
 
     input {
+      width: auto;
       border-radius: 12px;
       border: none;
       outline: none;
@@ -20,42 +20,19 @@
       font-weight: 700;
       line-height: 18px;
       text-align: left;
-      // width: 100%;
-      @media screen and (max-width: 3840px) {
-        padding: 18px 40px 18px 60px;
+      height: 100%;
+      padding: 0 20px;
+      @media screen and (max-width: 1280px) {
+        height: 50px;
+        padding: 0 21px;
       }
-      @media (max-width: 1920px) {
-        padding: 18px 15px 18px 40px;
-      }
-      @media screen and (max-width: 1440px) {
-        // max-width: 136px;
-        padding: 18px 22px;
-      }
-      @media screen and (max-width: 1024px) {
-        // max-width: 88px;
-        padding: 18px 22px;
-      }
-      @media screen and (max-width: 869px) {
-        // max-width: 136px;
-        font-size: 18px;
-        padding: 9px 20px;
+      @media (max-width: 650px) {
+        height: 40px;
         border-radius: 5px;
+        padding: 0 10px;
+        width: 50px;
+        flex: 1 1 auto;
       }
-      @media screen and (max-width: 819px) {
-        font-size: 12px;
-        padding: 12px 20px;
-      }
-      @media screen and (max-width: 769px) {
-        font-size: 10px;
-        padding: 11px 28px;
-      }
-      @media screen and (max-width: 414px) {
-        // max-width: 116px;
-      }
-      @media screen and (max-width: 414px) {
-        // max-width: 86px;
-      }
-      width: auto;
     }
   }
 }
