@@ -15,7 +15,7 @@ import { SwapToken } from "./SwapToken";
 import { Blur } from "./Blur";
 import { createPortal } from "react-dom";
 
-import * as SwapModel from "@/widgets/Swap/model/index";
+// import * as SwapModel from "@/widgets/Swap/model/index";
 export interface SwapProps {
   closeClassName?: string;
 }
@@ -23,18 +23,18 @@ export interface SwapProps {
 export const Swap: FC<SwapProps> = ({ closeClassName }) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const { toggle, close, dropdownRef, isOpen, open: setOpen } = useDropdown();
-  const [swapToggle, swapClose] = useUnit([
-    SwapModel.flipSwapOpen,
-    SwapModel.Close,
-  ]);
+  // const [swapToggle, swapClose] = useUnit([
+  //   SwapModel.flipSwapOpen,
+  //   SwapModel.Close,
+  // ]);
   const [tokenFrom, setTokenFrom] = useState<any>();
   const [tokenTo, setTokenTo] = useState<any>();
 
   const [isSidebarOpen, setClose] = useUnit([$isOpen, Close]);
 
-  useEffect(() => {
-    !isOpen && swapClose();
-  }, [isOpen]);
+  // useEffect(() => {
+  //   !isOpen && swapClose();
+  // }, [isOpen]);
 
   return (
     <>
@@ -45,7 +45,7 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
             className={s.swap_button_open}
             onClick={() => {
               toggle();
-              swapToggle();
+              // swapToggle();
             }}
           >
             <div className={s.icon_wrapper}>
@@ -58,7 +58,7 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
             className={clsx(closeClassName, s.swap_button_closed)}
             onClick={() => {
               toggle();
-              swapToggle();
+              // swapToggle();
             }}
           >
             <SwaptIcon className={s.swap_icon} />
@@ -78,7 +78,7 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
               className={s.swap_close_icon}
               onClick={() => {
                 close();
-                swapClose();
+                // swapClose();
               }}
             />
           </div>
