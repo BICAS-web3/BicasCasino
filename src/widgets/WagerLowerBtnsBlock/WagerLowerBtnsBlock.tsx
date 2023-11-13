@@ -15,6 +15,7 @@ import { checkPageClicking } from "@/shared/tools";
 import * as PokerHandsM from "@/widgets/PokerHandsBlock/model";
 import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
 import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
+import burgerIco from "@/public/media/misc/burgerIco.svg";
 
 const pokerHandMultiplierList = [
   {
@@ -132,9 +133,9 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
             onClick={() => setHandVisibility(!handMultiplierBlockVisibility)}
           >
             {handMultiplierBlockVisibility ? (
-              <Image alt="open-hand-light-ico" src={closeBtnIco} />
+              <Image alt="open-hand-light-ico" src={burgerIco} />
             ) : (
-              <Image alt="open-hand-default-ico" src={openHandIco} />
+              <Image alt="open-hand-default-ico" src={burgerIco} />
             )}
           </div>
           <div
