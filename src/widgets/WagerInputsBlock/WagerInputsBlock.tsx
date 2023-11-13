@@ -17,6 +17,7 @@ import { useDropdown } from "@/shared/tools";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
+import downArr from "@/public/media/misc/downArr.png";
 
 // const tokensList = [
 //   {
@@ -222,14 +223,23 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
             {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}
             {pickedToken && (
               <>
-                <Image
-                  alt="token-ico"
-                  src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
-                  // onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                <div
+                  className={`${s.pick_token_group} ${isOpen && s.opened_list}`}
                   onClick={toggle}
-                  width={30}
-                  height={30}
-                />
+                >
+                  <Image
+                    alt="token-ico"
+                    src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
+                    // onClick={() => setTokenListVisibility(!tokenListVisibility)}
+                    width={30}
+                    height={30}
+                  />
+                  <Image
+                    className={s.dd_ico_img}
+                    src={downArr}
+                    alt="down-arr"
+                  />
+                </div>
                 <div
                   className={clsx(
                     s.poker_wager_tokens_list_wrap,
