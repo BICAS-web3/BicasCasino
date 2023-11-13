@@ -121,7 +121,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       <div className={s.customBets_list_item_profit_block}>
         <span
           className={`${s.customBets_list_item_profit} ${
-            props.profit <= 0 && s.lose_profit
+            props.profit <= 1 && s.lose_profit
           }`}
         >
           {props.profit}

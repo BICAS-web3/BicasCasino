@@ -369,7 +369,7 @@
 .sidebar_close_block {
   position: fixed;
   top: 90px;
-  width: 217px;
+  width: 210px;
   z-index: 99;
   box-sizing: border-box;
   cursor: pointer;
@@ -378,7 +378,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 217px;
+  width: 210px;
   padding: 0 16px;
   min-height: 50px;
   color: #979797;
@@ -399,9 +399,6 @@
     span {
       color: #eaeaea;
     }
-  }
-  @media screen and (max-width: 1280px) {
-    width: 83%;
   }
   @media screen and (max-width: 650px) {
     display: none;

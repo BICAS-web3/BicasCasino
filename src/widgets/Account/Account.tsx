@@ -19,6 +19,8 @@ import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
 import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
+import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
+import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -80,19 +82,6 @@ export const Account: FC<AccountProps> = (props) => {
 
   return (
     <div className={s.account_container}>
-      <div className={s.account}>
-        <div className={s.main_text}>Account</div>
-        <button className={s.btn_close} onClick={handleHeaderAccClose}>
-          <Image
-            src={Close}
-            alt={""}
-            width={17}
-            height={17}
-            className={s.close_icon}
-          />
-        </button>
-      </div>
-      <div className={s.line}></div>
       <div className={s.profile}>
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
@@ -114,12 +103,19 @@ export const Account: FC<AccountProps> = (props) => {
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
         <AccountElement
-          name="Profile"
+          name="Coinbase"
           icon={ProfileIcon}
           onClick={() => {
             window.location.assign(`/account/${props.address.toLowerCase()}`);
           }}
         />
+        <div className={`${s.accountElement} ${s.network_elem}`}>
+          <div className={s.network_left_group}>
+            <Image src={coinbaseIco} alt="network_ico" />
+            <span className={s.text_icon}>Coinbase</span>
+          </div>
+          <Image src={networkConnectIco} alt="connection_ico" />
+        </div>
         <AccountElement
           name="Explorer"
           icon={ExplorerIcon}
