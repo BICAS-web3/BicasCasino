@@ -13,13 +13,12 @@
     justify-content: space-around;
   }
   @media screen and (max-width: 425px) {
-
     justify-content: space-between;
   }
 
   .card {
     display: flex;
-    gap: 12px;
+    // gap: 12px;
     align-items: flex-end;
     background-color: #151515;
     border-radius: 20px;
@@ -29,32 +28,30 @@
 
     @media screen and (max-width: 3840px) {
       max-width: 100%;
+      gap: 40px;
     }
-    @media screen and (max-width: 1440px) {
+    @media screen and (max-width: 1280px) {
       padding: 34px 20px;
+      gap: 30px;
     }
-    @media screen and (max-width: 864px) {
-      padding: 34px 16px;
-      max-width: 100%;
-    }
-    @media screen and (max-width: 768px) {
-      padding: 34px 20px;
-    }
-    @media screen and (max-width: 650px) {
-      padding: 34px 15px;
-    }
-    @media screen and (max-width: 425px) {
-      padding: 20px 16px;
+    // @media screen and (max-width: 864px) {
+    //   padding: 34px 16px;
+    //   max-width: 100%;
+    // }
+    // @media screen and (max-width: 768px) {
+    //   padding: 34px 20px;
+    // }
+    // @media screen and (max-width: 650px) {
+    //   padding: 34px 15px;
+    // }
+    // @media screen and (max-width: 425px) {
+    //   padding: 20px 16px;
+    // }
+    @media (max-width: 650px) {
     }
 
     img {
-      margin-right: 14px;
-      @media screen and (max-width: 650px) {
-        margin: 0;
-        width: 90px;
-        height: 90px;
-      }
-      @media screen and (max-width: 425px) {
+      @media (max-width: 650px) {
         margin: 0;
         width: 50px;
         height: 50px;
@@ -75,4 +72,3 @@
     }
   }
 }
-

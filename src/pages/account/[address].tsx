@@ -30,7 +30,8 @@ export default function Profile() {
     const run = async () => {
       const r = (
         await api.GetLatestGamesFx(
-          (router.query.address as string).toLowerCase()
+          "0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()
+          // (router.query.address as string).toLowerCase()
         )
       ).body as api.T_LatestGames;
       const games = r.games;
@@ -39,12 +40,12 @@ export default function Profile() {
         setLatestGames(
           games.map((game: string, ind) => {
             const game_data = Games[game.toLowerCase() as any];
-
+            console.log("game data", game_data);
             return {
               id: ind,
-              title: game_data.title,
-              text: game_data.text,
-              imgBackground: game_data.imgBackground,
+              title: game_data?.title || "",
+              text: game_data?.text || "",
+              imgBackground: game_data?.imgBackground || "",
             };
           })
         );
