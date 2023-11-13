@@ -14,6 +14,8 @@ import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
 
+import clsx from "clsx";
+import { useMediaQuery } from "@/shared/tools";
 interface LayoutProps {
   children?: any;
   gameName: string | undefined;
@@ -21,7 +23,7 @@ interface LayoutProps {
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
-
+  const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
           >
             <Header isGame={props.gameName != undefined} />
             <div
-              className={`${s.side_bar_wrapper} ${isOpen && s.sideBar_opened}`}
+              className={clsx(s.side_bar_wrapper, isOpen && s.sideBar_opened)}
             >
               <SideBar activePage={props.activePageLink} />
             </div>

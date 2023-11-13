@@ -4,36 +4,50 @@ import clsx from "clsx";
 
 import s from "./styles.module.scss";
 
-import { useDropdown } from "@/shared/tools";
+import { useDropdown, useMediaQuery } from "@/shared/tools";
 import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
 import { ArrowSwapIcon } from "@/shared/SVGs/ArrowSwapIcon";
 import { CloseSwapIcon } from "@/shared/SVGs/CloseSwapIcon";
 
-import { $isOpen } from "@/widgets/SideBar/model";
+import { $isOpen, Close } from "@/widgets/SideBar/model";
 
 import { SwapToken } from "./SwapToken";
 import { Blur } from "./Blur";
+import { createPortal } from "react-dom";
 
+// import * as SwapModel from "@/widgets/Swap/model/index";
 export interface SwapProps {
   closeClassName?: string;
 }
 
 export const Swap: FC<SwapProps> = ({ closeClassName }) => {
-  const { toggle, close, dropdownRef, isOpen } = useDropdown();
-
+  const isMobile = useMediaQuery("(max-width: 650px)");
+  const { toggle, close, dropdownRef, isOpen, open: setOpen } = useDropdown();
+  // const [swapToggle, swapClose] = useUnit([
+  //   SwapModel.flipSwapOpen,
+  //   SwapModel.Close,
+  // ]);
   const [tokenFrom, setTokenFrom] = useState<any>();
   const [tokenTo, setTokenTo] = useState<any>();
 
-  const [isSidebarOpen] = useUnit([$isOpen]);
+  const [isSidebarOpen, setClose] = useUnit([$isOpen, Close]);
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   !isOpen && swapClose();
+  // }, [isOpen]);
 
   return (
     <>
       <Blur isOpen={isOpen} />
       <div ref={dropdownRef} className={s.swap}>
         {isSidebarOpen ? (
-          <div className={s.swap_button_open} onClick={toggle}>
+          <div
+            className={s.swap_button_open}
+            onClick={() => {
+              toggle();
+              // swapToggle();
+            }}
+          >
             <div className={s.icon_wrapper}>
               <SwaptIcon className={s.swap_icon} />
             </div>
@@ -42,7 +56,10 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
         ) : (
           <div
             className={clsx(closeClassName, s.swap_button_closed)}
-            onClick={toggle}
+            onClick={() => {
+              toggle();
+              // swapToggle();
+            }}
           >
             <SwaptIcon className={s.swap_icon} />
             <div className={s.games_button_tooltip}>Swap</div>
@@ -52,12 +69,18 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
           className={clsx(
             s.swap_block,
             isOpen && s.swap_block_open,
-            isSidebarOpen && s.swap_sidebar_open
+            (isSidebarOpen || isMobile) && s.swap_sidebar_open
           )}
         >
           <div className={s.swap_head}>
             <span></span> <h3>Swap</h3>
-            <CloseSwapIcon className={s.swap_close_icon} onClick={close} />
+            <CloseSwapIcon
+              className={s.swap_close_icon}
+              onClick={() => {
+                close();
+                // swapClose();
+              }}
+            />
           </div>
           <div className={s.swap_body}>
             <p className={s.swap_under_title}>Trade tokens in an instant</p>

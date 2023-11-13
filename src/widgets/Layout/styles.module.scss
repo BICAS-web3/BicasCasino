@@ -65,4 +65,7 @@
   .side_bar_wrapper.sideBar_opened {
     top: 56px;
   }
+  .side_bar_wrapper.sideBar_opened.swap_open {
+    top: -57px;
+  }
 }
