@@ -65,15 +65,16 @@ export default function Profile() {
           <></>
           <section className={styles.container}>
             <div className={styles.grid_container}>
-              <div className={styles.card_container}>
+              {/* <div className={styles.card_container}></div>{" "} */}
+              <div className={styles.card_container_wrap}>
                 <ProfileCard
-                  address={(router.query.address as string).toLowerCase()}
+                  address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
                 />
-              </div>
-              <div className={styles.profile_container}>
-                <ProfileBettingStatistics
-                  address={(router.query.address as string).toLowerCase()}
-                />
+                <div className={styles.profile_container}>
+                  <ProfileBettingStatistics
+                    address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
+                  />
+                </div>
               </div>
               <div className={styles.recently_container}>
                 {latestGames ? (
@@ -86,7 +87,7 @@ export default function Profile() {
             {/* <SwapTradeTokens /> */}
             <BetsHistoryReDesign
               title={"Bet History"}
-              address={(router.query.address as string).toLowerCase()}
+              address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
             />
             {/* <BetsHistoryReDesign title={"Pending Bets"} /> */}
           </section>

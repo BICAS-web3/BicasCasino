@@ -7,29 +7,8 @@
   gap: 5px;
   justify-content: space-between;
   border-bottom: 1px solid #252525;
-  padding: 10px 0;
-  @media screen and (max-width: 3840px) {
-    width: 400px;
-  }
-  @media screen and (max-width: 1440px) {
-    width: 313px;
-  }
-  @media screen and (max-width: 1024px) {
-    width: 250px;
-  }
-  @media screen and (max-width: 768px) {
-    width: 190px;
-  }
-  @media screen and (max-width: 651px) {
-    width: 160px;
-  }
-  @media screen and (max-width: 425px) {
-    padding: 3px 0;
-    width: 130px;
-  }
-  @media screen and (max-width: 320px) {
-    width: 110px;
-  }
+  flex: 1 1 auto;
+  padding-bottom: 14px;
 }
 
 .metric_title {
@@ -39,7 +18,7 @@
   line-height: 18px;
   letter-spacing: 0.04em;
   text-align: left;
-  color: #EAEAEA;
+  color: #eaeaea;
   @media screen and (max-width: 768px) {
     font-size: 14px;
   }
@@ -49,7 +28,6 @@
   @media screen and (max-width: 425px) {
     font-size: 10px;
   }
-
 }
 
 .metric_total {
@@ -59,7 +37,7 @@
   line-height: 33px;
   letter-spacing: 0em;
   text-align: right;
-  color: #E5C787;
+  color: #e5c787;
   @media screen and (max-width: 768px) {
     font-size: 18px;
   }
@@ -70,4 +48,3 @@
     font-size: 12px;
   }
 }
-

@@ -5,20 +5,15 @@
   background-color: #151515;
   border-radius: 20px;
   justify-content: space-between;
-
+  width: auto;
   @media screen and (max-width: 650px) {
     border-radius: 12px 12px 0 0;
     border-bottom: 2px solid #252525;
     align-items: center;
-    justify-content: space-around;
-  }
-  @media screen and (max-width: 425px) {
-    justify-content: space-between;
   }
 
   .card {
     display: flex;
-    // gap: 12px;
     align-items: flex-end;
     background-color: #151515;
     border-radius: 20px;
@@ -30,24 +25,13 @@
       max-width: 100%;
       gap: 40px;
     }
-    @media screen and (max-width: 1280px) {
+    @media screen and (max-width: 1920px) {
       padding: 34px 20px;
       gap: 30px;
     }
-    // @media screen and (max-width: 864px) {
-    //   padding: 34px 16px;
-    //   max-width: 100%;
-    // }
-    // @media screen and (max-width: 768px) {
-    //   padding: 34px 20px;
-    // }
-    // @media screen and (max-width: 650px) {
-    //   padding: 34px 15px;
-    // }
-    // @media screen and (max-width: 425px) {
-    //   padding: 20px 16px;
-    // }
     @media (max-width: 650px) {
+      padding: 20px 0 16px 16px;
+      align-items: center;
     }
 
     img {
@@ -63,11 +47,11 @@
       margin-bottom: 10px;
       flex-direction: column;
       align-items: flex-start;
-      gap: 6px;
+      gap: 14px;
       margin-right: auto;
-      @media screen and (max-width: 425px) {
+      @media (max-width: 650px) {
         margin-bottom: 0;
-        gap: 2px;
+        gap: 8px;
       }
     }
   }
