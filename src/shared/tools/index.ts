@@ -78,6 +78,17 @@ export const pageview = () => {
 export const event = (name: any, options = {}) => {
   (window as any).fbq("track", name, options);
 };
+export const shortenAddress = (
+  address: string | undefined,
+  length = 4,
+  ends = 4
+) => {
+  // console.log(address);
+  if (!address) return "";
+  return `${address.slice(0, 2 + length)}..${address.slice(
+    -ends
+  )}`.toLowerCase();
+};
 
 export function useMediaQuery(query: string): boolean {
   const getMatches = (query: string): boolean => {
