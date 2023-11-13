@@ -1,95 +1,45 @@
-import s from "./styles.module.scss";
-import { LeaderBoardItem } from "@/widgets/LeaderBoard/LeaderBoardItem";
 import { FC, useEffect, useState } from "react";
 
-//demo
-export let leadersList = [
-  {
-    rank: 1,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#E84D62;",
-  },
-  {
-    rank: 2,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#FF73FA;",
-  },
-  {
-    rank: 3,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#43B581;",
-  },
-  {
-    rank: 4,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#3DBCE5;",
-  },
-  {
-    rank: 5,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#FAA61A;",
-  },
-  {
-    rank: 6,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#FAA61A;",
-  },
-  {
-    rank: 7,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#F47B68;",
-  },
-  {
-    rank: 8,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#3DBCE5;",
-  },
-  {
-    rank: 9,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#FAA61A;",
-  },
-  {
-    rank: 10,
-    player: "UserName",
-    address: "0x563...4ba9",
-    volume: "37,298,200",
-    playerBg: "#F57731;",
-  },
-];
+import { useUnit } from "effector-react";
 
-const sortedL = leadersList.slice();
-sortedL.sort((a, b) => a.rank - b.rank);
+import clsx from "clsx";
 
-const col1 = sortedL.slice(0, 5);
-const col2 = sortedL.slice(5);
+import { settingsModel } from "@/entities/settings";
 
-interface LeaderBoardProps {}
+import * as Api from "@/shared/api";
 
-export const LeaderBoard: FC<LeaderBoardProps> = () => {
-  const [list, setList] = useState(leadersList);
+import s from "./styles.module.scss";
+import { LeaderBoardItem } from "./LeaderBoardItem";
+
+export const LeaderBoard: FC<{}> = () => {
+  const [apiResponse] = useUnit([settingsModel.$AvailableLeaderbord]);
+  const [list, setList] = useState<any | Api.T_LeaderBoardResponse[]>(
+    apiResponse
+  );
 
   useEffect(() => {
-    window.innerWidth <= 650 && setList(list.slice(0, 5));
-  }, []);
+    setList(apiResponse);
+  }, [apiResponse]);
+  const isMobile = window.innerWidth <= 650;
+
+  useEffect(() => {
+    window.innerWidth <= 650 &&
+      setList(
+        apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
+      );
+  }, [apiResponse]);
+
+  const fullList = list?.length > 5;
+
+  const setListSize = () => {
+    if (isMobile && !fullList) {
+      setList(apiResponse);
+    } else {
+      setList(
+        apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
+      );
+    }
+  };
 
   return (
     <div className={s.leader_board_wrap}>
@@ -99,19 +49,10 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
           <span className={s.leader_board_list_titles_item}>Rank</span>
           <span className={s.leader_board_list_titles_item}>Player</span>
           <span
-            className={s.leader_board_list_titles_item}
-            data-id="address_board_list_title"
-          >
-            Address
-          </span>
-          <span className={s.leader_board_list_titles_item}>Volume</span>
-        </div>
-        <div className={s.leader_board_row_titles_block}>
-          <span className={s.leader_board_list_titles_item}>Rank</span>
-          <span className={s.leader_board_list_titles_item}>Player</span>
-          <span
-            className={s.leader_board_list_titles_item}
-            data-id="address_board_list_title"
+            className={clsx(
+              s.leader_board_list_titles_item,
+              s.leader_board_list_titles_item_address
+            )}
           >
             Address
           </span>
@@ -119,11 +60,21 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         </div>
       </div>
       <div className={s.leader_board_list}>
-        {list && list.map((item, ind) => <LeaderBoardItem {...item} />)}
+        {list && list.length > 0 ? (
+          list.map((item: Api.T_LeaderBoardResponse, ind: number) => (
+            <LeaderBoardItem key={ind + item.total} {...item} ind={ind} />
+          ))
+        ) : (
+          <span className={s.no_data}>No Data yet</span>
+        )}
       </div>
-      <div className={s.leaderBoard_loadMore_btn_block}>
-        <button className={s.leaderBoard_loadMore_btn}>Load More</button>
-      </div>
+      {apiResponse?.length > 5 && (
+        <div className={s.leaderBoard_loadMore_btn_block}>
+          <button onClick={setListSize} className={s.leaderBoard_loadMore_btn}>
+            Load {fullList ? "Less" : "More"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

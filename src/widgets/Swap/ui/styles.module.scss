@@ -6,20 +6,23 @@
 
 .swap_button_open {
   cursor: pointer;
+  transition: all 0.1s;
   box-sizing: border-box;
   flex-direction: row;
   column-gap: 11px;
   display: flex;
   align-items: center;
   height: 50px;
-  padding-left: 25px;
+  padding-left: 16px;
   &:hover {
-    .swap_icon {
-      color: rgba(229, 199, 135, 1);
+    svg {
+      path {
+        fill: #eaeaea;
+      }
     }
-    // .large_header_text {
-    //   color: rgba(229, 199, 135, 1);
-    // }
+    .large_header_text {
+      color: #eaeaea;
+    }
   }
   @media (max-width: 650px) {
     width: 100%;

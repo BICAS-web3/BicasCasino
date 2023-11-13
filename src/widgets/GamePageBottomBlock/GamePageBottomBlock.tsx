@@ -41,7 +41,9 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
         {isPoker && (
           <div
             className={`${s.game_page_bottom_show_table_btn} 
-          ${s.game_page_bottom_wrap_header_accordion_btn}`}
+          ${s.game_page_bottom_wrap_header_accordion_btn} ${
+              currentItem === "poker" && accordionActive ? s.arrow_anim : null
+            }`}
             onClick={showTableHandler}
           >
             Show table <ArrowDownIcon />
@@ -49,7 +51,9 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
         )}
         <div
           className={`${s.game_page_bottom_about_the_game_btn} 
-          ${s.game_page_bottom_wrap_header_accordion_btn}`}
+          ${s.game_page_bottom_wrap_header_accordion_btn} ${
+            currentItem === "about" && accordionActive ? s.arrow_anim : null
+          }`}
           onClick={aboutHandler}
         >
           About the Game <ArrowDownIcon />

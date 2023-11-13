@@ -211,8 +211,11 @@
         font-weight: 700;
         line-height: 120%;
         letter-spacing: 0.56px;
-        color: #ddb775;
+        color: #29f061;
         margin-right: 10px;
+        &.lose_profit {
+          color: #f57731 !important;
+        }
       }
     }
   }
@@ -426,10 +429,10 @@
 
 @media screen and (max-width: 400px) {
   .customBets_titles_list {
-    grid-template-columns: 25px 50px 1fr 30px 35px;
+    grid-template-columns: 25px 60px 1fr 30px 35px;
   }
   .customBets_list_item {
-    grid-template-columns: 25px 50px 1fr 30px 35px;
+    grid-template-columns: 25px 60px 1fr 30px 35px;
   }
 }
 

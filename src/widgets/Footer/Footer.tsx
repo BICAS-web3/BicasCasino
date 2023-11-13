@@ -11,9 +11,8 @@ import twitter from "@/public/media/social_media/twitterIco.png";
 import mainIco from "@/public/media/social_media/mainIco.png";
 import reddit from "@/public/media/social_media/redditIco.png";
 
-import Eagle from "@/public/media/brand_images/GKEagle.png";
-import Greek_Keepers from "@/public/media/brand_images/Greek_Keepers.png";
 import Link from "next/link";
+import Logo from "@/public/media/brand_images/footerLogo.svg";
 
 export interface FooterProps {}
 export const Footer: FC<FooterProps> = (props) => {
@@ -23,45 +22,42 @@ export const Footer: FC<FooterProps> = (props) => {
         <div className={s.footer_container}>
           <div className={s.footer_body}>
             <div className={s.logo}>
-              <Image src={Eagle} alt={""} width={46.065} height={36} />
-              <Image
-                src={Greek_Keepers}
-                alt={""}
-                width={54.706}
-                height={23.708}
-              />
+              <Image src={Logo} alt="logo" />
             </div>
 
             <div className={s.games_list}>
               <Link href="" className={s.footer_text}>
+                BONUS
+              </Link>
+              <Link href="" className={s.footer_text}>
                 GAMES
               </Link>
-              <Link href="/games/CoinFlip" className={s.game_row}>
-                Coinflip
-              </Link>
-              <Link href="/games/Dice" className={s.game_row}>
-                Dice
-              </Link>
-              <Link href="/games/rps" className={s.game_row}>
-                Rock paper scissors
-              </Link>
-              <Link href="/games/Poker" className={s.game_row}>
-                Poker
+              <Link href="" className={s.footer_text}>
+                SPAW
               </Link>
             </div>
 
-            <div className={s.footer_mainPages_list}>
+            <div className={s.games_list}>
               <Link href="" className={s.footer_text}>
-                support
+                PROFILE
               </Link>
               <Link href="" className={s.footer_text}>
-                Profile
+                LEADER BOARD
               </Link>
               <Link href="" className={s.footer_text}>
-                NFT Market
+                AFFILATE
+              </Link>
+            </div>
+
+            <div className={s.games_list}>
+              <Link href="" className={s.footer_text}>
+                NFT MARKET
               </Link>
               <Link href="" className={s.footer_text}>
-                Leader board
+                HOW TO PLAY
+              </Link>
+              <Link href="" className={s.footer_text}>
+                SUPPORT
               </Link>
             </div>
 
