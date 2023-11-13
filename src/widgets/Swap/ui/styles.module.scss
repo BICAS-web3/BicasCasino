@@ -6,20 +6,23 @@
 
 .swap_button_open {
   cursor: pointer;
+  transition: all 0.1s;
   box-sizing: border-box;
   flex-direction: row;
   column-gap: 11px;
   display: flex;
   align-items: center;
   height: 50px;
-  padding-left: 25px;
+  padding-left: 16px;
   &:hover {
-    .swap_icon {
-      color: rgba(229, 199, 135, 1);
+    svg {
+      path {
+        fill: #eaeaea;
+      }
     }
-    // .large_header_text {
-    //   color: rgba(229, 199, 135, 1);
-    // }
+    .large_header_text {
+      color: #eaeaea;
+    }
   }
   @media (max-width: 650px) {
     width: 100%;
@@ -52,7 +55,6 @@
 
 .swap_block {
   position: fixed;
-  left: 50%;
   top: 50%;
   display: flex;
   flex-direction: column;
@@ -73,18 +75,18 @@
     left: 50%;
   }
   @media (min-width: 650px) {
+    left: 50%;
     border-radius: 20px;
     width: 410px;
     padding-bottom: 40px;
   }
   @media (max-width: 650px) {
-    top: 200vh;
-    right: 0;
-    left: 0;
+    top: 56px;
+    right: 300vw;
+    border-radius: 0;
     transform: translateY(0) translateX(0) scaleY(0);
   }
 }
-
 .swap_block_open {
   top: 50%;
   opacity: 1;
@@ -99,10 +101,11 @@
   }
   @media (max-width: 650px) {
     width: 100%;
+    // height: calc(100vh - 113px);
     height: 100vh;
     top: 56px;
     right: 0;
-    left: 0;
+    border-bottom: 1px solid var(--gray-3125-night, #252525);
     transform: translateY(0) translateX(0) scaleY(1);
   }
 }
@@ -112,9 +115,16 @@
     transform: translateY(-50%) translateX(0) scaleY(0);
     right: 30px;
   }
+  @media (min-width: 650px) and (max-width: 1280px) {
+    // left: 50%;
+    right: 30px;
+    left: auto;
+  }
   @media (max-width: 650px) {
     left: 0;
-    right: 0;
+    top: 56px;
+    right: 300vw;
+    transform: translateY(0) translateX(0) scaleY(1);
   }
 }
 
@@ -123,11 +133,12 @@
     transform: translateY(-50%) translateX(0) scaleY(1);
     right: 30px;
     left: auto;
+    // top: 56px;
   }
   @media (max-width: 650px) {
     transform: translateY(0) translateX(0) scaleY(1);
     top: 56px;
-    left: 0;
+    // left: 0;
     right: 0;
   }
 }
@@ -139,34 +150,43 @@
   padding: 20px 20px 20px 20px;
   color: var(--White-1, #eaeaea);
   text-align: center;
-  font-family: var(--font-source-sans-3);
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: 0.96px;
   border-bottom: 1px solid var(--gray-3125-night, #252525);
-  @media (min-width: 1920px) {
-    padding: 20px 20px 20px 20px;
-    align-items: center;
-    font-size: 24px;
-    line-height: 130%;
+  h3 {
+    font-family: var(--font-source-sans-3);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.96px;
+    @media (min-width: 650px) {
+      font-size: 30px;
+      line-height: 140%;
+    }
+    @media (min-width: 1280px) {
+      font-size: 24px;
+      line-height: 130%;
+    }
+    @media (max-width: 650px) {
+      text-transform: uppercase;
+      font-size: 14px;
+    }
   }
   @media (min-width: 650px) {
     padding: 25px 20px 15px 20px;
     align-items: start;
-    font-size: 30px;
-    line-height: 140%;
+  }
+  @media (min-width: 1280px) {
+    align-items: center;
+    padding: 21px 37px 21px 37px;
   }
   @media (max-width: 650px) {
-    padding: 12.5px 10px;
-    text-transform: uppercase;
-    font-size: 14px;
+    padding: 14px 27px;
+    align-items: center;
   }
 }
 
 .swap_close_icon {
   color: #3e3e3e;
   margin-left: auto;
-  margin-right: 17px;
+  // margin-right: 17px;
   cursor: pointer;
   transition: all 0.5s;
   @media (max-width: 1920px) {
@@ -213,6 +233,8 @@
   border: none;
   outline: none;
   cursor: pointer;
+  width: calc(100% - 2px);
+  margin: 0 auto;
   @media (max-width: 1920px) {
     margin-top: 5px;
   }
@@ -223,7 +245,7 @@
     letter-spacing: 0.48px;
     padding: 11.5px 10px;
     width: 148px;
-    margin: 0 auto;
+    border-radius: 5px;
   }
 }
 
@@ -251,8 +273,10 @@
   margin: 0 auto;
   transition: all 0.5s;
   cursor: pointer;
-  &:hover {
-    color: white;
+
+  @media (max-width: 650px) {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -261,13 +285,20 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  @media (max-width: 650px) {
+    width: calc(100vw - 80px);
+    margin: 0 auto;
+  }
 }
 
 .initial_exchange {
   display: flex;
   height: 50px;
+  background-color: #121212;
+  border-radius: 12px;
   @media (max-width: 650px) {
     height: 40px;
+    border-radius: 5px;
   }
 }
 

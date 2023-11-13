@@ -15,10 +15,13 @@
   // background: #000;
   z-index: 3;
   font-style: normal;
-  border-radius: 20px 0px 0px 20px;
+  border-radius: 20px 0px 0px 0;
   overflow: hidden;
   @media screen and (max-width: 996px) {
     border-radius: 20px 20px 0px 0;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 0;
   }
 }
 

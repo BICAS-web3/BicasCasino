@@ -22,11 +22,11 @@ export const Total: FC<{}> = () => {
   ]);
 
   const [activeButton, setActiveButton] = useState<string | null>(
-    "Daily_volume"
+    "All Time_volume"
   );
 
   const setDefaultValue = async () => {
-    const data = (await Api.getLeaderboard({ time: "daily", return: "volume" }))
+    const data = (await Api.getLeaderboard({ time: "all", return: "volume" }))
       .body as unknown as Api.T_Lider;
     setLeaders(data);
   };

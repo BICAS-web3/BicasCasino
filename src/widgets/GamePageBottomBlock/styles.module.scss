@@ -18,7 +18,16 @@
   gap: 10px;
 }
 
+.arrow_anim {
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
 .game_page_bottom_wrap_header_accordion_btn {
+  svg {
+    transition: all 0.2s;
+  }
   background-color: inherit;
   border-radius: 12px;
   padding: 8px 20px;

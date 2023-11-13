@@ -19,8 +19,9 @@
 
 .footer_body {
   //background: var(--Gray-1, #151515);
-  padding: 30px;
-  display: flex;
+  padding: 30px 50px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   width: 100%;
   align-items: start;
   justify-content: space-between;
@@ -81,6 +82,11 @@
   letter-spacing: 0.56px;
   text-transform: uppercase;
   text-decoration: none;
+  transition: all 0.2s;
+  &:hover {
+    color: #eaeaea;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+  }
 }
 
 .game_row {

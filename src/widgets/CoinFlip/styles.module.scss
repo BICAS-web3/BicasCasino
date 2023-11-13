@@ -42,7 +42,6 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.8px;
-
   height: 29px;
   width: 100%;
   display: flex;
@@ -69,7 +68,7 @@
 
 @media screen and (min-width: 996px) {
   .coinflip_table_background {
-    border-radius: 20px 0 0 20px;
+    border-radius: 20px 0 0 0;
   }
 }
 
@@ -82,7 +81,6 @@
   .coinflip_block {
     height: 154px;
   }
-
   .coinflip_table_background {
     border-radius: 20px 20px 0 0;
   }

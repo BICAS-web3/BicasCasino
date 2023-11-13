@@ -1,19 +1,19 @@
 import { FC, RefObject, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import Image, { StaticImageData } from "next/image";
-import backCard from "@/public/media/poker_images/backCard.png";
-import useSound from 'use-sound';
-import * as api from '@/shared/api';
+import backCard from "@/public/media/poker_images/backCard.svg";
+import useSound from "use-sound";
+import * as api from "@/shared/api";
 
 interface itemProps {
   img: StaticImageData;
 }
 
 interface PokerCardProps {
-  coat: number | undefined,
-  card: number | undefined,
-  isEmptyCard: boolean,
-  onClick: () => void
+  coat: number | undefined;
+  card: number | undefined;
+  isEmptyCard: boolean;
+  onClick: () => void;
 }
 
 export const PokerCard: FC<PokerCardProps> = (props) => {
@@ -22,7 +22,10 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
   const [cardWidth, setCardWidth] = useState(0);
   const aspectRatio = 1.5;
 
-  const [playRedrawSound] = useSound(`/static/media/games_assets/poker/sounds/redrawCard.mp3`, { volume: 1 });
+  const [playRedrawSound] = useSound(
+    `/static/media/games_assets/poker/sounds/redrawCard.mp3`,
+    { volume: 1 }
+  );
 
   useEffect(() => {
     if (cardRef.current) {
@@ -35,10 +38,19 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
   return (
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
-      className={`${s.poker_table_cards_list_item} ${cardFlipped && s.flipped
-        } ${props.isEmptyCard && s.empty_card}`}
-      onClick={!props.isEmptyCard ? (() => { playRedrawSound(); setCardFlipped(!cardFlipped); props.onClick(); }) : () => { }}
-    //style={{ height: height }}
+      className={`${s.poker_table_cards_list_item} ${
+        cardFlipped && s.flipped
+      } ${props.isEmptyCard && s.empty_card}`}
+      onClick={
+        !props.isEmptyCard
+          ? () => {
+              playRedrawSound();
+              setCardFlipped(!cardFlipped);
+              props.onClick();
+            }
+          : () => {}
+      }
+      //style={{ height: height }}
     >
       {!props.isEmptyCard ? (
         <>
@@ -53,7 +65,12 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
             />
           </div>
           <div className={s.poker_table_card_back}>
-            <Image src={backCard} alt="card-image" className={s.card_img} onDragStart={() => false} />
+            <Image
+              src={backCard}
+              alt="card-image"
+              className={s.card_img}
+              onDragStart={() => false}
+            />
           </div>
         </>
       ) : (
