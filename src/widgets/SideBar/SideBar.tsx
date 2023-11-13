@@ -34,6 +34,7 @@ import { HTPico } from "@/shared/SVGs/HTPico";
 import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
 import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
 import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
+import { MoonIco } from "@/shared/SVGs/MoonIco";
 
 const gamesList = [
   {
@@ -154,7 +155,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             <span className={s.sb_closed_language_title}>En</span>
           </div>
           <div className={s.sb_closed_bottom_block_item}>
-            <Image src={moonIco} alt="dark-theme-ico" />
+            <MoonIco />
           </div>
         </div>
       </div>

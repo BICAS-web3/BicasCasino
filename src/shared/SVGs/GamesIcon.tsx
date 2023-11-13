@@ -1,9 +1,11 @@
 import { FC } from "react";
+import s from "@/widgets/SideBar/styles.module.scss";
 
 export interface GamesIconProps {}
 export const GamesIcon: FC<GamesIconProps> = (props) => {
   return (
     <svg
+      className={s.games_btn_ico}
       width="16"
       height="16"
       viewBox="0 0 16 16"
