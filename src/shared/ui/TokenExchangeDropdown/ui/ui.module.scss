@@ -24,15 +24,22 @@
     cursor: pointer;
     height: 50px;
     transition: all 0.5s;
+    align-items: center;
+    @media (max-width: 650px) {
+      border-radius: 5px;
+    }
   }
 
   .selected_token_open {
     border-radius: 12px 12px 0 0;
+    @media (max-width: 650px) {
+      border-radius: 5px 5px 0 0;
+    }
   }
   .token_icon {
     width: 30px;
     height: 30px;
-    @media (320px <=width <= 700px) {
+    @media (max-width: 650px) {
       width: 24px;
       height: 24px;
     }
@@ -60,7 +67,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 46px;
+    top: 50px;
     left: 0;
     width: 146px;
     background-color: #202020;
@@ -68,8 +75,9 @@
     border: none;
     outline: none;
     z-index: 1;
+    border-top: solid 1px #363636;
     @media (320px <=width <= 700px) {
-      top: 33px;
+      top: 40px;
     }
     opacity: 0;
     max-height: 0;
@@ -80,10 +88,9 @@
   .token_list.open {
     opacity: 1;
     max-height: 250px;
-    @media (max-width: 425px) {
-      border-radius: 5px;
-      max-width: 140px;
-      top: 30px;
+    @media (max-width: 650px) {
+      border-radius: 0 0 5px 5px;
+      top: 40px;
     }
   }
 
@@ -92,8 +99,8 @@
     align-items: center;
     padding: 12px 20px 12px 20px;
     cursor: pointer;
-    @media screen and (max-width: 425px) {
-      max-width: 85px;
+    @media (max-width: 650px) {
+      padding: 8px 20px 8px 20px;
     }
   }
 
@@ -109,9 +116,6 @@
 
   .selected_token {
     background-color: #202020;
-    @media screen and (max-width: 425px) {
-      max-width: 140px;
-    }
   }
 
   .token_item:hover {
