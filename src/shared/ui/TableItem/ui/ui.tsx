@@ -31,8 +31,6 @@ export const TableItem: FC<IBetData> = (props) => {
       setGameImg(pokerIco);
     } else if (props.game_name === "Plinko") {
       setGameImg(plinkoIco);
-    } else {
-      setGameImg(gameIco);
     }
   });
   return (
