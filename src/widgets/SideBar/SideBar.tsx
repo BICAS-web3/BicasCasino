@@ -296,9 +296,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <div className={s.icon_wrapper}>
                 <NftIco />
               </div>
-              <div className={s.large_header_text}>
-                nft market <span className={s.soon_page}>Soon…</span>
-              </div>
+              <div className={s.large_header_text}>nft market</div>
             </div>
             <div className={s.oth_info_list_item}>
               <div className={s.icon_wrapper}>
