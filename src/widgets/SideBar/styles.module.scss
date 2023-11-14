@@ -226,14 +226,14 @@
 }
 
 .tooltip_games_list {
+  min-width: max-content;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
   background: #282828;
-  //   padding: 11px 20px;
-  width: calc(100% - 20px);
+  margin-right: -20px;
   position: relative;
-  left: 20px;
+  left: 37px;
   &::before {
     content: "";
     position: absolute;
@@ -322,11 +322,11 @@
 }
 
 .games_button_tooltip {
+  z-index: 2;
   white-space: nowrap;
   position: fixed;
   left: 80px;
   margin-left: -20px;
-  padding-left: 20px;
   top: 100px;
   color: #7e7e7e;
   font-size: 16px;
@@ -959,4 +959,8 @@
   right: 20px;
   font-size: 9px;
   transform: rotate(1deg);
+}
+
+.tooltip_games_list_item {
+  min-width: max-content;
 }
