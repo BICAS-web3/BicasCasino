@@ -156,7 +156,9 @@
 @media screen and (max-width: 600px) {
   .game_block {
     height: auto;
-    min-height: 254px;
+    max-height: 255px;
+    height: 250px;
+    min-height: 190px;
   }
 }
 
