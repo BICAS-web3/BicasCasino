@@ -133,7 +133,15 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           </div>
         </div>
         <div className={s.closed_sb_other_info_list}>
-          <div className={s.closed_sb_other_info_list_item}>
+          <div
+            onClick={() =>
+              window.open(
+                "https://element.market/collections/greekkeepers",
+                "_blank"
+              )
+            }
+            className={s.closed_sb_other_info_list_item}
+          >
             <NftIco />
           </div>
           <div className={s.closed_sb_other_info_list_item}>
@@ -276,7 +284,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
           </div>
           <div className={s.sb_other_info_list}>
-            <div className={s.oth_info_list_item}>
+            <div
+              onClick={() =>
+                window.open(
+                  "https://element.market/collections/greekkeepers",
+                  "_blank"
+                )
+              }
+              className={s.oth_info_list_item}
+            >
               <div className={s.icon_wrapper}>
                 <NftIco />
               </div>
