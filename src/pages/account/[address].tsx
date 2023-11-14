@@ -39,12 +39,12 @@ export default function Profile() {
         setLatestGames(
           games.map((game: string, ind) => {
             const game_data = Games[game.toLowerCase() as any];
-
+            console.log("game data", game_data);
             return {
               id: ind,
-              title: game_data.title,
-              text: game_data.text,
-              imgBackground: game_data.imgBackground,
+              title: game_data?.title || "",
+              text: game_data?.text || "",
+              imgBackground: game_data?.imgBackground || "",
             };
           })
         );
@@ -64,15 +64,16 @@ export default function Profile() {
           <></>
           <section className={styles.container}>
             <div className={styles.grid_container}>
-              <div className={styles.card_container}>
+              {/* <div className={styles.card_container}></div>{" "} */}
+              <div className={styles.card_container_wrap}>
                 <ProfileCard
                   address={(router.query.address as string).toLowerCase()}
                 />
-              </div>
-              <div className={styles.profile_container}>
-                <ProfileBettingStatistics
-                  address={(router.query.address as string).toLowerCase()}
-                />
+                <div className={styles.profile_container}>
+                  <ProfileBettingStatistics
+                    address={(router.query.address as string).toLowerCase()}
+                  />
+                </div>
               </div>
               <div className={styles.recently_container}>
                 {latestGames ? (
