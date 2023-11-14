@@ -13,6 +13,12 @@ import rpsIco from "@/public/media/live_bets/rpsIco.png";
 import plinkoIco from "@/public/media/live_bets/plinkoIco.png";
 import coinFlipIco from "@/public/media/live_bets/coinflipIco.png";
 import minesIco from "@/public/media/live_bets/minesIco.png";
+import diceIcon from "@/public/media/live_bets/dice.svg";
+import coinFlipIcon from "@/public/media/live_bets/coinFlip.svg";
+import pokerIcon from "@/public/media/live_bets/poker.svg";
+import rpsIcon from "@/public/media/live_bets/rps.svg";
+import bombIcon from "@/public/media/live_bets/bomb.svg";
+import plincoIcon from "@/public/media/live_bets/plinco.svg";
 
 export const TableItem: FC<IBetData> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
@@ -20,17 +26,17 @@ export const TableItem: FC<IBetData> = (props) => {
 
   useEffect(() => {
     if (props.game_name === "CoinFlip") {
-      setGameImg(coinFlipIco);
+      setGameImg(coinFlipIcon);
     } else if (props.game_name === "Dice") {
-      setGameImg(diceIco);
+      setGameImg(diceIcon);
     } else if (props.game_name === "Mines") {
-      setGameImg(minesIco);
+      setGameImg(bombIcon);
     } else if (props.game_name === "RockPaperScissors") {
-      setGameImg(rpsIco);
+      setGameImg(rpsIcon);
     } else if (props.game_name === "Poker") {
-      setGameImg(pokerIco);
+      setGameImg(pokerIcon);
     } else if (props.game_name === "Plinko") {
-      setGameImg(plinkoIco);
+      setGameImg(plincoIcon);
     }
   });
   return (
