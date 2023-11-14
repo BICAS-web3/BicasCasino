@@ -46,6 +46,7 @@
   min-height: 50px;
   letter-spacing: 0.72px;
   cursor: pointer;
+  transition: all 0.2s;
   @media screen and (max-width: 996px) {
     // margin: 20px auto;
     margin: 0 auto 14px auto;
@@ -59,6 +60,25 @@
     max-height: 40px;
     min-height: 40px;
     border-radius: 5px;
+  }
+  &:hover {
+    background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    );
+    box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5);
+  }
+  &:active {
+    background: linear-gradient(
+      114deg,
+      #ffe297 -4.17%,
+      #d29650 48.32%,
+      #8e5b2d 104.97%
+    );
+    box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5),
+      0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 }
 
