@@ -16,6 +16,7 @@ import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../../Account";
 import clsx from "clsx";
 import { ConnectWalletButton } from "./ConnectButton";
+import * as SwapModel from "@/widgets/Swap/model/index";
 export interface RightMenuProps {
   isGame: boolean;
 }
@@ -69,6 +70,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
       openHeaderAcc();
     }
   };
+  const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
 
   const notification = false;
   return (
@@ -83,7 +85,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
       <div className={`${s.button} ${s.chat}`}>
         <Image src={ChatIcon} alt={""} className={s.icon} />
       </div>
-      {isOpen && screenWidth <= 650 ? (
+      {isOpen && screenWidth <= 650 && !swapOpen ? (
         <button
           className={s.header_mobile_closeSidebar_btn}
           onClick={closeSidebar}
