@@ -601,7 +601,12 @@
   line-height: 17.94px;
   background: #121212;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s;
+  svg {
+    path {
+      transition: all 0.2s;
+    }
+  }
   &:hover {
     svg {
       path {
@@ -609,9 +614,6 @@
       }
     }
     color: #ffe09d;
-  }
-  svg {
-    transition: all 0.2s;
   }
 }
 
@@ -641,6 +643,12 @@
     left: -12px;
     filter: blur(20px);
   }
+  svg {
+    path {
+      fill: #ffe09d;
+    }
+  }
+  color: #ffe09d;
 }
 
 .closed_sb_active_page {
