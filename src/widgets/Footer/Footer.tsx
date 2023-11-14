@@ -14,51 +14,54 @@ import reddit from "@/public/media/social_media/redditIco.png";
 import Link from "next/link";
 import Logo from "@/public/media/brand_images/footerLogo.svg";
 
+import * as SidebarM from "@/widgets/SideBar/model";
+import { useUnit } from "effector-react";
+
 export interface FooterProps {}
 export const Footer: FC<FooterProps> = (props) => {
+  const [sidebarState] = useUnit([SidebarM.$isOpen]);
+
   return (
     <>
-      <div className={s.footer}>
+      <div className={`${s.footer} ${!sidebarState && s.sidebar_closed}`}>
         <div className={s.footer_container}>
           <div className={s.footer_body}>
-            <div className={s.logo}>
-              <Image src={Logo} alt="logo" />
-            </div>
+            <div className={s.footer_leftSide_block}>
+              <div className={s.games_list}>
+                <Link href="" className={s.footer_text}>
+                  BONUS
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  GAMES
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  SPAW
+                </Link>
+              </div>
 
-            <div className={s.games_list}>
-              <Link href="" className={s.footer_text}>
-                BONUS
-              </Link>
-              <Link href="" className={s.footer_text}>
-                GAMES
-              </Link>
-              <Link href="" className={s.footer_text}>
-                SPAW
-              </Link>
-            </div>
+              <div className={s.games_list}>
+                <Link href="" className={s.footer_text}>
+                  PROFILE
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  LEADER BOARD
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  AFFILATE
+                </Link>
+              </div>
 
-            <div className={s.games_list}>
-              <Link href="" className={s.footer_text}>
-                PROFILE
-              </Link>
-              <Link href="" className={s.footer_text}>
-                LEADER BOARD
-              </Link>
-              <Link href="" className={s.footer_text}>
-                AFFILATE
-              </Link>
-            </div>
-
-            <div className={s.games_list}>
-              <Link href="" className={s.footer_text}>
-                NFT MARKET
-              </Link>
-              <Link href="" className={s.footer_text}>
-                HOW TO PLAY
-              </Link>
-              <Link href="" className={s.footer_text}>
-                SUPPORT
-              </Link>
+              <div className={s.games_list}>
+                <Link href="" className={s.footer_text}>
+                  NFT MARKET
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  HOW TO PLAY
+                </Link>
+                <Link href="" className={s.footer_text}>
+                  SUPPORT
+                </Link>
+              </div>
             </div>
 
             <div className={s.icons_list}>

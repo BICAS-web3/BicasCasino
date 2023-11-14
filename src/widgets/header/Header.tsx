@@ -240,6 +240,13 @@ const RightMenu: FC<RightMenuProps> = (props) => {
                 />
               )}
             </div>
+          ) : isConnected && isOpen ? (
+            <button
+              className={s.header_mobile_closeSidebar_btn}
+              onClick={closeSidebar}
+            >
+              <Image alt="close-ico" src={closeIco} />
+            </button>
           ) : (
             <ConnectWalletButton />
           )}
