@@ -17,11 +17,15 @@ import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import Head from "next/head";
 import clsx from "clsx";
+import * as CFM from "./model";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected } = useAccount();
   const { connectors, connect } = useConnect();
+
+  const [isPlaying] = useUnit([CFM.$isPlaying]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -48,7 +52,11 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected ? "Play" : "Connect Wallet"}
+        {isConnected
+          ? "Play"
+          : isPlaying && isConnected
+          ? "Playing..."
+          : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="coinflip" />
     </>

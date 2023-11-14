@@ -18,12 +18,16 @@ import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock
 import clsx from "clsx";
 import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import * as DGM from "./model";
 
 const WagerContent = () => {
   const isMobile = document.documentElement.clientWidth < 700;
   const { isConnected } = useAccount();
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
+  const [isPlaying] = useUnit([DGM.$isPlaying]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -50,7 +54,11 @@ const WagerContent = () => {
             }
           }}
         >
-          {isConnected ? "Play" : "Connect Wallet"}
+          {isConnected
+            ? "Play"
+            : isPlaying && isConnected
+            ? "Playing"
+            : "Connect Wallet"}
         </button>
       )}
     </>

@@ -16,11 +16,13 @@ import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
+import { useEffect } from "react";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected } = useAccount();
   const { connectors, connect } = useConnect();
+
   return (
     <>
       <WagerInputsBlock />
@@ -50,6 +52,7 @@ export default function PokerGame() {
     PokerModel.$showFlipCards,
     PokerModel.flipShowFlipCards,
   ]);
+
   return (
     <>
       <Head>
@@ -80,14 +83,6 @@ export default function PokerGame() {
                 />
               </div>
             )}
-
-            {/* {won && <div className={s.poker_win_wrapper}>
-            <WinMessage tokenImage={<Image src={DraxToken} alt={''} />} profit={"3760.00"} multiplier={"1.98"} />
-          </div>}
-
-          {lost && <div className={s.poker_lost_wrapper}>
-            <LostMessage amount={"3760.00"} />
-          </div>} */}
           </GamePage>
         </div>
       </Layout>

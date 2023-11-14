@@ -28,6 +28,7 @@ import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
+import * as CoinflipM from "@/pages/games/CoinFlip/model";
 
 interface CoinFlipProps {}
 
@@ -79,6 +80,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
 
 export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   const [
+    setPlayingStatus,
     playSounds,
     pickedSide,
     setActivePicker,
@@ -98,6 +100,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     setWonStatus,
     setLostStatus,
   ] = useUnit([
+    CoinflipM.setPlayingStatus,
     GameModel.$playSounds,
     SidePickerModel.$pickedSide,
     SidePickerModel.setActive,
@@ -165,6 +168,10 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
       }
     }
   }, [GameState]);
+
+  useEffect(() => {
+    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  }, [inGame]);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,

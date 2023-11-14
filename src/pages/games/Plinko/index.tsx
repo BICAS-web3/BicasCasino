@@ -18,11 +18,15 @@ import s from "@/pages/games/CoinFlip/styles.module.scss";
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import Head from "next/head";
 import clsx from "clsx";
+import * as PGM from "./model";
 
 const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
+  const [isPlaying] = useUnit([PGM.$isPlaying]);
+
   return (
     <>
       {/* <SidePicker /> */}
@@ -55,7 +59,11 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected ? "Play" : "Connect Wallet"}
+        {isConnected
+          ? "Play"
+          : isPlaying && isConnected
+          ? "Playing"
+          : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="plinko" />
     </>

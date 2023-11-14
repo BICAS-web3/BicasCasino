@@ -1,5 +1,4 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
-
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 // variables
 export const $gameState = createStore<any | null>(null);
@@ -12,4 +11,6 @@ export const setShowFlipCards = createEvent<boolean>();
 
 // handlers
 $gameState.on(setGameState, (_, state) => state);
-$showFlipCards.on(flipShowFlipCards, (prev, _) => !prev).on(setShowFlipCards, (_, cur) => cur);
+$showFlipCards
+  .on(flipShowFlipCards, (prev, _) => !prev)
+  .on(setShowFlipCards, (_, cur) => cur);

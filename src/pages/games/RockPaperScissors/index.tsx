@@ -19,10 +19,14 @@ import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import * as RPSGM from "./model";
 
 const WagerContent = () => {
   const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
+  const [isPlaying] = useUnit([RPSGM.$isPlaying]);
+
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -35,7 +39,11 @@ const WagerContent = () => {
       <WagerGainLoss />
       <RpsPicker />
       <button className={s.connect_wallet_btn} onClick={pressButton}>
-        {isConnected ? "Play" : "Connect Wallet"}
+        {isConnected
+          ? "Play"
+          : isPlaying && isConnected
+          ? "Playing"
+          : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="rps" />
     </>
