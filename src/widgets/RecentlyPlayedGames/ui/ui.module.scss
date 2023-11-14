@@ -7,64 +7,54 @@
   padding: 30px;
   max-width: 100%;
   max-height: fit-content;
-  @media screen and (max-width: 768px) {
-    gap: 10px;
+  @media (max-width: 1280px) {
+    padding: 30px 20px;
   }
   @media screen and (max-width: 650px) {
+    gap: 12px;
     background-color: transparent;
-  }
-  @media screen and (max-width: 425px) {
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    background-color: transparent;
-    border-radius: 0;
     padding: 0;
-    max-width: 424px;
-  }
-  @media screen and (max-width: 375px) {
-    max-width: 374px;
-  }
-  @media screen and (max-width: 320px) {
-    max-width: 318px;
+    padding-left: 16px;
   }
   .recently_played_heading {
     font-family: var(--font-nunito-sans);
     font-size: 20px;
     font-weight: 800;
-    line-height: 26px;
+    // line-height: 26px;
     letter-spacing: 0.04em;
     text-align: left;
     color: #7e7e7e;
     text-transform: uppercase;
     margin-left: 30px;
     margin-bottom: -2px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 650px) {
       font-size: 14px;
+      margin-left: 0;
     }
   }
   .recently_played_container {
     max-width: 100%;
     display: flex;
     gap: 30px;
-    overflow-x: hidden;
-    justify-content: flex-start;
     flex-direction: column;
     @media screen and (max-width: 1280px) {
       display: flex;
       flex-direction: row;
-      justify-content: space-evenly;
       gap: 50px;
     }
     @media screen and (max-width: 1024px) {
       gap: 26px;
     }
-    @media screen and (max-width: 768px) {
-      overflow-x: auto;
-      white-space: nowrap;
+    @media screen and (max-width: 650px) {
+      gap: 8px;
+      overflow-x: scroll;
+      width: calc(100vw - 18px);
       scrollbar-width: none;
-      -ms-overflow-style: none;
+
+      /* Webkit (Chrome, Safari, Opera) */
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .game_item {
       max-width: 100%;
@@ -95,50 +85,52 @@
           font-family: var(--font-nunito-sans);
           font-size: 30px;
           font-weight: 800;
-          line-height: 41px;
-          @media screen and (max-width: 1024px) {
+          line-height: 100%;
+          @media screen and (max-width: 1280px) {
             font-size: 20px;
-            line-height: 36px;
           }
-          @media screen and (max-width: 425px) {
+          @media screen and (max-width: 650px) {
             font-size: 14px;
-            line-height: 30px;
-          }
-          @media screen and (max-width: 320px) {
-            font-size: 12px;
-            line-height: 20px;
           }
         }
         .game_text {
           font-family: var(--font-source-sans-3);
           font-size: 20px;
           font-weight: 400;
-          line-height: 28px;
           text-align: left;
           color: #ffffffbf;
+          margin-top: 10px;
+          line-height: 100%;
           @media screen and (max-width: 1024px) {
             font-size: 18px;
-            line-height: 26px;
             white-space: break-spaces;
           }
           @media screen and (max-width: 768px) {
             font-size: 18px;
-            line-height: 16px;
             white-space: break-spaces;
           }
           @media screen and (max-width: 425px) {
             font-size: 14px;
-            line-height: 10px;
           }
-          @media screen and (max-width: 320px) {
-            font-size: 12px;
-            line-height: 12px;
-          }
+        }
+        @media (max-width: 650px) {
+          padding: 12px;
         }
       }
       @media (max-width: 1400px) {
         width: 350px;
         height: 200px;
+      }
+      @media (max-width: 1280px) {
+        width: 100%;
+        height: 180px;
+      }
+      @media (max-width: 650px) {
+        width: 160px;
+        height: 120px;
+        border-radius: 12px;
+        border: 1px solid var(--gray-320-night, #202020);
+        min-width: 160px;
       }
     }
   }

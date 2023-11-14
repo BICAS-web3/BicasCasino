@@ -6,8 +6,8 @@
   border-radius: 20px;
   justify-content: space-between;
   width: auto;
-  @media screen and (max-width: 650px) {
-    border-radius: 12px 12px 0 0;
+  @media (max-width: 650px) {
+    border-radius: 0;
     border-bottom: 2px solid #252525;
     align-items: center;
   }
@@ -20,18 +20,19 @@
     padding: 34px 40px;
     justify-content: space-between;
     height: fit-content;
-
-    @media screen and (max-width: 3840px) {
-      max-width: 100%;
-      gap: 40px;
-    }
-    @media screen and (max-width: 1920px) {
-      padding: 34px 20px;
+    padding: 34px 40px;
+    @media (max-width: 1920px) {
       gap: 30px;
     }
-    @media (max-width: 650px) {
+    @media (max-width: 1280px) {
+      gap: 30px;
+      padding: 34px 0 34px 40px;
+    }
+    @media (max-width: 750px) {
       padding: 20px 0 16px 16px;
-      align-items: center;
+    }
+    @media (max-width: 650px) {
+      gap: 12px;
     }
 
     img {
@@ -44,7 +45,7 @@
 
     .user {
       display: flex;
-      margin-bottom: 10px;
+      margin-bottom: 1px;
       flex-direction: column;
       align-items: flex-start;
       gap: 14px;

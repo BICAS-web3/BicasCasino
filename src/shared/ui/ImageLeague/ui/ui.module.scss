@@ -11,6 +11,7 @@
   }
   @media screen and (max-width: 650px) {
     padding: 11px 16px 20px;
+    border-left: none;
   }
   .image_wrapper {
     position: relative;
@@ -19,8 +20,6 @@
       width: 147px;
       height: 147px;
       @media (max-width: 1280px) {
-        width: 100px;
-        height: 100px;
       }
       @media (max-width: 650px) {
         margin: 0;
@@ -31,20 +30,24 @@
   }
 
   .blur_background {
-    background: #f3bd6b1a;
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 441px;
+    height: 240px;
+    border-radius: 441px;
+    background: rgba(243, 189, 107, 0.1);
+    mix-blend-mode: hard-light;
     filter: blur(100px);
-    //mix-blend-mode: hard-light;
+    right: -126px;
+    top: 0;
     z-index: 0;
-    @media screen and (max-width: 425px) {
-      left: 14px;
-      filter: blur(20px);
-      z-index: 1;
-      top: 7px;
+    @media screen and (max-width: 650px) {
+      width: 167px;
+      height: 91px;
+      right: -100px;
+      fill: rgba(243, 189, 107, 0.1);
+
+      mix-blend-mode: hard-light;
+      filter: blur(50px);
     }
   }
 
@@ -63,6 +66,7 @@
       font-size: 12px;
     }
     @media screen and (max-width: 650px) {
+      margin-top: -12px;
       font-size: 10px;
     }
     @media screen and (max-width: 425px) {

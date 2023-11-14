@@ -30,8 +30,7 @@ export default function Profile() {
     const run = async () => {
       const r = (
         await api.GetLatestGamesFx(
-          "0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()
-          // (router.query.address as string).toLowerCase()
+          (router.query.address as string).toLowerCase()
         )
       ).body as api.T_LatestGames;
       const games = r.games;
@@ -68,11 +67,11 @@ export default function Profile() {
               {/* <div className={styles.card_container}></div>{" "} */}
               <div className={styles.card_container_wrap}>
                 <ProfileCard
-                  address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
+                  address={(router.query.address as string).toLowerCase()}
                 />
                 <div className={styles.profile_container}>
                   <ProfileBettingStatistics
-                    address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
+                    address={(router.query.address as string).toLowerCase()}
                   />
                 </div>
               </div>
@@ -87,7 +86,7 @@ export default function Profile() {
             {/* <SwapTradeTokens /> */}
             <BetsHistoryReDesign
               title={"Bet History"}
-              address={"0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()} // (router.query.address as string)
+              address={(router.query.address as string).toLowerCase()}
             />
             {/* <BetsHistoryReDesign title={"Pending Bets"} /> */}
           </section>

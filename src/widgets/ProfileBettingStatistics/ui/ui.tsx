@@ -32,10 +32,8 @@ export const ProfileBettingStatistics: FC<ProfileBettingStatisticsProps> = (
   useEffect(() => {
     async function run() {
       const totals_response = (
-        await api.GetPlayerTotalsFx(
-          "0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase()
-        )
-      ).body as api.T_PlayerTotals; //props.address as string
+        await api.GetPlayerTotalsFx((props.address as string).toLowerCase())
+      ).body as api.T_PlayerTotals;
       console.log("tttotal", totals_response);
       setTotals([
         {

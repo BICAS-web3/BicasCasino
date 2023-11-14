@@ -5,14 +5,11 @@
   padding: 100px 20px 0 20px;
   width: 100%;
 
-  @media screen and (max-width: 768px) {
-    padding: 76px 20px 0 20px;
-  }
   @media screen and (max-width: 650px) {
     padding: 60px 0;
   }
   @media screen and (max-width: 425px) {
-    padding: 60px 1px 0 1px;
+    padding: 58px 1px 0 1px;
     row-gap: 20px;
   }
 
@@ -48,8 +45,8 @@
       max-height: fit-content;
     }
   }
-  @media screen and (max-width: 768px) {
-    gap: 20px;
+  @media screen and (max-width: 650px) {
+    gap: 16px;
   }
 }
 
@@ -72,5 +69,6 @@
   border-radius: 20px;
   @media (max-width: 650px) {
     border-radius: 0;
+    padding: 16px 20px;
   }
 }
