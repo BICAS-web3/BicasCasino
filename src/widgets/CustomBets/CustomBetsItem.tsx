@@ -1,11 +1,5 @@
 import s from "./styles.module.scss";
 
-import pokerIco from "@/public/media/live_bets/pokerIco.png";
-import diceIco from "@/public/media/live_bets/diceIco.png";
-import rpsIco from "@/public/media/live_bets/rpsIco.png";
-import plinkoIco from "@/public/media/live_bets/plinkoIco.png";
-import coinFlipIco from "@/public/media/live_bets/coinflipIco.png";
-import minesIco from "@/public/media/live_bets/minesIco.png";
 import diceIcon from "@/public/media/live_bets/dice.svg";
 import coinFlipIcon from "@/public/media/live_bets/coinFlip.svg";
 import pokerIcon from "@/public/media/live_bets/poker.svg";
@@ -35,7 +29,7 @@ export interface CustomBetsItemProps {
   token: string;
 }
 export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
-  const [gameImg, setGameImg] = useState(pokerIco);
+  const [gameImg, setGameImg] = useState(pokerIcon);
 
   useEffect(() => {
     if (props.game_name === "CoinFlip") {
