@@ -21,8 +21,7 @@
     display: flex;
 
     .input_user_name {
-      width: 202px;
-      width: 130px;
+      width: 210px;
       border: none;
       outline: none;
       background-color: transparent;
@@ -34,7 +33,8 @@
       line-height: 140%; /* 39.2px */
       letter-spacing: 1.12px;
       @media screen and (max-width: 768px) {
-        width: 116px;
+        width: 130px;
+        font-size: 18px;
       }
       @media screen and (max-width: 650px) {
         font-size: 16px;

@@ -1,16 +1,40 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./ui.module.scss";
 import gameIco from "@/public/media/live_bets/mainPageActsGameIco.svg";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
-import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import avatar from "@/public/media/player_icons/emptyAvatar.svg";
 import Link from "next/link";
 import * as api from "@/shared/api";
 import { useMediaQuery } from "@/shared/tools";
 import clsx from "clsx";
+import pokerIco from "@/public/media/live_bets/pokerIco.png";
+import diceIco from "@/public/media/live_bets/diceIco.png";
+import rpsIco from "@/public/media/live_bets/rpsIco.png";
+import plinkoIco from "@/public/media/live_bets/plinkoIco.png";
+import coinFlipIco from "@/public/media/live_bets/coinflipIco.png";
+import minesIco from "@/public/media/live_bets/minesIco.png";
 
 export const TableItem: FC<IBetData> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
+  const [gameImg, setGameImg] = useState(pokerIco);
+
+  useEffect(() => {
+    if (props.game_name === "CoinFlip") {
+      setGameImg(coinFlipIco);
+    } else if (props.game_name === "Dice") {
+      setGameImg(diceIco);
+    } else if (props.game_name === "Mines") {
+      setGameImg(minesIco);
+    } else if (props.game_name === "RockPaperScissors") {
+      setGameImg(rpsIco);
+    } else if (props.game_name === "Poker") {
+      setGameImg(pokerIco);
+    } else if (props.game_name === "Plinko") {
+      setGameImg(plinkoIco);
+    } else {
+      setGameImg(gameIco);
+    }
+  });
   return (
     <>
       <td className={styles.td}>
@@ -32,7 +56,7 @@ export const TableItem: FC<IBetData> = (props) => {
           className={styles.link_block}
         >
           <img
-            src={gameIco.src}
+            src={gameImg.src}
             className={styles.game_ico}
             alt="game-ico-preview"
           />

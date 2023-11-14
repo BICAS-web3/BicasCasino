@@ -5,6 +5,7 @@ import { useSignMessage } from "wagmi";
 import * as api from "@/shared/api/";
 import { sessionModel } from "@/entities/session";
 import { useUnit } from "effector-react";
+import { shortenAddress } from "@/shared/tools";
 
 interface IUserName {
   userName: string | null;
@@ -63,7 +64,7 @@ export const UserName: FC<IUserName> = (props) => {
         <input
           type="text"
           placeholder="Enter your name"
-          value={newName}
+          value={newName?.length > 14 ? shortenAddress(newName) : newName}
           ref={inputRef}
           autoFocus
           onChange={handleInputChange}
