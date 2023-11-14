@@ -64,99 +64,74 @@ export const Footer: FC<FooterProps> = (props) => {
               </div>
             </div>
 
-            <div className={s.icons_list}>
-              <Link
-                href="https://t.me/greekkeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.tg_ico_wrap} ${s.ico_wrap}`}
-              >
-                <Image src={tg} alt={"telegram"} />
-              </Link>
-              <Link
-                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.inst_wrap}`}
-              >
-                <Image src={inst} alt={"inst"} />
-              </Link>
-              <Link
-                href="https://twitter.com/GreekKeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.twitter_wrap}`}
-              >
-                <Image src={twitter} alt={"twitter"} />
-              </Link>
-              <Link
-                href="https://discord.gg/ReJVd2xJSk"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.discord_wrap}`}
-              >
-                <Image src={discord} alt={"discord"} />
-              </Link>
-              <Link
-                href="https://www.facebook.com/profile.php?id=100092326343777"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.facebook_wrap}`}
-              >
-                <Image src={facebook} alt={"facebook"} />
-              </Link>
-              <Link
-                href="https://www.reddit.com/user/GreekKeepers/?rdt=59831"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.reddit_wrap}`}
-              >
-                <Image src={reddit} alt={"reddit"} />
-              </Link>
-              <Link
-                href="https://medium.com/@greekkeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.medium_wrap}`}
-              >
-                <Image src={medium} alt={"medium"} />
-              </Link>
-              <Link
-                href="https://www.greekkeepers.io/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${s.ico_wrap} ${s.main_wrap}`}
-              >
-                <Image src={mainIco} alt={"greekkeepres-main"} />
-              </Link>
-              {/* <Link
-                href="https://discord.gg/ReJVd2xJSk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Discord} alt={""} width={30} height={30} />
-              </Link>
-              <Link
-                href="https://twitter.com/GreekKeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Twitter} alt={""} width={30} height={30} />
-              </Link>
-              <Link
-                href="https://www.facebook.com/profile.php?id=100092326343777"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Facebook} alt={""} width={30} height={30} />
-              </Link>
-              <Link
-                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Insta} alt={""} width={30} height={30} />
-              </Link> */}
+            <div className={s.footer_rightSide_block}>
+              <span className={s.footer_social_title}>Join our Community</span>
+              <div className={s.icons_list}>
+                <Link
+                  href="https://t.me/greekkeepers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.tg_ico_wrap} ${s.ico_wrap}`}
+                >
+                  <Image src={tg} alt={"telegram"} />
+                </Link>
+                <Link
+                  href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.inst_wrap}`}
+                >
+                  <Image src={inst} alt={"inst"} />
+                </Link>
+                <Link
+                  href="https://twitter.com/GreekKeepers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.twitter_wrap}`}
+                >
+                  <Image src={twitter} alt={"twitter"} />
+                </Link>
+                <Link
+                  href="https://discord.gg/ReJVd2xJSk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.discord_wrap}`}
+                >
+                  <Image src={discord} alt={"discord"} />
+                </Link>
+                <Link
+                  href="https://www.facebook.com/profile.php?id=100092326343777"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.facebook_wrap}`}
+                >
+                  <Image src={facebook} alt={"facebook"} />
+                </Link>
+                <Link
+                  href="https://www.reddit.com/user/GreekKeepers/?rdt=59831"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.reddit_wrap}`}
+                >
+                  <Image src={reddit} alt={"reddit"} />
+                </Link>
+                <Link
+                  href="https://medium.com/@greekkeepers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.medium_wrap}`}
+                >
+                  <Image src={medium} alt={"medium"} />
+                </Link>
+                <Link
+                  href="https://www.greekkeepers.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${s.ico_wrap} ${s.main_wrap}`}
+                >
+                  <Image src={mainIco} alt={"greekkeepres-main"} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

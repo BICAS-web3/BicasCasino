@@ -80,6 +80,18 @@
   gap: 15px;
 }
 
+.footer_social_title {
+  display: block;
+  margin-bottom: 25px;
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 128.16%;
+}
+
 .footer_text {
   color: #aaa;
   font-family: var(--font-nunito-sans);
@@ -244,6 +256,11 @@
   .footer_below {
     font-size: 8px;
     border-bottom: 2px solid #2e2e2e;
-    padding: 30px 0 25px 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 12px;
   }
 }
