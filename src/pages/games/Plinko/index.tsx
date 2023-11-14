@@ -55,7 +55,7 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected ? "Place bet" : "Connect Wallet"}
+        {isConnected ? "Play" : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="plinko" />
     </>

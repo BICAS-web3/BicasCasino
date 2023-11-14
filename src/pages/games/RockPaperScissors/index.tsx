@@ -35,7 +35,7 @@ const WagerContent = () => {
       <WagerGainLoss />
       <RpsPicker />
       <button className={s.connect_wallet_btn} onClick={pressButton}>
-        {isConnected ? "Place bet" : "Connect Wallet"}
+        {isConnected ? "Play" : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="rps" />
     </>
