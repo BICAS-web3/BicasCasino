@@ -129,6 +129,8 @@
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
+  position: relative;
+  z-index: 1;
   @media (min-width: 700px) {
     padding: 8px 20px;
   }
@@ -202,26 +204,6 @@
 
 .dice_close_icon {
   background: var(--gray-320, #202020);
-}
-
-.dice_over {
-  background-color: #202020;
-  &::before {
-    background-color: #ffe09d;
-  }
-  &::-moz-range-progress {
-    background-color: #ffe09d;
-  }
-}
-
-.dice_under {
-  background-color: #ffe09d;
-  &::before {
-    background-color: #202020;
-  }
-  &::-moz-range-progress {
-    background-color: #202020;
-  }
 }
 
 .dice_under {
@@ -342,4 +324,24 @@
   object-fit: cover;
   height: 100%;
   background-size: cover;
+}
+.dice_over {
+  background-color: #202020;
+  &::before {
+    background-color: #ffe09d;
+  }
+  &::-moz-range-progress {
+    background-color: #ffe09d;
+  }
+}
+
+.dice_under {
+  background-color: #ffe09d;
+  height: 5.8px;
+  &::before {
+    background-color: #202020;
+  }
+  &::-moz-range-progress {
+    background-color: #202020;
+  }
 }
