@@ -21,6 +21,7 @@ import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
+import closeIco from "@/public/media/misc/closeAccIco.png";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -76,12 +77,17 @@ export const Account: FC<AccountProps> = (props) => {
 
   const handleHeaderAccClose = () => {
     document.documentElement.style.overflow = "visible";
-    setBlur(false);
     closeHeaderAccount();
   };
 
   return (
     <div className={s.account_container}>
+      <Image
+        onClick={handleHeaderAccClose}
+        src={closeIco}
+        className={s.hidden_desk_close_ico}
+        alt="close-ico"
+      />
       <div className={s.profile}>
         <Image src={Avatar} alt={""} className={s.avatar_icon} />
         <div className={s.profile_info}>
