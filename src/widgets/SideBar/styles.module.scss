@@ -292,20 +292,19 @@
     &::before {
       top: 7%;
     }
+  }
+  &:hover {
+    background: #202020;
+    svg path {
+      fill: #e5c787;
     }
-    &:hover {
-      background: #202020;
-      svg path {
-        fill: #e5c787;
-      }
-      color: #e5c787;
-    }
-    &:first-child {
-      border-radius: 8px 8px 0 0;
-    }
-    &:last-child {
-      border-radius: 0 0 8px 8px;
-    }
+    color: #e5c787;
+  }
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 8px 8px;
   }
 }
 
@@ -321,7 +320,6 @@
   height: 50px;
   margin: 0 auto;
   border-radius: 12px;
-
   .games_button_tooltip {
     padding: 0;
     left: 80px;
@@ -375,7 +373,6 @@
   letter-spacing: 0.64px;
   display: none;
   font-family: var(--font-source-sans-3);
-
   border-radius: 8px;
   background: #282828;
   justify-content: center;
@@ -391,7 +388,6 @@
     border-color: transparent #282828 transparent transparent;
     border-radius: 2px;
   }
-
 }
 
 .buttons_holder {
@@ -441,12 +437,10 @@
 }
 
 .sidebar_close_block {
-
   position: fixed;
   top: 90px;
   width: 210px;
   z-index: 99;
-
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 20px;
@@ -686,9 +680,7 @@
       transition: all 0.2s;
     }
   }
-
   transition: all 0.2s ease-in-out;
-
   &:hover {
     svg {
       path {
@@ -728,14 +720,12 @@
     left: -12px;
     filter: blur(20px);
   }
-
   svg {
     path {
       fill: #ffe09d;
     }
   }
   color: #ffe09d;
-
 }
 
 .closed_sb_active_page {
