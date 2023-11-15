@@ -109,7 +109,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
               <div className={s.header_profile_ico_block}>
                 <div className={s.header_blockies_wrap} onClick={toggle}>
                   <Blockies
-                    seed={address}
+                    seed={`${address}`}
                     bgColor="#fff"
                     className={s.header_profile_ico_block}
                   />
