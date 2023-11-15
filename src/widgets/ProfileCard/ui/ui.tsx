@@ -32,7 +32,7 @@ export const ProfileCard: FC<ProfileCardProps> = (props) => {
   return (
     <div className={styles.user_wrapper}>
       <div className={styles.card}>
-        <UserAvatar avatarUrl={emptyAvatar} />
+        <UserAvatar avatarUrl={emptyAvatar} address={props.address} />
         <div className={styles.user}>
           <UserName
             userName={nickname}

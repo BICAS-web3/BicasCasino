@@ -1,10 +1,10 @@
-.avatar {
-  @media screen and (max-width: 750px) {
-    width: 130px;
-    height: 130px;
-  }
-  @media screen and (max-width: 650px) {
-    width: 50px;
-    height: 50px;
+.blockies_ava_wrap {
+  canvas {
+    height: 150px !important;
+    width: 150px !important;
+    @media screen and (max-width: 650px) {
+      width: 50px !important;
+      height: 50px !important;
+    }
   }
 }

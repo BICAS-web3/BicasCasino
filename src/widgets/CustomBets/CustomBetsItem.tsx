@@ -12,6 +12,7 @@ import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import * as api from "@/shared/api";
+import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 
 export interface CustomBetsItemProps {
   trx_url: string;
@@ -81,11 +82,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
           target="_blank"
           className={s.customBets_list_item_player_link_block}
         >
-          <div
-            className={s.customBets_list_item_player_ico}
-            style={{ background: "#FAA61A" }}
-          >
-            <span className={s.customBets_list_item_player_ico_name}>B</span>
+          <div className={s.customBets_list_item_player_ico}>
+            <BlockiesAva address={props.player_address} />
           </div>
           <span className={s.customBets_list_item_player}>
             {props.player_name}

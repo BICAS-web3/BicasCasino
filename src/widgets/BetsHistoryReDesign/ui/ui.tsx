@@ -168,6 +168,7 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
                             "0" + time.getMinutes()
                           ).slice(-2)}`,
                         }}
+                        ava_address={props.address}
                         game_name={bet.game_name}
                         player_address={bet.player}
                         player_name={

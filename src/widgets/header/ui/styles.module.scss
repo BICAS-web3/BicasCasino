@@ -46,6 +46,18 @@
   }
 }
 
+.header_blockies_wrap {
+  height: 100%;
+  canvas {
+    height: 50px !important;
+    width: 50px !important;
+    @media screen and (max-width: 650px) {
+      width: 32px !important;
+      height: 32px !important;
+    }
+  }
+}
+
 .emblem {
   display: flex;
   flex-direction: row;

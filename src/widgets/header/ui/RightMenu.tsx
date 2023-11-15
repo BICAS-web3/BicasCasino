@@ -21,6 +21,7 @@ import { useDropdown } from "@/shared/tools";
 
 import * as SwapModel from "@/widgets/Swap/model/index";
 import Blockies from "react-blockies";
+import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 export interface RightMenuProps {
   isGame: boolean;
 }
@@ -108,11 +109,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
             <div ref={dropdownRef} className={s.header_profile_ico_wrap}>
               <div className={s.header_profile_ico_block}>
                 <div className={s.header_blockies_wrap} onClick={toggle}>
-                  <Blockies
-                    seed={`${address}`}
-                    bgColor="#fff"
-                    className={s.header_profile_ico_block}
-                  />
+                  <BlockiesAva address={address} />
                 </div>
               </div>
               {isHeaderAccOpened && (

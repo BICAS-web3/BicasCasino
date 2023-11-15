@@ -22,6 +22,8 @@ import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 import closeIco from "@/public/media/misc/closeAccIco.png";
+import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
+import { useAccount } from "wagmi";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -64,6 +66,7 @@ export interface AccountProps {
 }
 export const Account: FC<AccountProps> = (props) => {
   const { disconnect } = useDisconnect();
+  const { address } = useAccount();
   const truncatedAddress = `${props.address.slice(
     0,
     7
@@ -89,7 +92,9 @@ export const Account: FC<AccountProps> = (props) => {
         alt="close-ico"
       />
       <div className={s.profile}>
-        <Image src={Avatar} alt={""} className={s.avatar_icon} />
+        <div className={s.profile_ava_wrap}>
+          <BlockiesAva address={address} />
+        </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
             {props.nickname &&
