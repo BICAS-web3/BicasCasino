@@ -4,6 +4,7 @@ import Blockies from "react-blockies";
 
 interface BlockiesAvaProps {
   address: any;
+  size: string;
 }
 
 const colors = [
@@ -23,7 +24,7 @@ const colors = [
   "#FF73FA",
 ];
 
-export const BlockiesAva: FC<BlockiesAvaProps> = ({ address }) => {
+export const BlockiesAva: FC<BlockiesAvaProps> = ({ address, size }) => {
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
   return (
