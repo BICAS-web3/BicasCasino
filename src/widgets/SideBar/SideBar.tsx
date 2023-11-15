@@ -335,7 +335,6 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <Swap />
           </div>
-          <LanguageSwitcher />
         </div>
       </div>
     </>
@@ -383,6 +382,7 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
       ) : (
         <ClosedSideBar pickedGame={currentPick} activePage={activePage} />
       )}
+      <div className={s.bottom_fixed_block}></div>
     </div>
   );
 };

@@ -6,9 +6,8 @@
   background-color: #181818;
   grid-column: 1;
   position: fixed;
+  justify-content: space-between;
   min-height: 100vh;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
   &::-webkit-scrollbar {
     width: 4px;
   }
@@ -52,7 +51,16 @@
   }
 }
 
+.bottom_fixed_block {
+  height: 70px;
+  border-top: 1px solid #202020;
+  background: #121212;
+  width: 100%;
+  margin-top: 20px;
+}
+
 .side_bar_upper {
+  overflow: auto;
   background-color: #181818;
   width: 100%;
   padding-top: 80px;
@@ -188,6 +196,8 @@
 .side_bar_closed {
   width: 90px;
   transition: width 0.5s;
+  display: flex;
+  flex-direction: column;
 }
 
 .side_bar_opened {
