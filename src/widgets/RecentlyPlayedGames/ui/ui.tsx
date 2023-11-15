@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import styles from "./ui.module.scss";
 import Image, { StaticImageData } from "next/image";
 
@@ -12,6 +12,9 @@ export interface IRecentlyGames {
 export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = (
   props
 ) => {
+  useEffect(() => {
+    console.log("pp", props);
+  }, []);
   return (
     <div className={styles.container}>
       <p className={styles.recently_played_heading}>recently played</p>
