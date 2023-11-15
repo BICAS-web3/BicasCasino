@@ -80,7 +80,6 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
     }
   }, [isOpen]);
 
-  };
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
 
   const notification = false;
