@@ -121,7 +121,7 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   const getBets = async (id: number | null) => {
     var new_bets = (
       await api.getUserBets({
-        address: props.address.toLowerCase(),
+        address: "0x67adcF8c25c88aF0Df3caB522C9dD5b11d017aca".toLowerCase(),
         starting_id: id,
       })
     ).body as api.T_Bets;
