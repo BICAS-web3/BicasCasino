@@ -101,8 +101,8 @@
   }
   @media (max-width: 650px) {
     width: 100%;
-    // height: calc(100vh - 113px);
-    height: 100vh;
+    height: calc(100vh - 113px);
+    // height: 100vh;
     top: 56px;
     right: 0;
     border-bottom: 1px solid var(--gray-3125-night, #252525);

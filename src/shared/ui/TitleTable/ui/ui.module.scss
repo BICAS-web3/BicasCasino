@@ -1,13 +1,16 @@
 .table {
   width: 100%;
-  color: #7E7E7E;
+  color: #7e7e7e;
   font-family: var(--font-source-sans-3);
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.48px;
-
+  @media (max-width: 650px) {
+    font-size: 8px;
+    line-height: 100%;
+  }
   tr {
     position: sticky;
     top: 0;
@@ -16,7 +19,34 @@
   .titles_item {
     display: flex;
     justify-content: flex-start;
-
+  }
+  .th {
+    padding-bottom: 20px;
+    @media (max-width: 650px) {
+      padding-bottom: 16px;
+    }
+    &:first-child {
+      padding-left: 50px;
+      @media (max-width: 1280px) {
+        padding-left: 40px;
+      }
+      @media (max-width: 650px) {
+        padding-left: 16px;
+      }
+    }
+    // &:last-child {
+    //   padding-right: 50px;
+    //   margin-left: auto;
+    //   display: flex;
+    //   padding-right: 50px;
+    //   justify-content: end;
+    //   @media (max-width: 1280px) {
+    //     padding-right: 40px;
+    //   }
+    //   @media (max-width: 650px) {
+    //     padding-right: 16px;
+    //   }
+    // }
   }
   .th:nth-child(8) {
     display: flex;
@@ -28,7 +58,9 @@
       display: flex;
     }
   }
-  .th:nth-child(4),.th:nth-child(5), .th:nth-child(6), {
+  .th:nth-child(4),
+  .th:nth-child(5),
+  .th:nth-child(6) {
     @media screen and (max-width: 1080px) {
       display: none;
     }
@@ -45,11 +77,13 @@
   //}
 
   .titles_table {
-
     .titles_block {
       padding: 0 30px;
       display: grid;
-      grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px minmax(10px, 100px);
+      // grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px minmax(
+      //     10px,
+      //     100px
+      //   );
       justify-content: space-between;
       margin-bottom: 25px;
 
@@ -66,7 +100,20 @@
         -moz-column-gap: 5px;
         column-gap: 5px;
       }
-
     }
+  }
+}
+
+.th:nth-child(4) {
+  @media (max-width: 1280px) {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.th_mobile {
+  padding-right: 16px;
+  @media (min-width: 650px) {
+    display: none !important;
   }
 }

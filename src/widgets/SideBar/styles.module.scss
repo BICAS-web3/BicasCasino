@@ -33,6 +33,23 @@
   svg {
     transform: rotate(180deg);
   }
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.1s;
+  margin: 0 auto;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  &:hover {
+    background: #0f0f0f;
+    svg {
+      path {
+        fill: #ffe09d;
+      }
+    }
+  }
 }
 
 .side_bar_upper {
@@ -56,7 +73,6 @@
   box-sizing: border-box;
   @media screen and (max-width: 650px) {
     padding-bottom: 30px;
-    margin-bottom: 30px;
     margin-top: 0;
   }
 }
@@ -213,8 +229,25 @@
 }
 
 .tooltip_games_list {
+  min-width: max-content;
   display: flex;
   flex-direction: column;
+  border-radius: 8px;
+  background: #282828;
+  margin-right: -20px;
+  position: relative;
+  left: 39px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #282828 transparent transparent;
+    border-radius: 2px;
+  }
   &_item {
     cursor: pointer;
     display: flex;
@@ -259,6 +292,44 @@
     &::before {
       top: 7%;
     }
+    }
+    &:hover {
+      background: #202020;
+      svg path {
+        fill: #e5c787;
+      }
+      color: #e5c787;
+    }
+    &:first-child {
+      border-radius: 8px 8px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+  }
+}
+
+.games_button {
+  cursor: pointer;
+  border-bottom: 1px solid #1d1d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.1s;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  border-radius: 12px;
+
+  .games_button_tooltip {
+    padding: 0;
+    left: 80px;
+    top: 200px;
+    // background-color: red;
+    pl20 &::before {
+      top: 7%;
+    }
   }
   &:hover {
     background: #0f0f0f;
@@ -290,10 +361,11 @@
 }
 
 .games_button_tooltip {
+  z-index: 2;
   white-space: nowrap;
   position: fixed;
-  padding: 11px 20px;
-  left: 100px;
+  left: 80px;
+  margin-left: -20px;
   top: 100px;
   color: #7e7e7e;
   font-size: 16px;
@@ -303,6 +375,7 @@
   letter-spacing: 0.64px;
   display: none;
   font-family: var(--font-source-sans-3);
+
   border-radius: 8px;
   background: #282828;
   justify-content: center;
@@ -318,6 +391,7 @@
     border-color: transparent #282828 transparent transparent;
     border-radius: 2px;
   }
+
 }
 
 .buttons_holder {
@@ -367,10 +441,12 @@
 }
 
 .sidebar_close_block {
+
   position: fixed;
   top: 90px;
   width: 210px;
   z-index: 99;
+
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 20px;
@@ -378,7 +454,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 210px;
+  width: 217px;
   padding: 0 16px;
   min-height: 50px;
   color: #979797;
@@ -555,6 +631,9 @@
 .closed_sb_group {
   margin-top: 20px;
   width: calc(100% - 20px);
+  row-gap: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .arrow {
@@ -607,6 +686,9 @@
       transition: all 0.2s;
     }
   }
+
+  transition: all 0.2s ease-in-out;
+
   &:hover {
     svg {
       path {
@@ -614,6 +696,9 @@
       }
     }
     color: #ffe09d;
+  }
+  svg {
+    transition: all 0.2s;
   }
 }
 
@@ -643,12 +728,14 @@
     left: -12px;
     filter: blur(20px);
   }
+
   svg {
     path {
       fill: #ffe09d;
     }
   }
   color: #ffe09d;
+
 }
 
 .closed_sb_active_page {
@@ -945,4 +1032,8 @@
   right: 20px;
   font-size: 9px;
   transform: rotate(1deg);
+}
+
+.tooltip_games_list_item {
+  min-width: max-content;
 }

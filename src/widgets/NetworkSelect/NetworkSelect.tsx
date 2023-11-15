@@ -12,7 +12,7 @@ import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
 import errorInfoIco from "../../public/media/networkSelect_icons/errorInfoIco.svg";
 import { web3 } from "@/entities/web3";
 import { useUnit } from "effector-react";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, useBalance, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { useDropdown } from "@/shared/tools";
 import clsx from "clsx";
@@ -41,7 +41,7 @@ export interface NetworkSelectProps {
 export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
   const { chain } = useNetwork();
   const { isOpen, toggle, close, dropdownRef } = useDropdown();
-
+  const { data } = useBalance();
   const [activeNetwork, setActiveNetwork] = useState<number | undefined>(-1);
   const { isConnected } = useAccount();
 

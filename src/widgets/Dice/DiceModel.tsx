@@ -11,7 +11,6 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { CanvasLoader } from "../CanvasLoader";
 import { useUnit } from "effector-react";
 
-
 interface DiceModelProps {
   inGame?: boolean;
 }
@@ -67,7 +66,7 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame }) => {
         if (!start) start = timestamp;
         const elapsedTime = timestamp - start;
         updateRotation(elapsedTime);
-        if (elapsedTime < 1000) {
+        if (elapsedTime < 2500) {
           requestAnimationFrame(animate);
         }
       };

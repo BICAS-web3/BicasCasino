@@ -16,7 +16,11 @@ import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../../Account";
 import clsx from "clsx";
 import { ConnectWalletButton } from "./ConnectButton";
+
 import { useDropdown } from "@/shared/tools";
+
+import * as SwapModel from "@/widgets/Swap/model/index";
+
 export interface RightMenuProps {
   isGame: boolean;
 }
@@ -75,6 +79,9 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
       closeHeaderAcc();
     }
   }, [isOpen]);
+
+  };
+  const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
 
   const notification = false;
   return (
