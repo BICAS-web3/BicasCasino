@@ -45,7 +45,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
-import * as DiceM from '@/pages/games/Dice/model'
+import * as DiceM from "@/pages/games/Dice/model";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -61,7 +61,7 @@ export interface DiceProps {}
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [
-    setPlayingStatus.
+    setPlayingStatus,
     wagered,
     playSounds,
     switchSounds,
