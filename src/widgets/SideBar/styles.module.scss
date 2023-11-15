@@ -26,7 +26,7 @@
 
 .open_sb_block {
   cursor: pointer;
-  //   margin-bottom: 50px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,6 +73,7 @@
   box-sizing: border-box;
   @media screen and (max-width: 650px) {
     padding-bottom: 30px;
+    margin-top: 0;
   }
 }
 
@@ -117,6 +118,7 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  margin-top: 45px;
   width: 217px;
   min-height: 50px;
   padding-left: 16px;
@@ -136,6 +138,7 @@
   }
   @media screen and (max-width: 650px) {
     width: 100%;
+    margin-top: 0;
   }
   svg {
     margin-right: 11px;
@@ -282,15 +285,10 @@
   height: 50px;
   margin: 0 auto;
   border-radius: 12px;
-
   .games_button_tooltip {
     padding: 0;
     left: 80px;
-    top: 200px;
-    // background-color: red;
-    pl20 &::before {
-      top: 7%;
-    }
+    top: calc(210px - var(--st));
   }
   &:hover {
     background: #0f0f0f;
@@ -299,6 +297,19 @@
         fill: #ffe09d;
       }
     }
+  }
+  &:hover {
+    background: #202020;
+    svg path {
+      fill: #e5c787;
+    }
+    color: #e5c787;
+  }
+  &:first-child {
+    border-radius: 8px 8px 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 8px 8px;
   }
 }
 
@@ -336,8 +347,21 @@
   letter-spacing: 0.64px;
   display: none;
   font-family: var(--font-source-sans-3);
+  border-radius: 8px;
+  background: #282828;
   justify-content: center;
   align-items: center;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #282828 transparent transparent;
+    border-radius: 2px;
+  }
 }
 
 .buttons_holder {
@@ -387,6 +411,10 @@
 }
 
 .sidebar_close_block {
+  position: fixed;
+  top: 90px;
+  width: 210px;
+  z-index: 99;
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 20px;
@@ -415,9 +443,6 @@
     span {
       color: #eaeaea;
     }
-  }
-  @media screen and (max-width: 1280px) {
-    width: 83%;
   }
   @media screen and (max-width: 650px) {
     display: none;
@@ -623,6 +648,12 @@
   line-height: 17.94px;
   background: #121212;
   cursor: pointer;
+  transition: all 0.2s;
+  svg {
+    path {
+      transition: all 0.2s;
+    }
+  }
   transition: all 0.2s ease-in-out;
   &:hover {
     svg {
@@ -663,6 +694,12 @@
     left: -12px;
     filter: blur(20px);
   }
+  svg {
+    path {
+      fill: #ffe09d;
+    }
+  }
+  color: #ffe09d;
 }
 
 .closed_sb_active_page {

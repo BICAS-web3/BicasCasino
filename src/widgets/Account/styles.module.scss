@@ -6,14 +6,13 @@
 }
 
 .account_container {
+  padding-top: 10px;
   width: 320px;
-  height: 398.53px;
   border-radius: 20px;
   background: var(--Gray-2, #181818);
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 49px auto 50px 1fr auto;
+  display: flex;
+  flex-direction: column;
   gap: 15px;
   justify-items: center;
   align-content: center;
@@ -72,15 +71,18 @@
 }
 
 .text_icon {
-  color: var(--White-1, #eaeaea);
-  font-family: var(--font-source-sans-3);
-  font-size: 13px;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 120%;
-  /* 15.6px */
-  letter-spacing: 0.26px;
-  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.network_elem {
+  justify-content: space-between !important;
+  padding: 0 34px !important;
 }
 
 .wallet {
@@ -130,29 +132,40 @@
 }
 
 .accountElement {
-  padding-left: 30px;
+  padding: 0 35px;
   display: flex;
 }
 
 .account_item {
+  width: 100%;
   margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-top: 1px solid rgba(234, 234, 234, 0.05);
 }
 
 .wallet,
 .accountElement {
-  width: 240px;
-  height: 40px;
+  height: 50px;
   gap: 10px;
-  border-radius: 12px;
-  border: 1px solid #202020;
-  background: #0f0f0f;
+  background: inherit;
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  &:hover {
+    background: rgba(234, 234, 234, 0.02);
+  }
 }
+
+.network_left_group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .ellipse {
   width: 100%;
   height: 240px;
@@ -167,6 +180,14 @@
   z-index: -1;
 }
 
+.hidden_desk_close_ico {
+  display: none;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+
+}
+
 @media (650px <=width <=1280px) {
 }
 
@@ -176,17 +197,20 @@
     right: 0;
     top: 56px;
     height: calc(100vh - (56px + 56px));
-    border-radius: 20px 20px 0 0;
+    border-radius: 0;
     bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 45px;
+    padding: 0;
   }
   .account {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .hidden_desk_close_ico {
+    display: block;
   }
   .btn_close {
     position: absolute;
@@ -195,11 +219,37 @@
   }
   .profile {
     width: 100%;
+    margin-top: 30px;
+    padding-left: 80px;
+    justify-content: start;
+  }
+  .profile_nickname {
+    font-size: 16px;
+  }
+  .profile_address {
+    font-size: 10px;
+    line-height: 14px;
+  }
+  .profile_info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .accountElement {
+    padding: 0 45px;
+  }
+  .accountElement:last-child {
+    position: absolute;
+    bottom: 0;
+    background: rgba(18, 18, 18, 0.5);
+    width: 100%;
+  }
+  .network_elem {
+    padding: 0 43px !important;
   }
   .account_item {
     width: 100%;
-  }
-  .accountElement {
-    width: 100%;
+    border-top: none;
   }
 }

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
@@ -50,7 +50,7 @@ const gamesList = [
   {
     title: "Rock paper scissors",
     icon: "rps",
-    link: "/games/RPS",
+    link: "/games/RockPaperScissors",
   },
   {
     title: "Poker",
@@ -246,7 +246,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <DiceButton />
                 Dice
               </div>
-              <div className={s.game_row}>
+              <div
+                className={`${s.game_row} ${
+                  props.activePage === "/games/RockPaperScissors" &&
+                  s.game_active
+                }`}
+                onClick={() => {
+                  location.href = "/games/RockPaperScissors";
+                }}
+              >
                 <RPCButton />
                 Rock Paper Scissors
               </div>
@@ -342,12 +350,33 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
   ]);
+  const [sidebarScroll, setSidebarScroll] = useState(0);
+
+  useEffect(() => {
+    const el = document.getElementById("sidebar_id");
+
+    const handleScroll = (e: any) => {
+      setSidebarScroll(e.target.scrollTop);
+    };
+
+    el?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      el?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("SCROLLED -------", sidebarScroll);
+  }, [sidebarScroll]);
 
   return (
     <div
       className={`${s.side_bar} ${
         isOpen ? s.side_bar_opened : s.side_bar_closed
       }`}
+      id="sidebar_id"
+      style={{ "--st": `${sidebarScroll}px` } as any}
     >
       {isOpen ? (
         <OpenedSideBar pickedGame={currentPick} activePage={activePage} />

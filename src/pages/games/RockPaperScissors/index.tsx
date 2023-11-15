@@ -19,10 +19,14 @@ import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import * as RPSGM from "@/widgets/RockPaperScissors/model";
 
 const WagerContent = () => {
   const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
+  const [isPlaying] = useUnit([RPSGM.$isPlaying]);
+
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -35,7 +39,11 @@ const WagerContent = () => {
       <WagerGainLoss />
       <RpsPicker />
       <button className={s.connect_wallet_btn} onClick={pressButton}>
-        {isConnected ? "Place bet" : "Connect Wallet"}
+        {isConnected
+          ? "Play"
+          : isPlaying && isConnected
+          ? "Playing"
+          : "Connect Wallet"}
       </button>
       <WagerLowerBtnsBlock game="rps" />
     </>
@@ -44,7 +52,10 @@ const WagerContent = () => {
 
 export default function RockPaperScissorsGame() {
   return (
-    <Layout gameName={"RockPaperScissors"}>
+    <Layout
+      activePageLink="/games/RockPaperScissors"
+      gameName={"RockPaperScissors"}
+    >
       <LiveBetsWS
         subscription_type={"Subscribe"}
         subscriptions={["Plinko", "PlinkoStart"]}

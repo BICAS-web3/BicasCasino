@@ -444,3 +444,15 @@
     margin-left: 0 !important;
   }
 }
+.customBets_list_item_game_ico {
+  display: block;
+  margin-right: 5px !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 10px;
+  @media (max-width: 650px) {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 6px;
+  }
+}
