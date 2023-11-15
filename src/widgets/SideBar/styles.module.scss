@@ -52,11 +52,158 @@
 }
 
 .bottom_fixed_block {
-  height: 70px;
+  box-sizing: border-box;
+  min-height: 70px;
   border-top: 1px solid #202020;
   background: #121212;
   width: 100%;
   margin-top: 20px;
+  display: flex;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closed_sb_tooltip {
+  position: fixed;
+  left: 80px;
+  width: auto;
+  background: #000;
+  border-radius: 8px;
+  background: #282828;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 16px;
+  font-style: normal;
+  white-space: nowrap;
+  font-weight: 600;
+  line-height: 90%;
+  letter-spacing: 0.64px;
+  height: 36px;
+  padding: 0 20px;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 100%;
+    margin-top: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #282828 transparent transparent;
+    border-radius: 2px;
+  }
+}
+
+.closed_sb_other_info_list_item:hover {
+  .closed_sb_tooltip {
+    display: flex;
+  }
+}
+
+.closed_sb_tooltip[data-id="nft-tooltip"] {
+  top: calc(225px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="affilate-tooltip"] {
+  top: calc(277px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="htp-tooltip"] {
+  top: calc(329px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="swap-tooltip"] {
+  top: calc(381px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="support-tooltip"] {
+  top: calc(432px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="bonus-tooltip"] {
+  top: calc(108px - var(--st));
+}
+
+.desk_hidden_theme_changer {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+}
+
+.bottom_nav_closed {
+  padding: 30px 20px;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  .theme_block {
+    display: none;
+  }
+  .desk_hidden_theme_changer {
+    display: flex;
+    margin-left: 5px;
+  }
+  .themes_block {
+    order: 2;
+    border: none;
+  }
+  .close_sb_ico {
+    order: 2;
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.close_sb_ico {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    transition: all 0.2s;
+  }
+}
+
+.language_changer_block {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme_block {
+  cursor: pointer;
+  padding: 10px;
+  background: #121212;
+  border-radius: 12px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme_block.active {
+  background: #202020;
+  svg {
+    path {
+      fill: #7e7e7e;
+    }
+  }
+}
+
+.themes_block {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid #202020;
 }
 
 .side_bar_upper {
@@ -126,7 +273,6 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  margin-top: 45px;
   width: 217px;
   min-height: 50px;
   padding-left: 16px;
@@ -246,18 +392,6 @@
   background: #282828;
   margin-right: -20px;
   position: relative;
-  left: 39px;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -7px;
-    border-width: 7px;
-    border-style: solid;
-    border-color: transparent #282828 transparent transparent;
-    border-radius: 2px;
-  }
   &_item {
     cursor: pointer;
     display: flex;
@@ -285,7 +419,6 @@
 
 .games_button {
   cursor: pointer;
-  border-bottom: 1px solid #1d1d1d;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -297,8 +430,8 @@
   border-radius: 12px;
   .games_button_tooltip {
     padding: 0;
-    left: 80px;
-    top: calc(210px - var(--st));
+    left: 110px;
+    top: calc(155px - var(--st));
   }
   &:hover {
     background: #0f0f0f;
@@ -308,19 +441,13 @@
       }
     }
   }
-  &:hover {
-    background: #202020;
-    svg path {
-      fill: #e5c787;
-    }
-    color: #e5c787;
-  }
-  &:first-child {
-    border-radius: 8px 8px 0 0;
-  }
-  &:last-child {
-    border-radius: 0 0 8px 8px;
-  }
+  // &:hover {
+  //   background: #0F0F0F;
+  //   svg path {
+  //     fill: #e5c787;
+  //   }
+  //   color: #e5c787;
+  // }
 }
 
 .button_wrap {
@@ -364,7 +491,7 @@
   &::before {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 22px;
     right: 100%;
     margin-top: -7px;
     border-width: 7px;
@@ -416,7 +543,6 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  border-bottom: 1px solid #1d1d1d;
   padding-bottom: 20px;
 }
 
@@ -995,6 +1121,14 @@
   height: 50px;
   @media (max-width: 650px) {
     display: none;
+  }
+}
+
+.closed_swap_wrap:hover,
+.closed_sb_other_info_list_item:hover,
+.closed_sb_bonus_ico:hover {
+  .closed_sb_tooltip {
+    display: flex;
   }
 }
 

@@ -20,7 +20,7 @@ import { ConnectWalletButton } from "./ConnectButton";
 import { useDropdown } from "@/shared/tools";
 
 import * as SwapModel from "@/widgets/Swap/model/index";
-
+import Blockies from "react-blockies";
 export interface RightMenuProps {
   isGame: boolean;
 }
@@ -106,8 +106,14 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
         <div className={s.header_mobile_right_wrap}>
           {isConnected ? (
             <div ref={dropdownRef} className={s.header_profile_ico_wrap}>
-              <div className={s.header_profile_ico_block} onClick={toggle}>
-                <span className={s.header_profile_ico_title}>А</span>
+              <div className={s.header_profile_ico_block}>
+                <div className={s.header_blockies_wrap} onClick={toggle}>
+                  <Blockies
+                    seed={address}
+                    bgColor="#fff"
+                    className={s.header_profile_ico_block}
+                  />
+                </div>
               </div>
               {isHeaderAccOpened && (
                 <div>
