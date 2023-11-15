@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Ledger from "@/public/media/select_wallet/Ledger.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
@@ -72,6 +72,20 @@ export const Account: FC<AccountProps> = (props) => {
     7
   )}...${props.address.slice(36, 42)}`;
   // const [copied, setCopied] = useState(false);
+  const [avaSize, setAvaSize] = useState("50");
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth < 650) {
+      setAvaSize("50");
+    } else {
+      setAvaSize("50");
+    }
+  }, [screenWidth]);
 
   const [closeHeaderAccount, setBlur] = useUnit([
     HeaderAccModel.Close,
@@ -93,7 +107,7 @@ export const Account: FC<AccountProps> = (props) => {
       />
       <div className={s.profile}>
         <div className={s.profile_ava_wrap}>
-          <BlockiesAva address={address} />
+          <BlockiesAva size={avaSize} address={address} />
         </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>

@@ -1,5 +1,7 @@
+import { colors } from "@/widgets/BlockiesAva/BlockiesAva";
 import { SettingsInit } from "@/widgets/SettingsInit";
 import { Head, Html, Main, NextScript } from "next/document";
+import { ConfigProvider } from "react-avatar";
 // TODO: fix meta - delete meta tag from <Head />  #24 @habdevs
 export default function Document() {
   return (

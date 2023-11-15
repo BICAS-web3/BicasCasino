@@ -29,6 +29,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   const { isConnected, address } = useAccount();
   const { isOpen, toggle, close, dropdownRef } = useDropdown();
   const [screenWidth, setScreenWidth] = useState(0);
+  const [avaSize, setAvaSize] = useState("50");
 
   const [
     isSbOpen,
@@ -72,6 +73,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
     if (isOpen) {
       if (screenWidth < 650) {
         document.documentElement.style.overflow = "hidden";
+
         openHeaderAcc();
       } else {
         openHeaderAcc();
@@ -80,6 +82,14 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
       closeHeaderAcc();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (screenWidth < 650) {
+      setAvaSize("32");
+    } else {
+      setAvaSize("50");
+    }
+  }, [screenWidth]);
 
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
 
@@ -109,7 +119,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
             <div ref={dropdownRef} className={s.header_profile_ico_wrap}>
               <div className={s.header_profile_ico_block}>
                 <div className={s.header_blockies_wrap} onClick={toggle}>
-                  <BlockiesAva address={address} />
+                  <BlockiesAva address={address} size={avaSize} />
                 </div>
               </div>
               {isHeaderAccOpened && (
