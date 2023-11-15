@@ -288,9 +288,14 @@
   .games_button_tooltip {
     padding: 0;
     left: 80px;
-    top: 200px;
-    &::before {
-      top: 7%;
+    top: calc(210px - var(--st));
+  }
+  &:hover {
+    background: #0f0f0f;
+    .games_btn_ico {
+      path {
+        fill: #ffe09d;
+      }
     }
   }
   &:hover {
@@ -305,37 +310,6 @@
   }
   &:last-child {
     border-radius: 0 0 8px 8px;
-  }
-}
-
-.games_button {
-  cursor: pointer;
-  border-bottom: 1px solid #1d1d1d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  transition: all 0.1s;
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  border-radius: 12px;
-  .games_button_tooltip {
-    padding: 0;
-    left: 80px;
-    top: 200px;
-    // background-color: red;
-    pl20 &::before {
-      top: 7%;
-    }
-  }
-  &:hover {
-    background: #0f0f0f;
-    .games_btn_ico {
-      path {
-        fill: #ffe09d;
-      }
-    }
   }
 }
 

@@ -45,6 +45,8 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
+import * as DiceM from "./model";
+
 enum CoinAction {
   Rotation = "Rotation",
   HeadsHeads = "HeadsHeads",
@@ -59,6 +61,7 @@ export interface DiceProps {}
 export const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [
+    setPlayingStatus,
     wagered,
     playSounds,
     switchSounds,
@@ -84,6 +87,7 @@ export const Dice: FC<DiceProps> = () => {
     setWagered,
     allowance,
   ] = useUnit([
+    DiceM.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -216,6 +220,10 @@ export const Dice: FC<DiceProps> = () => {
       }
     }
   }, [GameState]);
+
+  useEffect(() => {
+    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  }, [inGame]);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,

@@ -33,18 +33,6 @@
   z-index: 11;
 }
 
-.game_body {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  @media screen and (max-width: 1280px) {
-    gap: 20px;
-  }
-  @media screen and (max-width: 700px) {
-    gap: 15px;
-  }
-}
-
 .game_title {
   margin: 20px 0 0 20px;
   position: absolute;
@@ -155,9 +143,8 @@
 
 @media screen and (max-width: 600px) {
   .game_block {
-    max-height: 255px;
-    height: 250px;
-    min-height: 190px;
+    height: 255px;
+    min-height: 100%;
   }
 }
 

@@ -30,6 +30,8 @@ import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import helmet from "@/public/media/plinko_images/helmet.png";
 import statue from "@/public/media/plinko_images/statue.png";
 
+import * as PlinkoM from "./model";
+
 // const testBallPath = [
 //   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
 //   [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
@@ -93,10 +95,11 @@ import statue from "@/public/media/plinko_images/statue.png";
 //   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],
 // ];
 
-interface IPlinko { }
+interface IPlinko {}
 
 export const Plinko: FC<IPlinko> = () => {
   const [
+    setPlayingStatus,
     playSounds,
     wagered,
     setWagered,
@@ -115,6 +118,7 @@ export const Plinko: FC<IPlinko> = () => {
     setLostStatus,
     pickedLevel,
   ] = useUnit([
+    PlinkoM.setPlayingStatus,
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
     WagerButtonModel.setWagered,
@@ -198,6 +202,10 @@ export const Plinko: FC<IPlinko> = () => {
     }
   }, [GameState]);
 
+  useEffect(() => {
+    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  }, [inGame]);
+
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -240,12 +248,12 @@ export const Plinko: FC<IPlinko> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
       console.log(
         "vrf fee",
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -264,25 +272,25 @@ export const Plinko: FC<IPlinko> = () => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(pickedValue)
+          BigInt(100000000000) *
+          BigInt(pickedValue)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -388,7 +396,7 @@ export const Plinko: FC<IPlinko> = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -407,13 +415,13 @@ export const Plinko: FC<IPlinko> = () => {
               gameAddress,
               VRFFees,
               fees +
-              (pickedToken &&
+                (pickedToken &&
                 pickedToken.contract_address ==
-                "0x0000000000000000000000000000000000000000"
-                ? BigInt(Math.floor(cryptoValue * 10000000)) *
-                BigInt(100000000000) *
-                BigInt(pickedValue)
-                : BigInt(0)),
+                  "0x0000000000000000000000000000000000000000"
+                  ? BigInt(Math.floor(cryptoValue * 10000000)) *
+                    BigInt(100000000000) *
+                    BigInt(pickedValue)
+                  : BigInt(0)),
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
             );
             if (startPlaying) {

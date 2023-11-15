@@ -7,8 +7,10 @@ export const $profitOnWin = createStore<number>(0);
 export const $inputWager = createStore<string>("0");
 export const $pickedNumber = createStore<number>(50.5);
 export const $inputWagerDollars = createStore<string>("0");
+export const $isPlaying = createStore<boolean>(false);
 
 // events
+export const setPlayingStatus = createEvent<boolean>();
 export const setBetsAmount = createEvent<number>();
 export const setTotalWager = createEvent<number>();
 export const setProfitOnWin = createEvent<number>();
@@ -23,7 +25,7 @@ $profitOnWin.on(setProfitOnWin, (_, new_profit) => new_profit);
 $inputWager.on(setWager, (_, new_wager) => new_wager);
 $pickedNumber.on(pickNumber, (_, picked_number) => picked_number);
 $inputWagerDollars.on(setWagerDollars, (_, wager) => wager);
-
+$isPlaying.on(setPlayingStatus, (_, state) => state);
 export enum DiceSide {
   One = 1,
   Two = 2,
