@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import { sessionModel } from "@/entities/session";
-
+// test
 import ChatIcon from "@/public/media/misc/chatIcon.svg";
 import BellIcon from "@/public/media/misc/bellIcon.svg";
 import { SideBarModel } from "@/widgets/SideBar";
