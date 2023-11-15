@@ -19,7 +19,7 @@ import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
 import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
-import * as RPSGM from "./model";
+import * as RPSGM from "@/widgets/RockPaperScissors/model";
 
 const WagerContent = () => {
   const { isConnected } = useAccount();

@@ -30,7 +30,7 @@ import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import helmet from "@/public/media/plinko_images/helmet.png";
 import statue from "@/public/media/plinko_images/statue.png";
 
-import * as PlinkoM from "@/pages/games/Plinko/model";
+import * as PlinkoM from "./model";
 
 // const testBallPath = [
 //   [true, true, false, false, false, true, false, true, true, true, true, true, true, true, true, true],

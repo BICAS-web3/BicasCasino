@@ -17,7 +17,7 @@ import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import Head from "next/head";
 import clsx from "clsx";
-import * as CFM from "./model";
+import * as CFM from "@/widgets/CoinFlip/model";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);

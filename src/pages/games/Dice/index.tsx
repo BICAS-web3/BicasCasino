@@ -18,7 +18,7 @@ import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock
 import clsx from "clsx";
 import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
-import * as DGM from "./model";
+import * as DGM from "@/widgets/Dice/model";
 
 const WagerContent = () => {
   const isMobile = document.documentElement.clientWidth < 700;

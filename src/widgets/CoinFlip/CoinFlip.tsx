@@ -28,7 +28,7 @@ import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
-import * as CoinflipM from "@/pages/games/CoinFlip/model";
+import * as CoinflipM from "./model";
 
 interface CoinFlipProps {}
 

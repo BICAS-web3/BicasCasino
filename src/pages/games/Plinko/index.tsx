@@ -18,7 +18,7 @@ import s from "@/pages/games/CoinFlip/styles.module.scss";
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import Head from "next/head";
 import clsx from "clsx";
-import * as PGM from "./model";
+import * as PGM from "@/widgets/Plinko/model";
 
 const WagerContent = () => {
   const { connectors, connect } = useConnect();

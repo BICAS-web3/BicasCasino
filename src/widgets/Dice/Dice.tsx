@@ -45,7 +45,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
-import * as DiceM from "@/pages/games/Dice/model";
+import * as DiceM from "./model";
 
 enum CoinAction {
   Rotation = "Rotation",
