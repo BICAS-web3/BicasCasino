@@ -282,15 +282,10 @@
   height: 50px;
   margin: 0 auto;
   border-radius: 12px;
-
   .games_button_tooltip {
     padding: 0;
     left: 80px;
-    top: 200px;
-    // background-color: red;
-    pl20 &::before {
-      top: 7%;
-    }
+    top: calc(210px - var(--st));
   }
   &:hover {
     background: #0f0f0f;
