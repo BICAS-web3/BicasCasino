@@ -1,5 +1,5 @@
 .footer {
-  background: var(--Gray-1, #151515);
+  background: var(--Gray-1, #181818);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,30 +14,36 @@
 
 .footer_container {
   margin: 0 auto;
-  width: calc(100% - 540px);
+  width: calc(100% - 350px);
+  margin-left: 310px;
 }
 
 .footer_body {
+  box-sizing: border-box;
   //background: var(--Gray-1, #151515);
-  padding: 30px 50px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  width: 100%;
-  align-items: start;
+  padding: 30px 0 30px 0;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  width: 100%;
   gap: 20px;
+  border-bottom: 2px solid #2e2e2e;
+}
+
+.footer_leftSide_block {
+  display: flex;
+  align-items: start;
+  height: 100%;
+  gap: 5vw;
 }
 
 .icons_list {
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(4, 1fr);
-  @media screen and (max-width: 1280px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media screen and (max-width: 650px) {
-    display: none;
-  }
+  // @media screen and (max-width: 1280px) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
 }
 
 .footer_below {
@@ -48,7 +54,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: 128.16%;
-  background: #0f0f0f;
+  background: #181818;
   width: 100%;
   padding: 30px 0;
 }
@@ -63,6 +69,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  height: 100%;
+  justify-content: space-between;
 }
 
 .footer_mainPages_list {
@@ -70,6 +78,18 @@
   grid-template-columns: 1fr 1fr;
   width: 40%;
   gap: 15px;
+}
+
+.footer_social_title {
+  display: block;
+  margin-bottom: 25px;
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 128.16%;
 }
 
 .footer_text {
@@ -146,6 +166,15 @@
 }
 
 //
+@media screen and (min-width: 996px) {
+  .sidebar_closed {
+    .footer_container {
+      width: calc(100% - 90px);
+      margin-left: 90px;
+    }
+  }
+}
+
 @media screen and (max-width: 1280px) {
   .footer_mainPages_list {
     grid-template-columns: 1fr;
@@ -153,33 +182,63 @@
     gap: 17px;
   }
   .footer_container {
-    width: calc(100% - 480px);
+    width: calc(100% - 330px);
+    margin-left: 295px;
   }
   .footer_body {
-    padding: 40px 0;
+    padding: 30px 0 30px 0;
   }
 }
 
 @media screen and (max-width: 1080px) {
-  .footer_container {
-    width: 100%;
+  .footer_leftSide_block {
+    gap: 3vw;
   }
-  .footer_body {
-    padding: 40px 20px;
-    width: auto;
+}
+
+@media screen and (max-width: 996px) {
+  .footer_container {
+    width: calc(100% - 165px);
+    margin-left: 130px;
+  }
+  .footer_leftSide_block {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .footer_leftSide_block {
+    gap: 25px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .icons_list {
-    flex-direction: column;
+    gap: 8px;
   }
 }
 
 @media screen and (max-width: 650px) {
+  .footer_body {
+    padding: 30px 20px;
+  }
+  .footer_container {
+    width: 100%;
+    margin-left: 0;
+  }
+  .icons_list {
+    width: auto !important;
+    gap: 14px;
+    grid-template-columns: repeat(4, 33px);
+  }
+  .footer_body {
+    background: #181818;
+  }
   .footer_mainPages_list,
   .games_list,
-  .logo {
+  .logo,
+  .footer_leftSide_block {
     display: none;
   }
   .icons_list {
@@ -195,7 +254,14 @@
     height: 350px;
   }
   .footer_below {
-    background: #121212;
+    font-size: 8px;
+    border-bottom: 2px solid #2e2e2e;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 12px;
   }
   .footer_container {
     display: none;

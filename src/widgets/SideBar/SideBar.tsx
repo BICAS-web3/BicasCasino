@@ -50,7 +50,7 @@ const gamesList = [
   {
     title: "Rock paper scissors",
     icon: "rps",
-    link: "/games/RPS",
+    link: "/games/RockPaperScissors",
   },
   {
     title: "Poker",
@@ -246,7 +246,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 <DiceButton />
                 Dice
               </div>
-              <div className={s.game_row}>
+              <div
+                className={`${s.game_row} ${
+                  props.activePage === "/games/RockPaperScissors" &&
+                  s.game_active
+                }`}
+                onClick={() => {
+                  location.href = "/games/RockPaperScissors";
+                }}
+              >
                 <RPCButton />
                 Rock Paper Scissors
               </div>

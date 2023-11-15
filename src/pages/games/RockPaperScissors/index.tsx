@@ -52,7 +52,10 @@ const WagerContent = () => {
 
 export default function RockPaperScissorsGame() {
   return (
-    <Layout gameName={"RockPaperScissors"}>
+    <Layout
+      activePageLink="/games/RockPaperScissors"
+      gameName={"RockPaperScissors"}
+    >
       <LiveBetsWS
         subscription_type={"Subscribe"}
         subscriptions={["Plinko", "PlinkoStart"]}

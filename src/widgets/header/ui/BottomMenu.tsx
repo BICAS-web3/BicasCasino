@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 
@@ -14,13 +14,20 @@ import s from "./styles.module.scss";
 export interface BottomMenuProps {}
 
 export const BottomMenu: FC<BottomMenuProps> = (props) => {
-  const [openSidebar] = useUnit([SideBarModel.Open]);
+  const [openSidebar, sbState] = useUnit([
+    SideBarModel.Open,
+    SideBarModel.$isOpen,
+  ]);
 
   const openSB = () => {
     openSidebar();
     window.scrollTo(0, 0);
-    document.documentElement.style.overflow = "hidden";
+    document.documentElement.classList.add("scroll-disable");
   };
+
+  useEffect(() => {
+    !sbState && document.documentElement.classList.remove("scroll-disable");
+  }, [sbState]);
 
   return (
     <div className={s.bottom_menu}>
