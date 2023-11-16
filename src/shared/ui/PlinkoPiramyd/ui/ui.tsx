@@ -7,7 +7,7 @@ import {
 import { useStore, useUnit } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
-import { useDeviceType } from "@/shared/tools";
+import { useDeviceType, useMediaQuery } from "@/shared/tools";
 import * as BallModel from "./../model";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
@@ -19,6 +19,7 @@ interface PlinkoBallProps {
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
+  const isMobile = useMediaQuery("(max-width: 1200px)");
   const ballRef = useRef<HTMLDivElement>(null);
   const pickedRows = useStore($pickedRows);
   const [ball, setBall] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
@@ -59,7 +60,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
     const result = simulatePlinkoResult();
     setTimeout(() => {
       setBall(result);
-    }, pickedRows * 215);
+    }, pickedRows * (isMobile ? 210 : 215));
   }, [props.path]);
 
   let lastMove = 0;
@@ -179,6 +180,7 @@ interface IPlinkoPyramid {
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
+  const isMobile = useMediaQuery("(max-width: 1200px)");
   const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);
@@ -308,7 +310,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimaitionDelay(animationFinished);
-    }, pickedRows * 215);
+    }, pickedRows * (isMobile ? 210 : 215));
   }, [animationFinished]);
   const generateRows = () => {
     const rows = [];
