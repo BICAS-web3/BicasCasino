@@ -76,14 +76,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
             currentItem == "about" && s.aboutActive
           }`}
         >
-          <p className={s.about_text}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-            explicabo, repellat quibusdam aut impedit mollitia, rerum libero
-            praesentium ducimus ab dolore sunt dolores ipsa! Vel maxime nam
-            beatae aspernatur quis ex sed nemo eligendi voluptate necessitatibus
-            repudiandae deleniti reprehenderit aut ab suscipit, possimus
-            explicabo asperiores, ut sint quaerat adipisci labore.
-          </p>
+          <p className={s.about_text}>{gameText}</p>
         </div>
       </div>
     </div>

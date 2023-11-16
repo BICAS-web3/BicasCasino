@@ -77,7 +77,7 @@ export default function CoinFlipGame() {
         <div className={s.coinflip_container}>
           <GamePage
             isPoker={false}
-            gameInfoText="test"
+            gameInfoText="Coinflip is a classic and simple game where every coin toss keeps you in suspense with an equal chance of success. With a 50% chance of winning, the game promises a multiplier of 1.98x, adding an extra element of excitement. All you have to do is enter your bet amount and press the button to make the coin flip. It's the perfect way to test your luck without complicating the process!"
             gameTitle="coinflip"
             wagerContent={<WagerContent />}
           >

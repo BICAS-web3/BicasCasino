@@ -63,7 +63,7 @@ export default function RockPaperScissorsGame() {
       <div className={s.rps_container}>
         <GamePage
           isPoker={false}
-          gameInfoText="rps"
+          gameInfoText="The Rock, Scissors, Paper game offers you a classic selection with the added intrigue of betting. With odds of a draw, win or lose of approximately 33% for each outcome, the game promises an exciting experience. Your choice between rock, scissors or paper not only determines your tactics, but also sets the dynamics of the game. Place your bet and watch this much-loved symbolic duel unfold, where each choice has an equal chance of success or defeat."
           gameTitle="rock paper scissors"
           wagerContent={<WagerContent />}
         >
