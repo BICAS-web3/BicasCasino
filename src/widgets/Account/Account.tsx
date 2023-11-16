@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Ledger from "@/public/media/select_wallet/Ledger.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
@@ -22,6 +22,8 @@ import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 import closeIco from "@/public/media/misc/closeAccIco.png";
+import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
+import { useAccount } from "wagmi";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -64,11 +66,26 @@ export interface AccountProps {
 }
 export const Account: FC<AccountProps> = (props) => {
   const { disconnect } = useDisconnect();
+  const { address } = useAccount();
   const truncatedAddress = `${props.address.slice(
     0,
     7
   )}...${props.address.slice(36, 42)}`;
   // const [copied, setCopied] = useState(false);
+  const [avaSize, setAvaSize] = useState("50");
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth < 650) {
+      setAvaSize("50");
+    } else {
+      setAvaSize("50");
+    }
+  }, [screenWidth]);
 
   const [closeHeaderAccount, setBlur] = useUnit([
     HeaderAccModel.Close,
@@ -89,7 +106,9 @@ export const Account: FC<AccountProps> = (props) => {
         alt="close-ico"
       />
       <div className={s.profile}>
-        <Image src={Avatar} alt={""} className={s.avatar_icon} />
+        <div className={s.profile_ava_wrap}>
+          <BlockiesAva size={avaSize} address={address} />
+        </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
             {props.nickname &&

@@ -25,6 +25,17 @@
   }
 }
 
+.blockies_ava_wrap {
+  canvas {
+    height: 30px !important;
+    width: 3cap !important;
+    @media screen and (max-width: 650px) {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+}
+
 .avatar,
 .game_ico,
 .wagerIco {
@@ -43,7 +54,6 @@
   gap: 10px;
   padding: 16px 0;
   max-width: fit-content;
-
   @media (max-width: 650px) {
     padding: 10px 0;
     gap: 8px;
@@ -73,7 +83,6 @@
     font-size: 10px;
     font-weight: 500;
   }
-
   &_wager,
   &_multiplier {
     font-family: var(--font-source-sans-3);
@@ -84,12 +93,14 @@
     font-weight: 500;
   }
 }
+
 .time {
   @media (max-width: 650px) {
     color: var(--gray-57-e-night, #7e7e7e);
     font-size: 8px;
   }
 }
+
 .date {
   @media screen and (max-width: 425px) {
     display: none;
@@ -135,6 +146,7 @@
     // display: none;
   }
 }
+
 .td:nth-child(4),
 .td:nth-child(5),
 .td:nth-child(6) {

@@ -205,7 +205,7 @@ export const GamePage: FC<GamePageProps> = ({
             />
             <GamePageBottomBlock isPoker={isPoker} gameText={""} />
           </div>
-          <div>
+          <div className={s.custombets_wrap}>
             <CustomBets
               title="Live bets"
               isGamePage={true}

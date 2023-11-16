@@ -17,10 +17,6 @@ import {
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
 
-import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
-
-import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
-
 import * as SideBarModel from "./model";
 
 import { Swap } from "../Swap";
@@ -31,10 +27,10 @@ import { BonusIco } from "@/shared/SVGs/BonusIco";
 import { NftIco } from "@/shared/SVGs/NftIco";
 import { AffilateIco } from "@/shared/SVGs/AffilateIco";
 import { HTPico } from "@/shared/SVGs/HTPico";
-import { SwaptIcon } from "@/shared/SVGs/SwapIcon";
-import moonIco from "@/public/media/sidebar_icons/moonIco.svg";
 import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
+import { SunIco } from "@/shared/SVGs/SunIco";
+import usaIco from "@/public/media/countries_images/usaIco.png";
 
 const gamesList = [
   {
@@ -103,67 +99,74 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
 
   return (
     <>
-      <div className={s.side_bar_upper}>
-        <div className={s.closed_sb_group}>
-          <div className={s.open_sb_block} onClick={() => flipOpen()}>
-            <CloseSbIco />
+      <div className={s.closed_sb_group}>
+        <div className={s.closed_sb_bonus_ico}>
+          <BonusIco />
+          <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
+            Bonus
           </div>
-          <div className={s.closed_sb_bonus_ico}>
-            <BonusIco />
-          </div>
-          <div className={`${s.games_button}`}>
-            <GamesIcon />
-            <div className={s.games_button_tooltip}>
-              <div className={s.tooltip_games_list}>
-                {gamesList.map((item, ind) => (
-                  <div
-                    className={s.tooltip_games_list_item}
-                    onClick={() => {
-                      location.href = item.link;
-                    }}
-                  >
-                    <GameIcon iconId={item.icon} />
-                    <span className={s.tooltip_games_list_item_title}>
-                      {item.title}
-                    </span>
-                  </div>
-                ))}
-              </div>
+        </div>
+        <div className={`${s.games_button}`}>
+          <GamesIcon />
+          <div className={s.games_button_tooltip}>
+            <div className={s.tooltip_games_list}>
+              {gamesList.map((item, ind) => (
+                <div
+                  className={s.tooltip_games_list_item}
+                  onClick={() => {
+                    location.href = item.link;
+                  }}
+                >
+                  <GameIcon iconId={item.icon} />
+                  <span className={s.tooltip_games_list_item_title}>
+                    {item.title}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-        <div className={s.closed_sb_other_info_list}>
-          <div
-            onClick={() =>
-              window.open(
-                "https://element.market/collections/greekkeepers",
-                "_blank"
-              )
-            }
-            className={s.closed_sb_other_info_list_item}
-          >
-            <NftIco />
-          </div>
-          <div className={s.closed_sb_other_info_list_item}>
-            <AffilateIco />
-          </div>
-          <div className={s.closed_sb_other_info_list_item}>
-            <HTPico />
-          </div>
-          {/* <div className={s.closed_sb_other_info_list_item}>
-            <SwaptIcon />
-          </div> */}
-          <Swap closeClassName={s.closed_sb_other_info_list_item} />
-          <div className={s.closed_sb_other_info_list_item}>
-            <SupportIcon />
+      </div>
+      <div className={s.closed_sb_other_info_list}>
+        <div
+          onClick={() =>
+            window.open(
+              "https://element.market/collections/greekkeepers",
+              "_blank"
+            )
+          }
+          className={s.closed_sb_other_info_list_item}
+        >
+          <NftIco />
+          <div className={s.closed_sb_tooltip} data-id="nft-tooltip">
+            NFT Market
           </div>
         </div>
-        <div className={s.sb_closed_bottom_block}>
-          <div className={s.sb_closed_bottom_block_item}>
-            <span className={s.sb_closed_language_title}>En</span>
+        <div className={s.closed_sb_other_info_list_item}>
+          <AffilateIco />
+          <div className={s.closed_sb_tooltip} data-id="affilate-tooltip">
+            Affilate
           </div>
-          <div className={s.sb_closed_bottom_block_item}>
-            <MoonIco />
+        </div>
+        <div className={s.closed_sb_other_info_list_item}>
+          <HTPico />
+          <div className={s.closed_sb_tooltip} data-id="htp-tooltip">
+            How to play
+          </div>
+        </div>
+        {/* <div className={s.closed_sb_other_info_list_item}>
+            <SwaptIcon />
+          </div> */}
+        <div className={s.closed_swap_wrap}>
+          <Swap closeClassName={s.closed_sb_other_info_list_item} />
+          <div className={s.closed_sb_tooltip} data-id="swap-tooltip">
+            Swap
+          </div>
+        </div>
+        <div className={s.closed_sb_other_info_list_item}>
+          <SupportIcon />
+          <div className={s.closed_sb_tooltip} data-id="support-tooltip">
+            Support
           </div>
         </div>
       </div>
@@ -185,157 +188,147 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
 
   return (
     <>
-      <div className={s.side_bar_upper}>
-        <div className={s.upper_blocks}>
-          <div className={s.sidebar_close_block} onClick={() => flipOpen()}>
-            <span>dashboard</span>
-            <CloseSbIco />
-          </div>
-          <div className={s.bonus_button_block}>
-            <BonusIco />
-            bonus<span className={s.soon_page}>Soon…</span>
-          </div>
+      <div className={s.upper_blocks}>
+        <div className={s.bonus_button_block}>
+          <BonusIco />
+          bonus<span className={s.soon_page}>Soon…</span>
+        </div>
+        <div
+          className={clsx(
+            s.buttons_menu,
+            !gamesAreOpen && s.buttons_menu_closed
+          )}
+        >
           <div
-            className={clsx(
-              s.buttons_menu,
-              !gamesAreOpen && s.buttons_menu_closed
-            )}
+            className={s.menu_header}
+            onClick={() => {
+              setOpen(!gamesAreOpen);
+            }}
           >
             <div
-              className={s.menu_header}
-              onClick={() => {
-                setOpen(!gamesAreOpen);
-              }}
+              className={`${s.header_icon_container} ${
+                !gamesAreOpen && s.games_closed
+              }`}
             >
-              <div
-                className={`${s.header_icon_container} ${
-                  !gamesAreOpen && s.games_closed
-                }`}
-              >
-                <GamesIcon />
-                <span className={s.header_icon_title}>games</span>
-              </div>
-              <div
-                className={
-                  (s.arrow, gamesAreOpen ? s.arrow_down : s.arrow_side)
-                }
-              >
-                <ArrowIcon />
-              </div>
-            </div>
-            <div className={s.game_rows}>
-              <div
-                className={`${s.game_row} ${
-                  props.activePage === "/games/CoinFlip" && s.game_active
-                }`}
-                onClick={() => {
-                  location.href = "/games/CoinFlip";
-                }}
-              >
-                <CoinButton />
-                Coinflip
-              </div>
-              <div
-                className={`${s.game_row} ${
-                  props.activePage === "/games/Dice" && s.game_active
-                }`}
-                onClick={() => {
-                  location.href = "/games/Dice";
-                }}
-              >
-                <DiceButton />
-                Dice
-              </div>
-              <div
-                className={`${s.game_row} ${
-                  props.activePage === "/games/RockPaperScissors" &&
-                  s.game_active
-                }`}
-                onClick={() => {
-                  location.href = "/games/RockPaperScissors";
-                }}
-              >
-                <RPCButton />
-                Rock Paper Scissors
-              </div>
-              <div
-                className={`${s.game_row} ${
-                  props.activePage === "/games/Poker" && s.game_active
-                }`}
-                onClick={() => {
-                  location.href = "/games/Poker";
-                }}
-              >
-                <PokerButton />
-                Poker
-              </div>
-              <div
-                className={`${s.game_row} ${
-                  props.activePage === "/games/Plinko" && s.game_active
-                }`}
-                onClick={() => {
-                  location.href = "/games/Plinko";
-                }}
-              >
-                <PlinkoButton />
-                Plinko
-              </div>
-              <div
-                className={clsx(s.leaderboard)}
-                onClick={() => {
-                  location.href = "/leaderboard";
-                }}
-              >
-                <LeaderboardIcon />
-                LeaderBoard
-              </div>
-            </div>
-          </div>
-          <div className={s.sb_other_info_list}>
-            <div
-              onClick={() =>
-                window.open(
-                  "https://element.market/collections/greekkeepers",
-                  "_blank"
-                )
-              }
-              className={s.oth_info_list_item}
-            >
-              <div className={s.icon_wrapper}>
-                <NftIco />
-              </div>
-              <div className={s.large_header_text}>nft market</div>
-            </div>
-            <div className={s.oth_info_list_item}>
-              <div className={s.icon_wrapper}>
-                <AffilateIco />
-              </div>
-              <div className={s.large_header_text}>
-                affiliate <span className={s.soon_page}>Soon…</span>
-              </div>
-            </div>
-            <div className={s.oth_info_list_item}>
-              <div className={s.icon_wrapper}>
-                <HTPico />
-              </div>
-              <div className={s.large_header_text}>
-                how to play <span className={s.soon_page}>Soon…</span>
-              </div>
+              <GamesIcon />
+              <span className={s.header_icon_title}>games</span>
             </div>
             <div
-              className={s.support}
+              className={(s.arrow, gamesAreOpen ? s.arrow_down : s.arrow_side)}
+            >
+              <ArrowIcon />
+            </div>
+          </div>
+          <div className={s.game_rows}>
+            <div
+              className={`${s.game_row} ${
+                props.activePage === "/games/CoinFlip" && s.game_active
+              }`}
               onClick={() => {
-                location.href = "https://t.me/GKSupportt";
+                location.href = "/games/CoinFlip";
               }}
             >
-              <div className={s.icon_wrapper}>
-                <SupportIcon />
-              </div>
-              <div className={s.large_header_text}>support</div>
+              <CoinButton />
+              Coinflip
             </div>
-            <Swap />
+            <div
+              className={`${s.game_row} ${
+                props.activePage === "/games/Dice" && s.game_active
+              }`}
+              onClick={() => {
+                location.href = "/games/Dice";
+              }}
+            >
+              <DiceButton />
+              Dice
+            </div>
+            <div
+              className={`${s.game_row} ${
+                props.activePage === "/games/RockPaperScissors" && s.game_active
+              }`}
+              onClick={() => {
+                location.href = "/games/RockPaperScissors";
+              }}
+            >
+              <RPCButton />
+              Rock Paper Scissors
+            </div>
+            <div
+              className={`${s.game_row} ${
+                props.activePage === "/games/Poker" && s.game_active
+              }`}
+              onClick={() => {
+                location.href = "/games/Poker";
+              }}
+            >
+              <PokerButton />
+              Poker
+            </div>
+            <div
+              className={`${s.game_row} ${
+                props.activePage === "/games/Plinko" && s.game_active
+              }`}
+              onClick={() => {
+                location.href = "/games/Plinko";
+              }}
+            >
+              <PlinkoButton />
+              Plinko
+            </div>
+            <div
+              className={clsx(s.leaderboard)}
+              onClick={() => {
+                location.href = "/leaderboard";
+              }}
+            >
+              <LeaderboardIcon />
+              LeaderBoard
+            </div>
           </div>
-          <LanguageSwitcher />
+        </div>
+        <div className={s.sb_other_info_list}>
+          <div
+            onClick={() =>
+              window.open(
+                "https://element.market/collections/greekkeepers",
+                "_blank"
+              )
+            }
+            className={s.oth_info_list_item}
+          >
+            <div className={s.icon_wrapper}>
+              <NftIco />
+            </div>
+            <div className={s.large_header_text}>nft market</div>
+          </div>
+          <div className={s.oth_info_list_item}>
+            <div className={s.icon_wrapper}>
+              <AffilateIco />
+            </div>
+            <div className={s.large_header_text}>
+              affiliate <span className={s.soon_page}>Soon…</span>
+            </div>
+          </div>
+          <div className={s.oth_info_list_item}>
+            <div className={s.icon_wrapper}>
+              <HTPico />
+            </div>
+            <div className={s.large_header_text}>
+              how to play <span className={s.soon_page}>Soon…</span>
+            </div>
+          </div>
+          <div
+            className={s.support}
+            onClick={() => {
+              location.href = "https://t.me/GKSupportt";
+            }}
+          >
+            <div className={s.icon_wrapper}>
+              <SupportIcon />
+            </div>
+            <div className={s.large_header_text}>support</div>
+          </div>
+          <Swap />
         </div>
       </div>
     </>
@@ -346,10 +339,17 @@ export interface SideBarProps {
   activePage: string | undefined;
 }
 export const SideBar: FC<SideBarProps> = ({ activePage }) => {
-  const [isOpen, currentPick] = useUnit([
+  const [activeTheme, setActiveTheme] = useState("dark");
+  const handleChangeTheme = () => {
+    activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
+  };
+  const [isOpen, currentPick, closeSb, openSb] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
+    SideBarModel.Close,
+    SideBarModel.Open,
   ]);
+
   const [sidebarScroll, setSidebarScroll] = useState(0);
 
   useEffect(() => {
@@ -370,19 +370,64 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
     console.log("SCROLLED -------", sidebarScroll);
   }, [sidebarScroll]);
 
+  const handleSidebar = () => {
+    if (isOpen) {
+      closeSb();
+    } else {
+      openSb();
+    }
+  };
+
   return (
     <div
       className={`${s.side_bar} ${
         isOpen ? s.side_bar_opened : s.side_bar_closed
       }`}
-      id="sidebar_id"
-      style={{ "--st": `${sidebarScroll}px` } as any}
     >
-      {isOpen ? (
-        <OpenedSideBar pickedGame={currentPick} activePage={activePage} />
-      ) : (
-        <ClosedSideBar pickedGame={currentPick} activePage={activePage} />
-      )}
+      <div
+        className={s.side_bar_upper}
+        id="sidebar_id"
+        style={{ "--st": `${sidebarScroll}px` } as any}
+      >
+        {isOpen ? (
+          <OpenedSideBar pickedGame={currentPick} activePage={activePage} />
+        ) : (
+          <ClosedSideBar pickedGame={currentPick} activePage={activePage} />
+        )}
+      </div>
+
+      <div
+        className={`${s.bottom_fixed_block} ${!isOpen && s.bottom_nav_closed}`}
+      >
+        <div className={s.themes_block}>
+          <div
+            className={`${s.theme_block} ${activeTheme === "dark" && s.active}`}
+            onClick={handleChangeTheme}
+          >
+            <MoonIco />
+          </div>
+          <div
+            className={`${s.theme_block} ${
+              activeTheme === "light" && s.active
+            }`}
+            onClick={handleChangeTheme}
+          >
+            <SunIco />
+          </div>
+          <div
+            className={s.desk_hidden_theme_changer}
+            onClick={handleChangeTheme}
+          >
+            <MoonIco />
+          </div>
+        </div>
+        <div className={s.language_changer_block}>
+          <Image src={usaIco} alt="country-ico" />
+        </div>
+        <div className={s.close_sb_ico} onClick={handleSidebar}>
+          <CloseSbIco />
+        </div>
+      </div>
     </div>
   );
 };

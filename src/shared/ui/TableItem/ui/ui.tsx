@@ -13,10 +13,25 @@ import pokerIcon from "@/public/media/live_bets/poker.svg";
 import rpsIcon from "@/public/media/live_bets/rps.svg";
 import bombIcon from "@/public/media/live_bets/bomb.svg";
 import plincoIcon from "@/public/media/live_bets/plinco.svg";
+import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 
 export const TableItem: FC<IBetData> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
   const [gameImg, setGameImg] = useState(pokerIcon);
+  const [avaSize, setAvaSize] = useState("30");
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth < 650) {
+      setAvaSize("20");
+    } else {
+      setAvaSize("30");
+    }
+  }, [screenWidth]);
 
   useEffect(() => {
     if (props.game_name === "CoinFlip") {
@@ -67,11 +82,9 @@ export const TableItem: FC<IBetData> = (props) => {
           target="_blank"
           className={styles.link_block}
         >
-          <img
-            src={avatar.src}
-            className={styles.avatar}
-            alt="game-ico-preview"
-          />
+          <div className={styles.blockies_ava_wrap}>
+            <BlockiesAva size={avaSize} address={props.ava_address} />
+          </div>
           <span className={styles.player_name}>{props.player_name}</span>
         </Link>
       </td>
