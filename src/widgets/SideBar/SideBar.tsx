@@ -176,6 +176,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         </div>
       </div>
       <div className={s.closed_sb_other_info_list}>
+        <div className={s.closed_sb_other_info_list_item}>
+          <HTPico />
+          <div className={s.closed_sb_tooltip} data-id="htp-tooltip">
+            How to play
+          </div>
+        </div>
         <div
           onClick={() =>
             window.open(
@@ -196,12 +202,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Affilate
           </div>
         </div>
-        <div className={s.closed_sb_other_info_list_item}>
-          <HTPico />
-          <div className={s.closed_sb_tooltip} data-id="htp-tooltip">
-            How to play
-          </div>
-        </div>
+
         {/* <div className={s.closed_sb_other_info_list_item}>
             <SwaptIcon />
           </div> */}
@@ -393,6 +394,14 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
         </div>
         <div className={s.sb_other_info_list}>
+          <div className={s.oth_info_list_item}>
+            <div className={s.icon_wrapper}>
+              <HTPico />
+            </div>
+            <div className={s.large_header_text}>
+              how to play <span className={s.soon_page}>Soon…</span>
+            </div>
+          </div>
           <div
             onClick={() =>
               window.open(
@@ -413,14 +422,6 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>
               affiliate <span className={s.soon_page}>Soon…</span>
-            </div>
-          </div>
-          <div className={s.oth_info_list_item}>
-            <div className={s.icon_wrapper}>
-              <HTPico />
-            </div>
-            <div className={s.large_header_text}>
-              how to play <span className={s.soon_page}>Soon…</span>
             </div>
           </div>
           <div

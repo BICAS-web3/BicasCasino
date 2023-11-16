@@ -94,15 +94,15 @@
 }
 
 .closed_sb_tooltip[data-id="nft-tooltip"] {
-  top: calc(225px - var(--st));
-}
-
-.closed_sb_tooltip[data-id="affilate-tooltip"] {
   top: calc(277px - var(--st));
 }
 
+.closed_sb_tooltip[data-id="affilate-tooltip"] {
+  top: calc(330px - var(--st));
+}
+
 .closed_sb_tooltip[data-id="htp-tooltip"] {
-  top: calc(329px - var(--st));
+  top: calc(223px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="swap-tooltip"] {
