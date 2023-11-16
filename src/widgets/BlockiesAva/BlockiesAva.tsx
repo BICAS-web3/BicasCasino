@@ -1,6 +1,7 @@
 import s from "./styles.module.scss";
 import { FC } from "react";
 import Blockies from "react-blockies";
+import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
 interface BlockiesAvaProps {
   address: any;
@@ -29,10 +30,11 @@ export const BlockiesAva: FC<BlockiesAvaProps> = ({ address, size }) => {
 
   return (
     <div className={s.blockies_wrap}>
-      <Blockies
+      {/* <Blockies
         seed={`${address.toLowerCase()}`}
         className={s.header_profile_ico_block}
-      />
+      /> */}
+      <Jazzicon seed={jsNumberForAddress(address)} diameter={parseInt(size)} />
     </div>
   );
 };
