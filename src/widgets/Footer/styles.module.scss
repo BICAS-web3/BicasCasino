@@ -251,7 +251,8 @@
   }
   .footer {
     background: inherit;
-    height: 350px;
+    height: 60px;
+    margin-bottom: 56px;
   }
   .footer_below {
     font-size: 8px;
@@ -261,7 +262,6 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    margin-bottom: 12px;
   }
   .footer_container {
     display: none;

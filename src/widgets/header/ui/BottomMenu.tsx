@@ -14,20 +14,25 @@ import s from "./styles.module.scss";
 export interface BottomMenuProps {}
 
 export const BottomMenu: FC<BottomMenuProps> = (props) => {
-  const [openSidebar, sbState] = useUnit([
+  const [openSidebar, closeSb, isOpen] = useUnit([
     SideBarModel.Open,
+    SideBarModel.Close,
     SideBarModel.$isOpen,
   ]);
 
   const openSB = () => {
-    openSidebar();
-    window.scrollTo(0, 0);
-    document.documentElement.classList.add("scroll-disable");
+    if (!isOpen) {
+      openSidebar();
+      document.documentElement.classList.add("scroll-disable");
+    } else {
+      closeSb();
+      document.documentElement.classList.remove("scroll-disable");
+    }
   };
 
   useEffect(() => {
-    !sbState && document.documentElement.classList.remove("scroll-disable");
-  }, [sbState]);
+    !isOpen && document.documentElement.classList.remove("scroll-disable");
+  }, [isOpen]);
 
   return (
     <div className={s.bottom_menu}>

@@ -38,6 +38,9 @@ import chinaIco from "@/public/media/countries_images/chinaIco.png";
 import portugalIco from "@/public/media/countries_images/portugalIco.png";
 import spainIco from "@/public/media/countries_images/spainIco.png";
 
+import logo from "@/public/media/brand_images/footerLogo.svg";
+import closeIco from "@/public/media/misc/close.svg";
+
 const gamesList = [
   {
     title: "Coinflip",
@@ -76,31 +79,37 @@ const languagesList = [
     ico: usaIco,
     id: "usa",
     title: "usa",
+    mobTitle: "english",
   },
   {
     ico: uaIco,
     id: "ua",
     title: "ua",
+    mobTitle: "ukranian",
   },
   {
     ico: indIco,
     id: "india",
     title: "in",
+    mobTitle: "indian",
   },
   {
     ico: chinaIco,
     id: "china",
     title: "cn",
+    mobTitle: "chinise",
   },
   {
     ico: portugalIco,
     id: "portugal",
     title: "pt",
+    mobTitle: "portuguese",
   },
   {
     ico: spainIco,
     id: "spain",
     title: "es",
+    mobTitle: "spanish",
   },
 ];
 
@@ -219,15 +228,73 @@ interface OpenedSideBarProps {
 }
 const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   const [gamesAreOpen, setOpen] = useState(true);
+  const [activeTheme, setActiveTheme] = useState("dark");
+  const handleChangeTheme = () => {
+    activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
+  };
+  const [activeLanguage, setActiveLanguage] = useState(languagesList[0]);
+  const [activeLanguagesList, setActiveLanguagesList] = useState(languagesList);
 
-  const [flipOpen, isOpen] = useUnit([
-    SideBarModel.flipOpen,
-    SideBarModel.$isOpen,
-  ]);
+  const [flipOpen, isOpen, activeLanguagesBlock, setActiveLanguagesBlock] =
+    useUnit([
+      SideBarModel.flipOpen,
+      SideBarModel.$isOpen,
+      SideBarModel.$mobileLanguageBlock,
+      SideBarModel.setMobileLanguageBlock,
+    ]);
+
+  useEffect(() => {
+    if (activeLanguagesBlock) {
+      const el = document.getElementById("sidebar");
+      el?.classList.add(s.scrollDisable);
+      el?.scrollTo(0, 0);
+    }
+  }, [activeLanguagesBlock]);
+
+  const handleLanguageChange = (id: any) => {
+    const lang = languagesList.filter((item) => item.id === id)[0];
+    setActiveLanguage(lang);
+  };
 
   return (
     <>
       <div className={s.upper_blocks}>
+        <div
+          className={`${s.mobile_languages_block} ${
+            activeLanguagesBlock === true && s.visible
+          }`}
+        >
+          <div className={s.mobile_languages_block_body}>
+            <div className={s.mobile_languages_block_nav}>
+              <div
+                className={s.mobile_languages_block_nav_left}
+                onClick={() => setActiveLanguagesBlock(false)}
+              >
+                <Image src={rightArr} alt="back" />
+                Back
+              </div>
+              <span className={s.mobile_languages_block_title}>Language</span>
+            </div>
+            <div className={s.mobile_languages_block_list}>
+              {activeLanguagesList.map((item, ind) => (
+                <div
+                  className={s.mobile_languages_block_list_item}
+                  onClick={() => handleLanguageChange(item.id)}
+                >
+                  <div className={s.mobile_languages_block_list_item_left}>
+                    <Image src={item.ico} alt={item.id} />
+                    {item.mobTitle}
+                  </div>
+                  <div
+                    className={`${
+                      s.mobile_languages_block_list_item_checkbox
+                    } ${activeLanguage.id === item.id && s.active_checkbox}`}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className={s.bonus_button_block}>
           <BonusIco />
           bonus<span className={s.soon_page}>Soon…</span>
@@ -369,9 +436,12 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <Swap />
         </div>
-        <div className={s.desk_hidden_language_block}>
+        <div
+          className={s.desk_hidden_language_block}
+          onClick={() => setActiveLanguagesBlock(true)}
+        >
           <div className={s.desk_hidden_active_language_block}>
-            <Image src={uaIco} alt="active_language_ico" />
+            <Image src={activeLanguage.ico} alt="active_language_ico" />
             <span className={s.desk_hidden_language_title}>language</span>
           </div>
           <Image src={rightArr} alt="right-arr" />
@@ -398,12 +468,20 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
   };
   const [activeLanguage, setActiveLanguage] = useState(languagesList[0]);
   const [activeLanguagesList, setActiveLanguagesList] = useState(languagesList);
-  const [isOpen, currentPick, closeSb, openSb] = useUnit([
+  const [isOpen, currentPick, closeSb, openSb, languageMobileBlock] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
     SideBarModel.Close,
     SideBarModel.Open,
+    SideBarModel.$mobileLanguageBlock,
   ]);
+
+  useEffect(() => {
+    if (!languageMobileBlock) {
+      const el = document.getElementById("sidebar");
+      el?.classList.remove(s.scrollDisable);
+    }
+  }, [languageMobileBlock]);
 
   const [sidebarScroll, setSidebarScroll] = useState(0);
 
@@ -448,7 +526,8 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
     <div
       className={`${s.side_bar} ${
         isOpen ? s.side_bar_opened : s.side_bar_closed
-      }`}
+      } ${languageMobileBlock && s.mobile_blocks_hidden}`}
+      id="sidebar"
     >
       <div
         className={s.side_bar_upper}
