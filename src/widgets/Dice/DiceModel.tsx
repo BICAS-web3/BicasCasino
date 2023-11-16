@@ -1,7 +1,12 @@
 import { FC, Suspense, useEffect, useRef, useState } from "react";
 import { useUnit } from "effector-react";
 import { useAccount } from "wagmi";
-import { Preload, useAnimations, useGLTF } from "@react-three/drei";
+import {
+  Environment,
+  Preload,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimationAction, Object3D, LoopOnce } from "three";
 
@@ -57,17 +62,8 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   ];
   return (
     <group>
-      {diceLightDirections.map((el, i) => (
-        <spotLight
-          key={i}
-          position={[el[0], el[1], el[2]]}
-          intensity={200}
-          angle={210}
-          castShadow
-          shadow-mapSize={1000}
-        />
-      ))}{" "}
       <ambientLight intensity={0.3} />
+      <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
       <directionalLight intensity={2.5} position={[-2, 10, 0]} />
       <primitive
         ref={modelRef}
@@ -101,6 +97,7 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
+        <Environment preset="dawn" />
         <DiceModel action={DiceActions.Rotation} inGame={inGame} />
       </Suspense>
 
