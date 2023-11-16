@@ -54,3 +54,9 @@
     display: none;
   }
 }
+
+.height {
+  @media (max-width: 650px) {
+    height: 284px !important;
+  }
+}

@@ -381,7 +381,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
               style={{ pointerEvents: "none" }}
             >
               <Suspense fallback={null}>
-                <Environment preset="dawn" />
+                {/* <Environment preset="dawn" /> */}
                 <ambientLight intensity={0.3} />
                 <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
                 <directionalLight intensity={2.5} position={[-2, 10, 0]} />
