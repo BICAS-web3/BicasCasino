@@ -8,9 +8,10 @@ import { useStore, useUnit } from "effector-react";
 import { newMultipliers } from "@/shared/ui/PlinkoPiramyd/multipliersArrays";
 import { PlinkoBallIcon } from "@/shared/SVGs/PlinkoBallIcon";
 import { useDeviceType } from "@/shared/tools";
-
+import * as BallModel from "./../model";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
+import clsx from "clsx";
 
 interface PlinkoBallProps {
   path: boolean[];
@@ -19,12 +20,37 @@ interface PlinkoBallProps {
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
+  const pickedRows = useStore($pickedRows);
+  const [arrStore] = useUnit([BallModel.$arrayStore]);
 
   const [playDing, { stop: stopDing }] = useSound(
     "/static/media/games_assets/plinko/plinkoDing.mp3",
     { volume: 0.4, loop: false }
   );
+  const [item, setItem] = useState<number>();
+  const [itemArr, setItemArr] = useState([]);
 
+  useEffect(() => {
+    let init = Math.ceil(pickedRows / 2);
+    for (let i = 0; i < props.path.length; i++) {
+      if (props.path[i] === false) {
+        init = init - 1;
+      } else {
+        init = init + 1;
+      }
+    }
+    // props.path?.forEach((el, _) => {
+    //   if (el === false) {
+    //     init = init - 1;
+    //   } else {
+    //     init = init + 1;
+    //   }
+    // });
+
+    setItem(init);
+    arrStore.push(init);
+  }, [props.path, pickedRows]);
+  console.log("store: ", arrStore);
   const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-2);
@@ -97,9 +123,9 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
           setBallTop(firstMove); // first movement from the starting position
           setPathIndex(pathIndex + 1);
         } else if (pathIndex == -2) {
-          console.log("TEXT");
+          // console.log("TEXT");
           await sleep(200);
-          console.log("TEXT1");
+          // console.log("TEXT1");
           setPathIndex(pathIndex + 1);
         }
       } else {
@@ -147,6 +173,8 @@ interface IPlinkoPyramid {
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
+  const [arrStore] = useUnit([BallModel.$arrayStore]);
+  const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
   const [multipliers, setMultipliers] = useState<number[]>([]);
@@ -160,7 +188,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const [balls, setBalls] = useState<any[]>([]);
 
   useEffect(() => {
-    console.log("path, animation finished", props.path, animationFinished);
+    // console.log("path, animation finished", props.path, animationFinished);
     if (props.path) {
       if (animationFinished) {
         if (pathIndex == props.path.length) {
@@ -171,7 +199,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
           //setAnimationFinished(false);
           return;
         }
-        console.log("Changing path", pathIndex);
+        // console.log("Changing path", pathIndex);
         setAnimationFinished(false);
         setBalls([
           ...balls,
@@ -247,13 +275,13 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   useEffect(() => {
     updateMultipliers(pickedRows, currentLevel);
-    console.log("sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", pickedRows);
+    // console.log("sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", pickedRows);
   }, [pickedRows, currentLevel]);
 
   useEffect(() => {
     setRowCount(pickedRows);
 
-    console.log("PICKED VALUE", pickedRows);
+    // console.log("PICKED VALUE", pickedRows);
   }, [pickedRows]);
 
   const [multipliersSteps, setMultipliersSteps] = useState<number>(
@@ -268,7 +296,43 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     setMultipliersSteps(countMultipliersSteps(multipliers.length));
   }, [multipliers.length]);
+  const [item, setItem] = useState<number>();
+  // const [itemArr, setItemArr] = useState([]);
+  const [resul, setResul] = useState<number[]>([]);
+  // useEffect(() => {
+  //   props.path?.forEach((val) =>
+  //     val.forEach((el, _) => {
+  //       let init = Math.ceil(pickedRows / 2);
+  //       if (el === false) {
+  //         init = init - 1;
+  //       } else {
+  //         init = init + 1;
+  //       }
+  //       setResul((prev) => [...prev, init]);
+  //     })
+  //   );
+  //   props.path?.length == resul.length && console.log(444, resul);
+  //   console.log("lengtl: ", props.path?.length, resul.length);
+  //   // for (let i = 0; i < props.path!.length; i++) {
+  //   //   if (props.path[i] === false) {
+  //   //     init = init - 1;
+  //   //   } else {
+  //   //     init = init + 1;
+  //   //   }
+  //   // }
+  //   // props.path?.forEach((el, _) => {
+  //   //   if (el === false) {
+  //   //     init = init - 1;
+  //   //   } else {
+  //   //     init = init + 1;
+  //   //   }
+  //   // });
 
+  //   // setItem(init);
+  //   // arrStore.length < pickedRows && arrStore.push(init);
+  // }, [props.path, pickedRows]);
+
+  const [demo, setDemo] = useState<number>();
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
@@ -327,26 +391,51 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       }
       return multipliersColorCenter;
     }
+    // console.log("11111,", arrStore);
+    const multiplierElements = multipliers.map((value, i) => {
+      // const arrReady = arrStore.length === props.path?.length;
 
-    const multiplierElements = multipliers.map((value, i) => (
-      <div className={styles.multipiler_cell} key={i}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="34"
-          height="24"
-          viewBox="0 0 34 24"
-          fill="none"
+      // const ballIndex = arrReady && arrStore[i];
+
+      // const matchValue = arrReady && arrStore.find((el) => el === i);
+      // arrReady && console.log(matchValue, ballIndex, i);
+
+      arrStore.length === props.path?.length &&
+        arrStore.forEach((k) => {
+          setInterval(() => {
+            if (k === i) {
+              setDemo(i);
+            } else {
+              setDemo(-1000);
+            }
+          }, 1000);
+        });
+      return (
+        <div
+          className={clsx(
+            styles.multipiler_cell
+            // matchValue === i && styles.multipiler_cell_animated
+          )}
+          key={i}
         >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
-            fill={multipliersBackground(i)}
-          />
-        </svg>
-        <span>{value}x</span>
-      </div>
-    ));
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="34"
+            height="24"
+            viewBox="0 0 34 24"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
+              fill={demo === i ? "#000" : multipliersBackground(i)}
+            />
+          </svg>
+          <span>{value}x</span>
+        </div>
+      );
+    });
     rows.push(
       <div className={styles.pyramid_row} key={rowCount}>
         <div className={styles.multipiler_container}>{multiplierElements}</div>
