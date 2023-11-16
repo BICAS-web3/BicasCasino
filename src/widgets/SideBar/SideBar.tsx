@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import clsx from "clsx";
-
+import rightArr from "@/public/media/sidebar_icons/rightArrIco.png";
 import s from "./styles.module.scss";
 
 import {
@@ -30,7 +30,13 @@ import { HTPico } from "@/shared/SVGs/HTPico";
 import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
 import { SunIco } from "@/shared/SVGs/SunIco";
+
 import usaIco from "@/public/media/countries_images/usaIco.png";
+import uaIco from "@/public/media/countries_images/uaIco.png";
+import indIco from "@/public/media/countries_images/indiaIco.png";
+import chinaIco from "@/public/media/countries_images/chinaIco.png";
+import portugalIco from "@/public/media/countries_images/portugalIco.png";
+import spainIco from "@/public/media/countries_images/spainIco.png";
 
 const gamesList = [
   {
@@ -62,6 +68,39 @@ const gamesList = [
     title: "Plinko",
     icon: "plinko",
     link: "/games/Plinko",
+  },
+];
+
+const languagesList = [
+  {
+    ico: usaIco,
+    id: "usa",
+    title: "usa",
+  },
+  {
+    ico: uaIco,
+    id: "ua",
+    title: "ua",
+  },
+  {
+    ico: indIco,
+    id: "india",
+    title: "in",
+  },
+  {
+    ico: chinaIco,
+    id: "china",
+    title: "cn",
+  },
+  {
+    ico: portugalIco,
+    id: "portugal",
+    title: "pt",
+  },
+  {
+    ico: spainIco,
+    id: "spain",
+    title: "es",
   },
 ];
 
@@ -330,6 +369,20 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <Swap />
         </div>
+        <div className={s.desk_hidden_language_block}>
+          <div className={s.desk_hidden_active_language_block}>
+            <Image src={uaIco} alt="active_language_ico" />
+            <span className={s.desk_hidden_language_title}>language</span>
+          </div>
+          <Image src={rightArr} alt="right-arr" />
+        </div>
+        <div className={s.desk_hidden_theme_block}>
+          <div className={s.desk_hidden_active_language_block}>
+            <MoonIco />
+            <span className={s.desk_hidden_language_title}>dark theme</span>
+          </div>
+          <div className={s.change_theme_block}></div>
+        </div>
       </div>
     </>
   );
@@ -343,6 +396,8 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
   const handleChangeTheme = () => {
     activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
   };
+  const [activeLanguage, setActiveLanguage] = useState(languagesList[0]);
+  const [activeLanguagesList, setActiveLanguagesList] = useState(languagesList);
   const [isOpen, currentPick, closeSb, openSb] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
@@ -376,6 +431,17 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
     } else {
       openSb();
     }
+  };
+
+  useEffect(() => {
+    setActiveLanguagesList(
+      languagesList.filter((item) => item.id !== activeLanguage.id)
+    );
+  }, [activeLanguage]);
+
+  const handleLanguageChange = (id: any) => {
+    const lang = languagesList.filter((item) => item.id === id)[0];
+    setActiveLanguage(lang);
   };
 
   return (
@@ -422,7 +488,19 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
           </div>
         </div>
         <div className={s.language_changer_block}>
-          <Image src={usaIco} alt="country-ico" />
+          <Image src={activeLanguage.ico} alt={activeLanguage.id} />
+          <div className={s.languages_list}>
+            {activeLanguagesList.map((item, ind) => (
+              <div
+                key={ind}
+                className={s.languages_list_item}
+                onClick={() => handleLanguageChange(item.id)}
+              >
+                <Image src={item.ico} alt={item.id} />
+                <span>{item.title}</span>
+              </div>
+            ))}
+          </div>
         </div>
         <div className={s.close_sb_ico} onClick={handleSidebar}>
           <CloseSbIco />
