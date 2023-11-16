@@ -77,6 +77,7 @@
         align-items: center;
         position: relative;
         z-index: 1;
+        top: 0px;
 
         &::before {
           content: "";
@@ -117,26 +118,22 @@
         }
       }
       .multipiler_cell_animated {
-        animation: animation 1s ease 1.5s;
-        position: relative;
+        top: 3px;
+        // animation: cell 1.7s ease-in 1;
       }
     }
   }
 }
 
-@keyframes animation {
+@keyframes cell {
   0% {
-    background-color: blue;
-    margin-top: 2px;
+    // background-color: blue;
+    top: 3px;
   }
-  50% {
-    background-color: red;
-    margin-top: 2px;
-    top: 5px;
-  }
+
   100% {
-    background-color: blue;
-    margin-top: 2px;
+    // background-color: blue;
+    top: 5px;
   }
 }
 

@@ -1,7 +1,7 @@
 import { createEvent, createStore } from "effector";
 
-export const $arrayStore = createStore<number[]>([]);
+export const $arrayStore = createStore<number>(-1);
 
-export const setBolls = createEvent();
+export const setBolls = createEvent<number>();
 
-$arrayStore.on(setBolls, (state, payload) => [...state, payload]);
+$arrayStore.on(setBolls, (_, state) => state);

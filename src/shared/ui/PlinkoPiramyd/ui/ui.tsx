@@ -21,40 +21,46 @@ interface PlinkoBallProps {
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const ballRef = useRef<HTMLDivElement>(null);
   const pickedRows = useStore($pickedRows);
-  const [arrStore] = useUnit([BallModel.$arrayStore]);
+  const [ball, setBall] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
 
   const [playDing, { stop: stopDing }] = useSound(
     "/static/media/games_assets/plinko/plinkoDing.mp3",
     { volume: 0.4, loop: false }
   );
-  const [item, setItem] = useState<number>();
-  const [itemArr, setItemArr] = useState([]);
 
-  useEffect(() => {
-    let init = Math.ceil(pickedRows / 2);
-    for (let i = 0; i < props.path.length; i++) {
-      if (props.path[i] === false) {
-        init = init - 1;
-      } else {
-        init = init + 1;
-      }
-    }
-    // props.path?.forEach((el, _) => {
-    //   if (el === false) {
-    //     init = init - 1;
-    //   } else {
-    //     init = init + 1;
-    //   }
-    // });
-
-    setItem(init);
-    arrStore.push(init);
-  }, [props.path, pickedRows]);
-  console.log("store: ", arrStore);
+  // console.log("store: ", arrStore);
   const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-2);
   const device = useDeviceType();
+
+  useEffect(() => {
+    function simulatePlinkoResult() {
+      let position = 0;
+      let x = ballLeft;
+
+      for (let i = 0; i < props.path.length; i++) {
+        if (props.path[i]) {
+          x++;
+        } else {
+          x--;
+        }
+
+        const y = -x * -x;
+
+        if (y >= 0) {
+          position = Math.floor((x + pickedRows) / 2);
+        }
+      }
+
+      return position;
+    }
+
+    const result = simulatePlinkoResult();
+    setTimeout(() => {
+      setBall(result);
+    }, pickedRows * 215);
+  }, [props.path]);
 
   let lastMove = 0;
   let firstMove = 0;
@@ -173,7 +179,7 @@ interface IPlinkoPyramid {
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
-  const [arrStore] = useUnit([BallModel.$arrayStore]);
+  const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
@@ -296,43 +302,14 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     setMultipliersSteps(countMultipliersSteps(multipliers.length));
   }, [multipliers.length]);
-  const [item, setItem] = useState<number>();
-  // const [itemArr, setItemArr] = useState([]);
-  const [resul, setResul] = useState<number[]>([]);
-  // useEffect(() => {
-  //   props.path?.forEach((val) =>
-  //     val.forEach((el, _) => {
-  //       let init = Math.ceil(pickedRows / 2);
-  //       if (el === false) {
-  //         init = init - 1;
-  //       } else {
-  //         init = init + 1;
-  //       }
-  //       setResul((prev) => [...prev, init]);
-  //     })
-  //   );
-  //   props.path?.length == resul.length && console.log(444, resul);
-  //   console.log("lengtl: ", props.path?.length, resul.length);
-  //   // for (let i = 0; i < props.path!.length; i++) {
-  //   //   if (props.path[i] === false) {
-  //   //     init = init - 1;
-  //   //   } else {
-  //   //     init = init + 1;
-  //   //   }
-  //   // }
-  //   // props.path?.forEach((el, _) => {
-  //   //   if (el === false) {
-  //   //     init = init - 1;
-  //   //   } else {
-  //   //     init = init + 1;
-  //   //   }
-  //   // });
 
-  //   // setItem(init);
-  //   // arrStore.length < pickedRows && arrStore.push(init);
-  // }, [props.path, pickedRows]);
-
-  const [demo, setDemo] = useState<number>();
+  const [animationDelay, setAnimaitionDelay] = useState(false);
+  // alert(animationFinished);
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimaitionDelay(animationFinished);
+    }, pickedRows * 215);
+  }, [animationFinished]);
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
@@ -393,28 +370,11 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
     }
     // console.log("11111,", arrStore);
     const multiplierElements = multipliers.map((value, i) => {
-      // const arrReady = arrStore.length === props.path?.length;
-
-      // const ballIndex = arrReady && arrStore[i];
-
-      // const matchValue = arrReady && arrStore.find((el) => el === i);
-      // arrReady && console.log(matchValue, ballIndex, i);
-
-      arrStore.length === props.path?.length &&
-        arrStore.forEach((k) => {
-          setInterval(() => {
-            if (k === i) {
-              setDemo(i);
-            } else {
-              setDemo(-1000);
-            }
-          }, 1000);
-        });
       return (
         <div
           className={clsx(
-            styles.multipiler_cell
-            // matchValue === i && styles.multipiler_cell_animated
+            styles.multipiler_cell,
+            ball === i && !animationDelay && styles.multipiler_cell_animated
           )}
           key={i}
         >
@@ -426,13 +386,18 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
             fill="none"
           >
             <path
+              style={{ transition: "all 0.5s" }}
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
-              fill={demo === i ? "#000" : multipliersBackground(i)}
+              fill={
+                ball === i && !animationDelay
+                  ? "#000"
+                  : multipliersBackground(i)
+              } //
             />
           </svg>
-          <span>{value}x</span>
+          <span style={{ color: "red" }}>{value}x</span>
         </div>
       );
     });
