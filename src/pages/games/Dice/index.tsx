@@ -79,6 +79,7 @@ export default function DiceGame() {
             gameInfoText="Dice"
             gameTitle="Dice"
             wagerContent={<WagerContent />}
+            custom_height={styles.height}
           >
             <Dice />
           </GamePage>
