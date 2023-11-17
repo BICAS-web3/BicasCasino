@@ -2,12 +2,12 @@
   width: calc(100% - 257px);
   height: 100%;
   position: absolute;
-  background: rgba(15, 15, 15, 0.70);
+  background: rgba(15, 15, 15, 0.7);
   backdrop-filter: blur(10px);
   z-index: 100;
   right: 0;
   top: 80px;
-  transition: all .2s;
+  transition: all 0.2s;
   visibility: hidden;
   opacity: 0;
 }
@@ -23,10 +23,9 @@
 
 @media screen and (max-width: 1280px) {
   .blur {
-    width: calc(100% - 18.75vw);
+    // width: calc(100% - 18.75vw);
     top: 70px;
   }
-
   .sideBar_opened {
     width: calc(100% - 90px);
   }
@@ -34,11 +33,16 @@
 
 @media screen and (max-width: 1060px) {
   .blur {
-    width: calc(100% - 200px);
+    // width: calc(100% - 200px);
   }
-
   .sideBar_opened {
     width: calc(100% - 90px);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .blur {
+    width: calc(100% - 240px);
   }
 }
 

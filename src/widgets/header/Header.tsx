@@ -258,11 +258,20 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
 interface BottomMenuProps {}
 const BottomMenu: FC<BottomMenuProps> = (props) => {
-  const [openSidebar] = useUnit([SideBarModel.Open]);
+  const [openSidebar, closeSb, isOpen] = useUnit([
+    SideBarModel.Open,
+    SideBarModel.Close,
+    SideBarModel.$isOpen,
+  ]);
 
   const openSB = () => {
-    openSidebar();
-    document.documentElement.classList.add("scroll-disable");
+    if (!isOpen) {
+      openSidebar();
+      document.documentElement.classList.add("scroll-disable");
+    } else {
+      closeSb();
+      document.documentElement.classList.remove("scroll-disable");
+    }
   };
 
   return (

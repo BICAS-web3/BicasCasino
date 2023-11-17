@@ -95,19 +95,26 @@
   }
 }
 
+.customBets_list_item[data-bg="false"] {
+  background: #1a1a1a;
+}
+
 .customBets_list {
   display: flex;
   flex-direction: column;
   border-top: 1px solid #252525;
   border-bottom: 1px solid #252525;
-  padding: 10px 0;
   &_item {
-    margin-bottom: 10px;
+    height: 50px;
     border-bottom: 1px solid #252525;
-    padding: 0 30px 10px 30px;
+    padding: 0 30px 0px 30px;
     display: grid;
+    transition: all 0.1s;
     grid-template-columns: 100px minmax(50px, 200px) 120px 100px 50px 60px 100px;
     justify-content: space-between;
+    &:hover {
+      background: #212121;
+    }
     &:last-child {
       border-bottom: none;
       margin-bottom: 0;
@@ -309,7 +316,7 @@
   }
   .customBets_list_item {
     column-gap: 10px;
-    padding: 0 15px 10px 15px;
+    padding: 0 15px 0px 15px;
     grid-template-columns: 40px 70px 100px 40px 70px 60px 80px;
   }
   .customBets_list_item_game_block {
@@ -402,7 +409,7 @@
     column-gap: 5px;
   }
   .customBets_list_item {
-    padding: 0 10px 10px 10px;
+    padding: 0 10px 0px 10px;
     grid-template-columns: 25px 50px 85px 30px 35px;
     column-gap: 5px;
   }
