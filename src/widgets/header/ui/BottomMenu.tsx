@@ -10,6 +10,10 @@ import { SideBarModel } from "@/widgets/SideBar";
 import { GamesIcon, SupportIcon } from "@/shared/SVGs";
 
 import s from "./styles.module.scss";
+import { SBopenFooterBtn } from "@/shared/SVGs/SBopenFooterBtn";
+import { FooterGamesBtn } from "@/shared/SVGs/FooterGamesBtn";
+import { ProfileBtn } from "@/shared/SVGs/ProfileBtn";
+import { MessangerBtn } from "@/shared/SVGs/MessangerBtn";
 
 export interface BottomMenuProps {}
 
@@ -35,18 +39,19 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
   }, [isOpen]);
 
   return (
-    <div className={s.bottom_menu}>
+    <div className={`${s.bottom_menu} ${isOpen && s.sb_opened}`}>
       <div className={s.element} onClick={openSB}>
-        <Image src={Burger} alt="" />
+        <SBopenFooterBtn />
+      </div>
+      <button className={s.join_btn}>Join Now</button>
+      <div className={`${s.element} ${s.hidden_elem}`}>
+        <FooterGamesBtn />
+      </div>
+      <div className={`${s.element} ${s.hidden_elem}`}>
+        <ProfileBtn />
       </div>
       <div className={s.element}>
-        <GamesIcon />
-      </div>
-      <div className={s.element}>
-        <SupportIcon />
-      </div>
-      <div className={s.element}>
-        <Image src={ChatIcon} alt="" />
+        <MessangerBtn />
       </div>
     </div>
   );

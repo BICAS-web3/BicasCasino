@@ -94,30 +94,31 @@
 }
 
 .closed_sb_tooltip[data-id="nft-tooltip"] {
-  top: calc(277px - var(--st));
+  top: calc(331px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="affilate-tooltip"] {
-  top: calc(330px - var(--st));
+  top: calc(384px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="htp-tooltip"] {
-  top: calc(223px - var(--st));
+  top: calc(277px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="swap-tooltip"] {
-  top: calc(381px - var(--st));
+  top: calc(435px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="support-tooltip"] {
-  top: calc(432px - var(--st));
+  top: calc(489px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="bonus-tooltip"] {
-  top: calc(108px - var(--st));
+  top: calc(164px - var(--st));
 }
 
-.language_changer_block {
+.closed_sb_tooltip[data-id="home-tooltip"] {
+  top: calc(108px - var(--st));
 }
 
 .languages_list {
@@ -273,16 +274,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: #202020;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #3e3e3e;
-    border-radius: 4px;
-  }
 }
 
 .upper_blocks {
@@ -500,7 +491,7 @@
   .games_button_tooltip {
     padding: 0;
     left: 110px;
-    top: calc(155px - var(--st));
+    top: calc(215px - var(--st));
   }
   &:hover {
     background: #0f0f0f;
@@ -1026,7 +1017,6 @@
     width: 240px;
     min-width: 200px;
     z-index: 3;
-    min-height: 1576px;
     height: 100%;
   }
   .side_bar_lower {

@@ -40,6 +40,7 @@ import spainIco from "@/public/media/countries_images/spainIco.png";
 
 import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
+import { HomeBtn } from "@/shared/SVGs/HomeBtn";
 
 const gamesList = [
   {
@@ -148,6 +149,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
   return (
     <>
       <div className={s.closed_sb_group}>
+        <div className={s.closed_sb_bonus_ico}>
+          <HomeBtn />
+          <div className={s.closed_sb_tooltip} data-id="home-tooltip">
+            Home
+          </div>
+        </div>
         <div className={s.closed_sb_bonus_ico}>
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
@@ -295,6 +302,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               ))}
             </div>
           </div>
+        </div>
+        <div
+          className={s.bonus_button_block}
+          onClick={() => {
+            location.href = "/";
+          }}
+        >
+          <HomeBtn />
+          home
         </div>
         <div className={s.bonus_button_block}>
           <BonusIco />
