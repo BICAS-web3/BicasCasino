@@ -128,8 +128,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.5s;
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    transition: all 0.5s;
+  }
   &:first-child {
     padding-right: 3px;
+  }
+  &:hover {
+    &::after {
+      box-shadow: 1px 1px 20px 4px #fff;
+    }
   }
 }
 

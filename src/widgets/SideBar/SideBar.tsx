@@ -30,7 +30,7 @@ import { HTPico } from "@/shared/SVGs/HTPico";
 import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
 import { SunIco } from "@/shared/SVGs/SunIco";
-import usaIco from "@/public/media/countries_images/usaIco.png";
+import usaIco from "@/public/media/countries_images/usa.svg";
 
 const gamesList = [
   {
