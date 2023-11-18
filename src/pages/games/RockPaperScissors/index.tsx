@@ -20,6 +20,7 @@ import { useAccount } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
+import clsx from "clsx";
 
 const WagerContent = () => {
   const { isConnected } = useAccount();
@@ -38,7 +39,10 @@ const WagerContent = () => {
       />
       <WagerGainLoss />
       <RpsPicker />
-      <button className={s.connect_wallet_btn} onClick={pressButton}>
+      <button
+        className={clsx(s.connect_wallet_btn, s.mobile)}
+        onClick={pressButton}
+      >
         {isConnected
           ? "Play"
           : isPlaying && isConnected

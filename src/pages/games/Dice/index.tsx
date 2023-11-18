@@ -19,9 +19,10 @@ import clsx from "clsx";
 import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import * as DGM from "@/widgets/Dice/model";
+import { useMediaQuery } from "@/shared/tools";
 
 const WagerContent = () => {
-  const isMobile = document.documentElement.clientWidth < 700;
+  const isMobile = useMediaQuery("(max-width: 996px)");
   const { isConnected } = useAccount();
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);

@@ -30,6 +30,7 @@ import Image from "next/image";
 import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock";
 import clsx from "clsx";
 import { WagerModel } from "@/widgets/Wager";
+import { useMediaQuery } from "@/shared/tools";
 
 interface GamePageProps {
   children: ReactNode;
@@ -61,7 +62,7 @@ export const GamePage: FC<GamePageProps> = ({
   const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
-  const isMobile = document.documentElement.clientWidth < 700;
+  const isMobile = useMediaQuery("(max-width: 996px)");
   const {
     data: balance,
     error,

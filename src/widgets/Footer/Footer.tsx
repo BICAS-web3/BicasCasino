@@ -2,15 +2,14 @@ import Image from "next/image";
 import { FC, JSX, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 
-import discord from "@/public/media/social_media/discordIco.png";
-import inst from "@/public/media/social_media/instIco.png";
-import medium from "@/public/media/social_media/mediumIco.png";
-import tg from "@/public/media/social_media/tgIco.png";
-import facebook from "@/public/media/social_media/facebookIco.png";
-import twitter from "@/public/media/social_media/twitterIco.png";
-import mainIco from "@/public/media/social_media/mainIco.png";
-import reddit from "@/public/media/social_media/redditIco.png";
-
+import tgIcon from "@/public/media/social_media/telegram.svg";
+import instIcon from "@/public/media/social_media/instagram.svg";
+import facebookIcon from "@/public/media/social_media/facebook.svg";
+import redditIcon from "@/public/media/social_media/reddit.svg";
+import discordIcon from "@/public/media/social_media/discord.svg";
+import mediumIcon from "@/public/media/social_media/medium.svg";
+import mainIcon from "@/public/media/social_media/main.svg";
+import twitterIcon from "@/public/media/social_media/twitter.svg";
 import Link from "next/link";
 import Logo from "@/public/media/brand_images/footerLogo.svg";
 
@@ -73,7 +72,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.tg_ico_wrap} ${s.ico_wrap}`}
                 >
-                  <Image src={tg} alt={"telegram"} />
+                  <Image src={tgIcon} alt={"telegram"} />
                 </Link>
                 <Link
                   href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
@@ -81,7 +80,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.inst_wrap}`}
                 >
-                  <Image src={inst} alt={"inst"} />
+                  <Image src={instIcon} alt={"inst"} />
                 </Link>
                 <Link
                   href="https://twitter.com/GreekKeepers"
@@ -89,7 +88,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.twitter_wrap}`}
                 >
-                  <Image src={twitter} alt={"twitter"} />
+                  <Image src={twitterIcon} alt={"twitter"} />
                 </Link>
                 <Link
                   href="https://discord.gg/ReJVd2xJSk"
@@ -97,7 +96,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.discord_wrap}`}
                 >
-                  <Image src={discord} alt={"discord"} />
+                  <Image src={discordIcon} alt={"discord"} />
                 </Link>
                 <Link
                   href="https://www.facebook.com/profile.php?id=100092326343777"
@@ -105,7 +104,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.facebook_wrap}`}
                 >
-                  <Image src={facebook} alt={"facebook"} />
+                  <Image src={facebookIcon} alt={"facebook"} />
                 </Link>
                 <Link
                   href="https://www.reddit.com/user/GreekKeepers/?rdt=59831"
@@ -113,7 +112,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.reddit_wrap}`}
                 >
-                  <Image src={reddit} alt={"reddit"} />
+                  <Image src={redditIcon} alt={"reddit"} />
                 </Link>
                 <Link
                   href="https://medium.com/@greekkeepers"
@@ -121,7 +120,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.medium_wrap}`}
                 >
-                  <Image src={medium} alt={"medium"} />
+                  <Image src={mediumIcon} alt={"medium"} />
                 </Link>
                 <Link
                   href="https://www.greekkeepers.io/"
@@ -129,7 +128,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   rel="noopener noreferrer"
                   className={`${s.ico_wrap} ${s.main_wrap}`}
                 >
-                  <Image src={mainIco} alt={"greekkeepres-main"} />
+                  <Image src={mainIcon} alt={"greekkeepres-main"} />
                 </Link>
               </div>
             </div>

@@ -31,6 +31,7 @@ import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
 import { SunIco } from "@/shared/SVGs/SunIco";
 
+
 import usaIco from "@/public/media/countries_images/usaIco.png";
 import uaIco from "@/public/media/countries_images/uaIco.png";
 import indIco from "@/public/media/countries_images/indiaIco.png";
@@ -41,6 +42,7 @@ import spainIco from "@/public/media/countries_images/spainIco.png";
 import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
 import { HomeBtn } from "@/shared/SVGs/HomeBtn";
+
 
 const gamesList = [
   {
