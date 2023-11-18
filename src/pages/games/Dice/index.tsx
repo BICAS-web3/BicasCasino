@@ -76,7 +76,7 @@ export default function DiceGame() {
         <div className={styles.dice_container}>
           <GamePage
             isPoker={false}
-            gameInfoText="Dice"
+            gameInfoText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years."
             gameTitle="Dice"
             wagerContent={<WagerContent />}
             custom_height={styles.height}

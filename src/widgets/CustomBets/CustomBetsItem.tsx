@@ -28,6 +28,7 @@ export interface CustomBetsItemProps {
   multiplier: number;
   profit: number;
   token: string;
+  id: number;
 }
 export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
   const [gameImg, setGameImg] = useState(pokerIcon);
@@ -63,7 +64,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
   });
 
   return (
-    <div className={s.customBets_list_item}>
+    <div
+      className={s.customBets_list_item}
+      data-bg={props.id % 2 === 0 && "true"}
+    >
       <div className={s.customBets_list_item_time_block}>
         <Link
           href={props.trx_url}

@@ -10,38 +10,48 @@ import { SideBarModel } from "@/widgets/SideBar";
 import { GamesIcon, SupportIcon } from "@/shared/SVGs";
 
 import s from "./styles.module.scss";
+import { SBopenFooterBtn } from "@/shared/SVGs/SBopenFooterBtn";
+import { FooterGamesBtn } from "@/shared/SVGs/FooterGamesBtn";
+import { ProfileBtn } from "@/shared/SVGs/ProfileBtn";
+import { MessangerBtn } from "@/shared/SVGs/MessangerBtn";
 
 export interface BottomMenuProps {}
 
 export const BottomMenu: FC<BottomMenuProps> = (props) => {
-  const [openSidebar, sbState] = useUnit([
+  const [openSidebar, closeSb, isOpen] = useUnit([
     SideBarModel.Open,
+    SideBarModel.Close,
     SideBarModel.$isOpen,
   ]);
 
   const openSB = () => {
-    openSidebar();
-    window.scrollTo(0, 0);
-    document.documentElement.classList.add("scroll-disable");
+    if (!isOpen) {
+      openSidebar();
+      document.documentElement.classList.add("scroll-disable");
+    } else {
+      closeSb();
+      document.documentElement.classList.remove("scroll-disable");
+    }
   };
 
   useEffect(() => {
-    !sbState && document.documentElement.classList.remove("scroll-disable");
-  }, [sbState]);
+    !isOpen && document.documentElement.classList.remove("scroll-disable");
+  }, [isOpen]);
 
   return (
-    <div className={s.bottom_menu}>
+    <div className={`${s.bottom_menu} ${isOpen && s.sb_opened}`}>
       <div className={s.element} onClick={openSB}>
-        <Image src={Burger} alt="" />
+        <SBopenFooterBtn />
+      </div>
+      <button className={s.join_btn}>Join Now</button>
+      <div className={`${s.element} ${s.hidden_elem}`}>
+        <FooterGamesBtn />
+      </div>
+      <div className={`${s.element} ${s.hidden_elem}`}>
+        <ProfileBtn />
       </div>
       <div className={s.element}>
-        <GamesIcon />
-      </div>
-      <div className={s.element}>
-        <SupportIcon />
-      </div>
-      <div className={s.element}>
-        <Image src={ChatIcon} alt="" />
+        <MessangerBtn />
       </div>
     </div>
   );

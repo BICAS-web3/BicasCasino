@@ -33,6 +33,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
 
   const [
     isSbOpen,
+    closeSb,
     openHeaderAcc,
     closeHeaderAcc,
     isHeaderAccOpened,
@@ -42,6 +43,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
     logOut,
   ] = useUnit([
     SideBarModel.$isOpen,
+    SideBarModel.Close,
     HeaderAccModel.Open,
     HeaderAccModel.Close,
     HeaderAccModel.$isHeaderAccountOpened,
@@ -61,7 +63,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   }, [address]);
 
   const closeSidebar = () => {
-    close();
+    closeSb();
     document.documentElement.style.overflow = "visible";
   };
 

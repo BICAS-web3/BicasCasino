@@ -213,6 +213,7 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
                     wager={wager}
                     multiplier={isNaN(multiplier) ? 0 : multiplier}
                     profit={profit}
+                    id={ind}
                     token={bet.token_name.toUpperCase()}
                   />
                 );
