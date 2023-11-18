@@ -31,7 +31,6 @@ import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
 import { SunIco } from "@/shared/SVGs/SunIco";
 
-
 import usaIco from "@/public/media/countries_images/usaIco.png";
 import uaIco from "@/public/media/countries_images/uaIco.png";
 import indIco from "@/public/media/countries_images/indiaIco.png";
@@ -42,7 +41,7 @@ import spainIco from "@/public/media/countries_images/spainIco.png";
 import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
 import { HomeBtn } from "@/shared/SVGs/HomeBtn";
-
+import Link from "next/link";
 
 const gamesList = [
   {
@@ -168,17 +167,18 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           <div className={s.games_button_tooltip}>
             <div className={s.tooltip_games_list}>
               {gamesList.map((item, ind) => (
-                <div
+                <Link
+                  href={item.link}
                   className={s.tooltip_games_list_item}
-                  onClick={() => {
-                    location.href = item.link;
-                  }}
+                  // onClick={() => {
+                  //   location.href = item.link;
+                  // }}
                 >
                   <GameIcon iconId={item.icon} />
                   <span className={s.tooltip_games_list_item_title}>
                     {item.title}
                   </span>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -356,17 +356,18 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <CoinButton />
               Coinflip
             </div>
-            <div
+            <Link
+              href={"/games/Dice"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Dice" && s.game_active
               }`}
-              onClick={() => {
-                location.href = "/games/Dice";
-              }}
+              // onClick={() => {
+              //   location.href = "/games/Dice";
+              // }}
             >
               <DiceButton />
               Dice
-            </div>
+            </Link>
             <div
               className={`${s.game_row} ${
                 props.activePage === "/games/RockPaperScissors" && s.game_active

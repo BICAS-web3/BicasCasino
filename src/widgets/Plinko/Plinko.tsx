@@ -492,7 +492,7 @@ export const Plinko: FC<IPlinko> = () => {
           {path ? (
             <PlinkoPyramid path={path} />
           ) : (
-            <PlinkoPyramid path={undefined} />
+            <PlinkoPyramid path={testBallPath} />
           )}
         </div>
       </div>

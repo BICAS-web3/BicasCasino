@@ -1,4 +1,12 @@
-import { FC, useEffect, useState, ChangeEvent, useRef } from "react";
+import {
+  FC,
+  useEffect,
+  useState,
+  ChangeEvent,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 
 import {
   useAccount,
@@ -39,7 +47,10 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
-import { DiceCanvas } from "./DiceModel";
+// import { DiceCanvas } from "./DiceModel";
+
+const DiceComponent = lazy(() => import("./DiceModel"));
+
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import s from "./styles.module.scss";
@@ -58,7 +69,7 @@ enum CoinAction {
 
 export interface DiceProps {}
 
-export const Dice: FC<DiceProps> = () => {
+const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [
     setPlayingStatus,
@@ -421,7 +432,9 @@ export const Dice: FC<DiceProps> = () => {
   return (
     <div className={s.dice}>
       <div className={s.model}>
-        <DiceCanvas inGame={inGame} />
+        <Suspense fallback={<div>...</div>}>
+          <DiceComponent inGame={inGame} />
+        </Suspense>
       </div>
       <div className={s.dice_container}>
         <Image className={s.cube} src={dice_cube} alt="cube" />
@@ -488,3 +501,5 @@ export const Dice: FC<DiceProps> = () => {
     </div>
   );
 };
+
+export default Dice;

@@ -90,7 +90,7 @@ interface DiceCanvasProps {
   inGame?: boolean;
 }
 
-export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
+const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
   return (
     <Canvas
       frameloop="always"
@@ -109,3 +109,4 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
     </Canvas>
   );
 };
+export default DiceCanvas;
