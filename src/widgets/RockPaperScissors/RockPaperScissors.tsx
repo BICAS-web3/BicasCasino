@@ -42,66 +42,64 @@ const Model: FC<ModelProps> = ({ side, left, yValue }) => {
   }, []);
   const modelRef = useRef<THREE.Group>();
 
-  // const initialPosition = {
-  //   y: -6 + yValue,
-  //   x: !left ? 0 : -0.9,
-  //   z: !left ? 0 : 0.9,
-  // };
+  const initialPosition = {
+    y: -6 + yValue,
+    x: !left ? 0 : -0.9,
+    z: !left ? 0 : 0.9,
+  };
   // Анимация движения вверх и вниз
   // useFrame((state, delta) => {
-  //   scene.position.y =
-  //     initialPosition.y +
-  //     Math.sin(state.clock.getElapsedTime()) * 0.2 +
-  //     yValue!;
+  //   scene.position.x =
+  //     initialPosition.x + Math.sin(state.clock.getElapsedTime()) * 0.2;
   // });
 
   //?-----
-  // useEffect(() => {
-  //   scene.rotation.z = 0.75;
-  //   scene.rotation.x = 5;
+  useEffect(() => {
+    scene.rotation.z = 0.75;
+    scene.rotation.x = 5;
 
-  //   if (is1280) {
-  //     scene.scale.set(0.7, 0.7, 1);
-  //     initialPosition.y = -3 + yValue!;
-  //     initialPosition.x = !left ? 0.2 : -0.5;
-  //     initialPosition.z = !left ? -0.2 : 0.5;
-  //   } else if (is996) {
-  //     console.log("is996");
-  //     scene.scale.set(1.4, 1.4, 1);
-  //     initialPosition.y = -5 + yValue!;
-  //     initialPosition.x = !left ? 0.2 : -0.9;
-  //     initialPosition.z = !left ? -0.2 : 0.9;
-  //   } else {
-  //     scene.scale.set(1.6, 1.5, 1);
-  //   }
+    if (is1280) {
+      scene.scale.set(0.7, 0.7, 1);
+      initialPosition.y = -3 + yValue!;
+      initialPosition.x = !left ? 0.2 : -0.5;
+      initialPosition.z = !left ? -0.2 : 0.5;
+    } else if (is996) {
+      console.log("is996");
+      scene.scale.set(1.4, 1.4, 1);
+      initialPosition.y = -5 + yValue!;
+      initialPosition.x = !left ? 0.2 : -0.9;
+      initialPosition.z = !left ? -0.2 : 0.9;
+    } else {
+      scene.scale.set(1.6, 1.5, 1);
+    }
 
-  //   console.log(scene, side);
-  // }, [is1280, side, left, is996]);
+    console.log(scene, side);
+  }, [is1280, side, left, is996]);
   //?-----
 
   useEffect(() => {
     scene.rotation.z = 0.75;
     scene.rotation.x = 5;
 
-    // scene.position.x = initialPosition.x;
-    // scene.position.y = initialPosition.y;
-    // scene.position.z = initialPosition.z;
+    scene.position.x = initialPosition.x;
+    scene.position.y = initialPosition.y;
+    scene.position.z = initialPosition.z;
 
-    scene.position.y = -6;
-    scene.position.x = !left ? 0 : -0.9;
-    scene.position.z = !left ? 0 : 0.9;
+    // scene.position.y = -6;
+    // scene.position.x = !left ? 0 : -0.9;
+    // scene.position.z = !left ? 0 : 0.9;
 
     if (is1280) {
       scene.scale.set(0.7, 0.7, 1);
-      scene.position.y = -3;
-      scene.position.x = !left ? 0.2 : -0.5;
-      scene.position.z = !left ? -0.2 : 0.5;
+      initialPosition.y = -3;
+      initialPosition.x = !left ? 0.2 : -0.5;
+      initialPosition.z = !left ? -0.2 : 0.5;
     } else if (is996) {
       console.log("is996");
       scene.scale.set(1.4, 1.4, 1);
-      scene.position.y = -5;
-      scene.position.x = !left ? 0.2 : -0.9;
-      scene.position.z = !left ? -0.2 : 0.9;
+      initialPosition.y = -5;
+      initialPosition.x = !left ? 0.2 : -0.9;
+      initialPosition.z = !left ? -0.2 : 0.9;
     } else {
       scene.scale.set(1.6, 1.5, 1);
     }
@@ -138,7 +136,7 @@ export const RockPaperScissors = () => {
               <ambientLight intensity={0.3} />
               <directionalLight intensity={2.5} position={[-2, 10, 0]} />
               <pointLight position={[0, -10, 5]} intensity={0.5} color="#fff" />
-              <Model yValue={0.1} side={"/rps/paperCard.glb"} left={true} />
+              <Model yValue={1} side={"/rps/paperCard.glb"} left={true} />
             </Suspense>
           </Canvas>
           <Canvas
@@ -153,7 +151,7 @@ export const RockPaperScissors = () => {
               <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
               <directionalLight intensity={2.5} position={[-2, 10, 0]} />
               <pointLight position={[0, -10, 5]} intensity={0.5} color="#fff" />
-              <Model yValue={-0.1} side={"/rps/questCard.glb"} left={false} />
+              <Model yValue={-1} side={"/rps/questCard.glb"} left={false} />
             </Suspense>
           </Canvas>
         </div>
