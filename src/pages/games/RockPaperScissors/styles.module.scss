@@ -56,3 +56,9 @@
     font-size: 12px;
   }
 }
+
+@media (max-width: 996px) {
+  .mobile {
+    display: none;
+  }
+}
