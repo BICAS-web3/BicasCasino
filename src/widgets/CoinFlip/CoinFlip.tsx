@@ -2,7 +2,12 @@ import { FC, useEffect, useState, Suspense } from "react";
 import s from "./styles.module.scss";
 import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
 import Image from "next/image";
-import { OrbitControls, useAnimations, useGLTF } from "@react-three/drei";
+import {
+  OrbitControls,
+  Stage,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
 import { Canvas, act } from "@react-three/fiber";
 import { AnimationAction } from "three";
 import { Environment } from "@react-three/drei";
@@ -56,7 +61,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
     scene.rotation.y = 1.58;
   }
   // scene.rotation.x = 3;
-
+  scene.scale.set(1, 1, 1);
   console.log(scene);
 
   useEffect(() => {
@@ -381,7 +386,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
               style={{ pointerEvents: "none" }}
             >
               <Suspense fallback={null}>
-                <Environment preset="dawn" />
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
                 <ambientLight intensity={0.3} />
                 <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
                 <directionalLight intensity={2.5} position={[-2, 10, 0]} />

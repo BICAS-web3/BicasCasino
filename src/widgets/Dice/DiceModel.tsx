@@ -4,6 +4,7 @@ import { useAccount } from "wagmi";
 import {
   Environment,
   Preload,
+  Stage,
   useAnimations,
   useGLTF,
 } from "@react-three/drei";
@@ -97,7 +98,10 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        <Environment preset="dawn" />
+        <Stage adjustCamera={false} environment="dawn">
+          <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+        </Stage>
+
         <DiceModel action={DiceActions.Rotation} inGame={inGame} />
       </Suspense>
 
