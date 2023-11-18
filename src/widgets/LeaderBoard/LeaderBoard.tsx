@@ -10,6 +10,7 @@ import * as Api from "@/shared/api";
 
 import s from "./styles.module.scss";
 import { LeaderBoardItem } from "./LeaderBoardItem";
+import { useMediaQuery } from "@/shared/tools";
 
 export const LeaderBoard: FC<{}> = () => {
   const [apiResponse] = useUnit([settingsModel.$AvailableLeaderbord]);
@@ -20,7 +21,7 @@ export const LeaderBoard: FC<{}> = () => {
   useEffect(() => {
     setList(apiResponse);
   }, [apiResponse]);
-  const isMobile = window.innerWidth <= 650;
+  const isMobile = useMediaQuery("(max-width: 650px)");
 
   useEffect(() => {
     window.innerWidth <= 650 &&

@@ -17,6 +17,7 @@ import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
 import { useEffect } from "react";
+import clsx from "clsx";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -27,7 +28,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <button
-        className={s.poker_wager_drawing_cards_btn}
+        className={clsx(s.poker_wager_drawing_cards_btn, s.mobile)}
         onClick={() => {
           if (!isConnected) {
             connect({ connector: connectors[0] });
