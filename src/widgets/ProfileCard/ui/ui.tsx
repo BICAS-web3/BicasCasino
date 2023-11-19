@@ -40,6 +40,7 @@ export const ProfileCard: FC<ProfileCardProps> = (props) => {
             address={props.address}
           />
           <UserAddress address={props.address} />
+          ddd
         </div>
       </div>
       <ImageLeague />

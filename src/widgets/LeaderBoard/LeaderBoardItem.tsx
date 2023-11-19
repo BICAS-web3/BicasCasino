@@ -9,6 +9,8 @@ import { T_LeaderBoardResponse } from "@/shared/api";
 
 import s from "./styles.module.scss";
 import clsx from "clsx";
+import Link from "next/link";
+import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 
 interface LeaderBoardItemProps extends T_LeaderBoardResponse {
   ind: number;
@@ -22,7 +24,7 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
 }) => {
   const isMobile = useMediaQuery("(max-width: 1200px)");
   return (
-    <div className={s.leader_board_list_item}>
+    <Link href={`/account/${player}`} className={s.leader_board_list_item}>
       <div className={s.leader_board_list_item_rank_block}>
         <span
           className={clsx(
@@ -37,13 +39,11 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
       </div>
       <div className={s.leader_board_list_item_player_block}>
         <div className={s.leader_board_list_item_player_icon}>
-          <span className={s.leader_board_list_item_player_icon_title}>
-            {" "}
-            {nickname ? nickname[0].toUpperCase() : "N"}
-          </span>
+          <BlockiesAva address={player} size={"30"} />
         </div>
+
         <span className={s.leader_board_list_item_player_title}>
-          {nickname || "No Name"}
+          {nickname || shortenAddress(player)}
         </span>
         <div className={s.leader_board_list_item_link}>
           <Image alt="link-ico" src={linkIco} width="22" height="22" />
@@ -60,6 +60,6 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
           {total.toFixed(2)}
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
