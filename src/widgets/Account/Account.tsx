@@ -66,6 +66,7 @@ export interface AccountProps {
 }
 export const Account: FC<AccountProps> = (props) => {
   const { address } = useAccount();
+  const { disconnect } = useDisconnect();
   const truncatedAddress = `${props.address.slice(
     0,
     7
