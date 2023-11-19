@@ -65,8 +65,8 @@ export interface AccountProps {
   nickname: string | null;
 }
 export const Account: FC<AccountProps> = (props) => {
-  const { disconnect } = useDisconnect();
   const { address } = useAccount();
+  const { disconnect } = useDisconnect();
   const truncatedAddress = `${props.address.slice(
     0,
     7
@@ -128,7 +128,7 @@ export const Account: FC<AccountProps> = (props) => {
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} isConnected/> */}
         {/* <Wallet wallet={Ewallet.Coinbase} icon={Coinbase} /> */}
         <AccountElement
-          name="Coinbase"
+          name="Profile"
           icon={ProfileIcon}
           onClick={() => {
             window.location.assign(`/account/${props.address.toLowerCase()}`);
