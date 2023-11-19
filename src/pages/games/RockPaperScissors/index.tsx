@@ -7,6 +7,7 @@ import { GamePage } from "@/widgets/GamePage/GamePage";
 import { useRouter } from "next/router";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
+
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import {
   CustomWagerRangeInput,
@@ -21,8 +22,12 @@ import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
+
 import { useEffect } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+
+import { Suspense, lazy } from "react";
+
 
 const WagerContent = () => {
   const { isConnected, isConnecting } = useAccount();
@@ -84,7 +89,9 @@ export default function RockPaperScissorsGame() {
           gameTitle="rock paper scissors"
           wagerContent={<WagerContent />}
         >
-          <RockPaperScissors />
+          <Suspense fallback={<div>...</div>}>
+            <RockPaperScissors />
+          </Suspense>
         </GamePage>
       </div>
     </Layout>

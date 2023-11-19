@@ -13,14 +13,20 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 import styles from "./styles.module.scss";
-import { Dice } from "@/widgets/Dice/Dice";
+// import { Dice } from "@/widgets/Dice/Dice";
+const DiceComponent = lazy(() => import("@/widgets/Dice/Dice"));
+
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import clsx from "clsx";
 import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import * as DGM from "@/widgets/Dice/model";
 import { useMediaQuery } from "@/shared/tools";
+
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+
+import { Suspense, lazy } from "react";
+
 
 const WagerContent = () => {
   const isMobile = useMediaQuery("(max-width: 996px)");
@@ -87,7 +93,9 @@ export default function DiceGame() {
             wagerContent={<WagerContent />}
             custom_height={styles.height}
           >
-            <Dice />
+            <Suspense fallback={<div>....</div>}>
+              <DiceComponent />
+            </Suspense>
           </GamePage>
         </div>
       </Layout>

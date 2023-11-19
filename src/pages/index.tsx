@@ -435,6 +435,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
     </div>
   );
 };
+const preloadModel = async () => {
+  await import("@/widgets/Dice/DiceModel");
+};
 
 export default function Home() {
   const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
@@ -463,10 +466,14 @@ export default function Home() {
   //   console.log("New bets");
   // }, [Bets]);
 
+  useEffect(() => {
+    preloadModel();
+  }, []);
   return (
     <>
       <Head>
         <title>GreekKeepers: WEB 3.0 Crypto Games</title>
+        <link rel="preload" href="/dice/dice_animation.glb" as="script" />
       </Head>
 
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />

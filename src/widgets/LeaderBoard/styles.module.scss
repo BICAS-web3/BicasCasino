@@ -75,18 +75,18 @@
 
 .leader_board_list_item_player_icon {
   margin-right: 10px;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #4ed26c;
+  // justify-content: center;
+  // width: 30px;
+  // height: 30px;
+  // border-radius: 50%;
+  // background: #4ed26c;
 
-  .leader_board_list_item_player_icon_title {
-    font-family: var(--font-nunito-sans);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-  }
+  // .leader_board_list_item_player_icon_title {
+  //   font-family: var(--font-nunito-sans);
+  //   color: #fff;
+  //   font-size: 14px;
+  //   font-weight: 700;
+  // }
 }
 
 .leader_board_list_item_address {
@@ -170,6 +170,7 @@
 }
 
 .leader_board_list_item {
+  text-decoration: none;
   display: grid;
   grid-template-columns: 30px 1fr 1fr 1fr;
   column-gap: 10px;
@@ -348,6 +349,7 @@
   .leader_board_list_item_player_icon {
     width: 20px;
     height: 20px;
+    margin-right: 20px;
 
     span {
       font-size: 12px !important;
