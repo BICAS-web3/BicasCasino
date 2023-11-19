@@ -27,6 +27,7 @@ export const TotalItem: FC<TotalItemProps> = (props) => {
           s[`total_item_overflow_container_${props.id}`]
         )}
       >
+        <div className={s.total_item_shadow}></div>
         <div className={s.description}>{props.description}</div>
         <div className={s.statistic}>${props.statistics}</div>
       </div>
