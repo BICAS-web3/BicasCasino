@@ -49,8 +49,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
     x: !left ? 0 : -0.9,
     z: !left ? 0 : 0.9,
   };
-  // Анимация движения вверх и вниз
-  // Adjust the delay in milliseconds for the second model
 
   useFrame((state, delta) => {
     const elapsedTime = state.clock.getElapsedTime();
@@ -63,34 +61,7 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
     } else {
       scene.position.y = initialPosition.y + Math.sin(elapsedTime) * 0.3;
     }
-    // For the first model, start the animation immediately
-
-    // For the second model, introduce a delay
   });
-
-  //?-----
-  // useEffect(() => {
-  //   scene.rotation.z = 0.75;
-  //   scene.rotation.x = 5;
-
-  //   if (is1280) {
-  //     scene.scale.set(0.7, 0.7, 1);
-  //     initialPosition.y = -3 + yValue!;
-  //     initialPosition.x = !left ? 0.2 : -0.5;
-  //     initialPosition.z = !left ? -0.2 : 0.5;
-  //   } else if (is996) {
-  //     console.log("is996");
-  //     scene.scale.set(1.4, 1.4, 1);
-  //     initialPosition.y = -5 + yValue!;
-  //     initialPosition.x = !left ? 0.2 : -0.9;
-  //     initialPosition.z = !left ? -0.2 : 0.9;
-  //   } else {
-  //     scene.scale.set(1.6, 1.5, 1);
-  //   }
-
-  //   console.log(scene, side);
-  // }, [is1280, side, left, is996]);
-  //?-----
 
   useEffect(() => {
     scene.rotation.z = 0.75;
@@ -99,10 +70,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
     scene.position.x = initialPosition.x;
     scene.position.y = initialPosition.y;
     scene.position.z = initialPosition.z;
-
-    // initialPosition.y = -6;
-    // initialPosition.x = !left ? 0 : -0.9;
-    // initialPosition.z = !left ? 0 : 0.9;
 
     if (is1280) {
       scene.scale.set(0.7, 0.7, 1);
@@ -126,7 +93,7 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   return <primitive ref={modelRef} object={scene} />;
 };
 
-const RockPaperScissors = () => {
+export const RockPaperScissors = () => {
   const [is1500, setIs1500] = useState(false);
   const [chosenValue] = useUnit([RPSModel.$isGameValue]);
   const [value, setValue] = useState("/rps/paperCard.glb");
@@ -194,5 +161,3 @@ const RockPaperScissors = () => {
     </div>
   );
 };
-
-export default RockPaperScissors;

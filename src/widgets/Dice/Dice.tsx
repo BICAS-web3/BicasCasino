@@ -47,9 +47,7 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
-// import { DiceCanvas } from "./DiceModel";
-
-const DiceComponent = lazy(() => import("./DiceModel"));
+import { DiceCanvas } from "./DiceModel";
 
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
@@ -433,7 +431,7 @@ const Dice: FC<DiceProps> = () => {
     <div className={s.dice}>
       <div className={s.model}>
         <Suspense fallback={<div>...</div>}>
-          <DiceComponent inGame={inGame} />
+          <DiceCanvas inGame={inGame} />
         </Suspense>
       </div>
       <div className={s.dice_container}>

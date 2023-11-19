@@ -305,15 +305,10 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
           </div>
         </div>
-        <div
-          className={s.bonus_button_block}
-          onClick={() => {
-            location.href = "/";
-          }}
-        >
+        <Link href={"/"} className={s.bonus_button_block}>
           <HomeBtn />
           home
-        </div>
+        </Link>
         <div className={s.bonus_button_block}>
           <BonusIco />
           bonus<span className={s.soon_page}>Soon…</span>
@@ -345,71 +340,55 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
           </div>
           <div className={s.game_rows}>
-            <div
+            <Link
+              href={"/games/CoinFlip"}
               className={`${s.game_row} ${
                 props.activePage === "/games/CoinFlip" && s.game_active
               }`}
-              onClick={() => {
-                location.href = "/games/CoinFlip";
-              }}
             >
               <CoinButton />
               Coinflip
-            </div>
+            </Link>
             <Link
               href={"/games/Dice"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Dice" && s.game_active
               }`}
-              // onClick={() => {
-              //   location.href = "/games/Dice";
-              // }}
             >
               <DiceButton />
               Dice
             </Link>
-            <div
+            <Link
+              href={"/games/RockPaperScissors"}
               className={`${s.game_row} ${
                 props.activePage === "/games/RockPaperScissors" && s.game_active
               }`}
-              onClick={() => {
-                location.href = "/games/RockPaperScissors";
-              }}
             >
               <RPCButton />
               Rock Paper Scissors
-            </div>
-            <div
+            </Link>
+            <Link
+              href={"/games/Poker"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Poker" && s.game_active
               }`}
-              onClick={() => {
-                location.href = "/games/Poker";
-              }}
             >
               <PokerButton />
               Poker
-            </div>
-            <div
+            </Link>
+            <Link
+              href={"/games/Plinko"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Plinko" && s.game_active
               }`}
-              onClick={() => {
-                location.href = "/games/Plinko";
-              }}
             >
               <PlinkoButton />
               Plinko
-            </div>
-            <div
-              className={clsx(s.leaderboard)}
-              onClick={() => {
-                location.href = "/leaderboard";
-              }}
-            >
+            </Link>
+            <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
               <LeaderboardIcon />
               LeaderBoard
-            </div>
+            </Link>
           </div>
         </div>
         <div className={s.sb_other_info_list}>

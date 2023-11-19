@@ -6,11 +6,7 @@ import { Layout } from "@/widgets/Layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
 import { useRouter } from "next/router";
 import { LiveBetsWS } from "@/widgets/LiveBets";
-// import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
-
-const RockPaperScissorsComponent = lazy(
-  () => import("@/widgets/RockPaperScissors/RockPaperScissors")
-);
+import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
 
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import {
@@ -78,7 +74,7 @@ export default function RockPaperScissorsGame() {
           wagerContent={<WagerContent />}
         >
           <Suspense fallback={<div>...</div>}>
-            <RockPaperScissorsComponent />
+            <RockPaperScissors />
           </Suspense>
         </GamePage>
       </div>
