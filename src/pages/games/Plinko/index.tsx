@@ -27,6 +27,8 @@ const WagerContent = () => {
 
   const [isPlaying] = useUnit([PGM.$isPlaying]);
 
+  console.log("ssssstate - ", isPlaying);
+
   return (
     <>
       {/* <SidePicker /> */}
