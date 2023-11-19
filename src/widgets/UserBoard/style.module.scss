@@ -37,7 +37,6 @@
   border-radius: 12px;
   padding: 11px 20px;
   transition: all 0.3s;
-
   &:hover {
     color: #e5c787;
   }
@@ -105,6 +104,7 @@
     }
   }
 }
+
 .total_item_overflow_container_0 {
   .total_item_shadow {
     background: #f3bd6b56;
@@ -116,6 +116,7 @@
     color: #e5c787;
   }
 }
+
 .total_item_overflow_container_1 {
   .total_item_shadow {
     background: rgba(192, 241, 255, 0.329);
@@ -127,6 +128,7 @@
     color: #95b1b9;
   }
 }
+
 .total_item_overflow_container_2 {
   .total_item_shadow {
     background: rgba(243, 173, 107, 0.356);
@@ -138,6 +140,7 @@
     color: #e5b487;
   }
 }
+
 .total_item {
   box-sizing: border-box;
   display: flex;
@@ -176,6 +179,7 @@
 }
 
 .description {
+  cursor: pointer;
   color: var(--White-1, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
@@ -226,19 +230,16 @@
       // margin-top: 37px;
       margin-top: 10px;
     }
-
     .description {
       font-size: 14px;
       line-height: 120%;
       letter-spacing: 0.56%;
     }
-
     .image {
       width: 70px;
       height: 70px;
     }
   }
-
   .period_button {
     padding: 11px 16px;
   }
@@ -261,7 +262,6 @@
   .total_container {
     gap: 10px;
   }
-
   .total_item {
     .description {
       font-size: 12px;
@@ -269,17 +269,14 @@
       letter-spacing: 0.48px;
     }
   }
-
   .period_item {
     width: 100%;
   }
-
   .period_button {
     width: 100%;
     text-align: center;
     border-radius: 5px;
   }
-
   .period {
     flex-direction: column;
     text-align: left;
@@ -313,11 +310,9 @@
     margin-top: 18px;
     gap: 8px;
   }
-
   .total_item {
     // height: 136px;
     height: 126px;
-
     .statistic {
       font-size: 20px;
       font-weight: 800;
@@ -330,7 +325,6 @@
       // margin-top: 29px;
       margin-top: 15px;
     }
-
     .description {
       font-size: 12px;
       line-height: 120%;

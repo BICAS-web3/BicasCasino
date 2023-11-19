@@ -15,6 +15,7 @@ export interface TotalItemProps {
   dollar?: boolean;
   statistics: number | string;
   id: number;
+  address: string;
 }
 export const TotalItem: FC<TotalItemProps> = (props) => {
   const [isSideBarOpen] = useUnit([SideBarModel.$isOpen]);
@@ -27,8 +28,15 @@ export const TotalItem: FC<TotalItemProps> = (props) => {
           s[`total_item_overflow_container_${props.id}`]
         )}
       >
+        <div
+          className={s.description}
+          onClick={() => {
+            window.location.assign(`/account/${props.address.toLowerCase()}`);
+          }}
+        >
+          {props.description}
+        </div>
         <div className={s.total_item_shadow}></div>
-        <div className={s.description}>{props.description}</div>
         <div className={s.statistic}>${props.statistics}</div>
       </div>
 

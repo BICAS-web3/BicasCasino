@@ -52,6 +52,8 @@ export const Total: FC<{}> = () => {
     setLeaders(data);
   };
 
+  // const truncatedAddress = props.address.slice(0,7)...props.address.slice(36, 42);
+
   return (
     <>
       <div className={s.period}>
@@ -114,14 +116,21 @@ export const Total: FC<{}> = () => {
                 default:
                   break;
               }
+
+              const truncatedAddress = `${item.player.slice(
+                0,
+                7
+              )}...${item.player.slice(36, 42)}`;
+
               return (
                 <TotalItem
-                  description={item.nickname || "No Name"}
+                  description={item.nickname || truncatedAddress}
                   dunkin="Dunkin Caps"
                   image={image}
                   dollar
                   statistics={item.total.toFixed(2)}
                   id={i}
+                  address={item.player}
                 />
               );
             })}
