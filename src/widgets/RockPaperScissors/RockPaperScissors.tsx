@@ -2,7 +2,7 @@ import s from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.png";
 import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
-import { FC, Suspense, useEffect, useRef, useState } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useUnit } from "effector-react";
 
@@ -43,7 +43,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const modelRef = useRef<THREE.Group>();
   const initialPosition = {
     y: -6 + yValue,
     x: !left ? 0 : -0.9,
@@ -90,7 +89,7 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   }, [is1280, side, left, is996]);
 
   // @ts-ignore
-  return <primitive ref={modelRef} object={scene} />;
+  return <primitive object={scene} />;
 };
 
 export const RockPaperScissors = () => {
