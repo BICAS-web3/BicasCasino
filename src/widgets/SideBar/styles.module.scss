@@ -1242,8 +1242,12 @@
 
 .tooltip_games_list_item {
   min-width: max-content;
+  text-decoration: none;
 }
-
+.tooltip_games_list_item_title {
+  color: #979797;
+  text-decoration: none !important;
+}
 .desk_hidden_language_title {
   color: #979797;
   font-family: var(--font-nunito-sans);
