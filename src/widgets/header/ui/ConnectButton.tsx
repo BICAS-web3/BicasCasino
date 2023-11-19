@@ -9,6 +9,8 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import { checkPageClicking } from "@/shared/tools";
 
 import s from "./styles.module.scss";
+import { useAccount } from "wagmi";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 export interface ConnectWalletButtonProps {}
 
@@ -57,6 +59,10 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     document.documentElement.style.overflow = "visible";
   };
 
+  const { isConnecting } = useAccount();
+
+  const [startConnect, setStartConnect] = useState(false);
+
   return (
     <div
       className={s.connect_wallet_button_wrap}
@@ -64,9 +70,16 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     >
       <button
         className={s.connect_wallet_button}
-        onClick={handleConnectWalletBtn}
+        onClick={() => {
+          handleConnectWalletBtn();
+          setStartConnect(true);
+        }}
       >
-        Join Wallet
+        {isConnecting ? (
+          <LoadingDots className={s.join_dots} title="Joinning" />
+        ) : (
+          "Join Wallet"
+        )}
       </button>
       <div
         className={clsx(

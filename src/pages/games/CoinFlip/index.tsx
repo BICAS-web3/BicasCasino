@@ -18,10 +18,11 @@ import { LiveBetsWS } from "@/widgets/LiveBets";
 import Head from "next/head";
 import clsx from "clsx";
 import * as CFM from "@/widgets/CoinFlip/model";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { isConnected } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
 
   const [isPlaying] = useUnit([CFM.$isPlaying]);
@@ -52,11 +53,15 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected
-          ? "Play"
-          : isPlaying && isConnected
-          ? "Playing..."
-          : "Connect Wallet"}
+        {isConnecting ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
       <WagerLowerBtnsBlock game="coinflip" />
     </>
