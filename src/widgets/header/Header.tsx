@@ -41,6 +41,7 @@ import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
 import Link from "next/link";
 import { checkPageClicking } from "@/shared/tools";
 import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
@@ -119,14 +120,18 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     setBlur(false);
     document.documentElement.style.overflow = "visible";
   };
-
+  const { isConnecting } = useAccount();
   return (
     <div
       className={s.connect_wallet_button_wrap}
       data-id={"connect-wallet-block"}
     >
       <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
-        Connect Wallet
+        {isConnecting ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : (
+          "Connect Wallet"
+        )}
       </div>
       <div
         className={`${s.header_avaibleWallet_wrap} ${

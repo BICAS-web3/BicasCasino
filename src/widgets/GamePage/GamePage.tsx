@@ -31,7 +31,11 @@ import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock"
 import clsx from "clsx";
 import { WagerModel } from "@/widgets/Wager";
 import { useMediaQuery } from "@/shared/tools";
-
+import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as DGM from "@/widgets/Dice/model";
+import * as CFM from "@/widgets/CoinFlip/model";
+import * as PGM from "@/widgets/Plinko/model";
+import { PokerModel } from "@/widgets/Poker/Poker";
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
@@ -52,7 +56,7 @@ export const GamePage: FC<GamePageProps> = ({
   custom_height,
 }) => {
   console.log("Redrawing game page");
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
   const [currentToken, setCurrentToken] = useState<{
     token: api.T_Token;
@@ -100,6 +104,10 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.switchSounds,
   ]);
 
+  const [isDicePlaying] = useUnit([DGM.$isPlaying]);
+  const [isCFPlaying] = useUnit([CFM.$isPlaying]);
+  const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
+  const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
 
   // const handleModalVisibilityChange = () => {
@@ -192,11 +200,25 @@ export const GamePage: FC<GamePageProps> = ({
                       }
                     }}
                   >
-                    {isConnected
-                      ? customTitle
-                        ? customTitle
-                        : "Place bet"
-                      : "Connect Wallet"}
+                    {isDicePlaying ||
+                    isCFPlaying ||
+                    isPlinkoPlaying ||
+                    isPokerlaying ? (
+                      <LoadingDots className={s.dots_black} title="Playing" />
+                    ) : isConnected ? (
+                      customTitle ? (
+                        customTitle
+                      ) : (
+                        "Place bet"
+                      )
+                    ) : isConnecting ? (
+                      <LoadingDots
+                        className={s.dots_black}
+                        title="Connecting"
+                      />
+                    ) : (
+                      "Connect Wallet"
+                    )}
                   </button>
                 ) : (
                   <></>

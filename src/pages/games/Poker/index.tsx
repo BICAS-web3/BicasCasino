@@ -18,12 +18,14 @@ import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
 import { useEffect } from "react";
 import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { isConnected } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
 
+  const [isPlaying] = useUnit([PokerModel.$isPlaying]);
   return (
     <>
       <WagerInputsBlock />
@@ -41,7 +43,15 @@ const WagerContent = () => {
           }
         }}
       >
-        Drawing cards
+        {isConnecting ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Drawing cards"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
       <WagerLowerBtnsBlock game="poker" />
     </>

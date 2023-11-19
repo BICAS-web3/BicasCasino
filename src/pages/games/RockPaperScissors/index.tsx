@@ -16,18 +16,21 @@ import { WagerModel } from "@/widgets/Wager";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
+import { useEffect } from "react";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 const WagerContent = () => {
-  const { isConnected } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
 
+  const { connectors, connect } = useConnect();
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -41,13 +44,23 @@ const WagerContent = () => {
       <RpsPicker />
       <button
         className={clsx(s.connect_wallet_btn, s.mobile)}
-        onClick={pressButton}
+        onClick={() => {
+          if (!isConnected) {
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+          }
+        }}
       >
-        {isConnected
-          ? "Play"
-          : isPlaying && isConnected
-          ? "Playing"
-          : "Connect Wallet"}
+        {isConnecting ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
       <WagerLowerBtnsBlock game="rps" />
     </>

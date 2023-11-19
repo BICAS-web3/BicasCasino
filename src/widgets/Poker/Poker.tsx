@@ -87,6 +87,7 @@ export const Poker: FC<PokerProps> = (props) => {
     setShowFlipCards,
     //gameStatus
     //availableTokens
+    setIsPlaying,
   ] = useUnit([
     GameModel.$playSounds,
     PokerModel.$gameState,
@@ -104,6 +105,7 @@ export const Poker: FC<PokerProps> = (props) => {
     PokerModel.setShowFlipCards,
     //GameModel.$gameStatus
     //settingsModel.$AvailableTokens
+    PokerModel.setIsPlaying,
   ]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
@@ -134,6 +136,9 @@ export const Poker: FC<PokerProps> = (props) => {
 
   const [watchState, setWatchState] = useState<boolean>(false);
 
+  useEffect(() => {
+    setIsPlaying(inGame);
+  }, [inGame]);
   // useEffect(() => {
   //   if (!gameStatus) {
   //     setActiveCards(initialArrayOfCards);

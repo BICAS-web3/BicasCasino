@@ -19,10 +19,12 @@ import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock
 import Head from "next/head";
 import clsx from "clsx";
 import * as PGM from "@/widgets/Plinko/model";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
+import { useEffect } from "react";
 
 const WagerContent = () => {
   const { connectors, connect } = useConnect();
-  const { isConnected } = useAccount();
+  const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([PGM.$isPlaying]);
@@ -59,11 +61,15 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected
-          ? "Play"
-          : isPlaying && isConnected
-          ? "Playing"
-          : "Connect Wallet"}
+        {isConnecting ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
       <WagerLowerBtnsBlock game="plinko" />
     </>
