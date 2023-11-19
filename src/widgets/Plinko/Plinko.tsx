@@ -161,6 +161,10 @@ export const Plinko: FC<IPlinko> = () => {
   const [inGame, setInGame] = useState<boolean>(false);
   const [path, setPath] = useState<boolean[][] | undefined>(undefined);
 
+  useEffect(() => {
+    setInGame(inGame);
+  }, [inGame]);
+
   const [playBackground, { stop: stopBackground }] = useSound(
     "/static/media/games_assets/music/background2.wav",
     { volume: 0.1, loop: true }

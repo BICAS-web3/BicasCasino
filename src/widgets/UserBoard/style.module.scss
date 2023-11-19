@@ -64,7 +64,7 @@
   overflow: hidden;
   position: relative;
   padding-top: 121px;
-  &::before {
+  .total_item_shadow {
     overflow: hidden;
     content: "";
     mix-blend-mode: hard-light;
@@ -90,7 +90,7 @@
     }
   }
   &:hover {
-    &::before {
+    .total_item_shadow {
       width: 203px;
       height: 176px;
       @media (max-width: 1280px) {
@@ -106,7 +106,7 @@
 }
 
 .total_item_overflow_container_0 {
-  &::before {
+  .total_item_shadow {
     background: #f3bd6b56;
     @media (max-width: 1280px) {
       background-color: rgba(243, 205, 107, 0.2);
@@ -118,7 +118,7 @@
 }
 
 .total_item_overflow_container_1 {
-  &::before {
+  .total_item_shadow {
     background: rgba(192, 241, 255, 0.329);
     @media (max-width: 1280px) {
       background-color: rgba(192, 241, 255, 0.2);
@@ -130,7 +130,7 @@
 }
 
 .total_item_overflow_container_2 {
-  &::before {
+  .total_item_shadow {
     background: rgba(243, 173, 107, 0.356);
     @media (max-width: 1280px) {
       background-color: rgba(243, 172, 107, 0.2);

@@ -216,6 +216,11 @@
     background: linear-gradient(90deg, #ffd77c 0%, #c37733 107.41%);
     box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.3);
     color: #121212;
+    .join_dots {
+      div {
+        background-color: #121212;
+      }
+    }
   }
   &:active {
     background: #c37733;
@@ -234,6 +239,13 @@
   transition: all 0.2s;
   @media (max-width: 650px) {
     width: 179px;
+  }
+}
+
+.join_dots {
+  div {
+    background-color: #ffe09d;
+    transition: all 0.2s;
   }
 }
 

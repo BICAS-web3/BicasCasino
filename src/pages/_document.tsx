@@ -1,11 +1,20 @@
 import { SettingsInit } from "@/widgets/SettingsInit";
 import { Head, Html, Main, NextScript } from "next/document";
+import { useEffect } from "react";
 // TODO: fix meta - delete meta tag from <Head />  #24 @habdevs
+const preloadModel = async () => {
+  await import("@/widgets/Dice/DiceModel");
+};
+
 export default function Document() {
+  useEffect(() => {
+    preloadModel();
+  }, []);
   return (
     <Html lang="en">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preload" href="/dice/dice_animation.glb" as="script" />
         <link
           rel="icon"
           type="image/png"

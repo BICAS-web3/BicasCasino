@@ -30,6 +30,7 @@ import banner_mobile from "@/public/media/banner_images/banner_mobile.png";
 import s from "./style.module.scss";
 
 import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 export const PopUpBonus: FC = () => {
   const [claimed, setClaimed] = useState<boolean>();
@@ -38,7 +39,7 @@ export const PopUpBonus: FC = () => {
   const [walletVisibility, setWalletVisibility] = useState(false);
 
   const { chain } = useNetwork();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isConnecting } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
 
   let bgImage;
@@ -219,11 +220,17 @@ export const PopUpBonus: FC = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <button className={s.connect_wallet_button} onClick={claimBonus}>
-            {address && isConnected
-              ? chain?.id !== 42161
-                ? "Switch"
-                : "Claim"
-              : "Connect Wallet"}
+            {address && isConnected ? (
+              chain?.id !== 42161 ? (
+                "Switch"
+              ) : (
+                "Claim"
+              )
+            ) : isConnecting ? (
+              <LoadingDots className={s.dots_black} title="Connecting" />
+            ) : (
+              "Connect Wallet"
+            )}
           </button>{" "}
           <p className={s.banner_wallet_text}>
             *To receive the bonus you need to connect your cryptocurrency wallet

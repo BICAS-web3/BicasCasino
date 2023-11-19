@@ -91,6 +91,7 @@ import Link from "next/link";
 import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
 import { PopUpBonus } from "@/widgets/PopUpBonus";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -341,6 +342,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
       document.documentElement.style.overflow = "visible";
     }
   };
+  const { isConnecting } = useAccount();
 
   return (
     <div className={s.banner_info}>
@@ -350,7 +352,11 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           <>
             <div className={s.text}>Login via Web3 wallets</div>
             <div className={s.button} onClick={handleConnectWalletBtn}>
-              Connect Wallet
+              {isConnecting ? (
+                <LoadingDots className={s.join_dots} title="Connecting" />
+              ) : (
+                "Connect Wallet"
+              )}
             </div>
           </>
         )}
@@ -429,6 +435,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
     </div>
   );
 };
+const preloadModel = async () => {
+  await import("@/widgets/Dice/DiceModel");
+};
 
 export default function Home() {
   const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
@@ -457,10 +466,14 @@ export default function Home() {
   //   console.log("New bets");
   // }, [Bets]);
 
+  useEffect(() => {
+    preloadModel();
+  }, []);
   return (
     <>
       <Head>
         <title>GreekKeepers: WEB 3.0 Crypto Games</title>
+        <link rel="preload" href="/dice/dice_animation.glb" as="script" />
       </Head>
 
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
