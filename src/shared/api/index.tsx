@@ -1,6 +1,6 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io/api";
+export const BaseApiUrl = "/api";
 export const BaseStaticUrl = "/static";
 
 export type T_ErrorText = {
@@ -162,22 +162,22 @@ export type T_NFT_MarketResponse = {
 export type T_ApiResponse = {
   status: string;
   body:
-    | T_ErrorText
-    | T_Networks
-    | T_Rpcs
-    | T_Token
-    | T_Game
-    | T_Nickname
-    | T_Player
-    | T_Bets
-    | T_Tokens
-    | T_GameAbi
-    | T_BlockExplorers
-    | T_Totals
-    | T_LatestGames
-    | T_PlayerTotals
-    | T_TokenPrice
-    | T_NFTMarket;
+  | T_ErrorText
+  | T_Networks
+  | T_Rpcs
+  | T_Token
+  | T_Game
+  | T_Nickname
+  | T_Player
+  | T_Bets
+  | T_Tokens
+  | T_GameAbi
+  | T_BlockExplorers
+  | T_Totals
+  | T_LatestGames
+  | T_PlayerTotals
+  | T_TokenPrice
+  | T_NFTMarket;
 };
 
 export type T_GetUsername = {
@@ -463,8 +463,7 @@ export type T_GetUserBets = {
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async (form) => {
     return fetch(
-      `${BaseApiUrl}/bets/player/${form.address}/${
-        form.starting_id != null ? form.starting_id : ""
+      `${BaseApiUrl}/bets/player/${form.address}/${form.starting_id != null ? form.starting_id : ""
       }`,
       {
         method: "GET",
@@ -481,8 +480,7 @@ export const getUserBetsInc = createEffect<
   string
 >(async (form) => {
   return fetch(
-    `${BaseApiUrl}/bets/player/inc/${form.address}/${
-      form.starting_id != null ? form.starting_id : ""
+    `${BaseApiUrl}/bets/player/inc/${form.address}/${form.starting_id != null ? form.starting_id : ""
     }`,
     {
       method: "GET",
