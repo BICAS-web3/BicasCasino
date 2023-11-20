@@ -469,6 +469,7 @@ export default function Home() {
   useEffect(() => {
     preloadModel();
   }, []);
+
   return (
     <>
       <Head>

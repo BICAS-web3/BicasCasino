@@ -32,6 +32,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     if (window.innerWidth <= 650) close();
   }, []);
 
+  
+
   return (
     <>
       <SettingsInit />
