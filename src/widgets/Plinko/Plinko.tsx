@@ -55,15 +55,15 @@ const testBallPath = [
   [true, true, false, false, false, true, false, true],
   [true, true, false, false, false, true, false, true],
   [false, true, true, false, false, false, false, false],
-  [false, true, true, false, false, false, true, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, false, true, true, false, false, false],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true],
+  // [false, true, true, false, false, false, true, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, false, true, true, false, false, false],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, false, false, false, true, false, true],
   // [true, true, false, false, false, true, false, true],
   // [false, true, true, false, false, false, false, false],
   // [false, true, true, false, false, false, true, true],
@@ -102,12 +102,12 @@ const testBallPath = [
   // [false, true, true, true, true, true, true, true],
   // [false, true, true, true, true, true, true, true],
   // [false, true, true, true, true, true, true, true],
-  [false, true, true, true, true, true, true, true],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
+  // [false, true, true, true, true, true, true, true],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
 ];
 
 interface IPlinko {}
@@ -496,7 +496,7 @@ export const Plinko: FC<IPlinko> = () => {
           {path ? (
             <PlinkoPyramid path={path} />
           ) : (
-            <PlinkoPyramid path={undefined} />
+            <PlinkoPyramid path={testBallPath} />
           )}
         </div>
       </div>

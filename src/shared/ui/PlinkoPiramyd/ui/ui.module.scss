@@ -125,6 +125,21 @@
   }
 }
 
+.balls_arr {
+  position: absolute;
+  top: -100px;
+  right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 3px;
+  div {
+    padding: 5px 15px;
+    color: white;
+    border-radius: 20px;
+    background-color: black;
+  }
+}
+
 @keyframes cell {
   0% {
     // background-color: blue;

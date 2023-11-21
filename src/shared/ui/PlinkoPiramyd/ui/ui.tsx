@@ -195,6 +195,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const [path, setPath] = useState<boolean[] | undefined>(undefined);
   const [balls, setBalls] = useState<any[]>([]);
 
+  const [ballsArr, setBallsArr] = useState<number[]>([]);
+
+  useEffect(() => {
+    setBallsArr((prev) => [...prev, ball]);
+  }, [ball]);
+
   useEffect(() => {
     // console.log("path, animation finished", props.path, animationFinished);
     if (props.path) {
@@ -414,6 +420,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.balls_arr}>
+        {ballsArr.map(
+          (ball, i) =>
+            multipliers[ball] && <div key={ball + i}>{multipliers[ball]}</div>
+        )}
+      </div>
       {generateRows()}
       {path && (
         <div className={styles.plinko_ball_container}>
