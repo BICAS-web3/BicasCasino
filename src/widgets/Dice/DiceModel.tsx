@@ -36,6 +36,7 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   scene.rotation.z = -0.5;
   const [startAnimation, setStartAnimation] = useState(true);
   const [gameAnimation, setGameAnimation] = useState();
+  const rotation = actions[DiceActions.Rotation] as AnimationAction;
   // useEffect(() => {
   //   if (isConnected) {
   //     isConnected && rotation.play();
@@ -68,18 +69,33 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   //     rotation.stop();
   //   };
   // }, []);
-  useEffect(() => {
-    const current = actions["Animation"] as AnimationAction;
-    current.play();
-    current.setLoop(LoopOnce, 1);
-  }, []);
+  // useEffect(() => {
+  //   const current = actions["Animation"] as AnimationAction;
+  //   current.play();
+  //   current.setLoop(LoopOnce, 1);
+  // }, []);
+
+  // useEffect(() => {
+  //   if (!isConnected) return;
+  //   const current = actions["Animation"] as AnimationAction;
+  //   current.play();
+  //   current.setLoop(LoopOnce, 3); // Set the number of repetitions
+  // }, [isConnected]);
 
   useEffect(() => {
-    if (!isConnected) return;
-    const current = actions["Animation"] as AnimationAction;
-    current.play();
-    current.setLoop(LoopOnce, 3); // Set the number of repetitions
-  }, [isConnected]);
+    rotation.setLoop(LoopOnce, 1);
+    rotation.play();
+    return () => {
+      rotation.stop();
+    };
+  }, [startAnimation]);
+
+  useEffect(() => {
+    inGameRef.current = inGame;
+    if (inGame && isConnected && gameStatus === null) {
+      setStartAnimation((prev) => !prev);
+    }
+  }, [inGame, isConnected, gameStatus]);
 
   const diceLightDirections = [
     [5, -10, 5],
