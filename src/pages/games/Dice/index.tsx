@@ -13,6 +13,7 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 import styles from "./styles.module.scss";
+import * as ConnectModel from "@/widgets/Layout/model";
 // import { Dice } from "@/widgets/Dice/Dice";
 const DiceComponent = lazy(() => import("@/widgets/Dice/Dice"));
 
@@ -25,17 +26,22 @@ import { useMediaQuery } from "@/shared/tools";
 
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
-import { Suspense, lazy } from "react";
-
+import { Suspense, lazy, useEffect } from "react";
 
 const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const isMobile = useMediaQuery("(max-width: 996px)");
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([DGM.$isPlaying]);
-
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   return (
     <>
       <WagerInputsBlock />
@@ -52,6 +58,7 @@ const WagerContent = () => {
           className={s.connect_wallet_btn}
           onClick={() => {
             if (!isConnected) {
+              setStartConnect(true);
               connect({ connector: connectors[0] });
             } else {
               pressButton();
@@ -62,7 +69,7 @@ const WagerContent = () => {
             }
           }}
         >
-          {isConnecting ? (
+          {isConnecting && startConnect ? (
             <LoadingDots className={s.dots_black} title="Connecting" />
           ) : isPlaying ? (
             <LoadingDots className={s.dots_black} title="Playing" />

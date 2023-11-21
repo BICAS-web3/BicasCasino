@@ -31,8 +31,13 @@ import s from "./style.module.scss";
 
 import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
 
 export const PopUpBonus: FC = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [claimed, setClaimed] = useState<boolean>();
   const [close, setClose] = useState(false);
   const [visibility, setVisibility] = useState(false);
@@ -63,7 +68,14 @@ export const PopUpBonus: FC = () => {
     enabled: true,
     watch: isConnected,
   });
-
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
+  useEffect(() => {
+    return () => {
+      setStartConnect(false);
+    };
+  }, []);
   useEffect(() => {
     if (readSuccess && address) {
       setClaimed(claimedState as boolean);
@@ -220,14 +232,14 @@ export const PopUpBonus: FC = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <button className={s.connect_wallet_button} onClick={claimBonus}>
-            {address && isConnected ? (
+            {isConnecting && startConnect ? (
+              <LoadingDots className={s.dots_black} title="Connecting" />
+            ) : address && isConnected ? (
               chain?.id !== 42161 ? (
                 "Switch"
               ) : (
                 "Claim"
               )
-            ) : isConnecting ? (
-              <LoadingDots className={s.dots_black} title="Connecting" />
             ) : (
               "Connect Wallet"
             )}
