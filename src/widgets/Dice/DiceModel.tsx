@@ -25,7 +25,7 @@ interface DiceModelProps {
   action: DiceActions;
 }
 export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
-  const { scene, animations } = useGLTF("/dice/dice_animation.glb");
+  const { scene, animations } = useGLTF("/dice/dice_animation_3.glb");
   const { isConnected } = useAccount();
   const { actions, mixer } = useAnimations(animations, scene);
   const [gameStatus] = useUnit([GameModel.$gameStatus]);
@@ -34,22 +34,52 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   scene.rotation.y = -0.25;
   scene.rotation.x = 0.15;
   scene.rotation.z = -0.5;
-  const rotation = actions[DiceActions.Rotation] as AnimationAction;
   const [startAnimation, setStartAnimation] = useState(true);
+  const [gameAnimation, setGameAnimation] = useState();
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     isConnected && rotation.play();
+  //   }
+  //   return () => {
+  //     rotation.stop();
+  //   };
+  // }, [isConnected]);
+
+  // useEffect(() => {
+  //   rotation.play();
+  //   rotation.setLoop(LoopOnce, 1);
+  // }, []);
+
+  // useEffect(() => {
+  //   inGameRef.current = inGame;
+  //   if (inGame && isConnected && gameStatus === null) {
+  //     setStartAnimation((prev) => !prev);
+  //   }
+  // }, [inGame, isConnected, gameStatus]);
+
+  // useEffect(() => {
+  //   const rotation = actions[DiceActions.Rotation] as AnimationAction;
+  //   // Play animation once on page load
+  //   rotation.play();
+  //   rotation.setLoop(LoopOnce, 1);
+
+  //   // Cleanup function to stop the animation when the component unmounts
+  //   return () => {
+  //     rotation.stop();
+  //   };
+  // }, []);
   useEffect(() => {
-    rotation.setLoop(LoopOnce, 1);
-    rotation.play();
-    return () => {
-      rotation.stop();
-    };
-  }, [startAnimation]);
+    const current = actions["Animation"] as AnimationAction;
+    current.play();
+    current.setLoop(LoopOnce, 1);
+  }, []);
 
   useEffect(() => {
-    inGameRef.current = inGame;
-    if (inGame && isConnected && gameStatus === null) {
-      setStartAnimation((prev) => !prev);
-    }
-  }, [inGame, isConnected, gameStatus]);
+    if (!isConnected) return;
+    const current = actions["Animation"] as AnimationAction;
+    current.play();
+    current.setLoop(LoopOnce, 3); // Set the number of repetitions
+  }, [isConnected]);
 
   const diceLightDirections = [
     [5, -10, 5],
@@ -64,7 +94,9 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   return (
     <group>
       <ambientLight intensity={0.3} />
-      <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
+      <spotLight intensity={10} position={[-2, -5, 0]} angle={10} />
+      <spotLight intensity={10} position={[2, 3, -1]} angle={10} />
+      <spotLight intensity={10} position={[0, -1, 1]} angle={10} />
       <directionalLight intensity={2.5} position={[-2, 10, 0]} />
       <primitive
         ref={modelRef}
