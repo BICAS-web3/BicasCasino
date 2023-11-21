@@ -50,6 +50,36 @@ export const ProfileBettingStatistics: FC<ProfileBettingStatisticsProps> = (
           total: totals_response.bets_amount,
           sign: false,
         },
+        {
+          id: 5,
+          title: "Bets won",
+          total: totals_response.won_bets ? totals_response.won_bets : 0,
+          sign: false,
+        },
+        {
+          id: 7,
+          title: "Bets lose",
+          total: totals_response.lost_bets ? totals_response.lost_bets : 0,
+          sign: false,
+        },
+        {
+          id: 9,
+          title: "Highest Win",
+          total: totals_response.highest_win ? totals_response.highest_win : 0,
+          sign: true,
+        },
+        {
+          id: 2,
+          title: "Gross Profit",
+          total: totals_response.gross_profit ? totals_response.gross_profit : 0,
+          sign: true,
+        },
+        {
+          id: 2,
+          title: "Net Profite",
+          total: totals_response.net_profit ? totals_response.net_profit : 0,
+          sign: true,
+        },
       ]);
     }
     run();
