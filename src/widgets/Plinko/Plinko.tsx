@@ -544,6 +544,7 @@ export const Plinko: FC<IPlinko> = () => {
           </div>
           {path ? (
             <PlinkoPyramid
+              inGame={inGame}
               multipliers={multipliers}
               setMultipliers={setMultipliers}
               path={path}
@@ -553,6 +554,7 @@ export const Plinko: FC<IPlinko> = () => {
             />
           ) : (
             <PlinkoPyramid
+              inGame={inGame}
               multipliers={multipliers}
               setMultipliers={setMultipliers}
               path={undefined}

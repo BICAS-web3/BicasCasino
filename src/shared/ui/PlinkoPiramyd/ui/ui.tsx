@@ -20,7 +20,7 @@ interface PlinkoBallProps {
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
-  const isMobile = useMediaQuery("(max-width: 1200px)");
+  const isDesktop = useMediaQuery("(max-width: 1200px)");
   const ballRef = useRef<HTMLDivElement>(null);
   const pickedRows = useStore($pickedRows);
   const [ball, setBall] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
@@ -62,7 +62,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
     const result = simulatePlinkoResult();
     setTimeout(() => {
       setBall({ value: result, index: props.index });
-    }, pickedRows * (isMobile ? 210 : 215));
+    }, pickedRows * (isDesktop ? 210 : 215));
   }, [props.path]);
 
   let lastMove = 0;
@@ -184,10 +184,12 @@ interface IPlinkoPyramid {
   ballsArr: { value: number; index: number }[];
   setBallsArr: any;
   middleC: number;
+  inGame: boolean;
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
-  const isMobile = useMediaQuery("(max-width: 1200px)");
+  const isDesktop = useMediaQuery("(max-width: 1200px)");
+  const isMobile = useMediaQuery("(max-width: 650px)");
   const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);
@@ -325,19 +327,72 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimaitionDelay(animationFinished);
-    }, pickedRows * (isMobile ? 210 : 215));
+    }, pickedRows * (isDesktop ? 210 : 215));
   }, [animationFinished]);
 
   // useEffect(() => {
   //   alert(animationDelay);
   // }, [animationDelay]);
 
+  const [resetColor, setResetColor] = useState(false);
+  const [blueColor, setBlueColor] = useState<
+    { value: boolean; index: number }[]
+  >([]);
+  function setAnimation(time: number) {
+    const delay = time * 200;
+    if (time === rowCount - 1) {
+      setTimeout(() => {
+        setBlueColor([]);
+      }, (time + 1) * 200);
+    }
+    setTimeout(() => {
+      setBlueColor((prev) => [...prev, { index: time, value: true }]);
+    }, delay);
+  }
+
+  // alert(blueColor.length);
+  useEffect(() => {
+    let arr = Array.from({ length: rowCount });
+    if (blueColor.length !== 0) {
+      return;
+    }
+    {
+      if (path || props.inGame) {
+        arr.forEach((_, i) => setAnimation(i));
+      }
+    }
+  }, [resetColor]);
+  useEffect(() => {
+    setResetColor((prev) => !prev);
+  }, [path, rowCount, props.inGame]);
+
+  useEffect(() => {
+    let intervalId: any;
+
+    if (props.inGame) {
+      intervalId = setInterval(() => {
+        setResetColor((prev) => !prev);
+      }, 200);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [props.inGame]);
+
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
       const dots = [];
       for (let j = 0; j < i + 3; j++) {
-        dots.push(<span className={styles.dot} key={j}></span>);
+        dots.push(
+          <span
+            className={clsx(
+              styles.dot,
+              styles[`number_${i}`],
+              blueColor[i]?.value && styles.dot_animation
+            )}
+            key={j}
+          ></span>
+        );
       }
 
       rows.push(
@@ -405,29 +460,59 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
             styles.multipiler_cell,
             ball.value === i &&
               !animationDelay &&
-              styles.multipiler_cell_animated
+              value > 1 &&
+              styles.multipiler_cell_animated_positive,
+            !animationDelay &&
+              value < 1 &&
+              styles.multipiler_cell_animated_negative
           )}
           key={i}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="34"
-            height="24"
-            viewBox="0 0 34 24"
-            fill="none"
-          >
-            <path
-              style={{ transition: "all 0.5s" }}
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
-              fill={
-                ball.value === i && !animationDelay
-                  ? "#000"
-                  : multipliersBackground(i)
-              } //
-            />
-          </svg>
+          {isMobile ? (
+            <svg
+              width="17"
+              height="30"
+              viewBox="0 0 17 30"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                style={{ transition: "all 0.5s" }}
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M13.867 0C12 2.60142 10.5207 2.60142 8.5 2.60142C6.47928 2.60142 5 2.60142 3.41112 0H0V30H17V0H13.867Z"
+                fill={
+                  ball.value === i && !animationDelay
+                    ? value > 1
+                      ? "#20b22e"
+                      : "#979797"
+                    : multipliersBackground(i)
+                } //
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="34"
+              height="24"
+              viewBox="0 0 34 24"
+              fill="none"
+            >
+              <path
+                style={{ transition: "all 0.5s" }}
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
+                fill={
+                  ball.value === i && !animationDelay
+                    ? value > 1
+                      ? "#20b22e"
+                      : "#979797"
+                    : multipliersBackground(i)
+                } //
+              />
+            </svg>
+          )}
           <span
             className={clsx(matchToMiddle && styles.white_color)}
             // style={{ color: "red" }}
