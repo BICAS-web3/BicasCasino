@@ -15,6 +15,7 @@ import {
 } from "@/widgets/CustomWagerRangeInput";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 
+import * as ConnectModel from "@/widgets/Layout/model";
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import Head from "next/head";
 import clsx from "clsx";
@@ -23,12 +24,18 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { useEffect } from "react";
 
 const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const { connectors, connect } = useConnect();
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([PGM.$isPlaying]);
-
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   console.log("ssssstate - ", isPlaying);
 
   return (
@@ -53,6 +60,7 @@ const WagerContent = () => {
         className={clsx(s.connect_wallet_btn, styles.mobile)}
         onClick={() => {
           if (!isConnected) {
+            setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
             pressButton();
@@ -63,7 +71,7 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnecting ? (
+        {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
