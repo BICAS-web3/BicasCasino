@@ -16,6 +16,7 @@ import clsx from "clsx";
 interface PlinkoBallProps {
   path: boolean[];
   setAnimationFinished: any;
+  index: number;
 }
 
 export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
@@ -36,6 +37,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
   const device = useDeviceType();
 
   useEffect(() => {
+    // if()
     function simulatePlinkoResult() {
       let position = 0;
       let x = ballLeft;
@@ -59,7 +61,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
 
     const result = simulatePlinkoResult();
     setTimeout(() => {
-      setBall(result);
+      setBall({ value: result, index: props.index });
     }, pickedRows * (isMobile ? 210 : 215));
   }, [props.path]);
 
@@ -177,6 +179,11 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
 
 interface IPlinkoPyramid {
   path: boolean[][] | undefined;
+  multipliers: number[];
+  setMultipliers: (el: number[]) => void;
+  ballsArr: { value: number; index: number }[];
+  setBallsArr: any;
+  middleC: number;
 }
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
@@ -185,7 +192,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
-  const [multipliers, setMultipliers] = useState<number[]>([]);
+  // const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
 
   const [currentLevel, setCurrentLevel] = useState("");
@@ -195,10 +202,11 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const [path, setPath] = useState<boolean[] | undefined>(undefined);
   const [balls, setBalls] = useState<any[]>([]);
 
-  const [ballsArr, setBallsArr] = useState<number[]>([]);
+  // const [ballsArr, setBallsArr] = useState<number[]>([]);
 
   useEffect(() => {
-    setBallsArr((prev) => [...prev, ball]);
+    // if (props.ballsArr.length >= props?.path?.length) return;
+    props.setBallsArr((prev: any) => [...prev, ball]);
   }, [ball]);
 
   useEffect(() => {
@@ -221,6 +229,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
             path={props.path[pathIndex]}
             setAnimationFinished={setAnimationFinished}
             key={pathIndex.toString()}
+            index={pathIndex}
           />,
         ]);
         setPath(props.path[pathIndex]);
@@ -251,11 +260,11 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
     const hardMultipliersArray = newMultipliers.hardMultipliers[rowCount];
 
     if (lvl == "easy") {
-      setMultipliers(easyMultipliersArray);
+      props.setMultipliers(easyMultipliersArray);
     } else if (lvl == "normal") {
-      setMultipliers(normalMultipliersArray);
+      props.setMultipliers(normalMultipliersArray);
     } else if (lvl == "hard") {
-      setMultipliers(hardMultipliersArray);
+      props.setMultipliers(hardMultipliersArray);
     }
   };
 
@@ -299,7 +308,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   }, [pickedRows]);
 
   const [multipliersSteps, setMultipliersSteps] = useState<number>(
-    countMultipliersSteps(multipliers.length)
+    countMultipliersSteps(props.multipliers.length)
   );
 
   // Стилизация Кубиков со значениями
@@ -308,8 +317,8 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   }
 
   useEffect(() => {
-    setMultipliersSteps(countMultipliersSteps(multipliers.length));
-  }, [multipliers.length]);
+    setMultipliersSteps(countMultipliersSteps(props.multipliers.length));
+  }, [props.multipliers.length]);
 
   const [animationDelay, setAnimaitionDelay] = useState(false);
   // alert(animationFinished);
@@ -318,6 +327,11 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       setAnimaitionDelay(animationFinished);
     }, pickedRows * (isMobile ? 210 : 215));
   }, [animationFinished]);
+
+  // useEffect(() => {
+  //   alert(animationDelay);
+  // }, [animationDelay]);
+
   const generateRows = () => {
     const rows = [];
     for (let i = 0; i < rowCount; i++) {
@@ -377,12 +391,21 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       return multipliersColorCenter;
     }
     // console.log("11111,", arrStore);
-    const multiplierElements = multipliers.map((value, i) => {
+    const multiplierElements = props.multipliers.map((value, i) => {
+      const middle = Math.ceil((props.middleC - 1) / 2);
+      const matchToMiddle =
+        i === middle ||
+        i === middle + 1 ||
+        i === middle + 2 ||
+        i === middle - 1 ||
+        i === middle - 2;
       return (
         <div
           className={clsx(
             styles.multipiler_cell,
-            ball === i && !animationDelay && styles.multipiler_cell_animated
+            ball.value === i &&
+              !animationDelay &&
+              styles.multipiler_cell_animated
           )}
           key={i}
         >
@@ -399,13 +422,18 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
               clip-rule="evenodd"
               d="M27.7339 0C24 2.08113 21.0414 2.08113 17 2.08113C12.9586 2.08113 10 2.08113 6.82225 0H0V24H34V0H27.7339Z"
               fill={
-                ball === i && !animationDelay
+                ball.value === i && !animationDelay
                   ? "#000"
                   : multipliersBackground(i)
               } //
             />
           </svg>
-          <span style={{ color: "red" }}>{value}x</span>
+          <span
+            className={clsx(matchToMiddle && styles.white_color)}
+            // style={{ color: "red" }}
+          >
+            {value}x
+          </span>
         </div>
       );
     });
@@ -420,12 +448,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.balls_arr}>
-        {ballsArr.map(
-          (ball, i) =>
-            multipliers[ball] && <div key={ball + i}>{multipliers[ball]}</div>
-        )}
-      </div>
       {generateRows()}
       {path && (
         <div className={styles.plinko_ball_container}>

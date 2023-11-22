@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
@@ -31,6 +31,7 @@ import helmet from "@/public/media/plinko_images/helmet.png";
 import statue from "@/public/media/plinko_images/statue.png";
 
 import * as PlinkoM from "./model";
+import clsx from "clsx";
 
 const testBallPath = [
   [true, true, false, false, false, true, false, true],
@@ -55,8 +56,8 @@ const testBallPath = [
   [true, true, false, false, false, true, false, true],
   [true, true, false, false, false, true, false, true],
   [false, true, true, false, false, false, false, false],
-  // [false, true, true, false, false, false, true, true],
-  // [true, true, true, true, true, true, true, true],
+  [false, true, true, false, false, false, true, true],
+  [true, true, true, true, true, true, true, true],
   // [false, true, false, true, true, false, false, false],
   // [false, true, true, false, false, false, false, false],
   // [true, true, false, false, false, true, false, true],
@@ -316,6 +317,11 @@ export const Plinko: FC<IPlinko> = () => {
     //gas: BigInt(3000000),
   });
 
+  const [finish, setFinish] = useState(true);
+  useEffect(() => {
+    if (inGame) setFinish(false);
+  }, [inGame]);
+
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -462,7 +468,26 @@ export const Plinko: FC<IPlinko> = () => {
       //pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [multipliers, setMultipliers] = useState<number[]>([]);
 
+  const [ballsArr, setBallsArr] = useState<{ value: number; index: number }[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (ballsArr.length - 1 === path?.length) {
+      setTimeout(() => {
+        setBallsArr([
+          {
+            value: -1,
+            index: -1,
+          },
+        ]);
+      }, 700);
+    }
+  }, [ballsArr, path]);
+
+  console.log("ballsArr: ", ballsArr);
   return (
     <div className={styles.plinko_table_wrap}>
       <div className={styles.plinko_table_background}>
@@ -493,10 +518,48 @@ export const Plinko: FC<IPlinko> = () => {
       </div>
       <div className={styles.plinko_table}>
         <div className={styles.pyramid}>
+          <div className={styles.balls_arr}>
+            {ballsArr
+              .sort((a, b) => b.index - a.index)
+              .map(
+                (ball, i) =>
+                  multipliers[ball.value] && (
+                    <div
+                      className={clsx(
+                        styles.multiplier_value,
+                        multipliers[ball.value] > 1 &&
+                          styles.multiplier_positive,
+                        multipliers[ball.value] < 1 &&
+                          styles.multiplier_negative,
+                        multipliers[ball.value] < 0.6 &&
+                          styles.multiplier_extranegative
+                      )}
+                      key={i}
+                    >
+                      {multipliers[ball.value]}x
+                    </div>
+                  )
+              )}
+            {}
+          </div>
           {path ? (
-            <PlinkoPyramid path={path} />
+            <PlinkoPyramid
+              multipliers={multipliers}
+              setMultipliers={setMultipliers}
+              path={path}
+              ballsArr={ballsArr}
+              setBallsArr={setBallsArr}
+              middleC={multipliers.length}
+            />
           ) : (
-            <PlinkoPyramid path={testBallPath} />
+            <PlinkoPyramid
+              multipliers={multipliers}
+              setMultipliers={setMultipliers}
+              path={undefined}
+              ballsArr={ballsArr}
+              setBallsArr={setBallsArr}
+              middleC={multipliers.length}
+            />
           )}
         </div>
       </div>

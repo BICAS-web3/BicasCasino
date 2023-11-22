@@ -101,6 +101,9 @@
         & span {
           z-index: 4;
           font-family: inherit;
+          font-weight: 700;
+          font-size: 10px;
+          font-family: var(--font-source-sans-3);
         }
 
         @media screen and (max-width: 996px) {
@@ -125,19 +128,8 @@
   }
 }
 
-.balls_arr {
-  position: absolute;
-  top: -100px;
-  right: 0;
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 3px;
-  div {
-    padding: 5px 15px;
-    color: white;
-    border-radius: 20px;
-    background-color: black;
-  }
+.multiplier_extranegative {
+  background: var(--switch-in-game-2-e-night, #2e2e2e);
 }
 
 @keyframes cell {
@@ -164,4 +156,8 @@
   position: absolute;
   width: fit-content;
   //transition: all 0.2s linear;
+}
+
+.white_color {
+  color: black;
 }
