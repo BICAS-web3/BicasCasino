@@ -27,7 +27,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
-  const [popupBonusState, setPopupBonusState] = useState(true)
+  const [popupBonusState, setPopupBonusState] = useState('true')
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
@@ -35,7 +35,11 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 
   useEffect(() => {
     const dontShowState = localStorage.getItem('bonusPopupState')
-    setPopupBonusState(dontShowState)
+    if(dontShowState == undefined) {
+      setPopupBonusState('true')
+    } else {
+      setPopupBonusState(dontShowState)
+    }
   })
 
   return (
