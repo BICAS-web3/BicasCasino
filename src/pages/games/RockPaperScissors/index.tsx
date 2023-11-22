@@ -22,20 +22,27 @@ import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
+import * as ConnectModel from "@/widgets/Layout/model";
 
 import { useEffect } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import { Suspense, lazy } from "react";
 
-
 const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
 
   const { connectors, connect } = useConnect();
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -51,13 +58,14 @@ const WagerContent = () => {
         className={clsx(s.connect_wallet_btn, s.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
+            setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
             pressButton();
           }
         }}
       >
-        {isConnecting ? (
+        {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />

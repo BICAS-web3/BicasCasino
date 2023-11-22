@@ -11,10 +11,15 @@ import { checkPageClicking } from "@/shared/tools";
 import s from "./styles.module.scss";
 import { useAccount } from "wagmi";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
 
 export interface ConnectWalletButtonProps {}
 
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [isMainWalletOpen, setBlur] = useUnit([
     MainWallet.$isMainWalletOpen,
     BlurModel.setBlur,
@@ -54,7 +59,11 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
 
 
   }, [walletVisibility]);
-
+  useEffect(() => {
+    return () => {
+      setStartConnect(false);
+    };
+  }, []);
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
     setBlur(false);
@@ -62,8 +71,6 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
   };
 
   const { isConnecting } = useAccount();
-
-  const [startConnect, setStartConnect] = useState(false);
 
   return (
     <div
@@ -77,7 +84,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
           setStartConnect(true);
         }}
       >
-        {isConnecting ? (
+        {isConnecting && startConnect ? (
           <LoadingDots className={s.join_dots} title="Joinning" />
         ) : (
           "Join Wallet"

@@ -20,12 +20,20 @@ import { useEffect } from "react";
 import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
+import * as ConnectModel from "@/widgets/Layout/model";
 const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
 
   const [isPlaying] = useUnit([PokerModel.$isPlaying]);
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   return (
     <>
       <WagerInputsBlock />
@@ -33,6 +41,7 @@ const WagerContent = () => {
         className={clsx(s.poker_wager_drawing_cards_btn, s.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
+            setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
             pressButton();
@@ -43,7 +52,7 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnecting ? (
+        {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
