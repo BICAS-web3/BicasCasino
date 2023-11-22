@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from "react";
 
 import { useAccount, useContractRead } from "wagmi";
-
 import Image from "next/image";
-
+import * as PopupModel from '../model'
 import { useUnit } from "effector-react";
-
+import checkIco from "@/public/media/banner_images/checkIco.png";
 import {
   useContractWrite,
   useNetwork,
@@ -23,9 +22,10 @@ import { ABI as abi } from "@/shared/contracts/ClaimBonusABI";
 import { checkPageClicking } from "@/shared/tools";
 import { CloseIcon } from "@/shared/SVGs";
 
-import banner_desktop from "@/public/media/banner_images/banner_desktop.png";
-import banner_medium from "@/public/media/banner_images/banner_medium.png";
-import banner_mobile from "@/public/media/banner_images/banner_mobile.png";
+import banner_desktop from "@/public/media/banner_images/popupDeskBg.png";
+import banner_medium from "@/public/media/banner_images/popupTabletBg.png";
+import banner_mobile from "@/public/media/banner_images/popupPhoneBg.png";
+import logo from "@/public/media/banner_images/logo.svg";
 
 import s from "./style.module.scss";
 
@@ -37,7 +37,6 @@ export const PopUpBonus: FC = () => {
   const [close, setClose] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [walletVisibility, setWalletVisibility] = useState(false);
-
   const { chain } = useNetwork();
   const { address, isConnected, isConnecting } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
@@ -63,6 +62,11 @@ export const PopUpBonus: FC = () => {
     enabled: true,
     watch: isConnected,
   });
+
+  const [showState, setShowState] = useUnit([
+    PopupModel.$showState,
+    PopupModel.setShowState
+  ])
 
   useEffect(() => {
     if (readSuccess && address) {
@@ -167,6 +171,18 @@ export const PopUpBonus: FC = () => {
     }
   };
 
+  const handleShowStateBtn = () => {
+    setShowState(!showState)
+  }
+
+  useEffect(() => {
+    if(showState) {
+      localStorage.setItem('bonusPopupState', 'false')
+    } else {
+      localStorage.setItem('bonusPopupState', 'true')
+    }
+  }, [showState])
+
   useEffect(() => {
     claimed === true && isConnected && closeModal();
   }, [claimed]);
@@ -212,13 +228,15 @@ export const PopUpBonus: FC = () => {
         <div className={s.img_wrapper}>
           <Image className={s.img} src={bgImage!} alt="100%" />
         </div>
-        <h2 className={s.title}>
-          {!isConnected ? "Receive your first 100$ bonus" : "Claim your bonus"}
-        </h2>
+        <Image src={logo} className={s.popup_logo} alt="logo" />
+        <span className={s.title_default}><span className={s.inner_default_title}>No KYC,</span> all privacy - just play and win!</span>
+        <span className={s.title_default}>Unlock the thrill: Get your <span className={s.inner_default_title}>$100 bonus in DRAXB tokens now!</span></span>
+        <p className={s.text_default}>Step into the <span>Web3.0</span> realm as a Greek god of gaming! Immerse yourself in an exhilarating gaming experience filled with divine adventures.</p>
         <div
           data-id={"connect-wallet-block"}
           onClick={(e) => e.stopPropagation()}
         >
+          <span className={s.subtitle}>Blockchain gas fee may apply</span>
           <button className={s.connect_wallet_button} onClick={claimBonus}>
             {address && isConnected ? (
               chain?.id !== 42161 ? (
@@ -229,14 +247,9 @@ export const PopUpBonus: FC = () => {
             ) : isConnecting ? (
               <LoadingDots className={s.dots_black} title="Connecting" />
             ) : (
-              "Connect Wallet"
+              "join game"
             )}
           </button>{" "}
-          <p className={s.banner_wallet_text}>
-            *To receive the bonus you need to connect your cryptocurrency wallet
-            (we support <span>only Trust Wallet </span> and{" "}
-            <span>Metamask</span>).
-          </p>
           {!address && !isConnected && (
             <div
               className={`${s.header_avaibleWallet_wrap} ${
@@ -246,6 +259,10 @@ export const PopUpBonus: FC = () => {
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
           )}
+        </div>
+        <div className={s.checkbox}>
+          <div onClick={handleShowStateBtn} className={`${s.checkbox_block} ${showState && s.checked}`}> {showState && <Image src={checkIco} alt="arrow" /> } </div>
+          Don’t show again
         </div>
       </article>
     </div>
