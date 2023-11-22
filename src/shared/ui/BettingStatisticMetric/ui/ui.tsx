@@ -19,7 +19,7 @@ export const BettingStatisticMetric: FC<IBettingStatisticMetric> = ({
       <td>
         <span className={styles.metric_total}>
           {sign && "$"}
-          {data.total}
+          {data.total.toFixed(0)}
         </span>
       </td>
     </tr>
