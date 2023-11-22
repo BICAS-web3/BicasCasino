@@ -26,7 +26,8 @@ import { useMediaQuery } from "@/shared/tools";
 
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
+
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -37,8 +38,8 @@ const WagerContent = () => {
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
-
   const [isPlaying] = useUnit([DGM.$isPlaying]);
+
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
@@ -55,7 +56,7 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={s.connect_wallet_btn}
+          className={`${s.connect_wallet_btn} ${isPlaying && 'animation-leftRight'}`} 
           onClick={() => {
             if (!isConnected) {
               setStartConnect(true);

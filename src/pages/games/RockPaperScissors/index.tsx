@@ -55,7 +55,7 @@ const WagerContent = () => {
       <WagerGainLoss />
       <RpsPicker />
       <button
-        className={clsx(s.connect_wallet_btn, s.mobile)}
+        className={clsx(s.connect_wallet_btn, s.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
             setStartConnect(true);

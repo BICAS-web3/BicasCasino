@@ -56,6 +56,8 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
       setBlur(false);
       document.documentElement.style.overflow = "visible";
     }
+
+
   }, [walletVisibility]);
   useEffect(() => {
     return () => {

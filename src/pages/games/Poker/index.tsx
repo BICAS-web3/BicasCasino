@@ -38,7 +38,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <button
-        className={clsx(s.poker_wager_drawing_cards_btn, s.mobile)}
+        className={clsx(s.poker_wager_drawing_cards_btn, s.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
             setStartConnect(true);

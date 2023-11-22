@@ -57,7 +57,7 @@ const WagerContent = () => {
       />
 
       <button
-        className={clsx(s.connect_wallet_btn, styles.mobile)}
+        className={clsx(s.connect_wallet_btn, styles.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
             setStartConnect(true);

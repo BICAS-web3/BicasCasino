@@ -34,3 +34,32 @@ a:focus {
 a:active {
   text-decoration: none;
 }
+
+
+.animation-leftRight {
+  position: relative;
+  overflow: hidden;
+
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 23px;
+    height: 200%;
+    background: rgba(255,255,255, 0.3);
+    filter: blur(6px);
+    transform: rotate(30deg);
+    animation:  leftToRightAnim 2s infinite linear;
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes leftToRightAnim {
+  0% {
+    left: -50px;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
