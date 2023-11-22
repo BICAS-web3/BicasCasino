@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 
 import { SideBar } from "@/widgets/SideBar";
@@ -14,7 +14,7 @@ import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
-
+import * as BonusPopupM from '@/widgets/PopUpBonus/model'
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 interface LayoutProps {
@@ -27,10 +27,20 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
+  const [popupBonusState, setPopupBonusState] = useState('true')
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    const dontShowState = localStorage.getItem('bonusPopupState')
+    if(dontShowState == undefined) {
+      setPopupBonusState('true')
+    } else {
+      setPopupBonusState(dontShowState)
+    }
+  })
 
   
 
@@ -40,7 +50,16 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          <PopUpBonus />
+          {/* {
+            dontShowState === ''
+          } */}
+          {
+            popupBonusState === 'false' ? (
+              null
+            ) : (
+              <PopUpBonus />
+            )
+          }
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >
