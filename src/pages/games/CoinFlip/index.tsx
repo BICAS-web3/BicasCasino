@@ -19,6 +19,8 @@ import Head from "next/head";
 import clsx from "clsx";
 import * as CFM from "@/widgets/CoinFlip/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
+import { useEffect } from "react";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -26,7 +28,13 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
 
   const [isPlaying] = useUnit([CFM.$isPlaying]);
-
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   return (
     <>
       <WagerInputsBlock />
@@ -40,9 +48,10 @@ const WagerContent = () => {
       <ProfitBlock />
       <SidePicker />
       <button
-        className={clsx(s.connect_wallet_btn, s.mobile)}
+        className={clsx(s.connect_wallet_btn, s.mobile, isPlaying && 'animation-leftRight')}
         onClick={() => {
           if (!isConnected) {
+            setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
             pressButton();
@@ -53,7 +62,7 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnecting ? (
+        {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />

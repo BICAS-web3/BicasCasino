@@ -92,6 +92,7 @@ import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
 import { PopUpBonus } from "@/widgets/PopUpBonus";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -311,9 +312,12 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
     </div>
   );
 };
-
 interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [isOpen, isMainWalletOpen, close, open, setBlur] = useUnit([
     SideBarModel.$isOpen,
     MainWallet.$isMainWalletOpen,
@@ -331,6 +335,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   };
 
   const handleConnectWalletBtn = () => {
+    setStartConnect(true);
     if (!isMainWalletOpen) {
       open();
       setBlur(true);
@@ -352,7 +357,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           <>
             <div className={s.text}>Login via Web3 wallets</div>
             <div className={s.button} onClick={handleConnectWalletBtn}>
-              {isConnecting ? (
+              {isConnecting && startConnect ? (
                 <LoadingDots className={s.join_dots} title="Connecting" />
               ) : (
                 "Connect Wallet"
@@ -469,6 +474,7 @@ export default function Home() {
   useEffect(() => {
     preloadModel();
   }, []);
+
   return (
     <>
       <Head>

@@ -202,6 +202,11 @@ export type T_LatestGames = {
 export type T_PlayerTotals = {
   bets_amount: number;
   total_wagered_sum: number | null;
+  won_bets: number | null;
+  lost_bets: number | null;
+  highest_win: number | null;
+  gross_profit: number | null;
+  net_profit: number | null;
 };
 
 export type T_TokenPrice = {
