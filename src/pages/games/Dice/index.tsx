@@ -28,7 +28,6 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import { Suspense, lazy, useEffect, useState } from "react";
 
-
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,

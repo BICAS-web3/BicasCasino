@@ -1,7 +1,8 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
+import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.png";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -13,7 +14,7 @@ import { sessionModel } from "@/entities/session";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { TOKENS } from "@/shared/tokens";
-import { useDebounce } from "@/shared/tools";
+import { useDebounce, useMediaQuery } from "@/shared/tools";
 import {
   useNetwork,
   useAccount,
@@ -31,6 +32,7 @@ import helmet from "@/public/media/plinko_images/helmet.png";
 import statue from "@/public/media/plinko_images/statue.png";
 
 import * as PlinkoM from "./model";
+import clsx from "clsx";
 
 const testBallPath = [
   [true, true, false, false, false, true, false, true],
@@ -57,13 +59,13 @@ const testBallPath = [
   [false, true, true, false, false, false, false, false],
   [false, true, true, false, false, false, true, true],
   [true, true, true, true, true, true, true, true],
-  [false, true, false, true, true, false, false, false],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true],
+  // [false, true, false, true, true, false, false, false],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, false, false, false, true, false, true],
   // [true, true, false, false, false, true, false, true],
   // [false, true, true, false, false, false, false, false],
   // [false, true, true, false, false, false, true, true],
@@ -102,17 +104,19 @@ const testBallPath = [
   // [false, true, true, true, true, true, true, true],
   // [false, true, true, true, true, true, true, true],
   // [false, true, true, true, true, true, true, true],
-  [false, true, true, true, true, true, true, true],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
+  // [false, true, true, true, true, true, true, true],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
+  // [false, false, false, false, false, false, false, false],
 ];
 
 interface IPlinko {}
 
 export const Plinko: FC<IPlinko> = () => {
+  const isMobile = useMediaQuery("(max-width: 480px)");
+
   const [
     setPlayingStatus,
     playSounds,
@@ -316,6 +320,11 @@ export const Plinko: FC<IPlinko> = () => {
     //gas: BigInt(3000000),
   });
 
+  const [finish, setFinish] = useState(true);
+  useEffect(() => {
+    if (inGame) setFinish(false);
+  }, [inGame]);
+
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -462,12 +471,31 @@ export const Plinko: FC<IPlinko> = () => {
       //pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [multipliers, setMultipliers] = useState<number[]>([]);
 
+  const [ballsArr, setBallsArr] = useState<{ value: number; index: number }[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (ballsArr.length - 1 === path?.length) {
+      setTimeout(() => {
+        setBallsArr([
+          {
+            value: -1,
+            index: -1,
+          },
+        ]);
+      }, 700);
+    }
+  }, [ballsArr, path]);
+
+  console.log("ballsArr: ", ballsArr);
   return (
     <div className={styles.plinko_table_wrap}>
       <div className={styles.plinko_table_background}>
         <Image
-          src={tableBg}
+          src={isMobile ? mobilebg : tableBg}
           className={styles.plinko_table_background_img}
           alt="table-bg"
           width={1418}
@@ -493,10 +521,50 @@ export const Plinko: FC<IPlinko> = () => {
       </div>
       <div className={styles.plinko_table}>
         <div className={styles.pyramid}>
+          <div className={styles.balls_arr}>
+            {ballsArr
+              .sort((a, b) => b.index - a.index)
+              .map(
+                (ball, i) =>
+                  multipliers[ball.value] && (
+                    <div
+                      className={clsx(
+                        styles.multiplier_value,
+                        multipliers[ball.value] > 1 &&
+                          styles.multiplier_positive,
+                        multipliers[ball.value] < 1 &&
+                          styles.multiplier_negative,
+                        multipliers[ball.value] < 0.6 &&
+                          styles.multiplier_extranegative
+                      )}
+                      key={i}
+                    >
+                      {multipliers[ball.value]}x
+                    </div>
+                  )
+              )}
+            {}
+          </div>
           {path ? (
-            <PlinkoPyramid path={path} />
+            <PlinkoPyramid
+              inGame={inGame}
+              multipliers={multipliers}
+              setMultipliers={setMultipliers}
+              path={path}
+              ballsArr={ballsArr}
+              setBallsArr={setBallsArr}
+              middleC={multipliers.length}
+            />
           ) : (
-            <PlinkoPyramid path={undefined} />
+            <PlinkoPyramid
+              inGame={inGame}
+              multipliers={multipliers}
+              setMultipliers={setMultipliers}
+              path={undefined}
+              ballsArr={ballsArr}
+              setBallsArr={setBallsArr}
+              middleC={multipliers.length}
+            />
           )}
         </div>
       </div>

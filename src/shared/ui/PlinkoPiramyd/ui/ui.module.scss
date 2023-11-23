@@ -25,6 +25,7 @@
       align-items: center;
 
       .dot {
+        transition: all 0.5s;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -46,10 +47,47 @@
           margin: 6px 11.5px;
         }
 
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: 768px) {
           margin: 4px 7.5px;
         }
       }
+
+      .dot_animation {
+        background: #3dadff !important;
+      }
+      // .dot[data-id="0"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="1"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="2"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="3"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="4"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="5"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="6"] {
+      //   background: #3dadff !important;
+      // }
+      // .dot[data-id="7"] {
+      //   background: #3dadff !important;
+      // }
+
+      @keyframes dot_1 {
+        0% {
+        }
+      }
+
+      // .number_1 {
+      //   background-color: red !important;
+      // }
     }
 
     .multipiler_container {
@@ -101,6 +139,13 @@
         & span {
           z-index: 4;
           font-family: inherit;
+          font-weight: 700;
+          font-size: 10px;
+          font-family: var(--font-source-sans-3);
+          @media screen and (max-width: 768px) {
+            font-size: 8px;
+            transform: rotate(90deg);
+          }
         }
 
         @media screen and (max-width: 996px) {
@@ -110,19 +155,32 @@
           padding: 0;
         }
 
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: 768px) {
           font-size: 5px;
           padding: 0;
+          // width: 17px;
+          // height: 12px;
           width: 17px;
-          height: 12px;
+          height: 30px;
         }
       }
-      .multipiler_cell_animated {
-        top: 3px;
-        // animation: cell 1.7s ease-in 1;
-      }
+      // .multipiler_cell_animated {
+      //   top: 3px;
+      //   // animation: cell 1.7s ease-in 1;
+      // }
     }
   }
+}
+
+// .multipiler_cell_animated_positive {
+//   background-color: #20b22e;
+// }
+// .multipiler_cell_animated_negative {
+//   background-color: #979797;
+// }
+
+.multiplier_extranegative {
+  background: var(--switch-in-game-2-e-night, #2e2e2e);
 }
 
 @keyframes cell {
@@ -149,4 +207,8 @@
   position: absolute;
   width: fit-content;
   //transition: all 0.2s linear;
+}
+
+.white_color {
+  color: black;
 }
