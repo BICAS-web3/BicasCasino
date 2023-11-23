@@ -42,7 +42,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     // }
     // setPopupBonusState(dontShowState)
     setPopupBonusState(JSON.stringify(dontShowState))
-  })
+  }, [])
 
   console.log('STATE-', popupBonusState)
 
