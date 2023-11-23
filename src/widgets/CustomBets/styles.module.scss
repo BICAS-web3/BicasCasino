@@ -97,6 +97,11 @@
     border-left: 2px solid #1a1a1a;
 }
 
+.customBets_list_item[data-playerBet="true"] {
+    border-left: 2px solid #E4C480;
+    background: linear-gradient(90deg, rgba(150, 98, 37, 0.20) 0%, rgba(150, 98, 37, 0.01) 100%), #1A1A1A;
+}
+
 .customBets_list {
     display: flex;
     flex-direction: column;

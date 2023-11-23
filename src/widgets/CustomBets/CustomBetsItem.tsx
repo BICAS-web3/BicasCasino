@@ -65,11 +65,14 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
     }
   });
 
+  console.log(address === props.player_address)
+  console.log(address, props.player_address)
+
   return (
     <div
       className={s.customBets_list_item}
       data-bg={props.id % 2 === 0 && "true"}
-      data-playerBet={address === props.player_address && 'true'}
+      data-playerBet={address?.toLowerCase() === props.player_address && 'true'}
     >
       <div className={s.customBets_list_item_time_block}>
         <Link
