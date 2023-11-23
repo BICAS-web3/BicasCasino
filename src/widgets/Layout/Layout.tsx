@@ -35,14 +35,16 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 
   useEffect(() => {
     const dontShowState = localStorage.getItem('bonusPopupState')
-    if(dontShowState == undefined) {
-      setPopupBonusState('true')
-    } else {
-      setPopupBonusState(dontShowState)
-    }
+    // if(dontShowState == undefined) {
+    //   setPopupBonusState('true')
+    // } else {
+    //   setPopupBonusState(dontShowState)
+    // }
+    // setPopupBonusState(dontShowState)
+    setPopupBonusState(dontShowState)
   })
 
-  
+  console.log('STATE-', popupBonusState)
 
   return (
     <>
@@ -50,11 +52,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          {/* {
-            dontShowState === ''
-          } */}
           {
-            popupBonusState === 'false' ? (
+            popupBonusState === 'true' ? (
               null
             ) : (
               <PopUpBonus />
