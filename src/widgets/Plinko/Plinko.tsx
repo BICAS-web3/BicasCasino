@@ -2,6 +2,7 @@ import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
+import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.png";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -13,7 +14,7 @@ import { sessionModel } from "@/entities/session";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { TOKENS } from "@/shared/tokens";
-import { useDebounce } from "@/shared/tools";
+import { useDebounce, useMediaQuery } from "@/shared/tools";
 import {
   useNetwork,
   useAccount,
@@ -114,6 +115,8 @@ const testBallPath = [
 interface IPlinko {}
 
 export const Plinko: FC<IPlinko> = () => {
+  const isMobile = useMediaQuery("(max-width: 480px)");
+
   const [
     setPlayingStatus,
     playSounds,
@@ -492,7 +495,7 @@ export const Plinko: FC<IPlinko> = () => {
     <div className={styles.plinko_table_wrap}>
       <div className={styles.plinko_table_background}>
         <Image
-          src={tableBg}
+          src={isMobile ? mobilebg : tableBg}
           className={styles.plinko_table_background_img}
           alt="table-bg"
           width={1418}

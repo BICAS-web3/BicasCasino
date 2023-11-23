@@ -189,7 +189,7 @@ interface IPlinkoPyramid {
 
 export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const isDesktop = useMediaQuery("(max-width: 1200px)");
-  const isMobile = useMediaQuery("(max-width: 650px)");
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
   const pickedRows = useStore($pickedRows);

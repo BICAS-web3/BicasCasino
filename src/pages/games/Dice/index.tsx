@@ -27,7 +27,6 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import { Suspense, lazy } from "react";
 
-
 const WagerContent = () => {
   const isMobile = useMediaQuery("(max-width: 996px)");
   const { isConnected, isConnecting } = useAccount();

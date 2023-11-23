@@ -47,7 +47,7 @@
           margin: 6px 11.5px;
         }
 
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: 768px) {
           margin: 4px 7.5px;
         }
       }
@@ -142,7 +142,7 @@
           font-weight: 700;
           font-size: 10px;
           font-family: var(--font-source-sans-3);
-          @media screen and (max-width: 650px) {
+          @media screen and (max-width: 768px) {
             font-size: 8px;
             transform: rotate(90deg);
           }
@@ -155,7 +155,7 @@
           padding: 0;
         }
 
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: 768px) {
           font-size: 5px;
           padding: 0;
           // width: 17px;
