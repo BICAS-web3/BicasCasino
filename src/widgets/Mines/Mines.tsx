@@ -8,6 +8,7 @@ import { MineGreenIcon } from "@/shared/SVGs/MineGreenIcon";
 import "swiper/scss";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
 import "swiper/css/navigation";
+import { ArrowIconSwap } from "@/shared/SVGs/ArrSwiperIcon";
 
 type Props = {};
 
@@ -110,36 +111,14 @@ export const Mines = (props: Props) => {
           </Swiper>
         </div>
         <div className={clsx(styles.arr, styles.arr_prev)} onClick={handlePrev}>
-          <svg
-            width="8"
-            height="14"
-            viewBox="0 0 8 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M6.4 0L8 1.75L3.2 7L8 12.25L6.4 14L-1.47871e-09 7L6.4 0Z"
-              fill="#7E7E7E"
-            />
-          </svg>
+          <ArrowIconSwap
+            className={clsx(styles.arr_icon, styles.arr_icon_left)}
+          />
         </div>
         <div className={clsx(styles.arr, styles.arr_next)} onClick={handleNext}>
-          <svg
-            width="8"
-            height="14"
-            viewBox="0 0 8 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M1.6 14L-1.52805e-07 12.25L4.8 7L-1.06964e-06 1.75L1.6 5.60182e-07L8 7L1.6 14Z"
-              fill="#7E7E7E"
-            />
-          </svg>
+          <ArrowIconSwap
+            className={clsx(styles.arr_icon, styles.arr_icon_right)}
+          />
         </div>
       </div>
     </div>

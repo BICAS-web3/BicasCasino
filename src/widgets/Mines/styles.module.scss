@@ -308,3 +308,16 @@
     right: 4px;
   }
 }
+
+.arr_icon_right {
+  transform: rotate(180deg);
+}
+
+.arr_icon {
+  width: 8px;
+  height: 14px;
+  @media (max-width: 650px) {
+    width: 4px;
+    height: 7px;
+  }
+}
