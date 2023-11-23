@@ -27,7 +27,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
-  const [popupBonusState, setPopupBonusState] = useState('true')
+  const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`)
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
@@ -41,7 +41,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     //   setPopupBonusState(dontShowState)
     // }
     // setPopupBonusState(dontShowState)
-    setPopupBonusState(dontShowState)
+    setPopupBonusState(JSON.stringify(dontShowState))
   })
 
   console.log('STATE-', popupBonusState)
@@ -53,7 +53,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
           {
-            popupBonusState === 'true' ? (
+            popupBonusState === `"true"` ? (
               null
             ) : (
               <PopUpBonus />
