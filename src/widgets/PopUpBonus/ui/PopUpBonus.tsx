@@ -45,6 +45,7 @@ export const PopUpBonus: FC = () => {
   const { chain } = useNetwork();
   const { address, isConnected, isConnecting } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
+  const [showStateModal, setShowStateModal] = useState(false)
 
   let bgImage;
   const documentWidth = document.documentElement.clientWidth;
@@ -185,17 +186,27 @@ export const PopUpBonus: FC = () => {
     }
   };
 
+  useEffect(() => {
+    const storedState = localStorage.getItem('bonusPopupState');
+    if (storedState === null) {
+      localStorage.setItem('bonusPopupState', 'false');
+    } else {
+      setShowState(storedState === 'true');
+    }
+  }, []);
+
   const handleShowStateBtn = () => {
-    setShowState(!showState)
+    setShowState(!showState);
+    localStorage.setItem('bonusPopupState', `${!showState}`);
   }
 
   useEffect(() => {
-    if(showState) {
-      localStorage.setItem('bonusPopupState', 'false')
-    } else {
-      localStorage.setItem('bonusPopupState', 'true')
+
+    const storedState = localStorage.getItem('bonusPopupState');
+    if (storedState === 'false') {
+      setShowState(false);
     }
-  }, [showState])
+  }, []);
 
   useEffect(() => {
     claimed === true && isConnected && closeModal();

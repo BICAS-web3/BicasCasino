@@ -27,7 +27,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
-  const [popupBonusState, setPopupBonusState] = useState('true')
+  const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`)
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
@@ -35,14 +35,16 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 
   useEffect(() => {
     const dontShowState = localStorage.getItem('bonusPopupState')
-    if(dontShowState == undefined) {
-      setPopupBonusState('true')
-    } else {
-      setPopupBonusState(dontShowState)
-    }
-  })
+    // if(dontShowState == undefined) {
+    //   setPopupBonusState('true')
+    // } else {
+    //   setPopupBonusState(dontShowState)
+    // }
+    // setPopupBonusState(dontShowState)
+    setPopupBonusState(JSON.stringify(dontShowState))
+  }, [])
 
-  
+  console.log('STATE-', popupBonusState)
 
   return (
     <>
@@ -50,11 +52,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          {/* {
-            dontShowState === ''
-          } */}
           {
-            popupBonusState === 'false' ? (
+            popupBonusState === `"true"` ? (
               null
             ) : (
               <PopUpBonus />
