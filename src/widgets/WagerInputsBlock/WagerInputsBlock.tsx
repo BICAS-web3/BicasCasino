@@ -19,6 +19,8 @@ import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
 import downArr from "@/public/media/misc/downArr.png";
 
+import { WagerModel as WagerM } from "@/widgets/Wager";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 // const tokensList = [
 //   {
 //     title: "token 1",
@@ -52,6 +54,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     unpickToken,
     betsAmount,
     //pressButton
+    Wagered,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -61,6 +64,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     WagerModel.pickToken,
     WagerModel.unpickToken,
     CustomWagerRangeInputModel.$pickedValue,
+    WagerM.$Wagered,
     //WagerModel.pressButton
   ]);
 
@@ -190,9 +194,27 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   }, [betsAmount]);
 
   const cond = true;
+  const [currentBalance] = useUnit([sessionModel.$currentBalance]);
 
+  const [isLowBalance, setIsLowBalance] = useState(false);
+
+  useEffect(() => {
+    if (
+      currentBalance &&
+      Wagered &&
+      Number(cryptoInputValue) > currentBalance
+    ) {
+      setIsLowBalance(true);
+    }
+  }, [Wagered]);
   return (
     <>
+      {isLowBalance && (
+        <ErrorCheck
+          text="There is not enough balance in the wallet to pay for the transaction."
+          btnTitle="Top up balance"
+        />
+      )}
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div className={s.poker_wager_input_kripto_block}>
           <input
