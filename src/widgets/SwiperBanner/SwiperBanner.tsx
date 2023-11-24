@@ -31,6 +31,8 @@ import swiperImg2Mobile from '@/public/media/swiperBannerImgs/swiperBanner2Mobil
 import swiperImg3Mobile from '@/public/media/swiperBannerImgs/swiperBanner3Mobile.png';
 import swiperImg4Mobile from '@/public/media/swiperBannerImgs/swiperBanner4Mobile.png';
 
+import kycIco from '@/public/media/swiperBannerImgs/kycIco.svg'
+
 ///
 
 const swiperSlides = [
@@ -115,7 +117,7 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
                 slidesPerView={1}
                 fadeEffect={{crossFade: true}}
                 autoplay={{
-                    delay: 2500,
+                    delay: 4500,
                     disableOnInteraction: false,
                 }}
                 speed={1000}
@@ -126,11 +128,22 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
             >
                 {
                     swiperSlides.map((slide, ind) => (
-                        <SwiperSlide key={ind} className={s.main_banner_swiper_slide} >
-                            <Image className={s.slide_bg_img} src={slide.deskImg} alt='slide-imd' />
-                            <h1>{ind + 10}</h1>
-                            <h1>{ind + 10} Lorem, ipsum.</h1>
-                            <h1>{ind + 10} Lorem, ipsum dolor.</h1>
+                        <SwiperSlide key={ind} id="swiper-slide-banner" className={s.main_banner_swiper_slide} >
+                            <Image className={s.slide_bg_img} src={ is1280 ? slide.laptopImg : is700 ? slide.tabletImg : is650 ? slide.mobileImg : slide.deskImg } alt='slide-imd' />
+                            <span className={`${s.slide_text} ${ind===0 && s.title}`}>{slide.text}</span>
+                            {
+                                slide.subTitle && (
+                                    <div className={s.kyc_block}>
+                                        <Image src={kycIco} alt="kyc-ico" />
+                                        Without KYC <br /> just connect your wallet and play
+                                    </div>
+                                )
+                            }
+                            {
+                                slide.isBtn === true && (
+                                    <button className={s.join_wallet_btn}>Join wallet</button>
+                                )
+                            }
                         </SwiperSlide>
                     ))
                 }

@@ -6,7 +6,12 @@
 }
 
 .main_banner_swiper_slide {
+    cursor: pointer;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
     border-radius: 20px;
+    box-sizing: border-box;
     position: relative;
     height: 350px;
     padding: 70px 105px;
@@ -26,10 +31,6 @@
     opacity: 1;
 }
 
-// .swiper-slide-active {
-//     opacity: 1;
-// }
-
 .slide_bg_img {
     position: absolute;
     top: 0;
@@ -42,4 +43,65 @@
 
 .main_banner_swiper {
     width: 100%;
+}
+
+.slide_text {
+    max-width: 550px;
+    position: relative;
+    z-index: 10;
+    position: relative;
+    color: #E9E9F5;
+    font-family: var(--font-nunito-sans);
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 50px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.title {
+    font-size: 40px;
+}
+
+.kyc_block {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    color: #EAEAEA;
+    font-family: var(--font-source-sans-3);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0.8px;
+    margin-bottom: 24px;
+
+    img {
+        margin-right: 14px;
+    }
+}
+
+.join_wallet_btn {
+    border: none;
+    position: relative;
+    z-index: 10;
+    border-radius: 12px;
+    background: linear-gradient(114deg, #F8EEB8 -4.17%, #DBB370 59.03%, #8E5B2D 112.39%);
+    width: 250px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0F0F0F;
+    text-align: center;
+    font-family: var(--font-nunito-sans);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 16px;
+    letter-spacing: 0.72px;
 }
