@@ -33,6 +33,12 @@ import swiperImg4Mobile from '@/public/media/swiperBannerImgs/swiperBanner4Mobil
 
 import kycIco from '@/public/media/swiperBannerImgs/kycIco.svg'
 
+import * as MainWallet from "@/widgets/AvaibleWallet/model";
+import { useUnit } from 'effector-react';
+import * as BlurModel from "@/widgets/Blur/model";
+import { AvaibleWallet } from '../AvaibleWallet';
+import clsx from 'clsx';
+import { checkPageClicking } from '@/shared/tools';
 ///
 
 const swiperSlides = [
@@ -44,6 +50,8 @@ const swiperSlides = [
         laptopImg: swiperImg1Laptop,
         tabletImg: swiperImg1Tablet,
         mobileImg: swiperImg1Mobile,
+        btnFirstText: 'Join wallet',
+        btnSecondText: 'Join wallet',
     },
     {
         text: 'Get your $100 deposit bonus in the DRAXB token',
@@ -52,6 +60,8 @@ const swiperSlides = [
         laptopImg: swiperImg2Laptop,
         tabletImg: swiperImg2Tablet,
         mobileImg: swiperImg2Mobile,
+        btnFirstText: 'Claim your deposit bonus',
+        btnSecondText: 'Join wallet',
     },
     {
         text: 'You can bet on the BSC, Polygon and Arbitrum networks',
@@ -78,6 +88,7 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
     const [is700, setIs700] = useState(false)
     const [is650, setIs650] = useState(false)
     const swiperRef = useRef<SwiperRef>(null);
+    const [walletVisibility, setWalletVisibility] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -110,8 +121,49 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
         };
       }, []);
 
+      const [isMainWalletOpen, setBlur] = useUnit([
+        MainWallet.$isMainWalletOpen,
+        BlurModel.setBlur,
+      ]);
+
+      const handleConnectWalletBtn = () => {
+
+        if (!walletVisibility) {
+          setWalletVisibility(true);
+          setBlur(true);
+          document.documentElement.style.overflow = "hidden";
+          window.scrollTo(0, 0);
+        } else {
+          setWalletVisibility(false);
+          setBlur(false);
+          document.documentElement.style.overflow = "visible";
+        }
+      };
+
+      const hideAvaibleWallet = () => {
+        setWalletVisibility(false);
+        setBlur(false);
+        document.documentElement.style.overflow = "visible";
+      };
+
+      useEffect(() => {
+        if (walletVisibility) {
+          checkPageClicking({ blockDataId: "connect-wallet-banner-block" }, (isBlock) => {
+            !isBlock && setWalletVisibility(false);
+          });
+        }
+    
+        if (!walletVisibility) {
+          setWalletVisibility(false);
+          setBlur(false);
+          document.documentElement.style.overflow = "visible";
+        }
+    
+    
+      }, [walletVisibility]);
+
     return (
-        <div className={s.swiper_banner_wrap}>
+        <div className={s.swiper_banner_wrap} data-id={"connect-wallet-banner-block"} >
             <Swiper
                 ref={swiperRef}
                 slidesPerView={1}
@@ -124,7 +176,10 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
                 effect='fade'
                 modules={[Autoplay, Pagination, Navigation, EffectFade]}
                 className={s.main_banner_swiper}
-                
+                pagination={{
+                    el: '#custom_swiper_banner_pagination',
+                    clickable: true
+                }}
             >
                 {
                     swiperSlides.map((slide, ind) => (
@@ -134,20 +189,31 @@ export const SwiperBanner:FC<SwiperBannerProps> = () => {
                             {
                                 slide.subTitle && (
                                     <div className={s.kyc_block}>
-                                        <Image src={kycIco} alt="kyc-ico" />
+                                        <Image src={kycIco} className={s.kyc_ico} alt="kyc-ico" />
                                         Without KYC <br /> just connect your wallet and play
                                     </div>
                                 )
                             }
                             {
                                 slide.isBtn === true && (
-                                    <button className={s.join_wallet_btn}>Join wallet</button>
+                                    <button onClick={() => handleConnectWalletBtn()} className={s.join_wallet_btn}>
+                                        { !is650 ? slide.btnFirstText : slide.btnSecondText }
+                                    </button>
                                 )
                             }
                         </SwiperSlide>
                     ))
                 }
+                <div className={s.custom_swiper_banner_pagination} id='custom_swiper_banner_pagination'>
+
+                </div>
             </Swiper>
+            <div className={clsx(
+                s.wallet_wrap,
+                walletVisibility && s.avaibleWallet_visible
+            )}       >
+                <AvaibleWallet  hideAvaibleWallet={hideAvaibleWallet}/>
+            </div>
         </div>
     )
 };
