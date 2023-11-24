@@ -14,9 +14,10 @@ import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
-import * as BonusPopupM from '@/widgets/PopUpBonus/model'
+import * as BonusPopupM from "@/widgets/PopUpBonus/model";
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
+
 interface LayoutProps {
   children?: any;
   gameName: string | undefined;
@@ -27,24 +28,24 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
-  const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`)
+  const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
-  }, [])
+  }, []);
 
   useEffect(() => {
-    const dontShowState = localStorage.getItem('bonusPopupState')
+    const dontShowState = localStorage.getItem("bonusPopupState");
     // if(dontShowState == undefined) {
     //   setPopupBonusState('true')
     // } else {
     //   setPopupBonusState(dontShowState)
     // }
     // setPopupBonusState(dontShowState)
-    setPopupBonusState(JSON.stringify(dontShowState))
-  }, [])
+    setPopupBonusState(JSON.stringify(dontShowState));
+  }, []);
 
-  console.log('STATE-', popupBonusState)
+  console.log("STATE-", popupBonusState);
 
   return (
     <>
@@ -52,13 +53,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          {
-            popupBonusState === `"true"` ? (
-              null
-            ) : (
-              <PopUpBonus />
-            )
-          }
+          {popupBonusState === `"true"` ? null : <PopUpBonus />}
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >
