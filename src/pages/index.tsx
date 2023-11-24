@@ -93,6 +93,7 @@ import { useDeviceType } from "@/shared/tools";
 import { PopUpBonus } from "@/widgets/PopUpBonus";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+import { SwiperBanner } from "@/widgets/SwiperBanner/SwiperBanner";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -488,7 +489,8 @@ export default function Home() {
 
         <div className={`${s.main_container}`}>
           <Blur />
-          <MainReplacementComponent />
+          {/* <MainReplacementComponent /> */}
+          <SwiperBanner />
           <Games />
           <Total />
           <CustomBets
