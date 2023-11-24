@@ -65,8 +65,6 @@
   position: relative;
   padding-top: 121px;
   .total_item_shadow {
-    overflow: hidden;
-    content: "";
     mix-blend-mode: hard-light;
     border-radius: 0 0 100px 100px;
     filter: blur(50px);
