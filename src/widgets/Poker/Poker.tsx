@@ -34,6 +34,7 @@ import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce } from "@/shared/tools";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 const initialArrayOfCards = [
   {
@@ -424,6 +425,7 @@ export const Poker: FC<PokerProps> = (props) => {
         />
       )}
       <div className={s.poker_table_wrap}>
+        <WagerLowerBtnsBlock game="poker" />
         <div className={s.poker_table_background}>
           <Image
             src={tableBg}

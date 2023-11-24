@@ -56,6 +56,7 @@ import clsx from "clsx";
 
 import * as DiceM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -438,6 +439,8 @@ const Dice: FC<DiceProps> = () => {
         />
       )}
       <div className={s.dice}>
+        {" "}
+        <WagerLowerBtnsBlock className={s.dice_btns} game="dice" />
         <div className={s.model}>
           <Suspense fallback={<div>...</div>}>
             <DiceCanvas inGame={inGame} />
@@ -452,31 +455,34 @@ const Dice: FC<DiceProps> = () => {
               alt="test"
             />
           </div>
-          <div className={s.range_container}>
-            <span className={s.roll_range_value}>{RollValue}</span>
-            <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
-            <div className={s.custom_range_input_body}></div>
-            <input
-              className={clsx(
-                s.dice_range,
-                rollOver ? s.dice_over : s.dice_under
-              )}
-              type="range"
-              min={rollOver ? 5 : 0.1}
-              max={rollOver ? 99.9 : 95}
-              value={RollValue}
-              onChange={onChange}
-              ref={rangeRef}
-              step={0.1}
-            />
-            <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+          <div className={s.range_wrapper}>
+            {" "}
+            <div className={s.range_container}>
+              <span className={s.roll_range_value}>{RollValue}</span>
+              <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
+              <div className={s.custom_range_input_body}></div>
+              <input
+                className={clsx(
+                  s.dice_range,
+                  rollOver ? s.dice_over : s.dice_under
+                )}
+                type="range"
+                min={rollOver ? 5 : 0.1}
+                max={rollOver ? 99.9 : 95}
+                value={RollValue}
+                onChange={onChange}
+                ref={rangeRef}
+                step={0.1}
+              />
+              <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+            </div>
           </div>
-          <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
+          {/* <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
             <Image
               src={playSounds ? soundIco : soundOffIco}
               alt={playSounds ? "sound-on" : "sound-off"}
             />
-          </button>
+          </button> */}
         </div>
         <div className={s.dice_value_container}>
           {diceValue.map((dice) => (

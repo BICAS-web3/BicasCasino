@@ -35,6 +35,7 @@ import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
 import * as CoinflipM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 interface CoinFlipProps {}
 
 enum CoinAction {
@@ -375,6 +376,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
         />
       )}
       <div className={s.coinflip_table_wrap}>
+        <WagerLowerBtnsBlock game="coinflip" />
         <div className={s.coinflip_table_background}>
           <Image
             src={tableBg}

@@ -7,6 +7,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useUnit } from "effector-react";
 
 import * as RPSModel from "@/widgets/RockPaperScissors/model";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -112,6 +113,7 @@ export const RockPaperScissors = () => {
 
   return (
     <div className={s.rps_table_container}>
+      <WagerLowerBtnsBlock game="rps" />
       <div className={s.rps_table_background}>
         <Image
           src={tableBg}

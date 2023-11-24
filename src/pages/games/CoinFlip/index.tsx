@@ -76,7 +76,6 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      <WagerLowerBtnsBlock game="coinflip" />
     </>
   );
 };

@@ -44,6 +44,7 @@ interface GamePageProps {
   isPoker: boolean;
   customTitle?: string;
   custom_height?: string;
+  soundClassName?: string;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -54,6 +55,7 @@ export const GamePage: FC<GamePageProps> = ({
   isPoker,
   customTitle = false,
   custom_height,
+  soundClassName,
 }) => {
   console.log("Redrawing game page");
   const { address, isConnected, isConnecting } = useAccount();
@@ -149,7 +151,7 @@ export const GamePage: FC<GamePageProps> = ({
             <div className={clsx(s.game_block, custom_height)}>
               <h2 className={s.game_title}>{gameTitle}</h2>
               <button
-                className={s.poker_wager_sound_btn}
+                className={clsx(s.poker_wager_sound_btn, soundClassName)}
                 onClick={() => switchSounds()}
               >
                 {playSounds ? (
