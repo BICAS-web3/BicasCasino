@@ -34,29 +34,37 @@ import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce } from "@/shared/tools";
 
+// чирва 2
+// пика 3
+// буба 1
+// креста 0
 const initialArrayOfCards = [
   {
-    suit: -1,
-    number: -1,
+    suit: 0,
+    number: 1,
   },
   {
-    suit: -1,
-    number: -1,
+    suit: 0,
+    number: 2,
   },
   {
-    suit: -1,
-    number: -1,
+    suit: 1,
+    number: 3,
   },
   {
-    suit: -1,
-    number: -1,
+    suit: 0,
+    number: 4,
   },
   {
-    suit: -1,
-    number: -1,
+    suit: 0,
+    number: 5,
   },
 ];
 
+interface ICards {
+  suit: number;
+  number: number;
+}
 // export type T_Card = {
 //   coat: number,
 //   card: number
@@ -70,6 +78,7 @@ export interface PokerProps {
 }
 
 export const Poker: FC<PokerProps> = (props) => {
+  // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [
     playSounds,
     gameState,
@@ -409,6 +418,141 @@ export const Poker: FC<PokerProps> = (props) => {
   //   console.log("Cards state", props.cardsState);
   // }, [props.cardsState]);
 
+  // useEffect(() => {
+  //   if (JSON.stringify(activeCards) === JSON.stringify(RoyalFlush)) {
+  //     setCombinationName(CombinationName.Royal);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(StraightFlush)) {
+  //     setCombinationName(CombinationName.StraightFlush);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(FourKind)) {
+  //     setCombinationName(CombinationName.FourKind);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(fullHouse)) {
+  //     setCombinationName(CombinationName.FullHouse);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(Flush)) {
+  //     setCombinationName(CombinationName.Flush);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(Straight)) {
+  //     setCombinationName(CombinationName.Straight);
+  //   } else if (JSON.stringify(activeCards) === JSON.stringify(ThreeKind)) {
+  //     setCombinationName(CombinationName.ThreeKind);
+  //   }
+  // }, [activeCards]);
+  function hasRoyalFlush(cards: ICards[]) {
+    const royalFlushNumbers = [1, 10, 11, 12, 13];
+    const suits = new Set(cards.map((card) => card.suit));
+
+    return Array.from(suits).some((suit) => {
+      const suitCards = cards.filter((card) => card.suit === suit);
+      const numbers = suitCards.map((card) => card.number);
+
+      return royalFlushNumbers.every((number) => numbers.includes(number));
+    });
+  }
+
+  function hasStraightFlush(cards: ICards[]) {
+    cards;
+    const suits = Array.from(new Set(cards.map((card) => card.suit)));
+
+    return suits.some((suit) => {
+      const suitCards = cards.filter((card) => card.suit === suit);
+      const sortedNumbers = suitCards
+        .map((card) => card.number)
+        .sort((a, b) => a - b);
+
+      for (let i = 0; i < sortedNumbers.length - 1; i++) {
+        if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  function hasFourOfAKind(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+
+    return Object.values(numberCounts).includes(4);
+  }
+
+  function hasFullHouse(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return (
+      Object.values(numberCounts).includes(3) &&
+      Object.values(numberCounts).includes(2)
+    );
+  }
+
+  function hasFlush(cards: ICards[]) {
+    const suits = new Set(cards.map((card) => card.suit));
+    return suits.size === 1;
+  }
+
+  function hasStraight(cards: ICards[]) {
+    const sortedNumbers = cards
+      .map((card) => card.number)
+      .sort((a, b) => a - b);
+
+    for (let i = 0; i < sortedNumbers.length - 1; i++) {
+      if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function hasThreeOfAKind(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return Object.values(numberCounts).includes(3);
+  }
+
+  function hasTwoPair(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    const pairs = Object.values(numberCounts).filter((count) => count === 2);
+    return pairs.length === 2;
+  }
+
+  function hasOnePair(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return Object.values(numberCounts).includes(2);
+  }
+
+  function countNumbers(cards: ICards[]) {
+    const counts = {};
+    for (const card of cards) {
+      counts[card.number] = (counts[card.number] || 0) + 1;
+    }
+    return counts;
+  }
+  function evaluatePokerHand(cards: ICards[]) {
+    // Sort the cards by number
+    cards.sort((a, b) => a.number - b.number);
+
+    // Check for specific combinations
+    if (hasRoyalFlush(cards)) {
+      return "Royal Flush";
+    } else if (hasStraightFlush(cards)) {
+      return "Straight Flush";
+    } else if (hasFourOfAKind(cards)) {
+      return "Four of a Kind";
+    } else if (hasFullHouse(cards)) {
+      return "Full House";
+    } else if (hasFlush(cards)) {
+      return "Flush";
+    } else if (hasStraight(cards)) {
+      return "Straight";
+    } else if (hasThreeOfAKind(cards)) {
+      return "Three of a Kind";
+    } else if (hasTwoPair(cards)) {
+      return "Two Pair";
+    } else if (hasOnePair(cards)) {
+      return "One Pair";
+    } else {
+      return "High Card";
+    }
+  }
+  useEffect(() => {
+    alert(evaluatePokerHand(initialArrayOfCards));
+  }, []);
   return (
     <div className={s.poker_table_wrap}>
       <div className={s.poker_table_background}>
