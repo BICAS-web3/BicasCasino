@@ -21,8 +21,6 @@ import downArr from "@/public/media/misc/downArr.png";
 
 import { WagerModel as WagerM } from "@/widgets/Wager";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
-import { WagerModel as WagerM } from "@/widgets/Wager";
-import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 // const tokensList = [
 //   {
 //     title: "token 1",
@@ -195,7 +193,6 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     }
   }, [betsAmount]);
 
-  const cond = true;
   const [currentBalance] = useUnit([sessionModel.$currentBalance]);
 
   const [isLowBalance, setIsLowBalance] = useState(false);

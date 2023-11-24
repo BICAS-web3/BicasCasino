@@ -21,9 +21,9 @@ export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
 
   const { isOpen, close, open, dropdownRef } = useDropdown();
 
-  useEffect(() => {
-    open();
-  }, []);
+  // useEffect(() => {
+  //   open();
+  // }, [Wager]);
   useEffect(() => {
     Wager && open();
   }, [Wager]);
