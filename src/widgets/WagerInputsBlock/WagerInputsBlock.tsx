@@ -193,24 +193,22 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     }
   }, [betsAmount]);
 
-  const cond = true;
   const [currentBalance] = useUnit([sessionModel.$currentBalance]);
 
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   useEffect(() => {
-    if (
-      currentBalance &&
-      Wagered &&
-      Number(cryptoInputValue) > currentBalance
-    ) {
+    if (!currentBalance || Number(cryptoInputValue) > currentBalance) {
       setIsLowBalance(true);
+    } else {
+      setIsLowBalance(false);
     }
   }, [Wagered]);
   return (
     <>
       {isLowBalance && (
         <ErrorCheck
+          Wager={Wagered}
           text="There is not enough balance in the wallet to pay for the transaction."
           btnTitle="Top up balance"
         />

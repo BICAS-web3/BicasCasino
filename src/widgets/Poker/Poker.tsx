@@ -33,6 +33,7 @@ import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce } from "@/shared/tools";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 
 const initialArrayOfCards = [
   {
@@ -157,7 +158,11 @@ export const Poker: FC<PokerProps> = (props) => {
     watch: isConnected,
   });
 
-  const { data: GameState, refetch: fetchGameState } = useContractRead({
+  const {
+    data: GameState,
+    refetch: fetchGameState,
+    error: readErr,
+  } = useContractRead({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
     abi: IPoker,
@@ -410,42 +415,51 @@ export const Poker: FC<PokerProps> = (props) => {
   // }, [props.cardsState]);
 
   return (
-    <div className={s.poker_table_wrap}>
-      <div className={s.poker_table_background}>
-        <Image
-          src={tableBg}
-          className={s.poker_table_background_img}
-          alt="table-bg"
+    <>
+      {" "}
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
         />
-      </div>
-      <div className={s.poker_table}>
-        <div className={s.poker_table_cards_list}>
-          {activeCards &&
-            activeCards.map((item, ind) => {
-              return item.number == -1 ? (
-                <PokerCard
-                  key={ind}
-                  isEmptyCard={false}
-                  coat={0}
-                  card={0}
-                  onClick={() => {}}
-                />
-              ) : (
-                <PokerCard
-                  key={`${item.suit}_${item.number}_${transactionHash}`}
-                  isEmptyCard={false}
-                  coat={item.suit}
-                  card={item.number}
-                  onClick={() => {
-                    const cards = cardsState;
-                    cards[ind] = !cards[ind];
-                    setCardsState([...cards]);
-                  }}
-                />
-              );
-            })}
+      )}
+      <div className={s.poker_table_wrap}>
+        <div className={s.poker_table_background}>
+          <Image
+            src={tableBg}
+            className={s.poker_table_background_img}
+            alt="table-bg"
+          />
+        </div>
+        <div className={s.poker_table}>
+          <div className={s.poker_table_cards_list}>
+            {activeCards &&
+              activeCards.map((item, ind) => {
+                return item.number == -1 ? (
+                  <PokerCard
+                    key={ind}
+                    isEmptyCard={false}
+                    coat={0}
+                    card={0}
+                    onClick={() => {}}
+                  />
+                ) : (
+                  <PokerCard
+                    key={`${item.suit}_${item.number}_${transactionHash}`}
+                    isEmptyCard={false}
+                    coat={item.suit}
+                    card={item.number}
+                    onClick={() => {
+                      const cards = cardsState;
+                      cards[ind] = !cards[ind];
+                      setCardsState([...cards]);
+                    }}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

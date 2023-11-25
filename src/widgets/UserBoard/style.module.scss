@@ -73,11 +73,11 @@
     position: absolute;
     top: -50px;
     transition: all 0.5s;
+    -webkit-mask-composite: destination-out;
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
-    -webkit-mask-composite: destination-out;
     @media (max-width: 1280px) {
       width: 80px;
       height: 66.748px;
