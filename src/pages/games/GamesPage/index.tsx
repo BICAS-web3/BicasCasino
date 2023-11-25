@@ -3,6 +3,7 @@ import { FC } from "react";
 import s from "./style.module.scss";
 import { Total } from "@/widgets/Total";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
+import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 
 interface GamesPageProps {}
 
@@ -19,6 +20,7 @@ const GamesPage: FC<GamesPageProps> = () => {
           isGamePage={false}
           game={undefined}
         />
+        <LeaderBoard />
       </div>
     </Layout>
   );
