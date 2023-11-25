@@ -34,7 +34,13 @@
 }
 
 .rps_picker_block_item_active {
-  background: #4b4b4b;
+  background: #2e2e2e;
+  svg > g > path {
+    fill: #eaeaea;
+  }
+  svg > path {
+    fill: #eaeaea;
+  }
 }
 
 .rps_picker_block_item:first-child {

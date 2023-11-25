@@ -1,16 +1,7 @@
-import s from "./styles.module.scss";
-import Image from "next/image";
-import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.png";
-import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
 import { FC, Suspense, useEffect, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+
 import { useUnit } from "effector-react";
 
-import { WagerModel as WagerButtonModel } from "../Wager";
-import * as GameModel from "@/widgets/GamePage/model";
-import { WagerModel } from "../WagerInputsBlock";
-import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-import useSound from "use-sound";
 import {
   useAccount,
   useContractEvent,
@@ -18,19 +9,34 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
+  useFeeData,
 } from "wagmi";
 
+import useSound from "use-sound";
+
+import Image from "next/image";
+
+import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+
+import * as GameModel from "@/widgets/GamePage/model";
+
 import { sessionModel } from "@/entities/session";
+
+import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.png";
 
 import { ABI as RPSABI } from "@/shared/contracts/RPSABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
-import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
-import { useFeeData } from "wagmi";
-import * as CoinflipM from "./model";
 
-//?-------------------------
+import s from "./styles.module.scss";
+
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
+import { WagerModel as WagerButtonModel } from "../Wager";
+import { WagerGainLossModel } from "../WagerGainLoss";
+import { WagerModel } from "../WagerInputsBlock";
+import * as CoinflipM from "./model";
 
 export enum ModelType {
   Paper = "/rps/paperCard.glb",
@@ -48,17 +54,9 @@ interface ModelProps {
 }
 
 const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
-  // const [sideValue, setSideValue] = useState(side);
-
-  // useEffect(() => {
-  //   setSideValue(side);
-  // }, [side]);
-
-  const { scene, animations } = useGLTF(side);
-  const { actions, mixer } = useAnimations(animations, scene);
+  const { scene } = useGLTF(side);
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
-  const [more1280, setMore1280] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -132,10 +130,7 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
 };
 
 export const RockPaperScissors = () => {
-  const [is1500, setIs1500] = useState(false);
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
-
-  //!-------------------------------------------------------------------
 
   const [
     setPlayingStatus,
@@ -179,22 +174,19 @@ export const RockPaperScissors = () => {
     GameModel.setLostStatus,
   ]);
   useEffect(() => {
-    // alert(pickedValue);
     if (pickedValue === RPSModel.RPSValue.Paper) {
       setValue(ModelType.Paper);
     } else if (pickedValue === RPSModel.RPSValue.Rock) {
       setValue(ModelType.Rock);
     } else {
       setValue(ModelType.Scissors);
-      // alert("scissors");
     }
   }, [pickedValue]);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({ watch: true });
+  const { data } = useFeeData({ watch: true });
 
-  const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
 
   const [playBackground, { stop: stopBackground }] = useSound(
@@ -251,7 +243,7 @@ export const RockPaperScissors = () => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress,
+      "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -378,7 +370,6 @@ export const RockPaperScissors = () => {
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
         }
-        //setShowRedraw(false);
       }
     },
   });
@@ -406,7 +397,7 @@ export const RockPaperScissors = () => {
               startPlaying,
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
               pickedToken?.contract_address,
-              gameAddress,
+              "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0",
               VRFFees,
               fees
             );
@@ -453,7 +444,6 @@ export const RockPaperScissors = () => {
       }
     }
   }, [gameStatus]);
-  //!-------------------------------------------------------------------
 
   return (
     <div className={s.rps_table_container}>
