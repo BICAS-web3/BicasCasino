@@ -32,7 +32,8 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
-import { useDebounce } from "@/shared/tools";
+import { useDebounce, useMediaQuery } from "@/shared/tools";
+import { PokerCombination } from "./PokerCombination";
 
 // чирва 2
 // пика 3
@@ -40,24 +41,24 @@ import { useDebounce } from "@/shared/tools";
 // креста 0
 const initialArrayOfCards = [
   {
-    suit: 0,
-    number: 1,
+    suit: -1,
+    number: -1,
   },
   {
-    suit: 0,
-    number: 2,
+    suit: -1,
+    number: -1,
   },
   {
-    suit: 1,
-    number: 3,
+    suit: -1,
+    number: -1,
   },
   {
-    suit: 0,
-    number: 4,
+    suit: -1,
+    number: -1,
   },
   {
-    suit: 0,
-    number: 5,
+    suit: -1,
+    number: -1,
   },
 ];
 
@@ -78,8 +79,10 @@ export interface PokerProps {
 }
 
 export const Poker: FC<PokerProps> = (props) => {
+  const isMobile = useMediaQuery("(max-width: 650px)");
   // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [
+    gameStatus,
     playSounds,
     gameState,
     gameAddress,
@@ -98,6 +101,7 @@ export const Poker: FC<PokerProps> = (props) => {
     //availableTokens
     setIsPlaying,
   ] = useUnit([
+    GameModel.$gameStatus,
     GameModel.$playSounds,
     PokerModel.$gameState,
     sessionModel.$gameAddress,
@@ -414,27 +418,9 @@ export const Poker: FC<PokerProps> = (props) => {
     playDrawnCards();
   }, [gameState]);
 
-  // useEffect(() => {
-  //   console.log("Cards state", props.cardsState);
-  // }, [props.cardsState]);
+  //!------------------------------------------------------------------------------------------------------------------------------------------------------------
+  //! Poker combination functions
 
-  // useEffect(() => {
-  //   if (JSON.stringify(activeCards) === JSON.stringify(RoyalFlush)) {
-  //     setCombinationName(CombinationName.Royal);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(StraightFlush)) {
-  //     setCombinationName(CombinationName.StraightFlush);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(FourKind)) {
-  //     setCombinationName(CombinationName.FourKind);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(fullHouse)) {
-  //     setCombinationName(CombinationName.FullHouse);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(Flush)) {
-  //     setCombinationName(CombinationName.Flush);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(Straight)) {
-  //     setCombinationName(CombinationName.Straight);
-  //   } else if (JSON.stringify(activeCards) === JSON.stringify(ThreeKind)) {
-  //     setCombinationName(CombinationName.ThreeKind);
-  //   }
-  // }, [activeCards]);
   function hasRoyalFlush(cards: ICards[]) {
     const royalFlushNumbers = [1, 10, 11, 12, 13];
     const suits = new Set(cards.map((card) => card.suit));
@@ -448,11 +434,10 @@ export const Poker: FC<PokerProps> = (props) => {
   }
 
   function hasStraightFlush(cards: ICards[]) {
-    cards;
-    const suits = Array.from(new Set(cards.map((card) => card.suit)));
-
+    const suits = Array.from(new Set(cards.map((card) => Number(card.suit))));
+    if (suits.length > 1) return false;
     return suits.some((suit) => {
-      const suitCards = cards.filter((card) => card.suit === suit);
+      const suitCards = cards.filter((card) => Number(card.suit) === suit);
       const sortedNumbers = suitCards
         .map((card) => card.number)
         .sort((a, b) => a - b);
@@ -517,79 +502,102 @@ export const Poker: FC<PokerProps> = (props) => {
   }
 
   function countNumbers(cards: ICards[]) {
-    const counts = {};
+    const counts: Record<number, number> = {};
     for (const card of cards) {
       counts[card.number] = (counts[card.number] || 0) + 1;
     }
     return counts;
   }
+
+  const [combinationName, setCombinationName] = useState("");
+
   function evaluatePokerHand(cards: ICards[]) {
-    // Sort the cards by number
     cards.sort((a, b) => a.number - b.number);
 
-    // Check for specific combinations
     if (hasRoyalFlush(cards)) {
-      return "Royal Flush";
+      setCombinationName("Royal Flush");
     } else if (hasStraightFlush(cards)) {
-      return "Straight Flush";
+      setCombinationName("Straight Flush");
     } else if (hasFourOfAKind(cards)) {
-      return "Four of a Kind";
+      setCombinationName("Four of a Kind");
     } else if (hasFullHouse(cards)) {
-      return "Full House";
+      setCombinationName("Full House");
     } else if (hasFlush(cards)) {
-      return "Flush";
+      setCombinationName("Flush");
     } else if (hasStraight(cards)) {
-      return "Straight";
+      setCombinationName("Straight");
     } else if (hasThreeOfAKind(cards)) {
-      return "Three of a Kind";
+      setCombinationName("Three of a Kind");
     } else if (hasTwoPair(cards)) {
-      return "Two Pair";
+      setCombinationName("Two Pair");
     } else if (hasOnePair(cards)) {
-      return "One Pair";
+      setCombinationName("One Pair");
     } else {
-      return "High Card";
+      setCombinationName("High Card");
     }
   }
   useEffect(() => {
-    alert(evaluatePokerHand(initialArrayOfCards));
-  }, []);
+    evaluatePokerHand(activeCards);
+  }, [activeCards, gameStatus]);
+  const [profit, multiplier, token] = useUnit([
+    GameModel.$profit,
+    GameModel.$multiplier,
+    GameModel.$token,
+  ]);
   return (
-    <div className={s.poker_table_wrap}>
-      <div className={s.poker_table_background}>
-        <Image
-          src={tableBg}
-          className={s.poker_table_background_img}
-          alt="table-bg"
+    <>
+      {gameStatus === GameModel.GameStatus.Won && (
+        <PokerCombination
+          combinationName={combinationName}
+          tokenImage={
+            <Image
+              src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+              alt={""}
+              width={isMobile ? 22 : 30}
+              height={isMobile ? 22 : 30}
+            />
+          }
+          profit={profit.toFixed(2)}
+          multiplier={Number(multiplier.toFixed(2)).toString()}
         />
-      </div>
-      <div className={s.poker_table}>
-        <div className={s.poker_table_cards_list}>
-          {activeCards &&
-            activeCards.map((item, ind) => {
-              return item.number == -1 ? (
-                <PokerCard
-                  key={ind}
-                  isEmptyCard={false}
-                  coat={0}
-                  card={0}
-                  onClick={() => {}}
-                />
-              ) : (
-                <PokerCard
-                  key={`${item.suit}_${item.number}_${transactionHash}`}
-                  isEmptyCard={false}
-                  coat={item.suit}
-                  card={item.number}
-                  onClick={() => {
-                    const cards = cardsState;
-                    cards[ind] = !cards[ind];
-                    setCardsState([...cards]);
-                  }}
-                />
-              );
-            })}
+      )}
+      <div className={s.poker_table_wrap}>
+        <div className={s.poker_table_background}>
+          <Image
+            src={tableBg}
+            className={s.poker_table_background_img}
+            alt="table-bg"
+          />
+        </div>
+        <div className={s.poker_table}>
+          <div className={s.poker_table_cards_list}>
+            {activeCards &&
+              activeCards.map((item, ind) => {
+                return item.number == -1 ? (
+                  <PokerCard
+                    key={ind}
+                    isEmptyCard={false}
+                    coat={0}
+                    card={0}
+                    onClick={() => {}}
+                  />
+                ) : (
+                  <PokerCard
+                    key={`${item.suit}_${item.number}_${transactionHash}`}
+                    isEmptyCard={false}
+                    coat={item.suit}
+                    card={item.number}
+                    onClick={() => {
+                      const cards = cardsState;
+                      cards[ind] = !cards[ind];
+                      setCardsState([...cards]);
+                    }}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

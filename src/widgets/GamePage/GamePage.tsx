@@ -160,22 +160,23 @@ export const GamePage: FC<GamePageProps> = ({
               </button>
               {children}
 
-              {gameStatus == GameModel.GameStatus.Won && (
-                <div className={s.win_wrapper}>
-                  <WinMessage
-                    tokenImage={
-                      <Image
-                        src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
-                        alt={""}
-                        width={30}
-                        height={30}
-                      />
-                    }
-                    profit={profit.toFixed(2)}
-                    multiplier={Number(multiplier.toFixed(2)).toString()}
-                  />
-                </div>
-              )}
+              {gameStatus == GameModel.GameStatus.Won &&
+                gameTitle !== "poker" && (
+                  <div className={s.win_wrapper}>
+                    <WinMessage
+                      tokenImage={
+                        <Image
+                          src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+                          alt={""}
+                          width={30}
+                          height={30}
+                        />
+                      }
+                      profit={profit.toFixed(2)}
+                      multiplier={Number(multiplier.toFixed(2)).toString()}
+                    />
+                  </div>
+                )}
 
               {gameStatus == GameModel.GameStatus.Lost && (
                 <div className={s.lost_wrapper}>
