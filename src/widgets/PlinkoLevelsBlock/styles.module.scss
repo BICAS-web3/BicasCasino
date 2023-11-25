@@ -9,6 +9,8 @@
 .plinko_level_btn {
   background: #202020;
   display: flex;
+  height: 40px;
+  box-sizing: border-box;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
@@ -43,5 +45,5 @@
 }
 
 .plinko_levels_list_block {
-  margin-top: 14px;
+  margin-top: 12px;
 }

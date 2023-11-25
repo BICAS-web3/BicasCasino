@@ -63,3 +63,25 @@ a:active {
     left: 110%;
   }
 }
+
+.swiper-slide-active {
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet {
+  background: #0F0F0F;
+  width: 30px;
+  height: 3px;
+  border-radius: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #E5C787;
+}
+
+@media screen and (max-width: 650px) {
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 3px;
+  }
+}
