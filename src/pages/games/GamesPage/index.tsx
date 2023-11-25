@@ -4,6 +4,7 @@ import s from "./style.module.scss";
 import { Total } from "@/widgets/Total";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
+import { PopularGamesBlock } from "@/widgets/PopularGamesBlock/PopularGamesBlock";
 
 interface GamesPageProps {}
 
@@ -11,7 +12,7 @@ const GamesPage: FC<GamesPageProps> = () => {
   return (
     <Layout gameName="notGameName">
       <div className={s.games_page_container}>
-        <div className={s.popular_games_block}></div>
+        <PopularGamesBlock />
         <div className={s.games_block}></div>
         <Total />
         <CustomBets

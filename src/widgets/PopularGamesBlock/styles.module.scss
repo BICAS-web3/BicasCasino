@@ -1,0 +1,17 @@
+.popular_games_block {
+  width: calc(100% - 40px);
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.popular_games_title {
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
