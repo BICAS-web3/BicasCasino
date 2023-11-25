@@ -6,6 +6,7 @@
 }
 
 .rps_picker_block_item {
+  transition: all 0.5s;
   cursor: pointer;
   border-radius: 5px;
   background: #202020;
@@ -30,6 +31,10 @@
   &:hover {
     background: #2e2e2e;
   }
+}
+
+.rps_picker_block_item_active {
+  background: #4b4b4b;
 }
 
 .rps_picker_block_item:first-child {
