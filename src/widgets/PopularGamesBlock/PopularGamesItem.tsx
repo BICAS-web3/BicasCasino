@@ -43,11 +43,23 @@ export const PopularGamesItem: FC<PopularGamesItemProps> = (props) => {
     };
   }, []);
 
-  useEffect(() => {}, [isDesk, isLaptop, isMobile]);
+  useEffect(() => {
+    if (isDesk) {
+      setCurrentImage(props.imgDesk);
+    } else if (isLaptop) {
+      setCurrentImage(props.imgLaptop);
+    } else if (isMobile) {
+      setCurrentImage(props.imgMob);
+    }
+  }, [isDesk, isLaptop, isMobile]);
 
   return (
     <div className={s.popular_games_list_item}>
-      <Image alt="game-bg-static" src={currentImage} />
+      <img
+        alt="game-bg-static"
+        className={s.popular_game_bg_image}
+        src={currentImage.src}
+      />
       <span className={s.popular_games_list_item_title}>{props.title}</span>
     </div>
   );
