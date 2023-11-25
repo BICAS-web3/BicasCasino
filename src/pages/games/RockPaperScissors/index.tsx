@@ -53,6 +53,7 @@ const WagerContent = () => {
         max={10}
       />
       <WagerGainLoss />
+      <ProfitBlock />
       <RpsPicker />
       <button
         className={clsx(

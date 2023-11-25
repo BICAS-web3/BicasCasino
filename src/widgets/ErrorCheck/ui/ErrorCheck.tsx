@@ -21,9 +21,9 @@ export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
 
   const { isOpen, close, open, dropdownRef } = useDropdown();
 
-  useEffect(() => {
-    open();
-  }, []);
+  // useEffect(() => {
+  //   open();
+  // }, [Wager]);
   useEffect(() => {
     Wager && open();
   }, [Wager]);
@@ -38,17 +38,16 @@ export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
         <CloseIcon onClick={close} className={s.close_icon} />
         <h3>An error occurred </h3>
         <p>{text}</p>
-        <CustomButton
+        <button
           onClick={() => {
             if (btnTitle === "Contact us") {
               window.open("https://t.me/greekkeepers", "_blank");
             }
           }}
           className={s.btn}
-          size="md"
-          color="gradient"
-          text={btnTitle}
-        />
+        >
+          {btnTitle}
+        </button>
       </article>
     </>
   );

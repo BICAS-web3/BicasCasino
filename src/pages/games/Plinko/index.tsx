@@ -22,6 +22,8 @@ import clsx from "clsx";
 import * as PGM from "@/widgets/Plinko/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { useEffect } from "react";
+import { ManualAutoWager } from "@/widgets/ManualAutoWager/ManualAutoWager";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -55,7 +57,7 @@ const WagerContent = () => {
         max={16}
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
-
+      <ProfitBlock />
       <button
         className={clsx(
           s.connect_wallet_btn,

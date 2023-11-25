@@ -23,12 +23,12 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.8px;
+  margin-bottom: 4px;
 }
 
 .poker_wager_inputs_block {
   background: #121212;
   border-radius: 12px;
-  margin-top: 6px;
 }
 
 .poker_wager_block {
@@ -451,9 +451,9 @@
 .poker_wager_double_title,
 .poker_wager_max_title {
   font-family: var(--font-nunito-sans);
-  color: var(--Gray-5, #7e7e7e);
+  color: #7e7e7e;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
@@ -468,6 +468,8 @@
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+  height: 40px;
+  box-sizing: border-box;
   width: 100%;
   cursor: pointer;
   &:hover {

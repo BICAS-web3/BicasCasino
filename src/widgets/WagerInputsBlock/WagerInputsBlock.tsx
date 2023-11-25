@@ -193,18 +193,15 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     }
   }, [betsAmount]);
 
-  const cond = true;
   const [currentBalance] = useUnit([sessionModel.$currentBalance]);
 
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   useEffect(() => {
-    if (
-      currentBalance &&
-      Wagered &&
-      Number(cryptoInputValue) > currentBalance
-    ) {
+    if (!currentBalance || Number(cryptoInputValue) > currentBalance) {
       setIsLowBalance(true);
+    } else {
+      setIsLowBalance(false);
     }
   }, [Wagered]);
   return (
