@@ -421,29 +421,37 @@ export const RockPaperScissors = () => {
     }
   }, [gameStatus]);
 
-  const [enemyValue, setEnenmyValue] = useState(ModelType.Quest);
+  const [enemyValue, setEnemyValue] = useState(ModelType.Quest);
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Draw) {
-      setEnenmyValue(value);
+      setEnemyValue(value);
     } else if (gameStatus === GameModel.GameStatus.Won) {
       if (pickedValue === RPSModel.RPSValue.Paper) {
-        setEnenmyValue(ModelType.Rock);
+        setEnemyValue(ModelType.Rock);
       } else if (pickedValue === RPSModel.RPSValue.Rock) {
-        setEnenmyValue(ModelType.Scissors);
+        setEnemyValue(ModelType.Scissors);
       } else if (pickedValue === RPSModel.RPSValue.Scissors) {
-        setEnenmyValue(ModelType.Paper);
+        setEnemyValue(ModelType.Paper);
       }
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       if (pickedValue === RPSModel.RPSValue.Paper) {
-        setEnenmyValue(ModelType.Scissors);
+        setEnemyValue(ModelType.Scissors);
       } else if (pickedValue === RPSModel.RPSValue.Rock) {
-        setEnenmyValue(ModelType.Paper);
+        setEnemyValue(ModelType.Paper);
       } else if (pickedValue === RPSModel.RPSValue.Scissors) {
-        setEnenmyValue(ModelType.Rock);
+        setEnemyValue(ModelType.Rock);
       }
     }
   }, [gameStatus]);
+
+  useEffect(() => {
+    if (enemyValue !== ModelType.Quest) {
+      setTimeout(() => {
+        setEnemyValue(ModelType.Quest);
+      }, 1000);
+    }
+  }, [value]);
 
   return (
     <div className={s.rps_table_container}>
