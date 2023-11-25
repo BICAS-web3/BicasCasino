@@ -34,6 +34,7 @@ import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
 import * as CoinflipM from "./model";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 interface CoinFlipProps {}
 
 enum CoinAction {
@@ -366,46 +367,58 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   }, [gameStatus]);
 
   return (
-    <div className={s.coinflip_table_wrap}>
-      <div className={s.coinflip_table_background}>
-        <Image
-          src={tableBg}
-          className={s.coinflip_table_background_img}
-          alt="table-bg"
+    <>
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
         />
-      </div>
-      <div className={s.coinflip_table}>
-        <div className={s.coinflip_wrap}>
-          <div className={s.coinflip_block}>
-            <Canvas
-              camera={{
-                position: [-9, 0, 0],
-                fov: 20,
-              }}
-              style={{ pointerEvents: "none" }}
-            >
-              <Suspense fallback={null}>
-                <Stage adjustCamera={false} environment="dawn">
-                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <Model
-                  action={
-                    inGame
-                      ? CoinAction.Rotation
-                      : pickedSide == SidePickerModel.Side.Heads
-                      ? CoinAction.TailsHeads
-                      : CoinAction.TailsHeads
-                  }
-                  initial={pickedSide}
-                />
-              </Suspense>
-            </Canvas>
+      )}
+      <div className={s.coinflip_table_wrap}>
+        <div className={s.coinflip_table_background}>
+          <Image
+            src={tableBg}
+            className={s.coinflip_table_background_img}
+            alt="table-bg"
+          />
+        </div>
+        <div className={s.coinflip_table}>
+          <div className={s.coinflip_wrap}>
+            <div className={s.coinflip_block}>
+              <Canvas
+                camera={{
+                  position: [-9, 0, 0],
+                  fov: 20,
+                }}
+                style={{ pointerEvents: "none" }}
+              >
+                <Suspense fallback={null}>
+                  <Stage adjustCamera={false} environment="dawn">
+                    <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                  </Stage>
+                  <ambientLight intensity={0.3} />
+                  <spotLight
+                    intensity={2.5}
+                    position={[-2, -5, 0]}
+                    angle={10}
+                  />
+                  <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                  <Model
+                    action={
+                      inGame
+                        ? CoinAction.Rotation
+                        : pickedSide == SidePickerModel.Side.Heads
+                        ? CoinAction.TailsHeads
+                        : CoinAction.TailsHeads
+                    }
+                    initial={pickedSide}
+                  />
+                </Suspense>
+              </Canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
