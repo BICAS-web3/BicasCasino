@@ -93,6 +93,7 @@ import { useDeviceType } from "@/shared/tools";
 import { PopUpBonus } from "@/widgets/PopUpBonus";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+import { FeedbackSection } from "@/widgets/FeedbackSection/FeedbackSection";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -485,7 +486,6 @@ export default function Home() {
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
-
         <div className={`${s.main_container}`}>
           <Blur />
           <MainReplacementComponent />
@@ -497,6 +497,7 @@ export default function Home() {
             isGamePage={false}
             game={undefined}
           />
+          <FeedbackSection />
           {/* <LeaderBoard /> */}
         </div>
         {/* </div> */}
