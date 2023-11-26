@@ -30,6 +30,7 @@ import { TOKENS } from "@/shared/tokens";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { PokerCombination } from "./PokerCombination";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
 
 // чирва 2
@@ -584,6 +585,7 @@ export const Poker: FC<PokerProps> = (props) => {
         />
       )}
       <div className={s.poker_table_wrap}>
+        <WagerLowerBtnsBlock game="poker" />
         <div className={s.poker_table_background}>
           <Image
             src={tableBg}

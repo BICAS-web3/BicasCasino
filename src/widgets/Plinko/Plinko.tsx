@@ -34,6 +34,7 @@ import statue from "@/public/media/plinko_images/statue.png";
 import * as PlinkoM from "./model";
 import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 const testBallPath = [
   [true, true, false, false, false, true, false, true],
@@ -516,6 +517,7 @@ export const Plinko: FC<IPlinko> = () => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
+        <WagerLowerBtnsBlock game="plinko" />
         <div className={styles.plinko_table_background}>
           <Image
             src={isMobile ? mobilebg : tableBg}

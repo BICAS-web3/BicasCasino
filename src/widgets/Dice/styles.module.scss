@@ -44,6 +44,20 @@
   }
 }
 
+.range_wrapper {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 0 20px;
+  @media (max-width: 650px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(15, 15, 15, 0.2);
+    padding: 20px 0 0 0;
+  }
+}
+
 .range_container {
   position: relative;
   z-index: 1;
@@ -212,7 +226,7 @@
 .dice_range {
   height: 6px;
   border-radius: 5px;
-  width: 206px;
+  width: 230px;
   position: relative;
   -webkit-appearance: none;
   @media (min-width: 700px) {
@@ -345,11 +359,18 @@
   }
 }
 
+.dice_btns {
+  @media (min-width: 650px) {
+    bottom: 130px !important;
+  }
+  bottom: 60px !important;
+}
+
 .total_container {
   position: absolute;
   bottom: 10px;
   left: 10px;
-  z-index: 10;
+  z-index: 2;
   color: white;
   display: flex;
   flex-direction: column;
@@ -378,6 +399,6 @@
 }
 @media (max-width: 650px) {
   .total_container {
-    bottom: 60px;
+    bottom: 58px;
   }
 }
