@@ -7,7 +7,7 @@
 }
 
 .custom_range_input_layout {
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .custom_range_input_title {
@@ -18,7 +18,7 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.56px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .custom_range_input {
@@ -134,10 +134,12 @@
 }
 
 .custom_range_setter_item {
+  height: 40px;
   color: #7e7e7e;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 12px;
+  font-size: 14px;
+  box-sizing: border-box;
   font-style: normal;
   font-weight: 700;
   line-height: 150%;

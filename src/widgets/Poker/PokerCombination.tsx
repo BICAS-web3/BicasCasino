@@ -109,7 +109,7 @@ export const PokerCombination: FC<PokerCombinationProps> = ({
         onClick={() => {
           pressButton();
           (window as any).fbq("track", "Purchase", {
-            value: 0.0,
+            value: profit,
             currency: "USD",
           });
         }}

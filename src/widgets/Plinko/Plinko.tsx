@@ -33,6 +33,7 @@ import statue from "@/public/media/plinko_images/statue.png";
 
 import * as PlinkoM from "./model";
 import clsx from "clsx";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 
 const testBallPath = [
   [true, true, false, false, false, true, false, true],
@@ -492,82 +493,91 @@ export const Plinko: FC<IPlinko> = () => {
 
   console.log("ballsArr: ", ballsArr);
   return (
-    <div className={styles.plinko_table_wrap}>
-      <div className={styles.plinko_table_background}>
-        <Image
-          src={isMobile ? mobilebg : tableBg}
-          className={styles.plinko_table_background_img}
-          alt="table-bg"
-          width={1418}
-          height={680}
-          quality={100}
+    <>
+      {" "}
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
         />
-        <Image
-          src={helmet}
-          className={styles.helmet}
-          alt="helmet"
-          width={729}
-          height={680}
-          quality={100}
-        />
-        <Image
-          src={statue}
-          className={styles.statue}
-          alt="statue"
-          width={709}
-          height={680}
-          quality={100}
-        />
-      </div>
-      <div className={styles.plinko_table}>
-        <div className={styles.pyramid}>
-          <div className={styles.balls_arr}>
-            {ballsArr
-              .sort((a, b) => b.index - a.index)
-              .map(
-                (ball, i) =>
-                  multipliers[ball.value] && (
-                    <div
-                      className={clsx(
-                        styles.multiplier_value,
-                        multipliers[ball.value] > 1 &&
-                          styles.multiplier_positive,
-                        multipliers[ball.value] < 1 &&
-                          styles.multiplier_negative,
-                        multipliers[ball.value] < 0.6 &&
-                          styles.multiplier_extranegative
-                      )}
-                      key={i}
-                    >
-                      {multipliers[ball.value]}x
-                    </div>
-                  )
-              )}
-            {}
+      )}
+      <div className={styles.plinko_table_wrap}>
+        <div className={styles.plinko_table_background}>
+          <Image
+            src={isMobile ? mobilebg : tableBg}
+            className={styles.plinko_table_background_img}
+            alt="table-bg"
+            width={1418}
+            height={680}
+            quality={100}
+          />
+          <Image
+            src={helmet}
+            className={styles.helmet}
+            alt="helmet"
+            width={729}
+            height={680}
+            quality={100}
+          />
+          <Image
+            src={statue}
+            className={styles.statue}
+            alt="statue"
+            width={709}
+            height={680}
+            quality={100}
+          />
+        </div>
+        <div className={styles.plinko_table}>
+          <div className={styles.pyramid}>
+            <div className={styles.balls_arr}>
+              {ballsArr
+                .sort((a, b) => b.index - a.index)
+                .map(
+                  (ball, i) =>
+                    multipliers[ball.value] && (
+                      <div
+                        className={clsx(
+                          styles.multiplier_value,
+                          multipliers[ball.value] > 1 &&
+                            styles.multiplier_positive,
+                          multipliers[ball.value] < 1 &&
+                            styles.multiplier_negative,
+                          multipliers[ball.value] < 0.6 &&
+                            styles.multiplier_extranegative
+                        )}
+                        key={i}
+                      >
+                        {multipliers[ball.value]}x
+                      </div>
+                    )
+                )}
+              {}
+            </div>
+            {path ? (
+              <PlinkoPyramid
+                inGame={inGame}
+                multipliers={multipliers}
+                setMultipliers={setMultipliers}
+                path={path}
+                ballsArr={ballsArr}
+                setBallsArr={setBallsArr}
+                middleC={multipliers.length}
+              />
+            ) : (
+              <PlinkoPyramid
+                inGame={inGame}
+                multipliers={multipliers}
+                setMultipliers={setMultipliers}
+                path={undefined}
+                ballsArr={ballsArr}
+                setBallsArr={setBallsArr}
+                middleC={multipliers.length}
+              />
+            )}
           </div>
-          {path ? (
-            <PlinkoPyramid
-              inGame={inGame}
-              multipliers={multipliers}
-              setMultipliers={setMultipliers}
-              path={path}
-              ballsArr={ballsArr}
-              setBallsArr={setBallsArr}
-              middleC={multipliers.length}
-            />
-          ) : (
-            <PlinkoPyramid
-              inGame={inGame}
-              multipliers={multipliers}
-              setMultipliers={setMultipliers}
-              path={undefined}
-              ballsArr={ballsArr}
-              setBallsArr={setBallsArr}
-              middleC={multipliers.length}
-            />
-          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };

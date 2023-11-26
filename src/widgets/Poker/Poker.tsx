@@ -2,11 +2,6 @@ import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/poker_images/pokerBgImage.png";
-// import testCard1 from "@/public/media/poker_images/testCard1.png";
-// import testCard2 from "@/public/media/poker_images/testCard2.png";
-// import testCard3 from "@/public/media/poker_images/testCard3.png";
-// import testCard4 from "@/public/media/poker_images/testCard4.png";
-// import testCard5 from "@/public/media/poker_images/testCard5.png";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
 import {
@@ -34,6 +29,7 @@ import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { PokerCombination } from "./PokerCombination";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 
 // чирва 2
 // пика 3
@@ -170,7 +166,11 @@ export const Poker: FC<PokerProps> = (props) => {
     watch: isConnected,
   });
 
-  const { data: GameState, refetch: fetchGameState } = useContractRead({
+  const {
+    data: GameState,
+    refetch: fetchGameState,
+    error: readErr,
+  } = useContractRead({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
     abi: IPoker,
@@ -559,6 +559,12 @@ export const Poker: FC<PokerProps> = (props) => {
           }
           profit={profit.toFixed(2)}
           multiplier={Number(multiplier.toFixed(2)).toString()}
+        />
+      )}
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
         />
       )}
       <div className={s.poker_table_wrap}>
