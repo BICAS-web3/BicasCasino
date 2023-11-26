@@ -210,7 +210,7 @@ export const RockPaperScissors = () => {
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
-    address: "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0" as `0x${string}`,
+    address: gameAddress as `0x${string}`,
     abi: RPSABI,
     functionName: "RockPaperScissors_GetState",
     args: [address],
@@ -248,7 +248,7 @@ export const RockPaperScissors = () => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0",
+      gameAddress as `0x${string}`,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -264,7 +264,7 @@ export const RockPaperScissors = () => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0" as `0x${string}`,
+    address: gameAddress as `0x${string}`,
     abi: RPSABI,
     functionName: "getVRFFee",
     args: [0],
@@ -276,14 +276,14 @@ export const RockPaperScissors = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
 
   const { config: startPlayingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0" as `0x${string}`,
+    address: gameAddress as `0x${string}`,
     abi: RPSABI,
     functionName: "RockPaperScissors_Play",
     args: [
@@ -295,24 +295,24 @@ export const RockPaperScissors = () => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -335,7 +335,7 @@ export const RockPaperScissors = () => {
   }, [error]);
 
   useContractEvent({
-    address: "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0" as `0x${string}`,
+    address: gameAddress as `0x${string}`,
     abi: RPSABI,
     eventName: "RockPaperScissors_Outcome_Event",
     listener(log) {
@@ -393,7 +393,7 @@ export const RockPaperScissors = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -402,7 +402,7 @@ export const RockPaperScissors = () => {
               startPlaying,
               BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
               pickedToken?.contract_address,
-              "0x7c47fb44Ce3F14012efB3a1890f5b443424D28b0",
+              gameAddress as `0x${string}`,
               VRFFees,
               fees
             );
