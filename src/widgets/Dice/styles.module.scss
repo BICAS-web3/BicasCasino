@@ -22,6 +22,7 @@
   }
   @media screen and (max-width: 650px) {
     border-radius: 0;
+    width: 100vw;
   }
 }
 
@@ -387,6 +388,7 @@
   @media (max-width: 650px) {
     font-size: 10px;
     letter-spacing: 0.4px;
+    gap: 0px;
   }
 }
 
