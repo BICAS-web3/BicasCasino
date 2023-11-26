@@ -20,6 +20,7 @@ import plinkoLaptopImg from "@/public/media/gamesPageImages/plinkoLaptopImg.png"
 
 import rpsDeskImg from "@/public/media/gamesPageImages/rpsDeskImg.png";
 import rpsLaptopImg from "@/public/media/gamesPageImages/rpsLaptopImg.png";
+import { GamesItem } from "./GamesItem";
 
 ////
 
@@ -68,7 +69,11 @@ export const GamesPageBlock: FC<GamesPageBlockProps> = () => {
   return (
     <div className={s.games_block}>
       <span className={s.games_block_title}>games</span>
-      <div className={s.games_list}></div>
+      <div className={s.games_list}>
+        {gamesList.map((item, ind) => (
+          <GamesItem {...item} key={ind} />
+        ))}
+      </div>
     </div>
   );
 };
