@@ -59,6 +59,10 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   const [is996, setIs996] = useState(false);
 
   useEffect(() => {
+    alert(side);
+  }, [side]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1280 && window.innerWidth > 996) {
         setIs1280(true);
