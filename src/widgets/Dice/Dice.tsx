@@ -71,6 +71,8 @@ export interface DiceProps {}
 const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [
+    lost,
+    profit,
     setPlayingStatus,
     wagered,
     playSounds,
@@ -97,6 +99,8 @@ const Dice: FC<DiceProps> = () => {
     setWagered,
     allowance,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     DiceM.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
@@ -428,6 +432,17 @@ const Dice: FC<DiceProps> = () => {
     },
   ];
 
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    // setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {" "}
@@ -451,6 +466,21 @@ const Dice: FC<DiceProps> = () => {
               src={bgImage}
               alt="test"
             />
+          </div>
+          <div className={s.total_container}>
+            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:{" "}
+              <span
+                className={clsx(
+                  totalValue > 0 && s.total_won,
+                  totalValue < 0 && s.total_lost
+                )}
+              >
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
+            </div>
           </div>
           <div className={s.range_container}>
             <span className={s.roll_range_value}>{RollValue}</span>
@@ -478,6 +508,7 @@ const Dice: FC<DiceProps> = () => {
             />
           </button>
         </div>
+
         <div className={s.dice_value_container}>
           {diceValue.map((dice) => (
             <div key={dice.id} className={s.dice_under_conteiner}>

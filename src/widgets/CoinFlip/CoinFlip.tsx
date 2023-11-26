@@ -35,6 +35,7 @@ import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
 import * as CoinflipM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import clsx from "clsx";
 interface CoinFlipProps {}
 
 enum CoinAction {
@@ -85,6 +86,8 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
 
 export const CoinFlip: FC<CoinFlipProps> = ({}) => {
   const [
+    lost,
+    profit,
     setPlayingStatus,
     playSounds,
     pickedSide,
@@ -105,6 +108,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
     setWonStatus,
     setLostStatus,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     CoinflipM.setPlayingStatus,
     GameModel.$playSounds,
     SidePickerModel.$pickedSide,
@@ -365,6 +370,17 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
 
   return (
     <>
@@ -381,6 +397,21 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
             className={s.coinflip_table_background_img}
             alt="table-bg"
           />
+        </div>{" "}
+        <div className={s.total_container}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
         </div>
         <div className={s.coinflip_table}>
           <div className={s.coinflip_wrap}>

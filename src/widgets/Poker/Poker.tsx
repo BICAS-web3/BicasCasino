@@ -2,11 +2,6 @@ import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Image from "next/image";
 import tableBg from "@/public/media/poker_images/pokerBgImage.png";
-// import testCard1 from "@/public/media/poker_images/testCard1.png";
-// import testCard2 from "@/public/media/poker_images/testCard2.png";
-// import testCard3 from "@/public/media/poker_images/testCard3.png";
-// import testCard4 from "@/public/media/poker_images/testCard4.png";
-// import testCard5 from "@/public/media/poker_images/testCard5.png";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
 import {
@@ -32,9 +27,15 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import * as api from "@/shared/api";
 import { TOKENS } from "@/shared/tokens";
-import { useDebounce } from "@/shared/tools";
+import { useDebounce, useMediaQuery } from "@/shared/tools";
+import { PokerCombination } from "./PokerCombination";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import clsx from "clsx";
 
+// чирва 2
+// пика 3
+// буба 1
+// креста 0
 const initialArrayOfCards = [
   {
     suit: -1,
@@ -58,6 +59,10 @@ const initialArrayOfCards = [
   },
 ];
 
+interface ICards {
+  suit: number;
+  number: number;
+}
 // export type T_Card = {
 //   coat: number,
 //   card: number
@@ -71,7 +76,12 @@ export interface PokerProps {
 }
 
 export const Poker: FC<PokerProps> = (props) => {
+  const isMobile = useMediaQuery("(max-width: 650px)");
+  // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [
+    lost,
+    profit,
+    gameStatus,
     playSounds,
     gameState,
     gameAddress,
@@ -90,6 +100,9 @@ export const Poker: FC<PokerProps> = (props) => {
     //availableTokens
     setIsPlaying,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
+    GameModel.$gameStatus,
     GameModel.$playSounds,
     PokerModel.$gameState,
     sessionModel.$gameAddress,
@@ -410,13 +423,160 @@ export const Poker: FC<PokerProps> = (props) => {
     playDrawnCards();
   }, [gameState]);
 
-  // useEffect(() => {
-  //   console.log("Cards state", props.cardsState);
-  // }, [props.cardsState]);
+  //!------------------------------------------------------------------------------------------------------------------------------------------------------------
+  //! Poker combination functions
 
+  function hasRoyalFlush(cards: ICards[]) {
+    const royalFlushNumbers = [1, 10, 11, 12, 13];
+    const suits = new Set(cards.map((card) => card.suit));
+
+    return Array.from(suits).some((suit) => {
+      const suitCards = cards.filter((card) => card.suit === suit);
+      const numbers = suitCards.map((card) => card.number);
+
+      return royalFlushNumbers.every((number) => numbers.includes(number));
+    });
+  }
+
+  function hasStraightFlush(cards: ICards[]) {
+    const suits = Array.from(new Set(cards.map((card) => Number(card.suit))));
+    if (suits.length > 1) return false;
+    return suits.some((suit) => {
+      const suitCards = cards.filter((card) => Number(card.suit) === suit);
+      const sortedNumbers = suitCards
+        .map((card) => card.number)
+        .sort((a, b) => a - b);
+
+      for (let i = 0; i < sortedNumbers.length - 1; i++) {
+        if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  function hasFourOfAKind(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+
+    return Object.values(numberCounts).includes(4);
+  }
+
+  function hasFullHouse(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return (
+      Object.values(numberCounts).includes(3) &&
+      Object.values(numberCounts).includes(2)
+    );
+  }
+
+  function hasFlush(cards: ICards[]) {
+    const suits = new Set(cards.map((card) => card.suit));
+    return suits.size === 1;
+  }
+
+  function hasStraight(cards: ICards[]) {
+    const sortedNumbers = cards
+      .map((card) => card.number)
+      .sort((a, b) => a - b);
+
+    for (let i = 0; i < sortedNumbers.length - 1; i++) {
+      if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function hasThreeOfAKind(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return Object.values(numberCounts).includes(3);
+  }
+
+  function hasTwoPair(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    const pairs = Object.values(numberCounts).filter((count) => count === 2);
+    return pairs.length === 2;
+  }
+
+  function hasOnePair(cards: ICards[]) {
+    const numberCounts = countNumbers(cards);
+    return Object.values(numberCounts).includes(2);
+  }
+
+  function countNumbers(cards: ICards[]) {
+    const counts: Record<number, number> = {};
+    for (const card of cards) {
+      counts[card.number] = (counts[card.number] || 0) + 1;
+    }
+    return counts;
+  }
+
+  const [combinationName, setCombinationName] = useState("");
+
+  function evaluatePokerHand(cards: ICards[]) {
+    cards.sort((a, b) => a.number - b.number);
+
+    if (hasRoyalFlush(cards)) {
+      setCombinationName("Royal Flush");
+    } else if (hasStraightFlush(cards)) {
+      setCombinationName("Straight Flush");
+    } else if (hasFourOfAKind(cards)) {
+      setCombinationName("Four of a Kind");
+    } else if (hasFullHouse(cards)) {
+      setCombinationName("Full House");
+    } else if (hasFlush(cards)) {
+      setCombinationName("Flush");
+    } else if (hasStraight(cards)) {
+      setCombinationName("Straight");
+    } else if (hasThreeOfAKind(cards)) {
+      setCombinationName("Three of a Kind");
+    } else if (hasTwoPair(cards)) {
+      setCombinationName("Two Pair");
+    } else if (hasOnePair(cards)) {
+      setCombinationName("One Pair");
+    } else {
+      setCombinationName("High Card");
+    }
+  }
+  useEffect(() => {
+    evaluatePokerHand(activeCards);
+  }, [activeCards, gameStatus]);
+  const [multiplier, token] = useUnit([
+    GameModel.$multiplier,
+    GameModel.$token,
+  ]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
-      {" "}
+      {gameStatus === GameModel.GameStatus.Won && (
+        <PokerCombination
+          combinationName={combinationName}
+          tokenImage={
+            <Image
+              src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+              alt={""}
+              width={isMobile ? 22 : 30}
+              height={isMobile ? 22 : 30}
+            />
+          }
+          profit={profit.toFixed(2)}
+          multiplier={Number(multiplier.toFixed(2)).toString()}
+        />
+      )}
       {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
@@ -430,6 +590,21 @@ export const Poker: FC<PokerProps> = (props) => {
             className={s.poker_table_background_img}
             alt="table-bg"
           />
+        </div>{" "}
+        <div className={s.total_container}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
         </div>
         <div className={s.poker_table}>
           <div className={s.poker_table_cards_list}>
