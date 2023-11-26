@@ -195,9 +195,9 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 is1280
                   ? slide.laptopImg.src
                   : is700
-                  ? slide.tabletImg.src
+                  ? slide.laptopImg.src
                   : is650
-                  ? slide.mobileImg.src
+                  ? slide.laptopImg.src
                   : slide.deskImg.src
               }
               alt="slide-imd"

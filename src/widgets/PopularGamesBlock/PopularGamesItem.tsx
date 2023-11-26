@@ -7,6 +7,7 @@ interface PopularGamesItemProps {
   imgLaptop: StaticImageData;
   imgMob: StaticImageData;
   title: string;
+  href: string;
 }
 
 export const PopularGamesItem: FC<PopularGamesItemProps> = (props) => {
@@ -23,10 +24,10 @@ export const PopularGamesItem: FC<PopularGamesItemProps> = (props) => {
         setIsDesk(false);
         setIsLaptop(true);
         setIsMobile(false);
-      } else if (width < 650) {
+      } else if (width < 700) {
         setIsDesk(false);
-        setIsLaptop(false);
-        setIsMobile(true);
+        setIsLaptop(true);
+        setIsMobile(false);
       } else {
         setIsDesk(true);
         setIsLaptop(false);
@@ -54,7 +55,12 @@ export const PopularGamesItem: FC<PopularGamesItemProps> = (props) => {
   }, [isDesk, isLaptop, isMobile]);
 
   return (
-    <div className={s.popular_games_list_item}>
+    <div
+      className={s.popular_games_list_item}
+      onClick={() => {
+        location.href = props.href;
+      }}
+    >
       <img
         alt="game-bg-static"
         className={s.popular_game_bg_image}

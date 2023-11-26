@@ -28,24 +28,28 @@ const popularGamesList = [
     imgLaptop: pokerPopularLaptop,
     imgMob: pokerPopularMobile,
     title: "poker",
+    href: "/games/Poker",
   },
   {
     imgDesk: dicePopularDesk,
     imgLaptop: dicePopularLaptop,
     imgMob: dicePopularMobile,
     title: "dice",
+    href: "/games/Dice",
   },
   {
     imgDesk: plinkoPopularDesk,
     imgLaptop: plinkoPopularLaptop,
     imgMob: plinkoPopularMobile,
     title: "plinko",
+    href: "/games/Plinko",
   },
   {
     imgDesk: minesPopularDesk,
     imgLaptop: minesPopularLaptop,
     imgMob: minesPopularMobile,
     title: "mines",
+    href: "/games/Mines",
   },
 ];
 
