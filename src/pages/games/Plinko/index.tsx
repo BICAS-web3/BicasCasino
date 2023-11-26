@@ -59,7 +59,11 @@ const WagerContent = () => {
       />
       <ProfitBlock />
       <button
-        className={clsx(s.connect_wallet_btn, styles.mobile, isPlaying && 'animation-leftRight')}
+        className={clsx(
+          s.connect_wallet_btn,
+          styles.mobile,
+          isPlaying && "animation-leftRight"
+        )}
         onClick={() => {
           if (!isConnected) {
             setStartConnect(true);
@@ -83,7 +87,6 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      <WagerLowerBtnsBlock game="plinko" />
     </>
   );
 };

@@ -34,6 +34,7 @@ import statue from "@/public/media/plinko_images/statue.png";
 import * as PlinkoM from "./model";
 import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 const testBallPath = [
   [true, true, false, false, false, true, false, true],
@@ -119,6 +120,8 @@ export const Plinko: FC<IPlinko> = () => {
   const isMobile = useMediaQuery("(max-width: 480px)");
 
   const [
+    lost,
+    profit,
     setPlayingStatus,
     playSounds,
     wagered,
@@ -138,6 +141,8 @@ export const Plinko: FC<IPlinko> = () => {
     setLostStatus,
     pickedLevel,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     PlinkoM.setPlayingStatus,
     GameModel.$playSounds,
     WagerButtonModel.$Wagered,
@@ -490,7 +495,17 @@ export const Plinko: FC<IPlinko> = () => {
       }, 700);
     }
   }, [ballsArr, path]);
-
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   console.log("ballsArr: ", ballsArr);
   return (
     <>
@@ -502,6 +517,7 @@ export const Plinko: FC<IPlinko> = () => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
+        <WagerLowerBtnsBlock game="plinko" />
         <div className={styles.plinko_table_background}>
           <Image
             src={isMobile ? mobilebg : tableBg}
@@ -527,6 +543,21 @@ export const Plinko: FC<IPlinko> = () => {
             height={680}
             quality={100}
           />
+        </div>
+        <div className={styles.total_container}>
+          <span className={styles.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={styles.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && styles.total_won,
+                totalValue < 0 && styles.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
         </div>
         <div className={styles.plinko_table}>
           <div className={styles.pyramid}>

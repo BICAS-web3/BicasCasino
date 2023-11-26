@@ -38,7 +38,11 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <button
-        className={clsx(s.poker_wager_drawing_cards_btn, s.mobile, isPlaying && 'animation-leftRight')}
+        className={clsx(
+          s.poker_wager_drawing_cards_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight"
+        )}
         onClick={() => {
           if (!isConnected) {
             setStartConnect(true);
@@ -62,7 +66,6 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      <WagerLowerBtnsBlock game="poker" />
     </>
   );
 };

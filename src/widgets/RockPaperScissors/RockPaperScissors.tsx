@@ -46,6 +46,7 @@ export enum ModelType {
 }
 
 import * as RPSModel from "@/widgets/RpsPicker/model";
+import clsx from "clsx";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -57,10 +58,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   const { scene } = useGLTF(side);
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
-
-  useEffect(() => {
-    alert(side);
-  }, [side]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -137,6 +134,8 @@ export const RockPaperScissors = () => {
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
 
   const [
+    lost,
+    profit,
     setPlayingStatus,
     playSounds,
     pickedValue,
@@ -157,6 +156,8 @@ export const RockPaperScissors = () => {
     setWonStatus,
     setLostStatus,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     CoinflipM.setPlayingStatus,
     GameModel.$playSounds,
     RPSModel.$pickedValue,
@@ -456,7 +457,17 @@ export const RockPaperScissors = () => {
       }, 1000);
     }
   }, [value]);
-
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <div className={s.rps_table_container}>
       <div className={s.rps_table_background}>
@@ -465,6 +476,21 @@ export const RockPaperScissors = () => {
           className={s.rps_table_background_img}
           alt="table-bg"
         />
+      </div>{" "}
+      <div className={s.total_container}>
+        <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+        <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+        <div>
+          Total:{" "}
+          <span
+            className={clsx(
+              totalValue > 0 && s.total_won,
+              totalValue < 0 && s.total_lost
+            )}
+          >
+            {Math.abs(totalValue).toFixed(2)}
+          </span>
+        </div>
       </div>
       <div className={s.rps_table}>
         <div className={s.rps_table_inner}>

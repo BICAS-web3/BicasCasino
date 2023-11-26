@@ -56,6 +56,7 @@ import clsx from "clsx";
 
 import * as DiceM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -71,6 +72,8 @@ export interface DiceProps {}
 const Dice: FC<DiceProps> = () => {
   const { isConnected, address } = useAccount();
   const [
+    lost,
+    profit,
     setPlayingStatus,
     wagered,
     playSounds,
@@ -97,6 +100,8 @@ const Dice: FC<DiceProps> = () => {
     setWagered,
     allowance,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     DiceM.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
@@ -428,6 +433,17 @@ const Dice: FC<DiceProps> = () => {
     },
   ];
 
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    // setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {" "}
@@ -438,6 +454,8 @@ const Dice: FC<DiceProps> = () => {
         />
       )}
       <div className={s.dice}>
+        {" "}
+        <WagerLowerBtnsBlock className={s.dice_btns} game="dice" />
         <div className={s.model}>
           <Suspense fallback={<div>...</div>}>
             <DiceCanvas inGame={inGame} />
@@ -452,31 +470,49 @@ const Dice: FC<DiceProps> = () => {
               alt="test"
             />
           </div>
-          <div className={s.range_container}>
-            <span className={s.roll_range_value}>{RollValue}</span>
-            <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
-            <div className={s.custom_range_input_body}></div>
-            <input
-              className={clsx(
-                s.dice_range,
-                rollOver ? s.dice_over : s.dice_under
-              )}
-              type="range"
-              min={rollOver ? 5 : 0.1}
-              max={rollOver ? 99.9 : 95}
-              value={RollValue}
-              onChange={onChange}
-              ref={rangeRef}
-              step={0.1}
-            />
-            <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+          <div className={s.total_container}>
+            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:{" "}
+              <span
+                className={clsx(
+                  totalValue > 0 && s.total_won,
+                  totalValue < 0 && s.total_lost
+                )}
+              >
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
+            </div>
           </div>
-          <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
+          <div className={s.range_wrapper}>
+            {" "}
+            <div className={s.range_container}>
+              <span className={s.roll_range_value}>{RollValue}</span>
+              <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
+              <div className={s.custom_range_input_body}></div>
+              <input
+                className={clsx(
+                  s.dice_range,
+                  rollOver ? s.dice_over : s.dice_under
+                )}
+                type="range"
+                min={rollOver ? 5 : 0.1}
+                max={rollOver ? 99.9 : 95}
+                value={RollValue}
+                onChange={onChange}
+                ref={rangeRef}
+                step={0.1}
+              />
+              <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+            </div>
+          </div>
+          {/* <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
             <Image
               src={playSounds ? soundIco : soundOffIco}
               alt={playSounds ? "sound-on" : "sound-off"}
             />
-          </button>
+          </button> */}
         </div>
         <div className={s.dice_value_container}>
           <span style={{ color: "white" }}>

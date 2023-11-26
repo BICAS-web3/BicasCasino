@@ -60,3 +60,10 @@
     height: 284px !important;
   }
 }
+
+.sound_btn {
+  bottom: 98px !important;
+  @media (max-width: 650px) {
+    display: none !important;
+  }
+}

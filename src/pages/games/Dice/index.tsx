@@ -55,7 +55,9 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={`${s.connect_wallet_btn} ${isPlaying && 'animation-leftRight'}`} 
+          className={`${s.connect_wallet_btn} ${
+            isPlaying && "animation-leftRight"
+          }`}
           onClick={() => {
             if (!isConnected) {
               setStartConnect(true);
@@ -99,6 +101,7 @@ export default function DiceGame() {
             gameTitle="Dice"
             wagerContent={<WagerContent />}
             custom_height={styles.height}
+            soundClassName={styles.sound_btn}
           >
             <Suspense fallback={<div>....</div>}>
               <DiceComponent />

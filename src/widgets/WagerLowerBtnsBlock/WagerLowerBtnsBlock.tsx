@@ -16,6 +16,7 @@ import * as PokerHandsM from "@/widgets/PokerHandsBlock/model";
 import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
 import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
 import burgerIco from "@/public/media/misc/burgerIco.svg";
+import clsx from "clsx";
 
 const pokerHandMultiplierList = [
   {
@@ -58,9 +59,13 @@ const pokerHandMultiplierList = [
 
 interface WagerLowerBtnsBlockProps {
   game: string;
+  className?: string;
 }
 
-export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
+export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
+  game,
+  className,
+}) => {
   const [playSounds, switchSounds] = useUnit([
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -82,7 +87,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
   }, [handMultiplierBlockVisibility]);
 
   return (
-    <div className={s.poker_wager_lower_btns_block}>
+    <div className={clsx(s.poker_wager_lower_btns_block, className)}>
       <button
         className={s.poker_wager_sound_btn}
         onClick={() => switchSounds()}
