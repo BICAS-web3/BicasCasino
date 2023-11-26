@@ -30,6 +30,7 @@ import { TOKENS } from "@/shared/tokens";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { PokerCombination } from "./PokerCombination";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import clsx from "clsx";
 
 // чирва 2
 // пика 3
@@ -78,6 +79,8 @@ export const Poker: FC<PokerProps> = (props) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [
+    lost,
+    profit,
     gameStatus,
     playSounds,
     gameState,
@@ -97,6 +100,8 @@ export const Poker: FC<PokerProps> = (props) => {
     //availableTokens
     setIsPlaying,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
     GameModel.$gameStatus,
     GameModel.$playSounds,
     PokerModel.$gameState,
@@ -539,11 +544,22 @@ export const Poker: FC<PokerProps> = (props) => {
   useEffect(() => {
     evaluatePokerHand(activeCards);
   }, [activeCards, gameStatus]);
-  const [profit, multiplier, token] = useUnit([
-    GameModel.$profit,
+  const [multiplier, token] = useUnit([
     GameModel.$multiplier,
     GameModel.$token,
   ]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (
@@ -574,6 +590,21 @@ export const Poker: FC<PokerProps> = (props) => {
             className={s.poker_table_background_img}
             alt="table-bg"
           />
+        </div>{" "}
+        <div className={s.total_container}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
         </div>
         <div className={s.poker_table}>
           <div className={s.poker_table_cards_list}>
