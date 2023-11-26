@@ -1,0 +1,41 @@
+.games_block {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: 650px) {
+    margin: 0px 20px;
+    width: calc(100% - 40px);
+  }
+}
+
+.games_block_title {
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 15px;
+  margin-bottom: 16px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
+}
+
+.games_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+
+  @media screen and (max-width: 1280px) {
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 650px) {
+    gap: 8px;
+  }
+}
