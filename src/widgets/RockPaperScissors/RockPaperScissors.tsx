@@ -569,7 +569,7 @@ export const RockPaperScissors = () => {
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Paper}
-                  left={true}
+                  left={false}
                 />{" "}
               </Suspense>
             )}
@@ -590,7 +590,7 @@ export const RockPaperScissors = () => {
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Rock}
-                  left={true}
+                  left={false}
                 />
               </Suspense>
             )}
@@ -610,7 +610,7 @@ export const RockPaperScissors = () => {
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Scissors}
-                  left={true}
+                  left={false}
                 />
               </Suspense>
             )}
@@ -630,7 +630,7 @@ export const RockPaperScissors = () => {
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Quest}
-                  left={true}
+                  left={false}
                 />
               </Suspense>
             )}
