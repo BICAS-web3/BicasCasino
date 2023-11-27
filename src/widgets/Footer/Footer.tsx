@@ -46,7 +46,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   LEADER BOARD
                 </Link>
                 <Link href="" className={s.footer_text}>
-                  AFFILATE
+                  AFFILIATE
                 </Link>
               </div>
 

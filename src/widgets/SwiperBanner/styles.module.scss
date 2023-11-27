@@ -39,6 +39,14 @@
     padding: 25px 10px;
     border-radius: 12px;
   }
+
+  @media screen and (max-width: 400px) {
+    &:nth-child(1) {
+      img {
+        right: -100px;
+      }
+    }
+  }
 }
 
 .main_banner_swiper_slide.swiper-slide-active {
@@ -55,10 +63,29 @@
   width: 100%;
   border-radius: 20px;
 
+  @media screen and (max-width: 1890px) {
+    border-radius: 0;
+    right: 0;
+    left: auto;
+    width: auto;
+  }
+
+  @media screen and (max-width: 850px) {
+    right: -50px;
+  }
+
   @media screen and (max-width: 650px) {
     border-radius: 0;
     right: 0;
     left: auto;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 620px) {
+    border-radius: 0;
+    right: 0;
+    left: auto;
+    width: auto;
   }
 }
 
@@ -115,7 +142,7 @@
   @media screen and (max-width: 650px) {
     font-size: 10px;
     margin-bottom: 9px;
-    line-height: 16px;
+    line-height: 15.5px;
   }
 }
 

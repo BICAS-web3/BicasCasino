@@ -149,7 +149,6 @@ export const GamePage: FC<GamePageProps> = ({
         <div className={s.game_body}>
           <div className={s.game}>
             <div className={clsx(s.game_block, custom_height)}>
-              <h2 className={s.game_title}>{gameTitle}</h2>
               <button
                 className={clsx(s.poker_wager_sound_btn, soundClassName)}
                 onClick={() => switchSounds()}
