@@ -14,10 +14,15 @@ import { SBopenFooterBtn } from "@/shared/SVGs/SBopenFooterBtn";
 import { FooterGamesBtn } from "@/shared/SVGs/FooterGamesBtn";
 import { ProfileBtn } from "@/shared/SVGs/ProfileBtn";
 import { MessangerBtn } from "@/shared/SVGs/MessangerBtn";
+import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
 
 export interface BottomMenuProps {}
 
 export const BottomMenu: FC<BottomMenuProps> = (props) => {
+  const { isConnected, address } = useAccount();
+  const router = useRouter();
+
   const [openSidebar, closeSb, isOpen] = useUnit([
     SideBarModel.Open,
     SideBarModel.Close,
@@ -38,6 +43,14 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
     !isOpen && document.documentElement.classList.remove("scroll-disable");
   }, [isOpen]);
 
+  const handleAccountLink = () => {
+    if (!isConnected) {
+      router.push("/AccountFallback");
+    } else {
+      router.push(`/account/${address?.toLowerCase()}`);
+    }
+  };
+
   return (
     <div className={`${s.bottom_menu} ${isOpen && s.sb_opened}`}>
       <div className={s.element} onClick={openSB}>
@@ -47,7 +60,10 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
       <div className={`${s.element} ${s.hidden_elem}`}>
         <FooterGamesBtn />
       </div>
-      <div className={`${s.element} ${s.hidden_elem}`}>
+      <div
+        className={`${s.element} ${s.hidden_elem}`}
+        onClick={handleAccountLink}
+      >
         <ProfileBtn />
       </div>
       <div className={s.element}>

@@ -13,9 +13,9 @@
   }
 
   @media screen and (max-width: 650px) {
-    margin: 0 16px 8px 16px;
+    margin: 0 0 8px 0;
     height: 140px;
-    width: calc(100% - 32px);
+    width: 100%;
   }
 }
 
@@ -47,9 +47,9 @@
 }
 
 .slide_bg_img {
-  height: 100%;
   position: absolute;
   top: 0;
+  height: 100%;
   right: 0;
   bottom: 0;
   left: 0;
@@ -57,7 +57,9 @@
   border-radius: 20px;
 
   @media screen and (max-width: 650px) {
-    border-radius: 12px;
+    border-radius: 0;
+    right: 0;
+    left: auto;
   }
 }
 
@@ -68,7 +70,8 @@
   border-radius: 20px;
 
   @media screen and (max-width: 650px) {
-    box-sizing: 12px;
+    border-radius: 0;
+    border: none;
   }
 }
 

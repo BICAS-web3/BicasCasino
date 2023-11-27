@@ -86,6 +86,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [is700, setIs700] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is500, setIs500] = useState(false);
   const swiperRef = useRef<SwiperRef>(null);
   const [walletVisibility, setWalletVisibility] = useState(false);
 
@@ -96,18 +97,27 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
         setIs1280(true);
         setIs700(false);
         setIs650(false);
+        setIs500(false);
       } else if (width < 700 && width > 650) {
         setIs1280(false);
         setIs700(true);
         setIs650(false);
-      } else if (width < 650) {
+        setIs500(false);
+      } else if (width < 650 && width > 500) {
         setIs1280(false);
         setIs700(false);
         setIs650(true);
+        setIs500(false);
+      } else if (width < 500) {
+        setIs1280(false);
+        setIs700(false);
+        setIs650(false);
+        setIs500(true);
       } else {
         setIs1280(false);
         setIs700(false);
         setIs650(false);
+        setIs500(false);
       }
     };
 
@@ -119,6 +129,10 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    console.log(is1280, is700, is650, is500);
+  }, [is1280, is700, is650, is500]);
 
   const [isMainWalletOpen, setBlur] = useUnit([
     MainWallet.$isMainWalletOpen,
@@ -195,9 +209,11 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 is1280
                   ? slide.laptopImg.src
                   : is700
-                  ? slide.laptopImg.src
+                  ? slide.tabletImg.src
                   : is650
                   ? slide.laptopImg.src
+                  : is500
+                  ? slide.mobileImg.src
                   : slide.deskImg.src
               }
               alt="slide-imd"
