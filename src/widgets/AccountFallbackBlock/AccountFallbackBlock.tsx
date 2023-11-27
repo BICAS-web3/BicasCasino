@@ -8,7 +8,7 @@ interface AccountFallbackBlockProps {}
 export const AccountFallbackBlock: FC<AccountFallbackBlockProps> = () => {
   return (
     <div className={s.fallback_wrap}>
-      <div className={s.fallback_body}>
+      <div className={`${s.fallback_body} ${s.blick}`}>
         <div className={s.top_block}>
           <div className={s.toRegister_nav_block}>
             <p className={s.toRegister_nav_block_text}>
