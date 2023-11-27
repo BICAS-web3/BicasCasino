@@ -1,8 +1,8 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export enum Side {
-    Tails = 0,
-    Heads = 1
+  Tails = 0,
+  Heads = 1,
 }
 
 // variables

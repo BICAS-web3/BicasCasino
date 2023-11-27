@@ -92,7 +92,7 @@ export default function RockPaperScissorsGame() {
     >
       <LiveBetsWS
         subscription_type={"Subscribe"}
-        subscriptions={["Plinko", "PlinkoStart"]}
+        subscriptions={["RockPaperScissors"]}
       />
       <div className={s.rps_container}>
         <GamePage
