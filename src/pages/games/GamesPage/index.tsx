@@ -3,6 +3,9 @@ import { FC } from "react";
 import s from "./style.module.scss";
 import { Total } from "@/widgets/Total";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
+import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
+import { PopularGamesBlock } from "@/widgets/PopularGamesBlock/PopularGamesBlock";
+import { GamesPageBlock } from "@/widgets/GamesPageBlock/GamesPageBlock";
 
 interface GamesPageProps {}
 
@@ -10,8 +13,8 @@ const GamesPage: FC<GamesPageProps> = () => {
   return (
     <Layout gameName="notGameName">
       <div className={s.games_page_container}>
-        <div className={s.popular_games_block}></div>
-        <div className={s.games_block}></div>
+        <PopularGamesBlock />
+        <GamesPageBlock />
         <Total />
         <CustomBets
           title="Live bets"
@@ -19,6 +22,7 @@ const GamesPage: FC<GamesPageProps> = () => {
           isGamePage={false}
           game={undefined}
         />
+        <LeaderBoard />
       </div>
     </Layout>
   );
