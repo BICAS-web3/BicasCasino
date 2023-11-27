@@ -21,7 +21,7 @@ export const RpsPicker: FC<RpsPickerProps> = () => {
   return (
     <div className={s.rps_picker_block}>
       <div
-        onClick={() => pickValue(RPSModel.RPSValue.Rock)}
+        onClick={() => active && pickValue(RPSModel.RPSValue.Rock)}
         className={clsx(
           s.rps_picker_block_item,
           pickedValue === RPSModel.RPSValue.Rock &&
@@ -31,7 +31,7 @@ export const RpsPicker: FC<RpsPickerProps> = () => {
         <RockButton />
       </div>
       <div
-        onClick={() => pickValue(RPSModel.RPSValue.Scissors)}
+        onClick={() => active && pickValue(RPSModel.RPSValue.Scissors)}
         className={clsx(
           s.rps_picker_block_item,
           pickedValue === RPSModel.RPSValue.Scissors &&
@@ -41,7 +41,7 @@ export const RpsPicker: FC<RpsPickerProps> = () => {
         <ScissorsButton />
       </div>
       <div
-        onClick={() => pickValue(RPSModel.RPSValue.Paper)}
+        onClick={() => active && pickValue(RPSModel.RPSValue.Paper)}
         className={clsx(
           s.rps_picker_block_item,
           pickedValue === RPSModel.RPSValue.Paper &&

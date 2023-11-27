@@ -55,7 +55,12 @@ interface ModelProps {
 }
 
 const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
-  const { scene } = useGLTF(side);
+  const [pickedValue] = useUnit([RPSModel.$pickedValue]);
+  const [selectedSide, setSelectedSide] = useState(side);
+  useEffect(() => {
+    setSelectedSide(side);
+  }, [side, pickedValue]);
+  const { scene } = useGLTF(selectedSide);
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
 
@@ -276,7 +281,7 @@ export const RockPaperScissors = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -295,24 +300,24 @@ export const RockPaperScissors = () => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -393,7 +398,7 @@ export const RockPaperScissors = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -495,38 +500,140 @@ export const RockPaperScissors = () => {
       <div className={s.rps_table}>
         <div className={s.rps_table_inner}>
           <Canvas
-            camera={{ position: [1, 6, 1], fov: 20 }}
+            camera={{ position: [1, 6, 1], fov: 22.5 }}
             style={{ pointerEvents: "none" }}
           >
-            <Suspense fallback={null}>
-              <Stage adjustCamera={false} environment="dawn">
-                <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
-              </Stage>
-              <ambientLight intensity={0.3} />
-              <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-              <pointLight position={[0, -10, 5]} intensity={0.5} color="#fff" />
-              <Model yValue={0.1} side={value} left={true} />
-            </Suspense>
+            {value === ModelType.Paper && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model yValue={0.1} side={ModelType.Paper} left={true} />{" "}
+              </Suspense>
+            )}
+            {value === ModelType.Rock && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model yValue={0.1} side={ModelType.Rock} left={true} />
+              </Suspense>
+            )}
+            {value === ModelType.Scissors && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model yValue={0.1} side={ModelType.Scissors} left={true} />
+              </Suspense>
+            )}
           </Canvas>
           <Canvas
             camera={{ position: [1, 6, 1], fov: 20 }}
             style={{ pointerEvents: "none" }}
           >
-            <Suspense fallback={null}>
-              <Stage adjustCamera={false} environment="dawn">
-                <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
-              </Stage>
-              <ambientLight intensity={0.3} />
-              <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
-              <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-              <pointLight position={[0, -10, 5]} intensity={0.5} color="#fff" />
-              <Model
-                delay={2000}
-                yValue={-0.1}
-                side={enemyValue}
-                left={false}
-              />
-            </Suspense>
+            {enemyValue === ModelType.Paper && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model
+                  delay={2000}
+                  yValue={-0.1}
+                  side={ModelType.Paper}
+                  left={true}
+                />{" "}
+              </Suspense>
+            )}
+            {enemyValue === ModelType.Rock && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+
+                <Model
+                  delay={2000}
+                  yValue={-0.1}
+                  side={ModelType.Rock}
+                  left={true}
+                />
+              </Suspense>
+            )}
+            {enemyValue === ModelType.Scissors && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model
+                  delay={2000}
+                  yValue={-0.1}
+                  side={ModelType.Scissors}
+                  left={true}
+                />
+              </Suspense>
+            )}
+            {enemyValue === ModelType.Quest && (
+              <Suspense>
+                <Stage adjustCamera={false} environment="dawn">
+                  <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                </Stage>
+                <ambientLight intensity={0.3} />
+                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                <pointLight
+                  position={[0, -10, 5]}
+                  intensity={0.5}
+                  color="#fff"
+                />
+                <Model
+                  delay={2000}
+                  yValue={-0.1}
+                  side={ModelType.Quest}
+                  left={true}
+                />
+              </Suspense>
+            )}
           </Canvas>
         </div>
       </div>
