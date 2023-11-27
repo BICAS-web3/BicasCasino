@@ -208,7 +208,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         <div className={s.closed_sb_other_info_list_item}>
           <AffilateIco />
           <div className={s.closed_sb_tooltip} data-id="affilate-tooltip">
-            Affilate
+            Affiliate
           </div>
         </div>
 

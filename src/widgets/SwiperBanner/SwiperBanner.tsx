@@ -207,13 +207,13 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
               className={s.slide_bg_img}
               src={
                 is1280
-                  ? slide.laptopImg.src
+                  ? slide.deskImg.src
                   : is700
-                  ? slide.tabletImg.src
-                  : is650
                   ? slide.laptopImg.src
+                  : is650
+                  ? slide.deskImg.src
                   : is500
-                  ? slide.mobileImg.src
+                  ? slide.deskImg.src
                   : slide.deskImg.src
               }
               alt="slide-imd"
