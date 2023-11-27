@@ -515,11 +515,6 @@ const Dice: FC<DiceProps> = () => {
           </button> */}
         </div>
         <div className={s.dice_value_container}>
-          <span style={{ color: "white" }}>
-            total: {cryptoValue * betsAmount}
-          </span>{" "}
-          = <span style={{ color: "white" }}>crypt: {cryptoValue}</span>
-          <span style={{ color: "white" }}>bets: {betsAmount}</span>;
           {diceValue.map((dice) => (
             <div key={dice.id} className={s.dice_under_conteiner}>
               <h3 className={s.dice_under_title}>
