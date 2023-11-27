@@ -35,21 +35,19 @@ a:active {
   text-decoration: none;
 }
 
-
 .animation-leftRight {
   position: relative;
   overflow: hidden;
 
-
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     width: 23px;
     height: 200%;
-    background: rgba(255,255,255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
     filter: blur(6px);
     transform: rotate(30deg);
-    animation:  leftToRightAnim 2s infinite linear;
+    animation: leftToRightAnim 2s infinite linear;
     animation-delay: 0.2s;
   }
 }
@@ -69,14 +67,14 @@ a:active {
 }
 
 .swiper-pagination-bullet {
-  background: #0F0F0F;
+  background: #0f0f0f;
   width: 30px;
   height: 3px;
   border-radius: 10px;
 }
 
 .swiper-pagination-bullet-active {
-  background: #E5C787;
+  background: #e5c787;
 }
 
 @media screen and (max-width: 650px) {
@@ -84,4 +82,8 @@ a:active {
     width: 16px;
     height: 3px;
   }
+}
+
+.hidden_scroll {
+  overflow: hidden !important;
 }
