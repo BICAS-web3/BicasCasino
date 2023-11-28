@@ -26,6 +26,41 @@
   padding: 16px;
 }
 
+.blick {
+  position: absolute;
+  width: 3px;
+  height: 100%;
+  background: hsla(0, 0%, 100%, 0.3);
+  filter: blur(6px);
+  transform: rotate(20deg);
+  left: -70px;
+}
+
+@keyframes leftToRightAnim {
+  0% {
+    left: -70px;
+  }
+
+  100% {
+    left: calc(100% + 70px);
+  }
+}
+
+.anim_blick {
+  animation: leftToRightAnim;
+}
+
+.profile_temp_ico,
+.profile_temp_address,
+.profile_temp_name,
+.profile_temp_square,
+.temp_blocks_list_item,
+.last_blocks_firstItem,
+.last_blocks_group_item {
+  position: relative;
+  overflow: hidden;
+}
+
 .toRegister_nav_block {
   padding: 10px;
   display: flex;
