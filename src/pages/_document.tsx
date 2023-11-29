@@ -55,6 +55,7 @@ export default function Document() {
           />
         </noscript>
         {/* <!-- End Facebook Pixel Code --> */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5CW52N348X"></script>
       </Head>
       <body>
         <Main />
