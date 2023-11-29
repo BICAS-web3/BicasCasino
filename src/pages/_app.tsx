@@ -32,11 +32,15 @@ export default function App({ Component, pageProps }: AppProps) {
       <Script
         id="google-pixel"
         dangerouslySetInnerHTML={{
-          __html: `window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-5CW52N348X');`
+          __html: `
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          
+            gtag('config', 'G-BMHG0YHS5M');
+          </script>
+          `
         }}
       />
 
