@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-5CW52N348X"></script>
       <Script
+        id="google-pixel"
         dangerouslySetInnerHTML={{
           __html: `window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
