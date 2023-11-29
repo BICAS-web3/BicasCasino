@@ -36,6 +36,23 @@ import * as DGM from "@/widgets/Dice/model";
 import * as CFM from "@/widgets/CoinFlip/model";
 import * as PGM from "@/widgets/Plinko/model";
 import { PokerModel } from "@/widgets/Poker/Poker";
+import useSound from "use-sound";
+import ReactHowler from "react-howler";
+
+const musicsList = [
+  "/static/media/games_assets/music/default_bg_music/3.mp3",
+  "/static/media/games_assets/music/default_bg_music/4.mp3",
+  "/static/media/games_assets/music/default_bg_music/5.mp3",
+  "/static/media/games_assets/music/default_bg_music/6.mp3",
+  "/static/media/games_assets/music/default_bg_music/7.mp3",
+  "/static/media/games_assets/music/default_bg_music/8.mp3",
+  "/static/media/games_assets/music/default_bg_music/9.mp3",
+  "/static/media/games_assets/music/default_bg_music/10.mp3",
+  "/static/media/games_assets/music/default_bg_music/12.mp3",
+  "/static/media/games_assets/music/default_bg_music/13.mp3",
+  "/static/media/games_assets/music/default_bg_music/14.mp3",
+];
+
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
@@ -117,6 +134,18 @@ export const GamePage: FC<GamePageProps> = ({
   //   setModalVisibility(!modalVisibility);
   // };
 
+  // const [playBackground, { stop: stopBackground, duration: firstDuration }] =
+  //   useSound(sound, {
+  //     volume: 0.4,
+  //     loop: true,
+  //   });
+
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0);
+
+  const setNewMusic = () => {
+    setCurrentSoundIndex((prevIndex) => (prevIndex + 1) % musicsList.length);
+  };
+
   const closeModal = () => {
     setModalVisibility(false);
     setBlur(false);
@@ -140,6 +169,11 @@ export const GamePage: FC<GamePageProps> = ({
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <div className={s.game_layout}>
+      <ReactHowler
+        src={musicsList[currentSoundIndex]}
+        playing={playSounds}
+        onEnd={() => setNewMusic()}
+      />
       <div className={s.game_wrap}>
         <GamePageModal
           text={gameInfoText}
