@@ -130,7 +130,7 @@
   // padding: 10px 15px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  height: 40px;
+  height: 30px;
 }
 
 .custom_range_setter_item {
@@ -142,7 +142,7 @@
   box-sizing: border-box;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%;
+  line-height: 10px;
   letter-spacing: 0.48px;
   padding: 11px 0;
   cursor: pointer;
