@@ -29,6 +29,19 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
+      <Script
+        id="google-pixel"
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-5CW52N348X');`
+        }}
+      />
+
+
+
       <EffectorNext values={pageProps?.values}>
         <Fonts />
         <Component {...pageProps} />
