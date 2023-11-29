@@ -154,7 +154,7 @@ export const GamePage: FC<GamePageProps> = ({
                 onClick={() => switchSounds()}
               >
                 {playSounds ? (
-                  <Image alt="sound-ico" src={soundIco} />
+                  <Image alt="sound-ico" src={soundIco} className="sss" />
                 ) : (
                   <Image alt="sound-ico-off" src={soundOffIco} />
                 )}

@@ -29,6 +29,10 @@
   position: relative;
   padding: 70px 105px;
 
+  &[data-extra="true"] {
+    justify-content: start;
+  }
+
   @media screen and (max-width: 1280px) {
     padding: 33px 46px;
   }
@@ -54,6 +58,7 @@
 }
 
 .slide_bg_img {
+  object-fit: cover;
   position: absolute;
   top: 0;
   height: 100%;
@@ -63,29 +68,26 @@
   width: 100%;
   border-radius: 20px;
 
-  @media screen and (max-width: 1890px) {
-    border-radius: 0;
-    right: 0;
-    left: auto;
-    width: auto;
-  }
+  // @media screen and (max-width: 1890px) {
+  //   border-radius: 0;
+  //   right: 0;
+  //   left: auto;
+  //   width: auto;
+  // }
 
-  @media screen and (max-width: 850px) {
-    right: -50px;
-  }
+  // @media screen and (max-width: 850px) {
+  //   right: -50px;
+  // }
+
+  // @media screen and (max-width: 650px) {
+  //   border-radius: 0;
+  //   right: 0;
+  //   left: auto;
+  //   width: 100%;
+  // }
 
   @media screen and (max-width: 650px) {
     border-radius: 0;
-    right: 0;
-    left: auto;
-    width: 100%;
-  }
-
-  @media screen and (max-width: 620px) {
-    border-radius: 0;
-    right: 0;
-    left: auto;
-    width: auto;
   }
 }
 
@@ -125,18 +127,25 @@
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
-  line-height: 33px;
-  letter-spacing: 2.4px;
+  line-height: 45px;
+  letter-spacing: 0.9px;
   text-transform: uppercase;
-  margin-bottom: 24px;
   display: block;
 
   @media screen and (max-width: 1280px) {
     font-size: 24px;
+    line-height: 37.2px;
+    max-width: 430px;
   }
 
   @media screen and (max-width: 700px) {
     font-size: 22px;
+    max-width: 370px;
+    line-height: 34.1px;
+  }
+
+  @media screen and (max-width: 470px) {
+    max-width: 180px;
   }
 
   @media screen and (max-width: 650px) {
@@ -270,4 +279,37 @@
   z-index: 100;
   opacity: 1;
   visibility: visible;
+}
+
+.extra_text {
+  max-width: 550px;
+  z-index: 10;
+  color: #e9e9f5;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 45px;
+  letter-spacing: 1.44px;
+  text-transform: uppercase;
+
+  @media screen and (max-width: 1280px) {
+    line-height: 37.2px;
+    font-size: 24px;
+    max-width: 550px;
+  }
+
+  @media screen and (max-width: 700px) {
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 24.8px;
+    max-width: 400px;
+  }
+
+  @media screen and (max-width: 650px) {
+    margin-top: 4px;
+    line-height: 12.4px;
+    font-size: 8px;
+    max-width: 200px;
+  }
 }
