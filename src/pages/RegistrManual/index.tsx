@@ -134,7 +134,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
                 </button>
                 <button
                   className={s.wallet_btns_item}
-                  onClick={() => router.push("/RegistrManual?tab=noWallet ")}
+                  onClick={() => router.push("/RegistrManual?tab=noWallet")}
                 >
                   I don’t have a crypto wallet
                   <BtnRightArrow />
