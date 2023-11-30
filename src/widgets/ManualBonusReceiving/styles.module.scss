@@ -1,6 +1,7 @@
 .manual_bonus_reveicing_home_body,
 .wallet_body,
-.select_exchanges_body {
+.select_exchanges_body,
+.step_body {
   margin: 90px auto 0 auto;
   display: flex;
   flex-direction: column;
@@ -20,6 +21,12 @@
   letter-spacing: 1px;
   margin-bottom: 12px;
   max-width: 1320px;
+}
+
+.manual_bonus_reveicing_home_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .manual_bonus_reveicing_home_text {
@@ -281,4 +288,49 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+.step_tab_title {
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 41px;
+  display: block;
+  max-width: 1009px;
+  margin-bottom: 25px;
+
+  span {
+    font-weight: 700;
+  }
+}
+
+.step_btns_list {
+  margin-top: 40px;
+  display: flex;
+  gap: 14px;
+}
+
+.steps_quantity {
+  position: absolute;
+  color: #eaeaea;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px;
+  right: 30px;
+  top: 16px;
+}
+
+.step_example_img {
+  object-fit: cover;
+}
+
+.step_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

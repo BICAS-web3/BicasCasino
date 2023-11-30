@@ -8,6 +8,7 @@ import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
 import exampleImg from "@/public/media/registrManual_images/connectStepImg.png";
 import { useAccount, useConnect } from "wagmi";
+import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 
 interface ConnectWalletTabProps {}
 
@@ -22,6 +23,13 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
 
   return (
     <div className={s.connect_wallet_body}>
+      <span
+        className={s.tab_back_btn}
+        onClick={() => router.push("/RegistrManual?tab=noWallet")}
+      >
+        <img src={leftArr.src} alt="left-arr" />
+        Back
+      </span>
       <div className={s.connect_wallet_header}>
         <h3 className={s.noWallet_title}>Connect Wallet</h3>
         <div className={s.connect_wallet_tab_w_list}>
@@ -132,6 +140,13 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
     <>
       {tab === "noWallet" && subPage === undefined && (
         <div className={s.noWallet_body}>
+          <span
+            className={s.tab_back_btn}
+            onClick={() => router.push("/RegistrManual")}
+          >
+            <img src={leftArr.src} alt="left-arr" />
+            Back
+          </span>
           <div className={s.noWallet_header}>
             <h3 className={s.noWallet_title}>
               Choose the wallet you want to create

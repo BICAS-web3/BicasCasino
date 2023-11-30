@@ -10,6 +10,7 @@ import { useAccount, useConnect } from "wagmi";
 import infoIco from "@/public/media/registrManual_images/infoIco.svg";
 import { ManualNoWalletTab } from "@/widgets/ManualNoWalletTab/ManualNoWalletTab";
 import { ManualBonusReceiving } from "@/widgets/ManualBonusReceiving/ManualBonusReceiving";
+import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 
 interface HaveWalletConnectionProps {}
 
@@ -25,6 +26,13 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
 
   return (
     <div className={s.have_wallet_body}>
+      <span
+        className={s.tab_back_btn}
+        onClick={() => router.push("/RegistrManual")}
+      >
+        <img src={leftArr.src} alt="left-arr" />
+        Back
+      </span>
       <div className={s.have_wallet_header}>
         <h1 className={s.registr_manual_title}>Connect Wallet</h1>
         <div className={s.wallets_list}>
@@ -116,6 +124,10 @@ const RegistrManual: FC<RegistrManualProps> = () => {
       <div className={s.registr_manual_section}>
         {tab === undefined && (
           <div className={s.registr_manual_body}>
+            <span className={s.tab_back_btn} onClick={() => router.push("/")}>
+              <img src={leftArr.src} alt="left-arr" />
+              Back
+            </span>
             <div className={s.registr_manual_header}>
               <h1 className={s.registr_manual_title}>
                 Do you have a crypto wallet?

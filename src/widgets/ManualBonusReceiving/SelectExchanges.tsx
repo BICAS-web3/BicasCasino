@@ -87,7 +87,14 @@ export const SelectExchanges: FC<SelectExchangesProps> = () => {
           >
             Back
           </button>
-          <button className={s.exchange_bottom_next_btn}>Next</button>
+          <button
+            className={s.exchange_bottom_next_btn}
+            onClick={() =>
+              router.push("/RegistrManual?tab=bonusReceiving&step=1")
+            }
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
