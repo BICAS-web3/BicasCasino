@@ -9,6 +9,7 @@ import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
 import { useAccount, useConnect } from "wagmi";
 import infoIco from "@/public/media/registrManual_images/infoIco.svg";
 import { ManualNoWalletTab } from "@/widgets/ManualNoWalletTab/ManualNoWalletTab";
+import { ManualBonusReceiving } from "@/widgets/ManualBonusReceiving/ManualBonusReceiving";
 
 interface HaveWalletConnectionProps {}
 
@@ -19,7 +20,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
   const router = useRouter();
 
   useEffect(() => {
-    isConnected && router.push("/");
+    isConnected && router.push("/RegistrManual?tab=bonusReceiving");
   }, [isConnected]);
 
   return (
@@ -148,6 +149,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
         )}
         {tab === "haveWalletConnect" && <HaveWalletConnection />}
         {tab === "noWallet" && <ManualNoWalletTab />}
+        {tab === "bonusReceiving" && <ManualBonusReceiving />}
       </div>
     </Layout>
   );

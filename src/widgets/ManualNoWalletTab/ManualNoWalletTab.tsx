@@ -17,7 +17,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
   const { isConnected } = useAccount();
 
   useEffect(() => {
-    isConnected && router.push("/");
+    isConnected && router.push("/RegistrManual?tab=bonusReceiving");
   }, [isConnected]);
 
   return (

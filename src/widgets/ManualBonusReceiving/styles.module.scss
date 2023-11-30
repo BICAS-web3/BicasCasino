@@ -1,0 +1,284 @@
+.manual_bonus_reveicing_home_body,
+.wallet_body,
+.select_exchanges_body {
+  margin: 90px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 90px);
+  align-items: center;
+}
+
+.manual_bonus_reveicing_home_title {
+  color: #e5c787;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 68px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  max-width: 1320px;
+}
+
+.manual_bonus_reveicing_home_text {
+  color: #bebebe;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px;
+  max-width: 1220px;
+}
+
+.manual_bonus_reveicing_btns {
+  display: flex;
+  gap: 14px;
+}
+
+.back_btn {
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid var(--switch-in-game-2-e-night, #2e2e2e);
+  background: #202020;
+  width: 258px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.addFunds_btn {
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  width: 258px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  span {
+    font-weight: 700;
+  }
+}
+
+.wallet_upperText {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 40px;
+  max-width: 900px;
+  display: block;
+  margin-bottom: 25px;
+}
+
+.wallet_title {
+  max-width: 600px;
+  color: #e5c787;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 63px;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.wallet_subTitle {
+  color: #bebebe;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+  margin-bottom: 40px;
+}
+
+.wallet_btns {
+  display: flex;
+  gap: 14px;
+}
+
+.wallet_btns_item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+  width: 418px;
+  height: 50px;
+  box-sizing: content-box;
+  border-radius: 12px;
+  border: 1px solid #2e2e2e;
+  background: #202020;
+  color: #7e7e7e;
+  text-align: center;
+  font-family: var(--font-source-sans-3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21.6px;
+  padding: 0 30px;
+
+  &:hover {
+    color: #eaeaea;
+    border: 1px solid #464646;
+    background: #2e2e2e;
+  }
+
+  &:active {
+    border: 1px solid #5f5f5f;
+    background: #464646;
+  }
+}
+
+.wallet_header,
+.select_exchanges_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.select_exchanges_title {
+  color: #e5c787;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 65px;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.exchanges_list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.exchanges_list_item_leftSide {
+  display: flex;
+  gap: 14px;
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.exchanges_list_item_title {
+  color: #7e7e7e;
+  text-align: center;
+  font-family: var(--font-source-sans-3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 21.6px;
+}
+
+.exchanges_list_item {
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid #2e2e2e;
+  width: 418px;
+  height: 50px;
+  background: #202020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.select_exchanges_subTitle {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px;
+  max-width: 690px;
+}
+
+.exchange_bottom_group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.exchange_bottom_group_text {
+  color: #bebebe;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+}
+
+.exchange_bottom_btns {
+  display: flex;
+  gap: 14px;
+}
+
+.exchange_bottom_back_btn {
+  cursor: pointer;
+  width: 258px;
+  height: 50px;
+  border-radius: 12px;
+  border: #2e2e2e;
+  background: #202020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.exchange_bottom_next_btn {
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid #ffe09d;
+  background: #2e2315;
+  width: 258px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe09d;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
