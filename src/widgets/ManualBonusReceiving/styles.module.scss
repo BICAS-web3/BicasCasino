@@ -299,11 +299,18 @@
   font-weight: 600;
   line-height: 41px;
   display: block;
-  max-width: 1009px;
   margin-bottom: 25px;
+
+  a {
+    color: #fff;
+  }
 
   span {
     font-weight: 700;
+  }
+
+  &[data-short="true"] {
+    max-width: 1009px;
   }
 }
 
@@ -327,10 +334,86 @@
 
 .step_example_img {
   object-fit: cover;
+  border-radius: 20px;
 }
 
 .step_header {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.step_upper_subTitle {
+  color: #bebebe;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.draxb_address_block {
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.draxb_copy_title {
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.draxb_address_copy_block {
+  cursor: pointer;
+  width: 620px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius: 12px;
+  border: 1px solid rgba(234, 234, 234, 0.04);
+  background: rgba(234, 234, 234, 0.08);
+}
+
+.step_congrats_title {
+  color: #e5c787;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 50px;
+}
+
+.tab_back_btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  position: absolute;
+  top: 23px;
+  left: 23px;
 }

@@ -7,6 +7,7 @@ import huobiIco from "@/public/media/registrManual_images/huobi.svg";
 import kucoinIco from "@/public/media/registrManual_images/kucoin.svg";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
+import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 
 const exchangesList = [
   {
@@ -43,6 +44,17 @@ export const SelectExchanges: FC<SelectExchangesProps> = () => {
 
   return (
     <div className={s.select_exchanges_body}>
+      <span
+        className={s.tab_back_btn}
+        onClick={() =>
+          router.push(
+            "/RegistrManual?tab=bonusReceiving&subPage=walletPresence"
+          )
+        }
+      >
+        <img src={leftArr.src} alt="left-arr" />
+        Back
+      </span>
       <div className={s.select_exchanges_header}>
         <h1 className={s.select_exchanges_title}>
           Please, select one of the crypto exchanges
