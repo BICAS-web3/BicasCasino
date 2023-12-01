@@ -188,7 +188,7 @@ const Step11Content: FC<Step11ContentProps> = () => {
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           In the opened window paste the address of the DRAXB token contract.
-          Then click “Add Token”
+          Then click &quot;Add Token&quot;
         </p>
         <img
           src={step11Img.src}
@@ -247,7 +247,7 @@ const Step10Content: FC<Step10ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Scroll down and click “Don't see your crypto? Import”
+          Scroll down and click &quot;Don't see your crypto? Import&quot;
         </p>
         <img
           src={step10Img.src}
@@ -296,7 +296,7 @@ const Step9Content: FC<Step9ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Scroll down and click “Don't see your crypto? Import”
+          Scroll down and click &quot;Don't see your crypto? Import&quot;
         </p>
         <img
           src={step9Img.src}
@@ -350,7 +350,7 @@ const Step8Content: FC<Step8ContentProps> = () => {
         </p>
         <p className={s.step_tab_title}>
           To do this, go to the section “Home” in left corner of the screen,
-          then click on “Manage Crypto”
+          then click on &quot;Manage Crypto&quot;
         </p>
         <img
           src={step8Img.src}
@@ -400,7 +400,7 @@ const Step7Content: FC<Step7ContentProps> = () => {
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Please, open the crypto exchange app, find the ETH token and select
-          "Send ETH"
+          &quot;Send ETH&quot;
         </p>
         <img
           src={step7Img.src}
@@ -450,7 +450,7 @@ const Step6Content: FC<Step6ContentProps> = () => {
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Please open the crypto exchange app, find the ETH token and select
-          "Send ETH"
+          &quot;Send ETH&quot;
         </p>
         <img
           src={step6Img.src}
@@ -595,7 +595,7 @@ const Step3Content: FC<Step3ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Return to the home page and сlick on "Receive"
+          Return to the home page and click on &quot;Receive&quot;
         </p>
         <img
           src={step3Img.src}
@@ -644,7 +644,7 @@ const Step2Content: FC<Step1ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Start typing "arb" into the address bar. If the token is not
+          Start typing &quot;arb&quot; into the address bar. If the token is not
           connected, turn the switch to the active state
         </p>
         <img
@@ -698,8 +698,8 @@ const Step1Content: FC<Step1ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title} data-short="true">
-          Please, open Trust Wallet Extension in your browser.{" "}
-          <span>Make sure you have switched on ETH in Arbitrum Network.</span>{" "}
+          Please, open Trust Wallet Extension in your browser.
+          <span>Make sure you have switched on ETH in Arbitrum Network.</span>
           To do so, click on magnifier icon
         </p>
         <img

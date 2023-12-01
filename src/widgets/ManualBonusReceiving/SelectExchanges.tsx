@@ -86,7 +86,7 @@ export const SelectExchanges: FC<SelectExchangesProps> = () => {
       <div className={s.exchange_bottom_group}>
         <p className={s.exchange_bottom_group_text}>
           If you have already created a cryptocurrency wallet account, click
-          "Next"
+          &quot;Next&quot;
         </p>
         <div className={s.exchange_bottom_btns}>
           <button
