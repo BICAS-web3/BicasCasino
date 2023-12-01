@@ -51,6 +51,10 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
     }
   };
 
+  const handleMessangerLink = () => {
+    router.push("/MessangerFallback");
+  };
+
   return (
     <div className={`${s.bottom_menu} ${isOpen && s.sb_opened}`}>
       <div className={s.element} onClick={openSB}>
@@ -66,7 +70,7 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
       >
         <ProfileBtn />
       </div>
-      <div className={s.element}>
+      <div className={s.element} onClick={handleMessangerLink}>
         <MessangerBtn />
       </div>
     </div>

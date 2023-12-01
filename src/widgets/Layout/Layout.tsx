@@ -36,16 +36,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 
   useEffect(() => {
     const dontShowState = localStorage.getItem("bonusPopupState");
-    // if(dontShowState == undefined) {
-    //   setPopupBonusState('true')
-    // } else {
-    //   setPopupBonusState(dontShowState)
-    // }
-    // setPopupBonusState(dontShowState)
     setPopupBonusState(JSON.stringify(dontShowState));
   }, []);
-
-  console.log("STATE-", popupBonusState);
 
   return (
     <>
