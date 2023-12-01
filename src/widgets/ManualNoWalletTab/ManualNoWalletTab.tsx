@@ -114,9 +114,9 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
         </span>
         <img src={exampleImg.src} alt="examle_img" className={s.example_img} />
         <p className={s.connection_underExample_text}>
-          Please, remember to use one extension if you select{" "}
-          <span>"Injected"</span>. Otherwise (having 2 extensions or more), an
-          error may occur
+          Please, remember to use one extension if you select
+          <span>&quot;Injected&quot;</span>. Otherwise (having 2 extensions or
+          more), an error may occur
         </p>
         <button
           className={s.back_btn_example}
