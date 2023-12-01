@@ -397,27 +397,27 @@ export const Poker: FC<PokerProps> = (props) => {
     },
   });
 
-  useEffect(() => {
-    console.log("Play sounds", playSounds);
-    if (!playSounds) {
-      // /stopSounds();
-      //sounds.background.pause();
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
+  // useEffect(() => {
+  //   console.log("Play sounds", playSounds);
+  //   if (!playSounds) {
+  //     // /stopSounds();
+  //     //sounds.background.pause();
+  //     stopBackground();
+  //   } else {
+  //     playBackground();
+  //   }
+  // }, [playSounds]);
 
-  useEffect(() => {
-    const run = async () => {
-      //await delay(3000);
-      playBackground();
-    };
+  // useEffect(() => {
+  //   const run = async () => {
+  //     //await delay(3000);
+  //     playBackground();
+  //   };
 
-    if (playSounds) {
-      run();
-    }
-  }, [playBackground]);
+  //   if (playSounds) {
+  //     run();
+  //   }
+  // }, [playBackground]);
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards);
