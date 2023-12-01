@@ -247,7 +247,7 @@ const Step10Content: FC<Step10ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Scroll down and click &quot;Don't see your crypto? Import&quot;
+          Scroll down and click &quot;Don&apos;t see your crypto? Import&quot;
         </p>
         <img
           src={step10Img.src}
@@ -296,7 +296,7 @@ const Step9Content: FC<Step9ContentProps> = () => {
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
-          Scroll down and click &quot;Don't see your crypto? Import&quot;
+          Scroll down and click &quot;Don&apos;t see your crypto? Import&quot;
         </p>
         <img
           src={step9Img.src}

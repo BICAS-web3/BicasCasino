@@ -9,6 +9,7 @@
 
   @media screen and (max-width: 650px) {
     height: calc(100% - 56px);
+    margin: 45px auto 0 auto;
   }
 }
 
@@ -64,6 +65,7 @@
   border: 1px solid #2e2e2e;
   background: #202020;
   height: 50px;
+  transition: all 0.2s;
   padding: 0 30px;
 
   &:nth-child(3) {
@@ -71,15 +73,15 @@
   }
 
   @media screen and (max-width: 1340px) {
-    width: 100%;
+    max-width: 420px;
     box-sizing: border-box;
-
-    &:last-child {
-      max-width: 420px;
-    }
+    width: 100%;
   }
 
   @media screen and (max-width: 700px) {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
     padding: 0 40px;
     border-radius: 0;
     background: inherit;
@@ -94,6 +96,10 @@
       grid-row: 3;
       max-width: 100%;
       grid-column: 1;
+    }
+
+    &:hover {
+      background: rgba(234, 234, 234, 0.02);
     }
   }
 }
@@ -208,22 +214,37 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+
+  @media screen and (max-width: 700px) {
+    gap: 0;
+  }
 }
 
 .connect_wallet_underlist_text {
   display: block;
-  margin-top: 40px;
+  // margin-top: 40px;
+  margin: 40px 16px 0 16px;
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 22px;
 
   span {
     font-weight: 700;
   }
+
+  @media screen and (max-width: 650px) {
+    margin: 20px 16px 0 16px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
+
+.connect_wallet_header {
+  width: 100%;
 }
 
 .connection_example_text {
@@ -235,11 +256,20 @@
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 22px;
+
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
 }
 
 .example_img {
   object-fit: cover;
+  width: 100%;
+
+  @media screen and (max-width: 700px) {
+    display: none;
+  }
 }
 
 .connection_underExample_text {
@@ -249,12 +279,16 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  line-height: 22px;
   display: block;
   margin-top: 16px;
 
   span {
     font-weight: 700;
+  }
+
+  @media screen and (max-width: 700px) {
+    display: none;
   }
 }
 
