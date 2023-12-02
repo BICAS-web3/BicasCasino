@@ -774,7 +774,12 @@ const WalletPresence: FC<WalletPresenceProps> = () => {
           We are supporting only Metamask, Coinbase and Trust Wallet *
         </span>
         <div className={s.wallet_btns}>
-          <button className={s.wallet_btns_item}>
+          <button
+            className={s.wallet_btns_item}
+            onClick={() =>
+              router.push("/RegistrManual?tab=bonusReceiving&step=1")
+            }
+          >
             {mobile ? "I have an account" : "I have a crypto exchange account"}
             <BtnRightArrow />
           </button>

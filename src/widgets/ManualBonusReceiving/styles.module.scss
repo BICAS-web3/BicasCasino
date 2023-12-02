@@ -11,7 +11,7 @@
 
   @media screen and (max-width: 650px) {
     height: calc(100% - 56px);
-    margin: 30px auto 0 auto;
+    margin: 45px auto 0 auto;
   }
 }
 
@@ -225,7 +225,7 @@
   display: flex;
   gap: 14px;
 
-  @media screen and (max-width: 1160px) {
+  @media screen and (max-width: 1320px) {
     width: 100%;
   }
 
@@ -270,7 +270,7 @@
     background: #464646;
   }
 
-  @media screen and (max-width: 1160px) {
+  @media screen and (max-width: 1320px) {
     width: 100%;
   }
 
@@ -300,6 +300,12 @@
   align-items: center;
 }
 
+.select_exchanges_header {
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
+}
+
 .select_exchanges_title {
   color: #e5c787;
   text-align: center;
@@ -311,6 +317,24 @@
   letter-spacing: 1px;
   display: block;
   margin-bottom: 20px;
+
+  @media screen and (max-width: 1280px) {
+    font-size: 28px;
+    line-height: 38px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 24px;
+    line-height: 32px;
+    margin: 0 16px;
+    margin-bottom: 20px !important;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 20px;
+    line-height: 27px;
+    margin-bottom: 16px !important;
+  }
 }
 
 .exchanges_list {
@@ -318,6 +342,11 @@
   flex-direction: column;
   gap: 14px;
   margin-bottom: 40px;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    gap: 0;
+  }
 }
 
 .exchanges_list_item_leftSide {
@@ -338,6 +367,17 @@
   font-style: normal;
   font-weight: 600;
   line-height: 21.6px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 16px;
+    line-height: 19px;
+    color: #eaeaea;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    line-height: 16.8px;
+  }
 }
 
 .exchanges_list_item {
@@ -351,6 +391,35 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
+  transition: all 0.2s;
+
+  @media screen and (min-width: 700px) {
+    &:hover {
+      border: 1px solid #2e2e2e;
+      background: #2e2e2e;
+    }
+
+    &:active {
+      border: 1px solid #5f5f5f;
+      background: #464646;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    background: inherit;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(234, 234, 234, 0.04);
+    box-sizing: border-box;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    padding: 0 40px;
+
+    &:first-child {
+      border-top: 1px solid rgba(234, 234, 234, 0.04);
+    }
+  }
 }
 
 .select_exchanges_subTitle {
@@ -362,6 +431,22 @@
   font-weight: 400;
   line-height: 40px;
   max-width: 690px;
+
+  @media screen and (max-width: 1280px) {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 14px;
+    line-height: 19px;
+    margin: 0 16px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 
 .exchange_bottom_group {
@@ -369,6 +454,11 @@
   flex-direction: column;
   gap: 16px;
   align-items: center;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin-top: 40px;
+  }
 }
 
 .exchange_bottom_group_text {
@@ -379,11 +469,32 @@
   font-style: normal;
   font-weight: 400;
   line-height: 25px;
+
+  @media screen and (max-width: 1280px) {
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 16px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 8px;
+    line-height: 10px;
+  }
 }
 
 .exchange_bottom_btns {
   display: flex;
   gap: 14px;
+
+  @media screen and (max-width: 700px) {
+    margin: 16px;
+    width: calc(100% - 32px);
+  }
 }
 
 .exchange_bottom_back_btn {
@@ -402,6 +513,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 }
 
 .exchange_bottom_next_btn {
@@ -420,6 +535,10 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 }
 
 .step_tab_title {
