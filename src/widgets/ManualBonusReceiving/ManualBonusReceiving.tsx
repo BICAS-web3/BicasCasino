@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import s from "./styles.module.scss";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { SelectExchanges } from "./SelectExchanges";
 import { StepTab } from "./StepTab";
@@ -736,6 +736,22 @@ interface WalletPresenceProps {}
 
 const WalletPresence: FC<WalletPresenceProps> = () => {
   const router = useRouter();
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      width < 650 ? setMobile(true) : setMobile(false);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={s.wallet_body}>
@@ -759,7 +775,7 @@ const WalletPresence: FC<WalletPresenceProps> = () => {
         </span>
         <div className={s.wallet_btns}>
           <button className={s.wallet_btns_item}>
-            I have a crypto exchange account
+            {mobile ? "I have an account" : "I have a crypto exchange account"}
             <BtnRightArrow />
           </button>
           <button
@@ -770,12 +786,16 @@ const WalletPresence: FC<WalletPresenceProps> = () => {
               )
             }
           >
-            I don’t have a crypto exchange account
+            {mobile
+              ? "I don’t have an account"
+              : "I don’t have a crypto exchange account"}
             <BtnRightArrow />
           </button>
         </div>
       </div>
-      <button className={s.back_btn}>Cancel</button>
+      <button className={s.back_btn} data-only={"true"}>
+        Cancel
+      </button>
     </div>
   );
 };
