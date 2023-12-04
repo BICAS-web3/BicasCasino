@@ -115,13 +115,19 @@ interface RegistrManualProps {}
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
   const { query } = router;
-  const { tab } = query;
+  const { tab, step } = query;
 
   console.log("current tab is", tab);
 
   return (
     <Layout gameName={undefined}>
-      <div className={s.registr_manual_section}>
+      <div
+        className={`${s.registr_manual_section} ${
+          step !== undefined && s.gap_none
+        }`}
+      >
+        <div className={s.top_blur}></div>
+        <div className={s.bottom_blur}></div>
         {tab === undefined && (
           <div className={s.registr_manual_body}>
             <span className={s.tab_back_btn} onClick={() => router.push("/")}>

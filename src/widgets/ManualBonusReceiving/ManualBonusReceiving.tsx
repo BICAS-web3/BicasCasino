@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { SelectExchanges } from "./SelectExchanges";
 import { StepTab } from "./StepTab";
-import copyIco from "@/public/media/registrManual_images/copyIco.svg";
+import { CopyIco } from "@/public/media/registrManual_images/CopyIco";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 
 import step1Img from "@/public/media/registrManual_images/step1Img.png";
@@ -20,6 +20,18 @@ import step10Img from "@/public/media/registrManual_images/step10Img.png";
 import step11Img from "@/public/media/registrManual_images/step11Img.png";
 import step12Img from "@/public/media/registrManual_images/step12Img.png";
 import step13Img from "@/public/media/registrManual_images/step13Img.png";
+
+import step1MobImg from "@/public/media/registrManual_images/mobImages/step1MobileImg.png";
+import step4MobImg from "@/public/media/registrManual_images/mobImages/step2MobileImg.png";
+import step5MobImg from "@/public/media/registrManual_images/mobImages/step3MobileImg.png";
+import step6MobImg from "@/public/media/registrManual_images/mobImages/step6MobileImg.png";
+import step7MobImg from "@/public/media/registrManual_images/mobImages/step7MobileImg.png";
+import step8MobImg from "@/public/media/registrManual_images/mobImages/step8MobileImg.png";
+import step9MobImg from "@/public/media/registrManual_images/mobImages/step9MobileImg.png";
+import step11MobImg from "@/public/media/registrManual_images/mobImages/step11MobileImg.png";
+import step12MobImg from "@/public/media/registrManual_images/mobImages/step12MobileImg.png";
+import step13MobImg from "@/public/media/registrManual_images/mobImages/step13MobileImg.png";
+import step12SecondImg from "@/public/media/registrManual_images/mobImages/step12SecondImg.png";
 
 // const steps = [
 //   {
@@ -54,9 +66,11 @@ import step13Img from "@/public/media/registrManual_images/step13Img.png";
 //   },
 // ];
 
-interface Step13ContentProps {}
+interface Step13ContentProps {
+  desk: boolean;
+}
 
-const Step13Content: FC<Step13ContentProps> = () => {
+const Step13Content: FC<Step13ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -70,7 +84,7 @@ const Step13Content: FC<Step13ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 10}</span>
       <div className={s.step_header}>
         <h4 className={s.step_congrats_title}>Congrats!</h4>
         <p className={s.step_tab_title}>
@@ -78,7 +92,7 @@ const Step13Content: FC<Step13ContentProps> = () => {
           DRAXB as a payment
         </p>
         <img
-          src={step13Img.src}
+          src={desk ? step13Img.src : step13MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -103,9 +117,11 @@ const Step13Content: FC<Step13ContentProps> = () => {
   );
 };
 
-interface Step12ContentProps {}
+interface Step12ContentProps {
+  desk: boolean;
+}
 
-const Step12Content: FC<Step12ContentProps> = () => {
+const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -119,7 +135,7 @@ const Step12Content: FC<Step12ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 9}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Visit our website{" "}
@@ -129,9 +145,17 @@ const Step12Content: FC<Step12ContentProps> = () => {
           , connect wallet and claim your bonus:
         </p>
         <img
-          src={step12Img.src}
+          src={desk ? step12Img.src : step12MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
+        />
+        <p className={s.desk_hidden_example_text}>
+          Site and Trust Wallet is going to synchronize
+        </p>
+        <img
+          src={step12SecondImg.src}
+          className={s.desk_hidden_example_second_img}
+          alt="example_img"
         />
       </div>
       <div className={s.step_btns_list}>
@@ -156,9 +180,12 @@ const Step12Content: FC<Step12ContentProps> = () => {
   );
 };
 
-interface Step11ContentProps {}
+interface Step11ContentProps {
+  desk: boolean;
+  mob: boolean;
+}
 
-const Step11Content: FC<Step11ContentProps> = () => {
+const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -184,25 +211,31 @@ const Step11Content: FC<Step11ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 8}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           In the opened window paste the address of the DRAXB token contract.
           Then click &quot;Add Token&quot;
         </p>
         <img
-          src={step11Img.src}
+          src={desk ? step11Img.src : step11MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
         <div className={s.draxb_address_block}>
           <span className={s.draxb_copy_title}>Copy token address DRAXB</span>
           <div
-            className={s.draxb_address_copy_block}
+            className={`${
+              !mob
+                ? s.draxb_address_copy_block
+                : s.second_draxb_address_copy_block
+            }`}
             onClick={() => copyToClipboard()}
           >
-            0x5518e648341147b0f4041c5e2a2cca41bdc723a0
-            <img src={copyIco.src} alt="copy-ico" />
+            <span className={s.draxb_address}>
+              0x5518e648341147b0f4041c5e2a2cca41bdc723a0
+            </span>
+            <CopyIco />
           </div>
         </div>
       </div>
@@ -210,7 +243,9 @@ const Step11Content: FC<Step11ContentProps> = () => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=10")
+            router.push(
+              `/RegistrManual?tab=bonusReceiving&step=${desk ? 10 : 9}`
+            )
           }
         >
           Back
@@ -277,9 +312,11 @@ const Step10Content: FC<Step10ContentProps> = () => {
   );
 };
 
-interface Step9ContentProps {}
+interface Step9ContentProps {
+  desk: boolean;
+}
 
-const Step9Content: FC<Step9ContentProps> = () => {
+const Step9Content: FC<Step9ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -293,13 +330,13 @@ const Step9Content: FC<Step9ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 7}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Scroll down and click &quot;Don&apos;t see your crypto? Import&quot;
         </p>
         <img
-          src={step9Img.src}
+          src={desk ? step9Img.src : step9MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -316,7 +353,9 @@ const Step9Content: FC<Step9ContentProps> = () => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=10")
+            router.push(
+              `/RegistrManual?tab=bonusReceiving&step=${desk ? 10 : 11}`
+            )
           }
         >
           Next
@@ -326,9 +365,11 @@ const Step9Content: FC<Step9ContentProps> = () => {
   );
 };
 
-interface Step8ContentProps {}
+interface Step8ContentProps {
+  desk: boolean;
+}
 
-const Step8Content: FC<Step8ContentProps> = () => {
+const Step8Content: FC<Step8ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -342,7 +383,7 @@ const Step8Content: FC<Step8ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 6}</span>
       <div className={s.step_header}>
         <p className={s.step_upper_subTitle}>
           After depositing, you need to add the address of the bonus token to
@@ -353,7 +394,7 @@ const Step8Content: FC<Step8ContentProps> = () => {
           then click on &quot;Manage Crypto&quot;
         </p>
         <img
-          src={step8Img.src}
+          src={desk ? step8Img.src : step8MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -380,9 +421,11 @@ const Step8Content: FC<Step8ContentProps> = () => {
   );
 };
 
-interface Step7ContentProps {}
+interface Step7ContentProps {
+  desk: boolean;
+}
 
-const Step7Content: FC<Step7ContentProps> = () => {
+const Step7Content: FC<Step7ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -396,14 +439,14 @@ const Step7Content: FC<Step7ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 5}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Please, open the crypto exchange app, find the ETH token and select
           &quot;Send ETH&quot;
         </p>
         <img
-          src={step7Img.src}
+          src={desk ? step7Img.src : step7MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -430,9 +473,11 @@ const Step7Content: FC<Step7ContentProps> = () => {
   );
 };
 
-interface Step6ContentProps {}
+interface Step6ContentProps {
+  desk: boolean;
+}
 
-const Step6Content: FC<Step6ContentProps> = () => {
+const Step6Content: FC<Step6ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -446,14 +491,14 @@ const Step6Content: FC<Step6ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 4}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Please open the crypto exchange app, find the ETH token and select
           &quot;Send ETH&quot;
         </p>
         <img
-          src={step6Img.src}
+          src={desk ? step6Img.src : step6MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -480,9 +525,11 @@ const Step6Content: FC<Step6ContentProps> = () => {
   );
 };
 
-interface Step5ContentProps {}
+interface Step5ContentProps {
+  desk: boolean;
+}
 
-const Step5Content: FC<Step5ContentProps> = () => {
+const Step5Content: FC<Step5ContentProps> = ({ desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -496,11 +543,18 @@ const Step5Content: FC<Step5ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 3}</span>
       <div className={s.step_header}>
-        <p className={s.step_tab_title}>Copy the address</p>
+        {desk ? (
+          <p className={s.step_tab_title}>Copy the address</p>
+        ) : (
+          <p className={s.step_tab_title}>
+            You need to fund your wallet with ETH tokens on the Arbitrum Network
+          </p>
+        )}
+
         <img
-          src={step5Img.src}
+          src={desk ? step5Img.src : step5MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -527,9 +581,13 @@ const Step5Content: FC<Step5ContentProps> = () => {
   );
 };
 
-interface Step4ContentProps {}
+interface Step4ContentProps {
+  desk: boolean;
+  is700: boolean;
+  mobile: boolean;
+}
 
-const Step4Content: FC<Step4ContentProps> = () => {
+const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -543,13 +601,20 @@ const Step4Content: FC<Step4ContentProps> = () => {
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {desk ? step : 2}</span>
       <div className={s.step_header}>
-        <p className={s.step_tab_title}>
-          Select token to receive, finding ETH in Arbitrum Network
-        </p>
+        {is700 || mobile ? (
+          <p className={s.step_tab_title}>
+            You need to fund your wallet with ETH tokens on the Arbitrum Network
+          </p>
+        ) : (
+          <p className={s.step_tab_title}>
+            Select token to receive, finding ETH in Arbitrum Network
+          </p>
+        )}
+
         <img
-          src={step4Img.src}
+          src={desk ? step4Img.src : step4MobImg.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -558,7 +623,9 @@ const Step4Content: FC<Step4ContentProps> = () => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=3")
+            router.push(
+              `/RegistrManual?tab=bonusReceiving&step=${desk ? "3" : "1"}`
+            )
           }
         >
           Back
@@ -627,7 +694,7 @@ const Step3Content: FC<Step3ContentProps> = () => {
 
 interface Step2ContentProps {}
 
-const Step2Content: FC<Step1ContentProps> = () => {
+const Step2Content: FC<Step2ContentProps> = () => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -675,9 +742,13 @@ const Step2Content: FC<Step1ContentProps> = () => {
   );
 };
 
-interface Step1ContentProps {}
+interface Step1ContentProps {
+  is700: boolean;
+  mobile: boolean;
+  desk: boolean;
+}
 
-const Step1Content: FC<Step1ContentProps> = () => {
+const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
   const router = useRouter();
   const { query } = router;
   const { step } = query;
@@ -697,13 +768,19 @@ const Step1Content: FC<Step1ContentProps> = () => {
       </span>
       <span className={s.steps_quantity}>Step {step}</span>
       <div className={s.step_header}>
-        <p className={s.step_tab_title} data-short="true">
-          Please, open Trust Wallet Extension in your browser.
-          <span>Make sure you have switched on ETH in Arbitrum Network.</span>
-          To do so, click on magnifier icon
-        </p>
+        {is700 || mobile ? (
+          <p className={s.step_tab_title} data-short="true">
+            Please, open Trust Wallet App and сlick on "Receive"
+          </p>
+        ) : (
+          <p className={s.step_tab_title} data-short="true">
+            Please, open Trust Wallet Extension in your browser.
+            <span>Make sure you have switched on ETH in Arbitrum Network.</span>
+            To do so, click on magnifier icon
+          </p>
+        )}
         <img
-          src={step1Img.src}
+          src={is700 || mobile ? step1MobImg.src : step1Img.src}
           className={s.step_example_img}
           alt="examples-img"
         />
@@ -722,7 +799,9 @@ const Step1Content: FC<Step1ContentProps> = () => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=2")
+            router.push(
+              `/RegistrManual?tab=bonusReceiving&step=${!desk ? "4" : "2"}`
+            )
           }
         >
           Next
@@ -732,26 +811,12 @@ const Step1Content: FC<Step1ContentProps> = () => {
   );
 };
 
-interface WalletPresenceProps {}
+interface WalletPresenceProps {
+  mobile: boolean;
+}
 
-const WalletPresence: FC<WalletPresenceProps> = () => {
+const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
   const router = useRouter();
-  const [mobile, setMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      width < 650 ? setMobile(true) : setMobile(false);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <div className={s.wallet_body}>
@@ -812,6 +877,37 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
   const { query } = router;
   const { tab, subPage, step } = query;
 
+  const [mobile, setMobile] = useState(false);
+  const [is700, setIs700] = useState(false);
+  const [desk, setDesk] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width <= 700 && width >= 650) {
+        setMobile(false);
+        setIs700(true);
+        setDesk(false);
+      } else if (width <= 650) {
+        setMobile(true);
+        setIs700(false);
+        setDesk(false);
+      } else {
+        setMobile(false);
+        setIs700(false);
+        setDesk(true);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       {tab === "bonusReceiving" &&
@@ -852,21 +948,31 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
             </div>
           </div>
         )}
-      {subPage === "walletPresence" && <WalletPresence />}
+      {subPage === "walletPresence" && <WalletPresence mobile={mobile} />}
       {subPage === "exchange_creation" && <SelectExchanges />}
-      {step === "1" && <StepTab content={<Step1Content />} />}
-      {step === "2" && <StepTab content={<Step2Content />} />}
-      {step === "3" && <StepTab content={<Step3Content />} />}
-      {step === "4" && <StepTab content={<Step4Content />} />}
-      {step === "5" && <StepTab content={<Step5Content />} />}
-      {step === "6" && <StepTab content={<Step6Content />} />}
-      {step === "7" && <StepTab content={<Step7Content />} />}
-      {step === "8" && <StepTab content={<Step8Content />} />}
-      {step === "9" && <StepTab content={<Step9Content />} />}
-      {step === "10" && <StepTab content={<Step10Content />} />}
-      {step === "11" && <StepTab content={<Step11Content />} />}
-      {step === "12" && <StepTab content={<Step12Content />} />}
-      {step === "13" && <StepTab content={<Step13Content />} />}
+      {step === "1" && (
+        <StepTab
+          content={<Step1Content is700={is700} mobile={mobile} desk={desk} />}
+        />
+      )}
+      {step === "2" && desk && <StepTab content={<Step2Content />} />}
+      {step === "3" && desk && <StepTab content={<Step3Content />} />}
+      {step === "4" && (
+        <StepTab
+          content={<Step4Content is700={is700} mobile={mobile} desk={desk} />}
+        />
+      )}
+      {step === "5" && <StepTab content={<Step5Content desk={desk} />} />}
+      {step === "6" && <StepTab content={<Step6Content desk={desk} />} />}
+      {step === "7" && <StepTab content={<Step7Content desk={desk} />} />}
+      {step === "8" && <StepTab content={<Step8Content desk={desk} />} />}
+      {step === "9" && <StepTab content={<Step9Content desk={desk} />} />}
+      {step === "10" && desk && <StepTab content={<Step10Content />} />}
+      {step === "11" && (
+        <StepTab content={<Step11Content desk={desk} mob={mobile} />} />
+      )}
+      {step === "12" && <StepTab content={<Step12Content desk={desk} />} />}
+      {step === "13" && <StepTab content={<Step13Content desk={desk} />} />}
     </>
   );
 };

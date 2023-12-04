@@ -12,6 +12,7 @@ import s from "./styles.module.scss";
 import { useAccount } from "wagmi";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+import { useRouter } from "next/router";
 
 export interface ConnectWalletButtonProps {}
 
@@ -24,6 +25,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     MainWallet.$isMainWalletOpen,
     BlurModel.setBlur,
   ]);
+  const router = useRouter();
 
   const [walletVisibility, setWalletVisibility] = useState(false);
 
@@ -56,8 +58,6 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
       setBlur(false);
       document.documentElement.style.overflow = "visible";
     }
-
-
   }, [walletVisibility]);
   useEffect(() => {
     return () => {
@@ -79,10 +79,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     >
       <button
         className={s.connect_wallet_button}
-        onClick={() => {
-          handleConnectWalletBtn();
-          setStartConnect(true);
-        }}
+        onClick={() => router.push("/RegistrManual")}
       >
         {isConnecting && startConnect ? (
           <LoadingDots className={s.join_dots} title="Joinning" />
