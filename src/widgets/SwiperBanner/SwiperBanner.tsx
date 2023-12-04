@@ -23,6 +23,8 @@ import * as BlurModel from "@/widgets/Blur/model";
 import { AvaibleWallet } from "../AvaibleWallet";
 import clsx from "clsx";
 import { checkPageClicking } from "@/shared/tools";
+import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 ///
 
 const swiperSlides = [
@@ -47,7 +49,7 @@ const swiperSlides = [
     img: swiperImg3,
   },
   {
-    text: "Since our casino is web 3.0",
+    text: "Since our platform is web 3.0",
     isBtn: false,
     extraText: "we do not keep user funds, your game is absolutely safe",
     img: swiperImg4,
@@ -81,17 +83,22 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
     BlurModel.setBlur,
   ]);
 
+  const router = useRouter();
+  const { isConnected } = useAccount();
+
   const handleConnectWalletBtn = () => {
-    if (!walletVisibility) {
-      setWalletVisibility(true);
-      setBlur(true);
-      document.documentElement.style.overflow = "hidden";
-      window.scrollTo(0, 0);
-    } else {
-      setWalletVisibility(false);
-      setBlur(false);
-      document.documentElement.style.overflow = "visible";
-    }
+    !isConnected ? router.push("/RegistrManual") : null;
+    // if (!walletVisibility) {
+    //   router.push("/");
+    //   setWalletVisibility(true);
+    //   setBlur(true);
+    //   document.documentElement.style.overflow = "hidden";
+    //   window.scrollTo(0, 0);
+    // } else {
+    //   setWalletVisibility(false);
+    //   setBlur(false);
+    //   document.documentElement.style.overflow = "visible";
+    // }
   };
 
   const hideAvaibleWallet = () => {

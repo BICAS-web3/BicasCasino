@@ -156,6 +156,10 @@
     width: calc(100% - 32px);
     margin-top: 20px;
   }
+
+  @media screen and (max-width: 650px) {
+    margin-bottom: 40px;
+  }
 }
 
 .noWallet_header {
@@ -184,6 +188,9 @@
   @media screen and (max-width: 700px) {
     width: 100%;
   }
+  @media screen and (max-width: 650px) {
+    height: 40px;
+  }
 }
 
 .next_btn {
@@ -205,6 +212,10 @@
 
   @media screen and (max-width: 700px) {
     width: 100%;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
   }
 }
 
@@ -309,6 +320,11 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+    mask-border: 40px;
+  }
 }
 
 .connection_example_block {

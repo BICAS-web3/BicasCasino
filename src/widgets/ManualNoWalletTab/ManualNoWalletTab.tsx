@@ -4,6 +4,7 @@ import Metamask from "@/public/media/select_wallet/metamask.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
 import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
+import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
 import exampleImg from "@/public/media/registrManual_images/connectStepImg.png";
@@ -54,16 +55,16 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
             className={s.wallet_list_item}
             onClick={() => {
               (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[1] });
+              connect({ connector: connectors[2] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
               <img
-                src={Coinbase.src}
+                src={Trust_wallet.src}
                 className={s.wallet_ico}
-                alt="coinbase-ico"
+                alt="walletConnect-ico"
               />
-              <span className={s.avaible_wallet_title}>Coinbase</span>
+              <span className={s.avaible_wallet_title}>Trust Wallet</span>
             </div>
             <BtnRightArrow />
           </div>
@@ -88,12 +89,29 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
             className={s.wallet_list_item}
             onClick={() => {
               (window as any).fbq("track", "Lead");
+              connect({ connector: connectors[1] });
+            }}
+          >
+            <div className={s.wallet_list_item_leftSide}>
+              <img
+                src={Coinbase.src}
+                className={s.wallet_ico}
+                alt="coinbase-ico"
+              />
+              <span className={s.avaible_wallet_title}>Coinbase</span>
+            </div>
+            <BtnRightArrow />
+          </div>
+          <div
+            className={s.wallet_list_item}
+            onClick={() => {
+              (window as any).fbq("track", "Lead");
               connect({ connector: connectors[3] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
               <img
-                src={Trust_wallet.src}
+                src={Injected.src}
                 className={s.wallet_ico}
                 alt="injected-ico"
               />
