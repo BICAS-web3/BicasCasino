@@ -66,7 +66,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
                 className={s.wallet_ico}
                 alt="walletconnect-ico"
               />
-              <span className={s.avaible_wallet_title}>Coinbase</span>
+              <span className={s.avaible_wallet_title}>WalletConnect</span>
             </div>
             <BtnRightArrow />
           </div>
