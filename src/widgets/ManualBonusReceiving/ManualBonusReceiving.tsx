@@ -863,7 +863,11 @@ const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
           </button>
         </div>
       </div>
-      <button className={s.back_btn} data-only={"true"}>
+      <button
+        className={s.back_btn}
+        data-only={"true"}
+        onClick={() => router.push("/")}
+      >
         Cancel
       </button>
     </div>

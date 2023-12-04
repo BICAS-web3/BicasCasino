@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 
 import { useAccount, useContractRead } from "wagmi";
 import Image from "next/image";
-import * as PopupModel from '../model'
+import * as PopupModel from "../model";
 import { useUnit } from "effector-react";
 import checkIco from "@/public/media/banner_images/checkIco.png";
 import {
@@ -32,6 +32,7 @@ import s from "./style.module.scss";
 import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+import { useRouter } from "next/router";
 
 export const PopUpBonus: FC = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -45,7 +46,9 @@ export const PopUpBonus: FC = () => {
   const { chain } = useNetwork();
   const { address, isConnected, isConnecting } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
-  const [showStateModal, setShowStateModal] = useState(false)
+  const [showStateModal, setShowStateModal] = useState(false);
+
+  const router = useRouter();
 
   let bgImage;
   const documentWidth = document.documentElement.clientWidth;
@@ -71,8 +74,8 @@ export const PopUpBonus: FC = () => {
 
   const [showState, setShowState] = useUnit([
     PopupModel.$showState,
-    PopupModel.setShowState
-  ])
+    PopupModel.setShowState,
+  ]);
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -82,7 +85,7 @@ export const PopUpBonus: FC = () => {
       setStartConnect(false);
     };
   }, []);
-  
+
   useEffect(() => {
     if (readSuccess && address) {
       setClaimed(claimedState as boolean);
@@ -178,7 +181,8 @@ export const PopUpBonus: FC = () => {
   //? shorten call claim func
   const claimBonus = () => {
     if (!isConnected) {
-      handleConnectWalletBtn();
+      router.push("/RegistrManual");
+      // handleConnectWalletBtn();
     } else if (chain?.id !== 42161) {
       switchNetwork!(42161);
     } else {
@@ -187,23 +191,22 @@ export const PopUpBonus: FC = () => {
   };
 
   useEffect(() => {
-    const storedState = localStorage.getItem('bonusPopupState');
+    const storedState = localStorage.getItem("bonusPopupState");
     if (storedState === null) {
-      localStorage.setItem('bonusPopupState', 'false');
+      localStorage.setItem("bonusPopupState", "false");
     } else {
-      setShowState(storedState === 'true');
+      setShowState(storedState === "true");
     }
   }, []);
 
   const handleShowStateBtn = () => {
     setShowState(!showState);
-    localStorage.setItem('bonusPopupState', `${!showState}`);
-  }
+    localStorage.setItem("bonusPopupState", `${!showState}`);
+  };
 
   useEffect(() => {
-
-    const storedState = localStorage.getItem('bonusPopupState');
-    if (storedState === 'false') {
+    const storedState = localStorage.getItem("bonusPopupState");
+    if (storedState === "false") {
       setShowState(false);
     }
   }, []);
@@ -251,12 +254,24 @@ export const PopUpBonus: FC = () => {
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <Image className={s.img} src={bgImage!} alt="100%" />
+          <img className={s.img} src={bgImage?.src} alt="100%" />
         </div>
         <Image src={logo} className={s.popup_logo} alt="logo" />
-        <span className={s.title_default}><span className={s.inner_default_title}>No KYC,</span> all privacy - just play and win!</span>
-        <span className={s.title_default}>Unlock the thrill: Get your <span className={s.inner_default_title}>$100 bonus in DRAXB tokens now!</span></span>
-        <p className={s.text_default}>Step into the <span>Web3.0</span> realm as a Greek god of gaming! Immerse yourself in an exhilarating gaming experience filled with divine adventures.</p>
+        <span className={s.title_default}>
+          <span className={s.inner_default_title}>No KYC,</span> all privacy -
+          just play and win!
+        </span>
+        <span className={s.title_default}>
+          Unlock the thrill: Get your{" "}
+          <span className={s.inner_default_title}>
+            $100 bonus in DRAXB tokens now!
+          </span>
+        </span>
+        <p className={s.text_default}>
+          Step into the <span>Web3.0</span> realm as a Greek god of gaming!
+          Immerse yourself in an exhilarating gaming experience filled with
+          divine adventures.
+        </p>
         <div
           data-id={"connect-wallet-block"}
           onClick={(e) => e.stopPropagation()}
@@ -286,7 +301,13 @@ export const PopUpBonus: FC = () => {
           )}
         </div>
         <div className={s.checkbox}>
-          <div onClick={handleShowStateBtn} className={`${s.checkbox_block} ${showState && s.checked}`}> {showState && <Image src={checkIco} alt="arrow" /> } </div>
+          <div
+            onClick={handleShowStateBtn}
+            className={`${s.checkbox_block} ${showState && s.checked}`}
+          >
+            {" "}
+            {showState && <Image src={checkIco} alt="arrow" />}{" "}
+          </div>
           Don’t show again
         </div>
       </article>

@@ -24,6 +24,10 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
     isConnected && router.push("/RegistrManual?tab=bonusReceiving");
   }, [isConnected]);
 
+  useEffect(() => {
+    const popupState = localStorage.getItem;
+  }, []);
+
   return (
     <div className={s.have_wallet_body}>
       <span
@@ -40,16 +44,16 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
             className={s.wallet_list_item}
             onClick={() => {
               (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[1] });
+              connect({ connector: connectors[0] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
               <img
-                src={Coinbase.src}
+                src={Metamask.src}
                 className={s.wallet_ico}
-                alt="coinbase-ico"
+                alt="metamask-ico"
               />
-              <span className={s.avaible_wallet_title}>Coinbase</span>
+              <span className={s.avaible_wallet_title}>Metamask</span>
             </div>
             <BtnRightArrow />
           </div>
@@ -74,16 +78,16 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
             className={s.wallet_list_item}
             onClick={() => {
               (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[0] });
+              connect({ connector: connectors[1] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
               <img
-                src={Metamask.src}
+                src={Coinbase.src}
                 className={s.wallet_ico}
-                alt="metamask-ico"
+                alt="coinbase-ico"
               />
-              <span className={s.avaible_wallet_title}>Metamask</span>
+              <span className={s.avaible_wallet_title}>Coinbase</span>
             </div>
             <BtnRightArrow />
           </div>
