@@ -770,7 +770,7 @@ const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
       <div className={s.step_header}>
         {is700 || mobile ? (
           <p className={s.step_tab_title} data-short="true">
-            Please, open Trust Wallet App and сlick on "Receive"
+            Please, open Trust Wallet App and сlick on &quot;Receive&quot;
           </p>
         ) : (
           <p className={s.step_tab_title} data-short="true">
