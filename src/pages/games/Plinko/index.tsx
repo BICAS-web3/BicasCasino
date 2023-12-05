@@ -109,7 +109,7 @@ export default function PlinkoGame() {
             gameTitle="plinko"
             wagerContent={<WagerContent />}
           >
-            <Plinko />
+            <Plinko gameText="Plinko is this exciting game, players launch a ball from the top of a complex triangular pyramid arranged in multiple rows. As if in a dance, the ball bounces off the pins located on each level of the pyramid, creating an unpredictable and exciting path to the finish line. At the bottom of the pyramid, slots with a variety of payouts await players, from modest ones in the center to amazing ones - up to 1000x - on the periphery. The game features the ability to customize the number of rows from 8 to 16, as well as the choice of risk level, whether low, medium or high. Each player choice affects the payout potential, making each roll of the ball a unique test of luck and strategy." />
           </GamePage>
         </div>
       </Layout>

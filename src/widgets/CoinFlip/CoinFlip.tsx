@@ -37,7 +37,9 @@ import * as CoinflipM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
-interface CoinFlipProps {}
+interface CoinFlipProps {
+  gameText: string;
+}
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -85,7 +87,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   return <primitive object={scene} />;
 };
 
-export const CoinFlip: FC<CoinFlipProps> = ({}) => {
+export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   const [
     lost,
     profit,
@@ -392,7 +394,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({}) => {
         />
       )}
       <div className={s.coinflip_table_wrap}>
-        <WagerLowerBtnsBlock game="coinflip" />
+        <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>
           <Image
             src={tableBg}

@@ -114,9 +114,11 @@ const testBallPath = [
   // [false, false, false, false, false, false, false, false],
 ];
 
-interface IPlinko {}
+interface IPlinko {
+  gameText: string;
+}
 
-export const Plinko: FC<IPlinko> = () => {
+export const Plinko: FC<IPlinko> = ({ gameText }) => {
   const isMobile = useMediaQuery("(max-width: 480px)");
 
   const [
@@ -517,7 +519,7 @@ export const Plinko: FC<IPlinko> = () => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
-        <WagerLowerBtnsBlock game="plinko" />
+        <WagerLowerBtnsBlock game="plinko" text={gameText} />
         <div className={styles.plinko_table_background}>
           <Image
             src={isMobile ? mobilebg : tableBg}

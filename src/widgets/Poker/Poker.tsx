@@ -74,6 +74,7 @@ export interface PokerProps {
   // setCardsState: any,
   //initialCards: T_Card[] | undefined,
   //gameState: any | undefined
+  gameText: string;
 }
 
 export const Poker: FC<PokerProps> = (props) => {
@@ -585,7 +586,7 @@ export const Poker: FC<PokerProps> = (props) => {
         />
       )}
       <div className={s.poker_table_wrap}>
-        <WagerLowerBtnsBlock game="poker" />
+        <WagerLowerBtnsBlock game="poker" text={props.gameText} />
         <div className={s.poker_table_background}>
           <Image
             src={tableBg}

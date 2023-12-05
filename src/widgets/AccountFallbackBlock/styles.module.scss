@@ -23,20 +23,6 @@
   letter-spacing: 0.56px;
 }
 
-.blick {
-  &::after {
-    content: "";
-    position: absolute;
-    width: 3px;
-    height: 100%;
-    top: 80px;
-    background: hsla(0, 0%, 100%, 0.3);
-    filter: blur(6px);
-    transform: rotate(20deg);
-    animation: leftToRightAnim 2s linear infinite 2s;
-  }
-}
-
 @keyframes leftToRightAnim {
   0% {
     left: -200px;
@@ -65,15 +51,15 @@
   left: -70px;
 }
 
-@keyframes leftToRightAnim {
-  0% {
-    left: -70px;
-  }
+// @keyframes leftToRightAnim {
+//   0% {
+//     left: -70px;
+//   }
 
-  100% {
-    left: calc(100% + 70px);
-  }
-}
+//   100% {
+//     left: calc(100% + 70px);
+//   }
+// }
 
 .anim_blick {
   animation: leftToRightAnim;
