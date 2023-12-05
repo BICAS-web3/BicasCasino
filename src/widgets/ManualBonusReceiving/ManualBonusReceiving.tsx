@@ -936,7 +936,11 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
               </p>
             </div>
             <div className={s.manual_bonus_reveicing_btns}>
-              <button className={s.back_btn} onClick={() => router.push("/")}>
+              <button
+                className={s.back_btn}
+                data-noMargin="true"
+                onClick={() => router.push("/")}
+              >
                 Back
               </button>
               <button
