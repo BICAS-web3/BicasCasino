@@ -92,7 +92,7 @@
   @media screen and (max-width: 650px) {
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 85px;
   }
 }
 
@@ -124,6 +124,13 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    margin-bottom: 85px;
+    border-radius: 8px;
+
+    &[data-noMargin="true"] {
+      margin-bottom: 0;
+    }
   }
 
   &:hover {
@@ -157,6 +164,11 @@
 
   @media screen and (max-width: 700px) {
     width: 100%;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+    border-radius: 8px;
   }
 
   span {
@@ -494,6 +506,10 @@
     width: 100%;
     margin-top: 40px;
   }
+
+  @media screen and (max-width: 650px) {
+    margin-bottom: 85px;
+  }
 }
 
 .exchange_bottom_group_text {
@@ -556,6 +572,8 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    border-radius: 8px;
   }
 
   &:hover {
@@ -593,6 +611,8 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    border-radius: 8px;
   }
 
   &:hover {

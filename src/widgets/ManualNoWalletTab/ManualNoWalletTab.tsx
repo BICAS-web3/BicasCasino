@@ -174,18 +174,37 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
                 className={s.wallet_list_item}
                 onClick={() => {
                   window.open(
-                    "https://chromewebstore.google.com/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad",
+                    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
                     "_blank"
                   );
                 }}
               >
                 <div className={s.wallet_list_item_leftSide}>
                   <img
-                    src={Coinbase.src}
+                    src={Metamask.src}
                     className={s.wallet_ico}
-                    alt="coinbase-ico"
+                    alt="metamask-ico"
                   />
-                  <span className={s.avaible_wallet_title}>Coinbase</span>
+                  <span className={s.avaible_wallet_title}>Metamask</span>
+                </div>
+                <BtnRightArrow />
+              </div>
+              <div
+                className={s.wallet_list_item}
+                onClick={() => {
+                  window.open(
+                    "https://chromewebstore.google.com/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph",
+                    "_blank"
+                  );
+                }}
+              >
+                <div className={s.wallet_list_item_leftSide}>
+                  <img
+                    src={Trust_wallet.src}
+                    className={s.wallet_ico}
+                    alt="tWallet-ico"
+                  />
+                  <span className={s.avaible_wallet_title}>Trust Wallet</span>
                 </div>
                 <BtnRightArrow />
               </div>
@@ -209,18 +228,18 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
                 className={s.wallet_list_item}
                 onClick={() => {
                   window.open(
-                    "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+                    "https://chromewebstore.google.com/detail/coinbase-wallet-extension/hnfanknocfeofbddgcijnmhnfnkdnaad",
                     "_blank"
                   );
                 }}
               >
                 <div className={s.wallet_list_item_leftSide}>
                   <img
-                    src={Metamask.src}
+                    src={Coinbase.src}
                     className={s.wallet_ico}
-                    alt="metamask-ico"
+                    alt="coinbase-ico"
                   />
-                  <span className={s.avaible_wallet_title}>Metamask</span>
+                  <span className={s.avaible_wallet_title}>Coinbase</span>
                 </div>
                 <BtnRightArrow />
               </div>
