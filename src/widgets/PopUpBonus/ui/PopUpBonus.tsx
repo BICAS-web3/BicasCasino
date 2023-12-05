@@ -300,13 +300,9 @@ export const PopUpBonus: FC = () => {
             </div>
           )}
         </div>
-        <div className={s.checkbox}>
-          <div
-            onClick={handleShowStateBtn}
-            className={`${s.checkbox_block} ${showState && s.checked}`}
-          >
-            {" "}
-            {showState && <Image src={checkIco} alt="arrow" />}{" "}
+        <div className={s.checkbox} onClick={handleShowStateBtn}>
+          <div className={`${s.checkbox_block} ${showState && s.checked}`}>
+            {showState && <Image src={checkIco} alt="arrow" />}
           </div>
           Don’t show again
         </div>

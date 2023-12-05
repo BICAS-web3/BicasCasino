@@ -196,6 +196,7 @@
 
 .registr_manual_header,
 .have_wallet_header {
+  z-index: 10;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -220,6 +221,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
+  z-index: 10;
   line-height: normal;
 
   @media screen and (max-width: 650px) {
@@ -393,6 +395,7 @@
 }
 
 .top_blur {
+  z-index: 0;
   position: absolute;
   width: 70px;
   height: 70px;
@@ -407,6 +410,7 @@
 }
 
 .bottom_blur {
+  z-index: 0;
   position: absolute;
   width: 70px;
   height: 70px;

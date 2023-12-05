@@ -34,7 +34,7 @@ export const Footer: FC<FooterProps> = (props) => {
                   GAMES
                 </Link>
                 <Link href="" className={s.footer_text}>
-                  SPAW
+                  SWAP
                 </Link>
               </div>
 

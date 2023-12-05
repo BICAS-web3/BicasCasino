@@ -60,11 +60,13 @@ const pokerHandMultiplierList = [
 interface WagerLowerBtnsBlockProps {
   game: string;
   className?: string;
+  text?: string;
 }
 
 export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
   game,
   className,
+  text,
 }) => {
   const [playSounds, switchSounds] = useUnit([
     GameModel.$playSounds,
@@ -93,9 +95,13 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
         onClick={() => switchSounds()}
       >
         {playSounds ? (
-          <Image alt="sound-ico" src={soundIco} />
+          <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
         ) : (
-          <Image alt="sound-ico-off" src={soundOffIco} />
+          <Image
+            alt="sound-ico-off"
+            className={s.sound_ico}
+            src={soundOffIco}
+          />
         )}
       </button>
       <div className={s.poker_wager_info_btn_wrap}>
@@ -123,12 +129,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
             onClick={() => setInfoModalVisibility(false)}
             className={s.poker_wager_info_modal_close_ico}
           />
-          <p className={s.poker_wager_info_modal_text}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, vel,
-            atque debitis sequi quis ducimus quod assumenda esse quasi veniam
-            quaerat optio vitae rerum doloribus! Fugiat architecto dolor
-            reiciendis nihil.
-          </p>
+          <p className={s.poker_wager_info_modal_text}>{text}</p>
         </div>
       </div>
       {game && game === "poker" && (

@@ -94,7 +94,7 @@ export default function PokerGame() {
             gameTitle="poker"
             wagerContent={<WagerContent />}
           >
-            <Poker />
+            <Poker gameText="Video Poker - At the start of each round of the game, you are dealt 5 cards with 9 different potential winning combinations. After the first hand, you have the unique opportunity to turn over the cards and try your luck to re-create the best winning combination. In this version of video poker  a royal flush can increase your bet by 100 times, which is guaranteed to give you unforgettable emotions and excitement!" />
             {/* show when need to redraw cards */}
 
             {showFlipCards && (
