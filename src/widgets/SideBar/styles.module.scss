@@ -277,8 +277,11 @@
   align-items: center;
   overflow-y: auto !important;
   overflow-x: hidden !important;
+  position: relative;
+
   &::-webkit-scrollbar {
     width: 4px;
+    margin-left: 4px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: #3e3e3e;
