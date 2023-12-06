@@ -2,7 +2,7 @@
 .wallet_body,
 .select_exchanges_body,
 .step_body {
-  margin: 90px auto 0 auto;
+  margin: 74px auto 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,7 +17,7 @@
 
 .step_body {
   @media screen and (max-width: 700px) {
-    margin: 45px auto 0 auto;
+    margin: 24px auto 0 auto;
     padding: 16px;
   }
 }
@@ -935,5 +935,29 @@
 
   @media screen and (max-width: 700px) {
     display: block;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .step_example_img {
+    width: 220px;
+  }
+
+  .step_12_img {
+    height: 194px;
+  }
+
+  .step_13_img {
+    height: 250px;
+  }
+
+  .desk_hidden_example_second_img {
+    height: 50px;
+  }
+
+  .draxb_address_block {
+    width: 101%;
+    margin-top: 20px;
+    padding: 12px 15px;
   }
 }
