@@ -23,28 +23,23 @@ export interface WalletProps {
 }
 const Wallet: FC<WalletProps> = (props) => {
   const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
 
-  const [isOpen, closeWallet, setBlur, isBlurActive] = useUnit([
-    SideBarModel.$isOpen,
-    //MainWallet.$isMainWalletOpen,
-    MainWallet.Close,
-    BlurModel.setBlur,
-    BlurModel.$BlurActive,
-  ]);
-
-  useEffect(() => {
-    if (isConnected && isBlurActive) {
-      setBlur(false);
-      document.documentElement.style.overflow = "visible";
-    }
-  }, [isConnected]);
+  const [isOpen, closeWallet, setBlur, isBlurActive, isMainWalletOpen] =
+    useUnit([
+      SideBarModel.$isOpen,
+      MainWallet.Close,
+      BlurModel.setBlur,
+      BlurModel.$BlurActive,
+      MainWallet.$isMainWalletOpen,
+    ]);
 
   return (
     <div
       className={s.select_wallet_item}
       onClick={() => {
+        (window as any).fbq("track", "Lead");
         closeWallet();
         //setBlur(false);
         connect({ connector: props.connector });
@@ -60,6 +55,8 @@ export interface AvaibleWalletProps {
   hideAvaibleWallet: () => void;
 }
 export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
+  const { isConnected } = useAccount();
+
   const { connectors } = useConnect();
   return (
     <div className={s.avaibleWallet_container}>
@@ -77,14 +74,26 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
       </div>
       <div className={s.connect_text}>Connect Wallet</div>
       <div className={s.select_wallet}>
-        <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />
-        <Wallet name="Injected" icon={Trust_wallet} connector={connectors[3]} />
-        <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
-        <Wallet
-          name="WalletConnect"
-          icon={WalletConnect}
-          connector={connectors[2]}
-        />
+        {connectors[0].ready && (
+          <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />
+        )}
+        {connectors[3].ready && (
+          <Wallet
+            name="Injected"
+            icon={Trust_wallet}
+            connector={connectors[3]}
+          />
+        )}
+        {connectors[2].ready && (
+          <Wallet
+            name="WalletConnect"
+            icon={WalletConnect}
+            connector={connectors[2]}
+          />
+        )}
+        {connectors[1].ready && (
+          <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
+        )}
       </div>
       <div className={s.info}>
         <Link

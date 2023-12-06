@@ -12,6 +12,11 @@ import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
 import { checkPageClicking } from "@/shared/tools";
+import * as PokerHandsM from "@/widgets/PokerHandsBlock/model";
+import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
+import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
+import burgerIco from "@/public/media/misc/burgerIco.svg";
+import clsx from "clsx";
 
 const pokerHandMultiplierList = [
   {
@@ -54,9 +59,13 @@ const pokerHandMultiplierList = [
 
 interface WagerLowerBtnsBlockProps {
   game: string;
+  className?: string;
 }
 
-export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
+export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
+  game,
+  className,
+}) => {
   const [playSounds, switchSounds] = useUnit([
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -64,25 +73,21 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
 
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   //const [soundState, setSoundState] = useState(true);
-  const [handMultiplierBlockVisibility, setHandMultiplierBlockVisibility] =
-    useState(false);
+  const [handMultiplierBlockVisibility, setHandVisibility] = useUnit([
+    PokerHandsM.$isOpen,
+    PokerHandsM.setVisibility,
+  ]);
 
   useEffect(() => {
-    if (infoModalVisibility || handMultiplierBlockVisibility) {
-      checkPageClicking({ blockDataId: "wager-lower-btns" }, (isBlock) => {
-        if (!isBlock) {
-          setInfoModalVisibility(false);
-          setHandMultiplierBlockVisibility(false);
-        }
-      });
+    if (handMultiplierBlockVisibility) {
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.overflow = "visible";
     }
-  }, [infoModalVisibility, handMultiplierBlockVisibility]);
+  }, [handMultiplierBlockVisibility]);
 
   return (
-    <div
-      className={s.poker_wager_lower_btns_block}
-      data-id={"wager-lower-btns"}
-    >
+    <div className={clsx(s.poker_wager_lower_btns_block, className)}>
       <button
         className={s.poker_wager_sound_btn}
         onClick={() => switchSounds()}
@@ -109,28 +114,33 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
             infoModalVisibility && s.active
           }`}
         >
+          <div className={s.ellipse_blur_wrap}>
+            <CustomEllipseBlur />
+          </div>
           <Image
             src={closeIco}
             alt="close-ico"
             onClick={() => setInfoModalVisibility(false)}
             className={s.poker_wager_info_modal_close_ico}
           />
-          <h1 className={s.poker_wager_info_modal_title}>About the game</h1>
-          <p className={s.poker_wager_info_modal_text}>Poker</p>
+          <p className={s.poker_wager_info_modal_text}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, vel,
+            atque debitis sequi quis ducimus quod assumenda esse quasi veniam
+            quaerat optio vitae rerum doloribus! Fugiat architecto dolor
+            reiciendis nihil.
+          </p>
         </div>
       </div>
       {game && game === "poker" && (
         <div className={s.hand_multiplier_wrap}>
           <div
             className={s.hand_multiplier_ico_wrap}
-            onClick={() =>
-              setHandMultiplierBlockVisibility(!handMultiplierBlockVisibility)
-            }
+            onClick={() => setHandVisibility(!handMultiplierBlockVisibility)}
           >
             {handMultiplierBlockVisibility ? (
-              <Image alt="open-hand-light-ico" src={closeBtnIco} />
+              <Image alt="open-hand-light-ico" src={burgerIco} />
             ) : (
-              <Image alt="open-hand-default-ico" src={openHandIco} />
+              <Image alt="open-hand-default-ico" src={burgerIco} />
             )}
           </div>
           <div
@@ -138,24 +148,7 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({ game }) => {
               handMultiplierBlockVisibility && s.handMultiplierActive
             }`}
           >
-            <div className={s.hand_multiplier_block_header}>
-              <span className={s.hand_multiplier_block_header_title}>Hand</span>
-              <span className={s.hand_multiplier_block_header_title}>
-                Multiplier
-              </span>
-            </div>
-            <div className={s.hand_multiplier_list}>
-              {pokerHandMultiplierList.map((hand, id) => (
-                <div className={s.hand_multiplier_list_item}>
-                  <span className={s.hand_multiplier_list_item_title}>
-                    {hand.title}
-                  </span>
-                  <span className={s.hand_multiplier_list_item_multiplier}>
-                    {hand.multiplier}×
-                  </span>
-                </div>
-              ))}
-            </div>
+            <PokerHandsBlock />
           </div>
         </div>
       )}

@@ -178,15 +178,13 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
               //   }) :
               Bets.map((bet, ind) => {
                 const time = new Date(bet.timestamp * 1000);
-                const wager = parseFloat(
-                  (Number(bet.wager) / 10 ** 18).toFixed(2)
-                );
+                const wager =
+                  parseFloat((Number(bet.wager) / 10 ** 18).toFixed(2)) *
+                  bet.bets;
                 const profit = parseFloat(
                   (Number(bet.profit) / 10 ** 18).toFixed(2)
                 );
-                const multiplier = parseFloat(
-                  (profit / (wager * bet.bets)).toFixed(2)
-                );
+                const multiplier = parseFloat((profit / wager).toFixed(2));
                 return (
                   <CustomBetsItem
                     trx_url={`${AvailableBlocksExplorers.get(
@@ -215,6 +213,7 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
                     wager={wager}
                     multiplier={isNaN(multiplier) ? 0 : multiplier}
                     profit={profit}
+                    id={ind}
                     token={bet.token_name.toUpperCase()}
                   />
                 );

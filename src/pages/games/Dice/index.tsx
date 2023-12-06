@@ -1,19 +1,114 @@
-// import Image from 'next/image';
-// import { GameLayout } from '../../../widgets/GameLayout/layout';
-// import { GameInfo } from '@/widgets/GameInfo';
+import { GamePage } from "@/widgets/GamePage/GamePage";
+import { Layout } from "@/widgets/Layout";
+import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
+import { LiveBetsWS } from "@/widgets/LiveBets";
+import { WagerModel } from "@/widgets/Wager";
+import { useUnit } from "effector-react";
+import { useAccount, useConnect } from "wagmi";
+import {
+  CustomWagerRangeInput,
+  CustomWagerRangeInputModel,
+} from "@/widgets/CustomWagerRangeInput";
+import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
+import s from "@/pages/games/CoinFlip/styles.module.scss";
+import styles from "./styles.module.scss";
+import * as ConnectModel from "@/widgets/Layout/model";
+// import { Dice } from "@/widgets/Dice/Dice";
+const DiceComponent = lazy(() => import("@/widgets/Dice/Dice"));
 
-// import MinimalIcon from '@/public/media/games_assets/dice/minimal_icon.svg';
-// // import { LiveBets } from '@/widgets/LiveBets';
-// import { Dice as DiceWidget } from '@/widgets/Dice';
+import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import clsx from "clsx";
+import Head from "next/head";
+// import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
+import * as DGM from "@/widgets/Dice/model";
+import { useMediaQuery } from "@/shared/tools";
 
-export default function Dice() {
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
-    return (
-        // <GameLayout gameName={'Dice'} children={[
-        //     <GameInfo name={'Dice'} description={'Dice is the most popular crypto casino game, with its roots originating from 2012 as Bitcoin’s use case for gambling came into existence.\nIt is a simple game of chance with easy customisable betting mechanics. Slide the bar left and the multiplier reward for winning your bet increases, while sacrificing the win chance. Slide the bar to the right, and the opposite happens.'} image={MinimalIcon} />,
-        //     <DiceWidget />,
-        //     // <LiveBets subscription_type={'Subscribe'} subscriptions={["Dice"]} />
-        // ]} />
-        <></>
-    );
+import { Suspense, lazy, useEffect, useState } from "react";
+
+const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
+  const isMobile = useMediaQuery("(max-width: 996px)");
+  const { isConnected, isConnecting } = useAccount();
+  const { connectors, connect } = useConnect();
+  const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [isPlaying] = useUnit([DGM.$isPlaying]);
+
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
+  return (
+    <>
+      <WagerInputsBlock />
+      <CustomWagerRangeInput
+        inputTitle="Bets"
+        min={1}
+        max={100}
+        inputType={CustomWagerRangeInputModel.RangeType.Bets}
+      />
+      <WagerGainLoss />
+      <ProfitBlock />
+      {!isMobile && (
+        <button
+          className={`${s.connect_wallet_btn} ${
+            isPlaying && "animation-leftRight"
+          }`}
+          onClick={() => {
+            if (!isConnected) {
+              setStartConnect(true);
+              connect({ connector: connectors[0] });
+            } else {
+              pressButton();
+              (window as any).fbq("track", "Purchase", {
+                value: 0.0,
+                currency: "USD",
+              });
+            }
+          }}
+        >
+          {isConnecting && startConnect ? (
+            <LoadingDots className={s.dots_black} title="Connecting" />
+          ) : isPlaying ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : isConnected ? (
+            "Play"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>
+      )}
+    </>
+  );
+};
+
+export default function DiceGame() {
+  return (
+    <>
+      <Head>
+        <title>Games - Dice</title>
+      </Head>
+      <Layout activePageLink="/games/Dice" gameName="Dice">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Dice"]} />
+        <div className={styles.dice_container}>
+          <GamePage
+            isPoker={false}
+            gameInfoText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years."
+            gameTitle="Dice"
+            wagerContent={<WagerContent />}
+            custom_height={styles.height}
+            soundClassName={styles.sound_btn}
+          >
+            <Suspense fallback={<div>....</div>}>
+              <DiceComponent />
+            </Suspense>
+          </GamePage>
+        </div>
+      </Layout>
+    </>
+  );
 }

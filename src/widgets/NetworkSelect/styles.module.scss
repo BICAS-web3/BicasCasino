@@ -23,6 +23,9 @@
   align-items: center;
   height: 50px;
   width: 100%;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .network_error_body {
@@ -88,6 +91,10 @@
   text-transform: uppercase;
   white-space: nowrap;
   min-width: 90px;
+  @media (max-width: 650px) {
+    min-width: 1px;
+    margin-right: auto;
+  }
 }
 
 .active_network_ico_wrap {
@@ -102,6 +109,17 @@
 
 .active_network_dropDown_ico {
   margin: 0px 13px;
+  transition: all 0.5s;
+  opacity: 0.4;
+  @media (max-width: 650px) {
+    margin: 0;
+    margin-right: 13px;
+  }
+}
+
+.active_network_dropDown_ico_open {
+  transform: scaleY(-1);
+  opacity: 1;
 }
 
 .networks_list_wrap {
@@ -114,6 +132,11 @@
   visibility: hidden;
   opacity: 0;
   transition: all 0.4s;
+}
+
+.networks_list_wrap_open {
+  visibility: visible;
+  opacity: 1;
 }
 
 .networks_list_title_wrap {
@@ -162,10 +185,10 @@
 }
 
 @media screen and (max-width: 914px) {
-  .active_network_dropDown_ico,
-  .active_network_title {
-    display: none;
-  }
+  // .active_network_dropDown_ico,
+  // .active_network_title {
+  //   display: none;
+  // }
   .active_network_ico_wrap {
     margin: 0;
     padding: 5px;
@@ -207,10 +230,14 @@
   }
 }
 
-@media screen and (max-width: 650px) {
+@media (max-width: 650px) {
   .network_select_body {
     height: 32px;
-    width: 32px;
+    // width: 32px;
+    width: 138px;
+    display: flex;
+    justify-content: space-between;
+    gap: 7px;
   }
   .active_network_ico_wrap {
     img {

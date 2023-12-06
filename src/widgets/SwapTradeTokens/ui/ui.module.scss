@@ -21,7 +21,6 @@
     padding: 16px 0 32px 0;
   }
 
-
   .trade_title {
     display: flex;
     text-align: center;
@@ -29,7 +28,7 @@
     gap: 30px;
     padding: 0 20px;
     margin: 0 0 19px 0;
-    @media(320px <=width <= 700px) {
+    @media (320px <=width <= 700px) {
       margin: 0 0 14px 0;
     }
 
@@ -40,8 +39,8 @@
       line-height: 43px;
       letter-spacing: 0.04em;
       text-align: left;
-      color: #EAEAEA;
-      @media(320px <=width <= 700px) {
+      color: #eaeaea;
+      @media (320px <=width <= 700px) {
         font-size: 16px;
       }
     }
@@ -53,8 +52,8 @@
       line-height: 26px;
       letter-spacing: 0.04em;
       text-align: left;
-      color: #7E7E7E;
-      @media(320px <=width <= 700px) {
+      color: #7e7e7e;
+      @media (320px <=width <= 700px) {
         font-size: 10px;
       }
     }
@@ -81,7 +80,6 @@
         transition: 0.5s;
         transform: rotate(90deg);
       }
-
     }
 
     .initial_exchange {
@@ -90,10 +88,9 @@
 
     .total_exchange {
       display: flex;
-      @media(320px <=width <= 700px) {
+      @media (320px <=width <= 700px) {
         margin-bottom: 8px;
       }
     }
   }
 }
-

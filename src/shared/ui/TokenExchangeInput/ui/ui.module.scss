@@ -2,57 +2,37 @@
   display: flex;
   align-items: center;
   border-radius: 12px;
-  margin-left: -18px;
-
+  width: 100%;
   .form_group {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     input {
+      width: auto;
       border-radius: 12px;
       border: none;
       outline: none;
       background-color: #121212;
-      color: #7E7E7E;
+      color: #7e7e7e;
       font-family: var(--font-nunito-sans);
       font-size: 12px;
       font-weight: 700;
       line-height: 18px;
       text-align: left;
-      width: 100%;
-      @media screen and (max-width: 3840px) {
-        padding: 18px 40px 18px 60px;
+      height: 100%;
+      padding: 0 20px;
+      @media screen and (max-width: 1280px) {
+        height: 50px;
+        padding: 0 21px;
       }
-      @media screen and (max-width: 1440px) {
-        max-width: 136px;
-        padding: 18px 22px;
-      }
-      @media screen and (max-width: 1024px) {
-        max-width: 88px;
-        padding: 18px 22px;
-      }
-      @media screen and (max-width: 869px) {
-        max-width: 136px;
-        font-size: 18px;
-        padding: 9px 20px;
+      @media (max-width: 650px) {
+        height: 40px;
         border-radius: 5px;
-      }
-      @media screen and (max-width: 819px) {
-        font-size: 12px;
-        padding: 12px 20px;
-      }
-      @media screen and (max-width: 769px) {
-        font-size: 10px;
-        padding: 9px 20px;
-      }
-      @media screen and (max-width: 414px) {
-        max-width: 116px;
-      }
-      @media screen and (max-width: 414px) {
-        max-width: 86px;
+        padding: 0 10px;
+        width: 50px;
+        flex: 1 1 auto;
       }
     }
   }
 }
-
-

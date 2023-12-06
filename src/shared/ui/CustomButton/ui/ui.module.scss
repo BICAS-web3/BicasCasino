@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-
 }
 
 .button {
@@ -67,14 +66,14 @@
 
 .button {
   &.gradient {
-    background: linear-gradient(to right, #F8EEB8, #DBB370, #8E5B2D);
+    background: linear-gradient(to right, #f8eeb8, #dbb370, #8e5b2d);
     border: none;
     outline: none;
   }
 
   &.transparent {
     background: transparent;
-    border: 2px solid #E5C787;
+    border: 2px solid #e5c787;
   }
 
   &.dark {
@@ -85,11 +84,11 @@
 }
 
 .text_gold {
-  color: #E5C787;
+  color: #e5c787;
 }
 
 .text_white {
-  color: #EAEAEA;
+  color: #eaeaea;
 }
 
 .text_dark {
@@ -97,21 +96,22 @@
 }
 
 .text_gray {
-  color: #7E7E7E;
+  color: #7e7e7e;
 }
 
-.text_gold, .text_dark, .text_white {
+.text_gold,
+.text_dark,
+.text_white {
   font-family: var(--font-nunito-sans);
   font-weight: 800;
   line-height: 25px;
-  @media(320px <=width <= 700px) {
+  @media (320px <=width <= 700px) {
     font-size: 12px;
   }
-  @media(700px <=width <= 1280px) {
+  @media (700px <=width <= 1280px) {
     font-size: 18px;
   }
-  @media(1280px <=width <= 3486px) {
+  @media (1280px <=width <= 3486px) {
     font-size: 18px;
   }
 }
-

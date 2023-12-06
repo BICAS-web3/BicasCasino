@@ -11,6 +11,10 @@ html {
   min-width: 264px;
 }
 
+html.scroll-disable {
+  overflow: hidden !important;
+}
+
 body {
   overflow-x: hidden;
 }
@@ -29,4 +33,61 @@ a:focus {
 
 a:active {
   text-decoration: none;
+}
+
+.animation-leftRight {
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 23px;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    filter: blur(6px);
+    transform: rotate(30deg);
+    animation: leftToRightAnim 2s infinite linear;
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes leftToRightAnim {
+  0% {
+    left: -50px;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+.swiper-slide-active {
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet {
+  background: #0f0f0f;
+  width: 30px;
+  height: 3px;
+  border-radius: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e5c787;
+}
+
+@media screen and (max-width: 650px) {
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 3px;
+  }
+}
+
+.hidden_scroll {
+  overflow: hidden !important;
+}
+
+.hidden_scroll_two {
+  overflow: hidden !important;
 }

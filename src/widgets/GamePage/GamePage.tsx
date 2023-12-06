@@ -7,29 +7,64 @@ import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
+import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
 import {
   usePrepareContractWrite,
   useContractWrite,
   useContractRead,
   useWaitForTransaction,
-  useAccount
-} from 'wagmi';
-import * as api from '@/shared/api';
+  useAccount,
+  useConnect,
+} from "wagmi";
+import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
-
-import * as GameModel from './model';
+import style from "@/pages/games/CoinFlip/styles.module.scss";
+import * as GameModel from "./model";
 import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
+import { GamePageBottomBlock } from "../GamePageBottomBlock/GamePageBottomBlock";
+import clsx from "clsx";
+import { WagerModel } from "@/widgets/Wager";
+import { useMediaQuery } from "@/shared/tools";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as DGM from "@/widgets/Dice/model";
+import * as CFM from "@/widgets/CoinFlip/model";
+import * as PGM from "@/widgets/Plinko/model";
+import { PokerModel } from "@/widgets/Poker/Poker";
+import useSound from "use-sound";
+import ReactHowler from "react-howler";
+import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
+import * as MinesModel from "@/widgets/Mines/model";
+
+const musicsList = [
+  "/static/media/games_assets/music/default_bg_music/3.mp3",
+  "/static/media/games_assets/music/default_bg_music/4.mp3",
+  "/static/media/games_assets/music/default_bg_music/5.mp3",
+  "/static/media/games_assets/music/default_bg_music/6.mp3",
+  "/static/media/games_assets/music/default_bg_music/7.mp3",
+  "/static/media/games_assets/music/default_bg_music/8.mp3",
+  "/static/media/games_assets/music/default_bg_music/9.mp3",
+  "/static/media/games_assets/music/default_bg_music/10.mp3",
+  "/static/media/games_assets/music/default_bg_music/12.mp3",
+  "/static/media/games_assets/music/default_bg_music/13.mp3",
+  "/static/media/games_assets/music/default_bg_music/14.mp3",
+];
 
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
   gameInfoText: string;
   wagerContent: any;
+  isPoker: boolean;
+  customTitle?: string;
+  custom_height?: string;
+  soundClassName?: string;
+  isMines?: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -37,23 +72,39 @@ export const GamePage: FC<GamePageProps> = ({
   gameTitle,
   gameInfoText,
   wagerContent,
+  isPoker,
+  customTitle = false,
+  custom_height,
+  soundClassName,
+  isMines,
 }) => {
   console.log("Redrawing game page");
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [currentToken, setCurrentToken] = useState<{ token: api.T_Token, price: number }>();
+  const [currentToken, setCurrentToken] = useState<{
+    token: api.T_Token;
+    price: number;
+  }>();
 
+  const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
-
-
-  const { data: balance, error, isError, refetch: fetchBalance } = useContractRead({
-    address: (currentToken?.token.contract_address) as `0x${string}`,
+  const isMobile = useMediaQuery("(max-width: 996px)");
+  const {
+    data: balance,
+    error,
+    isError,
+    refetch: fetchBalance,
+  } = useContractRead({
+    address: currentToken?.token.contract_address as `0x${string}`,
     abi: IERC20,
-    functionName: 'balanceOf',
+    functionName: "balanceOf",
     args: [address],
   });
-
+  const [manualSetting, setManualSetting] = useUnit([
+    MinesModel.$manualSetting,
+    MinesModel.setManualSetting,
+  ]);
   const [
     availableTokens,
     gameStatus,
@@ -62,7 +113,9 @@ export const GamePage: FC<GamePageProps> = ({
     multiplier,
     token,
     lost,
-    clearStatus
+    clearStatus,
+    playSounds,
+    switchSounds,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
@@ -72,15 +125,33 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.$multiplier,
     GameModel.$token,
     GameModel.$lost,
-    GameModel.clearStatus
+    GameModel.clearStatus,
+    GameModel.$playSounds,
+    GameModel.switchSounds,
   ]);
 
+  const [isDicePlaying] = useUnit([DGM.$isPlaying]);
+  const [isCFPlaying] = useUnit([CFM.$isPlaying]);
+  const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
+  const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
 
   // const handleModalVisibilityChange = () => {
   //   !modalVisibility && setBlur(true);
   //   setModalVisibility(!modalVisibility);
   // };
+
+  // const [playBackground, { stop: stopBackground, duration: firstDuration }] =
+  //   useSound(sound, {
+  //     volume: 0.4,
+  //     loop: true,
+  //   });
+
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0);
+
+  const setNewMusic = () => {
+    setCurrentSoundIndex((prevIndex) => (prevIndex + 1) % musicsList.length);
+  };
 
   const closeModal = () => {
     setModalVisibility(false);
@@ -102,9 +173,14 @@ export const GamePage: FC<GamePageProps> = ({
   // const won = false;
   // const lost = false;
 
+  const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <div className={s.game_layout}>
-
+      <ReactHowler
+        src={musicsList[currentSoundIndex]}
+        playing={playSounds}
+        onEnd={() => setNewMusic()}
+      />
       <div className={s.game_wrap}>
         <GamePageModal
           text={gameInfoText}
@@ -113,21 +189,100 @@ export const GamePage: FC<GamePageProps> = ({
         />
         <div className={s.game_body}>
           <div className={s.game}>
-            <div className={s.game_block}>
-              <h2 className={s.game_title}>{gameTitle}</h2>
+            <div className={clsx(s.game_block, custom_height)}>
+              <button
+                className={clsx(s.poker_wager_sound_btn, soundClassName)}
+                onClick={() => switchSounds()}
+              >
+                {playSounds ? (
+                  <Image alt="sound-ico" src={soundIco} className="sss" />
+                ) : (
+                  <Image alt="sound-ico-off" src={soundOffIco} />
+                )}
+              </button>
               {children}
 
-              {gameStatus == GameModel.GameStatus.Won && <div className={s.win_wrapper}>
-                <WinMessage tokenImage={<Image src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`} alt={''} width={30} height={30} />} profit={profit.toFixed(2)} multiplier={Number(multiplier.toFixed(2)).toString()} />
-              </div>}
+              {gameStatus == GameModel.GameStatus.Won &&
+                gameTitle !== "poker" && (
+                  <div className={s.win_wrapper}>
+                    <WinMessage
+                      tokenImage={
+                        <Image
+                          src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+                          alt={""}
+                          width={30}
+                          height={30}
+                        />
+                      }
+                      profit={profit.toFixed(2)}
+                      multiplier={Number(multiplier.toFixed(2)).toString()}
+                    />
+                  </div>
+                )}
 
-              {gameStatus == GameModel.GameStatus.Lost && <div className={s.lost_wrapper}>
-                <LostMessage amount={lost.toFixed(2)} />
-              </div>}
+              {gameStatus == GameModel.GameStatus.Lost && (
+                <div className={s.lost_wrapper}>
+                  <LostMessage amount={lost.toFixed(2)} />
+                </div>
+              )}
             </div>
-            <Wager wagerContent={wagerContent} />
+            <Wager
+              ManualElement={
+                isMines ? (
+                  <ManualSetting
+                    className={s.manual_block}
+                    setValue={setManualSetting}
+                    value={manualSetting}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+              ButtonElement={
+                isMobile ? (
+                  <button
+                    className={clsx(style.connect_wallet_btn, s.mobile)}
+                    onClick={() => {
+                      if (!isConnected) {
+                        connect({ connector: connectors[0] });
+                      } else {
+                        pressButton();
+                        (window as any).fbq("track", "Purchase", {
+                          value: 0.0,
+                          currency: "USD",
+                        });
+                      }
+                    }}
+                  >
+                    {isDicePlaying ||
+                    isCFPlaying ||
+                    isPlinkoPlaying ||
+                    isPokerlaying ? (
+                      <LoadingDots className={s.dots_black} title="Playing" />
+                    ) : isConnected ? (
+                      customTitle ? (
+                        customTitle
+                      ) : (
+                        "Place bet"
+                      )
+                    ) : isConnecting ? (
+                      <LoadingDots
+                        className={s.dots_black}
+                        title="Connecting"
+                      />
+                    ) : (
+                      "Connect Wallet"
+                    )}
+                  </button>
+                ) : (
+                  <></>
+                )
+              }
+              wagerContent={wagerContent}
+            />
+            <GamePageBottomBlock isPoker={isPoker} gameText={gameInfoText} />
           </div>
-          <div>
+          <div className={s.custombets_wrap}>
             <CustomBets
               title="Live bets"
               isGamePage={true}
@@ -136,7 +291,7 @@ export const GamePage: FC<GamePageProps> = ({
             />
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };

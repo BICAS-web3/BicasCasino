@@ -30,24 +30,6 @@ export const ProfitBlock: FC<ProfitBlockProps> = ({ }) => {
           <span className={s.profit_total_maxPayout}>+{((cryptoValue * betsAmount) * 1.98).toFixed(4)}</span>
         </div>
       </div>
-      {/* <div className={s.face_tails_wrap}>
-        <div className={s.face_tails_block}>
-          <div
-            className={`${s.face_block} ${activeSide === "face" && s.face_tails_active
-              }`}
-            onClick={() => setActiveSide("face")}
-          >
-            face
-          </div>
-          <div
-            className={`${s.tails_block} ${activeSide === "tails" && s.face_tails_active
-              }`}
-            onClick={() => setActiveSide("tails")}
-          >
-            tails
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

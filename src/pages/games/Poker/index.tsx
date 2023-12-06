@@ -14,16 +14,58 @@ import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
+import Head from "next/head";
+import { useAccount, useConnect } from "wagmi";
+import { useEffect } from "react";
+import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 
+import * as ConnectModel from "@/widgets/Layout/model";
 const WagerContent = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const { isConnected, isConnecting } = useAccount();
+  const { connectors, connect } = useConnect();
+
+  const [isPlaying] = useUnit([PokerModel.$isPlaying]);
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
   return (
     <>
       <WagerInputsBlock />
-      <button className={s.poker_wager_drawing_cards_btn} onClick={pressButton}>
-        Drawing cards
+      <button
+        className={clsx(
+          s.poker_wager_drawing_cards_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight"
+        )}
+        onClick={() => {
+          if (!isConnected) {
+            setStartConnect(true);
+            connect({ connector: connectors[0] });
+          } else {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+          }
+        }}
+      >
+        {isConnecting && startConnect ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Drawing cards"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
-      <WagerLowerBtnsBlock game="poker" />
     </>
   );
 };
@@ -33,43 +75,40 @@ export default function PokerGame() {
     PokerModel.$showFlipCards,
     PokerModel.flipShowFlipCards,
   ]);
-  const flipCards = false;
-  //const won = false;
-  //const lost = false;
+
   return (
-    <Layout gameName="Poker">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Poker", "PokerStart"]}
-      />
-      <div className={s.poker_container}>
-        <GamePage
-          gameInfoText="test"
-          gameTitle="poker"
-          wagerContent={<WagerContent />}
-        >
-          <Poker />
-          {/* show when need to redraw cards */}
+    <>
+      <Head>
+        <title>Games - Poker</title>
+      </Head>
+      <Layout activePageLink="/games/Poker" gameName="Poker">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Poker", "PokerStart"]}
+        />
+        <div className={s.poker_container}>
+          <GamePage
+            isPoker={true}
+            customTitle="Drawing cards"
+            gameInfoText="Video Poker - At the start of each round of the game, you are dealt 5 cards with 9 different potential winning combinations. After the first hand, you have the unique opportunity to turn over the cards and try your luck to re-create the best winning combination. In this version of video poker  a royal flush can increase your bet by 100 times, which is guaranteed to give you unforgettable emotions and excitement!"
+            gameTitle="poker"
+            wagerContent={<WagerContent />}
+          >
+            <Poker />
+            {/* show when need to redraw cards */}
 
-          {showFlipCards && (
-            <div className={s.poker_flip_cards_info_wrapper}>
-              <PokerFlipCardsInfo
-                onCLick={() => {
-                  flipShowFlipCards();
-                }}
-              />
-            </div>
-          )}
-
-          {/* {won && <div className={s.poker_win_wrapper}>
-            <WinMessage tokenImage={<Image src={DraxToken} alt={''} />} profit={"3760.00"} multiplier={"1.98"} />
-          </div>}
-
-          {lost && <div className={s.poker_lost_wrapper}>
-            <LostMessage amount={"3760.00"} />
-          </div>} */}
-        </GamePage>
-      </div>
-    </Layout>
+            {showFlipCards && (
+              <div className={s.poker_flip_cards_info_wrapper}>
+                <PokerFlipCardsInfo
+                  onCLick={() => {
+                    flipShowFlipCards();
+                  }}
+                />
+              </div>
+            )}
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }
