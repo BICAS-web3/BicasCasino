@@ -20,7 +20,7 @@
 
 .registr_manual_body,
 .have_wallet_body {
-  margin: 90px auto 0 auto;
+  margin: 74px auto 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,7 +28,7 @@
   align-items: center;
 
   @media screen and (max-width: 650px) {
-    margin: 45px auto 0 auto;
+    margin: 24px auto 0 auto;
     height: calc(100% - 56px);
   }
 }
