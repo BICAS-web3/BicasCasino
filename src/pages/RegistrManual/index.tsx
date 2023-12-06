@@ -11,6 +11,8 @@ import infoIco from "@/public/media/registrManual_images/infoIco.svg";
 import { ManualNoWalletTab } from "@/widgets/ManualNoWalletTab/ManualNoWalletTab";
 import { ManualBonusReceiving } from "@/widgets/ManualBonusReceiving/ManualBonusReceiving";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
+import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
+import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 
 interface HaveWalletConnectionProps {}
 
@@ -54,6 +56,23 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
                 alt="metamask-ico"
               />
               <span className={s.avaible_wallet_title}>Metamask</span>
+            </div>
+            <BtnRightArrow />
+          </div>
+          <div
+            className={s.wallet_list_item}
+            onClick={() => {
+              (window as any).fbq("track", "Lead");
+              connect({ connector: connectors[2] });
+            }}
+          >
+            <div className={s.wallet_list_item_leftSide}>
+              <img
+                src={Trust_wallet.src}
+                className={s.wallet_ico}
+                alt="tWallet-ico"
+              />
+              <span className={s.avaible_wallet_title}>Trust Wallet</span>
             </div>
             <BtnRightArrow />
           </div>

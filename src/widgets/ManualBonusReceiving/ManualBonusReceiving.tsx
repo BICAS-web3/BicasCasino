@@ -93,7 +93,7 @@ const Step13Content: FC<Step13ContentProps> = ({ desk }) => {
         </p>
         <img
           src={desk ? step13Img.src : step13MobImg.src}
-          className={s.step_example_img}
+          className={`${s.step_example_img} ${s.step_13_img}`}
           alt="examples-img"
         />
       </div>
@@ -146,7 +146,7 @@ const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
         </p>
         <img
           src={desk ? step12Img.src : step12MobImg.src}
-          className={s.step_example_img}
+          className={`${s.step_example_img} ${s.step_12_img}`}
           alt="examples-img"
         />
         <p className={s.desk_hidden_example_text}>
@@ -781,7 +781,7 @@ const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
         )}
         <img
           src={is700 || mobile ? step1MobImg.src : step1Img.src}
-          className={s.step_example_img}
+          className={`${s.step_example_img} ${s.step_1_img}`}
           alt="examples-img"
         />
       </div>
@@ -936,7 +936,11 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
               </p>
             </div>
             <div className={s.manual_bonus_reveicing_btns}>
-              <button className={s.back_btn} onClick={() => router.push("/")}>
+              <button
+                className={s.back_btn}
+                data-noMargin="true"
+                onClick={() => router.push("/")}
+              >
                 Back
               </button>
               <button
@@ -947,7 +951,7 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
                   )
                 }
               >
-                <span>Add funds</span> (Recommended)
+                <span>Add funds</span>&nbsp;(Recommended)
               </button>
             </div>
           </div>

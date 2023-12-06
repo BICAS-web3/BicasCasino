@@ -2,7 +2,7 @@
 .wallet_body,
 .select_exchanges_body,
 .step_body {
-  margin: 90px auto 0 auto;
+  margin: 74px auto 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,7 +17,7 @@
 
 .step_body {
   @media screen and (max-width: 700px) {
-    margin: 45px auto 0 auto;
+    margin: 24px auto 0 auto;
     padding: 16px;
   }
 }
@@ -92,11 +92,12 @@
   @media screen and (max-width: 650px) {
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 85px;
   }
 }
 
 .back_btn {
+  z-index: 10;
   cursor: pointer;
   border-radius: 12px;
   border: 1px solid var(--switch-in-game-2-e-night, #2e2e2e);
@@ -124,6 +125,13 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    margin-bottom: 85px;
+    border-radius: 8px;
+
+    &[data-noMargin="true"] {
+      margin-bottom: 0;
+    }
   }
 
   &:hover {
@@ -138,6 +146,7 @@
 }
 
 .addFunds_btn {
+  z-index: 10;
   cursor: pointer;
   border-radius: 12px;
   border: 1px solid #ffe09d;
@@ -157,6 +166,11 @@
 
   @media screen and (max-width: 700px) {
     width: 100%;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+    border-radius: 8px;
   }
 
   span {
@@ -494,6 +508,10 @@
     width: 100%;
     margin-top: 40px;
   }
+
+  @media screen and (max-width: 650px) {
+    margin-bottom: 85px;
+  }
 }
 
 .exchange_bottom_group_text {
@@ -533,6 +551,7 @@
 }
 
 .exchange_bottom_back_btn {
+  z-index: 10;
   cursor: pointer;
   width: 258px;
   height: 50px;
@@ -556,6 +575,8 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    border-radius: 8px;
   }
 
   &:hover {
@@ -586,6 +607,7 @@
   font-weight: 700;
   line-height: normal;
   transition: all 0.2s;
+  z-index: 10;
 
   @media screen and (max-width: 700px) {
     width: 100%;
@@ -593,6 +615,8 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
+    height: 40px;
+    border-radius: 8px;
   }
 
   &:hover {
@@ -911,5 +935,29 @@
 
   @media screen and (max-width: 700px) {
     display: block;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .step_example_img {
+    width: 220px;
+  }
+
+  .step_12_img {
+    height: 194px;
+  }
+
+  .step_13_img {
+    height: 250px;
+  }
+
+  .desk_hidden_example_second_img {
+    height: 50px;
+  }
+
+  .draxb_address_block {
+    width: 101%;
+    margin-top: 20px;
+    padding: 12px 15px;
   }
 }

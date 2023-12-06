@@ -62,9 +62,13 @@ export const PopUpBonus: FC = () => {
     data: claimedState,
     isSuccess: readSuccess,
     isFetching,
+    error,
   } = useContractRead({
     chainId: chain?.id,
-    address: "0x5518E648341147B0F4041c5e2a2cca41BDc723a0",
+    address:
+      chain?.id === 42161
+        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+        : "0x255854fA295C36a667979410313b304e36bcd65b",
     abi,
     functionName: "claimedBonus",
     args: [address],
@@ -101,8 +105,8 @@ export const PopUpBonus: FC = () => {
 
   //? connect wallet func
   const handleConnectWalletBtn = () => {
-    if (chain?.id !== 42161 && address) {
-      switchNetwork!(42161);
+    if (!chainState && address) {
+      switchNetwork!(137);
     }
     if (isMainWalletOpen) {
       return null;
@@ -150,7 +154,10 @@ export const PopUpBonus: FC = () => {
   //? contract to add bonus
   const { config: ClaimBonusConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x5518E648341147B0F4041c5e2a2cca41BDc723a0",
+    address:
+      chain?.id === 42161
+        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+        : "0x255854fA295C36a667979410313b304e36bcd65b",
     abi,
     functionName: "claimBonus",
     enabled: true,
@@ -183,8 +190,8 @@ export const PopUpBonus: FC = () => {
     if (!isConnected) {
       router.push("/RegistrManual");
       // handleConnectWalletBtn();
-    } else if (chain?.id !== 42161) {
-      switchNetwork!(42161);
+    } else if (!chainState) {
+      switchNetwork!(137);
     } else {
       claimBouns?.();
     }
@@ -215,6 +222,16 @@ export const PopUpBonus: FC = () => {
     claimed === true && isConnected && closeModal();
   }, [claimed]);
 
+  const [chainState, setChainState] = useState<boolean>();
+
+  useEffect(() => {
+    if (chain?.id === 42161 || chain?.id === 137) {
+      setChainState(true);
+    } else {
+      setChainState(false);
+    }
+  }, [chain?.id]);
+
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
     document.documentElement.style.height = "100vh";
@@ -235,6 +252,7 @@ export const PopUpBonus: FC = () => {
     document.documentElement.style.height = "auto";
     return;
   }
+
   return (
     <div
       onClick={closeModal}
@@ -281,7 +299,7 @@ export const PopUpBonus: FC = () => {
             {isConnecting && startConnect ? (
               <LoadingDots className={s.dots_black} title="Connecting" />
             ) : address && isConnected ? (
-              chain?.id !== 42161 ? (
+              !chainState ? (
                 "Switch"
               ) : (
                 "Claim"
@@ -300,13 +318,9 @@ export const PopUpBonus: FC = () => {
             </div>
           )}
         </div>
-        <div className={s.checkbox}>
-          <div
-            onClick={handleShowStateBtn}
-            className={`${s.checkbox_block} ${showState && s.checked}`}
-          >
-            {" "}
-            {showState && <Image src={checkIco} alt="arrow" />}{" "}
+        <div className={s.checkbox} onClick={handleShowStateBtn}>
+          <div className={`${s.checkbox_block} ${showState && s.checked}`}>
+            {showState && <Image src={checkIco} alt="arrow" />}
           </div>
           Don’t show again
         </div>

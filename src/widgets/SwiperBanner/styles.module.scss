@@ -58,8 +58,11 @@
 }
 
 .slide_bg_img {
+  border: 1px solid;
+  box-sizing: border-box;
   object-fit: cover;
   position: absolute;
+  border: 1px solid #202020;
   top: 0;
   height: 100%;
   right: 0;
@@ -93,9 +96,7 @@
 
 .main_banner_swiper {
   width: 100%;
-  border: 2px solid #202020;
   box-sizing: border-box;
-  border-radius: 20px;
 
   @media screen and (max-width: 650px) {
     border-radius: 0;
@@ -140,12 +141,12 @@
 
   @media screen and (max-width: 700px) {
     font-size: 22px;
-    max-width: 370px;
+    max-width: 400px;
     line-height: 34.1px;
   }
 
   @media screen and (max-width: 470px) {
-    max-width: 180px;
+    max-width: 210px;
   }
 
   @media screen and (max-width: 650px) {

@@ -47,6 +47,7 @@ export enum ModelType {
 
 import * as RPSModel from "@/widgets/RpsPicker/model";
 import clsx from "clsx";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -135,7 +136,11 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   return <primitive object={scene} />;
 };
 
-export const RockPaperScissors = () => {
+interface RockPaperScissorsProps {
+  gameText: string;
+}
+
+export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
 
   const [
@@ -475,6 +480,7 @@ export const RockPaperScissors = () => {
   }, [GameModel.GameStatus, profit, lost]);
   return (
     <div className={s.rps_table_container}>
+      <WagerLowerBtnsBlock game="rps" text={gameText} />
       <div className={s.rps_table_background}>
         <Image
           src={tableBg}

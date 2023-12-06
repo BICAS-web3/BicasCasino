@@ -56,18 +56,17 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
   };
 
   return (
-    <div className={`${s.bottom_menu} ${isOpen && s.sb_opened}`}>
+    <div className={`${s.bottom_menu}`}>
       <div className={s.element} onClick={openSB}>
         <SBopenFooterBtn />
       </div>
-      <button className={s.join_btn}>Join Now</button>
-      <div className={`${s.element} ${s.hidden_elem}`}>
+      <div
+        className={`${s.element} `}
+        onClick={() => router.push("/games/GamesPage")}
+      >
         <FooterGamesBtn />
       </div>
-      <div
-        className={`${s.element} ${s.hidden_elem}`}
-        onClick={handleAccountLink}
-      >
+      <div className={`${s.element}`} onClick={handleAccountLink}>
         <ProfileBtn />
       </div>
       <div className={s.element} onClick={handleMessangerLink}>

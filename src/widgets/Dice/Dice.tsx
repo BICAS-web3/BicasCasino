@@ -67,9 +67,11 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps {}
+export interface DiceProps {
+  gameText: string;
+}
 
-const Dice: FC<DiceProps> = () => {
+const Dice: FC<DiceProps> = ({ gameText }) => {
   const { isConnected, address } = useAccount();
   const [
     lost,
@@ -455,7 +457,11 @@ const Dice: FC<DiceProps> = () => {
       )}
       <div className={s.dice}>
         {" "}
-        <WagerLowerBtnsBlock className={s.dice_btns} game="dice" />
+        <WagerLowerBtnsBlock
+          className={s.dice_btns}
+          game="dice"
+          text={gameText}
+        />
         <div className={s.model}>
           <Suspense fallback={<div>...</div>}>
             <DiceCanvas inGame={inGame} />
