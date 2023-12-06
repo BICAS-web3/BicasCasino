@@ -85,6 +85,38 @@ export const Mines = () => {
 
   const [startedArr, setStartedArr] = useState(defaultValue);
 
+  const changeValue = (el: number) => {
+    if (el === 1) {
+      return 24;
+    } else if (el === 2) {
+      return 21;
+    } else if (el === 3) {
+      return 17;
+    } else if (el === 4) {
+      return 14;
+    } else if (el === 5) {
+      return 12;
+    } else if (el === 6) {
+      return 10;
+    } else if (el === 7) {
+      return 9;
+    } else if (el === 8) {
+      return 8;
+    } else if (el === 9) {
+      return 7;
+    } else if (el === 10) {
+      return 6;
+    } else if (el === 11 || el === 12) {
+      return 5;
+    } else if (el === 13 || el === 14) {
+      return 4;
+    } else if (el === 15 || el === 16) {
+      return 3;
+    } else if (el > 16) {
+      return 3;
+    }
+  };
+
   useEffect(() => {
     setStartedArr((prev: any) => {
       return prev?.map((el: boolean, index: number) => {
@@ -131,12 +163,24 @@ export const Mines = () => {
     MinesModel.$stopWinning,
   ]);
 
+  const [stateValue, setStateValue] = useState(0);
+
+  useEffect(() => {
+    setSelectedMine([]);
+  }, [pickedValue]);
+
   const toggleMineSelection = (index: number) => {
-    setSelectedMine((prev) =>
-      prev.includes(index)
-        ? prev.filter((el) => el !== index)
-        : [...prev, index]
-    );
+    setSelectedMine((prev) => {
+      if (prev.includes(index)) {
+        return prev.filter((el) => el !== index);
+      } else {
+        if (selectedMine?.length === changeValue(pickedValue)!) {
+          return [...prev];
+        } else {
+          return [...prev, index];
+        }
+      }
+    });
   };
 
   const handleMouseMove = (index: number) => {
@@ -225,10 +269,14 @@ export const Mines = () => {
     useContractWrite(finishGameConfig);
 
   useEffect(() => {
-    if (startedPlaying && isCashout === false) {
+    if (
+      startedPlaying &&
+      isCashout === false &&
+      gameStatus === GameModel.GameStatus.Won
+    ) {
       startRevealing?.();
     }
-  }, [startedPlaying, isCashout]);
+  }, [startedPlaying, isCashout, gameStatus]);
 
   useEffect(() => {
     if (isCashout === true && startedPlaying) {
@@ -365,7 +413,7 @@ export const Mines = () => {
       if (opened && openedExist) {
         setLoseIndex(opened.indexOf(true));
       }
-      if ((log[0] as any).eventName == "Mines_Reveal_Event") {
+      if ((log[0] as any).eventName === "Mines_Reveal_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
@@ -408,7 +456,7 @@ export const Mines = () => {
     abi: ABIMines,
     eventName: "Mines_End_Event",
     listener(log) {
-      if ((log[0] as any).eventName == "Mines_End_Event") {
+      if ((log[0] as any).eventName === "Mines_End_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
@@ -451,6 +499,7 @@ export const Mines = () => {
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
+
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon((prev) => prev + profit);

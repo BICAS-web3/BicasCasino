@@ -47,24 +47,14 @@ const WagerContent = () => {
         value={manualSetting}
       />
       <WagerInputsBlock />
-      {manualSetting === "AUTO" && (
-        <CustomWagerRangeInput
-          inputTitle="Number of games"
-          min={50}
-          max={100}
-          inputType={CustomWagerRangeInputModel.RangeType.Bets}
-        />
-      )}
-
       <CustomWagerRangeInput
         inputTitle="Number of mines"
-        min={8}
-        max={16}
+        min={1}
+        max={24}
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
       {manualSetting === "AUTO" && (
         <>
-          <WagerGainLoss />
           <ProfitBlock />
           <StopWinning />
         </>
