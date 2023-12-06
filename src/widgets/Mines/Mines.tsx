@@ -30,15 +30,46 @@ import { TOKENS } from "@/shared/tokens";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import * as MinesModel from "./model";
+import * as CustomInputWagerModel from "@/widgets/CustomWagerRangeInput/model";
 
 import "swiper/scss";
 import "swiper/css/navigation";
 import styles from "./styles.module.scss";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { MineBombIcon } from "@/shared/SVGs/MineBomb";
+import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
 
 export const Mines = () => {
+  const defaultValue = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
   const minesCount = 25;
   const mineArr = Array.from({ length: minesCount }, (_, index) => index);
+  const [pickedValue] = useUnit([CustomInputWagerModel.$pickedRows]);
 
   const [selectedMine, setSelectedMine] = useState<number[]>([]);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -52,33 +83,7 @@ export const Mines = () => {
 
   const [setIsPlaying] = useUnit([MinesModel.setIsPlaying]);
 
-  const [startedArr, setStartedArr] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [startedArr, setStartedArr] = useState(defaultValue);
 
   useEffect(() => {
     setStartedArr((prev: any) => {
@@ -171,9 +176,7 @@ export const Mines = () => {
         BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
       ),
       pickedToken?.contract_address,
-      startedArr.filter((el) => el === true).length
-        ? startedArr.filter((el) => el === true).length
-        : 1,
+      pickedValue,
       startedArr,
       isCashout,
     ],
@@ -257,7 +260,7 @@ export const Mines = () => {
           setInGame(true);
         }
       } else {
-        setInGame(false);
+        // setInGame(false);
       }
       // setWatchState(false);
     }
@@ -276,7 +279,7 @@ export const Mines = () => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress,
+      gameAddress || "0xA7867C5891D9518bfB21BC55cF8EC641011e8799",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -285,8 +288,11 @@ export const Mines = () => {
     ],
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    isSuccess: allowanceIsSet,
+    error: allErr,
+  } = useContractWrite(allowanceConfig);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -307,10 +313,6 @@ export const Mines = () => {
   }, [VRFFees, data]);
 
   useEffect(() => {
-    alert(`${inGame}, ${Wagered}`);
-  }, [inGame, Wagered]);
-
-  useEffect(() => {
     if (Wagered) {
       if (inGame) {
         if (finishPlaying) finishPlaying();
@@ -328,7 +330,7 @@ export const Mines = () => {
               "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
-            setAllowance?.();
+            if (setAllowance) setAllowance();
           } else {
             //! setActiveCards(initialArrayOfCards);
             // console.log(
@@ -347,18 +349,31 @@ export const Mines = () => {
   }, [Wagered]);
 
   //?-----------------------------------------------------------------------------
-
+  const [finish, setFinish] = useState(false);
+  const [loseIndex, setLoseIndex] = useState(-1);
   useContractEvent({
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
     eventName: "Mines_Reveal_Event",
     listener(log) {
+      const opened = (log[0] as any).args.minesTiles;
+      const reveledddd = (log[0] as any).args.minesTiles;
+      const openedExist = opened.find((el: boolean) => el === true);
+      if (opened) {
+        setFinish(true);
+      }
+      if (opened && openedExist) {
+        setLoseIndex(opened.indexOf(true));
+      }
       if ((log[0] as any).eventName == "Mines_Reveal_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
         ) {
           setInGame(false);
+          console.log(opened);
+
+          console.log(reveledddd);
           const wagered = (log[0] as any).args.wager;
           if ((log[0] as any).args.payout > 0) {
             const profit = (log[0] as any).args.payout;
@@ -444,6 +459,17 @@ export const Mines = () => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
+  useEffect(() => {
+    if (finish) {
+      setTimeout(() => {
+        setStartedArr(defaultValue);
+        setSelectedMine([]);
+        setFinish(false);
+        setLoseIndex(-1);
+      }, 3000);
+    }
+  }, [finish]);
   return (
     <div className={styles.wrapp}>
       <div className={styles.mines_table_wrap}>
@@ -475,20 +501,20 @@ export const Mines = () => {
         </div>
         <div
           className={styles.mines_table}
-          onMouseDown={() => setIsMouseDown(true)}
-          onMouseUp={() => setIsMouseDown(false)}
+          onMouseDown={() => !startedPlaying && setIsMouseDown(true)}
+          onMouseUp={() => !startedPlaying && setIsMouseDown(false)}
         >
           {mineArr.map((index) => {
             const isSelected = selectedMine.includes(index);
             return (
               <div
                 key={index}
-                onClick={() => toggleMineSelection(index)}
-                onMouseEnter={() => handleMouseMove(index)}
+                onClick={() => !startedPlaying && toggleMineSelection(index)}
+                onMouseEnter={() => !startedPlaying && handleMouseMove(index)}
                 className={clsx(
                   styles.mine,
                   isSelected && styles.mine_selected,
-                  isSelected && styles.mine_animation
+                  isSelected && !finish && styles.mine_animation
                 )}
               >
                 <MineIcon
@@ -497,12 +523,30 @@ export const Mines = () => {
                     isSelected && styles.mine_selected
                   )}
                 />
-                <MineGreenIcon
-                  className={clsx(
-                    styles.mine_green,
-                    isSelected && styles.mine_selected
-                  )}
-                />
+                {finish ? (
+                  loseIndex > -1 && loseIndex === index ? (
+                    <MineBombIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected
+                      )}
+                    />
+                  ) : (
+                    <MineMoneyIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected
+                      )}
+                    />
+                  )
+                ) : (
+                  <MineGreenIcon
+                    className={clsx(
+                      styles.mine_green,
+                      isSelected && styles.mine_selected
+                    )}
+                  />
+                )}
               </div>
             );
           })}
