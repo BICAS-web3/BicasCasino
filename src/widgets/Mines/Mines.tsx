@@ -460,6 +460,14 @@ export const Mines = () => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
+  const [customStartPlaying, setCustomStartPlaying] = useState(false);
+
+  useEffect(() => {
+    if (startPlaying) {
+      setCustomStartPlaying(true);
+    }
+  }, [startPlaying]);
+
   useEffect(() => {
     if (finish) {
       setTimeout(() => {
@@ -467,6 +475,7 @@ export const Mines = () => {
         setSelectedMine([]);
         setFinish(false);
         setLoseIndex(-1);
+        setCustomStartPlaying(false);
       }, 3000);
     }
   }, [finish]);
@@ -501,16 +510,20 @@ export const Mines = () => {
         </div>
         <div
           className={styles.mines_table}
-          onMouseDown={() => !startedPlaying && setIsMouseDown(true)}
-          onMouseUp={() => !startedPlaying && setIsMouseDown(false)}
+          onMouseDown={() => !customStartPlaying && setIsMouseDown(true)}
+          onMouseUp={() => !customStartPlaying && setIsMouseDown(false)}
         >
           {mineArr.map((index) => {
             const isSelected = selectedMine.includes(index);
             return (
               <div
                 key={index}
-                onClick={() => !startedPlaying && toggleMineSelection(index)}
-                onMouseEnter={() => !startedPlaying && handleMouseMove(index)}
+                onClick={() =>
+                  !customStartPlaying && toggleMineSelection(index)
+                }
+                onMouseEnter={() =>
+                  !customStartPlaying && handleMouseMove(index)
+                }
                 className={clsx(
                   styles.mine,
                   isSelected && styles.mine_selected,
