@@ -68,3 +68,21 @@
     display: flex !important;
   }
 }
+
+.mines_sound {
+  bottom: 78px !important;
+}
+
+.mine_height {
+  min-height: 770px;
+  @media (max-width: 1280px) {
+    min-height: 457px;
+  }
+  @media (max-width: 650px) {
+    min-height: 373px;
+  }
+}
+
+.dots_black {
+  margin-bottom: 13px !important;
+}

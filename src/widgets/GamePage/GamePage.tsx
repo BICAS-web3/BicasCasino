@@ -235,17 +235,17 @@ export const GamePage: FC<GamePageProps> = ({
               )}
             </div>
             <Wager
-              ManualElement={
-                isMines ? (
-                  <ManualSetting
-                    className={s.manual_block}
-                    setValue={setManualSetting}
-                    value={manualSetting}
-                  />
-                ) : (
-                  <></>
-                )
-              }
+              // ManualElement={
+              //   isMines ? (
+              //     <ManualSetting
+              //       className={s.manual_block}
+              //       setValue={setManualSetting}
+              //       value={manualSetting}
+              //     />
+              //   ) : (
+              //     <></>
+              //   )
+              // }
               ButtonElement={
                 isMobile ? (
                   <button

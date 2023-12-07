@@ -39,6 +39,7 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import { MineBombIcon } from "@/shared/SVGs/MineBomb";
 import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { Scrollbar } from "swiper/modules";
 
 export const Mines = () => {
   const defaultValue = [
@@ -268,39 +269,39 @@ export const Mines = () => {
     error: errorWrite,
   } = useContractWrite(startPlayingConfig);
 
-  const { config: startRevealingConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
-    abi: ABIMines,
-    functionName: "Mines_Reveal",
-    args: [startedArr, isCashout === true ? false : true],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-        : BigInt(0)),
-    enabled: true,
-  });
+  // const { config: startRevealingConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+  //   abi: ABIMines,
+  //   functionName: "Mines_Reveal",
+  //   args: [startedArr, isCashout === true ? false : true],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //     pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //       : BigInt(0)),
+  //   enabled: true,
+  // });
 
-  useEffect(() => {
-    if (isCashout === false && startPlaying) {
-      setCustomFinishGame(true);
-    }
-  }, [isCashout, startPlaying]);
+  // useEffect(() => {
+  //   if (isCashout === false && startPlaying) {
+  //     setCustomFinishGame(true);
+  //   }
+  // }, [isCashout, startPlaying]);
 
-  const {
-    write: startRevealing,
-    isSuccess: startedRevealing,
-    error: errorReveal,
-  } = useContractWrite(startRevealingConfig);
+  // const {
+  //   write: startRevealing,
+  //   isSuccess: startedRevealing,
+  //   error: errorReveal,
+  // } = useContractWrite(startRevealingConfig);
 
-  useEffect(() => {
-    if (startedRevealing) {
-      setCustomFinishGame(true);
-    }
-  }, [startedRevealing]);
+  // useEffect(() => {
+  //   if (startedRevealing) {
+  //     setCustomFinishGame(true);
+  //   }
+  // }, [startedRevealing]);
 
   const { config: finishGameConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -345,10 +346,11 @@ export const Mines = () => {
     setIsPlaying(inGame);
   }, [inGame]);
   useEffect(() => {
-    if (startedPlaying || startedRevealing) {
+    if (startedPlaying) {
+      // || startedRevealing
       setInGame(true);
     }
-  }, [startedPlaying, startedRevealing]);
+  }, [startedPlaying]); // startedRevealing
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -391,13 +393,13 @@ export const Mines = () => {
     }
   }, [VRFFees, data]);
 
-  const [customStatus, setCustomStatus] = useState(false);
+  // const [customStatus, setCustomStatus] = useState(false);
 
-  useEffect(() => {
-    if (gameStatus !== null && gameStatus == 0) {
-      setCustomStatus(true);
-    }
-  }, [gameStatus]);
+  // useEffect(() => {
+  //   if (gameStatus !== null && gameStatus == 0) {
+  //     setCustomStatus(true);
+  //   }
+  // }, [gameStatus]);
 
   useEffect(() => {
     if (Wagered) {
@@ -419,12 +421,13 @@ export const Mines = () => {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
-            if (isCashout && customStatus) {
-              if (startRevealing) startRevealing();
-            } else {
-              if (startPlaying) startPlaying();
-              setInGame(true);
-            }
+            // if (isCashout && customStatus) {
+            //   if (startRevealing) startRevealing();
+            // } else {
+            //   if (startPlaying) startPlaying();
+            //   setInGame(true);
+            // }
+            if (startPlaying) startPlaying();
           }
         }
       }
@@ -434,6 +437,7 @@ export const Mines = () => {
 
   const [finish, setFinish] = useState(false);
   const [loseIndex, setLoseIndex] = useState(-1);
+  const [lostArr, setLostArr] = useState<any[]>([]);
   useContractEvent({
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
@@ -441,6 +445,23 @@ export const Mines = () => {
     listener(log) {
       const opened = (log[0] as any).args.minesTiles;
       const reveledddd = (log[0] as any).args.minesTiles;
+      opened &&
+        Array.isArray(opened) &&
+        console.log(
+          34567,
+          opened,
+          opened.some((el: boolean) => el === true)
+        );
+      if (opened && Array.isArray(opened)) {
+        const newResultArr = opened.map((el: boolean, index: number) => {
+          return {
+            number: index,
+            value: el,
+          };
+        });
+
+        setLostArr(newResultArr);
+      }
       const openedExist = opened.find((el: boolean) => el === true);
       if (opened) {
         setFinish(true);
@@ -535,22 +556,19 @@ export const Mines = () => {
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
 
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [...prev, { value: profit, status: "won" }]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: lost, status: "lost" }]);
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
-
-  const [customStartPlaying, setCustomStartPlaying] = useState(false);
-
-  useEffect(() => {
-    if (startPlaying) {
-      setCustomStartPlaying(true);
-    }
-  }, [startPlaying]);
 
   const [copySelectedArr, setCopySelectedArr] = useState<number[]>([]);
   useEffect(() => {
@@ -561,7 +579,7 @@ export const Mines = () => {
         setSelectedMine([]);
         setFinish(false);
         setLoseIndex(-1);
-        setCustomStartPlaying(false);
+        setLostArr([]);
       }, 3000);
     }
   }, [finish]);
@@ -581,16 +599,15 @@ export const Mines = () => {
 
   return (
     <>
-      {errorWrite ||
-        (errorReveal && (
-          <ErrorCheck
-            text="Something went wrong, please contact customer support."
-            btnTitle="Contact us"
-          />
-        ))}
+      {errorWrite && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
+        />
+      )}
       <div className={styles.wrapp}>
         <div className={styles.mines_table_wrap}>
-          <WagerLowerBtnsBlock game="mines" />
+          <WagerLowerBtnsBlock className={styles.mines_block} game="mines" />
           <div className={styles.mines_table_background}>
             <Image
               src={background}
@@ -616,12 +633,27 @@ export const Mines = () => {
               </span>
             </div>
           </div>
+          <div className={styles.balls_arr}>
+            {gameResult.map((result, i) => (
+              <div
+                className={clsx(
+                  styles.multiplier_value,
+                  result.status === "won" && styles.multiplier_positive,
+                  result.status === "lost" && styles.multiplier_negative
+                )}
+                key={i}
+              >
+                {result.value}x
+              </div>
+            ))}
+            {}
+          </div>
           <div
             className={styles.mines_table}
             onMouseDown={() => inGame === false && setIsMouseDown(true)}
             onMouseUp={() => inGame === false && setIsMouseDown(false)}
           >
-            {mineArr.map((index) => {
+            {mineArr.map((index, i) => {
               const isSelected = selectedMine.includes(index);
               return (
                 <div
@@ -642,8 +674,8 @@ export const Mines = () => {
                       isSelected && styles.mine_selected
                     )}
                   />
-                  {finish ? (
-                    loseIndex > -1 && loseIndex === index ? (
+                  {lostArr.length > 0 ? (
+                    lostArr[i].value === true ? (
                       <MineBombIcon
                         className={clsx(
                           styles.mine_green,
@@ -670,39 +702,46 @@ export const Mines = () => {
               );
             })}
           </div>
+          <div className={styles.bottom_wrapper}>
+            <div className={styles.bottom}>
+              <Swiper
+                // navigation
+                ref={swiperRef}
+                slidesPerView="auto"
+                direction="horizontal"
+                scrollbar={{
+                  el: ".scroll-bar",
+                  draggable: true,
+                }}
+                centeredSlides={false}
+                className={styles.swiper}
+                modules={[Scrollbar]}
+              >
+                {selectedMine.map((mineSelected, index) => (
+                  <SwiperSlide key={index} className={styles.swiper_slide}>
+                    <span>{index + 1}</span>Х {mineSelected}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div
+              className={clsx(styles.arr, styles.arr_prev)}
+              onClick={handlePrev}
+            >
+              <ArrowIconSwap
+                className={clsx(styles.arr_icon, styles.arr_icon_left)}
+              />
+            </div>
+            <div
+              className={clsx(styles.arr, styles.arr_next)}
+              onClick={handleNext}
+            >
+              <ArrowIconSwap
+                className={clsx(styles.arr_icon, styles.arr_icon_right)}
+              />
+            </div>
+          </div>
         </div>
-        {/* <div className={styles.bottom_wrapper}>
-        <div className={styles.bottom}>
-          <Swiper
-            // navigation
-            ref={swiperRef}
-            slidesPerView="auto"
-            direction="horizontal"
-            scrollbar={{
-              el: ".scroll-bar",
-              draggable: true,
-            }}
-            centeredSlides={false}
-            className={styles.swiper}
-          >
-            {Array.from({ length: 40 }).map((_, index) => (
-              <SwiperSlide key={index} className={styles.swiper_slide}>
-                <span>4</span>Х 1.1
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-        <div className={clsx(styles.arr, styles.arr_prev)} onClick={handlePrev}>
-          <ArrowIconSwap
-            className={clsx(styles.arr_icon, styles.arr_icon_left)}
-          />
-        </div>
-        <div className={clsx(styles.arr, styles.arr_next)} onClick={handleNext}>
-          <ArrowIconSwap
-            className={clsx(styles.arr_icon, styles.arr_icon_right)}
-          />
-        </div>
-      </div> */}
       </div>
     </>
   );

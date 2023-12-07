@@ -56,11 +56,11 @@ const WagerContent = () => {
 
   return (
     <>
-      <ManualSetting
+      {/* <ManualSetting
         className={styles.manual_block}
         setValue={setManualSetting}
         value={manualSetting}
-      />
+      /> */}
       <WagerInputsBlock />
       <CustomWagerRangeInput
         inputTitle="Number of mines"
@@ -98,11 +98,11 @@ const WagerContent = () => {
         }}
       >
         {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
+          <LoadingDots className={styles.dots_black} title="Connecting" />
         ) : emptyClick ? (
           "Select Fields"
         ) : isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
+          <LoadingDots className={styles.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"
         ) : (
@@ -123,11 +123,13 @@ export default function MinesGame() {
       />
       <div className={styles.mines_container}>
         <GamePage
+          custom_height={styles.mine_height}
           gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn."
           gameTitle="Mines"
           wagerContent={<WagerContent />}
           isPoker={false}
           isMines={true}
+          soundClassName={styles.mines_sound}
         >
           <Mines />
         </GamePage>
