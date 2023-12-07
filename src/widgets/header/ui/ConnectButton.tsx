@@ -84,7 +84,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
         {isConnecting && startConnect ? (
           <LoadingDots className={s.join_dots} title="Joinning" />
         ) : (
-          "Join Now"
+          "Join Game"
         )}
       </button>
       <div

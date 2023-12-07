@@ -28,7 +28,7 @@
   align-items: center;
 
   @media screen and (max-width: 650px) {
-    margin: 30px auto 0 auto;
+    margin: 35px auto 0 auto;
     height: calc(100% - 56px);
   }
 }
@@ -409,8 +409,8 @@
   font-weight: 500;
   line-height: 20px;
   position: absolute;
-  top: 23px;
-  left: 23px;
+  top: 17px;
+  left: 20px;
 }
 
 .top_blur {
