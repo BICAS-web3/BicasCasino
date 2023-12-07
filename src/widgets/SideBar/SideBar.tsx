@@ -80,7 +80,7 @@ const languagesList = [
   {
     ico: usaIco,
     id: "usa",
-    title: "usa",
+    title: "en",
     mobTitle: "english",
   },
   {

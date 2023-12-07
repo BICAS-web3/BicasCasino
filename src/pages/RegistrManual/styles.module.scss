@@ -28,7 +28,7 @@
   align-items: center;
 
   @media screen and (max-width: 650px) {
-    margin: 24px auto 0 auto;
+    margin: 30px auto 0 auto;
     height: calc(100% - 56px);
   }
 }
@@ -218,11 +218,18 @@
   align-items: center;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
+  border: 1px solid #2e2e2e;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   z-index: 10;
   line-height: normal;
+  transition: all 0.2s;
+
+  &:hover {
+    border: 1px solid #2e2e2e;
+    background: #464646;
+  }
 
   @media screen and (max-width: 650px) {
     border-radius: 8px;
@@ -268,6 +275,18 @@
   height: 50px;
   padding: 0 30px;
   transition: all 0.2s;
+
+  @media screen and (min-width: 700px) {
+    &:hover {
+      border: 1px solid #2e2e2e;
+      background: #2e2e2e;
+    }
+
+    &:active {
+      border: 1px solid #5f5f5f;
+      background: #464646;
+    }
+  }
 
   @media screen and (max-width: 1320px) {
     box-sizing: border-box;

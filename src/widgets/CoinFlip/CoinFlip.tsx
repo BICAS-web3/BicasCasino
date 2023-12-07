@@ -37,6 +37,7 @@ import * as CoinflipM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
+import { CanvasLoader } from "../CanvasLoader";
 interface CoinFlipProps {
   gameText: string;
 }
@@ -427,7 +428,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
                 }}
                 style={{ pointerEvents: "none" }}
               >
-                <Suspense fallback={null}>
+                <Suspense fallback={<CanvasLoader />}>
                   <Stage adjustCamera={false} environment="dawn">
                     <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                   </Stage>
