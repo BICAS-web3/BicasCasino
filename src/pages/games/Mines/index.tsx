@@ -23,20 +23,36 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { StopWinning } from "@/shared/ui/StopWinning";
 import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
+import { useEffect, useState } from "react";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect, manualSetting, setManualSetting] =
-    useUnit([
-      ConnectModel.$startConnect,
-      ConnectModel.setConnect,
-      MinesModel.$manualSetting,
-      MinesModel.setManualSetting,
-    ]);
+  const [
+    startConnect,
+    setStartConnect,
+    manualSetting,
+    setManualSetting,
+    selectedLength,
+  ] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+    MinesModel.$manualSetting,
+    MinesModel.setManualSetting,
+    MinesModel.$selectedLength,
+  ]);
 
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const [isPlaying] = useUnit([MinesModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [emptyClick, setEmptyClick] = useState(false);
+
+  useEffect(() => {
+    if (emptyClick) {
+      setTimeout(() => {
+        setEmptyClick(false);
+      }, 2000);
+    }
+  }, [emptyClick]);
 
   return (
     <>
@@ -69,16 +85,22 @@ const WagerContent = () => {
             setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
-            pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
+            if (selectedLength > 0) {
+              pressButton();
+              (window as any).fbq("track", "Purchase", {
+                value: 0.0,
+                currency: "USD",
+              });
+            } else {
+              setEmptyClick(true);
+            }
           }
         }}
       >
         {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : emptyClick ? (
+          "Select Fields"
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (

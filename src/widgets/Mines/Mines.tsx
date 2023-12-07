@@ -82,7 +82,14 @@ export const Mines = () => {
   const { data } = useFeeData({ watch: true });
   const { chain } = useNetwork();
 
-  const [setIsPlaying] = useUnit([MinesModel.setIsPlaying]);
+  const [setIsPlaying, setSelectedLength] = useUnit([
+    MinesModel.setIsPlaying,
+    MinesModel.setSelectedLength,
+  ]);
+
+  useEffect(() => {
+    setSelectedLength(selectedMine.length);
+  }, [selectedMine.length]);
 
   const [startedArr, setStartedArr] = useState(defaultValue);
 
