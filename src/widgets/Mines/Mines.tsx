@@ -38,6 +38,7 @@ import styles from "./styles.module.scss";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { MineBombIcon } from "@/shared/SVGs/MineBomb";
 import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 
 export const Mines = () => {
   const defaultValue = [
@@ -230,7 +231,7 @@ export const Mines = () => {
     }
   }, [stopWinning]);
 
-  const { config: startPlayingConfig } = usePrepareContractWrite({
+  const { config: startPlayingConfig, error } = usePrepareContractWrite({
     chainId: chain?.id,
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
@@ -254,8 +255,11 @@ export const Mines = () => {
     enabled: true,
   });
 
-  const { write: startPlaying, isSuccess: startedPlaying } =
-    useContractWrite(startPlayingConfig);
+  const {
+    write: startPlaying,
+    isSuccess: startedPlaying,
+    error: errorWrite,
+  } = useContractWrite(startPlayingConfig);
 
   const { config: startRevealingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -279,8 +283,11 @@ export const Mines = () => {
     }
   }, [isCashout, startPlaying]);
 
-  const { write: startRevealing, isSuccess: startedRevealing } =
-    useContractWrite(startRevealingConfig);
+  const {
+    write: startRevealing,
+    isSuccess: startedRevealing,
+    error: errorReveal,
+  } = useContractWrite(startRevealingConfig);
 
   useEffect(() => {
     if (startedRevealing) {
@@ -566,88 +573,98 @@ export const Mines = () => {
   }, [gameStatus]);
 
   return (
-    <div className={styles.wrapp}>
-      <div className={styles.mines_table_wrap}>
-        <WagerLowerBtnsBlock game="mines" />
-        <div className={styles.mines_table_background}>
-          <Image
-            src={background}
-            className={styles.mines_table_background_img}
-            alt="table-bg"
-            width={1418}
-            height={680}
-            quality={100}
+    <>
+      {errorWrite ||
+        (errorReveal && (
+          <ErrorCheck
+            text="Something went wrong, please contact customer support."
+            btnTitle="Contact us"
           />
-        </div>
-        <div className={styles.total_container}>
-          <span className={styles.total_won}>{fullWon.toFixed(2)}</span>
-          <span className={styles.total_lost}>{fullLost.toFixed(2)}</span>
-          <div>
-            Total:{" "}
-            <span
-              className={clsx(
-                totalValue > 0 && styles.total_won,
-                totalValue < 0 && styles.total_lost
-              )}
-            >
-              {Math.abs(totalValue).toFixed(2)}
-            </span>
+        ))}
+      <div className={styles.wrapp}>
+        <div className={styles.mines_table_wrap}>
+          <WagerLowerBtnsBlock game="mines" />
+          <div className={styles.mines_table_background}>
+            <Image
+              src={background}
+              className={styles.mines_table_background_img}
+              alt="table-bg"
+              width={1418}
+              height={680}
+              quality={100}
+            />
           </div>
-        </div>
-        <div
-          className={styles.mines_table}
-          onMouseDown={() => inGame === false && setIsMouseDown(true)}
-          onMouseUp={() => inGame === false && setIsMouseDown(false)}
-        >
-          {mineArr.map((index) => {
-            const isSelected = selectedMine.includes(index);
-            return (
-              <div
-                key={index}
-                onClick={() => inGame === false && toggleMineSelection(index)}
-                onMouseEnter={() => inGame === false && handleMouseMove(index)}
+          <div className={styles.total_container}>
+            <span className={styles.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={styles.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:{" "}
+              <span
                 className={clsx(
-                  styles.mine,
-                  isSelected && styles.mine_selected,
-                  isSelected && !finish && inGame && styles.mine_animation
+                  totalValue > 0 && styles.total_won,
+                  totalValue < 0 && styles.total_lost
                 )}
               >
-                <MineIcon
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <div
+            className={styles.mines_table}
+            onMouseDown={() => inGame === false && setIsMouseDown(true)}
+            onMouseUp={() => inGame === false && setIsMouseDown(false)}
+          >
+            {mineArr.map((index) => {
+              const isSelected = selectedMine.includes(index);
+              return (
+                <div
+                  key={index}
+                  onClick={() => inGame === false && toggleMineSelection(index)}
+                  onMouseEnter={() =>
+                    inGame === false && handleMouseMove(index)
+                  }
                   className={clsx(
-                    styles.mine_main,
-                    isSelected && styles.mine_selected
+                    styles.mine,
+                    isSelected && styles.mine_selected,
+                    isSelected && !finish && inGame && styles.mine_animation
                   )}
-                />
-                {finish ? (
-                  loseIndex > -1 && loseIndex === index ? (
-                    <MineBombIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected
-                      )}
-                    />
-                  ) : (
-                    <MineMoneyIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected
-                      )}
-                    />
-                  )
-                ) : (
-                  <MineGreenIcon
+                >
+                  <MineIcon
                     className={clsx(
-                      styles.mine_green,
+                      styles.mine_main,
                       isSelected && styles.mine_selected
                     )}
                   />
-                )}
-              </div>
-            );
-          })}
+                  {finish ? (
+                    loseIndex > -1 && loseIndex === index ? (
+                      <MineBombIcon
+                        className={clsx(
+                          styles.mine_green,
+                          isSelected && styles.mine_selected
+                        )}
+                      />
+                    ) : (
+                      <MineMoneyIcon
+                        className={clsx(
+                          styles.mine_green,
+                          isSelected && styles.mine_selected
+                        )}
+                      />
+                    )
+                  ) : (
+                    <MineGreenIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected
+                      )}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      {/* <div className={styles.bottom_wrapper}>
+        {/* <div className={styles.bottom_wrapper}>
         <div className={styles.bottom}>
           <Swiper
             // navigation
@@ -679,6 +696,7 @@ export const Mines = () => {
           />
         </div>
       </div> */}
-    </div>
+      </div>
+    </>
   );
 };

@@ -253,6 +253,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                     // onClick={() => setTokenListVisibility(!tokenListVisibility)}
                     width={30}
                     height={30}
+                    className={s.icon}
                   />
                   <Image
                     className={s.dd_ico_img}

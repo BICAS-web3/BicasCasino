@@ -37,6 +37,7 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const [isPlaying] = useUnit([MinesModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
   return (
     <>
       <ManualSetting
