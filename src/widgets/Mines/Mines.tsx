@@ -110,10 +110,12 @@ export const Mines = () => {
       return 5;
     } else if (el === 13 || el === 14) {
       return 4;
-    } else if (el === 15 || el === 16) {
+    } else if (el === 15 || el === 16 || el === 17) {
       return 3;
-    } else if (el > 16) {
-      return 3;
+    } else if (el === 18 || el === 19 || el === 20 || el === 21) {
+      return 2;
+    } else if (el === 22 || el > 22) {
+      return 1;
     }
   };
 
@@ -163,24 +165,42 @@ export const Mines = () => {
     MinesModel.$stopWinning,
   ]);
 
-  const [stateValue, setStateValue] = useState(0);
+  const [customFinishGame, setCustomFinishGame] = useState(false);
 
   useEffect(() => {
     setSelectedMine([]);
   }, [pickedValue]);
 
   const toggleMineSelection = (index: number) => {
-    setSelectedMine((prev) => {
-      if (prev.includes(index)) {
-        return prev.filter((el) => el !== index);
+    if (copySelectedArr.length > 0 && isCashout === true) {
+      if (copySelectedArr.includes(index)) {
+        return;
       } else {
-        if (selectedMine?.length === changeValue(pickedValue)!) {
-          return [...prev];
-        } else {
-          return [...prev, index];
-        }
+        setSelectedMine((prev) => {
+          if (prev.includes(index)) {
+            return prev.filter((el) => el !== index);
+          } else {
+            if (selectedMine?.length === changeValue(pickedValue)!) {
+              return [...prev];
+            } else {
+              return [...prev, index];
+            }
+          }
+        });
       }
-    });
+    } else {
+      setSelectedMine((prev) => {
+        if (prev.includes(index)) {
+          return prev.filter((el) => el !== index);
+        } else {
+          if (selectedMine?.length === changeValue(pickedValue)!) {
+            return [...prev];
+          } else {
+            return [...prev, index];
+          }
+        }
+      });
+    }
   };
 
   const handleMouseMove = (index: number) => {
@@ -200,10 +220,10 @@ export const Mines = () => {
     swiperRef.current.swiper.slideNext();
   }, []);
 
-  const [isCashout, setIsCashout] = useState(false);
+  const [isCashout, setIsCashout] = useState(true);
 
   useEffect(() => {
-    if (stopWinning === "YES") {
+    if (stopWinning === "NO") {
       setIsCashout(true);
     } else {
       setIsCashout(false);
@@ -222,7 +242,7 @@ export const Mines = () => {
       pickedToken?.contract_address,
       pickedValue,
       startedArr,
-      isCashout,
+      isCashout === true ? false : true,
     ],
     value:
       fees +
@@ -242,7 +262,7 @@ export const Mines = () => {
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
     functionName: "Mines_Reveal",
-    args: [startedArr, isCashout],
+    args: [startedArr, isCashout === true ? false : true],
     value:
       fees +
       (pickedToken &&
@@ -253,8 +273,20 @@ export const Mines = () => {
     enabled: true,
   });
 
+  useEffect(() => {
+    if (isCashout === false && startPlaying) {
+      setCustomFinishGame(true);
+    }
+  }, [isCashout, startPlaying]);
+
   const { write: startRevealing, isSuccess: startedRevealing } =
     useContractWrite(startRevealingConfig);
+
+  useEffect(() => {
+    if (startedRevealing) {
+      setCustomFinishGame(true);
+    }
+  }, [startedRevealing]);
 
   const { config: finishGameConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -267,22 +299,6 @@ export const Mines = () => {
 
   const { write: finishPlaying, isSuccess: finishGameSuccess } =
     useContractWrite(finishGameConfig);
-
-  useEffect(() => {
-    if (
-      startedPlaying &&
-      isCashout === false &&
-      gameStatus === GameModel.GameStatus.Won
-    ) {
-      startRevealing?.();
-    }
-  }, [startedPlaying, isCashout, gameStatus]);
-
-  useEffect(() => {
-    if (isCashout === true && startedPlaying) {
-      finishPlaying?.();
-    }
-  }, [isCashout && startedPlaying]);
 
   const {
     data: GameState,
@@ -307,17 +323,18 @@ export const Mines = () => {
         ) {
           setInGame(true);
         }
-      } else {
-        // setInGame(false);
       }
-      // setWatchState(false);
     }
   }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
-
+  useEffect(() => {
+    if (startedPlaying || startedRevealing) {
+      setInGame(true);
+    }
+  }, [startedPlaying, startedRevealing]);
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -360,6 +377,14 @@ export const Mines = () => {
     }
   }, [VRFFees, data]);
 
+  const [customStatus, setCustomStatus] = useState(false);
+
+  useEffect(() => {
+    if (gameStatus !== null && gameStatus == 0) {
+      setCustomStatus(true);
+    }
+  }, [gameStatus]);
+
   useEffect(() => {
     if (Wagered) {
       if (inGame) {
@@ -380,15 +405,12 @@ export const Mines = () => {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
-            //! setActiveCards(initialArrayOfCards);
-            // console.log(
-            //   "Starting playing",
-            //   startPlaying,
-            //   BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-            //   BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
-            //   pickedToken?.contract_address
-            // );
-            startPlaying?.();
+            if (isCashout && customStatus) {
+              if (startRevealing) startRevealing();
+            } else {
+              if (startPlaying) startPlaying();
+              setInGame(true);
+            }
           }
         }
       }
@@ -396,7 +418,6 @@ export const Mines = () => {
     }
   }, [Wagered]);
 
-  //?-----------------------------------------------------------------------------
   const [finish, setFinish] = useState(false);
   const [loseIndex, setLoseIndex] = useState(-1);
   useContractEvent({
@@ -451,12 +472,12 @@ export const Mines = () => {
     },
   });
 
-  useContractEvent({
+  const setEvent = useContractEvent({
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
     eventName: "Mines_End_Event",
     listener(log) {
-      if ((log[0] as any).eventName === "Mines_End_Event") {
+      if ((log[0] as any).eventName === "Mines_End_Event" && customFinishGame) {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
@@ -490,11 +511,11 @@ export const Mines = () => {
       }
     },
   });
-
-  const [multiplier, token] = useUnit([
-    GameModel.$multiplier,
-    GameModel.$token,
-  ]);
+  useEffect(() => {
+    if (customFinishGame) {
+      setEvent?.();
+    }
+  }, [customFinishGame]);
 
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -517,10 +538,12 @@ export const Mines = () => {
     }
   }, [startPlaying]);
 
+  const [copySelectedArr, setCopySelectedArr] = useState<number[]>([]);
   useEffect(() => {
     if (finish) {
       setTimeout(() => {
         setStartedArr(defaultValue);
+        setCopySelectedArr((prev) => [...prev, ...selectedMine]);
         setSelectedMine([]);
         setFinish(false);
         setLoseIndex(-1);
@@ -528,6 +551,20 @@ export const Mines = () => {
       }, 3000);
     }
   }, [finish]);
+
+  useEffect(() => {
+    return () => {
+      setCustomFinishGame(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Lost) {
+      setIsCashout(false);
+      setCopySelectedArr([]);
+    }
+  }, [gameStatus]);
+
   return (
     <div className={styles.wrapp}>
       <div className={styles.mines_table_wrap}>
@@ -559,24 +596,20 @@ export const Mines = () => {
         </div>
         <div
           className={styles.mines_table}
-          onMouseDown={() => !customStartPlaying && setIsMouseDown(true)}
-          onMouseUp={() => !customStartPlaying && setIsMouseDown(false)}
+          onMouseDown={() => inGame === false && setIsMouseDown(true)}
+          onMouseUp={() => inGame === false && setIsMouseDown(false)}
         >
           {mineArr.map((index) => {
             const isSelected = selectedMine.includes(index);
             return (
               <div
                 key={index}
-                onClick={() =>
-                  !customStartPlaying && toggleMineSelection(index)
-                }
-                onMouseEnter={() =>
-                  !customStartPlaying && handleMouseMove(index)
-                }
+                onClick={() => inGame === false && toggleMineSelection(index)}
+                onMouseEnter={() => inGame === false && handleMouseMove(index)}
                 className={clsx(
                   styles.mine,
                   isSelected && styles.mine_selected,
-                  isSelected && !finish && styles.mine_animation
+                  isSelected && !finish && inGame && styles.mine_animation
                 )}
               >
                 <MineIcon

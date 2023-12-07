@@ -16,12 +16,10 @@ import clsx from "clsx";
 
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 
-import * as PGM from "@/widgets/Plinko/model";
 import * as ConnectModel from "@/widgets/Layout/model";
 import * as MinesModel from "@/widgets/Mines/model";
 
 import { LoadingDots } from "@/shared/ui/LoadingDots";
-import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { StopWinning } from "@/shared/ui/StopWinning";
 import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
@@ -37,7 +35,7 @@ const WagerContent = () => {
 
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
-  const [isPlaying] = useUnit([PGM.$isPlaying]);
+  const [isPlaying] = useUnit([MinesModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   return (
     <>
@@ -102,7 +100,7 @@ export default function MinesGame() {
       />
       <div className={styles.mines_container}>
         <GamePage
-          gameInfoText="test"
+          gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn."
           gameTitle="Mines"
           wagerContent={<WagerContent />}
           isPoker={false}
