@@ -125,6 +125,9 @@ export const Poker: FC<PokerProps> = (props) => {
   ]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
+
+  console.log("ACTIVE CARDS", activeCards);
+
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
@@ -150,7 +153,19 @@ export const Poker: FC<PokerProps> = (props) => {
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [inGame, setInGame] = useState<boolean>(false);
 
-  const [watchState, setWatchState] = useState<boolean>(false);
+  //const [watchState, setWatchState] = useState<boolean>(false);
+
+  const [setWstate] = useUnit([PokerModel.setWatchState]);
+
+  const [cardsNew, setCardsNew] = useState<boolean>(false);
+
+  useEffect(() => {
+    // console.log("CARDS NEW", cardsNew);
+    setWstate(cardsNew);
+  }, [cardsNew]);
+
+  console.log("CARDS NEW", cardsNew);
+  console.log("ISPLAYING", inGame);
 
   useEffect(() => {
     setIsPlaying(inGame);
@@ -199,7 +214,9 @@ export const Poker: FC<PokerProps> = (props) => {
           flipShowFlipCards();
           setInGame(true);
           setActiveCards((GameState as any).cardsInHand);
-          setWatchState(true);
+          //setWatchState(true);
+          setCardsNew(true);
+          //setWstate(true);
           //setShowRedraw(true);
           // show redrawing cards info
         }
@@ -207,8 +224,11 @@ export const Poker: FC<PokerProps> = (props) => {
         // setCardsState([false, false, false, false, false]);
         // setInGame(false);
         // setShowRedraw(false);
+        //setWatchState(false);
+        setCardsNew(true);
       }
-      setWatchState(false);
+      // setWatchState(false);
+      // setWstate(false);
     }
   }, [GameState]);
 
@@ -291,6 +311,12 @@ export const Poker: FC<PokerProps> = (props) => {
     useContractWrite(finishPlayingConfig);
 
   useEffect(() => {
+    if (startedPlaying || finishedPlaying) {
+      setCardsNew(false);
+    }
+  }, [startedPlaying, finishedPlaying]);
+
+  useEffect(() => {
     if (Wagered) {
       console.log("Pressed wager");
       if (inGame) {
@@ -331,13 +357,27 @@ export const Poker: FC<PokerProps> = (props) => {
     }
   }, [Wagered]);
 
-  useEffect(() => {
-    setWatchState(true);
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   setWatchState(true);
+  // }, [startedPlaying]);
 
   // useEffect(() => {
   //   console.log("available tokens", availableTokens);
   // }, [availableTokens])
+
+  useContractEvent({
+    address: gameAddress as `0x${string}`,
+    abi: IPoker,
+    eventName: "VideoPoker_Start_Event",
+    listener(log) {
+      if (
+        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+        address?.toLowerCase()
+      ) {
+        setCardsNew(true);
+      }
+    },
+  });
 
   useContractEvent({
     address: gameAddress as `0x${string}`,
@@ -519,7 +559,9 @@ export const Poker: FC<PokerProps> = (props) => {
   const [combinationName, setCombinationName] = useState("");
 
   function evaluatePokerHand(cards: ICards[]) {
-    cards.sort((a, b) => a.number - b.number);
+    // cards.sort((a, b) => a.number - b.number);
+
+    console.log("EVALUATING");
 
     if (hasRoyalFlush(cards)) {
       setCombinationName("Royal Flush");
@@ -546,6 +588,7 @@ export const Poker: FC<PokerProps> = (props) => {
   useEffect(() => {
     evaluatePokerHand(activeCards);
   }, [activeCards, gameStatus]);
+
   const [multiplier, token] = useUnit([
     GameModel.$multiplier,
     GameModel.$token,
@@ -562,6 +605,7 @@ export const Poker: FC<PokerProps> = (props) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (
