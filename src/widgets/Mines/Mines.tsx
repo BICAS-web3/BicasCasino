@@ -181,7 +181,7 @@ export const Mines = () => {
   useEffect(() => {
     setSelectedMine([]);
   }, [pickedValue]);
-  const { data: inGameMines } = useContractRead({
+  const { data: minesState } = useContractRead({
     chainId: chain?.id,
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
@@ -194,20 +194,20 @@ export const Mines = () => {
 
   const [stop, setStop] = useState(false);
   useEffect(() => {
-    if (inGameMines) {
-      console.log(inGameMines);
+    if ((minesState as any)?.requestID) {
+      console.log(minesState);
 
-      setIsActive(inGameMines);
-      if ((inGameMines as any)?.isCashout === false) {
+      setIsActive(minesState);
+      if ((minesState as any)?.isCashout === false) {
         setIsCashout(false);
         setStopWinning("NO");
-      } else if ((inGameMines as any)?.isCashout === false) {
+      } else if ((minesState as any)?.isCashout === false) {
         setIsCashout(true);
         setStopWinning("YES");
       }
       setStop(true);
     }
-  }, [(inGameMines as any)?.isCashout]);
+  }, [(minesState as any)?.isCashout]);
 
   const toggleMineSelection = (index: number) => {
     if (isActive?.tilesPicked[index] === true) return;
@@ -286,7 +286,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -308,7 +308,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -418,7 +418,7 @@ export const Mines = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -446,11 +446,11 @@ export const Mines = () => {
           currentBalance &&
           cryptoValue <= currentBalance
         ) {
-          console.log("Allowance", allowance);
+          console.log("Allowance", allowance, startPlaying);
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -673,8 +673,8 @@ export const Mines = () => {
       isCashout === true
         ? selectedMine?.length
         : copySelectedArr?.length > 0
-        ? copySelectedArr?.length
-        : selectedMine?.length,
+          ? copySelectedArr?.length
+          : selectedMine?.length,
     ],
     enabled: true,
     watch: isConnected,
@@ -742,7 +742,7 @@ export const Mines = () => {
                 {result.value.toFixed(2)}x
               </div>
             ))}
-            {}
+            { }
           </div>
           <div
             className={styles.mines_table}
