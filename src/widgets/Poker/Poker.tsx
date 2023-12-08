@@ -125,6 +125,9 @@ export const Poker: FC<PokerProps> = (props) => {
   ]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
+
+  console.log("ACTIVE CARDS", activeCards);
+
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
   const { chain } = useNetwork();
@@ -200,6 +203,7 @@ export const Poker: FC<PokerProps> = (props) => {
           setInGame(true);
           setActiveCards((GameState as any).cardsInHand);
           setWatchState(true);
+          setWstate(true);
           //setShowRedraw(true);
           // show redrawing cards info
         }
@@ -207,10 +211,24 @@ export const Poker: FC<PokerProps> = (props) => {
         // setCardsState([false, false, false, false, false]);
         // setInGame(false);
         // setShowRedraw(false);
+        setWatchState(false);
       }
       setWatchState(false);
+      setWstate(false);
     }
   }, [GameState]);
+
+  const [setWstate] = useUnit([PokerModel.setWatchState]);
+
+  useEffect(() => {
+    setWstate(watchState);
+  }, [watchState]);
+
+  console.log("WATCH STATE", watchState);
+
+  useEffect(() => {
+    setWstate(false);
+  }, []);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -519,7 +537,9 @@ export const Poker: FC<PokerProps> = (props) => {
   const [combinationName, setCombinationName] = useState("");
 
   function evaluatePokerHand(cards: ICards[]) {
-    cards.sort((a, b) => a.number - b.number);
+    // cards.sort((a, b) => a.number - b.number);
+
+    console.log("EVALUATING");
 
     if (hasRoyalFlush(cards)) {
       setCombinationName("Royal Flush");
@@ -546,6 +566,7 @@ export const Poker: FC<PokerProps> = (props) => {
   useEffect(() => {
     evaluatePokerHand(activeCards);
   }, [activeCards, gameStatus]);
+
   const [multiplier, token] = useUnit([
     GameModel.$multiplier,
     GameModel.$token,
@@ -562,6 +583,7 @@ export const Poker: FC<PokerProps> = (props) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (

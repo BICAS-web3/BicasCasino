@@ -34,6 +34,7 @@ const WagerContent = () => {
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
+
   return (
     <>
       <WagerInputsBlock />
