@@ -21,17 +21,17 @@ export interface NFTCardProps {
 export const NFTCard: FC<NFTCardProps> = (props) => {
   const { name, number, price, id, contractAddress, fee, img } = props;
 
-  const { config: mintNftConfig, error } = usePrepareContractWrite({
-    //chainId: 97,
-    address: contractAddress as `0x${string}`,
-    abi,
-    functionName: "mintNft",
-    enabled: true,
-    args: [id],
-    value: fee,
-  });
+  // const { config: mintNftConfig, error } = usePrepareContractWrite({
+  //   //chainId: 97,
+  //   address: contractAddress as `0x${string}`,
+  //   abi,
+  //   functionName: "mintNft",
+  //   enabled: true,
+  //   args: [id],
+  //   value: fee,
+  // });
 
-  const { write: mintNft } = useContractWrite(mintNftConfig);
+  //const { write: mintNft } = useContractWrite(mintNftConfig);
 
   return (
     <article

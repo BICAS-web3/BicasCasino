@@ -18,10 +18,10 @@ import s from "./style.module.scss";
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
 
-  const { address } = useAccount();
+  // const { address } = useAccount();
 
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
+  // const { chain } = useNetwork();
+  // const { switchNetwork } = useSwitchNetwork();
 
   const setDefaultValue = async () => {
     await Promise.all(
@@ -35,11 +35,11 @@ const ConnectMarket: FC = () => {
     nfts.length === 0 && setDefaultValue();
   }, []);
 
-  useEffect(() => {
-    if (chain?.id !== 56 && address) {
-      switchNetwork?.(56);
-    }
-  }, [address]);
+  // useEffect(() => {
+  //   if (chain?.id !== 56 && address) {
+  //     switchNetwork?.(56);
+  //   }
+  // }, [address]);
   console.log("nft market component");
   return (
     <>
@@ -88,7 +88,7 @@ const ConnectMarket: FC = () => {
 export default function Home() {
   return (
     <Layout gameName={undefined}>
-      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
+      {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
       <div className={s.main_container}>
         <div className={s.nft_container}>
           <ConnectMarket />
