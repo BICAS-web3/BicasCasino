@@ -26,6 +26,7 @@ export interface CustomBetsItemProps {
   player_address: string;
   player_name: string;
   wager: number;
+  bets: number,
   multiplier: number;
   profit: number;
   token: string;
@@ -131,7 +132,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
           alt="wager-ico"
         />
         <span className={s.customBets_list_item_wager}>
-          {parseFloat(props.wager.toFixed(2))}
+          {props.bets}x {parseFloat(props.wager.toFixed(2))}
         </span>
       </div>
       <div className={s.customBets_list_item_multiplier_block}>
@@ -141,9 +142,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       </div>
       <div className={s.customBets_list_item_profit_block}>
         <span
-          className={`${s.customBets_list_item_profit} ${
-            props.multiplier < 1 && s.lose_profit
-          }`}
+          className={`${s.customBets_list_item_profit} ${props.multiplier < 1 && s.lose_profit
+            }`}
         >
           {props.profit}
         </span>
