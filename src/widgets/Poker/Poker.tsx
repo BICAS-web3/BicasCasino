@@ -155,11 +155,17 @@ export const Poker: FC<PokerProps> = (props) => {
 
   //const [watchState, setWatchState] = useState<boolean>(false);
 
+  const [setWstate] = useUnit([PokerModel.setWatchState]);
+
   const [cardsNew, setCardsNew] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("CARDS NEW", cardsNew);
+    // console.log("CARDS NEW", cardsNew);
+    setWstate(cardsNew);
   }, [cardsNew]);
+
+  console.log("CARDS NEW", cardsNew);
+  console.log("ISPLAYING", inGame);
 
   useEffect(() => {
     setIsPlaying(inGame);
@@ -226,18 +232,6 @@ export const Poker: FC<PokerProps> = (props) => {
     }
   }, [GameState]);
 
-  const [setWstate] = useUnit([PokerModel.setWatchState]);
-
-  // useEffect(() => {
-  //   setWstate(watchState);
-  // }, [watchState]);
-
-  //console.log("WATCH STATE", watchState);
-
-  useEffect(() => {
-    setWstate(false);
-  }, []);
-
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -266,7 +260,7 @@ export const Poker: FC<PokerProps> = (props) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -286,7 +280,7 @@ export const Poker: FC<PokerProps> = (props) => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -298,7 +292,6 @@ export const Poker: FC<PokerProps> = (props) => {
     isSuccess: startedPlaying,
     error,
   } = useContractWrite(startPlayingConfig);
-
 
   useEffect(() => {
     console.log(startPlaying);
@@ -317,7 +310,11 @@ export const Poker: FC<PokerProps> = (props) => {
   const { write: finishPlaying, isSuccess: finishedPlaying } =
     useContractWrite(finishPlayingConfig);
 
-  useEffect(() => { if (startedPlaying || finishedPlaying) { setCardsNew(false); } }, [startedPlaying, finishedPlaying]);
+  useEffect(() => {
+    if (startedPlaying || finishedPlaying) {
+      setCardsNew(false);
+    }
+  }, [startedPlaying, finishedPlaying]);
 
   useEffect(() => {
     if (Wagered) {
@@ -336,7 +333,7 @@ export const Poker: FC<PokerProps> = (props) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -379,7 +376,7 @@ export const Poker: FC<PokerProps> = (props) => {
       ) {
         setCardsNew(true);
       }
-    }
+    },
   });
 
   useContractEvent({
@@ -666,7 +663,7 @@ export const Poker: FC<PokerProps> = (props) => {
                     isEmptyCard={false}
                     coat={0}
                     card={0}
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 ) : (
                   <PokerCard
