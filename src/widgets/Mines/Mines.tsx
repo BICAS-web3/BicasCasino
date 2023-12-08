@@ -156,6 +156,7 @@ export const Mines = () => {
     setWonStatus,
     setLostStatus,
     stopWinning,
+    setStopWinning,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -172,6 +173,7 @@ export const Mines = () => {
     GameModel.setWonStatus,
     GameModel.setLostStatus,
     MinesModel.$stopWinning,
+    MinesModel.setStopWinning,
   ]);
 
   const [customFinishGame, setCustomFinishGame] = useState(false);
@@ -179,6 +181,28 @@ export const Mines = () => {
   useEffect(() => {
     setSelectedMine([]);
   }, [pickedValue]);
+  const { data: inGameMines } = useContractRead({
+    chainId: chain?.id,
+    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    abi: ABIMines,
+    functionName: "Mines_GetState",
+    args: [address?.toLowerCase()],
+    enabled: true,
+    watch: isConnected,
+  });
+  const [isActive, setIsActive] = useState<any>(null);
+
+  useEffect(() => {
+    if (inGameMines && isActive !== null) {
+      console.log(inGameMines);
+
+      setIsActive(inGameMines);
+      if ((inGameMines as any)?.isCashout === false) {
+        setIsCashout(false);
+        setStopWinning("NO");
+      }
+    }
+  }, [inGameMines]);
 
   const toggleMineSelection = (index: number) => {
     if (copySelectedArr?.length > 0 && isCashout === false) {
@@ -421,13 +445,15 @@ export const Mines = () => {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
+            setInGame(true);
             if (isCashout === false && customStatus) {
-              alert("reveal");
-              if (startRevealing) startRevealing();
+              startRevealing?.();
             } else {
-              if (startPlaying) startPlaying();
-              alert("start");
-              setInGame(true);
+              if (isActive?.numMines > 0) {
+                startRevealing?.();
+              } else {
+                startPlaying?.();
+              }
             }
           }
         }
@@ -631,10 +657,10 @@ export const Mines = () => {
   useEffect(() => {
     if (Wagered) {
       setRevealNum((prev: any) => {
-        if (revelNum.includes(RevealCount as bigint)) {
+        if (revelNum?.includes(RevealCount as bigint)) {
           return;
         } else {
-          if (prev) {
+          if (prev && prev?.length > 0) {
             return [RevealCount as bigint];
           } else {
             return [...prev, RevealCount as bigint];
