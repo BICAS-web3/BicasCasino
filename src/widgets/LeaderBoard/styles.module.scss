@@ -2,6 +2,7 @@
   padding: 40px 0 30px 0;
   background: #181818;
   border-radius: 20px;
+  margin-top: 60px;
 }
 
 .leader_board_title {
@@ -11,7 +12,7 @@
   font-size: 24px;
   font-weight: 600;
   letter-spacing: 0.96px;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 }
 
 .leaderBoard_loadMore_btn_block {
@@ -19,6 +20,7 @@
   margin-top: 20px;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .leader_board_list {
@@ -73,18 +75,18 @@
 
 .leader_board_list_item_player_icon {
   margin-right: 10px;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #4ed26c;
+  // justify-content: center;
+  // width: 30px;
+  // height: 30px;
+  // border-radius: 50%;
+  // background: #4ed26c;
 
-  .leader_board_list_item_player_icon_title {
-    font-family: var(--font-nunito-sans);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-  }
+  // .leader_board_list_item_player_icon_title {
+  //   font-family: var(--font-nunito-sans);
+  //   color: #fff;
+  //   font-size: 14px;
+  //   font-weight: 700;
+  // }
 }
 
 .leader_board_list_item_address {
@@ -146,7 +148,7 @@
   grid-template-columns: 30px 1fr 1fr 1fr;
   display: grid;
   column-gap: 10px;
-  padding: 0 30px;
+  padding: 0 50px;
   margin-bottom: 25px;
 }
 
@@ -168,10 +170,11 @@
 }
 
 .leader_board_list_item {
+  text-decoration: none;
   display: grid;
   grid-template-columns: 30px 1fr 1fr 1fr;
   column-gap: 10px;
-  padding: 10px 30px;
+  padding: 10px 50px;
   border-bottom: 1px solid #252525;
 
   &:nth-child(1),
@@ -201,6 +204,7 @@
   .leader_board_wrap {
     padding: 30px 0 30px 0;
     border-radius: 20px;
+    margin-top: 24px;
   }
 
   .leader_board_list_item_link {
@@ -211,21 +215,14 @@
   }
 
   .leader_board_list_item {
-    padding: 10px 15px;
+    padding: 10px 40px;
   }
 
   .leader_board_row_titles_block {
-    padding: 0 15px;
+    padding: 0 40px;
     margin-bottom: 20px;
   }
 
-  // .leader_board_list_item_address_block {
-  //   display: none;
-  // }
-
-  .leader_board_title {
-    margin-bottom: 20px;
-  }
   .leader_board_list_titles_item_address {
     display: none;
   }
@@ -288,10 +285,6 @@
   .leader_board_list_titles {
     grid-template-columns: 1fr;
   }
-
-  // .leader_board_row_titles_block:last-child {
-  //   display: none;
-  // }
 }
 
 @media screen and (max-width: 650px) {
@@ -308,6 +301,7 @@
   .leader_board_wrap {
     padding: 14px 0;
     border-radius: 20px;
+    margin-top: 16px;
   }
 
   .leaderBoard_loadMore_btn_block {
@@ -355,6 +349,7 @@
   .leader_board_list_item_player_icon {
     width: 20px;
     height: 20px;
+    margin-right: 20px;
 
     span {
       font-size: 12px !important;
@@ -409,4 +404,8 @@
   display: block;
   text-align: center;
   padding: 30px 0;
+}
+
+.leader_board_list_item_rank_gold {
+  color: var(--Gold-solid, #ffe09d);
 }

@@ -1,5 +1,23 @@
 import { FC, useEffect, useState, Suspense } from "react";
-
+import s from "./styles.module.scss";
+import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
+import Image from "next/image";
+import {
+  OrbitControls,
+  Stage,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
+import { Canvas, act } from "@react-three/fiber";
+import { AnimationAction } from "three";
+import { Environment } from "@react-three/drei";
+import { SidePickerModel } from "../CoinFlipSidePicker";
+import { useUnit } from "effector-react";
+import { WagerModel as WagerButtonModel } from "../Wager";
+import { WagerModel } from "../WagerInputsBlock";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
+import * as GameModel from "@/widgets/GamePage/model";
+import useSound from "use-sound";
 import {
   useAccount,
   useContractEvent,
@@ -7,39 +25,22 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useFeeData,
 } from "wagmi";
-
-import Image from "next/image";
-
-import { AnimationAction } from "three";
-import { Canvas } from "@react-three/fiber";
-import { useAnimations, useGLTF, Environment } from "@react-three/drei";
-
-import { useUnit } from "effector-react";
-
 import { sessionModel } from "@/entities/session";
-
-import * as GameModel from "@/widgets/GamePage/model";
-
-import s from "./styles.module.scss";
-
-import useSound from "use-sound";
-
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
-import { TOKENS } from "@/shared/tokens";
-
-import tableBg from "@/public/media/coinflip_images/coinflipTableBg.png";
-import { SidePickerModel } from "../CoinFlipSidePicker";
-import { WagerModel as WagerButtonModel } from "../Wager";
-import { WagerModel } from "../WagerInputsBlock";
-import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-
 import { WagerGainLossModel } from "../WagerGainLoss";
-
-interface CoinFlipProps { }
+import { TOKENS } from "@/shared/tokens";
+import { useFeeData } from "wagmi";
+import * as CoinflipM from "./model";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import clsx from "clsx";
+import { CanvasLoader } from "../CanvasLoader";
+interface CoinFlipProps {
+  gameText: string;
+}
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -60,11 +61,12 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   const { actions, mixer } = useAnimations(animations, scene);
 
   if (initial == SidePickerModel.Side.Heads) {
-    scene.rotation.y = -1.58;
+    scene.rotation.y = -1.82;
   } else if (initial == SidePickerModel.Side.Tails) {
     scene.rotation.y = 1.58;
   }
-
+  // scene.rotation.x = 3;
+  scene.scale.set(1, 1, 1);
   console.log(scene);
 
   useEffect(() => {
@@ -86,8 +88,11 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   return <primitive object={scene} />;
 };
 
-export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
+export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   const [
+    lost,
+    profit,
+    setPlayingStatus,
     playSounds,
     pickedSide,
     setActivePicker,
@@ -107,6 +112,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     setWonStatus,
     setLostStatus,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
+    CoinflipM.setPlayingStatus,
     GameModel.$playSounds,
     SidePickerModel.$pickedSide,
     SidePickerModel.setActive,
@@ -175,12 +183,18 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     }
   }, [GameState]);
 
+  useEffect(() => {
+    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  }, [inGame]);
+
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
+    enabled:
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -210,7 +224,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + (data.gasPrice / BigInt(4)))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -229,18 +243,25 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
-    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) * BigInt(100000000000)) : BigInt(0)),
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0)),
     enabled: true,
   });
 
@@ -318,7 +339,11 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
           currentBalance &&
           total_value <= currentBalance
         ) {
-          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
             if (setAllowance) setAllowance();
           } else {
             console.log(
@@ -349,46 +374,87 @@ export const CoinFlip: FC<CoinFlipProps> = ({ }) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
 
   return (
-    <div className={s.coinflip_table_wrap}>
-      <div className={s.coinflip_table_background}>
-        <Image
-          src={tableBg}
-          className={s.coinflip_table_background_img}
-          alt="table-bg"
+    <>
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
         />
-      </div>
-      <div className={s.coinflip_table}>
-        <div className={s.coinflip_wrap}>
-          <div className={s.coinflip_block}>
-            <Canvas
-              camera={{
-                position: [-9, 0, 0],
-                fov: 20,
-              }}
-              style={{ pointerEvents: "none" }}
+      )}
+      <div className={s.coinflip_table_wrap}>
+        <WagerLowerBtnsBlock game="coinflip" text={gameText} />
+        <div className={s.coinflip_table_background}>
+          <Image
+            src={tableBg}
+            className={s.coinflip_table_background_img}
+            alt="table-bg"
+          />
+        </div>{" "}
+        <div className={s.total_container}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
             >
-              <Suspense fallback={null}>
-                <Environment preset="dawn" />
-                <ambientLight intensity={0.3} />
-                <spotLight intensity={2.5} position={[-2, -5, 0]} angle={10} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <Model
-                  action={
-                    inGame
-                      ? CoinAction.Rotation
-                      : pickedSide == SidePickerModel.Side.Heads
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={s.coinflip_table}>
+          <div className={s.coinflip_wrap}>
+            <div className={s.coinflip_block}>
+              <Canvas
+                camera={{
+                  position: [-9, 0, 0],
+                  fov: 20,
+                }}
+                style={{ pointerEvents: "none" }}
+              >
+                <Suspense fallback={<CanvasLoader />}>
+                  <Stage adjustCamera={false} environment="dawn">
+                    <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
+                  </Stage>
+                  <ambientLight intensity={0.3} />
+                  <spotLight
+                    intensity={2.5}
+                    position={[-2, -5, 0]}
+                    angle={10}
+                  />
+                  <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                  <Model
+                    action={
+                      inGame
+                        ? CoinAction.Rotation
+                        : pickedSide == SidePickerModel.Side.Heads
                         ? CoinAction.TailsHeads
                         : CoinAction.TailsHeads
-                  }
-                  initial={pickedSide}
-                />
-              </Suspense>
-            </Canvas>
+                    }
+                    initial={pickedSide}
+                  />
+                </Suspense>
+              </Canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

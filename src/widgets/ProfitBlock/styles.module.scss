@@ -3,14 +3,13 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 15px;
   gap: 10px;
   border-radius: 12px;
   background: #121212;
 }
 
 .coinflip_down_block {
-  margin-top: 20px;
+  margin-top: 12px;
   position: relative;
 
   &::after {
@@ -21,7 +20,7 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #3e3e3e;
+    background: #252525;
   }
 }
 
@@ -30,6 +29,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 40px;
+  padding: 14px 16px;
+  box-sizing: border-box;
 }
 
 .profit_total_wager_title {
@@ -60,7 +62,7 @@
 }
 
 .face_tails_wrap {
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .face_tails_block {

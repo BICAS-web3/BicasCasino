@@ -1,14 +1,10 @@
+import { FC, useEffect, useState } from "react";
+import { useUnit } from "effector-react";
 import Image from "next/image";
-import {
-  FC,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-  use,
-  MouseEvent,
-} from "react";
+import clsx from "clsx";
+import rightArr from "@/public/media/sidebar_icons/rightArrIco.png";
 import s from "./styles.module.scss";
+
 import {
   CoinButton,
   DiceButton,
@@ -18,41 +14,104 @@ import {
   ArrowIcon,
   SupportIcon,
 } from "@/shared/SVGs";
-import { useUnit } from "effector-react";
-import * as SideBarModel from "./model";
-import Discord from "@/public/media/social_media/Discord.svg";
-import Twitter from "@/public/media/social_media/Twitter.svg";
-import Telegram from "@/public/media/social_media/Telegram.svg";
-import tgClosedSidebarIco from "@/public/media/sidebar_icons/TelegramIco.svg";
-import Insta from "@/public/media/social_media/Insta.svg";
-import { LanguageSwitcher } from "@/widgets/LanguageSwitcher/LanguageSwitcher";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
+import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
+
+import * as SideBarModel from "./model";
+
+import { Swap } from "../Swap";
+import { SettingIcon } from "@/shared/SVGs/SettingIcon";
+import { StarIcon } from "@/shared/SVGs/StarIcon";
+import { PlinkoButton } from "@/shared/SVGs/PlinkoButton";
+import { BonusIco } from "@/shared/SVGs/BonusIco";
+import { NftIco } from "@/shared/SVGs/NftIco";
+import { AffilateIco } from "@/shared/SVGs/AffilateIco";
+import { HTPico } from "@/shared/SVGs/HTPico";
+import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
+import { MoonIco } from "@/shared/SVGs/MoonIco";
+import { SunIco } from "@/shared/SVGs/SunIco";
+
+import usaIco from "@/public/media/countries_images/usaIco.png";
+import uaIco from "@/public/media/countries_images/uaIco.png";
+import indIco from "@/public/media/countries_images/indiaIco.png";
+import chinaIco from "@/public/media/countries_images/chinaIco.png";
+import portugalIco from "@/public/media/countries_images/portugalIco.png";
+import spainIco from "@/public/media/countries_images/spainIco.png";
+
+import logo from "@/public/media/brand_images/footerLogo.svg";
+import closeIco from "@/public/media/misc/close.svg";
+import { HomeBtn } from "@/shared/SVGs/HomeBtn";
+import Link from "next/link";
 
 const gamesList = [
   {
     title: "Coinflip",
     icon: "coin",
-    link: "/games/CoinFlip"
+    link: "/games/CoinFlip",
   },
   {
     title: "Dice",
     icon: "dice",
-    link: "/games/Dice"
+    link: "/games/Dice",
   },
   {
     title: "Rock paper scissors",
     icon: "rps",
-    link: "/games/RPS"
+    link: "/games/RockPaperScissors",
   },
   {
     title: "Poker",
     icon: "poker",
-    link: "/games/Poker"
+    link: "/games/Poker",
   },
   {
     title: "Mines",
     icon: "mines",
-    link: "/games/Mines"
+    link: "/games/Mines",
+  },
+  {
+    title: "Plinko",
+    icon: "plinko",
+    link: "/games/Plinko",
+  },
+];
+
+const languagesList = [
+  {
+    ico: usaIco,
+    id: "usa",
+    title: "en",
+    mobTitle: "english",
+  },
+  {
+    ico: uaIco,
+    id: "ua",
+    title: "ua",
+    mobTitle: "ukranian",
+  },
+  {
+    ico: indIco,
+    id: "india",
+    title: "in",
+    mobTitle: "indian",
+  },
+  {
+    ico: chinaIco,
+    id: "china",
+    title: "cn",
+    mobTitle: "chinise",
+  },
+  {
+    ico: portugalIco,
+    id: "portugal",
+    title: "pt",
+    mobTitle: "portuguese",
+  },
+  {
+    ico: spainIco,
+    id: "spain",
+    title: "es",
+    mobTitle: "spanish",
   },
 ];
 
@@ -71,6 +130,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <PokerButton />;
   } else if (iconId === "mines") {
     return <MinesButton />;
+  } else if (iconId === "plinko") {
+    return <PlinkoButton />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -78,153 +139,289 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
 
 interface ClosedSideBarProps {
   pickedGame: number | null;
+  activePage: string | undefined;
 }
 const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
+  const [flipOpen, isOpen] = useUnit([
+    SideBarModel.flipOpen,
+    SideBarModel.$isOpen,
+  ]);
+
   return (
     <>
-      <div className={s.side_bar_upper}>
-        <div>
-          <div className={`${s.games_button}`}>
-            <GamesIcon />
-            <div className={s.games_button_tooltip}>
-              <div className={s.tooltip_games_list}>
-                {gamesList.map((item, ind) => (
-                  <div
-                    className={s.tooltip_games_list_item}
-                    onClick={() => { location.href = item.link }}>
-                    <GameIcon iconId={item.icon} />
-                    <span className={s.tooltip_games_list_item_title}>
-                      {item.title}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className={s.closed_sb_group}>
+        <div className={s.closed_sb_bonus_ico}>
+          <HomeBtn />
+          <div className={s.closed_sb_tooltip} data-id="home-tooltip">
+            Home
           </div>
-          <div className={s.buttons_holder}>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 0 ? s.button_picked : ""
-                }`}
-              onClick={() => { location.href = "/games/CoinFlip" }}
-            >
-              <div className={s.button}>
-                <CoinButton />
-                <div className={s.games_button_tooltip}>Coinflip</div>
-              </div>
-            </div>
-            <div className={s.button_wrap}>
-              <div
-                className={`${s.button} ${props.pickedGame == 1 ? s.button_picked : ""
-                  }`}
-              >
-                <DiceButton />
-                <div className={s.games_button_tooltip}>Dice</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 2 ? s.button_picked : ""
-                }`}
-            >
-              <div className={s.button}>
-                <RPCButton />
-                <div className={s.games_button_tooltip}>
-                  Rock paper scissors
-                </div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => {
-                location.href = "/games/Poker";
-              }}
-            >
-              <div className={s.button}>
-                <PokerButton />
-                <div className={s.games_button_tooltip}>Poker</div>
-              </div>
-            </div>
-            <div
-              className={`${s.button_wrap} ${props.pickedGame == 3 ? s.button_picked : ""
-                }`}
-              onClick={() => {
-                location.href = "https://t.me/GKSupportt";
-              }}
-            >
-              <div className={s.button}>
-                <SupportIcon />
-                <div className={s.games_button_tooltip}>
-                  Support{" "}
-                  <Image
-                    className={s.tg_sidebar_ico}
-                    src={tgClosedSidebarIco}
-                    alt={""}
-                  />{" "}
-                </div>
-              </div>
+        </div>
+        <div className={s.closed_sb_bonus_ico}>
+          <BonusIco />
+          <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
+            Bonus
+          </div>
+        </div>
+        <div className={`${s.games_button}`}>
+          <GamesIcon />
+          <div className={s.games_button_tooltip}>
+            <div className={s.tooltip_games_list}>
+              {gamesList.map((item, ind) => (
+                <Link
+                  href={item.link}
+                  className={s.tooltip_games_list_item}
+                  // onClick={() => {
+                  //   location.href = item.link;
+                  // }}
+                >
+                  <GameIcon iconId={item.icon} />
+                  <span className={s.tooltip_games_list_item_title}>
+                    {item.title}
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
+      <div className={s.closed_sb_other_info_list}>
+        <div className={s.closed_sb_other_info_list_item}>
+          <HTPico />
+          <div className={s.closed_sb_tooltip} data-id="htp-tooltip">
+            How to play
+          </div>
+        </div>
+        <Link
+          href={"/nftmarket"}
+          // onClick={() =>
+          //   window.open(
+          //     "https://element.market/collections/greekkeepers",
+          //     "_blank"
+          //   )
+          // }
+          className={s.closed_sb_other_info_list_item}
+        >
+          <NftIco />
+          <div className={s.closed_sb_tooltip} data-id="nft-tooltip">
+            NFT Market
+          </div>
+        </Link>
+        <div className={s.closed_sb_other_info_list_item}>
+          <AffilateIco />
+          <div className={s.closed_sb_tooltip} data-id="affilate-tooltip">
+            Affiliate
+          </div>
+        </div>
+
+        {/* <div className={s.closed_sb_other_info_list_item}>
+            <SwaptIcon />
+          </div> */}
+        <div className={s.closed_swap_wrap}>
+          <Swap closeClassName={s.closed_sb_other_info_list_item} />
+          <div className={s.closed_sb_tooltip} data-id="swap-tooltip">
+            Swap
+          </div>
+        </div>
+        <div className={s.closed_sb_other_info_list_item}>
+          <SupportIcon />
+          <div className={s.closed_sb_tooltip} data-id="support-tooltip">
+            Support
+          </div>
+        </div>
+      </div>
     </>
   );
 };
 
 interface OpenedSideBarProps {
   pickedGame: number | null;
+  activePage: string | undefined;
 }
 const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
   const [gamesAreOpen, setOpen] = useState(true);
+  const [activeTheme, setActiveTheme] = useState("dark");
+  const handleChangeTheme = () => {
+    activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
+  };
+  const [activeLanguage, setActiveLanguage] = useState(languagesList[0]);
+  const [activeLanguagesList, setActiveLanguagesList] = useState(languagesList);
+
+  const [flipOpen, isOpen, activeLanguagesBlock, setActiveLanguagesBlock] =
+    useUnit([
+      SideBarModel.flipOpen,
+      SideBarModel.$isOpen,
+      SideBarModel.$mobileLanguageBlock,
+      SideBarModel.setMobileLanguageBlock,
+    ]);
+
+  useEffect(() => {
+    if (activeLanguagesBlock) {
+      const el = document.getElementById("sidebar");
+      el?.classList.add(s.scrollDisable);
+      el?.scrollTo(0, 0);
+    }
+  }, [activeLanguagesBlock]);
+
+  const handleLanguageChange = (id: any) => {
+    const lang = languagesList.filter((item) => item.id === id)[0];
+    setActiveLanguage(lang);
+  };
+
   return (
     <>
-      <div className={s.side_bar_upper}>
-        <div className={s.upper_blocks}>
+      <div className={s.upper_blocks}>
+        <div
+          className={`${s.mobile_languages_block} ${
+            activeLanguagesBlock === true && s.visible
+          }`}
+        >
+          <div className={s.mobile_languages_block_body}>
+            <div className={s.mobile_languages_block_nav}>
+              <div
+                className={s.mobile_languages_block_nav_left}
+                onClick={() => setActiveLanguagesBlock(false)}
+              >
+                <Image src={rightArr} alt="back" />
+                Back
+              </div>
+              <span className={s.mobile_languages_block_title}>Language</span>
+            </div>
+            <div className={s.mobile_languages_block_list}>
+              {activeLanguagesList.map((item, ind) => (
+                <div
+                  className={s.mobile_languages_block_list_item}
+                  onClick={() => handleLanguageChange(item.id)}
+                >
+                  <div className={s.mobile_languages_block_list_item_left}>
+                    <Image src={item.ico} alt={item.id} />
+                    {item.mobTitle}
+                  </div>
+                  <div
+                    className={`${
+                      s.mobile_languages_block_list_item_checkbox
+                    } ${activeLanguage.id === item.id && s.active_checkbox}`}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <Link href={"/"} className={s.bonus_button_block}>
+          <HomeBtn />
+          home
+        </Link>
+        <div className={s.bonus_button_block}>
+          <BonusIco />
+          bonus<span className={s.soon_page}>Soon…</span>
+        </div>
+        <div
+          className={clsx(
+            s.buttons_menu,
+            !gamesAreOpen && s.buttons_menu_closed
+          )}
+        >
           <div
-            className={`${s.buttons_menu} ${gamesAreOpen ? "" : s.buttons_menu_closed
-              }`}
+            className={s.menu_header}
+            onClick={() => {
+              setOpen(!gamesAreOpen);
+            }}
           >
             <div
-              className={s.menu_header}
-              onClick={() => {
-                setOpen(!gamesAreOpen);
-              }}
+              className={`${s.header_icon_container} ${
+                !gamesAreOpen && s.games_closed
+              }`}
             >
-              <div className={s.header_icon_container}>
-                <GamesIcon />
-                GAMES
-              </div>
-              <div
-                className={`${s.arrow} ${gamesAreOpen ? s.arrow_down : s.arrow_side
-                  }`}
-              >
-                <ArrowIcon />
-              </div>
+              <GamesIcon />
+              <span className={s.header_icon_title}>games</span>
             </div>
-            <div className={s.game_rows}>
-              <div className={`${s.game_row} ${s.picked_game_row}`}
-                onClick={() => { location.href = "/games/CoinFlip" }}
-              >
-                <CoinButton />
-                Coinflip
-              </div>
-              <div className={s.game_row}>
-                <DiceButton />
-                Dice
-              </div>
-              <div className={s.game_row}>
-                <RPCButton />
-                Rock Paper Scissors
-              </div>
-              <div
-                className={s.game_row}
-                onClick={() => {
-                  location.href = "/games/Poker";
-                }}
-              >
-                <PokerButton />
-                Poker
-              </div>
+            <div
+              className={(s.arrow, gamesAreOpen ? s.arrow_down : s.arrow_side)}
+            >
+              <ArrowIcon />
+            </div>
+          </div>
+          <div className={s.game_rows}>
+            <Link
+              href={"/games/CoinFlip"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/CoinFlip" && s.game_active
+              }`}
+            >
+              <CoinButton />
+              Coinflip
+            </Link>
+            <Link
+              href={"/games/Dice"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Dice" && s.game_active
+              }`}
+            >
+              <DiceButton />
+              Dice
+            </Link>
+            <Link
+              href={"/games/RockPaperScissors"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/RockPaperScissors" && s.game_active
+              }`}
+            >
+              <RPCButton />
+              Rock Paper Scissors
+            </Link>
+            <Link
+              href={"/games/Poker"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Poker" && s.game_active
+              }`}
+            >
+              <PokerButton />
+              Poker
+            </Link>
+            <Link
+              href={"/games/Plinko"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Plinko" && s.game_active
+              }`}
+            >
+              <PlinkoButton />
+              Plinko
+            </Link>
+            <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
+              <LeaderboardIcon />
+              LeaderBoard
+            </Link>
+          </div>
+        </div>
+        <div className={s.sb_other_info_list}>
+          <div className={s.oth_info_list_item}>
+            <div className={s.icon_wrapper}>
+              <HTPico />
+            </div>
+            <div className={s.large_header_text}>
+              how to play <span className={s.soon_page}>Soon…</span>
+            </div>
+          </div>
+          <Link
+            href={"/nftmarket"}
+            // onClick={() =>
+            //   window.open(
+            //     "https://element.market/collections/greekkeepers",
+            //     "_blank"
+            //   )
+            // }
+            className={s.oth_info_list_item}
+          >
+            <div className={s.icon_wrapper}>
+              <NftIco />
+            </div>
+            <div className={s.large_header_text}>nft market</div>
+          </Link>
+          <div className={s.oth_info_list_item}>
+            <div className={s.icon_wrapper}>
+              <AffilateIco />
+            </div>
+            <div className={s.large_header_text}>
+              affiliate <span className={s.soon_page}>Soon…</span>
             </div>
           </div>
           <div
@@ -236,70 +433,159 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             <div className={s.icon_wrapper}>
               <SupportIcon />
             </div>
-            <div className={s.large_header_text}>SUPPORT</div>
+            <div className={s.large_header_text}>support</div>
           </div>
-          <LanguageSwitcher />
-          {/* <div className={s.language_settings}>
-                </div> */}
+          <Swap />
         </div>
-        <div className={s.lower_blocks}>
-          <div className={s.social_networks}>
-            Our social networks
-            <div className={s.icons}>
-              <a
-                href="https://discord.gg/ReJVd2xJSk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Discord} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://twitter.com/GreekKeepers"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Twitter} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://t.me/GKSupportt"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Telegram} alt={""} width={30} height={30} />
-              </a>
-              <a
-                href="https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image src={Insta} alt={""} width={30} height={30} />
-              </a>
-            </div>
+        <div
+          className={s.desk_hidden_language_block}
+          onClick={() => setActiveLanguagesBlock(true)}
+        >
+          <div className={s.desk_hidden_active_language_block}>
+            <Image src={activeLanguage.ico} alt="active_language_ico" />
+            <span className={s.desk_hidden_language_title}>language</span>
           </div>
+          <Image src={rightArr} alt="right-arr" />
+        </div>
+        <div className={s.desk_hidden_theme_block}>
+          <div className={s.desk_hidden_active_language_block}>
+            <MoonIco />
+            <span className={s.desk_hidden_language_title}>dark theme</span>
+          </div>
+          <div className={s.change_theme_block}></div>
         </div>
       </div>
-      <div className={s.side_bar_lower}></div>
     </>
   );
 };
 
-export interface SideBarProps { }
-export const SideBar: FC<SideBarProps> = (props) => {
-  const [isOpen, currentPick] = useUnit([
+export interface SideBarProps {
+  activePage: string | undefined;
+}
+export const SideBar: FC<SideBarProps> = ({ activePage }) => {
+  const [activeTheme, setActiveTheme] = useState("dark");
+  const handleChangeTheme = () => {
+    activeTheme === "dark" ? setActiveTheme("light") : setActiveTheme("dark");
+  };
+  const [activeLanguage, setActiveLanguage] = useState(languagesList[0]);
+  const [activeLanguagesList, setActiveLanguagesList] = useState(languagesList);
+  const [isOpen, currentPick, closeSb, openSb, languageMobileBlock] = useUnit([
     SideBarModel.$isOpen,
     SideBarModel.$currentPick,
+    SideBarModel.Close,
+    SideBarModel.Open,
+    SideBarModel.$mobileLanguageBlock,
   ]);
+
+  useEffect(() => {
+    if (!languageMobileBlock) {
+      const el = document.getElementById("sidebar");
+      el?.classList.remove(s.scrollDisable);
+    }
+  }, [languageMobileBlock]);
+
+  const [sidebarScroll, setSidebarScroll] = useState(0);
+
+  useEffect(() => {
+    const el = document.getElementById("sidebar_id");
+
+    const handleScroll = (e: any) => {
+      setSidebarScroll(e.target.scrollTop);
+    };
+
+    el?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      el?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("SCROLLED -------", sidebarScroll);
+  }, [sidebarScroll]);
+
+  const handleSidebar = () => {
+    if (isOpen) {
+      closeSb();
+    } else {
+      openSb();
+    }
+  };
+
+  useEffect(() => {
+    setActiveLanguagesList(
+      languagesList.filter((item) => item.id !== activeLanguage.id)
+    );
+  }, [activeLanguage]);
+
+  const handleLanguageChange = (id: any) => {
+    const lang = languagesList.filter((item) => item.id === id)[0];
+    setActiveLanguage(lang);
+  };
 
   return (
     <div
-      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
-        }`}
+      className={`${s.side_bar} ${
+        isOpen ? s.side_bar_opened : s.side_bar_closed
+      } ${languageMobileBlock && s.mobile_blocks_hidden}`}
+      id="sidebar"
     >
-      {isOpen ? (
-        <OpenedSideBar pickedGame={currentPick} />
-      ) : (
-        <ClosedSideBar pickedGame={currentPick} />
-      )}
+      <div
+        className={s.side_bar_upper}
+        id="sidebar_id"
+        style={{ "--st": `${sidebarScroll}px` } as any}
+      >
+        {isOpen ? (
+          <OpenedSideBar pickedGame={currentPick} activePage={activePage} />
+        ) : (
+          <ClosedSideBar pickedGame={currentPick} activePage={activePage} />
+        )}
+      </div>
+
+      <div
+        className={`${s.bottom_fixed_block} ${!isOpen && s.bottom_nav_closed}`}
+      >
+        <div className={s.themes_block}>
+          <div
+            className={`${s.theme_block} ${activeTheme === "dark" && s.active}`}
+            onClick={handleChangeTheme}
+          >
+            <MoonIco />
+          </div>
+          <div
+            className={`${s.theme_block} ${
+              activeTheme === "light" && s.active
+            }`}
+            onClick={handleChangeTheme}
+          >
+            <SunIco />
+          </div>
+          <div
+            className={s.desk_hidden_theme_changer}
+            onClick={handleChangeTheme}
+          >
+            <MoonIco />
+          </div>
+        </div>
+        <div className={s.language_changer_block}>
+          <Image src={activeLanguage.ico} alt={activeLanguage.id} />
+          <div className={s.languages_list}>
+            {activeLanguagesList.map((item, ind) => (
+              <div
+                key={ind}
+                className={s.languages_list_item}
+                onClick={() => handleLanguageChange(item.id)}
+              >
+                <Image src={item.ico} alt={item.id} />
+                <span>{item.title}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={s.close_sb_ico} onClick={handleSidebar}>
+          <CloseSbIco />
+        </div>
+      </div>
     </div>
   );
 };

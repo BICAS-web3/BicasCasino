@@ -22,11 +22,11 @@ export const Total: FC<{}> = () => {
   ]);
 
   const [activeButton, setActiveButton] = useState<string | null>(
-    "Daily_volume"
+    "All Time_volume"
   );
 
   const setDefaultValue = async () => {
-    const data = (await Api.getLeaderboard({ time: "daily", return: "volume" }))
+    const data = (await Api.getLeaderboard({ time: "all", return: "volume" }))
       .body as unknown as Api.T_Lider;
     setLeaders(data);
   };
@@ -51,6 +51,8 @@ export const Total: FC<{}> = () => {
     ).body as unknown as Api.T_Lider;
     setLeaders(data);
   };
+
+  // const truncatedAddress = props.address.slice(0,7)...props.address.slice(36, 42);
 
   return (
     <>
@@ -114,13 +116,21 @@ export const Total: FC<{}> = () => {
                 default:
                   break;
               }
+
+              const truncatedAddress = `${item.player.slice(
+                0,
+                7
+              )}...${item.player.slice(36, 42)}`;
+
               return (
                 <TotalItem
-                  description={item.nickname || "No Name"}
+                  description={item.nickname || truncatedAddress}
                   dunkin="Dunkin Caps"
                   image={image}
                   dollar
                   statistics={item.total.toFixed(2)}
+                  id={i}
+                  address={item.player}
                 />
               );
             })}

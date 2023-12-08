@@ -42,7 +42,6 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.8px;
-
   height: 29px;
   width: 100%;
   display: flex;
@@ -69,20 +68,19 @@
 
 @media screen and (min-width: 996px) {
   .coinflip_table_background {
-    border-radius: 20px 0 0 20px;
+    border-radius: 20px 0 0 0;
   }
 }
 
 @media screen and (max-width: 996px) {
   .coinflip_wrap {
-    bottom: 110px;
+    bottom: 70px;
     height: 207px;
     gap: 25px;
   }
   .coinflip_block {
     height: 154px;
   }
-
   .coinflip_table_background {
     border-radius: 20px 20px 0 0;
   }
@@ -113,8 +111,8 @@
 
 @media screen and (max-width: 600px) {
   .coinflip_wrap {
-    bottom: 65px;
-    height: 110px;
+    bottom: 95px;
+    height: 140px;
   }
 }
 
@@ -122,4 +120,37 @@
   .coinflip_table_background_img {
     object-fit: cover;
   }
+}
+
+.total_container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media (max-width: 650px) {
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    gap: 0px;
+  }
+}
+
+.total_won {
+  color: #4ed26c;
+}
+
+.total_lost {
+  color: #fc3c37;
 }

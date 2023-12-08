@@ -9,9 +9,9 @@
   z-index: 101;
   display: flex;
   justify-content: center;
-  @media (min-width: 850px) {
-    // min-height: 466px;
-    align-items: center;
+  @media (min-width: 650px) {
+    height: calc(100vh - 70px);
+    top: 70px;
   }
 }
 
@@ -27,60 +27,81 @@
 }
 
 .banner {
+  width: 100%;
+  max-width: 465px;
+  max-height: 575px;
   display: flex;
+  text-align: center;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   border-radius: 12px;
   transition: all 0.8s;
   transform: scaleY(1);
+  height: 100%;
   position: relative;
   opacity: 1;
   z-index: 103;
-  min-height: 349px;
-  padding: 30px 31px 20px 32px;
-  height: fit-content;
-  top: 76px;
+  min-height: 370px;
+  padding: 40px 10px 10px 10px;
+  top: 50%;
+  transform: translateY(-50%);
   box-sizing: border-box;
-
   @media (min-width: 700px) {
-    padding: 40px 65px 30px 65px;
-    min-height: 466px;
-    top: 90px;
+    padding: 54px 10px 20px 10px;
     border-radius: 20px;
+    // top: 50px;
   }
-  @media (min-width: 850px) {
-    top: 0;
-  }
-
   @media (min-width: 1280px) {
-    min-height: 670px;
-    padding: 72px 58px 51px 58px;
-    // margin-top: 50px;
+    padding: 30px 38px 30px 38px;
+    // top: 70px;
   }
-  @media (min-width: 1920px) {
-    padding: 30px 59px 40px 59px;
+  @media (min-width: 1920px) and (min-height: 1000px) {
+    padding: 72px 58px 30px 58px;
     min-height: 670px;
+    // top: 125px;
+  }
+  @media (max-width: 700px) {
+    height: 100%;
+    max-height: 490px;
+    max-width: 390px;
+    // top: 76px;
+  }
+  @media (max-width: 650px) {
+    height: 100%;
+    max-height: 360px;
+    max-width: 290px;
+    padding: 15px 10px 10px 10px;
+    // top: 76px;
+    justify-content: start;
+  }
+  @media (min-width: 650px) and (max-height: 650px) {
+    // top: 20px;
+    // transform: scaleY(0.9);
+  }
+  @media (min-width: 1280px) and (max-height: 740px) {
+    // top: 30px;
+    padding: 30px 28px 30px 28px;
   }
 
   &.move_banner {
     transition: all 0.8s;
     box-shadow: 1px 1px 45px 50px rgba(238, 208, 110, 0.25);
-    // mb
+
     @media (min-width: 850px) {
       margin-right: 400px;
     }
   }
 }
 
-.claimBanner {
-  padding: 43px 31px 20px 32px;
+// .claimBanner {
+//   padding: 43px 31px 20px 32px;
 
-  @media (min-width: 700px) {
-    padding: 75px 65px 30px 65px;
-  }
-}
+//   @media (min-width: 700px) {
+//     padding: 75px 65px 30px 65px;
+//   }
+// }
 
-// 272
 .closed {
   transition: all 0.8s;
   transform: scaleY(0);
@@ -94,42 +115,28 @@
   left: 0;
   overflow: hidden;
   border-radius: 20px;
+  @media (max-width: 650px) {
+    border-radius: 12px;
+  }
 }
 
 .img {
+  z-index: -1;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+
   transition: all 0.8s;
   &:hover {
     transform: scale(1.1);
   }
-}
 
-.title {
-  color: #f2e1a9;
-  text-align: center;
-  font-family: var(--font-nunito-sans);
-  font-weight: 800;
-  line-height: 130%;
-  letter-spacing: 1.2px;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  font-size: 20px;
-  max-width: 186px;
-
-  @media (min-width: 700px) {
-    max-width: 270px;
-    font-size: 30px;
-  }
-
-  @media (min-width: 1280px) {
-    letter-spacing: 2px;
-    font-size: 50px;
-    max-width: 447px;
+  @media screen and (max-width: 650px) {
+    width: auto;
+    height: auto;
   }
 }
 
@@ -140,18 +147,141 @@
   right: 0;
   transition: all 0.5s;
   color: #7e7e7e;
+  padding: 10px;
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
     color: white;
   }
   @media (min-width: 700px) {
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
+  }
+  @media (min-width: 650px) and (max-height: 650px) {
+    top: 0;
+    right: 0;
+  }
+}
+
+.popup_logo {
+  margin-bottom: 20px;
+  z-index: 2;
+  @media screen and (max-width: 700px) {
+    width: 150px;
+    height: 100px;
+  }
+  @media screen and (max-width: 650px) {
+    width: 90px;
+    height: 57px;
+    margin-bottom: 10px;
+  }
+}
+
+.title_default {
+  margin-bottom: 20px;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+
+  .inner_default_title {
+    font-weight: 800;
+    line-height: 20px;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 17px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    margin-bottom: 7px;
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.text_default {
+  margin-bottom: 20px;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19px;
+
+  span {
+    font-weight: 800;
+  }
+
+  @media screen and (max-width: 700px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 11px;
+    margin-bottom: 19px;
+    margin-top: 28px;
+  }
+}
+.subtitle {
+  margin-bottom: 20px;
+  display: block;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 10px;
+
+  @media screen and (max-width: 700px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    margin-bottom: 8px;
+    line-height: 16px;
+  }
+}
+
+.join_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 252px;
+  padding: 13px 0;
+  height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ffd77c 0%, #c37733 107.41%);
+  box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #121212;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 800;
+  line-height: 24px;
+
+  @media screen and (max-width: 700px) {
+    max-width: 200px;
+  }
+  @media screen and (max-width: 650px) {
+    max-width: 175px;
   }
 }
 
 .connect_wallet_button {
+  text-transform: uppercase;
   position: relative;
   z-index: 3;
   min-width: 114px;
@@ -214,12 +344,12 @@
   @media (min-width: 650px) {
     width: auto;
     height: auto;
-    top: calc(100% + 10px);
+    top: calc(100% - 240px);
     position: absolute;
   }
   @media (min-width: 700px) {
     bottom: 0;
-    top: auto;
+    top: calc(100% - 240px);
   }
   @media (min-width: 850px) {
     top: 0;
@@ -229,15 +359,93 @@
     min-width: 296px;
     right: -400px;
   }
-  // @media (min-width: 850px) {
-  // transform: translateX(0);
-  // right: -400px;
-  // top: 0px;
-  // position: absolute;
-  // }
 }
 
 .header_avaibleWallet_wrap.avaibleWallet_visible {
   visibility: visible;
   opacity: 1;
+}
+
+.banner_wallet_text {
+  max-width: 220px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: 0.48px;
+  span {
+    font-weight: 700;
+  }
+  @media (min-width: 700px) {
+    max-width: 376px;
+    font-size: 12px;
+    margin-top: 16px;
+    letter-spacing: 0.56px;
+    line-height: 140%;
+  }
+  @media (min-width: 1200px) {
+    max-width: 436px;
+    font-size: 14px;
+    margin-top: 30px;
+    letter-spacing: 0.56px;
+  }
+  // @media (min-width: 650px) and (max-height: 685px) {
+  //   margin-top: 5px;
+  // }
+}
+
+.checkbox {
+  margin-top: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #eaeaea;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 16px;
+    margin-top: 8px;
+  }
+}
+
+.checkbox_block {
+  user-select: none;
+  cursor: pointer;
+  transition: all 0.1s;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #d18b34;
+  background: rgba(24, 24, 24, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 650px) {
+    width: 9px;
+    height: 9px;
+
+    img {
+      width: 8px;
+      height: 7px;
+    }
+  }
+}
+
+.checkbox_block.checked {
+  background: #d18b34;
+  filter: drop-shadow(0px 0px 4px #d18b34);
 }

@@ -20,3 +20,9 @@
     padding-right: 0;
   }
 }
+
+.mobile {
+  @media (max-width: 996px) {
+    display: none !important;
+  }
+}

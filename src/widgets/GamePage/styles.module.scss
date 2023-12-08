@@ -8,15 +8,20 @@
 
 .game {
   display: grid;
-  grid-template-columns: 1fr minmax(220px, 17vw);
+  grid-template-columns: 1fr 292px; // minmax(292px, 16.25vw)
   //! margin-bottom: 40px; !-------------------------------------
 }
 
 .game_block {
-  border-radius: 20px 0 0 20px;
+  border-radius: 20px 0 0 0;
   min-height: 680px;
   width: 100%;
   position: relative;
+}
+
+.sound_ico {
+  width: 19px;
+  height: 16px;
 }
 
 .poker_flip_cards_info_wrapper {
@@ -78,6 +83,19 @@
   transform: translate(-50%, -50%);
 }
 
+.custombets_wrap {
+  margin-top: 40px;
+  @media screen and (max-width: 1280px) {
+    margin-top: 30px;
+  }
+  @media screen and (max-width: 700px) {
+    margin-top: 20px;
+  }
+  @media screen and (max-width: 650px) {
+    margin-top: 10px;
+  }
+}
+
 .game_page_modal_title {
   font-family: var(--font-nunito-sans);
   font-size: 22px;
@@ -97,6 +115,23 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
+}
+
+.poker_wager_sound_btn {
+  cursor: pointer;
+  z-index: 5;
+  background: #202020;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  position: absolute;
+  right: 20px;
+  // top: 20px;
 }
 
 .game_page_modal_close_btn {
@@ -126,15 +161,30 @@
 
 @media screen and (max-width: 600px) {
   .game_block {
-    // height: 254px;
-    // min-height: 100%;
-    height: auto;
-    min-height: 254px;
+    // height: 255px;
+    min-height: 100%;
+    height: 342px;
   }
 }
 
-//////////////////////////////////////////////////
+.poker_wager_sound_btn {
+  cursor: pointer;
+  z-index: 5;
+  background: #202020;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
 
+//////////////////////////////////////////////////
 .win_wrapper {
   position: absolute;
   left: calc(50% - 191px);
@@ -152,6 +202,9 @@
 @media screen and (max-width: 996px) {
   .win_wrapper {
     bottom: 96px;
+  }
+  .poker_wager_sound_btn {
+    display: none;
   }
 }
 
@@ -173,5 +226,12 @@
   .win_wrapper {
     left: calc(50vw - 157px);
     top: calc(50vh - 112px);
+  }
+}
+
+.mobile {
+  margin: 0 auto 8px auto !important;
+  @media (min-width: 996px) {
+    display: none;
   }
 }

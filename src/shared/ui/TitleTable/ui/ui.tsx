@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./ui.module.scss";
-
+import clsx from "clsx";
 
 export const TitleTable: FC<{}> = () => {
   return (
@@ -24,11 +24,14 @@ export const TitleTable: FC<{}> = () => {
         <th className={styles.th}>
           <span className={styles.titles_item}>Multipiler</span>
         </th>
-        <th className={styles.th}>
+        {/* <th className={styles.th}>
           <span className={styles.titles_item}>Explorer</span>
-        </th>
+        </th> */}
         <th className={styles.th}>
           <span className={styles.titles_item}>Profit</span>
+        </th>
+        <th className={clsx(styles.th, styles.th_mobile)}>
+          <span className={styles.titles_item}>Explorer</span>
         </th>
       </tr>
     </thead>

@@ -40,7 +40,9 @@ import { useAccount } from "wagmi";
 import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
 import Link from "next/link";
 import { checkPageClicking } from "@/shared/tools";
-
+import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
@@ -53,20 +55,8 @@ const Emblem: FC<EmblemProps> = (props) => {
 
 interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
-  const [flipOpen, isOpen] = useUnit([
-    SideBarModel.flipOpen,
-    SideBarModel.$isOpen,
-  ]);
   return (
     <div className={s.left_menu}>
-      <div
-        className={s.burger}
-        onClick={() => {
-          flipOpen();
-        }}
-      >
-        <Image src={Burger} alt={""} width={22.5} height={15} />
-      </div>
       <Emblem />
     </div>
   );
@@ -86,6 +76,10 @@ const Links: FC<LinksProps> = (props) => {
 
 interface ConnectWalletButtonProps {}
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [isOpen, isMainWalletOpen, setBlur] = useUnit([
     SideBarModel.$isOpen,
     MainWallet.$isMainWalletOpen,
@@ -130,14 +124,27 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     setBlur(false);
     document.documentElement.style.overflow = "visible";
   };
-
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
+  const { isConnecting } = useAccount();
   return (
     <div
       className={s.connect_wallet_button_wrap}
       data-id={"connect-wallet-block"}
     >
-      <div className={s.connect_wallet_button} onClick={handleConnectWalletBtn}>
-        Connect Wallet
+      <div
+        className={s.connect_wallet_button}
+        onClick={() => {
+          setStartConnect(true);
+          handleConnectWalletBtn();
+        }}
+      >
+        {isConnecting && startConnect ? (
+          <LoadingDots className={s.dots_black} title="Connecting" />
+        ) : (
+          "Connect Wallet"
+        )}
       </div>
       <div
         className={`${s.header_avaibleWallet_wrap} ${
@@ -191,7 +198,8 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
   const closeSidebar = () => {
     close();
-    document.documentElement.style.overflow = "visible";
+    document.documentElement.style.background = "visible";
+    document.documentElement.classList.remove("scroll-disable");
   };
 
   useEffect(() => {
@@ -215,7 +223,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
           // height={25}
           className={s.icon}
         />
-        <div className={s.new_notification}></div>
+        {/* <div className={s.new_notification}></div> */}
       </div>
       <div className={`${s.button} ${s.chat}`}>
         <Image
@@ -250,6 +258,13 @@ const RightMenu: FC<RightMenuProps> = (props) => {
                 />
               )}
             </div>
+          ) : isConnected && isOpen ? (
+            <button
+              className={s.header_mobile_closeSidebar_btn}
+              onClick={closeSidebar}
+            >
+              <Image alt="close-ico" src={closeIco} />
+            </button>
           ) : (
             <ConnectWalletButton />
           )}
@@ -261,12 +276,20 @@ const RightMenu: FC<RightMenuProps> = (props) => {
 
 interface BottomMenuProps {}
 const BottomMenu: FC<BottomMenuProps> = (props) => {
-  const [openSidebar] = useUnit([SideBarModel.Open]);
+  const [openSidebar, closeSb, isOpen] = useUnit([
+    SideBarModel.Open,
+    SideBarModel.Close,
+    SideBarModel.$isOpen,
+  ]);
 
   const openSB = () => {
-    openSidebar();
-    window.scrollTo(0, 0);
-    document.documentElement.style.overflow = "hidden";
+    if (!isOpen) {
+      openSidebar();
+      document.documentElement.classList.add("scroll-disable");
+    } else {
+      closeSb();
+      document.documentElement.classList.remove("scroll-disable");
+    }
   };
 
   return (
@@ -291,17 +314,16 @@ export interface HeaderProps {
   isGame: boolean;
 }
 export const Header: FC<HeaderProps> = (props) => {
+  const [isOpen] = useUnit([SidebarM.$isOpen]);
   return (
     <>
-      <>
-        <div className={s.header}>
-          <LeftMenu />
-          <Links />
-          {/* <NetworkSelect /> */}
-          <RightMenu isGame={props.isGame} />
-        </div>
-        <BottomMenu />
-      </>
+      <div className={clsx(s.header, !isOpen && s.header_close)}>
+        <LeftMenu />
+        <Links />
+        {/* <NetworkSelect /> */}
+        <RightMenu isGame={props.isGame} />
+      </div>
+      <BottomMenu />
     </>
   );
 };

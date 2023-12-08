@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 
 import { SideBar } from "@/widgets/SideBar";
@@ -13,18 +13,30 @@ import { web3 } from "@/entities/web3";
 import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
+import * as SwapModel from "@/widgets/Swap/model/index";
+import * as BonusPopupM from "@/widgets/PopUpBonus/model";
+import clsx from "clsx";
+import { useMediaQuery } from "@/shared/tools";
 
 interface LayoutProps {
   children?: any;
   gameName: string | undefined;
+  activePageLink?: string;
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
-
+  const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
+  const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
+  const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
 
   useEffect(() => {
     if (window.innerWidth <= 650) close();
+  }, []);
+
+  useEffect(() => {
+    const dontShowState = localStorage.getItem("bonusPopupState");
+    setPopupBonusState(JSON.stringify(dontShowState));
   }, []);
 
   return (
@@ -33,15 +45,19 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          <PopUpBonus />
+          {popupBonusState === `"true"` ? null : <PopUpBonus />}
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >
             <Header isGame={props.gameName != undefined} />
             <div
-              className={`${s.side_bar_wrapper} ${isOpen && s.sideBar_opened}`}
+              className={clsx(
+                s.side_bar_wrapper,
+                isOpen && s.sideBar_opened,
+                swapOpen && s.swap_open
+              )}
             >
-              <SideBar />
+              <SideBar activePage={props.activePageLink} />
             </div>
 
             {/* <Blur /> */}

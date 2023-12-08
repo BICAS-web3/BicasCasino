@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Ledger from "@/public/media/select_wallet/Ledger.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
@@ -19,6 +19,11 @@ import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
 import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
+import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
+import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
+import closeIco from "@/public/media/misc/closeAccIco.png";
+import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
+import { useAccount } from "wagmi";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -60,12 +65,27 @@ export interface AccountProps {
   nickname: string | null;
 }
 export const Account: FC<AccountProps> = (props) => {
+  const { address } = useAccount();
   const { disconnect } = useDisconnect();
   const truncatedAddress = `${props.address.slice(
     0,
     7
   )}...${props.address.slice(36, 42)}`;
   // const [copied, setCopied] = useState(false);
+  const [avaSize, setAvaSize] = useState("50");
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth < 650) {
+      setAvaSize("50");
+    } else {
+      setAvaSize("50");
+    }
+  }, [screenWidth]);
 
   const [closeHeaderAccount, setBlur] = useUnit([
     HeaderAccModel.Close,
@@ -74,27 +94,21 @@ export const Account: FC<AccountProps> = (props) => {
 
   const handleHeaderAccClose = () => {
     document.documentElement.style.overflow = "visible";
-    setBlur(false);
     closeHeaderAccount();
   };
 
   return (
     <div className={s.account_container}>
-      <div className={s.account}>
-        <div className={s.main_text}>Account</div>
-        <button className={s.btn_close} onClick={handleHeaderAccClose}>
-          <Image
-            src={Close}
-            alt={""}
-            width={17}
-            height={17}
-            className={s.close_icon}
-          />
-        </button>
-      </div>
-      <div className={s.line}></div>
+      <Image
+        onClick={handleHeaderAccClose}
+        src={closeIco}
+        className={s.hidden_desk_close_ico}
+        alt="close-ico"
+      />
       <div className={s.profile}>
-        <Image src={Avatar} alt={""} className={s.avatar_icon} />
+        <div className={s.profile_ava_wrap}>
+          <BlockiesAva size={avaSize} address={address} />
+        </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
             {props.nickname &&
@@ -120,6 +134,13 @@ export const Account: FC<AccountProps> = (props) => {
             window.location.assign(`/account/${props.address.toLowerCase()}`);
           }}
         />
+        <div className={`${s.accountElement} ${s.network_elem}`}>
+          <div className={s.network_left_group}>
+            <Image src={coinbaseIco} alt="network_ico" />
+            <span className={s.text_icon}>Coinbase</span>
+          </div>
+          <Image src={networkConnectIco} alt="connection_ico" />
+        </div>
         <AccountElement
           name="Explorer"
           icon={ExplorerIcon}

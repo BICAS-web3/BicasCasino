@@ -1,4 +1,12 @@
-import { FC, useEffect, useState, ChangeEvent, useRef } from "react";
+import {
+  FC,
+  useEffect,
+  useState,
+  ChangeEvent,
+  useRef,
+  lazy,
+  Suspense,
+} from "react";
 
 import {
   useAccount,
@@ -40,10 +48,15 @@ import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
 import { DiceCanvas } from "./DiceModel";
+
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import s from "./styles.module.scss";
 import clsx from "clsx";
+
+import * as DiceM from "./model";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -54,11 +67,16 @@ enum CoinAction {
   Stop = "",
 }
 
-export interface DiceProps { }
+export interface DiceProps {
+  gameText: string;
+}
 
-export const Dice: FC<DiceProps> = () => {
+const Dice: FC<DiceProps> = ({ gameText }) => {
   const { isConnected, address } = useAccount();
   const [
+    lost,
+    profit,
+    setPlayingStatus,
     wagered,
     playSounds,
     switchSounds,
@@ -84,6 +102,9 @@ export const Dice: FC<DiceProps> = () => {
     setWagered,
     allowance,
   ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
+    DiceM.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -152,15 +173,22 @@ export const Dice: FC<DiceProps> = () => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
-    value: fees + (pickedToken && pickedToken.contract_address == '0x0000000000000000000000000000000000000000' ? (BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) * BigInt(100000000000)) : BigInt(0)),
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0)),
     enabled: true,
   });
 
@@ -210,12 +238,18 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [GameState]);
 
+  useEffect(() => {
+    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  }, [inGame]);
+
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
-    enabled: pickedToken?.contract_address != '0x0000000000000000000000000000000000000000',
+    enabled:
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -246,7 +280,7 @@ export const Dice: FC<DiceProps> = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + (data.gasPrice / BigInt(4)))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -319,7 +353,11 @@ export const Dice: FC<DiceProps> = () => {
           total_value <= currentBalance
         ) {
           console.log("Allowance", allowance);
-          if ((!allowance || (allowance && allowance <= cryptoValue)) && pickedToken?.contract_address != '0x0000000000000000000000000000000000000000') {
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
             //return;
@@ -354,7 +392,6 @@ export const Dice: FC<DiceProps> = () => {
     }
   }, [gameStatus]);
 
-
   const rangeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -364,7 +401,8 @@ export const Dice: FC<DiceProps> = () => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
@@ -397,73 +435,121 @@ export const Dice: FC<DiceProps> = () => {
     },
   ];
 
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    // setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
-    <div className={s.dice}>
-      <div className={s.model}>
-        <DiceCanvas inGame={inGame} />
-      </div>
-      <div className={s.dice_container}>
-        <Image className={s.cube} src={dice_cube} alt="cube" />
-        <div className={s.dice_table_background}>
-          <Image
-            className={s.dice_table_background_img}
-            src={bgImage}
-            alt="test"
-          />
+    <>
+      {" "}
+      {error && (
+        <ErrorCheck
+          text="Something went wrong, please contact customer support."
+          btnTitle="Contact us"
+        />
+      )}
+      <div className={s.dice}>
+        {" "}
+        <WagerLowerBtnsBlock
+          className={s.dice_btns}
+          game="dice"
+          text={gameText}
+        />
+        <div className={s.model}>
+          <Suspense fallback={<div>...</div>}>
+            <DiceCanvas inGame={inGame} />
+          </Suspense>
         </div>
-        <div className={s.range_container}>
-          <span className={s.roll_range_value}>{RollValue}</span>
-          <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
-          <div className={s.custom_range_input_body}></div>
-          <input
-            className={clsx(
-              s.dice_range,
-              rollOver ? s.dice_over : s.dice_under
-            )}
-            type="range"
-            min={rollOver ? 5 : 0.1}
-            max={rollOver ? 99.9 : 95}
-            value={RollValue}
-            onChange={onChange}
-            ref={rangeRef}
-            step={0.1}
-          />
-          <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
-        </div>
-        {/* <div className={s.dice_about}>
-          <span className={s.green_color}>32</span>
-          <span className={s.red_color}>343</span>
-          <span>
-            Total: <span className={s.green_color}>{total.toFixed(2)}</span>
-          </span>
-        </div> */}
-        <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
-          <Image
-            src={playSounds ? soundIco : soundOffIco}
-            alt={playSounds ? "sound-on" : "sound-off"}
-          />
-        </button>
-      </div>
-      <div className={s.dice_value_container}>
-        {diceValue.map((dice) => (
-          <div key={dice.id} className={s.dice_under_conteiner}>
-            <h3 className={s.dice_under_title}>
-              {dice.title}{" "}
-              {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
-            </h3>
-            <div className={s.dice_under_data}>
-              <span className={s.dice_under_value}>{dice.value}</span>
-              <Image
-                onClick={() => {
-                  dice.title === "Roll" && changeBetween();
-                }}
-                src={dice.img_src}
-                alt={dice.img_src}
-              />
+        <div className={s.dice_container}>
+          <Image className={s.cube} src={dice_cube} alt="cube" />
+          <div className={s.dice_table_background}>
+            <Image
+              className={s.dice_table_background_img}
+              src={bgImage}
+              alt="test"
+            />
+          </div>
+          <div className={s.total_container}>
+            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:{" "}
+              <span
+                className={clsx(
+                  totalValue > 0 && s.total_won,
+                  totalValue < 0 && s.total_lost
+                )}
+              >
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
             </div>
           </div>
-        ))}
+          <div className={s.range_wrapper}>
+            {" "}
+            <div className={s.range_container}>
+              <span className={s.roll_range_value}>{RollValue}</span>
+              <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
+              <div className={s.custom_range_input_body}></div>
+              <input
+                className={clsx(
+                  s.dice_range,
+                  rollOver ? s.dice_over : s.dice_under
+                )}
+                type="range"
+                min={rollOver ? 5 : 0.1}
+                max={rollOver ? 99.9 : 95}
+                value={RollValue}
+                onChange={onChange}
+                ref={rangeRef}
+                step={0.1}
+              />
+              <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+            </div>
+          </div>
+          {/* <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
+            <Image
+              src={playSounds ? soundIco : soundOffIco}
+              alt={playSounds ? "sound-on" : "sound-off"}
+            />
+          </button> */}
+        </div>
+        <div className={s.dice_value_container}>
+          {diceValue.map((dice) => (
+            <div key={dice.id} className={s.dice_under_conteiner}>
+              <h3 className={s.dice_under_title}>
+                {dice.title}{" "}
+                {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>}
+              </h3>
+              <div className={clsx(s.dice_under_data)}>
+                <span className={s.dice_under_value}>{dice.value}</span>
+                <div
+                  className={clsx(
+                    s.dice_under_img,
+                    dice.title === "Roll" && s.dice_under_data_medium
+                  )}
+                >
+                  <Image
+                    onClick={() => {
+                      dice.title === "Roll" && changeBetween();
+                    }}
+                    src={dice.img_src}
+                    alt={dice.img_src}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
+
+export default Dice;

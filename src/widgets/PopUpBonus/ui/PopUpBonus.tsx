@@ -1,11 +1,10 @@
 import { FC, useEffect, useState } from "react";
 
 import { useAccount, useContractRead } from "wagmi";
-
 import Image from "next/image";
-
+import * as PopupModel from "../model";
 import { useUnit } from "effector-react";
-
+import checkIco from "@/public/media/banner_images/checkIco.png";
 import {
   useContractWrite,
   useNetwork,
@@ -23,23 +22,33 @@ import { ABI as abi } from "@/shared/contracts/ClaimBonusABI";
 import { checkPageClicking } from "@/shared/tools";
 import { CloseIcon } from "@/shared/SVGs";
 
-import banner_desktop from "@/public/media/banner_images/banner_desktop.png";
-import banner_medium from "@/public/media/banner_images/banner_medium.png";
-import banner_mobile from "@/public/media/banner_images/banner_mobile.png";
+import banner_desktop from "@/public/media/banner_images/popupDeskBg.png";
+import banner_medium from "@/public/media/banner_images/popupTabletBg.png";
+import banner_mobile from "@/public/media/banner_images/popupPhoneBg.png";
+import logo from "@/public/media/banner_images/logo.svg";
 
 import s from "./style.module.scss";
 
 import clsx from "clsx";
+import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as ConnectModel from "@/widgets/Layout/model";
+import { useRouter } from "next/router";
 
 export const PopUpBonus: FC = () => {
+  const [startConnect, setStartConnect] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+  ]);
   const [claimed, setClaimed] = useState<boolean>();
   const [close, setClose] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [walletVisibility, setWalletVisibility] = useState(false);
-
   const { chain } = useNetwork();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isConnecting } = useAccount();
   const { switchNetwork } = useSwitchNetwork();
+  const [showStateModal, setShowStateModal] = useState(false);
+
+  const router = useRouter();
 
   let bgImage;
   const documentWidth = document.documentElement.clientWidth;
@@ -53,15 +62,33 @@ export const PopUpBonus: FC = () => {
     data: claimedState,
     isSuccess: readSuccess,
     isFetching,
+    error,
   } = useContractRead({
     chainId: chain?.id,
-    address: "0x5518E648341147B0F4041c5e2a2cca41BDc723a0",
+    address:
+      chain?.id === 42161
+        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+        : "0x255854fA295C36a667979410313b304e36bcd65b",
     abi,
     functionName: "claimedBonus",
     args: [address],
     enabled: true,
     watch: isConnected,
   });
+
+  const [showState, setShowState] = useUnit([
+    PopupModel.$showState,
+    PopupModel.setShowState,
+  ]);
+
+  useEffect(() => {
+    isConnecting && setStartConnect(false);
+  }, []);
+  useEffect(() => {
+    return () => {
+      setStartConnect(false);
+    };
+  }, []);
 
   useEffect(() => {
     if (readSuccess && address) {
@@ -78,8 +105,8 @@ export const PopUpBonus: FC = () => {
 
   //? connect wallet func
   const handleConnectWalletBtn = () => {
-    if (chain?.id !== 42161 && address) {
-      switchNetwork!(42161);
+    if (!chainState && address) {
+      switchNetwork!(137);
     }
     if (isMainWalletOpen) {
       return null;
@@ -127,7 +154,10 @@ export const PopUpBonus: FC = () => {
   //? contract to add bonus
   const { config: ClaimBonusConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x5518E648341147B0F4041c5e2a2cca41BDc723a0",
+    address:
+      chain?.id === 42161
+        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+        : "0x255854fA295C36a667979410313b304e36bcd65b",
     abi,
     functionName: "claimBonus",
     enabled: true,
@@ -158,17 +188,49 @@ export const PopUpBonus: FC = () => {
   //? shorten call claim func
   const claimBonus = () => {
     if (!isConnected) {
-      handleConnectWalletBtn();
-    } else if (chain?.id !== 42161) {
-      switchNetwork!(42161);
+      router.push("/RegistrManual");
+      // handleConnectWalletBtn();
+    } else if (!chainState) {
+      switchNetwork!(137);
     } else {
       claimBouns?.();
     }
   };
 
   useEffect(() => {
+    const storedState = localStorage.getItem("bonusPopupState");
+    if (storedState === null) {
+      localStorage.setItem("bonusPopupState", "false");
+    } else {
+      setShowState(storedState === "true");
+    }
+  }, []);
+
+  const handleShowStateBtn = () => {
+    setShowState(!showState);
+    localStorage.setItem("bonusPopupState", `${!showState}`);
+  };
+
+  useEffect(() => {
+    const storedState = localStorage.getItem("bonusPopupState");
+    if (storedState === "false") {
+      setShowState(false);
+    }
+  }, []);
+
+  useEffect(() => {
     claimed === true && isConnected && closeModal();
   }, [claimed]);
+
+  const [chainState, setChainState] = useState<boolean>();
+
+  useEffect(() => {
+    if (chain?.id === 42161 || chain?.id === 137) {
+      setChainState(true);
+    } else {
+      setChainState(false);
+    }
+  }, [chain?.id]);
 
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
@@ -190,6 +252,7 @@ export const PopUpBonus: FC = () => {
     document.documentElement.style.height = "auto";
     return;
   }
+
   return (
     <div
       onClick={closeModal}
@@ -209,30 +272,57 @@ export const PopUpBonus: FC = () => {
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <Image className={s.img} src={bgImage!} alt="100%" />
+          <img className={s.img} src={bgImage?.src} alt="100%" />
         </div>
-        <h2 className={s.title}>
-          {!isConnected ? "Receive your first 100$ bonus" : "Claim your bonus"}
-        </h2>
+        <Image src={logo} className={s.popup_logo} alt="logo" />
+        <span className={s.title_default}>
+          <span className={s.inner_default_title}>No KYC,</span> all privacy -
+          just play and win!
+        </span>
+        <span className={s.title_default}>
+          Unlock the thrill: Get your{" "}
+          <span className={s.inner_default_title}>
+            $100 bonus in DRAXB tokens now!
+          </span>
+        </span>
+        <p className={s.text_default}>
+          Step into the <span>Web3.0</span> realm as a Greek god of gaming!
+          Immerse yourself in an exhilarating gaming experience filled with
+          divine adventures.
+        </p>
         <div
           data-id={"connect-wallet-block"}
           onClick={(e) => e.stopPropagation()}
         >
+          <span className={s.subtitle}>Blockchain gas fee may apply</span>
           <button className={s.connect_wallet_button} onClick={claimBonus}>
-            {address && isConnected
-              ? chain?.id !== 42161
-                ? "Switch"
-                : "Claim"
-              : "Connect Wallet"}
-          </button>
+            {isConnecting && startConnect ? (
+              <LoadingDots className={s.dots_black} title="Connecting" />
+            ) : address && isConnected ? (
+              !chainState ? (
+                "Switch"
+              ) : (
+                "Claim"
+              )
+            ) : (
+              "join game"
+            )}
+          </button>{" "}
           {!address && !isConnected && (
             <div
-              className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-                }`}
+              className={`${s.header_avaibleWallet_wrap} ${
+                walletVisibility && s.avaibleWallet_visible
+              }`}
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
           )}
+        </div>
+        <div className={s.checkbox} onClick={handleShowStateBtn}>
+          <div className={`${s.checkbox_block} ${showState && s.checked}`}>
+            {showState && <Image src={checkIco} alt="arrow" />}
+          </div>
+          Don’t show again
         </div>
       </article>
     </div>

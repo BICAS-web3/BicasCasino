@@ -50,7 +50,7 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
         <span className={s.nft_name}>{name}</span>
         <span className={s.nft_number}>#{number}</span>
       </div>
-      <span className={s.nft_price}>{price} BNB</span>
+      {/* <span className={s.nft_price}>{price} BNB</span> */}
     </article>
   );
 };

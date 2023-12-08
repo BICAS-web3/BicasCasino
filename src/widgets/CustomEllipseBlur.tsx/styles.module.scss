@@ -1,0 +1,10 @@
+.custom_ellipse_blur {
+  width: 100%;
+  height: 240px;
+  border-radius: 100%;
+  background: rgba(243, 189, 107, 0.1);
+  mix-blend-mode: hard-light;
+  filter: blur(100px);
+  background-size: contain;
+  z-index: -1;
+}

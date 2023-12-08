@@ -5,56 +5,38 @@
   background-color: #151515;
   border-radius: 20px;
   justify-content: space-between;
-
-  @media screen and (max-width: 650px) {
-    border-radius: 12px 12px 0 0;
+  width: auto;
+  @media (max-width: 650px) {
+    border-radius: 0;
     border-bottom: 2px solid #252525;
     align-items: center;
-    justify-content: space-around;
-  }
-  @media screen and (max-width: 425px) {
-
-    justify-content: space-between;
   }
 
   .card {
     display: flex;
-    gap: 12px;
     align-items: flex-end;
     background-color: #151515;
     border-radius: 20px;
     padding: 34px 40px;
     justify-content: space-between;
     height: fit-content;
-
-    @media screen and (max-width: 3840px) {
-      max-width: 100%;
+    padding: 34px 40px;
+    @media (max-width: 1920px) {
+      gap: 30px;
     }
-    @media screen and (max-width: 1440px) {
-      padding: 34px 20px;
+    @media (max-width: 1280px) {
+      gap: 30px;
+      padding: 34px 0 34px 40px;
     }
-    @media screen and (max-width: 864px) {
-      padding: 34px 16px;
-      max-width: 100%;
+    @media (max-width: 750px) {
+      padding: 20px 0 16px 16px;
     }
-    @media screen and (max-width: 768px) {
-      padding: 34px 20px;
-    }
-    @media screen and (max-width: 650px) {
-      padding: 34px 15px;
-    }
-    @media screen and (max-width: 425px) {
-      padding: 20px 16px;
+    @media (max-width: 650px) {
+      gap: 12px;
     }
 
     img {
-      margin-right: 14px;
-      @media screen and (max-width: 650px) {
-        margin: 0;
-        width: 90px;
-        height: 90px;
-      }
-      @media screen and (max-width: 425px) {
+      @media (max-width: 650px) {
         margin: 0;
         width: 50px;
         height: 50px;
@@ -63,16 +45,15 @@
 
     .user {
       display: flex;
-      margin-bottom: 10px;
+      margin-bottom: 1px;
       flex-direction: column;
       align-items: flex-start;
-      gap: 6px;
+      gap: 14px;
       margin-right: auto;
-      @media screen and (max-width: 425px) {
+      @media (max-width: 650px) {
         margin-bottom: 0;
-        gap: 2px;
+        gap: 8px;
       }
     }
   }
 }
-

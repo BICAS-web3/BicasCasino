@@ -1,13 +1,13 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export enum RangeType {
-    Bets,
-    Rows
+  Bets,
+  Rows,
 }
 
 // variables
 export const $pickedValue = createStore<number>(1);
-export const $pickedRows = createStore<number>(8);
+export const $pickedRows = createStore<number>(10);
 
 // events
 export const pickValue = createEvent<number>();

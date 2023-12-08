@@ -7,9 +7,9 @@
 .main_container {
   display: flex;
   flex-direction: column;
-  row-gap: 60px;
   width: calc(100% - 100px);
-  padding: 100px 50px 0 50px;
+
+  padding: 110px 50px 0 50px;
 }
 
 .main_area {
@@ -250,7 +250,9 @@
   .main_container {
     padding-left: 30px;
     padding-right: 30px;
+    padding-top: 90px;
     width: 100%;
+    row-gap: 0;
   }
 
   .games,
@@ -315,7 +317,6 @@
     width: 100%;
     top: 76px;
     padding: 72px 0 0 0;
-    row-gap: 18px;
   }
 
   .games {

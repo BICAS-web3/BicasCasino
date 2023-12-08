@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FC, useEffect, useState } from "react";
 import { TitleTable } from "@/shared/ui/TitleTable/ui/ui";
 import styles from "./ui.module.scss";
@@ -107,32 +107,34 @@ import { settingsModel } from "@/entities/settings";
 //   },
 // ];
 interface IBetsHistoryReDesign {
-  title: string,
-  address: string
+  title: string;
+  address: string;
 }
 
 export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
   const [bets, setBets] = useState<api.T_BetInfo[]>([]);
 
-  const [
-    AvailableBlocksExplorers,
-  ] = useUnit([
+  const [AvailableBlocksExplorers] = useUnit([
     settingsModel.$AvailableBlocksExplorers,
   ]);
 
   const getBets = async (id: number | null) => {
-    var new_bets = (await api.getUserBets({
-      address: props.address,
-      starting_id: id
-    })).body as api.T_Bets;
-    setBets(bets.length == 0 ? new_bets.bets : ([...bets, ...new_bets.bets] as any));
-  }
+    var new_bets = (
+      await api.getUserBets({
+        address: props.address?.toLowerCase(),
+        starting_id: id,
+      })
+    ).body as api.T_Bets;
+    setBets(
+      bets.length == 0 ? new_bets.bets : ([...bets, ...new_bets.bets] as any)
+    );
+  };
 
   useEffect(() => {
     const run = async () => {
       console.log("Getting bets");
       await getBets(null);
-    }
+    };
     run();
   }, []);
 
@@ -140,49 +142,72 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
     <div className={styles.wrapper}>
       <h2 className={styles.title}>{props.title}</h2>
       <div className={styles.table_container}>
-        <table className={styles.table}>
-          <TitleTable />
-          <tbody className={styles.tbody}>
-            {bets && AvailableBlocksExplorers &&
-              bets.map((bet) => {
-                console.log("Bet", bet);
-                const time = new Date(bet.timestamp * 1000);
-                const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
-                const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
-                return (
-                  <tr key={bet.id}>
-                    <TableItem
-                      trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
-                      time={{
-                        date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
-                        time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
-                      }}
-                      game_name={bet.game_name}
-                      player_address={bet.player}
-                      player_name={bet.player_nickname == null ?
-                        `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
-                      wager={wager}
-                      multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-                      profit={profit}
-                      token={bet.token_name.toUpperCase()}
-                    />
-                  </tr>);
-              })}
-          </tbody>
-        </table>
+        {bets && bets?.length > 0 ? (
+          <table className={styles.table}>
+            <TitleTable />
+            <tbody className={styles.tbody}>
+              {AvailableBlocksExplorers &&
+                bets.map((bet) => {
+                  console.log("Bet", bet);
+                  const time = new Date(bet.timestamp * 1000);
+                  const wager = parseFloat(
+                    (Number(bet.wager) / 10 ** 18).toFixed(2)
+                  );
+                  const profit = parseFloat(
+                    (Number(bet.profit) / 10 ** 18).toFixed(2)
+                  );
+                  return (
+                    <tr className={styles.table_row} key={bet.id}>
+                      <TableItem
+                        trx_url={`${AvailableBlocksExplorers.get(
+                          bet.network_id
+                        )}/tx/${bet.transaction_hash}`}
+                        time={{
+                          date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+                          time: `${time.getHours()}:${(
+                            "0" + time.getMinutes()
+                          ).slice(-2)}`,
+                        }}
+                        ava_address={props.address}
+                        game_name={bet.game_name}
+                        player_address={bet.player}
+                        player_name={
+                          bet.player_nickname == null
+                            ? `${bet.player.slice(0, 5)}...${bet.player.slice(
+                                38,
+                                42
+                              )}`
+                            : bet.player_nickname
+                        }
+                        wager={wager}
+                        multiplier={parseFloat(
+                          (profit / (wager * bet.bets)).toFixed(2)
+                        )}
+                        profit={profit}
+                        token={bet.token_name.toUpperCase()}
+                      />
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        ) : (
+          <span className={styles.no_data}>No data yet</span>
+        )}
       </div>
-      <div className={styles.button}>
-        <CustomButton
-          text="Load more"
-          textColor="gray"
-          color="dark"
-          size="sm"
-          onClick={async () => {
-            await getBets(bets[bets.length - 1].id);
-          }}
-        />
-      </div>
+      {bets && bets?.length > 0 && (
+        <div className={styles.button}>
+          <CustomButton
+            text="Load more"
+            textColor="gray"
+            color="dark"
+            size="sm"
+            onClick={async () => {
+              await getBets(bets[bets.length - 1].id);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
-
