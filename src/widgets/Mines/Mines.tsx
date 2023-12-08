@@ -194,19 +194,23 @@ export const Mines = () => {
 
   const [stop, setStop] = useState(false);
   useEffect(() => {
-    if (inGameMines && stop === false) {
+    if (inGameMines) {
       console.log(inGameMines);
 
       setIsActive(inGameMines);
       if ((inGameMines as any)?.isCashout === false) {
         setIsCashout(false);
         setStopWinning("NO");
+      } else if ((inGameMines as any)?.isCashout === false) {
+        setIsCashout(true);
+        setStopWinning("YES");
       }
       setStop(true);
     }
-  }, [inGameMines]);
+  }, [(inGameMines as any)?.isCashout]);
 
   const toggleMineSelection = (index: number) => {
+    if (isActive?.tilesPicked[index] === true) return;
     if (copySelectedArr?.length > 0 && isCashout === false) {
       if (copySelectedArr.includes(index)) {
         return;
@@ -464,12 +468,12 @@ export const Mines = () => {
             //     alert(1);
             //   }
             // }
-            if (isActive && isActive?.numMines > 0) {
+            if (isActive && isActive?.numMines > 0 && stopGame === false) {
               startRevealing?.();
-              alert(2);
+              // alert(2);
             } else {
               startPlaying?.();
-              alert(1);
+              // alert(1);
             }
           }
         }
@@ -620,6 +624,13 @@ export const Mines = () => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
+  const [stopGame, setStopGame] = useState(false);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Lost) {
+      setStopGame(true);
+    }
+  }, [gameStatus]);
+
   const [copySelectedArr, setCopySelectedArr] = useState<number[]>([]);
   useEffect(() => {
     if (finish) {
@@ -671,20 +682,16 @@ export const Mines = () => {
 
   const [revelNum, setRevealNum] = useState<any>([]);
   useEffect(() => {
-    if (Wagered && cryptoValue > 0) {
+    if (Wagered && cryptoValue > 0 && RevealCount) {
       setRevealNum((prev: any[]) => {
-        if (revelNum?.includes(RevealCount as bigint)) {
-          return [...prev];
+        if (Array.isArray(prev) && prev && prev?.length > 0) {
+          return [RevealCount as bigint];
         } else {
-          if (Array.isArray(prev) && prev && prev?.length > 0) {
-            return [RevealCount as bigint];
-          } else {
-            return [...prev, RevealCount as bigint];
-          }
+          return [...prev, RevealCount as bigint];
         }
       });
     }
-  }, [inGame, RevealCount, Wagered]);
+  }, [Wagered]);
 
   return (
     <>
