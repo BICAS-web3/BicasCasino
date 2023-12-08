@@ -192,8 +192,9 @@ export const Mines = () => {
   });
   const [isActive, setIsActive] = useState<any>(null);
 
+  const [stop, setStop] = useState(false);
   useEffect(() => {
-    if (inGameMines && isActive !== null) {
+    if (inGameMines && stop === false) {
       console.log(inGameMines);
 
       setIsActive(inGameMines);
@@ -201,6 +202,7 @@ export const Mines = () => {
         setIsCashout(false);
         setStopWinning("NO");
       }
+      setStop(true);
     }
   }, [inGameMines]);
 
@@ -426,6 +428,10 @@ export const Mines = () => {
   }, [gameStatus]);
 
   useEffect(() => {
+    console.log("--------------------------", isActive);
+  }, [isActive]);
+
+  useEffect(() => {
     if (Wagered) {
       if (inGame) {
         if (finishPlaying) finishPlaying();
@@ -446,14 +452,24 @@ export const Mines = () => {
             if (setAllowance) setAllowance();
           } else {
             setInGame(true);
-            if (isCashout === false && customStatus) {
+            // if (isCashout === false && customStatus) {
+            //   startRevealing?.();
+            //   alert(2);
+            // } else {
+            //   if (isActive?.numMines > 0) {
+            //     startRevealing?.();
+            //     alert(2);
+            //   } else {
+            //     startPlaying?.();
+            //     alert(1);
+            //   }
+            // }
+            if (isActive && isActive?.numMines > 0) {
               startRevealing?.();
+              alert(2);
             } else {
-              if (isActive?.numMines > 0) {
-                startRevealing?.();
-              } else {
-                startPlaying?.();
-              }
+              startPlaying?.();
+              alert(1);
             }
           }
         }
@@ -655,12 +671,12 @@ export const Mines = () => {
 
   const [revelNum, setRevealNum] = useState<any>([]);
   useEffect(() => {
-    if (Wagered) {
-      setRevealNum((prev: any) => {
+    if (Wagered && cryptoValue > 0) {
+      setRevealNum((prev: any[]) => {
         if (revelNum?.includes(RevealCount as bigint)) {
-          return;
+          return [...prev];
         } else {
-          if (prev && prev?.length > 0) {
+          if (Array.isArray(prev) && prev && prev?.length > 0) {
             return [RevealCount as bigint];
           } else {
             return [...prev, RevealCount as bigint];
