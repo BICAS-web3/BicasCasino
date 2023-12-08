@@ -194,10 +194,10 @@ export const Mines = () => {
 
   const [stop, setStop] = useState(false);
   useEffect(() => {
+    setIsActive(minesState);
+    console.log(minesState);
     if ((minesState as any)?.requestID) {
       console.log(minesState);
-
-      setIsActive(minesState);
       if ((minesState as any)?.isCashout === false) {
         setIsCashout(false);
         setStopWinning("NO");
@@ -286,7 +286,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -308,7 +308,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -418,7 +418,7 @@ export const Mines = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -450,7 +450,7 @@ export const Mines = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -537,17 +537,21 @@ export const Mines = () => {
             )?.name;
             const profitFloat =
               Number(profit / BigInt(10000000000000000)) / 100;
-            setWonStatus({
-              profit: profitFloat,
-              multiplier,
-              token: token as string,
-            });
-            setGameStatus(GameModel.GameStatus.Won);
+            if (isCashout === true) {
+              setWonStatus({
+                profit: profitFloat,
+                multiplier,
+                token: token as string,
+              });
+              setGameStatus(GameModel.GameStatus.Won);
+            }
           } else {
-            const wageredFloat =
-              Number(wagered / BigInt(10000000000000000)) / 100;
-            setLostStatus(wageredFloat);
-            setGameStatus(GameModel.GameStatus.Lost);
+            if (isCashout === true) {
+              const wageredFloat =
+                Number(wagered / BigInt(10000000000000000)) / 100;
+              setLostStatus(wageredFloat);
+              setGameStatus(GameModel.GameStatus.Lost);
+            }
           }
         }
       }
@@ -673,8 +677,8 @@ export const Mines = () => {
       isCashout === true
         ? selectedMine?.length
         : copySelectedArr?.length > 0
-          ? copySelectedArr?.length
-          : selectedMine?.length,
+        ? copySelectedArr?.length
+        : selectedMine?.length,
     ],
     enabled: true,
     watch: isConnected,
@@ -692,7 +696,12 @@ export const Mines = () => {
       });
     }
   }, [Wagered]);
-
+  // useEffect(() => {
+  //   alert(copySelectedArr[0]);
+  // }, [copySelectedArr]);
+  // useEffect(() => {
+  //   alert(isActive?.tilesPicked[24]);
+  // }, [isActive]);
   return (
     <>
       {errorWrite && (
@@ -742,62 +751,74 @@ export const Mines = () => {
                 {result.value.toFixed(2)}x
               </div>
             ))}
-            { }
+            {}
           </div>
           <div
             className={styles.mines_table}
             onMouseDown={() => inGame === false && setIsMouseDown(true)}
             onMouseUp={() => inGame === false && setIsMouseDown(false)}
           >
-            {mineArr.map((index, i) => {
-              const isSelected = selectedMine.includes(index);
-              return (
-                <div
-                  key={index}
-                  onClick={() => inGame === false && toggleMineSelection(index)}
-                  onMouseEnter={() =>
-                    inGame === false && handleMouseMove(index)
-                  }
-                  className={clsx(
-                    styles.mine,
-                    isSelected && styles.mine_selected,
-                    isSelected && !finish && inGame && styles.mine_animation
-                  )}
-                >
-                  <MineIcon
+            {isActive &&
+              mineArr.map((index, i) => {
+                const isSelected = selectedMine.includes(index);
+                // isActive && alert(isActive?.tilesPicked[24]);
+                return (
+                  <div
+                    key={index}
+                    onClick={() =>
+                      inGame === false && toggleMineSelection(index)
+                    }
+                    onMouseEnter={() =>
+                      inGame === false && handleMouseMove(index)
+                    }
                     className={clsx(
-                      styles.mine_main,
-                      isSelected && styles.mine_selected
+                      styles.mine,
+                      isSelected && styles.mine_selected,
+                      isSelected && !finish && inGame && styles.mine_animation
                     )}
-                  />
-                  {lostArr?.length > 0 ? (
-                    lostArr[i].value === true ? (
-                      <MineBombIcon
-                        className={clsx(
-                          styles.mine_green,
-                          isSelected && styles.mine_selected
-                        )}
-                      />
-                    ) : (
-                      <MineMoneyIcon
-                        className={clsx(
-                          styles.mine_green,
-                          isSelected && styles.mine_selected
-                        )}
-                      />
-                    )
-                  ) : (
-                    <MineGreenIcon
+                  >
+                    <MineIcon
                       className={clsx(
-                        styles.mine_green,
+                        styles.mine_main,
                         isSelected && styles.mine_selected
                       )}
                     />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                    {isActive?.tilesPicked[i] ? (
+                      <MineMoneyIcon
+                        className={clsx(
+                          styles.mine_green,
+                          styles.mine_selected
+                        )}
+                      />
+                    ) : lostArr?.length > 0 ||
+                      (isActive?.tilesPicked && isActive?.tilesPicked[i]) ? (
+                      lostArr[i].value === true ? (
+                        <MineBombIcon
+                          className={clsx(
+                            styles.mine_green,
+                            isSelected && styles.mine_selected
+                          )}
+                        />
+                      ) : (
+                        <MineMoneyIcon
+                          className={clsx(
+                            styles.mine_green,
+                            isSelected && styles.mine_selected
+                          )}
+                        />
+                      )
+                    ) : (
+                      <MineGreenIcon
+                        className={clsx(
+                          styles.mine_green,
+                          isSelected && styles.mine_selected
+                        )}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+          </div>{" "}
           <div className={styles.bottom_wrapper}>
             <div className={styles.bottom}>
               <Swiper
