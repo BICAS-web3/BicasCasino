@@ -89,8 +89,8 @@ export const Mines = () => {
   ]);
 
   useEffect(() => {
-    setSelectedLength(selectedMine.length);
-  }, [selectedMine.length]);
+    setSelectedLength(selectedMine?.length);
+  }, [selectedMine?.length]);
 
   const [startedArr, setStartedArr] = useState(defaultValue);
 
@@ -181,7 +181,7 @@ export const Mines = () => {
   }, [pickedValue]);
 
   const toggleMineSelection = (index: number) => {
-    if (copySelectedArr.length > 0 && isCashout === true) {
+    if (copySelectedArr?.length > 0 && isCashout === false) {
       if (copySelectedArr.includes(index)) {
         return;
       } else {
@@ -233,9 +233,9 @@ export const Mines = () => {
 
   useEffect(() => {
     if (stopWinning === "NO") {
-      setIsCashout(true);
-    } else {
       setIsCashout(false);
+    } else {
+      setIsCashout(true);
     }
   }, [stopWinning]);
 
@@ -251,7 +251,7 @@ export const Mines = () => {
       pickedToken?.contract_address,
       pickedValue,
       startedArr,
-      isCashout === true ? false : true,
+      isCashout,
     ],
     value:
       fees +
@@ -269,39 +269,39 @@ export const Mines = () => {
     error: errorWrite,
   } = useContractWrite(startPlayingConfig);
 
-  // const { config: startRevealingConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
-  //   abi: ABIMines,
-  //   functionName: "Mines_Reveal",
-  //   args: [startedArr, isCashout === true ? false : true],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //       : BigInt(0)),
-  //   enabled: true,
-  // });
+  const { config: startRevealingConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    abi: ABIMines,
+    functionName: "Mines_Reveal",
+    args: [startedArr, isCashout],
+    value:
+      fees +
+      (pickedToken &&
+      pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+        : BigInt(0)),
+    enabled: true,
+  });
 
-  // useEffect(() => {
-  //   if (isCashout === false && startPlaying) {
-  //     setCustomFinishGame(true);
-  //   }
-  // }, [isCashout, startPlaying]);
+  useEffect(() => {
+    if (isCashout && startPlaying) {
+      setCustomFinishGame(true);
+    }
+  }, [isCashout, startPlaying]);
 
-  // const {
-  //   write: startRevealing,
-  //   isSuccess: startedRevealing,
-  //   error: errorReveal,
-  // } = useContractWrite(startRevealingConfig);
+  const {
+    write: startRevealing,
+    isSuccess: startedRevealing,
+    error: errorReveal,
+  } = useContractWrite(startRevealingConfig);
 
-  // useEffect(() => {
-  //   if (startedRevealing) {
-  //     setCustomFinishGame(true);
-  //   }
-  // }, [startedRevealing]);
+  useEffect(() => {
+    if (startedRevealing) {
+      setCustomFinishGame(true);
+    }
+  }, [startedRevealing]);
 
   const { config: finishGameConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -393,13 +393,13 @@ export const Mines = () => {
     }
   }, [VRFFees, data]);
 
-  // const [customStatus, setCustomStatus] = useState(false);
+  const [customStatus, setCustomStatus] = useState(false);
 
-  // useEffect(() => {
-  //   if (gameStatus !== null && gameStatus == 0) {
-  //     setCustomStatus(true);
-  //   }
-  // }, [gameStatus]);
+  useEffect(() => {
+    if (gameStatus !== null && gameStatus == 0) {
+      setCustomStatus(true);
+    }
+  }, [gameStatus]);
 
   useEffect(() => {
     if (Wagered) {
@@ -421,13 +421,14 @@ export const Mines = () => {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
-            // if (isCashout && customStatus) {
-            //   if (startRevealing) startRevealing();
-            // } else {
-            //   if (startPlaying) startPlaying();
-            //   setInGame(true);
-            // }
-            if (startPlaying) startPlaying();
+            if (isCashout === false && customStatus) {
+              alert("reveal");
+              if (startRevealing) startRevealing();
+            } else {
+              if (startPlaying) startPlaying();
+              alert("start");
+              setInGame(true);
+            }
           }
         }
       }
@@ -512,7 +513,7 @@ export const Mines = () => {
     abi: ABIMines,
     eventName: "Mines_End_Event",
     listener(log) {
-      if ((log[0] as any).eventName === "Mines_End_Event" && customFinishGame) {
+      if ((log[0] as any).eventName === "Mines_End_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
@@ -552,6 +553,10 @@ export const Mines = () => {
     }
   }, [customFinishGame]);
 
+  useEffect(() => {
+    return () => setEvent?.();
+  }, []);
+
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
@@ -562,10 +567,13 @@ export const Mines = () => {
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon((prev) => prev + profit);
-      setGameResult((prev) => [...prev, { value: profit, status: "won" }]);
+      setGameResult((prev) => [
+        ...prev,
+        { value: profit / cryptoValue, status: "won" },
+      ]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);
-      setGameResult((prev) => [...prev, { value: lost, status: "lost" }]);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
@@ -577,9 +585,9 @@ export const Mines = () => {
         setStartedArr(defaultValue);
         setCopySelectedArr((prev) => [...prev, ...selectedMine]);
         setSelectedMine([]);
-        setFinish(false);
         setLoseIndex(-1);
         setLostArr([]);
+        setFinish(false);
       }, 3000);
     }
   }, [finish]);
@@ -587,15 +595,54 @@ export const Mines = () => {
   useEffect(() => {
     return () => {
       setCustomFinishGame(false);
+      finishPlaying?.();
     };
   }, []);
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
-      setIsCashout(false);
+      setIsCashout(true);
       setCopySelectedArr([]);
     }
   }, [gameStatus]);
+
+  const {
+    data: RevealCount,
+    refetch: fetchRevealCount,
+    error: revealErr,
+  } = useContractRead({
+    chainId: chain?.id,
+    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    abi: ABIMines,
+    functionName: "Mines_GetMultipliers",
+    args: [
+      pickedValue,
+      isCashout === true
+        ? selectedMine?.length
+        : copySelectedArr?.length > 0
+        ? copySelectedArr?.length
+        : selectedMine?.length,
+    ],
+    enabled: true,
+    watch: isConnected,
+  });
+
+  const [revelNum, setRevealNum] = useState<any>([]);
+  useEffect(() => {
+    if (Wagered) {
+      setRevealNum((prev: any) => {
+        if (revelNum.includes(RevealCount as bigint)) {
+          return;
+        } else {
+          if (prev) {
+            return [RevealCount as bigint];
+          } else {
+            return [...prev, RevealCount as bigint];
+          }
+        }
+      });
+    }
+  }, [inGame, RevealCount, Wagered]);
 
   return (
     <>
@@ -643,7 +690,7 @@ export const Mines = () => {
                 )}
                 key={i}
               >
-                {result.value}x
+                {result.value.toFixed(2)}x
               </div>
             ))}
             {}
@@ -674,7 +721,7 @@ export const Mines = () => {
                       isSelected && styles.mine_selected
                     )}
                   />
-                  {lostArr.length > 0 ? (
+                  {lostArr?.length > 0 ? (
                     lostArr[i].value === true ? (
                       <MineBombIcon
                         className={clsx(
@@ -705,7 +752,6 @@ export const Mines = () => {
           <div className={styles.bottom_wrapper}>
             <div className={styles.bottom}>
               <Swiper
-                // navigation
                 ref={swiperRef}
                 slidesPerView="auto"
                 direction="horizontal"
@@ -717,11 +763,15 @@ export const Mines = () => {
                 className={styles.swiper}
                 modules={[Scrollbar]}
               >
-                {selectedMine.map((mineSelected, index) => (
-                  <SwiperSlide key={index} className={styles.swiper_slide}>
-                    <span>{index + 1}</span>Х {mineSelected}
-                  </SwiperSlide>
-                ))}
+                {revelNum?.length > 0 &&
+                  revelNum.map((el: bigint, index: number) => {
+                    return (
+                      <SwiperSlide key={index} className={styles.swiper_slide}>
+                        <span>{index + 1}</span>Х
+                        {(Number(el) / 10000).toFixed(2)}
+                      </SwiperSlide>
+                    );
+                  })}
               </Swiper>
             </div>
             <div

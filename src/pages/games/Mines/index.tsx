@@ -73,7 +73,9 @@ const WagerContent = () => {
           <ProfitBlock />
           <StopWinning />
         </>
-      )}
+      )}{" "}
+      <ProfitBlock />
+      <StopWinning />
       <button
         className={clsx(
           s.connect_wallet_btn,
