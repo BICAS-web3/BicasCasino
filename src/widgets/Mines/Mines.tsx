@@ -262,6 +262,7 @@ export const Mines = () => {
   const [isCashout, setIsCashout] = useState(true);
 
   useEffect(() => {
+    console.log("stopWinning", stopWinning);
     if (stopWinning === "NO") {
       setIsCashout(false);
     } else {
@@ -490,37 +491,38 @@ export const Mines = () => {
     abi: ABIMines,
     eventName: "Mines_Reveal_Event",
     listener(log) {
-      const opened = (log[0] as any).args.minesTiles;
-      const reveledddd = (log[0] as any).args.minesTiles;
-      opened &&
-        Array.isArray(opened) &&
-        console.log(
-          34567,
-          opened,
-          opened.some((el: boolean) => el === true)
-        );
-      if (opened && Array.isArray(opened)) {
-        const newResultArr = opened.map((el: boolean, index: number) => {
-          return {
-            number: index,
-            value: el,
-          };
-        });
-
-        setLostArr(newResultArr);
-      }
-      const openedExist = opened.find((el: boolean) => el === true);
-      if (opened) {
-        setFinish(true);
-      }
-      if (opened && openedExist) {
-        setLoseIndex(opened.indexOf(true));
-      }
       if ((log[0] as any).eventName === "Mines_Reveal_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
         ) {
+          const opened = (log[0] as any).args.minesTiles;
+          const reveledddd = (log[0] as any).args.revealedTiles;
+          opened &&
+            Array.isArray(opened) &&
+            console.log(
+              34567,
+              opened,
+              opened.some((el: boolean) => el === true)
+            );
+          if (opened && Array.isArray(opened)) {
+            const newResultArr = opened.map((el: boolean, index: number) => {
+              return {
+                number: index,
+                value: el,
+              };
+            });
+
+            setLostArr(newResultArr);
+          }
+          const openedExist = opened.find((el: boolean) => el === true);
+          if (opened) {
+            setFinish(true);
+          }
+          if (opened && openedExist) {
+            setLoseIndex(opened.indexOf(true));
+          }
+
           setInGame(false);
           console.log(opened);
 
