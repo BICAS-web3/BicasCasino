@@ -956,6 +956,7 @@
 }
 
 .oth_info_list_item {
+  text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
   flex-direction: row;
@@ -1001,6 +1002,7 @@
 }
 
 .large_header_text {
+  text-decoration: none;
   font-family: var(--font-nunito-sans);
   font-size: 16px;
   font-weight: 800;

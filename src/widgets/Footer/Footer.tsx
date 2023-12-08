@@ -51,7 +51,7 @@ export const Footer: FC<FooterProps> = (props) => {
               </div>
 
               <div className={s.games_list}>
-                <Link href="" className={s.footer_text}>
+                <Link href="/nftmarket" className={s.footer_text}>
                   NFT MARKET
                 </Link>
                 <Link href="" className={s.footer_text}>

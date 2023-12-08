@@ -24,4 +24,10 @@ module.exports = {
 
     return config;
   },
+  async rewrites() {
+    return [];
+  },
+  images: {
+    domains: ["game.greekkeepers.io"],
+  },
 };

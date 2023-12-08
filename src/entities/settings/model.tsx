@@ -10,6 +10,13 @@ export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
 export const $AvailableLeaderbord = createStore<Api.T_Lider>([]);
 
 export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
+
+export const $OpenseaData = createStore<Api.T_OpenseaData>({
+  listings: [],
+  next: "",
+});
+
+export const $AvilablesNftMarket = createStore<Api.T_NFTMarket>({ nfts: [] });
 export const $AvailableBlocksExplorers = createStore<Map<
   number,
   string
@@ -17,16 +24,22 @@ export const $AvailableBlocksExplorers = createStore<Map<
 
 // events
 export const getLocalization = createEvent<string>();
+
+export const queryOpenseaData = createEvent<string>();
+
 export const queryAvailableNetworks = createEvent();
 export const queryAvailableRpcs = createEvent<{ network_id: number }>();
 export const setAvailableNetworks = createEvent<Api.T_Networks>();
 export const setAvailableRpcs = createEvent<Api.T_Rpcs>();
 
 export const setAvailableLeader = createEvent<Api.T_Lider>();
+
 export const queryAvailableLeader = createEvent<{
   return: string;
   time: string;
 }>();
+
+export const queryNftMarket = createEvent<number>();
 
 export const setAvailableTokens = createEvent<Api.T_Tokens>();
 export const queryAvailableTokens = createEvent<{ network_id: number }>();
@@ -66,6 +79,14 @@ $AvailableBlocksExplorers.on(setAvailableExplorers, (_, explorers) => {
 });
 
 // logic
+sample({
+  clock: queryOpenseaData,
+  target: Api.getDataFromOpensea,
+});
+sample({
+  clock: queryNftMarket,
+  target: Api.GetNftMarket,
+});
 sample({
   clock: queryAvailableLeader,
   target: Api.getLeaderboard,
