@@ -43,6 +43,8 @@ import { checkPageClicking } from "@/shared/tools";
 import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+import * as ManualModel from "@/pages/RegistrManual/model";
+
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
@@ -315,6 +317,7 @@ export interface HeaderProps {
 }
 export const Header: FC<HeaderProps> = (props) => {
   const [isOpen] = useUnit([SidebarM.$isOpen]);
+
   return (
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>

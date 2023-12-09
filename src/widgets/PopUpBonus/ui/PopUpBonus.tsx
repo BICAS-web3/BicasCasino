@@ -34,6 +34,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 
+import * as ManualModel from "@/pages/RegistrManual/model";
 export const PopUpBonus: FC = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -48,6 +49,7 @@ export const PopUpBonus: FC = () => {
   const { switchNetwork } = useSwitchNetwork();
   const [showStateModal, setShowStateModal] = useState(false);
 
+  const [isPartner] = useUnit([ManualModel.$isPartner]);
   const router = useRouter();
 
   let bgImage;
@@ -186,9 +188,17 @@ export const PopUpBonus: FC = () => {
   };
 
   //? shorten call claim func
+  const queryParams = new URLSearchParams(window.location.search);
+  const partner_address = queryParams.get("partner_address");
+  const site_id = queryParams.get("site_id");
+  const sub_id = queryParams.get("sub_id");
   const claimBonus = () => {
     if (!isConnected) {
-      router.push("/RegistrManual");
+      router.push(
+        isPartner
+          ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+          : "/RegistrManual"
+      );
       // handleConnectWalletBtn();
     } else if (!chainState) {
       switchNetwork!(137);
