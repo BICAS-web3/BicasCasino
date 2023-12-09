@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,9 +18,8 @@ export const Header: FC<HeaderProps> = (props) => {
   const [setIsPartner] = useUnit([ManualModel.setIsPartner]);
   useEffect(() => {
     const currentURL = window.location.href;
-    alert(currentURL);
     if (currentURL.includes("partner_address")) {
-      alert(2);
+      ale;
       setIsPartner(true);
     }
   }, []);

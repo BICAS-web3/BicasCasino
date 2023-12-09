@@ -23,6 +23,7 @@ export const Header: FC<HeaderProps> = (props) => {
   const [isOpen] = useUnit([SidebarM.$isOpen]);
 
   const [setIsPartner] = useUnit([ManualModel.setIsPartner]);
+
   useEffect(() => {
     const currentURL = window.location.href;
 
@@ -30,6 +31,7 @@ export const Header: FC<HeaderProps> = (props) => {
       setIsPartner(true);
     }
   }, []);
+
   return (
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>
