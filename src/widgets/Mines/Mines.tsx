@@ -192,6 +192,10 @@ export const Mines = () => {
 
   useEffect(() => {
     setIsActive(minesState);
+    console.log(minesState);
+    if (stepArr?.length <= 0) {
+      setStepArr((minesState as any)?.revealedTiles);
+    }
     console.log("mine", minesState);
     if ((minesState as any)?.requestID) {
       console.log(minesState);
@@ -347,7 +351,7 @@ export const Mines = () => {
     if (GameState) {
       console.log("In game", GameState);
       if ((GameState as any).blockNumber != 0) {
-        console.log(`In game ${(minesState as any)?.revealedTiles}`);
+        console.log("In game");
         setInGame(true);
       } else {
         // setFinish(true);
@@ -442,17 +446,17 @@ export const Mines = () => {
             ) {
               if (isCashout === true) {
                 alert(3);
-                finishPlaying?.();
                 setFinish(false);
+                finishPlaying?.();
               } else {
                 alert(2);
-                startRevealing?.();
                 setFinish(false);
+                startRevealing?.();
               }
             } else {
               alert(1);
-              startPlaying?.();
               setFinish(false);
+              startPlaying?.();
             }
           }
         }
@@ -477,6 +481,7 @@ export const Mines = () => {
         ) {
           const opened = (log[0] as any).args.minesTiles;
           const reveledArr = (log[0] as any).args.revealedTiles;
+          setStepArr((log[0] as any).args.revealedTiles);
           console.log("---reveal---", reveledArr, opened);
           if (opened && Array.isArray(opened)) {
             const newResultArr = opened.map((el: boolean, index: number) => {
@@ -496,8 +501,10 @@ export const Mines = () => {
           if (Array.isArray(reveledArr)) {
             reveledArr.forEach((el, i) => {
               if (el === true && opened[i] === true) {
+                setBombArr((prev: any) => [...prev, i]);
                 // setFinish(true);
                 // setGameStatus(GameModel.GameStatus.Lost);
+
                 setCopySelectedArr([]);
               }
             });
@@ -552,8 +559,13 @@ export const Mines = () => {
           (receivedEndEvent as any).args.playerAddress as string
         ).toLowerCase() == address?.toLowerCase()
       ) {
+        setSelectedMine([]);
         setFinish(true);
         setInGame(false);
+        setTimeout(() => {
+          setStepArr([]);
+          setSelectedMine([]);
+        }, 2000);
         const wagered = (receivedEndEvent as any).args.wager;
         if ((receivedEndEvent as any).args.payout > 0) {
           const profit = (receivedEndEvent as any).args.payout;
@@ -609,16 +621,16 @@ export const Mines = () => {
   }, [gameStatus]);
 
   const [copySelectedArr, setCopySelectedArr] = useState<number[]>([]);
-  useEffect(() => {
-    if (finish) {
-      setTimeout(() => {
-        setStartedArr(defaultValue);
-        setCopySelectedArr((prev) => [...prev, ...selectedMine]);
-        setSelectedMine([]);
-        setLostArr([]);
-      }, 3000);
-    }
-  }, [finish]);
+  // useEffect(() => {
+  //   if (finish) {
+  //     setTimeout(() => {
+  //       setStartedArr(defaultValue);
+  //       setCopySelectedArr((prev) => [...prev, ...selectedMine]);
+  //       setSelectedMine([]);
+  //       setLostArr([]);
+  //     }, 3000);
+  //   }
+  // }, [finish]);
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
@@ -661,14 +673,8 @@ export const Mines = () => {
     }
   }, [Wagered]);
 
-  const [lostField, setLostField] = useState(false);
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Lost) {
-      setLostField(true);
-    }
-  }, [gameStatus]);
-
+  const [stepArr, setStepArr] = useState<any>([]);
+  const [bombArr, setBombArr] = useState<any>([]);
   return (
     <>
       {errorWrite && (
@@ -725,7 +731,7 @@ export const Mines = () => {
             onMouseDown={() => setIsMouseDown(true)}
             onMouseUp={() => setIsMouseDown(false)}
           >
-            {mineArr.map((index, i) => {
+            {mineArr.map((index) => {
               const isSelected = selectedMine.includes(index);
               // isActive && alert(isActive?.tilesPicked[24]);
               return (
@@ -736,7 +742,10 @@ export const Mines = () => {
                   className={clsx(
                     styles.mine,
                     isSelected && styles.mine_selected,
-                    isSelected && inGame && !copySelectedArr.includes(i) && ""
+                    isSelected &&
+                      inGame &&
+                      !copySelectedArr.includes(index) &&
+                      ""
                     // styles.mine_animation
                   )}
                 >
@@ -754,12 +763,12 @@ export const Mines = () => {
                         isSelected && styles.mine_animation
                       )}
                     />
-                  ) : (minesState as any)?.revealedTiles[i] === true ? (
+                  ) : (minesState as any)?.revealedTiles[index] === true ? (
                     <MineMoneyIcon
                       className={clsx(styles.mine_green, styles.mine_selected)}
                     />
-                  ) : (minesState as any)?.revealedTiles[i] === false &&
-                    copySelectedArr?.includes(i) ? (
+                  ) : (minesState as any)?.revealedTiles[index] === false &&
+                    copySelectedArr?.includes(index) ? (
                     <MineBombIcon
                       className={clsx(
                         styles.mine_green,
@@ -775,35 +784,16 @@ export const Mines = () => {
                       )}
                     />
                   )} */}
-                  {lostField ? (
-                    <MineBombIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected
-                      )}
-                    />
-                  ) : finish === false && copySelectedArr.length < 1 ? (
-                    <MineGreenIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected,
-                        isSelected && styles.mine_animation
-                      )}
-                    />
-                  ) : (minesState as any)?.revealedTiles[i] === true &&
-                    selectedMine?.includes(i) ? (
-                    <MineMoneyIcon
-                      className={clsx(styles.mine_green, styles.mine_selected)}
-                    />
-                  ) : (
-                    <MineGreenIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected,
-                        isSelected && styles.mine_animation
-                      )}
-                    />
-                  )}
+                  <SelectedMine
+                    bombArr={bombArr}
+                    index={index}
+                    finish={finish}
+                    finishGameSuccess={finishGameSuccess}
+                    isCashout={isCashout}
+                    selectedMine={selectedMine}
+                    startedPlaying={startedPlaying}
+                    stepArr={stepArr}
+                  />
                 </div>
               );
             })}
@@ -854,4 +844,59 @@ export const Mines = () => {
       </div>
     </>
   );
+};
+
+interface ISelectedMine {
+  selectedMine: number[];
+  finishGameSuccess: boolean;
+  startedPlaying: boolean;
+  finish: boolean;
+  index: number;
+  isCashout: boolean;
+  stepArr: any;
+  bombArr: any;
+}
+const SelectedMine = (props: ISelectedMine) => {
+  const {
+    selectedMine,
+    startedPlaying,
+    index,
+    finish,
+    finishGameSuccess,
+    isCashout,
+    stepArr,
+    bombArr,
+  } = props;
+  const isSelected = selectedMine.includes(index);
+
+  console.log(bombArr);
+  const [isMomb, setIsBomb] = useState(false);
+
+  useEffect(() => {
+    if (bombArr.includes(index)) {
+      setIsBomb(true);
+    } else {
+      setIsBomb(false);
+    }
+  }, [bombArr]);
+
+  if (stepArr && stepArr[index] === true) {
+    return isMomb ? (
+      <MineBombIcon className={clsx(styles.mine_green, styles.mine_selected)} />
+    ) : (
+      <MineMoneyIcon
+        className={clsx(styles.mine_green, styles.mine_selected)}
+      />
+    );
+  } else {
+    return (
+      <MineGreenIcon
+        className={clsx(
+          styles.mine_green,
+          isSelected && styles.mine_selected,
+          isSelected && startedPlaying && styles.mine_animation
+        )}
+      />
+    );
+  }
 };
