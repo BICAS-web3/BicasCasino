@@ -19,7 +19,6 @@ export const Header: FC<HeaderProps> = (props) => {
   useEffect(() => {
     const currentURL = window.location.href;
     if (currentURL.includes("partner_address")) {
-      ale;
       setIsPartner(true);
     }
   }, []);
