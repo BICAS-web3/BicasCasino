@@ -183,7 +183,7 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
               const profit = parseFloat(
                 (Number(bet.profit) / 10 ** 18).toFixed(2)
               );
-              const multiplier = parseFloat((profit / wager).toFixed(2));
+              const multiplier = parseFloat((profit / (wager * bet.bets)).toFixed(2));
               return (
                 <CustomBetsItem
                   trx_url={`${AvailableBlocksExplorers.get(
