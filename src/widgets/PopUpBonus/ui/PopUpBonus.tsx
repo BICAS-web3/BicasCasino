@@ -34,7 +34,6 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 
-import * as ManualModel from "@/pages/RegistrManual/model";
 export const PopUpBonus: FC = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -49,7 +48,7 @@ export const PopUpBonus: FC = () => {
   const { switchNetwork } = useSwitchNetwork();
   const [showStateModal, setShowStateModal] = useState(false);
 
-  const [isPartner] = useUnit([ManualModel.$isPartner]);
+  const [isPartner] = useUnit([ConnectModel.$isPartner]);
   const router = useRouter();
 
   let bgImage;

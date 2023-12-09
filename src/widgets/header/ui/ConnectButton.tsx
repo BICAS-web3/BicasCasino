@@ -12,7 +12,6 @@ import s from "./styles.module.scss";
 import { useAccount } from "wagmi";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
-import * as ManualModel from "@/pages/RegistrManual/model";
 import { useRouter } from "next/router";
 
 export interface ConnectWalletButtonProps {}
@@ -72,7 +71,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
   };
 
   const { isConnecting } = useAccount();
-  const [isPartner] = useUnit([ManualModel.$isPartner]);
+  const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
   const queryParams = new URLSearchParams(window.location.search);
   const partner_address = queryParams.get("partner_address");

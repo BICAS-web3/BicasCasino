@@ -13,7 +13,7 @@ import { RightMenu } from "./RightMenu";
 
 import s from "./styles.module.scss";
 import { BottomMenu } from "./BottomMenu";
-import * as ManualModel from "@/pages/RegistrManual/model";
+import * as ManualModel from "@/widgets/Layout/model";
 
 export interface HeaderProps {
   isGame: boolean;
