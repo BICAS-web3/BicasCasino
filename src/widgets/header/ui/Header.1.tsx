@@ -9,7 +9,7 @@ import * as SidebarM from "@/widgets/SideBar/model";
 import { RightMenu } from "./RightMenu";
 import s from "./styles.module.scss";
 import { BottomMenu } from "./BottomMenu";
-import * as ManualModel from "@/pages/RegistrManual/model";
+import * as ManualModel from "@/widgets/Layout/model";
 import { HeaderProps } from "./Header";
 
 export const Header: FC<HeaderProps> = (props) => {
