@@ -284,7 +284,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -306,7 +306,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -359,14 +359,19 @@ export const Mines = () => {
 
   useEffect(() => {
     if (GameState) {
-      if ((GameState as any).ingame) {
-        if (
-          !(GameState as any).isFirstRequest &&
-          (GameState as any).requestID == 0
-        ) {
-          setInGame(true);
-        }
+      console.log("In game", GameState);
+      if (
+        (GameState as any).blockNumber != 0
+      ) {
+        console.log("In game");
+        setInGame(true);
+      } else {
+        setFinish(true);
+        //setGameStatus(GameModel.GameStatus.Lost);
+        setCopySelectedArr([]);
+        setInGame(false);
       }
+
     }
   }, [GameState]);
 
@@ -416,7 +421,7 @@ export const Mines = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -424,6 +429,13 @@ export const Mines = () => {
   useEffect(() => {
     if (Wagered) {
       if (inGame) {
+        if (
+          (isActive && isActive?.numMines > 0 && stopGame === false) ||
+          copySelectedArr.length > 0
+        ) {
+          startRevealing?.();
+          //alert(2);
+        }
       } else {
         console.log(cryptoValue, currentBalance);
         if (
@@ -435,21 +447,21 @@ export const Mines = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
-            setInGame(true);
+            //setInGame(true);
             if (
               (isActive && isActive?.numMines > 0 && stopGame === false) ||
               copySelectedArr.length > 0
             ) {
               startRevealing?.();
-              alert(2);
+              //alert(2);
             } else {
               startPlaying?.();
-              alert(1);
+              //alert(1);
             }
           }
         }
@@ -489,7 +501,7 @@ export const Mines = () => {
           if ((opened?.length > 0 && isCashout === true) || openedExist) {
             setFinish(true);
           }
-          setInGame(false);
+          //setInGame(false);
           if (Array.isArray(reveledArr)) {
             reveledArr.forEach((el, i) => {
               if (el === true && opened[i] === true) {
@@ -512,7 +524,7 @@ export const Mines = () => {
             const profitFloat =
               Number(profit / BigInt(10000000000000000)) / 100;
             if (finish === true) {
-              alert("tt");
+              //alert("tt");
               setWonStatus({
                 profit: profitFloat,
                 multiplier,
@@ -522,7 +534,7 @@ export const Mines = () => {
             }
           } else {
             if (finish === true) {
-              alert("tt");
+              //alert("tt");
               const wageredFloat =
                 Number(wagered / BigInt(10000000000000000)) / 100;
               setLostStatus(wageredFloat);
@@ -539,12 +551,13 @@ export const Mines = () => {
     abi: ABIMines,
     eventName: "Mines_End_Event",
     listener(log) {
+      console.log("End Event", log);
       if ((log[0] as any).eventName === "Mines_End_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
         ) {
-          alert("tt");
+          //alert("tt");
           setInGame(false);
           const wagered = (log[0] as any).args.wager;
           if ((log[0] as any).args.payout > 0) {
@@ -643,8 +656,8 @@ export const Mines = () => {
       isCashout === true
         ? selectedMine?.length
         : copySelectedArr?.length > 0
-        ? copySelectedArr?.length
-        : selectedMine?.length,
+          ? copySelectedArr?.length
+          : selectedMine?.length,
     ],
     enabled: true,
     watch: isConnected,
@@ -712,7 +725,7 @@ export const Mines = () => {
                 {result.value.toFixed(2)}x
               </div>
             ))}
-            {}
+            { }
           </div>
           <div
             className={styles.mines_table}
@@ -742,9 +755,9 @@ export const Mines = () => {
                     )}
                   />
                   {(isActive?.revealedTiles[i] && finish !== true) ||
-                  (copySelectedArr.includes(i) &&
-                    isCashout === false &&
-                    finish !== true) ? (
+                    (copySelectedArr.includes(i) &&
+                      isCashout === false &&
+                      finish !== true) ? (
                     <MineMoneyIcon
                       className={clsx(styles.mine_green, styles.mine_selected)}
                     />

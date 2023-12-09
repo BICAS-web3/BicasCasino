@@ -100,7 +100,7 @@ export default function PlinkoGame() {
       <Layout activePageLink="/games/Plinko" gameName="Plinko">
         <LiveBetsWS
           subscription_type={"Subscribe"}
-          subscriptions={["Plinko", "PlinkoStart"]}
+          subscriptions={["Plinko"]}
         />
         <div className={styles.plinko_container}>
           <GamePage
