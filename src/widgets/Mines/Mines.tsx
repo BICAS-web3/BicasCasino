@@ -604,6 +604,7 @@ export const Mines = () => {
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
       setStopGame(true);
+      setFinish(true);
     }
   }, [gameStatus]);
 
