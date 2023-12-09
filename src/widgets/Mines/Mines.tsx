@@ -41,9 +41,43 @@ import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { Scrollbar } from "swiper/modules";
 
+enum Tile {
+  Closed,
+  ClosedShaking,
+  Coin,
+  Bomb
+}
+
 export const Mines = () => {
-  const defaultValue = [
-    false,
+  const initialGameField: Tile[] = [
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+    Tile.Closed,
+  ];
+
+  const initialPickedTiles = [
     false,
     false,
     false,
@@ -69,12 +103,12 @@ export const Mines = () => {
     false,
     false,
   ];
-  const minesCount = 25;
-  const mineArr = Array.from({ length: minesCount }, (_, index) => index);
+
   const [pickedValue] = useUnit([CustomInputWagerModel.$pickedRows]);
 
-  const [selectedMine, setSelectedMine] = useState<number[]>([]);
-  const [isMouseDown, setIsMouseDown] = useState(false);
+  const [gameField, setGameField] = useState<Tile[]>(initialGameField);
+  const [pickedTiles, setPickedTiles] = useState<boolean[]>(initialPickedTiles);
+
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [inGame, setInGame] = useState<boolean>(false);
 
@@ -88,57 +122,6 @@ export const Mines = () => {
     MinesModel.setSelectedLength,
   ]);
 
-  useEffect(() => {
-    setSelectedLength(selectedMine?.length);
-  }, [selectedMine?.length]);
-
-  const [startedArr, setStartedArr] = useState(defaultValue);
-
-  const changeValue = (el: number) => {
-    if (el === 1) {
-      return 24;
-    } else if (el === 2) {
-      return 21;
-    } else if (el === 3) {
-      return 17;
-    } else if (el === 4) {
-      return 14;
-    } else if (el === 5) {
-      return 12;
-    } else if (el === 6) {
-      return 10;
-    } else if (el === 7) {
-      return 9;
-    } else if (el === 8) {
-      return 8;
-    } else if (el === 9) {
-      return 7;
-    } else if (el === 10) {
-      return 6;
-    } else if (el === 11 || el === 12) {
-      return 5;
-    } else if (el === 13 || el === 14) {
-      return 4;
-    } else if (el === 15 || el === 16 || el === 17) {
-      return 3;
-    } else if (el === 18 || el === 19 || el === 20 || el === 21) {
-      return 2;
-    } else if (el === 22 || el > 22) {
-      return 1;
-    }
-  };
-
-  useEffect(() => {
-    setStartedArr((prev: any) => {
-      return prev?.map((el: boolean, index: number) => {
-        if (selectedMine.includes(index)) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    });
-  }, [selectedMine]);
 
   const [
     lost,
@@ -176,9 +159,9 @@ export const Mines = () => {
     MinesModel.setStopWinning,
   ]);
 
-  useEffect(() => {
-    setSelectedMine([]);
-  }, [pickedValue]);
+  // useEffect(() => {
+  //   setSelectedMine([]);
+  // }, [pickedValue]);
   const { data: minesState } = useContractRead({
     chainId: chain?.id,
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
@@ -188,65 +171,59 @@ export const Mines = () => {
     enabled: true,
     watch: isConnected,
   });
-  const [isActive, setIsActive] = useState<any>(null);
+  //const [isActive, setIsActive] = useState<any>(null);
+
+  const setGameFields = (revealedTiles: boolean[], tilesPicked: boolean[]) => {
+    setGameField(revealedTiles.map((value: boolean) => {
+      if (value) {
+        return Tile.Coin;
+      } else {
+        return Tile.Closed;
+      }
+    }));
+
+    setPickedTiles(
+      tilesPicked
+    );
+
+  }
 
   useEffect(() => {
-    setIsActive(minesState);
     console.log(minesState);
-    if (stepArr?.length <= 0 || !stepArr?.find((el: boolean) => el === true)) {
-      setStepArr((minesState as any)?.revealedTiles);
-    }
     console.log("mine", minesState);
-    if ((minesState as any)?.requestID) {
-      console.log(minesState);
-      if ((minesState as any)?.isCashout === false) {
-        setIsCashout(false);
-        setStopWinning("NO");
-      } else if ((minesState as any)?.isCashout === false) {
-        setIsCashout(true);
-        setStopWinning("YES");
-      }
+    if ((minesState as any)?.blockNumber != 0) {
+      // console.log(minesState);
+      // if ((minesState as any)?.isCashout === false) {
+      //   setIsCashout(false);
+      //   setStopWinning("NO");
+      // } else if ((minesState as any)?.isCashout === false) {
+      //   setIsCashout(true);
+      //   setStopWinning("YES");
+      // }
+      setGameFields((minesState as any)?.revealedTiles as any, (minesState as any)?.tilesPicked as any);
     }
-  }, [(minesState as any)?.isCashout]);
+  }, [minesState as any]);
 
-  const toggleMineSelection = (index: number) => {
-    if (isActive?.tilesPicked[index] === true) return;
-    if (copySelectedArr?.length > 0 && isCashout === false) {
-      if (copySelectedArr.includes(index)) {
-        return;
-      } else {
-        setSelectedMine((prev) => {
-          if (prev.includes(index)) {
-            return prev.filter((el) => el !== index);
-          } else {
-            if (selectedMine?.length === changeValue(pickedValue)!) {
-              return [...prev];
-            } else {
-              return [...prev, index];
-            }
-          }
-        });
-      }
-    } else {
-      setSelectedMine((prev) => {
-        if (prev.includes(index)) {
-          return prev.filter((el) => el !== index);
-        } else {
-          if (selectedMine?.length === changeValue(pickedValue)!) {
-            return [...prev];
-          } else {
-            return [...prev, index];
-          }
-        }
-      });
-    }
-  };
+  // useEffect(() => {
+  //   setIsActive(minesState);
+  //   console.log(minesState);
+  //   if (stepArr?.length <= 0 || !stepArr?.find((el: boolean) => el === true)) {
+  //     setStepArr((minesState as any)?.revealedTiles);
+  //   }
+  //   console.log("mine", minesState);
+  //   if ((minesState as any)?.requestID) {
+  //     console.log(minesState);
+  //     if ((minesState as any)?.isCashout === false) {
+  //       setIsCashout(false);
+  //       setStopWinning("NO");
+  //     } else if ((minesState as any)?.isCashout === false) {
+  //       setIsCashout(true);
+  //       setStopWinning("YES");
+  //     }
+  //   }
+  // }, [(minesState as any)?.isCashout]);
 
-  const handleMouseMove = (index: number) => {
-    if (isMouseDown) {
-      toggleMineSelection(index);
-    }
-  };
+
   const swiperRef = useRef<SwiperRef>(null);
 
   const handlePrev = useCallback(() => {
@@ -286,7 +263,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -308,7 +285,7 @@ export const Mines = () => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -408,7 +385,7 @@ export const Mines = () => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -434,7 +411,7 @@ export const Mines = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -653,8 +630,8 @@ export const Mines = () => {
       isCashout === true
         ? selectedMine?.length
         : copySelectedArr?.length > 0
-        ? copySelectedArr?.length
-        : selectedMine?.length,
+          ? copySelectedArr?.length
+          : selectedMine?.length,
     ],
     enabled: true,
     watch: isConnected,
@@ -724,7 +701,7 @@ export const Mines = () => {
                 {result.value.toFixed(2)}x
               </div>
             ))}
-            {}
+            { }
           </div>
           <div
             className={styles.mines_table}
@@ -743,9 +720,9 @@ export const Mines = () => {
                     styles.mine,
                     isSelected && styles.mine_selected,
                     isSelected &&
-                      inGame &&
-                      !copySelectedArr.includes(index) &&
-                      ""
+                    inGame &&
+                    !copySelectedArr.includes(index) &&
+                    ""
                     // styles.mine_animation
                   )}
                 >
