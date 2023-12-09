@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { Layout } from "@/widgets/Layout";
 import { useRouter } from "next/router";

@@ -43,6 +43,7 @@ import { checkPageClicking } from "@/shared/tools";
 import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
+
 interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
@@ -314,7 +315,15 @@ export interface HeaderProps {
   isGame: boolean;
 }
 export const Header: FC<HeaderProps> = (props) => {
+  const [setIsPartner] = useUnit([ConnectModel.setIsPartner]);
+  useEffect(() => {
+    const currentURL = window.location.href;
+    if (currentURL.includes("partner_address")) {
+      setIsPartner(true);
+    }
+  }, []);
   const [isOpen] = useUnit([SidebarM.$isOpen]);
+
   return (
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>
