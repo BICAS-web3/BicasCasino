@@ -65,7 +65,8 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
 
     // };
 
-    if (!firstTime && isConnected) {
+    if (isConnected) {
+      console.log("SIGNING");
       //localStorage.setItem('firstTime', 'false');
       //run();
       const partner_wallet = searchParams.get("partner_address");
