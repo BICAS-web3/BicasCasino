@@ -193,7 +193,7 @@ export const Mines = () => {
   useEffect(() => {
     setIsActive(minesState);
     console.log(minesState);
-    if (stepArr?.length <= 0) {
+    if (stepArr?.length <= 0 || !stepArr?.find((el: boolean) => el === true)) {
       setStepArr((minesState as any)?.revealedTiles);
     }
     console.log("mine", minesState);
