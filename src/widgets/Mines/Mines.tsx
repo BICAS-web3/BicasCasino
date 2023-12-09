@@ -347,7 +347,7 @@ export const Mines = () => {
     if (GameState) {
       console.log("In game", GameState);
       if ((GameState as any).blockNumber != 0) {
-        console.log("In game");
+        console.log(`In game ${(minesState as any)?.revealedTiles}`);
         setInGame(true);
       } else {
         // setFinish(true);
@@ -442,17 +442,17 @@ export const Mines = () => {
             ) {
               if (isCashout === true) {
                 alert(3);
-                setFinish(false);
                 finishPlaying?.();
+                setFinish(false);
               } else {
                 alert(2);
-                setFinish(false);
                 startRevealing?.();
+                setFinish(false);
               }
             } else {
               alert(1);
-              setFinish(false);
               startPlaying?.();
+              setFinish(false);
             }
           }
         }
@@ -661,6 +661,14 @@ export const Mines = () => {
     }
   }, [Wagered]);
 
+  const [lostField, setLostField] = useState(false);
+
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Lost) {
+      setLostField(true);
+    }
+  }, [gameStatus]);
+
   return (
     <>
       {errorWrite && (
@@ -738,7 +746,7 @@ export const Mines = () => {
                       isSelected && styles.mine_selected
                     )}
                   />
-                  {finish === true ? (
+                  {/* {finish === true ? (
                     <MineGreenIcon
                       className={clsx(
                         styles.mine_green,
@@ -746,17 +754,46 @@ export const Mines = () => {
                         isSelected && styles.mine_animation
                       )}
                     />
-                  ) : isActive?.revealedTiles[i] === true ||
-                    copySelectedArr?.includes(i) ? (
+                  ) : (minesState as any)?.revealedTiles[i] === true ? (
                     <MineMoneyIcon
                       className={clsx(styles.mine_green, styles.mine_selected)}
                     />
-                  ) : lostArr?.length > 0 && lostArr[i]?.value === false ? (
+                  ) : (minesState as any)?.revealedTiles[i] === false &&
+                    copySelectedArr?.includes(i) ? (
                     <MineBombIcon
                       className={clsx(
                         styles.mine_green,
                         isSelected && styles.mine_selected
                       )}
+                    />
+                  ) : (
+                    <MineGreenIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected,
+                        isSelected && styles.mine_animation
+                      )}
+                    />
+                  )} */}
+                  {lostField ? (
+                    <MineBombIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected
+                      )}
+                    />
+                  ) : finish === false && copySelectedArr.length < 1 ? (
+                    <MineGreenIcon
+                      className={clsx(
+                        styles.mine_green,
+                        isSelected && styles.mine_selected,
+                        isSelected && styles.mine_animation
+                      )}
+                    />
+                  ) : (minesState as any)?.revealedTiles[i] === true &&
+                    selectedMine?.includes(i) ? (
+                    <MineMoneyIcon
+                      className={clsx(styles.mine_green, styles.mine_selected)}
                     />
                   ) : (
                     <MineGreenIcon
