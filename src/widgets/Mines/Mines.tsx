@@ -172,7 +172,7 @@ export const Mines = () => {
   // }, [pickedValue]);
   const { data: minesState } = useContractRead({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_GetState",
     args: [address?.toLowerCase()],
@@ -252,7 +252,7 @@ export const Mines = () => {
 
   const { config: startPlayingConfig, error } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_Start",
     args: [
@@ -282,7 +282,7 @@ export const Mines = () => {
 
   const { config: startRevealingConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_Reveal",
     args: [pickedTiles, isCashout],
@@ -304,7 +304,7 @@ export const Mines = () => {
 
   const { config: finishGameConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_End",
     args: [],
@@ -320,7 +320,7 @@ export const Mines = () => {
     error: readErr,
   } = useContractRead({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_GetState",
     args: [address],
@@ -368,7 +368,7 @@ export const Mines = () => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress || "0xA7867C5891D9518bfB21BC55cF8EC641011e8799",
+      gameAddress,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -385,7 +385,7 @@ export const Mines = () => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "getVRFFee",
     args: [0],
@@ -444,7 +444,7 @@ export const Mines = () => {
   const [lostArr, setLostArr] = useState<any[]>([]);
 
   useContractEvent({
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     eventName: "Mines_Reveal_Event",
 
@@ -483,7 +483,7 @@ export const Mines = () => {
   });
 
   useContractEvent({
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     eventName: "Mines_End_Event",
     listener(log) {
@@ -623,7 +623,7 @@ export const Mines = () => {
     error: revealErr,
   } = useContractRead({
     chainId: chain?.id,
-    address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
+    address: gameAddress as `0x${string}`,
     abi: ABIMines,
     functionName: "Mines_GetMultipliers",
     args: [
