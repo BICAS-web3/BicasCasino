@@ -72,10 +72,12 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
       const partner_wallet = searchParams.get("partner_address");
       const site_id = searchParams.get("site_id");
       const sub_id = searchParams.get("sub_id");
-      const msg = `CONNECT WALLET ${partner_wallet} ${(
-        address as string
-      ).toLowerCase()} ${site_id} ${sub_id}`;
-      signMessage({ message: msg });
+      if (partner_wallet && site_id && sub_id) {
+        const msg = `CONNECT WALLET ${partner_wallet} ${(
+          address as string
+        ).toLowerCase()} ${site_id} ${sub_id}`;
+        signMessage({ message: msg });
+      }
     }
   }, [isConnected, address]);
 
