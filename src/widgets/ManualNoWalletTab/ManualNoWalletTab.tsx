@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Metamask from "@/public/media/select_wallet/metamask.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
@@ -10,23 +10,28 @@ import { useRouter } from "next/router";
 import exampleImg from "@/public/media/registrManual_images/connectStepImg.png";
 import { useAccount, useConnect } from "wagmi";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
+import { Tab } from "@/pages/RegistrManual";
 
-interface ConnectWalletTabProps {}
+interface ConnectWalletTabProps {
+  tab: Tab,
+  setTab: any,
+  setSubPage: any
+}
 
-export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
-  const router = useRouter();
+export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
+  // const router = useRouter();
   const { connect, connectors } = useConnect();
   const { isConnected } = useAccount();
 
   useEffect(() => {
-    isConnected && router.push("/RegistrManual?tab=bonusReceiving");
+    isConnected && props.setTab(Tab.bonusReceiving);
   }, [isConnected]);
 
   return (
     <div className={s.connect_wallet_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=noWallet")}
+        onClick={() => props.setSubPage(SubPage.Start)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -138,7 +143,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
         </p>
         <button
           className={s.back_btn_example}
-          onClick={() => router.push("/RegistrManual?tab=noWallet")}
+          onClick={() => props.setSubPage(SubPage.Start)}
         >
           Back
         </button>
@@ -147,20 +152,30 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = () => {
   );
 };
 
-interface ManualNoWalletTabProps {}
+enum SubPage {
+  Start,
+  ConnectionPage
+}
 
-export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
-  const router = useRouter();
-  const { query } = router;
-  const { tab, subPage } = query;
+interface ManualNoWalletTabProps {
+  tab: Tab,
+  setTab: any
+}
+
+export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = (props) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { tab, subPage } = query;
+
+  const [subPage, setSubPage] = useState<SubPage>(SubPage.Start);
 
   return (
     <>
-      {tab === "noWallet" && subPage === undefined && (
+      {props.tab === Tab.noWallet && subPage === SubPage.Start && (
         <div className={s.noWallet_body}>
           <span
             className={s.tab_back_btn}
-            onClick={() => router.push("/RegistrManual")}
+            onClick={() => props.setTab(Tab.start)}
           >
             <img src={leftArr.src} alt="left-arr" />
             Back
@@ -252,16 +267,14 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
           <div className={s.nav_btns}>
             <div
               className={s.back_btn}
-              onClick={() => router.push("/RegistrManual")}
+              onClick={() => props.setTab(Tab.start)}
             >
               Back
             </div>
             <div
               className={s.next_btn}
               onClick={() =>
-                router.push(
-                  "/RegistrManual?tab=noWallet&subPage=connectionPage"
-                )
+                setSubPage(SubPage.ConnectionPage)
               }
             >
               Next
@@ -269,7 +282,7 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = () => {
           </div>
         </div>
       )}
-      {subPage === "connectionPage" && <ConnectWalletTab />}
+      {subPage === SubPage.ConnectionPage && <ConnectWalletTab tab={props.tab} setTab={props.setTab} setSubPage={setSubPage} />}
     </>
   );
 };
