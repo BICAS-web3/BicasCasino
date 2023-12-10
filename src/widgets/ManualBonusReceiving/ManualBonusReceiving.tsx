@@ -6,6 +6,7 @@ import { SelectExchanges } from "./SelectExchanges";
 import { StepTab } from "./StepTab";
 import { CopyIco } from "@/public/media/registrManual_images/CopyIco";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
+import { Tab } from "@/pages/RegistrManual";
 
 import step1Img from "@/public/media/registrManual_images/step1Img.png";
 import step2Img from "@/public/media/registrManual_images/step2Img.png";
@@ -68,18 +69,19 @@ import step12SecondImg from "@/public/media/registrManual_images/mobImages/step1
 
 interface Step13ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step13Content: FC<Step13ContentProps> = ({ desk }) => {
+const Step13Content: FC<Step13ContentProps> = ({ desk, step, setSubPage, setStep }) => {
   const router = useRouter();
-  const { query } = router;
-  const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=12")}
+        onClick={() => setStep(12)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -101,7 +103,7 @@ const Step13Content: FC<Step13ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=12")
+            setStep(12)
           }
         >
           Back
@@ -119,18 +121,21 @@ const Step13Content: FC<Step13ContentProps> = ({ desk }) => {
 
 interface Step12ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step12Content: FC<Step12ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=11")}
+        onClick={() => setStep(11)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -162,7 +167,7 @@ const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=11")
+            setStep(11)
           }
         >
           Back
@@ -170,7 +175,7 @@ const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=13")
+            setStep(13)
           }
         >
           Next
@@ -183,12 +188,15 @@ const Step12Content: FC<Step12ContentProps> = ({ desk }) => {
 interface Step11ContentProps {
   desk: boolean;
   mob: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step11Content: FC<Step11ContentProps> = ({ desk, mob, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   const copyToClipboard = () => {
     const address = "0x5518e648341147b0f4041c5e2a2cca41bdc723a0";
@@ -206,7 +214,7 @@ const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=10")}
+        onClick={() => setStep(10)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -225,11 +233,10 @@ const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
         <div className={s.draxb_address_block}>
           <span className={s.draxb_copy_title}>Copy token address DRAXB</span>
           <div
-            className={`${
-              !mob
-                ? s.draxb_address_copy_block
-                : s.second_draxb_address_copy_block
-            }`}
+            className={`${!mob
+              ? s.draxb_address_copy_block
+              : s.second_draxb_address_copy_block
+              }`}
             onClick={() => copyToClipboard()}
           >
             <span className={s.draxb_address}>
@@ -243,9 +250,7 @@ const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push(
-              `/RegistrManual?tab=bonusReceiving&step=${desk ? 10 : 9}`
-            )
+            setStep(desk ? 10 : 9)
           }
         >
           Back
@@ -253,7 +258,7 @@ const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=12")
+            setStep(12)
           }
         >
           Next
@@ -263,23 +268,27 @@ const Step11Content: FC<Step11ContentProps> = ({ desk, mob }) => {
   );
 };
 
-interface Step10ContentProps {}
+interface Step10ContentProps {
+  step: number;
+  setSubPage: any;
+  setStep: any;
+}
 
-const Step10Content: FC<Step10ContentProps> = () => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step10Content: FC<Step10ContentProps> = (props) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=9")}
+        onClick={() => props.setStep(9)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {props.step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Scroll down and click &quot;Don&apos;t see your crypto? Import&quot;
@@ -294,7 +303,7 @@ const Step10Content: FC<Step10ContentProps> = () => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=9")
+            props.setStep(9)
           }
         >
           Back
@@ -302,7 +311,7 @@ const Step10Content: FC<Step10ContentProps> = () => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=11")
+            props.setStep(11)
           }
         >
           Next
@@ -314,18 +323,21 @@ const Step10Content: FC<Step10ContentProps> = () => {
 
 interface Step9ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step9Content: FC<Step9ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step9Content: FC<Step9ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=8")}
+        onClick={() => setStep(8)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -345,7 +357,7 @@ const Step9Content: FC<Step9ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=8")
+            setStep(8)
           }
         >
           Back
@@ -353,9 +365,7 @@ const Step9Content: FC<Step9ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push(
-              `/RegistrManual?tab=bonusReceiving&step=${desk ? 10 : 11}`
-            )
+            setStep(desk ? 10 : 11)
           }
         >
           Next
@@ -367,18 +377,21 @@ const Step9Content: FC<Step9ContentProps> = ({ desk }) => {
 
 interface Step8ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step8Content: FC<Step8ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step8Content: FC<Step8ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=7")}
+        onClick={() => setStep(7)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -403,7 +416,7 @@ const Step8Content: FC<Step8ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=7")
+            setStep(7)
           }
         >
           Back
@@ -411,7 +424,7 @@ const Step8Content: FC<Step8ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=9")
+            setStep(9)
           }
         >
           Next
@@ -423,18 +436,21 @@ const Step8Content: FC<Step8ContentProps> = ({ desk }) => {
 
 interface Step7ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step7Content: FC<Step7ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step7Content: FC<Step7ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=6")}
+        onClick={() => setStep(6)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -455,7 +471,7 @@ const Step7Content: FC<Step7ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=6")
+            setStep(6)
           }
         >
           Back
@@ -463,7 +479,7 @@ const Step7Content: FC<Step7ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=8")
+            setStep(8)
           }
         >
           Next
@@ -475,18 +491,21 @@ const Step7Content: FC<Step7ContentProps> = ({ desk }) => {
 
 interface Step6ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step6Content: FC<Step6ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step6Content: FC<Step6ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=5")}
+        onClick={() => setStep(5)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -507,7 +526,7 @@ const Step6Content: FC<Step6ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=5")
+            setStep(5)
           }
         >
           Back
@@ -515,7 +534,7 @@ const Step6Content: FC<Step6ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=7")
+            setStep(7)
           }
         >
           Next
@@ -527,18 +546,21 @@ const Step6Content: FC<Step6ContentProps> = ({ desk }) => {
 
 interface Step5ContentProps {
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step5Content: FC<Step5ContentProps> = ({ desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step5Content: FC<Step5ContentProps> = ({ desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=4")}
+        onClick={() => setStep(4)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -563,7 +585,7 @@ const Step5Content: FC<Step5ContentProps> = ({ desk }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=4")
+            setStep(4)
           }
         >
           Back
@@ -571,7 +593,7 @@ const Step5Content: FC<Step5ContentProps> = ({ desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=6")
+            setStep(6)
           }
         >
           Next
@@ -585,18 +607,21 @@ interface Step4ContentProps {
   desk: boolean;
   is700: boolean;
   mobile: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=3")}
+        onClick={() => setStep(3)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -623,9 +648,7 @@ const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile }) => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push(
-              `/RegistrManual?tab=bonusReceiving&step=${desk ? "3" : "1"}`
-            )
+            setStep(desk ? 3 : 1)
           }
         >
           Back
@@ -633,7 +656,7 @@ const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=5")
+            setStep(5)
           }
         >
           Next
@@ -643,23 +666,27 @@ const Step4Content: FC<Step4ContentProps> = ({ desk, is700, mobile }) => {
   );
 };
 
-interface Step3ContentProps {}
+interface Step3ContentProps {
+  step: number;
+  setSubPage: any;
+  setStep: any;
+}
 
-const Step3Content: FC<Step3ContentProps> = () => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step3Content: FC<Step3ContentProps> = (props) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=2")}
+        onClick={() => props.setStep(2)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {props.step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Return to the home page and click on &quot;Receive&quot;
@@ -674,7 +701,7 @@ const Step3Content: FC<Step3ContentProps> = () => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=2")
+            props.setStep(2)
           }
         >
           Back
@@ -682,7 +709,7 @@ const Step3Content: FC<Step3ContentProps> = () => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=4")
+            props.setStep(4)
           }
         >
           Next
@@ -692,23 +719,24 @@ const Step3Content: FC<Step3ContentProps> = () => {
   );
 };
 
-interface Step2ContentProps {}
+interface Step2ContentProps {
+  step: number;
+  setSubPage: any;
+  setStep: any;
+}
 
-const Step2Content: FC<Step2ContentProps> = () => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step2Content: FC<Step2ContentProps> = (props) => {
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving&step=1")}
+        onClick={() => props.setStep(1)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
-      <span className={s.steps_quantity}>Step {step}</span>
+      <span className={s.steps_quantity}>Step {props.step}</span>
       <div className={s.step_header}>
         <p className={s.step_tab_title}>
           Start typing &quot;arb&quot; into the address bar. If the token is not
@@ -724,7 +752,7 @@ const Step2Content: FC<Step2ContentProps> = () => {
         <button
           className={s.back_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=1")
+            props.setStep(1)
           }
         >
           Back
@@ -732,7 +760,7 @@ const Step2Content: FC<Step2ContentProps> = () => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push("/RegistrManual?tab=bonusReceiving&step=3")
+            props.setStep(3)
           }
         >
           Next
@@ -746,21 +774,24 @@ interface Step1ContentProps {
   is700: boolean;
   mobile: boolean;
   desk: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
 }
 
-const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
-  const router = useRouter();
-  const { query } = router;
-  const { step } = query;
+const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk, step, setSubPage, setStep }) => {
+  // const router = useRouter();
+  // const { query } = router;
+  // const { step } = query;
 
   return (
     <div className={s.step_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() =>
-          router.push(
-            "/RegistrManual?tab=bonusReceiving&subPage=exchange_creation"
-          )
+        onClick={() => {
+          setSubPage(SubPage.WalletPresence)
+          setStep(0)
+        }
         }
       >
         <img src={leftArr.src} alt="left-arr" />
@@ -788,10 +819,10 @@ const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
       <div className={s.step_btns_list}>
         <button
           className={s.back_btn}
-          onClick={() =>
-            router.push(
-              "/RegistrManual?tab=bonusReceiving&subPage=exchange_creation"
-            )
+          onClick={() => {
+            setSubPage(SubPage.WalletPresence);
+            setStep(0)
+          }
           }
         >
           Back
@@ -799,9 +830,7 @@ const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
         <button
           className={s.exchange_bottom_next_btn}
           onClick={() =>
-            router.push(
-              `/RegistrManual?tab=bonusReceiving&step=${!desk ? "4" : "2"}`
-            )
+            setStep(!desk ? 4 : 2)
           }
         >
           Next
@@ -813,16 +842,20 @@ const Step1Content: FC<Step1ContentProps> = ({ is700, mobile, desk }) => {
 
 interface WalletPresenceProps {
   mobile: boolean;
+  step: number;
+  setSubPage: any;
+  setStep: any;
+  setTab: any
 }
 
-const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
+const WalletPresence: FC<WalletPresenceProps> = ({ mobile, step, setSubPage, setStep, setTab }) => {
   const router = useRouter();
 
   return (
     <div className={s.wallet_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual?tab=bonusReceiving")}
+        onClick={() => setTab(Tab.bonusReceiving)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -841,8 +874,10 @@ const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
         <div className={s.wallet_btns}>
           <button
             className={s.wallet_btns_item}
-            onClick={() =>
-              router.push("/RegistrManual?tab=bonusReceiving&step=1")
+            onClick={() => {
+              setSubPage(SubPage.Start);
+              setStep(1);
+            }
             }
           >
             {mobile ? "I have an account" : "I have a crypto exchange account"}
@@ -850,10 +885,13 @@ const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
           </button>
           <button
             className={s.wallet_btns_item}
-            onClick={() =>
-              router.push(
-                "/RegistrManual?tab=bonusReceiving&subPage=exchange_creation"
-              )
+            onClick={() => {
+              setSubPage(SubPage.ExchangeCreation);
+              setStep(0);
+            }
+              // router.push(
+              //   "/RegistrManual?tab=bonusReceiving&subPage=exchange_creation"
+              // )
             }
           >
             {mobile
@@ -874,12 +912,25 @@ const WalletPresence: FC<WalletPresenceProps> = ({ mobile }) => {
   );
 };
 
-interface ManualBonusReceivingProps {}
+export enum SubPage {
+  Start,
+  WalletPresence,
+  ExchangeCreation,
+}
 
-export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
+
+interface ManualBonusReceivingProps {
+  setTab: any
+}
+
+export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = (props) => {
   const router = useRouter();
   const { query } = router;
-  const { tab, subPage, step } = query;
+  //const { tab, subPage, step } = query;
+
+  const [subPage, setSubPage] = useState<SubPage>(SubPage.Start);
+
+  const [step, setStep] = useState<number>(0);
 
   const [mobile, setMobile] = useState(false);
   const [is700, setIs700] = useState(false);
@@ -914,9 +965,9 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
 
   return (
     <>
-      {tab === "bonusReceiving" &&
-        subPage === undefined &&
-        step === undefined && (
+      {
+        subPage === SubPage.Start &&
+        step === 0 && (
           <div className={s.manual_bonus_reveicing_home_body}>
             <span className={s.tab_back_btn} onClick={() => router.push("/")}>
               <img src={leftArr.src} alt="left-arr" />
@@ -946,9 +997,7 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
               <button
                 className={s.addFunds_btn}
                 onClick={() =>
-                  router.push(
-                    "/RegistrManual?tab=bonusReceiving&subPage=walletPresence"
-                  )
+                  setSubPage(SubPage.WalletPresence)
                 }
               >
                 <span>Add funds</span>&nbsp;(Recommended)
@@ -956,31 +1005,31 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = () => {
             </div>
           </div>
         )}
-      {subPage === "walletPresence" && <WalletPresence mobile={mobile} />}
-      {subPage === "exchange_creation" && <SelectExchanges />}
-      {step === "1" && (
+      {subPage === SubPage.WalletPresence && <WalletPresence mobile={mobile} step={step} setSubPage={setSubPage} setStep={setStep} setTab={props.setTab} />}
+      {subPage === SubPage.ExchangeCreation && <SelectExchanges step={step} setSubPage={setSubPage} setStep={setStep} setTab={props.setTab} />}
+      {step === 1 && (
         <StepTab
-          content={<Step1Content is700={is700} mobile={mobile} desk={desk} />}
+          content={<Step1Content is700={is700} mobile={mobile} desk={desk} step={step} setStep={setStep} setSubPage={setSubPage} />}
         />
       )}
-      {step === "2" && desk && <StepTab content={<Step2Content />} />}
-      {step === "3" && desk && <StepTab content={<Step3Content />} />}
-      {step === "4" && (
+      {step === 2 && desk && <StepTab content={<Step2Content step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 3 && desk && <StepTab content={<Step3Content step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 4 && (
         <StepTab
-          content={<Step4Content is700={is700} mobile={mobile} desk={desk} />}
+          content={<Step4Content is700={is700} mobile={mobile} desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />}
         />
       )}
-      {step === "5" && <StepTab content={<Step5Content desk={desk} />} />}
-      {step === "6" && <StepTab content={<Step6Content desk={desk} />} />}
-      {step === "7" && <StepTab content={<Step7Content desk={desk} />} />}
-      {step === "8" && <StepTab content={<Step8Content desk={desk} />} />}
-      {step === "9" && <StepTab content={<Step9Content desk={desk} />} />}
-      {step === "10" && desk && <StepTab content={<Step10Content />} />}
-      {step === "11" && (
-        <StepTab content={<Step11Content desk={desk} mob={mobile} />} />
+      {step === 5 && <StepTab content={<Step5Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 6 && <StepTab content={<Step6Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 7 && <StepTab content={<Step7Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 8 && <StepTab content={<Step8Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 9 && <StepTab content={<Step9Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 10 && desk && <StepTab content={<Step10Content step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 11 && (
+        <StepTab content={<Step11Content desk={desk} mob={mobile} step={step} setSubPage={setSubPage} setStep={setStep} />} />
       )}
-      {step === "12" && <StepTab content={<Step12Content desk={desk} />} />}
-      {step === "13" && <StepTab content={<Step13Content desk={desk} />} />}
+      {step === 12 && <StepTab content={<Step12Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
+      {step === 13 && <StepTab content={<Step13Content desk={desk} step={step} setSubPage={setSubPage} setStep={setStep} />} />}
     </>
   );
 };

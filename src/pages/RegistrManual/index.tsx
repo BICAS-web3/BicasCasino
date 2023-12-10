@@ -14,16 +14,26 @@ import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 
-interface HaveWalletConnectionProps {}
+export enum Tab {
+  start,
+  haveWalletConnect,
+  noWallet,
+  bonusReceiving
+}
 
-const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
+interface HaveWalletConnectionProps {
+  tab: Tab,
+  setTab: any
+}
+
+const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   const { connect } = useConnect();
   const { isConnected } = useAccount();
   const { connectors } = useConnect();
-  const router = useRouter();
+  //const router = useRouter();
 
   useEffect(() => {
-    isConnected && router.push("/RegistrManual?tab=bonusReceiving");
+    isConnected && props.setTab(Tab.bonusReceiving);
   }, [isConnected]);
 
   useEffect(() => {
@@ -34,7 +44,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
     <div className={s.have_wallet_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => router.push("/RegistrManual")}
+        onClick={() => props.setTab(Tab.start)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -117,7 +127,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
         </p>
         <span
           className={s.idh_wallet_btn}
-          onClick={() => router.push("/RegistrManual?tab=noWallet")}
+          onClick={() => props.setTab(Tab.noWallet)}
         >
           I don’t have a wallet
           <img src={infoIco.src} alt="info-ico" />
@@ -125,7 +135,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
       </div>
       <button
         className={s.cancel_btn}
-        onClick={() => router.push("/RegistrManual")}
+        onClick={() => props.setTab(Tab.start)}
       >
         Back
       </button>
@@ -133,25 +143,25 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = () => {
   );
 };
 
-interface RegistrManualProps {}
+interface RegistrManualProps { }
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
   const { query } = router;
-  const { tab, step } = query;
+  //const { tab, step } = query;
+
+  const [tab, setTab] = useState<Tab>(Tab.start);
 
   console.log("current tab is", tab);
 
   return (
     <Layout gameName={undefined}>
       <div
-        className={`${s.registr_manual_section} ${
-          step !== undefined && s.gap_none
-        }`}
+        className={`${s.registr_manual_section} `}// ${step !== undefined && s.gap_none}
       >
         <div className={s.top_blur}></div>
         <div className={s.bottom_blur}></div>
-        {tab === undefined && (
+        {tab == Tab.start && (
           <div className={s.registr_manual_body}>
             <span className={s.tab_back_btn} onClick={() => router.push("/")}>
               <img src={leftArr.src} alt="left-arr" />
@@ -168,7 +178,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
                 <button
                   className={s.wallet_btns_item}
                   onClick={() =>
-                    router.push("/RegistrManual?tab=haveWalletConnect")
+                    setTab(Tab.haveWalletConnect)
                   }
                 >
                   I have a crypto wallet
@@ -176,7 +186,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
                 </button>
                 <button
                   className={s.wallet_btns_item}
-                  onClick={() => router.push("/RegistrManual?tab=noWallet")}
+                  onClick={() => setTab(Tab.noWallet)}
                 >
                   I don’t have a crypto wallet
                   <BtnRightArrow />
@@ -188,11 +198,11 @@ const RegistrManual: FC<RegistrManualProps> = () => {
             </button>
           </div>
         )}
-        {tab === "haveWalletConnect" && <HaveWalletConnection />}
-        {tab === "noWallet" && <ManualNoWalletTab />}
-        {tab === "bonusReceiving" && <ManualBonusReceiving />}
+        {tab == Tab.haveWalletConnect && <HaveWalletConnection tab={tab} setTab={setTab} />}
+        {tab == Tab.noWallet && <ManualNoWalletTab tab={tab} setTab={setTab} />}
+        {tab == Tab.bonusReceiving && <ManualBonusReceiving setTab={setTab} />}
       </div>
-    </Layout>
+    </Layout >
   );
 };
 
