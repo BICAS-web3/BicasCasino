@@ -43,7 +43,8 @@ import { Scrollbar } from "swiper/modules";
 
 enum Tile {
   Closed,
-  ClosedShaking,
+  Selected,
+  SelectedShaking,
   Coin,
   Bomb
 }
@@ -102,15 +103,18 @@ export const Mines = () => {
     false,
     false,
     false,
+    false
   ];
 
   const [pickedValue] = useUnit([CustomInputWagerModel.$pickedRows]);
 
   const [gameField, setGameField] = useState<Tile[]>(initialGameField);
-  const [pickedTiles, setPickedTiles] = useState<boolean[]>(initialPickedTiles);
+  const [pickedTiles, setPickedTiles] = useState<boolean[]>([...initialPickedTiles]);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [inGame, setInGame] = useState<boolean>(false);
+  const [waitingResponse, setWaitingResponse] = useState<boolean>(false);
+  const [redrawTrigger, triggerRedraw] = useState<boolean>(true);
 
   const { isConnected, address } = useAccount();
 
@@ -159,6 +163,10 @@ export const Mines = () => {
     MinesModel.setStopWinning,
   ]);
 
+  useEffect(() => {
+    console.log("Picked tiles", pickedTiles);
+  }, [pickedTiles])
+
   // useEffect(() => {
   //   setSelectedMine([]);
   // }, [pickedValue]);
@@ -169,11 +177,20 @@ export const Mines = () => {
     functionName: "Mines_GetState",
     args: [address?.toLowerCase()],
     enabled: true,
-    watch: isConnected,
+    //watch: isConnected,
+    blockTag: 'latest'
   });
-  //const [isActive, setIsActive] = useState<any>(null);
 
-  const setGameFields = (revealedTiles: boolean[], tilesPicked: boolean[]) => {
+  const pickTile = (index: number) => {
+    console.log("PICK TILE", pickedTiles);
+    if (gameField[index] == Tile.Closed) {
+      pickedTiles[index] = !pickedTiles[index];
+      triggerRedraw(true);
+    }
+
+  }
+
+  const setGameFields = (revealedTiles: boolean[], tilesPicked: boolean[] | undefined) => {
     setGameField(revealedTiles.map((value: boolean) => {
       if (value) {
         return Tile.Coin;
@@ -182,46 +199,32 @@ export const Mines = () => {
       }
     }));
 
-    setPickedTiles(
-      tilesPicked
-    );
+    if (tilesPicked) {
+      setPickedTiles(
+        tilesPicked
+      );
+    }
 
   }
 
   useEffect(() => {
-    console.log(minesState);
+    console.log("Request", Number((minesState as any)?.blockNumber) != 0);
     console.log("mine", minesState);
-    if ((minesState as any)?.blockNumber != 0) {
-      // console.log(minesState);
-      // if ((minesState as any)?.isCashout === false) {
-      //   setIsCashout(false);
-      //   setStopWinning("NO");
-      // } else if ((minesState as any)?.isCashout === false) {
-      //   setIsCashout(true);
-      //   setStopWinning("YES");
-      // }
-      setGameFields((minesState as any)?.revealedTiles as any, (minesState as any)?.tilesPicked as any);
+    if (minesState && Number((minesState as any)?.blockNumber) != 0) {
+      setInGame(true);
+      if (Number((minesState as any)?.requestID) != 0) {
+        setWaitingResponse(true);
+        setGameFields((minesState as any)?.revealedTiles as any, undefined);
+      } else {
+        setWaitingResponse(false);
+        setGameFields((minesState as any)?.revealedTiles as any, undefined);
+      }
+    } else {
+      // setInGame(false);
+      // setGameFields([...initialPickedTiles], [...initialPickedTiles]);
     }
   }, [minesState as any]);
 
-  // useEffect(() => {
-  //   setIsActive(minesState);
-  //   console.log(minesState);
-  //   if (stepArr?.length <= 0 || !stepArr?.find((el: boolean) => el === true)) {
-  //     setStepArr((minesState as any)?.revealedTiles);
-  //   }
-  //   console.log("mine", minesState);
-  //   if ((minesState as any)?.requestID) {
-  //     console.log(minesState);
-  //     if ((minesState as any)?.isCashout === false) {
-  //       setIsCashout(false);
-  //       setStopWinning("NO");
-  //     } else if ((minesState as any)?.isCashout === false) {
-  //       setIsCashout(true);
-  //       setStopWinning("YES");
-  //     }
-  //   }
-  // }, [(minesState as any)?.isCashout]);
 
 
   const swiperRef = useRef<SwiperRef>(null);
@@ -239,6 +242,7 @@ export const Mines = () => {
   const [isCashout, setIsCashout] = useState(true);
 
   useEffect(() => {
+    console.log("stopWinning", stopWinning);
     if (stopWinning === "NO") {
       setIsCashout(false);
     } else {
@@ -257,7 +261,7 @@ export const Mines = () => {
       ),
       pickedToken?.contract_address,
       pickedValue,
-      startedArr,
+      pickedTiles,
       isCashout,
     ],
     value:
@@ -281,7 +285,7 @@ export const Mines = () => {
     address: "0xD765fB31dCC92fCEcc524149F5B03CEba89531aC",
     abi: ABIMines,
     functionName: "Mines_Reveal",
-    args: [startedArr, isCashout],
+    args: [pickedTiles, isCashout],
     value:
       fees +
       (pickedToken &&
@@ -289,7 +293,7 @@ export const Mines = () => {
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
-    enabled: true,
+    enabled: inGame,
   });
 
   const {
@@ -304,7 +308,7 @@ export const Mines = () => {
     abi: ABIMines,
     functionName: "Mines_End",
     args: [],
-    enabled: true,
+    enabled: inGame,
   });
 
   const { write: finishPlaying, isSuccess: finishGameSuccess } =
@@ -348,6 +352,13 @@ export const Mines = () => {
       setInGame(true);
     }
   }, [startedPlaying]); // startedRevealing
+
+  useEffect(() => {
+    if (startedPlaying || startRevealing) {
+      setWaitingResponse(true);
+    }
+  }, [startedPlaying, startedRevealing]);
+
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
     address: pickedToken?.contract_address as `0x${string}`,
@@ -394,11 +405,13 @@ export const Mines = () => {
     if (Wagered) {
       if (inGame) {
         if (
-          (isActive && isActive?.numMines > 0 && stopGame === false) ||
-          copySelectedArr.length > 0
+          !waitingResponse && pickedTiles.filter((value) => value).length > 0
         ) {
+          console.log("Called reveal");
           startRevealing?.();
           //alert(2);
+        } else {
+          finishPlaying?.();
         }
       } else {
         console.log(cryptoValue, currentBalance);
@@ -416,25 +429,10 @@ export const Mines = () => {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
           } else {
-            //setInGame(true);
-            if (
-              (isActive && isActive?.numMines > 0 && stopGame === false) ||
-              copySelectedArr.length > 0
-            ) {
-              if (isCashout === true) {
-                alert(3);
-                setFinish(false);
-                finishPlaying?.();
-              } else {
-                alert(2);
-                setFinish(false);
-                startRevealing?.();
-              }
-            } else {
-              alert(1);
-              setFinish(false);
+            if (pickedTiles.map((value) => value).length > 0) {
               startPlaying?.();
             }
+
           }
         }
       }
@@ -451,71 +449,34 @@ export const Mines = () => {
     eventName: "Mines_Reveal_Event",
 
     listener(log) {
+      const receivedEndEvent = log.find(
+        (el) => (el as any).eventName === "Mines_End_Event"
+      );
+      // if (receivedEndEvent) {
+      //   return;
+      // }
       if ((log[0] as any).eventName === "Mines_Reveal_Event") {
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
         ) {
-          const opened = (log[0] as any).args.minesTiles;
-          const reveledArr = (log[0] as any).args.revealedTiles;
-          setStepArr((log[0] as any).args.revealedTiles);
-          console.log("---reveal---", reveledArr, opened);
-          if (opened && Array.isArray(opened)) {
-            const newResultArr = opened.map((el: boolean, index: number) => {
-              return {
-                number: index,
-                value: el,
-              };
-            });
+          console.log("Revealed event");
+          const mines = (log[0] as any).args.minesTiles;
+          const revealed = (log[0] as any).args.revealedTiles;
 
-            setLostArr(newResultArr);
-          }
-          const openedExist = opened.find((el: boolean) => el === true);
-          // if ((opened?.length > 0 && isCashout === true) || openedExist) {
-          //   setFinish(true);
-          // }
-          //setInGame(false);
-          if (Array.isArray(reveledArr)) {
-            reveledArr.forEach((el, i) => {
-              if (el === true && opened[i] === true) {
-                setBombArr((prev: any) => [...prev, i]);
-                // setFinish(true);
-                // setGameStatus(GameModel.GameStatus.Lost);
-
-                setCopySelectedArr([]);
-              }
-            });
-          }
-          const wagered = (log[0] as any).args.wager;
-          if ((log[0] as any).args.payout > 0) {
-            const profit = (log[0] as any).args.payout;
-            const multiplier = Number(profit / wagered);
-            const wagered_token = (
-              (log[0] as any).args.tokenAddress as string
-            ).toLowerCase();
-            const token = TOKENS.find(
-              (tk) => tk.address == wagered_token
-            )?.name;
-            const profitFloat =
-              Number(profit / BigInt(10000000000000000)) / 100;
-            if (finish === true) {
-              //alert("tt");
-              setWonStatus({
-                profit: profitFloat,
-                multiplier,
-                token: token as string,
-              });
-              setGameStatus(GameModel.GameStatus.Won);
+          const newGameField = gameField.map((value, index) => {
+            if (mines[index]) {
+              return (Tile.Bomb);
+            } else if (revealed[index]) {
+              return (Tile.Coin)
+            } else {
+              return (value)
             }
-          } else {
-            if (finish === true) {
-              //alert("tt");
-              const wageredFloat =
-                Number(wagered / BigInt(10000000000000000)) / 100;
-              setLostStatus(wageredFloat);
-              setGameStatus(GameModel.GameStatus.Lost);
-            }
-          }
+          });
+          console.log("Revealed event, set tiles");
+          setWaitingResponse(false);
+          setGameField(newGameField);
+          setPickedTiles([...initialPickedTiles]);
         }
       }
     },
@@ -536,14 +497,25 @@ export const Mines = () => {
           (receivedEndEvent as any).args.playerAddress as string
         ).toLowerCase() == address?.toLowerCase()
       ) {
-        setSelectedMine([]);
-        setFinish(true);
-        setInGame(false);
+        setWaitingResponse(false);
+
+        // setTimeout(() => {
+        //   setInGame(false);
+        //   setGameFields(initialPickedTiles, undefined);
+        // }, 2000);
+
+
+        console.log("Redraw on event");
+
         setTimeout(() => {
-          setStepArr([]);
-          setSelectedMine([]);
+          setInGame(false);
+          triggerRedraw(true);
+          setGameFields(initialPickedTiles, [...initialPickedTiles]);
         }, 2000);
+
+
         const wagered = (receivedEndEvent as any).args.wager;
+
         if ((receivedEndEvent as any).args.payout > 0) {
           const profit = (receivedEndEvent as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -565,6 +537,35 @@ export const Mines = () => {
           setGameStatus(GameModel.GameStatus.Lost);
         }
       }
+      //   setSelectedMine([]);
+      //   setFinish(true);
+      //   setInGame(false);
+      //   setTimeout(() => {
+      //     setStepArr([]);
+      //     setSelectedMine([]);
+      //   }, 2000);
+      //   const wagered = (receivedEndEvent as any).args.wager;
+      //   if ((receivedEndEvent as any).args.payout > 0) {
+      //     const profit = (receivedEndEvent as any).args.payout;
+      //     const multiplier = Number(profit / wagered);
+      //     const wagered_token = (
+      //       (receivedEndEvent as any).args.tokenAddress as string
+      //     ).toLowerCase();
+      //     const token = TOKENS.find((tk) => tk.address == wagered_token)?.name;
+      //     const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+      //     setWonStatus({
+      //       profit: profitFloat,
+      //       multiplier,
+      //       token: token as string,
+      //     });
+      //     setGameStatus(GameModel.GameStatus.Won);
+      //   } else {
+      //     const wageredFloat =
+      //       Number(wagered / BigInt(10000000000000000)) / 100;
+      //     setLostStatus(wageredFloat);
+      //     setGameStatus(GameModel.GameStatus.Lost);
+      //   }
+      // }
     },
   });
 
@@ -627,11 +628,7 @@ export const Mines = () => {
     functionName: "Mines_GetMultipliers",
     args: [
       pickedValue,
-      isCashout === true
-        ? selectedMine?.length
-        : copySelectedArr?.length > 0
-          ? copySelectedArr?.length
-          : selectedMine?.length,
+      pickedTiles.filter((v) => v).length,
     ],
     enabled: true,
     watch: isConnected,
@@ -705,75 +702,81 @@ export const Mines = () => {
           </div>
           <div
             className={styles.mines_table}
-            onMouseDown={() => setIsMouseDown(true)}
-            onMouseUp={() => setIsMouseDown(false)}
+          // onMouseDown={() => setIsMouseDown(true)}
+          // onMouseUp={() => setIsMouseDown(false)}
           >
-            {mineArr.map((index) => {
-              const isSelected = selectedMine.includes(index);
-              // isActive && alert(isActive?.tilesPicked[24]);
-              return (
-                <div
-                  key={index}
-                  onClick={() => toggleMineSelection(index)}
-                  onMouseEnter={() => handleMouseMove(index)}
-                  className={clsx(
-                    styles.mine,
-                    isSelected && styles.mine_selected,
-                    isSelected &&
-                    inGame &&
-                    !copySelectedArr.includes(index) &&
-                    ""
-                    // styles.mine_animation
-                  )}
-                >
-                  <MineIcon
+            {
+              redrawTrigger && gameField && pickedTiles && gameField.map((value, index) => {
+                //console.log("Redrawing");
+                const isPicked = value == Tile.Closed && pickedTiles[index];
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      pickTile(index);
+                    }}
+                    //onMouseEnter={() => handleMouseMove(index)}
                     className={clsx(
-                      styles.mine_main,
-                      isSelected && styles.mine_selected
+                      styles.mine,
+                      isPicked && styles.mine_selected,
+                      isPicked &&
+                      inGame &&
+                      !copySelectedArr.includes(index) &&
+                      ""
+                      // styles.mine_animation
                     )}
-                  />
-                  {/* {finish === true ? (
-                    <MineGreenIcon
+                  >
+                    <MineIcon
                       className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected,
-                        isSelected && styles.mine_animation
+                        styles.mine_main,
+                        isPicked && styles.mine_selected
                       )}
                     />
-                  ) : (minesState as any)?.revealedTiles[index] === true ? (
-                    <MineMoneyIcon
-                      className={clsx(styles.mine_green, styles.mine_selected)}
+
+                    <SelectedMine
+                      type={isPicked ? Tile.Selected : value}
+                      waitingResponse={waitingResponse}
                     />
-                  ) : (minesState as any)?.revealedTiles[index] === false &&
-                    copySelectedArr?.includes(index) ? (
-                    <MineBombIcon
+                  </div>)
+              })
+            /* {mineArr.map((index) => {
+                const isSelected = selectedMine.includes(index);
+                // isActive && alert(isActive?.tilesPicked[24]);
+                return (
+                  <div
+                    key={index}
+                    onClick={() => toggleMineSelection(index)}
+                    onMouseEnter={() => handleMouseMove(index)}
+                    className={clsx(
+                      styles.mine,
+                      isSelected && styles.mine_selected,
+                      isSelected &&
+                      inGame &&
+                      !copySelectedArr.includes(index) &&
+                      ""
+                      // styles.mine_animation
+                    )}
+                  >
+                    <MineIcon
                       className={clsx(
-                        styles.mine_green,
+                        styles.mine_main,
                         isSelected && styles.mine_selected
                       )}
                     />
-                  ) : (
-                    <MineGreenIcon
-                      className={clsx(
-                        styles.mine_green,
-                        isSelected && styles.mine_selected,
-                        isSelected && styles.mine_animation
-                      )}
+
+                    <SelectedMine
+                      bombArr={bombArr}
+                      index={index}
+                      finish={finish}
+                      finishGameSuccess={finishGameSuccess}
+                      isCashout={isCashout}
+                      selectedMine={selectedMine}
+                      startedPlaying={startedPlaying}
+                      stepArr={stepArr}
                     />
-                  )} */}
-                  <SelectedMine
-                    bombArr={bombArr}
-                    index={index}
-                    finish={finish}
-                    finishGameSuccess={finishGameSuccess}
-                    isCashout={isCashout}
-                    selectedMine={selectedMine}
-                    startedPlaying={startedPlaying}
-                    stepArr={stepArr}
-                  />
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })} */}
           </div>{" "}
           <div className={styles.bottom_wrapper}>
             <div className={styles.bottom}>
@@ -824,56 +827,45 @@ export const Mines = () => {
 };
 
 interface ISelectedMine {
-  selectedMine: number[];
-  finishGameSuccess: boolean;
-  startedPlaying: boolean;
-  finish: boolean;
-  index: number;
-  isCashout: boolean;
-  stepArr: any;
-  bombArr: any;
+  // isSelected: boolean;
+  // finishGameSuccess: boolean;
+  // startedPlaying: boolean;
+  // finish: boolean;
+  // index: number;
+  // isCashout: boolean;
+  // stepArr: any;
+  // isBomb: boolean
+  type: Tile,
+  waitingResponse: boolean
 }
 const SelectedMine = (props: ISelectedMine) => {
   const {
-    selectedMine,
-    startedPlaying,
-    index,
-    finish,
-    finishGameSuccess,
-    isCashout,
-    stepArr,
-    bombArr,
+    type,
+    waitingResponse
   } = props;
-  const isSelected = selectedMine.includes(index);
 
-  console.log(bombArr);
-  const [isMomb, setIsBomb] = useState(false);
-
-  useEffect(() => {
-    if (bombArr.includes(index)) {
-      setIsBomb(true);
-    } else {
-      setIsBomb(false);
-    }
-  }, [bombArr]);
-
-  if (stepArr && stepArr[index] === true) {
-    return isMomb ? (
-      <MineBombIcon className={clsx(styles.mine_green, styles.mine_selected)} />
-    ) : (
-      <MineMoneyIcon
-        className={clsx(styles.mine_green, styles.mine_selected)}
-      />
-    );
-  } else {
-    return (
-      <MineGreenIcon
-        className={clsx(
-          styles.mine_green,
-          isSelected && styles.mine_selected,
-          isSelected && startedPlaying && styles.mine_animation
-        )}
-      />
-    );
+  if (type == Tile.Coin) {
+    return (<MineMoneyIcon
+      className={clsx(styles.mine_green, styles.mine_selected)}
+    />);
+  } else if (type == Tile.Bomb) {
+    return (<MineBombIcon className={clsx(styles.mine_green, styles.mine_selected)} />);
+  } else if (type == Tile.Selected) {
+    return (<MineGreenIcon
+      className={clsx(
+        styles.mine_green,
+        styles.mine_selected,
+        waitingResponse && styles.mine_animation
+      )}
+    />)
+  } else if (type == Tile.SelectedShaking) {
+    return (<MineGreenIcon
+      className={clsx(
+        styles.mine_green,
+        styles.mine_selected,
+        styles.mine_animation
+      )}
+    />)
   }
+
 };

@@ -87,15 +87,15 @@ const WagerContent = () => {
             setStartConnect(true);
             connect({ connector: connectors[0] });
           } else {
-            if (selectedLength > 0) {
-              pressButton();
-              (window as any).fbq("track", "Purchase", {
-                value: 0.0,
-                currency: "USD",
-              });
-            } else {
-              setEmptyClick(true);
-            }
+            //if (selectedLength > 0) {
+            pressButton();
+            (window as any).fbq("track", "Purchase", {
+              value: 0.0,
+              currency: "USD",
+            });
+            // } else {
+            //   setEmptyClick(true);
+            // }
           }
         }}
       >
