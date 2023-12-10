@@ -235,3 +235,10 @@
     display: none;
   }
 }
+
+.manual_block {
+  display: flex;
+  @media (max-width: 996px) {
+    display: none !important;
+  }
+}

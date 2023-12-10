@@ -378,6 +378,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               Poker
             </Link>
             <Link
+              href={"/games/Mines"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Mines" && s.game_active
+              }`}
+            >
+              <MinesButton />
+              Mines
+            </Link>
+            <Link
               href={"/games/Plinko"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Plinko" && s.game_active

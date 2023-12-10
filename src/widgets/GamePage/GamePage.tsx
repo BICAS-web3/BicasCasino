@@ -38,6 +38,8 @@ import * as PGM from "@/widgets/Plinko/model";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import useSound from "use-sound";
 import ReactHowler from "react-howler";
+import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
+import * as MinesModel from "@/widgets/Mines/model";
 
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
@@ -62,6 +64,7 @@ interface GamePageProps {
   customTitle?: string;
   custom_height?: string;
   soundClassName?: string;
+  isMines?: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -73,6 +76,7 @@ export const GamePage: FC<GamePageProps> = ({
   customTitle = false,
   custom_height,
   soundClassName,
+  isMines,
 }) => {
   console.log("Redrawing game page");
   const { address, isConnected, isConnecting } = useAccount();
@@ -97,7 +101,10 @@ export const GamePage: FC<GamePageProps> = ({
     functionName: "balanceOf",
     args: [address],
   });
-
+  const [manualSetting, setManualSetting] = useUnit([
+    MinesModel.$manualSetting,
+    MinesModel.setManualSetting,
+  ]);
   const [
     availableTokens,
     gameStatus,
@@ -228,6 +235,17 @@ export const GamePage: FC<GamePageProps> = ({
               )}
             </div>
             <Wager
+              // ManualElement={
+              //   isMines ? (
+              //     <ManualSetting
+              //       className={s.manual_block}
+              //       setValue={setManualSetting}
+              //       value={manualSetting}
+              //     />
+              //   ) : (
+              //     <></>
+              //   )
+              // }
               ButtonElement={
                 isMobile ? (
                   <button
