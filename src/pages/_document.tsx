@@ -55,6 +55,10 @@ export default function Document() {
           />
         </noscript>
         {/* <!-- End Facebook Pixel Code --> */}
+
+        <noscript>
+          <img src="https://mc.yandex.ru/watch/95845285" style={{ "position": "absolute", "left": "-9999px" }} alt="" height="1" width="1" />
+        </noscript>
       </Head>
       <body>
         <noscript
