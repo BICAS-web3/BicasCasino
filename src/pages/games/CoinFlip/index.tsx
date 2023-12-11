@@ -59,10 +59,10 @@ const WagerContent = () => {
             connect({ connector: connectors[0] });
           } else {
             pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
+            // (window as any).fbq("track", "Purchase", {
+            //   value: 0.0,
+            //   currency: "USD",
+            // });
           }
         }}
       >

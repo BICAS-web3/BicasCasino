@@ -40,6 +40,7 @@ import useSound from "use-sound";
 import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
+import { useRouter } from "next/router";
 
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
@@ -135,6 +136,7 @@ export const GamePage: FC<GamePageProps> = ({
   const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
   const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
+  const { push } = useRouter();
 
   // const handleModalVisibilityChange = () => {
   //   !modalVisibility && setBlur(true);
@@ -252,20 +254,16 @@ export const GamePage: FC<GamePageProps> = ({
                     className={clsx(style.connect_wallet_btn, s.mobile)}
                     onClick={() => {
                       if (!isConnected) {
-                        connect({ connector: connectors[0] });
+                        push('/RegistrManual');
                       } else {
                         pressButton();
-                        (window as any).fbq("track", "Purchase", {
-                          value: 0.0,
-                          currency: "USD",
-                        });
                       }
                     }}
                   >
                     {isDicePlaying ||
-                    isCFPlaying ||
-                    isPlinkoPlaying ||
-                    isPokerlaying ? (
+                      isCFPlaying ||
+                      isPlinkoPlaying ||
+                      isPokerlaying ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
                     ) : isConnected ? (
                       customTitle ? (
@@ -273,11 +271,6 @@ export const GamePage: FC<GamePageProps> = ({
                       ) : (
                         "Place bet"
                       )
-                    ) : isConnecting ? (
-                      <LoadingDots
-                        className={s.dots_black}
-                        title="Connecting"
-                      />
                     ) : (
                       "Connect Wallet"
                     )}
