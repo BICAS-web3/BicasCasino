@@ -179,7 +179,7 @@ export const Mines = () => {
     abi: ABIMines,
     functionName: "Mines_GetState",
     args: [address?.toLowerCase()],
-    enabled: true,
+    enabled: !inGame,
     //watch: isConnected,
     blockTag: 'latest'
   });
@@ -274,7 +274,7 @@ export const Mines = () => {
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
-    enabled: true,
+    enabled: !inGame,
   });
 
   const {
@@ -317,34 +317,34 @@ export const Mines = () => {
   const { write: finishPlaying, isSuccess: finishGameSuccess } =
     useContractWrite(finishGameConfig);
 
-  const {
-    data: GameState,
-    refetch: fetchGameState,
-    error: readErr,
-  } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: ABIMines,
-    functionName: "Mines_GetState",
-    args: [address],
-    enabled: true,
-    watch: isConnected,
-  });
+  // const {
+  //   data: GameState,
+  //   refetch: fetchGameState,
+  //   error: readErr,
+  // } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: ABIMines,
+  //   functionName: "Mines_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   watch: isConnected,
+  // });
 
-  useEffect(() => {
-    if (GameState) {
-      console.log("In game", GameState);
-      if ((GameState as any).blockNumber != 0) {
-        console.log("In game");
-        setInGame(true);
-      } else {
-        // setFinish(true);
-        //setGameStatus(GameModel.GameStatus.Lost);
-        setCopySelectedArr([]);
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState) {
+  //     console.log("In game", GameState);
+  //     if ((GameState as any).blockNumber != 0) {
+  //       console.log("In game");
+  //       setInGame(true);
+  //     } else {
+  //       // setFinish(true);
+  //       //setGameStatus(GameModel.GameStatus.Lost);
+  //       setCopySelectedArr([]);
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
@@ -414,6 +414,7 @@ export const Mines = () => {
           startRevealing?.();
           //alert(2);
         } else {
+          console.log("Finish playing");
           finishPlaying?.();
         }
       } else {
