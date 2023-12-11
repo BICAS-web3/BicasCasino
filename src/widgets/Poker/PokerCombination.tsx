@@ -108,10 +108,6 @@ export const PokerCombination: FC<PokerCombinationProps> = ({
         className={s.win_btn}
         onClick={() => {
           pressButton();
-          (window as any).fbq("track", "Purchase", {
-            value: profit,
-            currency: "USD",
-          });
         }}
       >
         Bet on my winnings

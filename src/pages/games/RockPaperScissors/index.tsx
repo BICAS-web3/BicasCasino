@@ -36,7 +36,7 @@ const WagerContent = () => {
   ]);
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
 
@@ -56,28 +56,29 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <RpsPicker />
-      <button
-        className={clsx(
-          s.connect_wallet_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          if (!isConnected) {
-            push('/RegistrManual');
-          } else {
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a>
+        : <button
+          className={clsx(
+            s.connect_wallet_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
             pressButton();
-          }
-        }}
-      >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>
+          }}
+        >
+          {isPlaying ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : isConnected ? (
+            "Play"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>}
     </>
   );
 };

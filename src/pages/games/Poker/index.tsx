@@ -30,7 +30,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   const [isPlaying, cardsNew] = useUnit([
     PokerModel.$isPlaying,
@@ -47,30 +47,31 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <button
-        className={clsx(
-          s.poker_wager_drawing_cards_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          if (!isConnected) {
-            push('/RegistrManual');
-          } else {
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.poker_wager_drawing_cards_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a>
+        : <button
+          className={clsx(
+            s.poker_wager_drawing_cards_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
             pressButton();
-          }
-        }}
-      >
-        {isPlaying && cardsNew === false ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : cardsNew === true && isPlaying ? (
-          "Retake"
-        ) : isConnected ? (
-          "Drawing cards"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>
+          }}
+        >
+          {isPlaying && cardsNew === false ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : cardsNew === true && isPlaying ? (
+            "Retake"
+          ) : isConnected ? (
+            "Drawing cards"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button >}
     </>
   );
 };

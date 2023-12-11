@@ -46,7 +46,7 @@ const WagerContent = () => {
   const [isPlaying] = useUnit([MinesModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [emptyClick, setEmptyClick] = useState(false);
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   useEffect(() => {
     if (emptyClick) {
@@ -78,18 +78,18 @@ const WagerContent = () => {
       )}{" "}
       <ProfitBlock />
       <StopWinning />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        styles.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            push('/RegistrManual');
-          } else {
-            pressButton();
-          }
+          pressButton();
         }}
       >
         {emptyClick ? (
@@ -101,7 +101,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
       {/* <WagerLowerBtnsBlock game="mines" /> */}
     </>
   );

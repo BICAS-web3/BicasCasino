@@ -4,6 +4,7 @@ import { Fonts } from "@/shared/fonts";
 import "@/shared/styles/index.scss";
 import Script from "next/script";
 import * as fbq from '../shared/tools/index';
+import "@/shared/styles/global.scss";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

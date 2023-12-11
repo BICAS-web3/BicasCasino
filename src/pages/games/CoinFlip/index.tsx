@@ -27,7 +27,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([CFM.$isPlaying]);
   const [startConnect, setStartConnect] = useUnit([
@@ -49,22 +49,18 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            push('/RegistrManual');
-          } else {
-            pressButton();
-            // (window as any).fbq("track", "Purchase", {
-            //   value: 0.0,
-            //   currency: "USD",
-            // });
-          }
+          pressButton();
         }}
       >
         {isPlaying ? (
@@ -74,7 +70,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
     </>
   );
 };

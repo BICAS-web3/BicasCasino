@@ -34,7 +34,7 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([PGM.$isPlaying]);
   // useEffect(() => {
@@ -60,18 +60,18 @@ const WagerContent = () => {
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
       <ProfitBlock />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            push('/RegistrManual');
-          } else {
-            pressButton();
-          }
+          pressButton();
         }}
       >
         {/* isConnecting && startConnect ? (
@@ -84,7 +84,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
     </>
   );
 };

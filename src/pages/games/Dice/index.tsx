@@ -39,7 +39,7 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [isPlaying] = useUnit([DGM.$isPlaying]);
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -62,6 +62,7 @@ const WagerContent = () => {
           onClick={() => {
             if (!isConnected) {
               push('/RegistrManual');
+              reload();
             } else {
               pressButton();
             }
