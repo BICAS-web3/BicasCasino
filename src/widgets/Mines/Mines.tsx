@@ -40,6 +40,7 @@ import { MineBombIcon } from "@/shared/SVGs/MineBomb";
 import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { Scrollbar } from "swiper/modules";
+import { ProfitModel } from "../ProfitBlock";
 
 enum Tile {
   Closed,
@@ -144,6 +145,7 @@ export const Mines = () => {
     setLostStatus,
     stopWinning,
     setStopWinning,
+    setCoefficient
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -161,6 +163,7 @@ export const Mines = () => {
     GameModel.setLostStatus,
     MinesModel.$stopWinning,
     MinesModel.setStopWinning,
+    ProfitModel.setCoefficient
   ]);
 
   useEffect(() => {
@@ -618,7 +621,7 @@ export const Mines = () => {
   }, [gameStatus]);
 
   const {
-    data: RevealCount,
+    data: coefficient,
     refetch: fetchRevealCount,
     error: revealErr,
   } = useContractRead({
@@ -636,16 +639,24 @@ export const Mines = () => {
 
   const [revelNum, setRevealNum] = useState<any>([]);
   useEffect(() => {
-    if (Wagered && cryptoValue > 0 && RevealCount) {
+    if (Wagered && cryptoValue > 0 && coefficient) {
       setRevealNum((prev: any[]) => {
         if (Array.isArray(prev) && prev && prev?.length > 0) {
-          return [RevealCount as bigint];
+          return [coefficient as bigint];
         } else {
-          return [...prev, RevealCount as bigint];
+          return [...prev, coefficient as bigint];
         }
       });
     }
   }, [Wagered]);
+
+  useEffect(() => {
+    if (coefficient) {
+      setCoefficient(Number(coefficient as bigint) / 10000)
+    } else {
+      setCoefficient(0)
+    }
+  }, [useDebounce(coefficient, 50)])
 
   const [stepArr, setStepArr] = useState<any>([]);
   const [bombArr, setBombArr] = useState<any>([]);
