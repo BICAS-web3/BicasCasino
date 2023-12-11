@@ -21,11 +21,13 @@ import * as CFM from "@/widgets/CoinFlip/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
+  const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([CFM.$isPlaying]);
   const [startConnect, setStartConnect] = useUnit([
@@ -47,35 +49,28 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
-          } else {
-            pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
-          }
+          pressButton();
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying ? (
+        {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
     </>
   );
 };

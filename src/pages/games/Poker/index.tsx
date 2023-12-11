@@ -21,6 +21,7 @@ import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import * as ConnectModel from "@/widgets/Layout/model";
+import { useRouter } from "next/router";
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -29,6 +30,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
+  const { push, reload } = useRouter();
 
   const [isPlaying, cardsNew] = useUnit([
     PokerModel.$isPlaying,
@@ -45,37 +47,31 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <button
-        className={clsx(
-          s.poker_wager_drawing_cards_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
-          } else {
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.poker_wager_drawing_cards_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a>
+        : <button
+          className={clsx(
+            s.poker_wager_drawing_cards_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
             pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
-          }
-        }}
-      >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying && cardsNew === false ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : cardsNew === true && isPlaying ? (
-          "Retake"
-        ) : isConnected ? (
-          "Drawing cards"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>
+          }}
+        >
+          {isPlaying && cardsNew === false ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : cardsNew === true && isPlaying ? (
+            "Retake"
+          ) : isConnected ? (
+            "Drawing cards"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button >}
     </>
   );
 };

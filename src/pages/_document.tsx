@@ -46,14 +46,14 @@ export default function Document() {
           sizes="48x48"
           href="/favicon48.ico"
         />
-        <noscript>
+        {/* <noscript>
           <img
             height="1"
             width="1"
             src="https://www.facebook.com/tr?id=1797283080715437&ev=PageView
                 &noscript=1"
           />
-        </noscript>
+        </noscript> */}
         {/* <!-- End Facebook Pixel Code --> */}
 
         <noscript>

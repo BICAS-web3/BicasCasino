@@ -24,6 +24,7 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { StopWinning } from "@/shared/ui/StopWinning";
 import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const WagerContent = () => {
   const [
@@ -45,6 +46,7 @@ const WagerContent = () => {
   const [isPlaying] = useUnit([MinesModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [emptyClick, setEmptyClick] = useState(false);
+  const { push, reload } = useRouter();
 
   useEffect(() => {
     if (emptyClick) {
@@ -76,32 +78,21 @@ const WagerContent = () => {
       )}{" "}
       <ProfitBlock />
       <StopWinning />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        styles.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
-          } else {
-            //if (selectedLength > 0) {
-            pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
-            // } else {
-            //   setEmptyClick(true);
-            // }
-          }
+          pressButton();
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={styles.dots_black} title="Connecting" />
-        ) : emptyClick ? (
+        {emptyClick ? (
           "Select Fields"
         ) : isPlaying ? (
           <LoadingDots className={styles.dots_black} title="Playing" />
@@ -110,7 +101,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
       {/* <WagerLowerBtnsBlock game="mines" /> */}
     </>
   );

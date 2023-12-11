@@ -145,7 +145,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({ watch: true });
+  const { data, isError, isLoading } = useFeeData({ watch: isConnected, cacheTime: 5000 });
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -171,7 +171,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     functionName: "CoinFlip_GetState",
     args: [address],
     enabled: true,
-    watch: isConnected,
+    //watch: isConnected && !inGame,
   });
 
   useEffect(() => {
@@ -224,7 +224,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     abi: ICoinFlip,
     functionName: "getVRFFee",
     args: [0],
-    watch: true,
+    watch: isConnected && !inGame,
   });
 
   useEffect(() => {

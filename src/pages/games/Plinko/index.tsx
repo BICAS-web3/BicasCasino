@@ -24,6 +24,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { useEffect } from "react";
 import { ManualAutoWager } from "@/widgets/ManualAutoWager/ManualAutoWager";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
+import { useRouter } from "next/router";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -33,11 +34,12 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([PGM.$isPlaying]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
   console.log("ssssstate - ", isPlaying);
 
   return (
@@ -58,35 +60,31 @@ const WagerContent = () => {
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
       <ProfitBlock />
-      <button
+      {!isConnected ? <a href="/RegistrManual" className={clsx(
+        s.connect_wallet_btn,
+        s.mobile,
+        isPlaying && "animation-leftRight"
+      )}>Connect Wallet</a> : <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight"
         )}
         onClick={() => {
-          if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
-          } else {
-            pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
-          }
+          pressButton();
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying ? (
+        {/* isConnecting && startConnect ? (
+        <LoadingDots className={s.dots_black} title="Connecting" />
+      ) :  */}
+        {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>}
     </>
   );
 };
