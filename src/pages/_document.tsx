@@ -55,9 +55,13 @@ export default function Document() {
           />
         </noscript>
         {/* <!-- End Facebook Pixel Code --> */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-BMHG0YHS5M"></script>
       </Head>
       <body>
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDJSCGDF"height="0" width="0" style="display:none;visibility:hidden"></iframe>'
+          }}
+        />
         <Main />
         <NextScript />
       </body>
