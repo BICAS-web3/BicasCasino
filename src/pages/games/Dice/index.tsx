@@ -27,6 +27,7 @@ import { useMediaQuery } from "@/shared/tools";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import { Suspense, lazy, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -38,6 +39,7 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [isPlaying] = useUnit([DGM.$isPlaying]);
+  const { push } = useRouter();
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -55,25 +57,17 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={`${s.connect_wallet_btn} ${
-            isPlaying && "animation-leftRight"
-          }`}
+          className={`${s.connect_wallet_btn} ${isPlaying && "animation-leftRight"
+            }`}
           onClick={() => {
             if (!isConnected) {
-              setStartConnect(true);
-              connect({ connector: connectors[0] });
+              push('/RegistrManual');
             } else {
               pressButton();
-              (window as any).fbq("track", "Purchase", {
-                value: 0.0,
-                currency: "USD",
-              });
             }
           }}
         >
-          {isConnecting && startConnect ? (
-            <LoadingDots className={s.dots_black} title="Connecting" />
-          ) : isPlaying ? (
+          {isPlaying ? (
             <LoadingDots className={s.dots_black} title="Playing" />
           ) : isConnected ? (
             "Play"

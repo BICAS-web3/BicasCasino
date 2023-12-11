@@ -36,6 +36,7 @@ const WagerContent = () => {
   ]);
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
+  const { push } = useRouter();
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
 
@@ -63,16 +64,13 @@ const WagerContent = () => {
         )}
         onClick={() => {
           if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
+            push('/RegistrManual');
           } else {
             pressButton();
           }
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying ? (
+        {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"

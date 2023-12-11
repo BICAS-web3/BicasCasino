@@ -21,11 +21,13 @@ import * as CFM from "@/widgets/CoinFlip/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
+  const { push } = useRouter();
 
   const [isPlaying] = useUnit([CFM.$isPlaying]);
   const [startConnect, setStartConnect] = useUnit([
@@ -55,8 +57,7 @@ const WagerContent = () => {
         )}
         onClick={() => {
           if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
+            push('/RegistrManual');
           } else {
             pressButton();
             // (window as any).fbq("track", "Purchase", {
@@ -66,9 +67,7 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying ? (
+        {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"

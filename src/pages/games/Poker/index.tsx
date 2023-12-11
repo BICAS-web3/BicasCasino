@@ -21,6 +21,7 @@ import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import * as ConnectModel from "@/widgets/Layout/model";
+import { useRouter } from "next/router";
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -29,6 +30,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
+  const { push } = useRouter();
 
   const [isPlaying, cardsNew] = useUnit([
     PokerModel.$isPlaying,
@@ -53,20 +55,13 @@ const WagerContent = () => {
         )}
         onClick={() => {
           if (!isConnected) {
-            setStartConnect(true);
-            connect({ connector: connectors[0] });
+            push('/RegistrManual');
           } else {
             pressButton();
-            (window as any).fbq("track", "Purchase", {
-              value: 0.0,
-              currency: "USD",
-            });
           }
         }}
       >
-        {isConnecting && startConnect ? (
-          <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying && cardsNew === false ? (
+        {isPlaying && cardsNew === false ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : cardsNew === true && isPlaying ? (
           "Retake"
