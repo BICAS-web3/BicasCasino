@@ -55,7 +55,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              //(window as any).fbq("track", "Lead");
               connect({ connector: connectors[0] });
             }}
           >
@@ -72,7 +72,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              //(window as any).fbq("track", "Lead");
               connect({ connector: connectors[2] });
             }}
           >
@@ -89,7 +89,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              //(window as any).fbq("track", "Lead");
               connect({ connector: connectors[2] });
             }}
           >
@@ -106,7 +106,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              //(window as any).fbq("track", "Lead");
               connect({ connector: connectors[1] });
             }}
           >

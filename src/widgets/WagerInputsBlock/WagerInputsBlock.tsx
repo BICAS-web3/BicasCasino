@@ -43,7 +43,7 @@ interface WagerInputsBlockProps {
   wagerVariants?: number[];
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [
     availableTokens,
     cryptoValue,
@@ -127,7 +127,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-        "0x0000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -151,10 +151,10 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-      "0x0000000000000000000000000000000000000000"
+        "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
-    watch: true,
+    watch: isConnected,
   });
 
   useEffect(() => {

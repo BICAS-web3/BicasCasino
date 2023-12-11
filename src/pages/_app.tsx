@@ -8,7 +8,7 @@ import * as fbq from '../shared/tools/index';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Script
+      {/* <Script
         id="fb-pixel"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
             fbq('track', 'PageView');
           `,
         }}
-      />
+      /> */}
 
       <Script
         id="google-pixel"

@@ -74,7 +74,7 @@ export const PopUpBonus: FC = () => {
     functionName: "claimedBonus",
     args: [address],
     enabled: true,
-    watch: isConnected,
+    //watch: isConnected,
   });
 
   const [showState, setShowState] = useUnit([
@@ -91,12 +91,12 @@ export const PopUpBonus: FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (readSuccess && address) {
-      setClaimed(claimedState as boolean);
-      localStorage.setItem(address, JSON.stringify(claimedState));
-    }
-  }, [claimedState, readSuccess, isFetching]);
+  // useEffect(() => {
+  //   if (readSuccess && address) {
+  //     setClaimed(claimedState as boolean);
+  //     localStorage.setItem(address, JSON.stringify(claimedState));
+  //   }
+  // }, [claimedState, readSuccess, isFetching]);
 
   const [isOpen, isMainWalletOpen, setBlur] = useUnit([
     SideBarModel.$isOpen,
@@ -166,9 +166,11 @@ export const PopUpBonus: FC = () => {
   const { write: claimBouns, isSuccess } = useContractWrite(ClaimBonusConfig);
 
   useEffect(() => {
-    if (isSuccess && setVisibility) {
+    if (address && isSuccess && setVisibility) {
       closeModal();
       setVisibility(false);
+      setClaimed(true);
+      localStorage.setItem(address, JSON.stringify(true));
     }
     setWalletVisibility(false);
   }, [isSuccess]);
@@ -319,9 +321,8 @@ export const PopUpBonus: FC = () => {
           </button>{" "}
           {!address && !isConnected && (
             <div
-              className={`${s.header_avaibleWallet_wrap} ${
-                walletVisibility && s.avaibleWallet_visible
-              }`}
+              className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
+                }`}
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
