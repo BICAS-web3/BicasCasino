@@ -48,6 +48,7 @@ export enum ModelType {
 import * as RPSModel from "@/widgets/RpsPicker/model";
 import clsx from "clsx";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
 interface ModelProps {
   side: string;
@@ -166,6 +167,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     gameStatus,
     setWonStatus,
     setLostStatus,
+    setCoefficient
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -188,7 +190,13 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.$gameStatus,
     GameModel.setWonStatus,
     GameModel.setLostStatus,
+    ProfitModel.setCoefficient
   ]);
+
+  useEffect(() => {
+    setCoefficient(1.98);
+  }, [])
+
   useEffect(() => {
     if (pickedValue === RPSModel.RPSValue.Paper) {
       setValue(ModelType.Paper);
@@ -287,7 +295,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -306,24 +314,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -404,7 +412,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {

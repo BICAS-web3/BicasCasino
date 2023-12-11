@@ -57,6 +57,7 @@ import clsx from "clsx";
 import * as DiceM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { ProfitModel } from "../ProfitBlock";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -101,6 +102,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     currentBalance,
     setWagered,
     allowance,
+    setCoefficient
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -129,6 +131,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     sessionModel.$currentBalance,
     WagerButtonModel.setWagered,
     sessionModel.$currentAllowance,
+    ProfitModel.setCoefficient
   ]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
@@ -146,6 +149,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
+
+  useEffect(() => {
+    setCoefficient(Number(multiplier) / 10000);
+  }, [multiplier])
 
   const changeBetween = () => {
     flipRollOver(RollValue);
@@ -173,21 +180,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -280,7 +287,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -356,7 +363,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -401,15 +408,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${
-        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
-
-  useEffect(() => {
-    console.log("Multiplier", multiplier);
-  }, [multiplier]);
 
   const diceValue = [
     {
