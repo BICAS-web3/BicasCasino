@@ -194,10 +194,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         <Link
           href={"/nftmarket"}
           // onClick={() =>
-          //   window.open(
-          //     "https://element.market/collections/greekkeepers",
-          //     "_blank"
-          //   )
+            // window.open(
+            //   "https://element.market/collections/greekkeepers",
+            //   "_blank"
+            // )
           // }
           className={s.closed_sb_other_info_list_item}
         >

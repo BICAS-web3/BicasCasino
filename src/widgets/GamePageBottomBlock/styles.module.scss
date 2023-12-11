@@ -11,6 +11,7 @@
 }
 
 .game_page_bottom_wrap_header {
+  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -22,19 +23,22 @@
   svg {
     transform: rotate(180deg);
   }
+
+  background-color: #282828 !important;
 }
 
 .game_page_bottom_wrap_header_accordion_btn {
   svg {
     transition: all 0.2s;
   }
-  background-color: inherit;
+  background-color: #181818;
   border-radius: 12px;
   padding: 8px 20px;
   box-sizing: border-box;
   display: flex;
   cursor: pointer;
   align-items: center;
+  height: 40px;
   justify-content: space-between;
   min-width: 180px;
   color: #7e7e7e;
@@ -44,6 +48,11 @@
   font-weight: 600;
   line-height: 120%;
   letter-spacing: 0.56px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #202020;
+  }
 }
 
 .game_page_bottom_wrap_header_accordeon_btn.active {

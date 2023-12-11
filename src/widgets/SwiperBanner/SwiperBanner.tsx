@@ -14,7 +14,10 @@ import swiperImg1 from "@/public/media/swiperBannerImgs/slide1Bg.png";
 import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.png";
 import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.png";
 import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.png";
+import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.png";
+import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.png";
 
+import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
 import kycIco from "@/public/media/swiperBannerImgs/kycIco.svg";
 
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
@@ -54,6 +57,13 @@ const swiperSlides = [
     extraText: "we do not keep user funds, your game is absolutely safe",
     img: swiperImg4,
   },
+  {
+    text: "",
+    isBtn: false,
+    extraText: "",
+    img: swiperImg5,
+    imgMob: swiperImg5Mob,
+  },
 ];
 
 interface SwiperBannerProps {}
@@ -62,11 +72,21 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
   const [walletVisibility, setWalletVisibility] = useState(false);
   const [is650, setIs650] = useState(false);
+  const [is700, setIs700] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      width < 650 ? setIs650(true) : setIs650(false);
+      if (width < 700 && width > 650) {
+        setIs650(false);
+        setIs700(true);
+      } else if (width < 650) {
+        setIs650(true);
+        setIs700(false);
+      } else {
+        setIs650(false);
+        setIs700(false);
+      }
     };
 
     handleResize();
@@ -155,7 +175,11 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
           >
             <img
               className={s.slide_bg_img}
-              src={slide.img.src}
+              src={
+                (slide.imgMob && is700) || (slide.imgMob && is650)
+                  ? slide.imgMob.src
+                  : slide.img.src
+              }
               alt="slide-imd"
             />
             <span className={`${s.slide_text} ${ind === 0 && s.title}`}>
@@ -176,6 +200,17 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 className={s.join_wallet_btn}
               >
                 {!is650 ? slide.btnFirstText : slide.btnSecondText}
+              </button>
+            )}
+            {ind === 4 && (
+              <button
+                className={s.tg_btn}
+                onClick={() =>
+                  window.open("https://t.me/HFT_Crypto_Signals_bot", "_blank")
+                }
+              >
+                {is700 || is650 ? "Join Telegram Bot" : "Join Bot"}
+                <img src={tgIco.src} alt="telegram-ico" />
               </button>
             )}
           </SwiperSlide>

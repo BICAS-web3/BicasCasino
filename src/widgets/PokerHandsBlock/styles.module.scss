@@ -5,6 +5,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
+  border-radius: 0 0 20px 20px;
   @media screen and (max-width: 996px) {
     height: 100%;
   }
@@ -17,6 +18,11 @@
   background: inherit;
   border: none;
   cursor: pointer;
+  display: none;
+
+  @media screen and (max-width: 996px) {
+    display: block;
+  }
 }
 
 .poker_hands_list_item {
