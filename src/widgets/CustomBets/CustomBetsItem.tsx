@@ -26,6 +26,7 @@ export interface CustomBetsItemProps {
   player_address: string;
   player_name: string;
   wager: number;
+  bets: number;
   multiplier: number;
   profit: number;
   token: string;
@@ -65,14 +66,11 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
     }
   });
 
-  console.log(address === props.player_address)
-  console.log(address, props.player_address)
-
   return (
     <div
       className={s.customBets_list_item}
       data-bg={props.id % 2 === 0 && "true"}
-      data-playerBet={address?.toLowerCase() === props.player_address && 'true'}
+      data-playerBet={address?.toLowerCase() === props.player_address && "true"}
     >
       <div className={s.customBets_list_item_time_block}>
         <Link
@@ -131,7 +129,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
           alt="wager-ico"
         />
         <span className={s.customBets_list_item_wager}>
-          {parseFloat(props.wager.toFixed(2))}
+          {/* {props.bets}x{parseFloat(props.wager.toFixed(2))} */}
+          {`${props.bets}x${parseFloat(props.wager.toFixed(2))}`}
         </span>
       </div>
       <div className={s.customBets_list_item_multiplier_block}>

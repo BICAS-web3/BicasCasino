@@ -49,6 +49,7 @@ import * as RPSModel from "@/widgets/RpsPicker/model";
 import clsx from "clsx";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
+import { CanvasLoader } from "../CanvasLoader";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -518,7 +519,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
             style={{ pointerEvents: "none" }}
           >
             {value === ModelType.Paper && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -533,7 +534,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {value === ModelType.Rock && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -548,7 +549,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {value === ModelType.Scissors && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -568,7 +569,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
             style={{ pointerEvents: "none" }}
           >
             {enemyValue === ModelType.Paper && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -588,7 +589,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Rock && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -609,7 +610,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Scissors && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -629,7 +630,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Quest && (
-              <Suspense>
+              <Suspense fallback={<CanvasLoader />}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>

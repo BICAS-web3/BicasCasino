@@ -8,6 +8,8 @@ import kucoinIco from "@/public/media/registrManual_images/kucoin.svg";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
+import { Tab } from "@/pages/RegistrManual";
+import { SubPage } from "./ManualBonusReceiving";
 
 const exchangesList = [
   {
@@ -37,19 +39,22 @@ const exchangesList = [
   },
 ];
 
-interface SelectExchangesProps {}
+interface SelectExchangesProps {
+  step: number;
+  setSubPage: any;
+  setStep: any;
+  setTab: any
+}
 
-export const SelectExchanges: FC<SelectExchangesProps> = () => {
-  const router = useRouter();
+export const SelectExchanges: FC<SelectExchangesProps> = (props) => {
+  //const router = useRouter();
 
   return (
     <div className={s.select_exchanges_body}>
       <span
         className={s.tab_back_btn}
         onClick={() =>
-          router.push(
-            "/RegistrManual?tab=bonusReceiving&subPage=walletPresence"
-          )
+          props.setSubPage(SubPage.WalletPresence)
         }
       >
         <img src={leftArr.src} alt="left-arr" />
@@ -92,23 +97,23 @@ export const SelectExchanges: FC<SelectExchangesProps> = () => {
           <button
             className={s.exchange_bottom_back_btn}
             onClick={() =>
-              router.push(
-                "/RegistrManual?tab=bonusReceiving&subPage=walletPresence"
-              )
+              props.setSubPage(SubPage.WalletPresence)
             }
           >
             Back
           </button>
           <button
             className={s.exchange_bottom_next_btn}
-            onClick={() =>
-              router.push("/RegistrManual?tab=bonusReceiving&step=1")
+            onClick={() => {
+              props.setStep(1);
+              props.setSubPage(SubPage.Start)
+            }
             }
           >
             Next
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };

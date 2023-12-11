@@ -80,7 +80,7 @@ const languagesList = [
   {
     ico: usaIco,
     id: "usa",
-    title: "usa",
+    title: "en",
     mobTitle: "english",
   },
   {
@@ -191,20 +191,21 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             How to play
           </div>
         </div>
-        <div
-          onClick={() =>
-            window.open(
-              "https://element.market/collections/greekkeepers",
-              "_blank"
-            )
-          }
+        <Link
+          href={"/nftmarket"}
+          // onClick={() =>
+          //   window.open(
+          //     "https://element.market/collections/greekkeepers",
+          //     "_blank"
+          //   )
+          // }
           className={s.closed_sb_other_info_list_item}
         >
           <NftIco />
           <div className={s.closed_sb_tooltip} data-id="nft-tooltip">
             NFT Market
           </div>
-        </div>
+        </Link>
         <div className={s.closed_sb_other_info_list_item}>
           <AffilateIco />
           <div className={s.closed_sb_tooltip} data-id="affilate-tooltip">
@@ -409,20 +410,21 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               how to play <span className={s.soon_page}>Soon…</span>
             </div>
           </div>
-          <div
-            onClick={() =>
-              window.open(
-                "https://element.market/collections/greekkeepers",
-                "_blank"
-              )
-            }
+          <Link
+            href={"/nftmarket"}
+            // onClick={() =>
+            //   window.open(
+            //     "https://element.market/collections/greekkeepers",
+            //     "_blank"
+            //   )
+            // }
             className={s.oth_info_list_item}
           >
             <div className={s.icon_wrapper}>
               <NftIco />
             </div>
             <div className={s.large_header_text}>nft market</div>
-          </div>
+          </Link>
           <div className={s.oth_info_list_item}>
             <div className={s.icon_wrapper}>
               <AffilateIco />

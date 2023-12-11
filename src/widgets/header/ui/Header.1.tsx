@@ -3,35 +3,25 @@ import { useUnit } from "effector-react";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
-
 import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
 import HeaderLogo from "@/public/media/brand_images/HeaderLogo.svg";
-
 import * as SidebarM from "@/widgets/SideBar/model";
-
 import { RightMenu } from "./RightMenu";
-
 import s from "./styles.module.scss";
 import { BottomMenu } from "./BottomMenu";
 import * as ManualModel from "@/widgets/Layout/model";
-
-export interface HeaderProps {
-  isGame: boolean;
-}
+import { HeaderProps } from "./Header";
 
 export const Header: FC<HeaderProps> = (props) => {
   const [isOpen] = useUnit([SidebarM.$isOpen]);
 
   const [setIsPartner] = useUnit([ManualModel.setIsPartner]);
-
   useEffect(() => {
     const currentURL = window.location.href;
-
     if (currentURL.includes("partner_address")) {
       setIsPartner(true);
     }
   }, []);
-
   return (
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>

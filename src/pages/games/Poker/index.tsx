@@ -30,10 +30,18 @@ const WagerContent = () => {
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
 
-  const [isPlaying] = useUnit([PokerModel.$isPlaying]);
+  const [isPlaying, cardsNew] = useUnit([
+    PokerModel.$isPlaying,
+    PokerModel.$watchState,
+  ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
+
+  useEffect(() => {
+    console.log("cardsNewcardsNew", cardsNew);
+  }, [cardsNew]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -58,8 +66,10 @@ const WagerContent = () => {
       >
         {isConnecting && startConnect ? (
           <LoadingDots className={s.dots_black} title="Connecting" />
-        ) : isPlaying ? (
+        ) : isPlaying && cardsNew === false ? (
           <LoadingDots className={s.dots_black} title="Playing" />
+        ) : cardsNew === true && isPlaying ? (
+          "Retake"
         ) : isConnected ? (
           "Drawing cards"
         ) : (

@@ -522,7 +522,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
         <WagerLowerBtnsBlock game="plinko" text={gameText} />
         <div className={styles.plinko_table_background}>
           <Image
-            src={isMobile ? mobilebg : tableBg}
+            src={tableBg}
             className={styles.plinko_table_background_img}
             alt="table-bg"
             width={1418}
@@ -550,7 +550,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           <span className={styles.total_won}>{fullWon.toFixed(2)}</span>
           <span className={styles.total_lost}>{fullLost.toFixed(2)}</span>
           <div>
-            Total:{" "}
+            Total:&nbsp;
             <span
               className={clsx(
                 totalValue > 0 && styles.total_won,
