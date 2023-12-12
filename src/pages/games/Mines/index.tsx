@@ -56,6 +56,8 @@ const WagerContent = () => {
     }
   }, [emptyClick]);
 
+  const router = useRouter();
+
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
   return (
@@ -80,40 +82,33 @@ const WagerContent = () => {
       )}
       <ProfitBlock />
       <StopWinning />
-      {!isConnected ? (
-        <a
-          href="/RegistrManual"
-          className={clsx(
-            s.connect_wallet_btn,
-            styles.mobile,
-            isPlaying && "animation-leftRight"
-          )}
-        >
-          Connect Wallet
-        </a>
-      ) : (
-        <button
-          className={clsx(
-            s.connect_wallet_btn,
-            styles.mobile,
-            isPlaying && "animation-leftRight",
-            cryptoValue == 0.0 ? s.button_inactive : s.button_active
-          )}
-          onClick={() => {
+      <button
+        className={clsx(
+          s.connect_wallet_btn,
+          styles.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 ? s.button_inactive : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && isConnected) {
             pressButton();
-          }}
-        >
-          {emptyClick ? (
-            "Select Fields"
-          ) : isPlaying ? (
-            <LoadingDots className={styles.dots_black} title="Playing" />
-          ) : isConnected ? (
-            "Play"
-          ) : (
-            "Connect Wallet"
-          )}
-        </button>
-      )}
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            return null;
+          } else {
+            router.push("/RegistrManual");
+          }
+        }}
+      >
+        {emptyClick ? (
+          "Select Fields"
+        ) : isPlaying ? (
+          <LoadingDots className={styles.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button>
       {/* <WagerLowerBtnsBlock game="mines" /> */}
     </>
   );

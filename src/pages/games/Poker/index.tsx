@@ -47,43 +47,38 @@ const WagerContent = () => {
     console.log("cardsNewcardsNew", cardsNew);
   }, [cardsNew]);
 
+  const router = useRouter();
+
   return (
     <>
       <WagerInputsBlock />
-      {!isConnected ? (
-        <a
-          href="/RegistrManual"
-          className={clsx(
-            s.poker_wager_drawing_cards_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight"
-          )}
-        >
-          Connect Wallet
-        </a>
-      ) : (
-        <button
-          className={clsx(
-            s.poker_wager_drawing_cards_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight",
-            cryptoValue == 0.0 ? s.button_inactive : s.button_active
-          )}
-          onClick={() => {
+      <button
+        className={clsx(
+          s.poker_wager_drawing_cards_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 ? s.button_inactive : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && isConnected) {
             pressButton();
-          }}
-        >
-          {isPlaying && cardsNew === false ? (
-            <LoadingDots className={s.dots_black} title="Playing" />
-          ) : cardsNew === true && isPlaying ? (
-            "Retake"
-          ) : isConnected ? (
-            "Drawing cards"
-          ) : (
-            "Connect Wallet"
-          )}
-        </button>
-      )}
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            return null;
+          } else {
+            router.push("/RegistrManual");
+          }
+        }}
+      >
+        {isPlaying && cardsNew === false ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : cardsNew === true && isPlaying ? (
+          "Retake"
+        ) : isConnected ? (
+          "Drawing cards"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button>
     </>
   );
 };

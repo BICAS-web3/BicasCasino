@@ -41,6 +41,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [isPlaying] = useUnit([DGM.$isPlaying]);
   const { push, reload } = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -65,11 +66,12 @@ const WagerContent = () => {
             isPlaying && "animation-leftRight"
           } ${cryptoValue == 0.0 ? s.button_inactive : s.button_active}`}
           onClick={() => {
-            if (!isConnected) {
-              push("/RegistrManual");
-              reload();
-            } else {
+            if (cryptoValue > 0.0 && isConnected) {
               pressButton();
+            } else if (cryptoValue <= 0.0 && isConnected) {
+              return null;
+            } else {
+              router.push("/RegistrManual");
             }
           }}
         >

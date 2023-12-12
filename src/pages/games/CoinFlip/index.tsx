@@ -29,6 +29,7 @@ const WagerContent = () => {
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const { push, reload } = useRouter();
+  const router = useRouter();
 
   const [isPlaying, cryptoValue] = useUnit([
     CFM.$isPlaying,
@@ -53,40 +54,33 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      {!isConnected ? (
-        <a
-          href="/RegistrManual"
-          className={clsx(
-            s.connect_wallet_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight"
-          )}
-        >
-          Connect Wallet
-        </a>
-      ) : (
-        <button
-          className={clsx(
-            s.connect_wallet_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight",
-            cryptoValue == 0.0 ? s.button_inactive : s.button_active
-          )}
-          onClick={() => {
-            if (cryptoValue > 0.0) {
-              pressButton();
-            }
-          }}
-        >
-          {isPlaying ? (
-            <LoadingDots className={s.dots_black} title="Playing" />
-          ) : isConnected ? (
-            "Play"
-          ) : (
-            "Connect Wallet"
-          )}
-        </button>
-      )}
+      <button
+        className={clsx(
+          s.connect_wallet_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && isConnected) {
+            pressButton();
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            return null;
+          } else {
+            router.push("/RegistrManual");
+          }
+        }}
+      >
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button>
     </>
   );
 };
