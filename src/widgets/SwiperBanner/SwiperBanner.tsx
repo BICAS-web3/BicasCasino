@@ -43,7 +43,7 @@ const swiperSlides = [
     text: "Get your $100 deposit bonus in the DRAXB token",
     isBtn: true,
     img: swiperImg2,
-    btnFirstText: "Claim your deposit bonus",
+    btnFirstText: "Get your deposit bonus",
     btnSecondText: "Join wallet",
   },
   {
@@ -66,7 +66,7 @@ const swiperSlides = [
   },
 ];
 
-interface SwiperBannerProps { }
+interface SwiperBannerProps {}
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
