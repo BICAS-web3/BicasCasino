@@ -9,6 +9,7 @@ import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -21,7 +22,7 @@ import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
-import style from "@/pages/games/CoinFlip/styles.module.scss";
+
 import * as GameModel from "./model";
 import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
@@ -176,6 +177,14 @@ export const GamePage: FC<GamePageProps> = ({
   // const lost = false;
 
   const [pressButton] = useUnit([WagerModel.pressButton]);
+
+  const [isPlaying, cryptoValue] = useUnit([
+    CFM.$isPlaying,
+    WagerAmountModel.$cryptoValue,
+  ]);
+
+  const router = useRouter();
+
   return (
     <div className={s.game_layout}>
       <ReactHowler
@@ -251,26 +260,28 @@ export const GamePage: FC<GamePageProps> = ({
               ButtonElement={
                 isMobile ? (
                   <button
-                    className={clsx(style.connect_wallet_btn, s.mobile)}
+                    className={clsx(
+                      s.connect_wallet_btn,
+                      s.mobile,
+                      isPlaying && "animation-leftRight",
+                      cryptoValue == 0.0 && isConnected
+                        ? s.button_inactive
+                        : s.button_active
+                    )}
                     onClick={() => {
-                      if (!isConnected) {
-                        push('/RegistrManual');
-                      } else {
+                      if (cryptoValue > 0.0 && isConnected) {
                         pressButton();
+                      } else if (cryptoValue <= 0.0 && isConnected) {
+                        return null;
+                      } else {
+                        router.push("/RegistrManual");
                       }
                     }}
                   >
-                    {isDicePlaying ||
-                      isCFPlaying ||
-                      isPlinkoPlaying ||
-                      isPokerlaying ? (
+                    {isPlaying ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
                     ) : isConnected ? (
-                      customTitle ? (
-                        customTitle
-                      ) : (
-                        "Place bet"
-                      )
+                      "Play"
                     ) : (
                       "Connect Wallet"
                     )}
