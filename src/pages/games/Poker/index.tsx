@@ -57,7 +57,9 @@ const WagerContent = () => {
           s.poker_wager_drawing_cards_btn,
           s.mobile,
           isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 ? s.button_inactive : s.button_active
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
         )}
         onClick={() => {
           if (cryptoValue > 0.0 && isConnected) {

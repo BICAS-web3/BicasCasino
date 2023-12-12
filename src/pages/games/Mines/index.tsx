@@ -87,7 +87,9 @@ const WagerContent = () => {
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 ? s.button_inactive : s.button_active
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
         )}
         onClick={() => {
           if (cryptoValue > 0.0 && isConnected) {
