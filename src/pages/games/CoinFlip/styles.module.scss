@@ -47,6 +47,7 @@
     margin: 0 auto 14px auto;
     width: 240px;
     max-height: 50px;
+    display: none;
   }
 
   @media screen and (max-width: 650px) {
@@ -57,37 +58,42 @@
     min-height: 40px;
     border-radius: 5px;
   }
-
 }
 
 .button_active {
-  background: linear-gradient(114deg,
+  background: linear-gradient(
+      114deg,
       #f8eeb8 -4.17%,
       #dbb370 59.03%,
-      #8e5b2d 112.39%),
+      #8e5b2d 112.39%
+    ),
     #121212;
   color: #0f0f0f;
 
   &:hover {
-    background: linear-gradient(114deg,
-        #f8eeb8 -4.17%,
-        #dbb370 59.03%,
-        #8e5b2d 112.39%);
+    background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    );
     box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5);
   }
 
   &:active {
-    background: linear-gradient(114deg,
-        #ffe297 -4.17%,
-        #d29650 48.32%,
-        #8e5b2d 104.97%);
+    background: linear-gradient(
+      114deg,
+      #ffe297 -4.17%,
+      #d29650 48.32%,
+      #8e5b2d 104.97%
+    );
     box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5),
       0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 }
 
 .button_inactive {
-  border: 1px solid var(--outline-3-e-night, #3E3E3E);
+  border: 1px solid var(--outline-3-e-night, #3e3e3e);
   background: var(--gray-3125-night, #252525);
   color: var(--gray-697-night, #979797);
 

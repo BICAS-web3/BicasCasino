@@ -128,3 +128,9 @@
     cursor: default;
   }
 }
+
+.connect_wallet_btn {
+  @media screen and (max-width: 996px) {
+    display: none !important;
+  }
+}
