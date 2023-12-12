@@ -66,7 +66,7 @@ const swiperSlides = [
   },
 ];
 
-interface SwiperBannerProps {}
+interface SwiperBannerProps { }
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
