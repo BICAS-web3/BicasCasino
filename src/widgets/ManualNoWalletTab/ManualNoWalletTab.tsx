@@ -13,9 +13,9 @@ import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import { Tab } from "@/pages/RegistrManual";
 
 interface ConnectWalletTabProps {
-  tab: Tab,
-  setTab: any,
-  setSubPage: any
+  tab: Tab;
+  setTab: any;
+  setSubPage: any;
 }
 
 export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
@@ -42,7 +42,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              // (window as any).fbq("track", "Lead");
               connect({ connector: connectors[0] });
             }}
           >
@@ -59,7 +59,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              // (window as any).fbq("track", "Lead");
               connect({ connector: connectors[2] });
             }}
           >
@@ -76,7 +76,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              // (window as any).fbq("track", "Lead");
               connect({ connector: connectors[2] });
             }}
           >
@@ -93,7 +93,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              // (window as any).fbq("track", "Lead");
               connect({ connector: connectors[1] });
             }}
           >
@@ -110,7 +110,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
           <div
             className={s.wallet_list_item}
             onClick={() => {
-              (window as any).fbq("track", "Lead");
+              // (window as any).fbq("track", "Lead");
               connect({ connector: connectors[3] });
             }}
           >
@@ -154,12 +154,12 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
 
 enum SubPage {
   Start,
-  ConnectionPage
+  ConnectionPage,
 }
 
 interface ManualNoWalletTabProps {
-  tab: Tab,
-  setTab: any
+  tab: Tab;
+  setTab: any;
 }
 
 export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = (props) => {
@@ -265,24 +265,25 @@ export const ManualNoWalletTab: FC<ManualNoWalletTabProps> = (props) => {
             </span>
           </div>
           <div className={s.nav_btns}>
-            <div
-              className={s.back_btn}
-              onClick={() => props.setTab(Tab.start)}
-            >
+            <div className={s.back_btn} onClick={() => props.setTab(Tab.start)}>
               Back
             </div>
             <div
               className={s.next_btn}
-              onClick={() =>
-                setSubPage(SubPage.ConnectionPage)
-              }
+              onClick={() => setSubPage(SubPage.ConnectionPage)}
             >
               Next
             </div>
           </div>
         </div>
       )}
-      {subPage === SubPage.ConnectionPage && <ConnectWalletTab tab={props.tab} setTab={props.setTab} setSubPage={setSubPage} />}
+      {subPage === SubPage.ConnectionPage && (
+        <ConnectWalletTab
+          tab={props.tab}
+          setTab={props.setTab}
+          setSubPage={setSubPage}
+        />
+      )}
     </>
   );
 };

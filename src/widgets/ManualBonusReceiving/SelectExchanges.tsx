@@ -9,7 +9,7 @@ import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import { Tab } from "@/pages/RegistrManual";
-import { SubPage } from "./ManualBonusReceiving";
+// import { SubPage } from "./ManualBonusReceiving";
 
 const exchangesList = [
   {
@@ -43,9 +43,10 @@ interface SelectExchangesProps {
   step: number;
   setSubPage: any;
   setStep: any;
-  setTab: any
+  setTab?: any;
 }
 
+import * as Model from "@/widgets/ManualBonusReceiving/model";
 export const SelectExchanges: FC<SelectExchangesProps> = (props) => {
   //const router = useRouter();
 
@@ -53,9 +54,7 @@ export const SelectExchanges: FC<SelectExchangesProps> = (props) => {
     <div className={s.select_exchanges_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() =>
-          props.setSubPage(SubPage.WalletPresence)
-        }
+        onClick={() => props.setSubPage(Model.SubPage.WalletPresence)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -96,9 +95,7 @@ export const SelectExchanges: FC<SelectExchangesProps> = (props) => {
         <div className={s.exchange_bottom_btns}>
           <button
             className={s.exchange_bottom_back_btn}
-            onClick={() =>
-              props.setSubPage(SubPage.WalletPresence)
-            }
+            onClick={() => props.setSubPage(Model.SubPage.WalletPresence)}
           >
             Back
           </button>
@@ -106,14 +103,13 @@ export const SelectExchanges: FC<SelectExchangesProps> = (props) => {
             className={s.exchange_bottom_next_btn}
             onClick={() => {
               props.setStep(1);
-              props.setSubPage(SubPage.Start)
-            }
-            }
+              props.setSubPage(Model.SubPage.Start);
+            }}
           >
             Next
           </button>
         </div>
       </div>
-    </div >
+    </div>
   );
 };

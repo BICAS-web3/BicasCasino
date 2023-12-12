@@ -18,12 +18,12 @@ export enum Tab {
   start,
   haveWalletConnect,
   noWallet,
-  bonusReceiving
+  bonusReceiving,
 }
 
 interface HaveWalletConnectionProps {
-  tab: Tab,
-  setTab: any
+  tab: Tab;
+  setTab: any;
 }
 
 const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
@@ -42,10 +42,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
 
   return (
     <div className={s.have_wallet_body}>
-      <span
-        className={s.tab_back_btn}
-        onClick={() => props.setTab(Tab.start)}
-      >
+      <span className={s.tab_back_btn} onClick={() => props.setTab(Tab.start)}>
         <img src={leftArr.src} alt="left-arr" />
         Back
       </span>
@@ -133,17 +130,14 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
           <img src={infoIco.src} alt="info-ico" />
         </span>
       </div>
-      <button
-        className={s.cancel_btn}
-        onClick={() => props.setTab(Tab.start)}
-      >
+      <button className={s.cancel_btn} onClick={() => props.setTab(Tab.start)}>
         Back
       </button>
     </div>
   );
 };
 
-interface RegistrManualProps { }
+interface RegistrManualProps {}
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
@@ -157,7 +151,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
   return (
     <Layout gameName={undefined}>
       <div
-        className={`${s.registr_manual_section} `}// ${step !== undefined && s.gap_none}
+        className={`${s.registr_manual_section} `} // ${step !== undefined && s.gap_none}
       >
         <div className={s.top_blur}></div>
         <div className={s.bottom_blur}></div>
@@ -177,9 +171,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
               <div className={s.wallet_btns}>
                 <button
                   className={s.wallet_btns_item}
-                  onClick={() =>
-                    setTab(Tab.haveWalletConnect)
-                  }
+                  onClick={() => setTab(Tab.haveWalletConnect)}
                 >
                   I have a crypto wallet
                   <BtnRightArrow />
@@ -198,11 +190,13 @@ const RegistrManual: FC<RegistrManualProps> = () => {
             </button>
           </div>
         )}
-        {tab == Tab.haveWalletConnect && <HaveWalletConnection tab={tab} setTab={setTab} />}
+        {tab == Tab.haveWalletConnect && (
+          <HaveWalletConnection tab={tab} setTab={setTab} />
+        )}
         {tab == Tab.noWallet && <ManualNoWalletTab tab={tab} setTab={setTab} />}
         {tab == Tab.bonusReceiving && <ManualBonusReceiving setTab={setTab} />}
       </div>
-    </Layout >
+    </Layout>
   );
 };
 
