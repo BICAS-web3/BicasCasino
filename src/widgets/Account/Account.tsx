@@ -63,7 +63,7 @@ const AccountElement: FC<AccountElementProps> = (props) => {
 export interface AccountProps {
   address: string;
   nickname: string | null;
-  toggle: any;
+  toggle?: any;
 }
 export const Account: FC<AccountProps> = (props) => {
   const { address } = useAccount();
