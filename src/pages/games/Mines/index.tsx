@@ -13,7 +13,7 @@ import { useUnit } from "effector-react";
 import { useAccount, useConnect } from "wagmi";
 import styles from "./styles.module.scss";
 import clsx from "clsx";
-
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 
 import * as ConnectModel from "@/widgets/Layout/model";
@@ -56,6 +56,8 @@ const WagerContent = () => {
     }
   }, [emptyClick]);
 
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+
   return (
     <>
       {/* <ManualSetting
@@ -75,7 +77,7 @@ const WagerContent = () => {
           <ProfitBlock />
           <StopWinning />
         </>
-      )}{" "}
+      )}
       <ProfitBlock />
       <StopWinning />
       {!isConnected ? (
@@ -94,7 +96,8 @@ const WagerContent = () => {
           className={clsx(
             s.connect_wallet_btn,
             styles.mobile,
-            isPlaying && "animation-leftRight"
+            isPlaying && "animation-leftRight",
+            cryptoValue == 0.0 ? s.button_inactive : s.button_active
           )}
           onClick={() => {
             pressButton();
@@ -133,7 +136,7 @@ export default function MinesGame() {
           isMines={true}
           soundClassName={styles.mines_sound}
         >
-          <Mines />
+          <Mines gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn." />
         </GamePage>
       </div>
     </Layout>

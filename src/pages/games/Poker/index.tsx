@@ -18,6 +18,7 @@ import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
 import { useEffect } from "react";
 import clsx from "clsx";
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
 import * as ConnectModel from "@/widgets/Layout/model";
@@ -39,6 +40,8 @@ const WagerContent = () => {
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
+
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
   useEffect(() => {
     console.log("cardsNewcardsNew", cardsNew);
@@ -63,7 +66,8 @@ const WagerContent = () => {
           className={clsx(
             s.poker_wager_drawing_cards_btn,
             s.mobile,
-            isPlaying && "animation-leftRight"
+            isPlaying && "animation-leftRight",
+            cryptoValue == 0.0 ? s.button_inactive : s.button_active
           )}
           onClick={() => {
             pressButton();

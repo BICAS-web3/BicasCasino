@@ -30,7 +30,10 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const { push, reload } = useRouter();
 
-  const [isPlaying, cryptoValue] = useUnit([CFM.$isPlaying, WagerAmountModel.$cryptoValue]);
+  const [isPlaying, cryptoValue] = useUnit([
+    CFM.$isPlaying,
+    WagerAmountModel.$cryptoValue,
+  ]);
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,

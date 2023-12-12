@@ -9,6 +9,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { Plinko } from "@/widgets/Plinko/Plinko";
 import { useAccount, useConnect } from "wagmi";
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
@@ -40,7 +41,7 @@ const WagerContent = () => {
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
-  console.log("ssssstate - ", isPlaying);
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
   return (
     <>
@@ -76,7 +77,8 @@ const WagerContent = () => {
           className={clsx(
             s.connect_wallet_btn,
             styles.mobile,
-            isPlaying && "animation-leftRight"
+            isPlaying && "animation-leftRight",
+            cryptoValue == 0.0 ? s.button_inactive : s.button_active
           )}
           onClick={() => {
             pressButton();

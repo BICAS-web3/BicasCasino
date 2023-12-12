@@ -211,7 +211,7 @@
   border-radius: 12px;
   border: #2e2e2e;
   background: #202020;
-  height: 50px;
+  min-height: 50px;
   width: 250px;
   display: flex;
   justify-content: center;
@@ -235,7 +235,7 @@
     border-radius: 8px;
     margin: 5px 16px 85px 16px;
     width: calc(100% - 32px);
-    height: 40px;
+    min-height: 40px;
     font-size: 14px;
   }
 }

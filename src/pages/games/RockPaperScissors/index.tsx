@@ -23,7 +23,7 @@ import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtn
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
 import * as ConnectModel from "@/widgets/Layout/model";
-
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { useEffect } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
@@ -39,7 +39,7 @@ const WagerContent = () => {
   const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
-
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const { connectors, connect } = useConnect();
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -72,7 +72,8 @@ const WagerContent = () => {
           className={clsx(
             s.connect_wallet_btn,
             s.mobile,
-            isPlaying && "animation-leftRight"
+            isPlaying && "animation-leftRight",
+            cryptoValue == 0.0 ? s.button_inactive : s.button_active
           )}
           onClick={() => {
             pressButton();

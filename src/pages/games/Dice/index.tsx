@@ -9,6 +9,7 @@ import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
@@ -44,6 +45,9 @@ const WagerContent = () => {
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
+
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -59,7 +63,7 @@ const WagerContent = () => {
         <button
           className={`${s.connect_wallet_btn} ${
             isPlaying && "animation-leftRight"
-          }`}
+          } ${cryptoValue == 0.0 ? s.button_inactive : s.button_active}`}
           onClick={() => {
             if (!isConnected) {
               push("/RegistrManual");
