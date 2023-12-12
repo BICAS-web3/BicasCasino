@@ -30,7 +30,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
-  const { asPath } = useRouter();
+  const { pathname } = useRouter();
 
   // useEffect(() => {
   //   if(asPath === "/RegistrManual"){
@@ -53,7 +53,9 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
-          {popupBonusState === `"true"` || asPath === "/RegistrManual" ? null : <PopUpBonus />}
+          {popupBonusState === `"true"`
+            || pathname === "/RegistrManual"
+            || pathname === "/ExchangeManual" ? null : <PopUpBonus />}
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >

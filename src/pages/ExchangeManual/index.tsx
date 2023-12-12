@@ -31,6 +31,7 @@ export default function Home() {
   const [desk, setDesk] = useState(false);
 
   useEffect(() => {
+    setSubPage(ManualModel.SubPage.WalletPresence);
     const handleResize = () => {
       const width = window.innerWidth;
       if (width <= 700 && width >= 650) {
