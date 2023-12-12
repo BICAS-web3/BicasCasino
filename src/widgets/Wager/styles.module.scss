@@ -289,6 +289,9 @@
   transition: all 0.4s;
   right: 0;
   top: 30px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .token_list_visible {
@@ -322,6 +325,10 @@
   &:last-child {
     margin-bottom: 0;
   }
+  @media (max-width: 650px) {
+    padding: 7px 20px;
+  }
+
   .poker_wager_tokens_list_item_title {
     margin-left: 10px;
     color: #7e7e7e;

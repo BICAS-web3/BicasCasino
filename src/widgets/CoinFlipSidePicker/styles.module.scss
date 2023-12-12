@@ -7,6 +7,9 @@
   display: flex;
   background: #202020;
   height: 40px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .face_block,
@@ -29,6 +32,7 @@
   text-transform: uppercase;
   @media (max-width: 650px) {
     font-size: 14px;
+    border-radius: 5px;
   }
 }
 

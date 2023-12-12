@@ -6,6 +6,9 @@
   gap: 10px;
   border-radius: 12px;
   background: #121212;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .coinflip_down_block {
@@ -70,6 +73,9 @@
   display: flex;
   background: #202020;
   height: 50px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .face_block,
@@ -90,6 +96,9 @@
   transition: all 0.2s;
   cursor: pointer;
   text-transform: uppercase;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .face_tails_active {

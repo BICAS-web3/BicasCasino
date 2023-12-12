@@ -4,6 +4,9 @@
   margin-top: 6px;
   background: #202020;
   border-radius: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .plinko_level_btn {
@@ -27,6 +30,9 @@
   letter-spacing: 0.48px;
   text-transform: uppercase;
   border-radius: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .plinko_level_btn.active {
@@ -46,4 +52,7 @@
 
 .plinko_levels_list_block {
   margin-top: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }

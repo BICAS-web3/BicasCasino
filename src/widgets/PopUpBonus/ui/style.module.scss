@@ -43,21 +43,21 @@
   opacity: 1;
   z-index: 103;
   min-height: 370px;
-  padding: 40px 10px 10px 10px;
+  padding: 40px 10px 0 10px;
   top: 50%;
   transform: translateY(-50%);
   box-sizing: border-box;
   @media (min-width: 700px) {
-    padding: 54px 10px 20px 10px;
+    padding: 54px 10px 10px 10px;
     border-radius: 20px;
     // top: 50px;
   }
   @media (min-width: 1280px) {
-    padding: 30px 38px 30px 38px;
+    padding: 40px 35px 10px 35px;
     // top: 70px;
   }
   @media (min-width: 1920px) and (min-height: 1000px) {
-    padding: 72px 58px 30px 58px;
+    padding: 72px 58px 0 58px;
     min-height: 670px;
     // top: 125px;
   }
@@ -71,7 +71,7 @@
     height: 100%;
     max-height: 360px;
     max-width: 290px;
-    padding: 15px 10px 10px 10px;
+    padding: 15px 10px 0px 10px;
     // top: 76px;
     justify-content: start;
   }
@@ -173,7 +173,7 @@
   @media screen and (max-width: 650px) {
     width: 90px;
     height: 57px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 }
 
@@ -185,7 +185,6 @@
   font-style: normal;
   font-weight: 600;
   line-height: 19px;
-
   .inner_default_title {
     font-weight: 800;
     line-height: 20px;
@@ -205,6 +204,16 @@
   }
 }
 
+.title_default_sub {
+  margin-bottom: 30px;
+  @media (max-width: 1280px) {
+    margin-bottom: 22px;
+  }
+  @media (max-width: 650px) {
+    margin-bottom: 0;
+  }
+}
+
 .text_default {
   margin-bottom: 20px;
   color: #eaeaea;
@@ -220,12 +229,14 @@
 
   @media screen and (max-width: 700px) {
     font-size: 14px;
+    margin-top: 22px;
+    margin-bottom: 22px;
   }
 
-  @media screen and (max-width: 650px) {
+  @media (max-width: 650px) {
     font-size: 11px;
-    margin-bottom: 19px;
-    margin-top: 28px;
+    margin-top: 20px;
+    margin-bottom: 17px;
   }
 }
 .subtitle {
@@ -281,10 +292,11 @@
 }
 
 .connect_wallet_button {
+  min-width: 174px;
   text-transform: uppercase;
   position: relative;
   z-index: 3;
-  min-width: 114px;
+  // min-width: 114px;
   height: 40px;
   border-radius: 12px;
   display: flex;
@@ -295,7 +307,7 @@
   font-weight: 800;
   line-height: 90%;
   letter-spacing: 1.04px;
-  font-family: var(--font-source-sans-3);
+  font-family: var(--font-nunito-sans);
   transition: 0.2s;
   background: linear-gradient(
     114deg,
@@ -306,20 +318,19 @@
   border: none;
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 12px;
   padding: 0 26.5px;
   border-radius: 5px;
 
   @media (min-width: 700px) {
     padding: 0 46.07px;
     height: 50px;
-    font-size: 22px;
+    font-size: 18px;
     border-radius: 12px;
   }
 
   @media (min-width: 1280px) {
-    height: 60px;
-    font-size: 26px;
+    height: 50px;
     min-width: 296px;
   }
 }
@@ -401,7 +412,7 @@
 }
 
 .checkbox {
-  margin-top: 20px;
+  // margin-top: 20px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -413,8 +424,13 @@
   font-style: normal;
   font-weight: 600;
   line-height: 22px;
-
-  @media screen and (max-width: 650px) {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  @media (max-width: 650px) {
     font-size: 12px;
     line-height: 16px;
     margin-top: 8px;
