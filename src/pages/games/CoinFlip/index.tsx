@@ -49,28 +49,37 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      {!isConnected ? <a href="/RegistrManual" className={clsx(
-        s.connect_wallet_btn,
-        s.mobile,
-        isPlaying && "animation-leftRight"
-      )}>Connect Wallet</a> : <button
-        className={clsx(
-          s.connect_wallet_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          pressButton();
-        }}
-      >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>}
+      {!isConnected ? (
+        <a
+          href="/RegistrManual"
+          className={clsx(
+            s.connect_wallet_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+        >
+          Connect Wallet
+        </a>
+      ) : (
+        <button
+          className={clsx(
+            s.connect_wallet_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
+            pressButton();
+          }}
+        >
+          {isPlaying ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : isConnected ? (
+            "Play"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>
+      )}
     </>
   );
 };

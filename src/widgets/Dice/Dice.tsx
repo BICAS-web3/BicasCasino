@@ -58,6 +58,7 @@ import * as DiceM from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
+import { ProfitLine } from "../ProfitLine";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -102,7 +103,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     currentBalance,
     setWagered,
     allowance,
-    setCoefficient
+    setCoefficient,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -131,7 +132,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     sessionModel.$currentBalance,
     WagerButtonModel.setWagered,
     sessionModel.$currentAllowance,
-    ProfitModel.setCoefficient
+    ProfitModel.setCoefficient,
   ]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +153,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
   useEffect(() => {
     setCoefficient(Number(multiplier) / 10000);
-  }, [multiplier])
+  }, [multiplier]);
 
   const changeBetween = () => {
     flipRollOver(RollValue);
@@ -180,21 +181,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -287,7 +288,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -363,7 +364,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             console.log("Setting allowance");
             if (setAllowance) setAllowance();
@@ -408,7 +409,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
@@ -437,17 +439,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     },
   ];
 
-  const [fullWon, setFullWon] = useState(0);
-  const [fullLost, setFullLost] = useState(0);
-  const [totalValue, setTotalValue] = useState(0);
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon((prev) => prev + profit);
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost((prev) => prev + lost);
-    }
-    // setTotalValue(fullWon - fullLost);
-  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {" "}
@@ -478,21 +469,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
               alt="test"
             />
           </div>
-          <div className={s.total_container}>
-            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-            <div>
-              Total:{" "}
-              <span
-                className={clsx(
-                  totalValue > 0 && s.total_won,
-                  totalValue < 0 && s.total_lost
-                )}
-              >
-                {Math.abs(totalValue).toFixed(2)}
-              </span>
-            </div>
-          </div>
+          <ProfitLine containerClassName={s.total_container} />
           <div className={s.range_wrapper}>
             {" "}
             <div className={s.range_container}>

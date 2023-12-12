@@ -32,6 +32,7 @@ import { PokerCombination } from "./PokerCombination";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
+import { ProfitLine } from "../ProfitLine";
 
 // чирва 2
 // пика 3
@@ -638,21 +639,7 @@ export const Poker: FC<PokerProps> = (props) => {
             alt="table-bg"
           />
         </div>{" "}
-        <div className={s.total_container}>
-          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-          <div>
-            Total:{" "}
-            <span
-              className={clsx(
-                totalValue > 0 && s.total_won,
-                totalValue < 0 && s.total_lost
-              )}
-            >
-              {Math.abs(totalValue).toFixed(2)}
-            </span>
-          </div>
-        </div>
+        <ProfitLine containerClassName={s.total_container} />
         <div className={s.poker_table}>
           <div className={s.poker_table_cards_list}>
             {activeCards &&

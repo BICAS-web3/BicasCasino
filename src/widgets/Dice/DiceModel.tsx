@@ -145,7 +145,7 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
       camera={{ position: [-3, 23, 20], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <Suspense fallback={<CanvasLoader />}>
+      <Suspense fallback={<></>}>
         <Stage adjustCamera={false} environment="dawn">
           <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
         </Stage>

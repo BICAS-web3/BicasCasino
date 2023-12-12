@@ -57,11 +57,12 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={`${s.connect_wallet_btn} ${isPlaying && "animation-leftRight"
-            }`}
+          className={`${s.connect_wallet_btn} ${
+            isPlaying && "animation-leftRight"
+          }`}
           onClick={() => {
             if (!isConnected) {
-              push('/RegistrManual');
+              push("/RegistrManual");
               reload();
             } else {
               pressButton();

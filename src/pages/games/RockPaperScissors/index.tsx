@@ -56,12 +56,19 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <RpsPicker />
-      {!isConnected ? <a href="/RegistrManual" className={clsx(
-        s.connect_wallet_btn,
-        s.mobile,
-        isPlaying && "animation-leftRight"
-      )}>Connect Wallet</a>
-        : <button
+      {!isConnected ? (
+        <a
+          href="/RegistrManual"
+          className={clsx(
+            s.connect_wallet_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+        >
+          Connect Wallet
+        </a>
+      ) : (
+        <button
           className={clsx(
             s.connect_wallet_btn,
             s.mobile,
@@ -78,7 +85,8 @@ const WagerContent = () => {
           ) : (
             "Connect Wallet"
           )}
-        </button>}
+        </button>
+      )}
     </>
   );
 };

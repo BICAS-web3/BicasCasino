@@ -60,31 +60,40 @@ const WagerContent = () => {
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
       <ProfitBlock />
-      {!isConnected ? <a href="/RegistrManual" className={clsx(
-        s.connect_wallet_btn,
-        s.mobile,
-        isPlaying && "animation-leftRight"
-      )}>Connect Wallet</a> : <button
-        className={clsx(
-          s.connect_wallet_btn,
-          styles.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          pressButton();
-        }}
-      >
-        {/* isConnecting && startConnect ? (
+      {!isConnected ? (
+        <a
+          href="/RegistrManual"
+          className={clsx(
+            s.connect_wallet_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+        >
+          Connect Wallet
+        </a>
+      ) : (
+        <button
+          className={clsx(
+            s.connect_wallet_btn,
+            styles.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
+            pressButton();
+          }}
+        >
+          {/* isConnecting && startConnect ? (
         <LoadingDots className={s.dots_black} title="Connecting" />
       ) :  */}
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>}
+          {isPlaying ? (
+            <LoadingDots className={s.dots_black} title="Playing" />
+          ) : isConnected ? (
+            "Play"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>
+      )}
     </>
   );
 };
