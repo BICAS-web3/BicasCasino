@@ -12,6 +12,7 @@ import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtn
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import { WagerModel } from "@/widgets/Wager";
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
@@ -29,7 +30,7 @@ const WagerContent = () => {
   const { connectors, connect } = useConnect();
   const { push, reload } = useRouter();
 
-  const [isPlaying] = useUnit([CFM.$isPlaying]);
+  const [isPlaying, cryptoValue] = useUnit([CFM.$isPlaying, WagerAmountModel.$cryptoValue]);
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
@@ -65,10 +66,13 @@ const WagerContent = () => {
           className={clsx(
             s.connect_wallet_btn,
             s.mobile,
-            isPlaying && "animation-leftRight"
+            isPlaying && "animation-leftRight",
+            cryptoValue == 0.0 ? s.button_inactive : s.button_active
           )}
           onClick={() => {
-            pressButton();
+            if (cryptoValue > 0.0) {
+              pressButton();
+            }
           }}
         >
           {isPlaying ? (
