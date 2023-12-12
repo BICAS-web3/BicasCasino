@@ -198,7 +198,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   useEffect(() => {
-    if (!currentBalance || Number(cryptoInputValue) > currentBalance) {
+    if (!currentBalance || currentBalance == 0 || cryptoValue * betsAmount > currentBalance) {
       setIsLowBalance(true);
     } else {
       setIsLowBalance(false);
