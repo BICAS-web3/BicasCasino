@@ -40,6 +40,7 @@ import clsx from "clsx";
 import { ProfitModel } from "../ProfitBlock";
 
 import { CanvasLoader } from "../CanvasLoader";
+import { ProfitLine } from "../ProfitLine";
 interface CoinFlipProps {
   gameText: string;
 }
@@ -113,7 +114,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     gameStatus,
     setWonStatus,
     setLostStatus,
-    setCoefficient
+    setCoefficient,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -136,16 +137,19 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.$gameStatus,
     GameModel.setWonStatus,
     GameModel.setLostStatus,
-    ProfitModel.setCoefficient
+    ProfitModel.setCoefficient,
   ]);
 
   useEffect(() => {
     setCoefficient(1.98);
-  }, [])
+  }, []);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({ watch: isConnected, cacheTime: 5000 });
+  const { data, isError, isLoading } = useFeeData({
+    watch: isConnected,
+    cacheTime: 5000,
+  });
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -232,7 +236,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -251,24 +255,24 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -350,7 +354,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -382,17 +386,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
-  const [fullWon, setFullWon] = useState(0);
-  const [fullLost, setFullLost] = useState(0);
-  const [totalValue, setTotalValue] = useState(0);
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon((prev) => prev + profit);
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost((prev) => prev + lost);
-    }
-    setTotalValue(fullWon - fullLost);
-  }, [GameModel.GameStatus, profit, lost]);
 
   return (
     <>
@@ -411,21 +404,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
             alt="table-bg"
           />
         </div>{" "}
-        <div className={s.total_container}>
-          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-          <div>
-            Total:{" "}
-            <span
-              className={clsx(
-                totalValue > 0 && s.total_won,
-                totalValue < 0 && s.total_lost
-              )}
-            >
-              {Math.abs(totalValue).toFixed(2)}
-            </span>
-          </div>
-        </div>
+        <ProfitLine containerClassName={s.total_container} />
         <div className={s.coinflip_table}>
           <div className={s.coinflip_wrap}>
             <div className={s.coinflip_block}>
@@ -452,8 +431,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
                       inGame
                         ? CoinAction.Rotation
                         : pickedSide == SidePickerModel.Side.Heads
-                          ? CoinAction.TailsHeads
-                          : CoinAction.TailsHeads
+                        ? CoinAction.TailsHeads
+                        : CoinAction.TailsHeads
                     }
                     initial={pickedSide}
                   />

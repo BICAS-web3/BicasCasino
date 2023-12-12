@@ -47,12 +47,19 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      {!isConnected ? <a href="/RegistrManual" className={clsx(
-        s.poker_wager_drawing_cards_btn,
-        s.mobile,
-        isPlaying && "animation-leftRight"
-      )}>Connect Wallet</a>
-        : <button
+      {!isConnected ? (
+        <a
+          href="/RegistrManual"
+          className={clsx(
+            s.poker_wager_drawing_cards_btn,
+            s.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+        >
+          Connect Wallet
+        </a>
+      ) : (
+        <button
           className={clsx(
             s.poker_wager_drawing_cards_btn,
             s.mobile,
@@ -71,7 +78,8 @@ const WagerContent = () => {
           ) : (
             "Connect Wallet"
           )}
-        </button >}
+        </button>
+      )}
     </>
   );
 };

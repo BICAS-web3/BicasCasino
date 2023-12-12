@@ -50,6 +50,7 @@ import clsx from "clsx";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
+import { ProfitLine } from "../ProfitLine";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -167,7 +168,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     gameStatus,
     setWonStatus,
     setLostStatus,
-    setCoefficient
+    setCoefficient,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -190,12 +191,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.$gameStatus,
     GameModel.setWonStatus,
     GameModel.setLostStatus,
-    ProfitModel.setCoefficient
+    ProfitModel.setCoefficient,
   ]);
 
   useEffect(() => {
     setCoefficient(1.98);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (pickedValue === RPSModel.RPSValue.Paper) {
@@ -295,7 +296,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -314,24 +315,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     enabled: true,
   });
@@ -412,7 +413,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -476,17 +477,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       }, 1000);
     }
   }, [value]);
-  const [fullWon, setFullWon] = useState(0);
-  const [fullLost, setFullLost] = useState(0);
-  const [totalValue, setTotalValue] = useState(0);
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon((prev) => prev + profit);
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost((prev) => prev + lost);
-    }
-    setTotalValue(fullWon - fullLost);
-  }, [GameModel.GameStatus, profit, lost]);
   return (
     <div className={s.rps_table_container}>
       <WagerLowerBtnsBlock game="rps" text={gameText} />
@@ -497,21 +487,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           alt="table-bg"
         />
       </div>{" "}
-      <div className={s.total_container}>
-        <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-        <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-        <div>
-          Total:{" "}
-          <span
-            className={clsx(
-              totalValue > 0 && s.total_won,
-              totalValue < 0 && s.total_lost
-            )}
-          >
-            {Math.abs(totalValue).toFixed(2)}
-          </span>
-        </div>
-      </div>
+      <ProfitLine containerClassName={s.total_container} />
       <div className={s.rps_table}>
         <div className={s.rps_table_inner}>
           <Canvas
@@ -519,7 +495,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
             style={{ pointerEvents: "none" }}
           >
             {value === ModelType.Paper && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -534,7 +510,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {value === ModelType.Rock && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -549,7 +525,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {value === ModelType.Scissors && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -569,7 +545,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
             style={{ pointerEvents: "none" }}
           >
             {enemyValue === ModelType.Paper && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -589,7 +565,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Rock && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -610,7 +586,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Scissors && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>
@@ -630,7 +606,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
               </Suspense>
             )}
             {enemyValue === ModelType.Quest && (
-              <Suspense fallback={<CanvasLoader />}>
+              <Suspense fallback={<></>}>
                 <Stage adjustCamera={false} environment="dawn">
                   <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                 </Stage>

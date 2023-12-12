@@ -78,30 +78,39 @@ const WagerContent = () => {
       )}{" "}
       <ProfitBlock />
       <StopWinning />
-      {!isConnected ? <a href="/RegistrManual" className={clsx(
-        s.connect_wallet_btn,
-        styles.mobile,
-        isPlaying && "animation-leftRight"
-      )}>Connect Wallet</a> : <button
-        className={clsx(
-          s.connect_wallet_btn,
-          styles.mobile,
-          isPlaying && "animation-leftRight"
-        )}
-        onClick={() => {
-          pressButton();
-        }}
-      >
-        {emptyClick ? (
-          "Select Fields"
-        ) : isPlaying ? (
-          <LoadingDots className={styles.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>}
+      {!isConnected ? (
+        <a
+          href="/RegistrManual"
+          className={clsx(
+            s.connect_wallet_btn,
+            styles.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+        >
+          Connect Wallet
+        </a>
+      ) : (
+        <button
+          className={clsx(
+            s.connect_wallet_btn,
+            styles.mobile,
+            isPlaying && "animation-leftRight"
+          )}
+          onClick={() => {
+            pressButton();
+          }}
+        >
+          {emptyClick ? (
+            "Select Fields"
+          ) : isPlaying ? (
+            <LoadingDots className={styles.dots_black} title="Playing" />
+          ) : isConnected ? (
+            "Play"
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>
+      )}
       {/* <WagerLowerBtnsBlock game="mines" /> */}
     </>
   );
