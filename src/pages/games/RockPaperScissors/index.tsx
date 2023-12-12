@@ -23,7 +23,7 @@ import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtn
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
 import * as ConnectModel from "@/widgets/Layout/model";
-
+import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { useEffect } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 
@@ -39,11 +39,14 @@ const WagerContent = () => {
   const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
-
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const { connectors, connect } = useConnect();
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
+
+  const router = useRouter();
+
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -56,37 +59,33 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <RpsPicker />
-      {!isConnected ? (
-        <a
-          href="/RegistrManual"
-          className={clsx(
-            s.connect_wallet_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight"
-          )}
-        >
-          Connect Wallet
-        </a>
-      ) : (
-        <button
-          className={clsx(
-            s.connect_wallet_btn,
-            s.mobile,
-            isPlaying && "animation-leftRight"
-          )}
-          onClick={() => {
+      <button
+        className={clsx(
+          s.connect_wallet_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && isConnected) {
             pressButton();
-          }}
-        >
-          {isPlaying ? (
-            <LoadingDots className={s.dots_black} title="Playing" />
-          ) : isConnected ? (
-            "Play"
-          ) : (
-            "Connect Wallet"
-          )}
-        </button>
-      )}
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            return null;
+          } else {
+            router.push("/RegistrManual");
+          }
+        }}
+      >
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button>
     </>
   );
 };

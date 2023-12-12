@@ -103,7 +103,7 @@
   border: 1px solid var(--switch-in-game-2-e-night, #2e2e2e);
   background: #202020;
   width: 258px;
-  height: 50px;
+  min-height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,7 +125,7 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
-    height: 40px;
+    min-height: 40px;
     margin-bottom: 85px;
     border-radius: 8px;
 
@@ -152,7 +152,7 @@
   border: 1px solid #ffe09d;
   background: #2e2315;
   width: 258px;
-  height: 50px;
+  min-height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -169,7 +169,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    height: 40px;
+    min-height: 40px;
     border-radius: 8px;
   }
 
@@ -540,8 +540,9 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 8px;
+    font-size: 10px;
     line-height: 10px;
+    color: #979797;
   }
 }
 
@@ -559,7 +560,7 @@
   z-index: 10;
   cursor: pointer;
   width: 258px;
-  height: 50px;
+  min-height: 50px;
   border-radius: 12px;
   border: #2e2e2e;
   background: #202020;
@@ -580,7 +581,7 @@
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
-    height: 40px;
+    min-height: 40px;
     border-radius: 8px;
   }
 
