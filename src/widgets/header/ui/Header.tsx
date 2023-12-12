@@ -17,6 +17,7 @@ import * as ManualModel from "@/widgets/Layout/model";
 
 export interface HeaderProps {
   isGame: boolean;
+  hideHeaderBtn?: boolean;
 }
 
 export const Header: FC<HeaderProps> = (props) => {
@@ -39,7 +40,7 @@ export const Header: FC<HeaderProps> = (props) => {
           <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
           <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
         </Link>
-        <RightMenu isGame={props.isGame} />
+        <RightMenu isGame={props.isGame} hideHeaderBtn={props.hideHeaderBtn} />
       </div>
       <BottomMenu />
     </>

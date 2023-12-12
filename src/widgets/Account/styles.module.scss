@@ -199,9 +199,6 @@
   right: 20px;
 }
 
-@media (650px <=width <=1280px) {
-}
-
 @media (max-width: 650px) {
   .account_container {
     width: 100%;
@@ -251,8 +248,8 @@
     padding: 0 45px;
   }
   .accountElement:last-child {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: 56px;
     background: rgba(18, 18, 18, 0.5);
     width: 100%;
   }

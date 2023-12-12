@@ -24,6 +24,7 @@ import Blockies from "react-blockies";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 export interface RightMenuProps {
   isGame: boolean;
+  hideHeaderBtn?: boolean | false;
 }
 export const RightMenu: FC<RightMenuProps> = (props) => {
   const { isConnected, address } = useAccount();
@@ -72,15 +73,18 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log("STATE", isOpen);
+
     if (isOpen) {
       if (screenWidth < 650) {
-        document.documentElement.style.overflow = "hidden";
-
+        document.documentElement.classList.add("scroll-disable");
         openHeaderAcc();
       } else {
+        document.documentElement.classList.remove("scroll-disable");
         openHeaderAcc();
       }
     } else {
+      document.documentElement.classList.remove("scroll-disable");
       closeHeaderAcc();
     }
   }, [isOpen]);
@@ -96,8 +100,9 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
 
   const notification = false;
+
   return (
-    <div className={s.right_menu}>
+    <div className={`${s.right_menu} ${props.hideHeaderBtn && s.hidden_style}`}>
       <NetworkSelect isGame={props.isGame} />
       {isConnected && (
         <div className={s.button}>
@@ -116,9 +121,9 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
           <Image alt="close-ico" src={closeIco} />
         </button>
       ) : (
-        <div className={s.header_mobile_right_wrap}>
+        <div className={s.header_mobile_right_wrap} ref={dropdownRef}>
           {isConnected ? (
-            <div ref={dropdownRef} className={s.header_profile_ico_wrap}>
+            <div className={s.header_profile_ico_wrap}>
               <div className={s.header_profile_ico_block}>
                 <div className={s.header_blockies_wrap} onClick={toggle}>
                   <BlockiesAva address={address} size={avaSize} />
@@ -129,11 +134,12 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
                   <Account
                     address={address as string}
                     nickname={currentNickname}
+                    toggle={toggle}
                   />
                 </div>
               )}
             </div>
-          ) : (
+          ) : props.hideHeaderBtn ? null : (
             <ConnectWalletButton />
           )}
         </div>

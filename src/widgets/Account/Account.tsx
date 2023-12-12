@@ -63,6 +63,7 @@ const AccountElement: FC<AccountElementProps> = (props) => {
 export interface AccountProps {
   address: string;
   nickname: string | null;
+  toggle: any;
 }
 export const Account: FC<AccountProps> = (props) => {
   const { address } = useAccount();
@@ -87,9 +88,10 @@ export const Account: FC<AccountProps> = (props) => {
     }
   }, [screenWidth]);
 
-  const [closeHeaderAccount, setBlur] = useUnit([
+  const [closeHeaderAccount, setBlur, accVisibility] = useUnit([
     HeaderAccModel.Close,
     BlurModel.setBlur,
+    HeaderAccModel.$isHeaderAccountOpened,
   ]);
 
   const handleHeaderAccClose = () => {
@@ -97,10 +99,14 @@ export const Account: FC<AccountProps> = (props) => {
     closeHeaderAccount();
   };
 
+  // useEffect(() => {
+  //   console.log(accVisibility);
+  // });
+
   return (
     <div className={s.account_container}>
       <Image
-        onClick={handleHeaderAccClose}
+        onClick={() => props.toggle()}
         src={closeIco}
         className={s.hidden_desk_close_ico}
         alt="close-ico"
