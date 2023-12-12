@@ -52,7 +52,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
       <div className={s.have_wallet_header}>
         <h1 className={s.registr_manual_title}>Connect Wallet</h1>
         <div className={s.wallets_list}>
-          <div
+          {connectors[0].ready && <div
             className={s.wallet_list_item}
             onClick={() => {
               //(window as any).fbq("track", "Lead");
@@ -68,8 +68,8 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               <span className={s.avaible_wallet_title}>Metamask</span>
             </div>
             <BtnRightArrow />
-          </div>
-          <div
+          </div>}
+          {connectors[2].ready && <div
             className={s.wallet_list_item}
             onClick={() => {
               //(window as any).fbq("track", "Lead");
@@ -85,8 +85,8 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               <span className={s.avaible_wallet_title}>Trust Wallet</span>
             </div>
             <BtnRightArrow />
-          </div>
-          <div
+          </div>}
+          {connectors[2].ready && <div
             className={s.wallet_list_item}
             onClick={() => {
               //(window as any).fbq("track", "Lead");
@@ -102,8 +102,8 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               <span className={s.avaible_wallet_title}>WalletConnect</span>
             </div>
             <BtnRightArrow />
-          </div>
-          <div
+          </div>}
+          {connectors[1].ready && <div
             className={s.wallet_list_item}
             onClick={() => {
               //(window as any).fbq("track", "Lead");
@@ -119,7 +119,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               <span className={s.avaible_wallet_title}>Coinbase</span>
             </div>
             <BtnRightArrow />
-          </div>
+          </div>}
         </div>
         <p className={s.have_wallet_subTitle}>
           If you are connecting to the <span>WalletConnect</span> protocol, you

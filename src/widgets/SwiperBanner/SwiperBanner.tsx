@@ -66,7 +66,7 @@ const swiperSlides = [
   },
 ];
 
-interface SwiperBannerProps {}
+interface SwiperBannerProps { }
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -194,7 +194,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 Without KYC <br /> just connect your wallet and play
               </div>
             )}
-            {slide.isBtn === true && (
+            {slide.isBtn === true && !isConnected && (
               <button
                 onClick={() => handleConnectWalletBtn()}
                 className={s.join_wallet_btn}
