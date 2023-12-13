@@ -15,6 +15,9 @@ import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.png";
 import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.png";
 import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.png";
 import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.png";
+import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.png";
+import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.png";
+import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.png";
 import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.png";
 
 import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
@@ -63,6 +66,23 @@ const swiperSlides = [
     extraText: "",
     img: swiperImg5,
     imgMob: swiperImg5Mob,
+  },
+  {
+    text: "$TWB",
+    subText:
+      "The Twinby Ai utility token is your guide to multifaceted opportunities and limitless earnings in the world of cryptocurrency",
+    isBtn: false,
+    extraText: "",
+    img: swiperImg6,
+    imgMob: swiperImg6Mob,
+  },
+  {
+    text: "X-BOT",
+    subText:
+      "An advanced algorithm for trading on DEX exchanges directly in Telegram",
+    isBtn: false,
+    extraText: "",
+    img: swiperImg7,
   },
 ];
 
@@ -172,7 +192,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
             id="swiper-slide-banner"
             className={`${s.main_banner_swiper_slide} ${
               isConnected && s.slide_connected
-            }`}
+            } ${slide.subText && s.slide_connected}`}
             data-extra={slide.extraText && "true"}
           >
             <img
@@ -183,6 +203,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                   : slide.img.src
               }
               alt="slide-imd"
+              data-id={ind + 1}
             />
             <span
               className={`${s.slide_text} ${ind === 0 && s.title}`}
@@ -190,6 +211,11 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
             >
               {slide.text}
             </span>
+            {slide.subText && (
+              <p className={s.sub_text} data-id={ind + 1}>
+                {slide.subText}
+              </p>
+            )}
             {slide.extraText && (
               <span className={s.extra_text}>{slide.extraText}</span>
             )}
@@ -206,6 +232,45 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
               >
                 {!is650 ? slide.btnFirstText : slide.btnSecondText}
               </button>
+            )}
+            {ind === 6 && (
+              <button
+                className={s.xbot_btn}
+                onClick={() =>
+                  window.open(
+                    "https://t.me/ChainSpyRobot?start=6218277349",
+                    "_blank"
+                  )
+                }
+              >
+                Join X-bot
+              </button>
+            )}
+            {ind === 5 && (
+              <div className={s.token_btns_block}>
+                <button
+                  className={s.token_buy_btn}
+                  onClick={() =>
+                    window.open(
+                      "https://pancakeswap.finance/swap?chain=bsc&outputCurrency=0x42021D43B367a57b4E32763c39439B272CC73B12&inputCurrency=0x55d398326f99059fF775485246999027B3197955",
+                      "_blank"
+                    )
+                  }
+                >
+                  buy
+                </button>
+                <button
+                  className={s.token_dextools_btn}
+                  onClick={() =>
+                    window.open(
+                      "https://www.dextools.io/app/ru/bnb/pair-explorer/0x0cd67a185f94332c589cb5eb512c67ae7406f45d",
+                      "_blank"
+                    )
+                  }
+                >
+                  Dextools
+                </button>
+              </div>
             )}
             {ind === 4 && (
               <button
