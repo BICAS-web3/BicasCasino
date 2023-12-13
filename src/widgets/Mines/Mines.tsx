@@ -753,6 +753,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
                       />
 
                       <SelectedMine
+                        index={index}
                         type={isPicked ? Tile.Selected : value}
                         waitingResponse={waitingResponse}
                       />
@@ -858,9 +859,10 @@ interface ISelectedMine {
   // isBomb: boolean
   type: Tile;
   waitingResponse: boolean;
+  index: number;
 }
 const SelectedMine = (props: ISelectedMine) => {
-  const { type, waitingResponse } = props;
+  const { type, waitingResponse, index } = props;
 
   if (type == Tile.Coin) {
     return (
@@ -878,7 +880,8 @@ const SelectedMine = (props: ISelectedMine) => {
         className={clsx(
           styles.mine_green,
           styles.mine_selected,
-          waitingResponse && styles.mine_animation
+          waitingResponse && styles.mine_animation,
+          waitingResponse && styles[`style-${index}`]
         )}
       />
     );
@@ -888,7 +891,8 @@ const SelectedMine = (props: ISelectedMine) => {
         className={clsx(
           styles.mine_green,
           styles.mine_selected,
-          styles.mine_animation
+          styles.mine_animation,
+          styles[`style-${index}`]
         )}
       />
     );
