@@ -240,6 +240,21 @@
     min-height: 30px;
     min-width: 100px;
     font-size: 12px;
+    margin-bottom: 30px;
+  }
+}
+
+.slide_connected {
+  justify-content: start;
+
+  .slide_text[data-id="1"] {
+    margin-bottom: 12px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .slide_text[data-id="4"] {
+    margin-bottom: 0;
   }
 }
 

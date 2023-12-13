@@ -76,11 +76,7 @@ export default function Profile() {
                 </div>
               </div>
               <div className={styles.recently_container}>
-                {latestGames ? (
-                  <RecentlyPlayedGames RecentlyGames={latestGames} />
-                ) : (
-                  <></>
-                )}
+                <RecentlyPlayedGames RecentlyGames={latestGames} />
               </div>
             </div>
             {/* <SwapTradeTokens /> */}

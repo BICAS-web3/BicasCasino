@@ -788,15 +788,21 @@ const WalletPresence: FC<WalletPresenceProps> = ({
   step,
   setSubPage,
   setStep,
-  setTab,
 }) => {
   const router = useRouter();
+
+  // const [setStep, subPage, setSubPage] = useUnit([
+  //   ManualModel.$step,
+  //   ManualModel.setStep,
+  //   ManualModel.$subPage,
+  //   ManualModel.setSubPage,
+  // ]);
 
   return (
     <div className={s.wallet_body}>
       <span
         className={s.tab_back_btn}
-        onClick={() => setTab(Tab.bonusReceiving)}
+        onClick={() => setSubPage(ManualModel.SubPage.Start)}
       >
         <img src={leftArr.src} alt="left-arr" />
         Back
@@ -935,7 +941,7 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = (props) => {
               className={s.addFunds_btn}
               onClick={() => {
                 setSubPage(ManualModel.SubPage.WalletPresence);
-                router.push("/ExchangeManual");
+                // router.push("/ExchangeManual");
               }}
             >
               <span>Add funds</span>&nbsp;(Recommended)
