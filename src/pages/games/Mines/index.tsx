@@ -118,7 +118,7 @@ const WagerContent = () => {
 
 export default function MinesGame() {
   return (
-    <Layout gameName="Mines">
+    <Layout gameName="Mines" activePageLink="/games/Mines">
       <LiveBetsWS
         subscription_type={"Subscribe"}
         subscriptions={["Mines", "MinesStart"]}

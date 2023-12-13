@@ -4,6 +4,9 @@
   border-radius: 12px 12px 0 0;
   background: #0f0f0f;
   padding: 9.5px 15px;
+  @media (max-width: 650px) {
+    border-radius: 5px 5px 0 0;
+  }
 }
 
 .custom_range_input_layout {
@@ -131,6 +134,9 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   height: 30px;
+  @media (max-width: 650px) {
+    border-radius: 0 0 5px 5px;
+  }
 }
 
 .custom_range_setter_item {

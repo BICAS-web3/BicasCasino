@@ -8,6 +8,7 @@ import { CustomButton } from "@/shared/ui/CustomButton";
 
 import { Blur } from "./Blur";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 
 export interface ErrorCheckProps {
   text: string;
@@ -18,6 +19,7 @@ export interface ErrorCheckProps {
 
 export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
   const { text, btnTitle, Wager } = props;
+  const { push } = useRouter();
 
   const { isOpen, close, open, dropdownRef } = useDropdown();
 
@@ -42,6 +44,8 @@ export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
           onClick={() => {
             if (btnTitle === "Contact us") {
               window.open("https://t.me/greekkeepers", "_blank");
+            } else if (btnTitle === "Top up balance") {
+              push("/ExchangeManual");
             }
           }}
           className={s.btn}

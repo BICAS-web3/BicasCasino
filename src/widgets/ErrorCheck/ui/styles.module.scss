@@ -18,6 +18,7 @@
   transform: translate(-50%, -50%) scaleY(0);
   opacity: 0;
   transition: all 0.5s;
+
   //   position: relative;
   h3 {
     color: #ff8e26;
@@ -28,10 +29,12 @@
     line-height: normal;
     letter-spacing: 1.44px;
     font-family: var(--font-nunito-sans);
+
     @media (max-width: 650px) {
       font-size: 22px;
     }
   }
+
   p {
     color: var(--white-1-ea-night, var(--White-1, #eaeaea));
     text-align: center;
@@ -42,12 +45,14 @@
     line-height: normal;
     letter-spacing: 0.96px;
     max-width: 409px;
+
     @media (max-width: 650px) {
       font-size: 13px;
       letter-spacing: normal;
       max-width: 280px;
     }
   }
+
   @media (max-width: 650px) {
     width: 320px;
     padding: 15px 10px;
@@ -83,12 +88,18 @@
   width: 252px;
   height: 50px;
   border-radius: 12px;
+
   @media screen and (max-width: 1280px) {
     width: 200px;
     border-radius: 12px;
     height: 40px;
     font-size: 14px;
   }
+
+}
+
+.btn:hover {
+  cursor: pointer;
 }
 
 .blur {

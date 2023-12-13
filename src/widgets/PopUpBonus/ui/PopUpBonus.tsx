@@ -290,7 +290,7 @@ export const PopUpBonus: FC = () => {
           <span className={s.inner_default_title}>No KYC,</span> all privacy -
           just play and win!
         </span>
-        <span className={s.title_default}>
+        <span className={clsx(s.title_default, s.title_default_sub)}>
           Unlock the thrill: Get your{" "}
           <span className={s.inner_default_title}>
             $100 bonus in DRAXB tokens now!
@@ -321,8 +321,9 @@ export const PopUpBonus: FC = () => {
           </button>{" "}
           {!address && !isConnected && (
             <div
-              className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-                }`}
+              className={`${s.header_avaibleWallet_wrap} ${
+                walletVisibility && s.avaibleWallet_visible
+              }`}
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
