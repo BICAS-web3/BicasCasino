@@ -242,3 +242,80 @@
     display: none !important;
   }
 }
+
+.button_active {
+  background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    ),
+    #121212;
+  color: #0f0f0f;
+
+  &:hover {
+    background: linear-gradient(
+      114deg,
+      #f8eeb8 -4.17%,
+      #dbb370 59.03%,
+      #8e5b2d 112.39%
+    );
+    box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5);
+  }
+
+  &:active {
+    background: linear-gradient(
+      114deg,
+      #ffe297 -4.17%,
+      #d29650 48.32%,
+      #8e5b2d 104.97%
+    );
+    box-shadow: 0px 0px 11px 0px rgba(249, 131, 44, 0.5),
+      0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.button_inactive {
+  border: 1px solid var(--outline-3-e-night, #3e3e3e);
+  background: var(--gray-3125-night, #252525);
+  color: var(--gray-697-night, #979797);
+
+  &:hover {
+    cursor: default;
+  }
+}
+
+.connect_wallet_btn {
+  border-radius: 12px;
+  width: 100%;
+  border: none;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  min-height: 40px;
+  letter-spacing: 0.72px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  @media screen and (max-width: 996px) {
+    // margin: 20px auto;
+    margin: 0 auto 14px auto;
+    width: 240px;
+    max-height: 50px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    width: 140px;
+    height: 40px;
+    max-height: 40px;
+    min-height: 40px;
+    border-radius: 5px;
+  }
+}

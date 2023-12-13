@@ -43,7 +43,7 @@ const swiperSlides = [
     text: "Get your $100 deposit bonus in the DRAXB token",
     isBtn: true,
     img: swiperImg2,
-    btnFirstText: "Claim your deposit bonus",
+    btnFirstText: "Get your deposit bonus",
     btnSecondText: "Join wallet",
   },
   {
@@ -194,7 +194,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 Without KYC <br /> just connect your wallet and play
               </div>
             )}
-            {slide.isBtn === true && (
+            {!isConnected && slide.isBtn === true && (
               <button
                 onClick={() => handleConnectWalletBtn()}
                 className={s.join_wallet_btn}

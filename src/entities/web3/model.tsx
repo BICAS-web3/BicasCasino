@@ -5,6 +5,7 @@ import {
   mainnet,
   Chain,
   PublicClient,
+  createStorage
 } from "wagmi";
 import { bsc } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -65,7 +66,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
         default: rpcs,
       },
       blockExplorers: {
-        etherscan: { name: "block explorer", url: network.explorers[0].url },
+        //etherscan: { name: "block explorer", url: network.explorers[0].url },
         default: { name: "block explorer", url: network.explorers[0].url },
       },
     } as const satisfies Chain);
@@ -79,8 +80,16 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
 
   const config = createConfig({
     autoConnect: true,
+    storage: createStorage({ storage: window.sessionStorage }),
+
     connectors: [
-      new MetaMaskConnector({ chains }),
+      new InjectedConnector({
+        chains,
+        options: {
+          name: "Injected",
+          shimDisconnect: true,
+        },
+      }),
       new CoinbaseWalletConnector({
         chains,
         options: {
@@ -98,13 +107,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
           },
         },
       }),
-      new InjectedConnector({
-        chains,
-        options: {
-          name: "Injected",
-          shimDisconnect: true,
-        },
-      }),
+      new MetaMaskConnector({ chains }),
     ],
     publicClient: configuredChains.publicClient,
   });

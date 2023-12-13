@@ -17,12 +17,13 @@ import * as SwapModel from "@/widgets/Swap/model/index";
 import * as BonusPopupM from "@/widgets/PopUpBonus/model";
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 interface LayoutProps {
   children?: any;
   gameName: string | undefined;
   activePageLink?: string;
+  hideHeaderBtn?: boolean;
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
   const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
@@ -53,13 +54,18 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {wagmiConfig != null ? (
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
+
           {popupBonusState === `"true"`
             || pathname === "/RegistrManual"
             || pathname === "/ExchangeManual" ? null : <PopUpBonus />}
+
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
           >
-            <Header isGame={props.gameName != undefined} />
+            <Header
+              isGame={props.gameName != undefined}
+              hideHeaderBtn={props.hideHeaderBtn}
+            />
             <div
               className={clsx(
                 s.side_bar_wrapper,

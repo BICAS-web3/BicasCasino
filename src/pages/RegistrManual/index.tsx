@@ -49,74 +49,82 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
       <div className={s.have_wallet_header}>
         <h1 className={s.registr_manual_title}>Connect Wallet</h1>
         <div className={s.wallets_list}>
-          <div
-            className={s.wallet_list_item}
-            onClick={() => {
-              //(window as any).fbq("track", "Lead");
-              connect({ connector: connectors[0] });
-            }}
-          >
-            <div className={s.wallet_list_item_leftSide}>
-              <img
-                src={Metamask.src}
-                className={s.wallet_ico}
-                alt="metamask-ico"
-              />
-              <span className={s.avaible_wallet_title}>Metamask</span>
+          {connectors[0].ready && (
+            <div
+              className={s.wallet_list_item}
+              onClick={() => {
+                //(window as any).fbq("track", "Lead");
+                connect({ connector: connectors[0] });
+              }}
+            >
+              <div className={s.wallet_list_item_leftSide}>
+                <img
+                  src={Metamask.src}
+                  className={s.wallet_ico}
+                  alt="metamask-ico"
+                />
+                <span className={s.avaible_wallet_title}>Metamask</span>
+              </div>
+              <BtnRightArrow />
             </div>
-            <BtnRightArrow />
-          </div>
-          <div
-            className={s.wallet_list_item}
-            onClick={() => {
-              //(window as any).fbq("track", "Lead");
-              connect({ connector: connectors[2] });
-            }}
-          >
-            <div className={s.wallet_list_item_leftSide}>
-              <img
-                src={Trust_wallet.src}
-                className={s.wallet_ico}
-                alt="tWallet-ico"
-              />
-              <span className={s.avaible_wallet_title}>Trust Wallet</span>
+          )}
+          {connectors[2].ready && (
+            <div
+              className={s.wallet_list_item}
+              onClick={() => {
+                //(window as any).fbq("track", "Lead");
+                connect({ connector: connectors[2] });
+              }}
+            >
+              <div className={s.wallet_list_item_leftSide}>
+                <img
+                  src={Trust_wallet.src}
+                  className={s.wallet_ico}
+                  alt="tWallet-ico"
+                />
+                <span className={s.avaible_wallet_title}>Trust Wallet</span>
+              </div>
+              <BtnRightArrow />
             </div>
-            <BtnRightArrow />
-          </div>
-          <div
-            className={s.wallet_list_item}
-            onClick={() => {
-              //(window as any).fbq("track", "Lead");
-              connect({ connector: connectors[2] });
-            }}
-          >
-            <div className={s.wallet_list_item_leftSide}>
-              <img
-                src={WalletConnect.src}
-                className={s.wallet_ico}
-                alt="walletconnect-ico"
-              />
-              <span className={s.avaible_wallet_title}>WalletConnect</span>
+          )}
+          {connectors[2].ready && (
+            <div
+              className={s.wallet_list_item}
+              onClick={() => {
+                //(window as any).fbq("track", "Lead");
+                connect({ connector: connectors[2] });
+              }}
+            >
+              <div className={s.wallet_list_item_leftSide}>
+                <img
+                  src={WalletConnect.src}
+                  className={s.wallet_ico}
+                  alt="walletconnect-ico"
+                />
+                <span className={s.avaible_wallet_title}>WalletConnect</span>
+              </div>
+              <BtnRightArrow />
             </div>
-            <BtnRightArrow />
-          </div>
-          <div
-            className={s.wallet_list_item}
-            onClick={() => {
-              //(window as any).fbq("track", "Lead");
-              connect({ connector: connectors[1] });
-            }}
-          >
-            <div className={s.wallet_list_item_leftSide}>
-              <img
-                src={Coinbase.src}
-                className={s.wallet_ico}
-                alt="coinbase-ico"
-              />
-              <span className={s.avaible_wallet_title}>Coinbase</span>
+          )}
+          {connectors[1].ready && (
+            <div
+              className={s.wallet_list_item}
+              onClick={() => {
+                //(window as any).fbq("track", "Lead");
+                connect({ connector: connectors[1] });
+              }}
+            >
+              <div className={s.wallet_list_item_leftSide}>
+                <img
+                  src={Coinbase.src}
+                  className={s.wallet_ico}
+                  alt="coinbase-ico"
+                />
+                <span className={s.avaible_wallet_title}>Coinbase</span>
+              </div>
+              <BtnRightArrow />
             </div>
-            <BtnRightArrow />
-          </div>
+          )}
         </div>
         <p className={s.have_wallet_subTitle}>
           If you are connecting to the <span>WalletConnect</span> protocol, you
@@ -149,7 +157,7 @@ const RegistrManual: FC<RegistrManualProps> = () => {
   console.log("current tab is", tab);
 
   return (
-    <Layout gameName={undefined}>
+    <Layout gameName={undefined} hideHeaderBtn={true}>
       <div
         className={`${s.registr_manual_section} `} // ${step !== undefined && s.gap_none}
       >
