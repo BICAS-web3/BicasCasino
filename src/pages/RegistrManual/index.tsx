@@ -29,8 +29,15 @@ interface HaveWalletConnectionProps {
 const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   const { connect } = useConnect();
   const { isConnected } = useAccount();
-  const { connectors } = useConnect();
+  const { connectors, isError } = useConnect();
   //const router = useRouter();
+
+  useEffect(() => {
+    if (isError) {
+      console.log("Error connecting to the wallet");
+      localStorage.clear();
+    }
+  }, [isError]);
 
   useEffect(() => {
     isConnected && props.setTab(Tab.bonusReceiving);
@@ -145,7 +152,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   );
 };
 
-interface RegistrManualProps {}
+interface RegistrManualProps { }
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
