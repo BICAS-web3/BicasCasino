@@ -36,12 +36,14 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as DGM from "@/widgets/Dice/model";
 import * as CFM from "@/widgets/CoinFlip/model";
 import * as PGM from "@/widgets/Plinko/model";
+import * as RPSModel from "@/widgets/RockPaperScissors/model";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import useSound from "use-sound";
 import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
@@ -136,8 +138,18 @@ export const GamePage: FC<GamePageProps> = ({
   const [isCFPlaying] = useUnit([CFM.$isPlaying]);
   const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
   const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
+  const [isMineslaying] = useUnit([MinesModel.$isPlaying]);
+  const [isRPSPlaying] = useUnit([RPSModel.$isPlaying]);
+
+  const diceUrl = window.location.pathname.includes("Dice");
+  const plincoUrl = window.location.pathname.includes("Plinko");
+  const coinFlipUrl = window.location.pathname.includes("CoinFlip");
+  const rockPaperScissorsUrl =
+    window.location.pathname.includes("RockPaperScissors");
+  const pokerUrl = window.location.pathname.includes("Poker");
+  const minesUrl = window.location.pathname.includes("Mines");
+
   const [setBlur] = useUnit([BlurModel.setBlur]);
-  const { push } = useRouter();
 
   // const handleModalVisibilityChange = () => {
   //   !modalVisibility && setBlur(true);
@@ -278,7 +290,12 @@ export const GamePage: FC<GamePageProps> = ({
                       }
                     }}
                   >
-                    {isPlaying ? (
+                    {(isDicePlaying && diceUrl) ||
+                    (isCFPlaying && coinFlipUrl) ||
+                    (isMineslaying && minesUrl) ||
+                    (isPlinkoPlaying && plincoUrl) ||
+                    (isPokerlaying && pokerUrl) ||
+                    (isRPSPlaying && rockPaperScissorsUrl) ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
                     ) : isConnected ? (
                       "Play"
