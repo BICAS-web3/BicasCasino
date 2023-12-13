@@ -63,8 +63,14 @@
 .link_block_profit {
   display: flex;
   gap: 10px;
+  justify-content: space-between;
+  min-width: 68px;
   @media (max-width: 650px) {
     gap: 7px;
+    min-width: 66px;
+  }
+  @media (max-width: 376px) {
+    min-width: 48px;
   }
 }
 
