@@ -52,6 +52,12 @@ const WagerContent = () => {
 
   const router = useRouter();
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const partner_address = queryParams.get("partner_address");
+  const site_id = queryParams.get("site_id");
+  const sub_id = queryParams.get("sub_id");
+  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -70,7 +76,11 @@ const WagerContent = () => {
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;
           } else {
-            router.push("/RegistrManual");
+            router.push(
+              isPartner
+                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                : "/RegistrManual"
+            );
           }
         }}
       >
