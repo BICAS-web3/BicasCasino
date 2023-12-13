@@ -65,7 +65,7 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && isConnected) {
+          if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;
