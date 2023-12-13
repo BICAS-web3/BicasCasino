@@ -1,11 +1,12 @@
 import s from "./styles.module.scss";
 
-import diceIcon from "@/public/media/live_bets/dice.svg";
-import coinFlipIcon from "@/public/media/live_bets/coinFlip.svg";
-import pokerIcon from "@/public/media/live_bets/poker.svg";
-import rpsIcon from "@/public/media/live_bets/rps.svg";
-import bombIcon from "@/public/media/live_bets/bomb.svg";
-import plincoIcon from "@/public/media/live_bets/plinco.svg";
+import diceIcon from "@/public/media/live_bets/diceIco.png";
+import coinFlipIcon from "@/public/media/live_bets/coinflipIco.png";
+import pokerIcon from "@/public/media/live_bets/pokerIco.png";
+import rpsIcon from "@/public/media/live_bets/rpsIco.png";
+import rpsMobIco from "@/public/media/live_bets/rpsMobIco.png";
+import bombIcon from "@/public/media/live_bets/bombIco.png";
+import plincoIcon from "@/public/media/live_bets/plinkoIco.png";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
@@ -82,6 +83,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
           <span className={s.customBets_list_item_time}>{props.time.time}</span>
         </Link>
       </div>
+
       <div className={s.customBets_list_item_game_block}>
         <Link
           href={`/games/${props.game_name}`}
@@ -121,7 +123,9 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
         )}`}</span>
       </div>
       <div className={s.customBets_list_item_transaction_block}>
-        <Image src={linkIco} width={22} height={22} alt="" />
+        <Link href={props.trx_url} target="_blank">
+          <Image src={linkIco} width={22} height={22} alt="" />
+        </Link>
       </div>
       <div className={s.customBets_list_item_wager_block}>
         <img
