@@ -8,7 +8,7 @@ export enum GameStatus {
 // variables
 export const $playSounds = createStore<boolean>(false);
 export const $gameStatus = createStore<GameStatus | null>(null);
-export const $isPlaying = createStore<boolean>(false);
+export const $isPlaying = createStore<boolean>(true);
 export const $waitingResponse = createStore<boolean>(false);
 export const $profit = createStore<number>(0);
 export const $multiplier = createStore<number>(0);

@@ -327,3 +327,9 @@
     border-radius: 5px;
   }
 }
+.dots_black {
+  margin-bottom: 13px !important;
+  @media (max-width: 650px) {
+    margin-bottom: 15px !important;
+  }
+}

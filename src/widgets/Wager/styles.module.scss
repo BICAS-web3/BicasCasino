@@ -29,6 +29,9 @@
 .poker_wager_inputs_block {
   background: #121212;
   border-radius: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .poker_wager_block {
@@ -62,6 +65,9 @@
 
 .poker_wager_input_kripto_ico_block {
   cursor: pointer;
+  min-width: 120px;
+  display: flex;
+  justify-content: end;
   position: relative;
 }
 
@@ -108,6 +114,9 @@
   // grid-template-columns: repeat(5, 1fr);
   background: #202020;
   border-radius: 0 0 12px 12px;
+  @media (max-width: 650px) {
+    border-radius: 0 0 5px 5px;
+  }
   overflow: hidden;
 }
 
@@ -130,6 +139,9 @@
 
 .poker_wager_max_block {
   border-radius: 0 0 12px 0;
+  @media (max-width: 650px) {
+    border-radius: 0 0 5px 0;
+  }
 }
 
 .poker_wager_halve_block {
@@ -176,11 +188,8 @@
   z-index: 10;
   border-radius: 12px;
   @media (max-width: 650px) {
-    width: 32px;
-    height: 32px;
-  }
-
-  @media screen and (max-width: 996px) {
+    width: 24px;
+    height: 24px;
     border-radius: 5px;
   }
 }
@@ -278,18 +287,35 @@
   letter-spacing: 0.72px;
   height: 50px;
   cursor: pointer;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .poker_wager_tokens_list_wrap {
+  padding-top: 4px;
   position: absolute;
-  border-radius: 20px;
-  background: #181818;
-  padding: 20px 0;
+  border-radius: 0 0 20px 20px;
+  // background: #181818;
+  background: var(--gray-3125-night, #252525);
+  // padding: 20px 0;
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s;
   right: 0;
+  right: -16px;
+  width: 100%;
   top: 30px;
+  top: calc(100% + 4px);
+  @media (max-width: 1280px) {
+    right: -15px;
+  }
+  @media (max-width: 996px) {
+    // padding: 10px 15px;
+    right: -16px;
+  }
+  background: var(--gray-3125-night, #252525);
+  // right: -16px;
   @media (max-width: 650px) {
     border-radius: 5px;
   }
@@ -298,6 +324,13 @@
 .token_list_visible {
   opacity: 1;
   visibility: visible;
+  background-color: #252525;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  width: 100%;
+  @media (max-width: 650px) {
+    border-radius: 0 0 5px 5px;
+  }
 }
 
 .poker_wager_tokens_list_title {
@@ -317,29 +350,62 @@
   display: flex;
   align-items: center;
   justify-content: start;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   transition: all 0.2s;
-  padding: 10px 20px;
+  padding: 10px 16px;
+  min-width: 120px;
+  box-sizing: border-box;
   &:hover {
     background: #202020;
   }
   &:last-child {
     margin-bottom: 0;
   }
+  @media (max-width: 1280px) {
+    padding: 10px 15px;
+  }
   @media (max-width: 650px) {
-    padding: 7px 20px;
+    padding: 7px 15px;
   }
 
   .poker_wager_tokens_list_item_title {
-    margin-left: 10px;
-    color: #7e7e7e;
+    margin-left: 6px;
+    color: var(--gray-57-e-night, #7e7e7e);
     font-family: var(--font-nunito-sans);
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 150.8%;
-    letter-spacing: 0.56px;
+    font-weight: 700;
+    line-height: 150.8%; /* 18.096px */
+    letter-spacing: 0.48px;
     text-transform: uppercase;
+  }
+}
+.poker_wager_tokens_list_item_title_active {
+  color: var(--white-1-ea-night, #eaeaea);
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150.8%; /* 18.096px */
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+}
+.poker_wager_tokens_list_item_selected {
+  background: var(--switch-in-game-2-e-night, #2e2e2e);
+  border-radius: 12px 12px 0 0;
+  background: var(--gray-3125-night, #252525);
+  span {
+    color: var(--white-1-ea-night, #eaeaea) !important;
+  }
+
+  @media (max-width: 650px) {
+    border-radius: 5px 5px 0 0;
+  }
+}
+.poker_wager_tokens_list_item_active {
+  background: var(--switch-in-game-2-e-night, #2e2e2e);
+  span {
+    color: var(--white-1-ea-night, #eaeaea) !important;
   }
 }
 
@@ -391,18 +457,44 @@
 }
 
 .pick_token_group {
+  transition: all 0.5s;
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 120px;
+  padding: 10px 16px 10px 16px;
+  box-sizing: border-box;
+  margin: -10px 0;
+  margin-right: -16px;
+  @media (max-width: 1280px) {
+    padding: 10px 15px;
+    right: 9px;
+    margin-right: -15px;
+  }
+  @media (max-width: 996px) {
+    margin-right: -16px;
+  }
+
+  // margin-right: -9px;
 }
 
 .dd_ico_img {
-  transition: all 0.3s;
+  transition: all 0.5s;
+  margin-left: auto;
+  margin-right: 3px;
+}
+
+.dd_ico_img_active {
+  transform: scaleY(-1);
+  svg {
+    path {
+      fill: white;
+    }
+  }
 }
 
 .opened_list {
   .dd_ico_img {
-    transform: rotate(180deg);
   }
 }
 
@@ -469,6 +561,9 @@
 
 .poker_wager_max_block {
   border-radius: 0 0 12px 0;
+  @media (max-width: 650px) {
+    border-radius: 0 0 5px 0;
+  }
 }
 
 .poker_wager_halve_block,

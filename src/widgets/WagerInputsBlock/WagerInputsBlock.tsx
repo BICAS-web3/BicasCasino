@@ -44,7 +44,7 @@ interface WagerInputsBlockProps {
   wagerVariants?: number[];
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [
     availableTokens,
     cryptoValue,
@@ -56,7 +56,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     betsAmount,
     //pressButton
     Wagered,
-    betValue
+    betValue,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -68,7 +68,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     CustomWagerRangeInputModel.$pickedValue,
     WagerM.$Wagered,
     //WagerModel.pressButton
-    GameModel.$betValue
+    GameModel.$betValue,
   ]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
@@ -82,7 +82,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
 
   const { data: ethBalance } = useBalance({
     address: address,
-    watch: isConnected
+    watch: isConnected,
   });
 
   const [cryptoInputValue, setCryptoInputValue] = useState("");
@@ -135,7 +135,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
+      "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
     watch: isConnected,
@@ -210,10 +210,12 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     console.log("balance, value", ethBalance?.value, betValue, Wagered);
     if (ethBalance?.value && Wagered) {
       console.log("balance, value", ethBalance?.value, betValue);
-      if (!currentBalance
-        || currentBalance == 0
-        || cryptoValue * betsAmount > currentBalance
-        || ethBalance?.value < betValue) {
+      if (
+        !currentBalance ||
+        currentBalance == 0 ||
+        cryptoValue * betsAmount > currentBalance ||
+        ethBalance?.value < betValue
+      ) {
         setIsLowBalance(true);
       } else {
         setIsLowBalance(false);
@@ -222,13 +224,13 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   }, [Wagered]);
   return (
     <>
-      {isLowBalance &&
+      {isLowBalance && (
         <ErrorCheck
           Wager={Wagered}
           text="There is not enough balance in the wallet to pay for the transaction."
           btnTitle="Top up balance"
         />
-      }
+      )}
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div className={s.poker_wager_input_kripto_block}>
           <input
@@ -260,19 +262,28 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             {pickedToken && (
               <>
                 <div
-                  className={`${s.pick_token_group} ${isOpen && s.opened_list}`}
+                  className={`${s.pick_token_group} ${
+                    (isOpen && s.opened_list,
+                    isOpen && s.poker_wager_tokens_list_item_selected)
+                  }`}
                   onClick={toggle}
                 >
                   <Image
                     alt="token-ico"
                     src={`${api.BaseStaticUrl}/media/tokens/${pickedToken.name}.svg`}
                     // onClick={() => setTokenListVisibility(!tokenListVisibility)}
-                    width={30}
-                    height={30}
+                    width={24}
+                    height={24}
                     className={s.icon}
                   />
+                  <span className={s.poker_wager_tokens_list_item_title_active}>
+                    {pickedToken.name}
+                  </span>
                   <Image
-                    className={s.dd_ico_img}
+                    className={clsx(
+                      s.dd_ico_img,
+                      isOpen && s.dd_ico_img_active
+                    )}
                     src={downArr}
                     alt="down-arr"
                   />
@@ -283,34 +294,38 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                     isOpen && s.token_list_visible
                   )}
                 >
-                  <div className={s.poker_wager_tokens_list}>
+                  {/* <div className={s.poker_wager_tokens_list}>
                     <h1 className={s.poker_wager_tokens_list_title}>
                       Select token
                     </h1>
-                    <div className={s.poker_wager_tokens_list}>
-                      {availableTokens &&
-                        availableTokens.tokens
-                          .filter((token, _) => token.name != pickedToken.name)
-                          .map((token, _) => (
-                            <div
-                              className={s.poker_wager_tokens_list_item}
-                              onClick={() => handleChangeToken(token)}
-                            >
-                              <Image
-                                src={`${api.BaseStaticUrl}/media/tokens/${token.name}.svg`}
-                                alt="token-ico"
-                                width={30}
-                                height={30}
-                              />
-                              <span
-                                className={s.poker_wager_tokens_list_item_title}
-                              >
-                                {token.name}
-                              </span>
-                            </div>
-                          ))}
-                    </div>
-                  </div>
+                    <div className={s.poker_wager_tokens_list}> */}
+                  {availableTokens &&
+                    availableTokens.tokens
+                      // .filter((token, _) => token.name != pickedToken.name)
+                      .map((token, _) => (
+                        <div
+                          className={clsx(
+                            s.poker_wager_tokens_list_item,
+                            pickedToken.name === token.name &&
+                              s.poker_wager_tokens_list_item_active
+                          )}
+                          onClick={() => handleChangeToken(token)}
+                        >
+                          <Image
+                            src={`${api.BaseStaticUrl}/media/tokens/${token.name}.svg`}
+                            alt="token-ico"
+                            width={24}
+                            height={24}
+                          />
+                          <span
+                            className={s.poker_wager_tokens_list_item_title}
+                          >
+                            {token.name}
+                          </span>
+                        </div>
+                      ))}
+                  {/* </div>
+                  </div> */}
                 </div>
               </>
             )}
