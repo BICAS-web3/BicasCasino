@@ -57,7 +57,8 @@
 
 .height {
   @media (max-width: 650px) {
-    height: 284px !important;
+    height: 370px !important;
+    border-bottom: 1px solid var(--gray-3125-night, #252525);
   }
 }
 
