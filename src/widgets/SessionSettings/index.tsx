@@ -54,7 +54,7 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
     run();
   }, [chain]);
 
-  const { signMessage, variables, data: signMessageData } = useSignMessage();
+  const { signMessage, variables, data: signMessageData, isSuccess } = useSignMessage();
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (variables?.message && signMessageData) {
+      if (variables?.message && signMessageData && isSuccess) {
         await Api.connectWalletPartner({
           user_wallet: (address as string).toLowerCase(),
           partner_wallet: searchParams.get("partner_address") as string,
@@ -94,7 +94,7 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
         localStorage.setItem("firstTime", "false");
       }
     })();
-  }, [signMessageData, variables?.message]);
+  }, [signMessageData, variables?.message, isSuccess]);
 
   // const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
   //     chainId: chain?.id,

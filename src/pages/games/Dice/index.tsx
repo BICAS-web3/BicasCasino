@@ -17,18 +17,16 @@ import styles from "./styles.module.scss";
 import * as ConnectModel from "@/widgets/Layout/model";
 // import { Dice } from "@/widgets/Dice/Dice";
 const DiceComponent = lazy(() => import("@/widgets/Dice/Dice"));
-
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import clsx from "clsx";
 import Head from "next/head";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import * as DGM from "@/widgets/Dice/model";
 import { useMediaQuery } from "@/shared/tools";
-
 import { LoadingDots } from "@/shared/ui/LoadingDots";
-
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import * as GameModel from "@/widgets/GamePage/model";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -39,9 +37,9 @@ const WagerContent = () => {
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const [isPlaying] = useUnit([DGM.$isPlaying]);
   const { push, reload } = useRouter();
   const router = useRouter();
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -62,15 +60,13 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={`${s.connect_wallet_btn} ${
-            isPlaying && "animation-leftRight"
-          } ${
-            cryptoValue == 0.0 && isConnected
+          className={`${s.connect_wallet_btn} ${isPlaying && "animation-leftRight"
+            } ${cryptoValue == 0.0 && isConnected
               ? s.button_inactive
               : s.button_active
-          }`}
+            }`}
           onClick={() => {
-            if (cryptoValue > 0.0 && isConnected) {
+            if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
               pressButton();
             } else if (cryptoValue <= 0.0 && isConnected) {
               return null;

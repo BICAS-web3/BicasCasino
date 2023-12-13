@@ -17,6 +17,7 @@ import {
   useWaitForTransaction,
   useAccount,
   useConnect,
+  useBalance,
 } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
@@ -118,11 +119,12 @@ export const GamePage: FC<GamePageProps> = ({
     clearStatus,
     playSounds,
     switchSounds,
+    isPlaying,
+    waitingResponse,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
     GameModel.setGameStatus,
-
     GameModel.$profit,
     GameModel.$multiplier,
     GameModel.$token,
@@ -130,12 +132,14 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.clearStatus,
     GameModel.$playSounds,
     GameModel.switchSounds,
+    GameModel.$isPlaying,
+    GameModel.$waitingResponse,
   ]);
 
-  const [isDicePlaying] = useUnit([DGM.$isPlaying]);
-  const [isCFPlaying] = useUnit([CFM.$isPlaying]);
-  const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
-  const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
+  //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
+  //const [isCFPlaying] = useUnit([CFM.$isPlaying]);
+  //const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
+  //const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
   const { push } = useRouter();
 
@@ -178,8 +182,8 @@ export const GamePage: FC<GamePageProps> = ({
 
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const [isPlaying, cryptoValue] = useUnit([
-    CFM.$isPlaying,
+  const [cryptoValue] = useUnit([
+    //CFM.$isPlaying,
     WagerAmountModel.$cryptoValue,
   ]);
 
@@ -264,12 +268,12 @@ export const GamePage: FC<GamePageProps> = ({
                       s.connect_wallet_btn,
                       s.mobile,
                       isPlaying && "animation-leftRight",
-                      cryptoValue == 0.0 && isConnected
+                      !isPlaying && cryptoValue == 0.0 && isConnected
                         ? s.button_inactive
                         : s.button_active
                     )}
                     onClick={() => {
-                      if (cryptoValue > 0.0 && isConnected) {
+                      if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
                         pressButton();
                       } else if (cryptoValue <= 0.0 && isConnected) {
                         return null;
@@ -278,7 +282,7 @@ export const GamePage: FC<GamePageProps> = ({
                       }
                     }}
                   >
-                    {isPlaying ? (
+                    {waitingResponse ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
                     ) : isConnected ? (
                       "Play"

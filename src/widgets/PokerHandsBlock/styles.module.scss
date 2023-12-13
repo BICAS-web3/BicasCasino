@@ -19,9 +19,20 @@
   border: none;
   cursor: pointer;
   display: none;
+  width: 150px;
+  height: 50px;
 
   @media screen and (max-width: 996px) {
-    display: block;
+    display: flex;
+    justify-content: end;
+  }
+}
+
+.poker_hands_titles_list_item {
+  @media screen and (max-width: 996px) {
+    &[data-id="multp"] {
+      z-index: 30;
+    }
   }
 }
 

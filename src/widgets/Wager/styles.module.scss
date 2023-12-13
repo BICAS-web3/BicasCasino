@@ -95,18 +95,14 @@
   border: none;
   outline: none;
   font-family: var(--font-nunito-sans);
-  max-width: 100px;
+  width: 100%;
   color: #eaeaea;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
   letter-spacing: 0.64px;
   text-transform: uppercase;
-  @media screen and (max-width: 1480px) {
-    max-width: 90px;
-    max-width: 77px;
-  }
 }
 
 .poker_wager_input_currency {
@@ -194,6 +190,10 @@
   @media (max-width: 650px) {
     width: 32px;
     height: 32px;
+    border-radius: 5px;
+  }
+
+  @media screen and (max-width: 996px) {
     border-radius: 5px;
   }
 }
@@ -426,6 +426,10 @@
   @media screen and (max-width: 650px) {
     width: 24px;
     height: 24px;
+    border-radius: 5px;
+  }
+
+  @media screen and (max-width: 996px) {
     border-radius: 5px;
   }
 }
