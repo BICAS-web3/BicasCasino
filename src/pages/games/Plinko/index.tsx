@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { ManualAutoWager } from "@/widgets/ManualAutoWager/ManualAutoWager";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { useRouter } from "next/router";
+import * as GameModel from "@/widgets/GamePage/model";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -37,7 +38,7 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { push, reload } = useRouter();
 
-  const [isPlaying] = useUnit([PGM.$isPlaying]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
@@ -72,7 +73,7 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && isConnected) {
+          if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;

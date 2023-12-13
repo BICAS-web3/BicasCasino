@@ -17,6 +17,7 @@ import {
   useWaitForTransaction,
   useAccount,
   useConnect,
+  useBalance,
 } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
@@ -119,12 +120,11 @@ export const GamePage: FC<GamePageProps> = ({
     playSounds,
     switchSounds,
     isPlaying,
-    waitingResponse
+    waitingResponse,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
     GameModel.setGameStatus,
-
     GameModel.$profit,
     GameModel.$multiplier,
     GameModel.$token,
@@ -133,13 +133,13 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.$playSounds,
     GameModel.switchSounds,
     GameModel.$isPlaying,
-    GameModel.$waitingResponse
+    GameModel.$waitingResponse,
   ]);
 
-  const [isDicePlaying] = useUnit([DGM.$isPlaying]);
+  //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
   //const [isCFPlaying] = useUnit([CFM.$isPlaying]);
-  const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
-  const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
+  //const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
+  //const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
   const { push } = useRouter();
 
@@ -282,7 +282,7 @@ export const GamePage: FC<GamePageProps> = ({
                       }
                     }}
                   >
-                    {isPlaying ? (
+                    {waitingResponse ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
                     ) : isConnected ? (
                       "Play"

@@ -169,6 +169,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setWonStatus,
     setLostStatus,
     setCoefficient,
+    setIsPlaying,
+    waitingResponse,
+    setWaitingResponse
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -192,6 +195,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.setWonStatus,
     GameModel.setLostStatus,
     ProfitModel.setCoefficient,
+    GameModel.setIsPlaying,
+    GameModel.$waitingResponse,
+    GameModel.setWaitingResponse
   ]);
 
   useEffect(() => {
@@ -210,9 +216,23 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data } = useFeeData({ watch: true });
+  const { data, isError, isLoading } = useFeeData({
+    watch: isConnected,
+    cacheTime: 5000,
+  });
+  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+  useEffect(() => {
+    if (data && data.gasPrice) {
+      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+    }
+  }, [data]);
 
   const [inGame, setInGame] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsPlaying(inGame);
+  }, [inGame]);
 
   const [playBackground, { stop: stopBackground }] = useSound(
     "/static/media/games_assets/music/background2.wav",
@@ -235,7 +255,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     functionName: "RockPaperScissors_GetState",
     args: [address],
     enabled: true,
-    watch: isConnected,
+    blockTag: 'latest'
   });
 
   useEffect(() => {
@@ -296,12 +316,52 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
 
-  const { config: startPlayingConfig } = usePrepareContractWrite({
+  // const { config: startPlayingConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RPSABI,
+  //   functionName: "RockPaperScissors_Play",
+  //   args: [
+  //     useDebounce(
+  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //     ),
+  //     pickedToken?.contract_address,
+  //     pickedValue,
+  //     betsAmount,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //       pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+  //       BigInt(100000000000)
+  //       : BigInt(0)),
+  //   enabled: true,
+  // });
+
+  const {
+    write: startPlaying,
+    isSuccess: startedPlaying,
+    error,
+  } = useContractWrite({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
     abi: RPSABI,
@@ -315,36 +375,32 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
-    enabled: true,
+    gasPrice: prevGasPrice,
+    gas: BigInt(400000),
   });
-
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite(startPlayingConfig);
 
   useEffect(() => {
     if (startedPlaying) {
+      setWaitingResponse(true)
       setActivePicker(false);
       setInGame(true);
     }
@@ -363,6 +419,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
         address?.toLowerCase()
       ) {
+        setWaitingResponse(false);
         console.log("Found Log!");
         const wagered =
           BigInt((log[0] as any).args.wager) *
@@ -413,7 +470,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {

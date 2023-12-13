@@ -116,7 +116,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setCoefficient,
     waitingResponse,
     setWaitingResponse,
-    setIsPlaying
+    setIsPlaying,
+    setBetValue,
+    betValue
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -142,6 +144,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
     GameModel.setIsPlaying,
+    GameModel.setBetValue,
+    GameModel.$betValue
   ]);
 
   useEffect(() => {
@@ -150,10 +154,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  const { data, isError, isLoading } = useFeeData({ watch: true });
 
   const [inGame, setInGame] = useState<boolean>(false);
 
@@ -250,6 +251,28 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     }
   }, [VRFFees, data]);
 
+  const [value, setValue] = useState<bigint>(BigInt(0));
+
+  useEffect(() => {
+    const newValue = fees +
+      (pickedToken &&
+        pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+        BigInt(100000000000)
+        : BigInt(0));
+    setValue(fees +
+      (pickedToken &&
+        pickedToken.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+        BigInt(100000000000)
+        : BigInt(0)));
+
+    setBetValue(newValue + BigInt(400000) * prevGasPrice);
+    console.log("value + BigInt(400000) * prevGasPrice", newValue + BigInt(400000) * prevGasPrice);
+  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice])
+
   // const { config: startPlayingConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
   //   address: gameAddress as `0x${string}`,
@@ -319,14 +342,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         BigInt(100000000000) *
         BigInt(200),
     ],
-    value:
-      fees +
-      (pickedToken &&
-        pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
-        : BigInt(0)),
+    value: value,
   });
 
   // useEffect(() => {
@@ -438,12 +454,12 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   return (
     <>
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <div className={s.coinflip_table_wrap}>
         <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>

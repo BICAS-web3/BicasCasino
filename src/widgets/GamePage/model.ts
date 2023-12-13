@@ -10,11 +10,11 @@ export const $playSounds = createStore<boolean>(false);
 export const $gameStatus = createStore<GameStatus | null>(null);
 export const $isPlaying = createStore<boolean>(false);
 export const $waitingResponse = createStore<boolean>(false);
-
 export const $profit = createStore<number>(0);
 export const $multiplier = createStore<number>(0);
 export const $lost = createStore<number>(0);
 export const $token = createStore<string>("");
+export const $betValue = createStore<bigint>(BigInt(0));
 
 // events
 export const setIsPlaying = createEvent<boolean>();
@@ -28,8 +28,10 @@ export const setWonStatus = createEvent<{
 }>();
 export const setLostStatus = createEvent<number>();
 export const clearStatus = createEvent();
+export const setBetValue = createEvent<bigint>();
 
 // handlers
+$betValue.on(setBetValue, (_, state) => state);
 $isPlaying.on(setIsPlaying, (_, state) => state);
 $waitingResponse.on(setWaitingResponse, (_, state) => state);
 $playSounds.on(switchSounds, (old, _) => !old);

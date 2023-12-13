@@ -18,6 +18,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
 import downArr from "@/public/media/misc/downArr.png";
+import * as GameModel from "@/widgets/GamePage/model";
 
 import { WagerModel as WagerM } from "@/widgets/Wager";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
@@ -55,6 +56,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     betsAmount,
     //pressButton
     Wagered,
+    betValue
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -66,6 +68,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     CustomWagerRangeInputModel.$pickedValue,
     WagerM.$Wagered,
     //WagerModel.pressButton
+    GameModel.$betValue
   ]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
@@ -76,6 +79,11 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
+
+  const { data: ethBalance } = useBalance({
+    address: address,
+    watch: isConnected
+  });
 
   const [cryptoInputValue, setCryptoInputValue] = useState("");
   const [currencyInputValue, setCurrencyInputValue] = useState("");
@@ -198,21 +206,29 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   useEffect(() => {
-    if (!currentBalance || currentBalance == 0 || cryptoValue * betsAmount > currentBalance) {
-      setIsLowBalance(true);
-    } else {
-      setIsLowBalance(false);
+    console.log("WAG");
+    console.log("balance, value", ethBalance?.value, betValue, Wagered);
+    if (ethBalance?.value && Wagered) {
+      console.log("balance, value", ethBalance?.value, betValue);
+      if (!currentBalance
+        || currentBalance == 0
+        || cryptoValue * betsAmount > currentBalance
+        || ethBalance?.value < betValue) {
+        setIsLowBalance(true);
+      } else {
+        setIsLowBalance(false);
+      }
     }
   }, [Wagered]);
   return (
     <>
-      {isLowBalance && (
+      {isLowBalance &&
         <ErrorCheck
           Wager={Wagered}
           text="There is not enough balance in the wallet to pay for the transaction."
           btnTitle="Top up balance"
         />
-      )}
+      }
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div className={s.poker_wager_input_kripto_block}>
           <input

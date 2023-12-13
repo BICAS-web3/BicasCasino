@@ -146,7 +146,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     setRollValue(number_value);
   };
-  const { data, isError, isLoading } = useFeeData({ watch: true });
+  const { data, isError, isLoading } = useFeeData({
+    watch: isConnected,
+    cacheTime: 5000,
+  });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
   useEffect(() => {
@@ -223,7 +226,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     abi: DiceAbi,
     functionName: "Dice_Play",
     gasPrice: prevGasPrice,
-    gas: BigInt(300000),
+    gas: BigInt(400000),
     args: [
       useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
       multiplier,
