@@ -32,12 +32,12 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   const { connectors, isError } = useConnect();
   //const router = useRouter();
 
-  useEffect(() => {
-    if (isError) {
-      console.log("Error connecting to the wallet");
-      localStorage.clear();
-    }
-  }, [isError]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     console.log("Error connecting to the wallet");
+  //     localStorage.clear();
+  //   }
+  // }, [isError]);
 
   useEffect(() => {
     isConnected && props.setTab(Tab.bonusReceiving);
@@ -80,6 +80,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               className={s.wallet_list_item}
               onClick={() => {
                 //(window as any).fbq("track", "Lead");
+                localStorage.clear();
                 connect({ connector: connectors[2] });
               }}
             >
@@ -99,6 +100,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               className={s.wallet_list_item}
               onClick={() => {
                 //(window as any).fbq("track", "Lead");
+                localStorage.clear();
                 connect({ connector: connectors[2] });
               }}
             >
