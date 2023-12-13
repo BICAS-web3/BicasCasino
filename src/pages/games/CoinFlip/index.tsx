@@ -23,6 +23,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import * as GameModel from "@/widgets/GamePage/model";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -31,8 +32,8 @@ const WagerContent = () => {
   const { push, reload } = useRouter();
   const router = useRouter();
 
-  const [isPlaying, cryptoValue] = useUnit([
-    CFM.$isPlaying,
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  const [cryptoValue] = useUnit([
     WagerAmountModel.$cryptoValue,
   ]);
   const [startConnect, setStartConnect] = useUnit([

@@ -3,6 +3,7 @@ import {
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
 import { GamePage } from "@/widgets/GamePage/GamePage";
+import * as GameModel from "@/widgets/GamePage/model";
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { Mines } from "@/widgets/Mines/Mines";
@@ -33,17 +34,19 @@ const WagerContent = () => {
     manualSetting,
     setManualSetting,
     selectedLength,
+    waitingResponse
   ] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     MinesModel.$manualSetting,
     MinesModel.setManualSetting,
     MinesModel.$selectedLength,
+    GameModel.$waitingResponse
   ]);
 
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
-  const [isPlaying] = useUnit([MinesModel.$isPlaying]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [emptyClick, setEmptyClick] = useState(false);
   const { push, reload } = useRouter();
@@ -87,12 +90,12 @@ const WagerContent = () => {
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
+          !isPlaying && cryptoValue == 0.0 && isConnected
             ? s.button_inactive
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && isConnected) {
+          if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;
@@ -103,7 +106,7 @@ const WagerContent = () => {
       >
         {emptyClick ? (
           "Select Fields"
-        ) : isPlaying ? (
+        ) : waitingResponse ? (
           <LoadingDots className={styles.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"

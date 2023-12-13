@@ -95,7 +95,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   const [
     lost,
     profit,
-    setPlayingStatus,
     playSounds,
     pickedSide,
     setActivePicker,
@@ -115,10 +114,12 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setWonStatus,
     setLostStatus,
     setCoefficient,
+    waitingResponse,
+    setWaitingResponse,
+    setIsPlaying
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    CoinflipM.setPlayingStatus,
     GameModel.$playSounds,
     SidePickerModel.$pickedSide,
     SidePickerModel.setActive,
@@ -138,6 +139,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.setWonStatus,
     GameModel.setLostStatus,
     ProfitModel.setCoefficient,
+    GameModel.$waitingResponse,
+    GameModel.setWaitingResponse,
+    GameModel.setIsPlaying,
   ]);
 
   useEffect(() => {
@@ -150,9 +154,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     watch: isConnected,
     cacheTime: 5000,
   });
-  // const data = { gasPrice: BigInt(104178752145) };
 
-  const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
 
   const [playBackground, { stop: stopBackground }] = useSound(
@@ -177,19 +179,17 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     args: [address],
     enabled: true,
     //watch: isConnected && !inGame,
+    blockTag: "latest"
   });
 
   useEffect(() => {
+    console.log(GameState);
     if (GameState && !inGame) {
-      if ((GameState as any).ingame) {
-        if (
-          !(GameState as any).isFirstRequest &&
-          (GameState as any).requestID == 0
-        ) {
-          setInGame(true);
-          setActivePicker(false);
-          pickSide((GameState as any).isHeads as number);
-        }
+      if ((GameState as any).requestID != BigInt(0) && (GameState as any).blockNumber != BigInt(0)) {
+        setWaitingResponse(true);
+        setInGame(true);
+        setActivePicker(false);
+        pickSide((GameState as any).isHeads as number);
       } else {
         setInGame(false);
       }
@@ -197,7 +197,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   }, [GameState]);
 
   useEffect(() => {
-    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+    setIsPlaying(inGame);
   }, [inGame]);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
@@ -298,7 +298,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     abi: ICoinFlip,
     functionName: "CoinFlip_Play",
     gasPrice: prevGasPrice,
-    gas: BigInt(612565),
+    gas: BigInt(400000),
     args: [
       useDebounce(
         BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
@@ -337,6 +337,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     if (startedPlaying) {
       setActivePicker(false);
       setInGame(true);
+      setWaitingResponse(true);
     }
   }, [startedPlaying]);
 
@@ -350,6 +351,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
         address?.toLowerCase()
       ) {
+        setWaitingResponse(false);
         console.log("Found Log!");
         const wagered =
           BigInt((log[0] as any).args.wager) *
