@@ -70,7 +70,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
   }
   // scene.rotation.x = 3;
   scene.scale.set(1, 1, 1);
-  console.log(scene);
+  //console.log(scene);
 
   useEffect(() => {
     const rotation = actions[CoinAction.Rotation] as AnimationAction;
@@ -80,7 +80,7 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
       current.stop();
       current.play();
       current.clampWhenFinished = false;
-      console.log(current);
+      //console.log(current);
       if (action != CoinAction.Rotation) {
         current.setLoop(2200, 1);
       }
@@ -150,6 +150,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     watch: isConnected,
     cacheTime: 5000,
   });
+  // const data = { gasPrice: BigInt(104178752145) };
 
   const [waitingResult, setWaitingResult] = useState(false);
   const [inGame, setInGame] = useState<boolean>(false);
@@ -221,6 +222,14 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     useContractWrite(allowanceConfig);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
+  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+  useEffect(() => {
+    if (data && data.gasPrice) {
+      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+    }
+  }, [data]);
+
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -236,16 +245,60 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
 
-  const { config: startPlayingConfig } = usePrepareContractWrite({
+  // const { config: startPlayingConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: ICoinFlip,
+  //   functionName: "CoinFlip_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(300000),
+  //   args: [
+  //     useDebounce(
+  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //     ),
+  //     pickedToken?.contract_address,
+  //     pickedSide,
+  //     betsAmount,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //       pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+  //       BigInt(100000000000)
+  //       : BigInt(0)),
+  //   enabled: !inGame,
+  // });
+
+  const {
+    write: startPlaying,
+    isSuccess: startedPlaying,
+    error,
+  } = useContractWrite({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
     abi: ICoinFlip,
     functionName: "CoinFlip_Play",
+    gasPrice: prevGasPrice,
+    gas: BigInt(612565),
     args: [
       useDebounce(
         BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
@@ -255,33 +308,30 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
-    enabled: true,
   });
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite(startPlayingConfig);
+  // useEffect(() => {
+  //   console.log("startPlaying", startPlaying);
+  // }, [startPlaying])
 
   useEffect(() => {
     if (startedPlaying) {
@@ -290,9 +340,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     }
   }, [startedPlaying]);
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   useContractEvent({
     address: gameAddress as `0x${string}`,
@@ -354,7 +401,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -419,20 +466,20 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
                   <Stage adjustCamera={false} environment="dawn">
                     <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                   </Stage>
-                  <ambientLight intensity={0.3} />
-                  <spotLight
+                  <ambientLight intensity={1} />
+                  {/* <spotLight
                     intensity={2.5}
                     position={[-2, -5, 0]}
                     angle={10}
-                  />
-                  <directionalLight intensity={2.5} position={[-2, 10, 0]} />
+                  /> */}
+                  {/* <directionalLight intensity={2.5} position={[-2, 10, 0]} /> */}
                   <Model
                     action={
                       inGame
                         ? CoinAction.Rotation
                         : pickedSide == SidePickerModel.Side.Heads
-                        ? CoinAction.TailsHeads
-                        : CoinAction.TailsHeads
+                          ? CoinAction.TailsHeads
+                          : CoinAction.TailsHeads
                     }
                     initial={pickedSide}
                   />
