@@ -26,6 +26,7 @@ import * as ConnectModel from "@/widgets/Layout/model";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { useEffect } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as GameModel from "@/widgets/GamePage/model";
 
 import { Suspense, lazy } from "react";
 
@@ -33,6 +34,8 @@ const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
+    GameModel.$waitingResponse,
+    GameModel.$isPlaying
   ]);
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -69,7 +72,7 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && isConnected) {
+          if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;

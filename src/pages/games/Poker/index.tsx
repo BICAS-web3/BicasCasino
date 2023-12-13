@@ -20,21 +20,24 @@ import { useEffect } from "react";
 import clsx from "clsx";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import * as GameModel from "@/widgets/GamePage/model";
 
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 const WagerContent = () => {
-  const [startConnect, setStartConnect] = useUnit([
+  const [startConnect, setStartConnect, waitingResponse, isPlaying] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
+    GameModel.$waitingResponse,
+    GameModel.$isPlaying
   ]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
   const { connectors, connect } = useConnect();
   const { push, reload } = useRouter();
 
-  const [isPlaying, cardsNew] = useUnit([
-    PokerModel.$isPlaying,
+  const [cardsNew] = useUnit([
+    //PokerModel.$isPlaying,
     PokerModel.$watchState,
   ]);
   useEffect(() => {
@@ -57,12 +60,12 @@ const WagerContent = () => {
           s.poker_wager_drawing_cards_btn,
           s.mobile,
           isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
+          cryptoValue == 0.0 && isConnected && !isPlaying
             ? s.button_inactive
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && isConnected) {
+          if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;
@@ -71,9 +74,9 @@ const WagerContent = () => {
           }
         }}
       >
-        {isPlaying && cardsNew === false ? (
+        {isPlaying && waitingResponse ? (
           <LoadingDots className={s.dots_black} title="Playing" />
-        ) : cardsNew === true && isPlaying ? (
+        ) : isPlaying && !waitingResponse ? (
           "Retake"
         ) : isConnected ? (
           "Drawing cards"

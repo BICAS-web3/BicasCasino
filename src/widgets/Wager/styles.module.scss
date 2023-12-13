@@ -95,18 +95,14 @@
   border: none;
   outline: none;
   font-family: var(--font-nunito-sans);
-  max-width: 100px;
+  width: 100%;
   color: #eaeaea;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
   letter-spacing: 0.64px;
   text-transform: uppercase;
-  // @media screen and (max-width: 1480px) {
-  //   max-width: 90px;
-  //   max-width: 77px;
-  // }
 }
 
 .poker_wager_input_currency {
@@ -192,8 +188,8 @@
   z-index: 10;
   border-radius: 12px;
   @media (max-width: 650px) {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 5px;
   }
 }
@@ -312,7 +308,7 @@
   top: 30px;
   top: calc(100% + 4px);
   @media (max-width: 1280px) {
-    right: 9px;
+    right: -15px;
   }
   @media (max-width: 996px) {
     // padding: 10px 15px;
@@ -424,8 +420,11 @@
   border-radius: 12px;
 
   @media screen and (max-width: 650px) {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
+  }
+
+  @media screen and (max-width: 996px) {
     border-radius: 5px;
   }
 }
@@ -470,7 +469,7 @@
   @media (max-width: 1280px) {
     padding: 10px 15px;
     right: 9px;
-    margin-right: 9px;
+    margin-right: -15px;
   }
   @media (max-width: 996px) {
     margin-right: -16px;

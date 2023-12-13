@@ -27,7 +27,7 @@ export const ErrorCheck: FC<ErrorCheckProps> = (props) => {
   //   open();
   // }, [Wager]);
   useEffect(() => {
-    Wager && open();
+    open();
   }, [Wager]);
 
   return (

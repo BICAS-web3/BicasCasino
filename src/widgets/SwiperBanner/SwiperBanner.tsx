@@ -170,7 +170,9 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
           <SwiperSlide
             key={ind}
             id="swiper-slide-banner"
-            className={s.main_banner_swiper_slide}
+            className={`${s.main_banner_swiper_slide} ${
+              isConnected && s.slide_connected
+            }`}
             data-extra={slide.extraText && "true"}
           >
             <img
@@ -182,7 +184,10 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
               }
               alt="slide-imd"
             />
-            <span className={`${s.slide_text} ${ind === 0 && s.title}`}>
+            <span
+              className={`${s.slide_text} ${ind === 0 && s.title}`}
+              data-id={ind + 1}
+            >
               {slide.text}
             </span>
             {slide.extraText && (

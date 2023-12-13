@@ -152,6 +152,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
       <div className={s.closed_sb_group}>
         <div className={s.closed_sb_bonus_ico}>
           <HomeBtn />
+
           <div className={s.closed_sb_tooltip} data-id="home-tooltip">
             Home
           </div>
@@ -194,10 +195,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         <Link
           href={"/nftmarket"}
           // onClick={() =>
-            // window.open(
-            //   "https://element.market/collections/greekkeepers",
-            //   "_blank"
-            // )
+          // window.open(
+          //   "https://element.market/collections/greekkeepers",
+          //   "_blank"
+          // )
           // }
           className={s.closed_sb_other_info_list_item}
         >
@@ -307,11 +308,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
         </div>
         <Link href={"/"} className={s.bonus_button_block}>
-          <HomeBtn />
+          <div className={s.home_ico_block}>
+            <HomeBtn />
+          </div>
           home
         </Link>
         <div className={s.bonus_button_block}>
-          <BonusIco />
+          <div className={s.bonus_ico_block}>
+            <BonusIco />
+          </div>
           bonus<span className={s.soon_page}>Soon…</span>
         </div>
         <div
