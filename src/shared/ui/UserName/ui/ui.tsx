@@ -36,7 +36,6 @@ export const UserName: FC<IUserName> = (props) => {
     }
   };
   const handleSave = () => {
-    console.log("Saved new name:", newName);
     signMessage({ message: newName });
   };
 

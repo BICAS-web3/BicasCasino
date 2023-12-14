@@ -106,7 +106,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     setCoefficient,
     setIsPlaying,
     waitingResponse,
-    setWaitingResponse
+    setWaitingResponse,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -138,7 +138,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     ProfitModel.setCoefficient,
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
-    GameModel.setWaitingResponse
+    GameModel.setWaitingResponse,
   ]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
@@ -236,21 +236,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
   });
 
@@ -260,7 +260,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   );
 
   useEffect(() => {
-    console.log("Play sounds", playSounds);
     if (!playSounds) {
       stopBackground();
     } else {
@@ -276,13 +275,15 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     args: [address],
     enabled: true,
     //watch: isConnected,
-    blockTag: 'latest'
+    blockTag: "latest",
   });
 
   useEffect(() => {
-    console.log(GameState);
     if (GameState && !inGame) {
-      if ((GameState as any).requestID != BigInt(0) && (GameState as any).blockNumber != BigInt(0)) {
+      if (
+        (GameState as any).requestID != BigInt(0) &&
+        (GameState as any).blockNumber != BigInt(0)
+      ) {
         setWaitingResponse(true);
         setInGame(true);
         setActivePicker(false);
@@ -296,7 +297,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
-
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -325,9 +325,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     abi: DiceAbi,
     functionName: "getVRFFee",
     args: [0],
-    // onSuccess: (fees: bigint) => {
-    //   console.log('fees', fees);
-    // },
     watch: isConnected && !inGame,
   });
 
@@ -335,7 +332,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -361,21 +358,17 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
         address?.toLowerCase()
       ) {
         setWaitingResponse(false);
-        console.log("Found Log!");
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
         if ((log[0] as any).args.payout > wagered) {
-          console.log("won");
           const profit = (log[0] as any).args.payout;
-          console.log("profit", profit);
           const multiplier = Number(profit / wagered);
-          console.log("multiplier", multiplier);
           const wagered_token = (
             (log[0] as any).args.tokenAddress as string
           ).toLowerCase();
           const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-          console.log("won token", token);
+
           const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
           setWonStatus({
             profit: profitFloat,
@@ -384,10 +377,9 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           });
           setGameStatus(GameModel.GameStatus.Won);
         } else {
-          console.log("lost");
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
-          console.log("wagered", wageredFloat);
+
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
         }
@@ -397,38 +389,26 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (wagered) {
-      console.log("Pressed wager");
       if (inGame) {
         // setShowFlipCards(false);
         // if (finishPlaying) finishPlaying();
       } else {
-        console.log(cryptoValue, currentBalance);
         const total_value = cryptoValue * betsAmount;
         if (
           cryptoValue != 0 &&
           currentBalance &&
           total_value <= currentBalance
         ) {
-          console.log("Allowance", allowance);
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
-            console.log("Setting allowance");
             if (setAllowance) setAllowance();
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
-            console.log(
-              "Starting playing",
-              startPlaying,
-              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-              //BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
-              pickedToken?.contract_address,
-              gameAddress,
-              VRFFees
-            );
+
             if (startPlaying) {
               startPlaying();
             }
@@ -458,7 +438,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);

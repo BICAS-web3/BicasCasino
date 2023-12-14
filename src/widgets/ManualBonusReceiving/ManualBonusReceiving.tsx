@@ -202,9 +202,7 @@ export const Step11Content: FC<Step11ContentProps> = ({
     const address = "0x5518e648341147b0f4041c5e2a2cca41bdc723a0";
     navigator.clipboard
       .writeText(address)
-      .then(() => {
-        console.log("draxb address copied", address);
-      })
+      .then(() => {})
       .catch((err) => {
         console.error("error copy", err);
       });

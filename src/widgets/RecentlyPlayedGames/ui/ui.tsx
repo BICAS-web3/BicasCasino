@@ -20,8 +20,6 @@ export const RecentlyPlayedGames: FC<{ RecentlyGames: IRecentlyGames[] }> = (
       <p className={styles.recently_played_heading}>recently played</p>
       <div className={styles.recently_played_container}>
         {props.RecentlyGames.map((game: IRecentlyGames) => {
-          console.log("TITLE GAME", game.imgBackground);
-
           return (
             <div key={game.id} className={styles.game_item}>
               <img

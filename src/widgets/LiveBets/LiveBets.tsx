@@ -52,14 +52,12 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
         : ((await Api.getGamesAllLastBets(props.subscriptions[0]))
             .body as Api.T_Bets);
     setBets(bets?.bets);
-    console.log(bets);
-    console.log(Bets);
+
     //setGotBets(true);
   };
 
   useEffect(() => {
     const run = async () => {
-      console.log("Getting bets");
       await getBets();
     };
     run();
@@ -67,7 +65,6 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
 
   const onMessage = (ev: MessageEvent<any>) => {
     const data = JSON.parse(ev.data);
-    console.log("Received message:", data);
     if (data.type == "Ping") {
       return;
     }
@@ -79,12 +76,9 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
   };
 
   useEffect(() => {
-    console.log("mapping bets");
-
     if (socket != null) {
       return;
     }
-    console.log("Connecting to WebSocket server...");
     var newSocket = new WebSocket(
       `${window.location.protocol === "https:" ? "wss" : "ws"}://${
         window.location.host

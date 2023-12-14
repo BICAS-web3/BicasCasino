@@ -55,7 +55,6 @@ export const Total: FC<TotalProps1> = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      //console.log('Logs every minute');
       Api.GetTotalsFx().then((response) => {
         const totals = response.body as Api.T_Totals;
         setTotals({

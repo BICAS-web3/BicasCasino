@@ -35,7 +35,6 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
 
   useEffect(() => {
     if (isError && error) {
-      console.log("Error connecting to the wallet");
       Api.submitErrorFX({ data: error.message });
       localStorage.clear();
     }
@@ -156,7 +155,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   );
 };
 
-interface RegistrManualProps { }
+interface RegistrManualProps {}
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
@@ -164,8 +163,6 @@ const RegistrManual: FC<RegistrManualProps> = () => {
   //const { tab, step } = query;
 
   const [tab, setTab] = useState<Tab>(Tab.start);
-
-  console.log("current tab is", tab);
 
   return (
     <Layout gameName={undefined} hideHeaderBtn={true}>

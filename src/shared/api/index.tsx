@@ -334,7 +334,7 @@ export const getDataFromOpensea = createEffect<string, any, string>(
       }
     )
       .then(async (res) => await res.json())
-      .catch((e) => console.log(4545, e));
+      .catch((e) => {});
   }
 );
 
@@ -366,9 +366,7 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
       method: "GET",
     })
       .then(async (res) => await res.json())
-      .catch((e) => {
-        console.log(1, e);
-      });
+      .catch((e) => {});
   }
 );
 
@@ -384,9 +382,7 @@ export const getLeaderboard = createEffect<
     }
   )
     .then(async (res) => await res.json())
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch((e) => {});
 });
 
 export type T_GetRpcs = {

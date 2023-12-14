@@ -68,7 +68,6 @@ export const PokerCombination: FC<PokerCombinationProps> = ({
       return;
     }
     const currency = num * exchangeRate;
-    console.log(currency * betsAmount >= 5);
     setCryptoValue(num);
   }, [betsAmount]);
   const [pressButton] = useUnit([WagerModel.pressButton]);

@@ -51,10 +51,6 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
   ]);
 
   useEffect(() => {
-    console.log("chains", networkList);
-  }, [networkList]);
-
-  useEffect(() => {
     if (chain == undefined || chain == null) {
       return;
     }
@@ -78,10 +74,6 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
   //] = useUnit([
   //    web3.$Chains,
   //]);
-
-  //useEffect(() => {
-  //    console.log("Chains", Chains);
-  //}, [Chains]);
 
   return (
     <>

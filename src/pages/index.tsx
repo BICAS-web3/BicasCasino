@@ -469,10 +469,6 @@ export default function Home() {
     }
   }, [device]);
 
-  // useEffect(() =>
-  //   console.log("New bets");
-  // }, [Bets]);
-
   useEffect(() => {
     preloadModel();
   }, []);

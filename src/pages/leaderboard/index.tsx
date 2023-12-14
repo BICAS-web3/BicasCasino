@@ -205,7 +205,6 @@ export default function Home() {
       setCurrentImage(mainBg);
     }
   }, [tablet, laptop]);
-  console.log("rerender main page");
   return (
     <>
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
