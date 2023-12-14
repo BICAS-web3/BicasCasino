@@ -13,19 +13,23 @@ import { AnimationAction, Object3D, LoopOnce } from "three";
 
 import * as GameModel from "@/widgets/GamePage/model";
 
-import { CanvasLoader } from "../CanvasLoader";
-
 enum DiceActions {
   Rotation = "Animation",
+  Loop = "Loop animation",
   Stop = "",
 }
 
 interface DiceModelProps {
   inGame?: boolean;
   action: DiceActions;
+  testState?: boolean;
 }
-export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
-  const { scene, animations } = useGLTF("/dice/dice_animation_3.glb");
+export const DiceModel: FC<DiceModelProps> = ({
+  inGame,
+  action,
+  testState,
+}) => {
+  const { scene, animations } = useGLTF("/dice/dice.glb");
   const { isConnected } = useAccount();
   const { actions, mixer } = useAnimations(animations, scene);
   const [gameStatus] = useUnit([GameModel.$gameStatus]);
@@ -35,60 +39,31 @@ export const DiceModel: FC<DiceModelProps> = ({ inGame, action }) => {
   scene.rotation.x = 0.15;
   scene.rotation.z = -0.5;
   const [startAnimation, setStartAnimation] = useState(true);
-  const [gameAnimation, setGameAnimation] = useState();
   const rotation = actions[DiceActions.Rotation] as AnimationAction;
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     isConnected && rotation.play();
-  //   }
-  //   return () => {
-  //     rotation.stop();
-  //   };
-  // }, [isConnected]);
+  const loop = actions[DiceActions.Loop] as AnimationAction;
 
-  // useEffect(() => {
-  //   rotation.play();
-  //   rotation.setLoop(LoopOnce, 1);
-  // }, []);
-
-  // useEffect(() => {
-  //   inGameRef.current = inGame;
-  //   if (inGame && isConnected && gameStatus === null) {
-  //     setStartAnimation((prev) => !prev);
-  //   }
-  // }, [inGame, isConnected, gameStatus]);
-
-  // useEffect(() => {
-  //   const rotation = actions[DiceActions.Rotation] as AnimationAction;
-  //   // Play animation once on page load
-  //   rotation.play();
-  //   rotation.setLoop(LoopOnce, 1);
-
-  //   // Cleanup function to stop the animation when the component unmounts
-  //   return () => {
-  //     rotation.stop();
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   const current = actions["Animation"] as AnimationAction;
-  //   current.play();
-  //   current.setLoop(LoopOnce, 1);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!isConnected) return;
-  //   const current = actions["Animation"] as AnimationAction;
-  //   current.play();
-  //   current.setLoop(LoopOnce, 3); // Set the number of repetitions
-  // }, [isConnected]);
-
+  const [firstAnimation, setFirstAnimation] = useState(false);
   useEffect(() => {
     rotation.setLoop(LoopOnce, 1);
     rotation.play();
+    rotation.clampWhenFinished = true;
     return () => {
       rotation.stop();
     };
-  }, [startAnimation]);
+  }, [firstAnimation]);
+  useEffect(() => {
+    setFirstAnimation((prev) => !prev);
+  }, []);
+  useEffect(() => {
+    if (inGame) {
+      rotation.stop();
+      loop.setLoop(2201, 100);
+      loop.play();
+      loop.clampWhenFinished = false;
+    } else {
+      loop.stop();
+    }
+  }, [inGame]);
 
   useEffect(() => {
     inGameRef.current = inGame;
@@ -139,8 +114,10 @@ interface DiceCanvasProps {
 }
 
 export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
+  const [testState, setTestState] = useState(false);
   return (
     <Canvas
+      onClick={() => setTestState((prev) => !prev)}
       frameloop="always"
       camera={{ position: [-3, 23, 20], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
@@ -150,7 +127,11 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
           <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
         </Stage>
 
-        <DiceModel action={DiceActions.Rotation} inGame={inGame} />
+        <DiceModel
+          testState={testState}
+          action={DiceActions.Rotation}
+          inGame={inGame}
+        />
       </Suspense>
 
       <Preload all />
