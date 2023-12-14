@@ -514,10 +514,6 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log("SCROLLED -------", sidebarScroll);
-  }, [sidebarScroll]);
-
   const handleSidebar = () => {
     if (isOpen) {
       closeSb();

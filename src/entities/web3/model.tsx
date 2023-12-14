@@ -5,7 +5,7 @@ import {
   mainnet,
   Chain,
   PublicClient,
-  createStorage
+  createStorage,
 } from "wagmi";
 import { bsc } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -36,7 +36,6 @@ export const setWagmiConfig = createEvent<any>();
 // handlers
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
-  console.log("Networks11", payload);
   const networks = payload.body as Api.T_Networks;
 
   var chains = [];
@@ -90,12 +89,19 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
           shimDisconnect: true,
         },
       }),
-      new CoinbaseWalletConnector({
+      new InjectedConnector({
         chains,
         options: {
-          appName: "Bicas Casino",
+          name: "Injected",
+          shimDisconnect: true,
         },
       }),
+      // new CoinbaseWalletConnector({
+      //   chains,
+      //   options: {
+      //     appName: "Bicas Casino",
+      //   },
+      // }),
       new WalletConnectConnector({
         chains,
         options: {
@@ -105,12 +111,14 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
               "--wcm-z-index": "9999999",
             },
           },
-          relayUrl: 'wss://relay.walletconnect.org'
+          relayUrl: "wss://relay.walletconnect.org",
+          //isNewChainsStale: false,
         },
       }),
       new MetaMaskConnector({ chains }),
     ],
     publicClient: configuredChains.publicClient,
+    //webSocketPublicClient: configuredChains.webSocketPublicClient
   });
 
   const web3Provider = new Web3.providers.HttpProvider(

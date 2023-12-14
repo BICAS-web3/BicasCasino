@@ -34,7 +34,7 @@ export const ProfileBettingStatistics: FC<ProfileBettingStatisticsProps> = (
       const totals_response = (
         await api.GetPlayerTotalsFx((props.address as string).toLowerCase())
       ).body as api.T_PlayerTotals;
-      console.log("tttotal", totals_response);
+
       setTotals([
         {
           id: 1,
@@ -71,7 +71,9 @@ export const ProfileBettingStatistics: FC<ProfileBettingStatisticsProps> = (
         {
           id: 2,
           title: "Gross Profit",
-          total: totals_response.gross_profit ? totals_response.gross_profit : 0,
+          total: totals_response.gross_profit
+            ? totals_response.gross_profit
+            : 0,
           sign: true,
         },
         {

@@ -99,10 +99,6 @@ export const Account: FC<AccountProps> = (props) => {
     closeHeaderAccount();
   };
 
-  // useEffect(() => {
-  //   console.log(accVisibility);
-  // });
-
   return (
     <div className={s.account_container}>
       <Image

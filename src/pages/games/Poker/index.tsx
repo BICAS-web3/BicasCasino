@@ -30,6 +30,7 @@ const WagerContent = () => {
     ConnectModel.setConnect,
     GameModel.$waitingResponse,
     GameModel.$isPlaying,
+
   ]);
   const [pressButton, setIsEmtyWager] = useUnit([
     WagerModel.pressButton,
@@ -46,10 +47,6 @@ const WagerContent = () => {
   }, []);
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-
-  useEffect(() => {
-    console.log("cardsNewcardsNew", cardsNew);
-  }, [cardsNew]);
 
   const router = useRouter();
 

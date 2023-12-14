@@ -123,7 +123,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
       initialPosition.x = !left ? 0.2 : -0.5;
       initialPosition.z = !left ? -0.2 : 0.5;
     } else if (is996) {
-      console.log("is996");
       scene.scale.set(1.4, 1.4, 1);
       initialPosition.y = -5;
       initialPosition.x = !left ? 0.2 : -0.9;
@@ -131,8 +130,6 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
     } else {
       scene.scale.set(1.6, 1.5, 1);
     }
-
-    console.log(scene, side);
   }, [is1280, side, left, is996]);
 
   // @ts-ignore
@@ -171,7 +168,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setCoefficient,
     setIsPlaying,
     waitingResponse,
-    setWaitingResponse
+    setWaitingResponse,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -197,7 +194,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     ProfitModel.setCoefficient,
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
-    GameModel.setWaitingResponse
+    GameModel.setWaitingResponse,
   ]);
 
   useEffect(() => {
@@ -240,7 +237,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   );
 
   useEffect(() => {
-    console.log("Play sounds", playSounds);
     if (!playSounds) {
       stopBackground();
     } else {
@@ -255,7 +251,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     functionName: "RockPaperScissors_GetState",
     args: [address],
     enabled: true,
-    blockTag: 'latest'
+    blockTag: "latest",
   });
 
   useEffect(() => {
@@ -312,11 +308,10 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   });
 
   useEffect(() => {
-    console.log("gas price", data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -375,24 +370,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -400,15 +395,11 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (startedPlaying) {
-      setWaitingResponse(true)
+      setWaitingResponse(true);
       setActivePicker(false);
       setInGame(true);
     }
   }, [startedPlaying]);
-
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   useContractEvent({
     address: gameAddress as `0x${string}`,
@@ -420,23 +411,17 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
         address?.toLowerCase()
       ) {
         setWaitingResponse(false);
-        console.log("Found Log!");
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
         if ((log[0] as any).args.payout > wagered) {
-          console.log("won");
           const profit = (log[0] as any).args.payout;
-          console.log("profit", profit);
           const multiplier = Number(profit / wagered);
-          console.log("multiplier", multiplier);
-          //console.log("token", ((log[0] as any).args.tokenAddress as string).toLowerCase());
           const wagered_token = (
             (log[0] as any).args.tokenAddress as string
           ).toLowerCase();
           const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-          console.log("won token", token);
-          //console.log("available tokens", availableTokens);
+
           const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
           setWonStatus({
             profit: profitFloat,
@@ -445,10 +430,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           });
           setGameStatus(GameModel.GameStatus.Won);
         } else {
-          console.log("lost");
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
-          console.log("wagered", wageredFloat);
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
         }
@@ -458,7 +441,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (wagered) {
-      console.log("Pressed wager");
       if (inGame) {
       } else {
         const total_value = cryptoValue * betsAmount;
@@ -470,19 +452,10 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
-            console.log(
-              "Starting playing",
-              startPlaying,
-              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-              pickedToken?.contract_address,
-              gameAddress as `0x${string}`,
-              VRFFees,
-              fees
-            );
             if (startPlaying) {
               startPlaying();
             }

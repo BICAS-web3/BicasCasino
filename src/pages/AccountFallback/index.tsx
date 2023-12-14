@@ -13,7 +13,6 @@ const CheckConnection: FC<CheckConnectionProps> = () => {
 
   useEffect(() => {
     if (isConnected) {
-      console.log("CONNECTED---", address, isConnected);
       router.push(`/account/${address?.toLowerCase()}`);
     }
   }, [isConnected]);

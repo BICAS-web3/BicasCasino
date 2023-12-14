@@ -83,7 +83,6 @@ export const shortenAddress = (
   length = 4,
   ends = 4
 ) => {
-  // console.log(address);
   if (!address) return "";
   return `${address.slice(0, 2 + length)}..${address.slice(
     -ends

@@ -17,13 +17,7 @@ export const PlaceBetButton: FC<PlaceBetButtonProps> = (props) => {
           ? s.place_bet_button_active
           : s.place_bet_button_inactive
       }`}
-      onClick={
-        props.bet_placed
-          ? (e) => {
-              console.log("Waiting for results");
-            }
-          : props.onClick
-      }
+      onClick={props.bet_placed ? (e) => {} : props.onClick}
     >
       {props.active
         ? props.bet_placed

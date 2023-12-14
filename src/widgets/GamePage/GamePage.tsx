@@ -81,7 +81,6 @@ export const GamePage: FC<GamePageProps> = ({
   soundClassName,
   isMines,
 }) => {
-  console.log("Redrawing game page");
   const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
   const [currentToken, setCurrentToken] = useState<{

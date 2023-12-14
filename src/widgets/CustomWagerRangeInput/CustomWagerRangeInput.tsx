@@ -55,7 +55,6 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
     const newTrackWidth =
       pickedValue === min ? 0 : ((pickedValue - min) / (max - min)) * 100;
     setTrackWidth(newTrackWidth);
-    console.log("trackWidth---", trackWidth);
   }, [pickedValue]);
 
   // const value = max / 4;

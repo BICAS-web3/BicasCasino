@@ -146,7 +146,6 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     if (allowance) {
       const new_allowance =
         Number((allowance as any) / BigInt(100000000000000)) / 10000;
-      console.log("allowance", new_allowance);
       setAllowance(new_allowance);
     }
   }, [allowance]);
@@ -196,9 +195,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
       return;
     }
     const currency = num * exchangeRate;
-    console.log(cryptoInputValue, currency, betsAmount);
     if (true) {
-      console.log(currency * betsAmount >= 5);
       setCryptoValue(num);
     } else {
       setCryptoValue(0);
@@ -287,11 +284,9 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                 setCryptoValue(0);
                 return;
               }
-              console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
               if (true) {
-                console.log("Crypto value", num);
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
@@ -386,7 +381,6 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                 setCryptoValue(0);
                 return;
               }
-              console.log("exchange rate", exchangeRate);
               const crypto_value = exchangeRate > 0 ? num / exchangeRate : 0;
               //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());

@@ -40,7 +40,6 @@ const ConnectMarket: FC = () => {
   //     switchNetwork?.(56);
   //   }
   // }, [address]);
-  console.log("nft market component");
   return (
     <>
       {nfts

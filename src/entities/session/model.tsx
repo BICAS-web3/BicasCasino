@@ -1,9 +1,8 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
-import * as Api from '@/shared/api';
-
+import { createEffect, createEvent, createStore, sample } from "effector";
+import * as Api from "@/shared/api";
 
 // variables
-export const $currentPage = createStore<string>('');
+export const $currentPage = createStore<string>("");
 export const $currentWalletAddress = createStore<string | null>(null);
 export const $currentNickname = createStore<string | null>(null);
 export const $currentNetwork = createStore<Api.T_NetworkInfo | null>(null);
@@ -44,13 +43,15 @@ $currentNetwork.on(pickNetwork, (_, picked_network) => picked_network);
 $currentToken.on(pickToken, (_, token) => token);
 
 $currentWalletAddress
-    .on(logIn, (_, payload) => payload.address)
-    .on(logOut, (_, __) => null);
+  .on(logIn, (_, payload) => payload.address)
+  .on(logOut, (_, __) => null);
 
 $currentNickname
-    .on(Api.getUsernameFx.doneData, (_, payload) => { console.log(payload); return ((payload.body as Api.T_Nickname).nickname); })
-    .on(logOut, (_, __) => null)
-    .on(setCurrentNickname, (_, nickname) => nickname);
+  .on(Api.getUsernameFx.doneData, (_, payload) => {
+    return (payload.body as Api.T_Nickname).nickname;
+  })
+  .on(logOut, (_, __) => null)
+  .on(setCurrentNickname, (_, nickname) => nickname);
 
 $availableAmount.on(setAvailableAmount, (_, amount) => amount);
 
@@ -60,6 +61,6 @@ $newBet.on(setNewBet, (_, bet) => bet);
 
 // logic
 sample({
-    clock: logIn,
-    target: Api.getUsernameFx
-})
+  clock: logIn,
+  target: Api.getUsernameFx,
+});
