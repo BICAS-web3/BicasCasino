@@ -49,7 +49,7 @@
     "typescript": "5.1.6",
     "use-sound": "^4.0.1",
     "viem": "^1.12.2",
-    "wagmi": "^1.4.2",
+    "wagmi": "^1.4.11",
     "web3": "4.1.1-dev.86f0cdb.0",
     "web3-core": "4.0.3",
     "web3-errors": "1.0.2",
