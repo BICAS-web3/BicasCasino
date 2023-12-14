@@ -16,11 +16,8 @@ import { Games } from "@/shared/Games";
 
 export default function Profile() {
   const router = useRouter();
-  console.log("provided address", router.query);
 
   const [latestGames, setLatestGames] = useState<IRecentlyGames[]>([]);
-
-  console.log(latestGames);
 
   useEffect(() => {
     if (router.query.address == undefined) {
@@ -34,12 +31,10 @@ export default function Profile() {
         )
       ).body as api.T_LatestGames;
       const games = r.games;
-      console.log("Latest games", r);
       if (games != undefined) {
         setLatestGames(
           games.map((game: string, ind) => {
             const game_data = Games[game.toLowerCase() as any];
-            console.log("game data", game_data);
             return {
               id: ind,
               title: game_data?.title || "",

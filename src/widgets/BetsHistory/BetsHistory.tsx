@@ -133,7 +133,6 @@
 //     const [pageNumber, setPageNumber] = useState<number>(1);
 
 //     useEffect(() => {
-//         console.log("Getting bets", currentWalletAddress);
 //         if (currentWalletAddress == null) {
 //             return;
 //         }

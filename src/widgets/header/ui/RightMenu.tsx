@@ -73,8 +73,6 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log("STATE", isOpen);
-
     if (isOpen) {
       if (screenWidth < 650) {
         document.documentElement.classList.add("scroll-disable");

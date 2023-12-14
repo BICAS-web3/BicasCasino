@@ -24,7 +24,6 @@ export const ProfileCard: FC<ProfileCardProps> = (props) => {
         address: props.address as string,
       });
       setNickname((username.body as api.T_Nickname).nickname);
-      console.log("Username", nickname);
     }
     run();
   }, []);

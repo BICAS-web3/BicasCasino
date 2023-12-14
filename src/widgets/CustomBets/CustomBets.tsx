@@ -54,7 +54,6 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
   //     address: addr.toLowerCase(),
   //     starting_id: null
   //   })).body as api.T_Bets;
-  //   console.log('bets', new_bets);
   //   setBets(new_bets.bets);
   // }
 
@@ -75,10 +74,6 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
   //     }
   //   }
   // }, [activePage, isConnected]);
-
-  useEffect(() => {
-    console.log("New bets");
-  }, [newBet, AvailableBlocksExplorers]);
 
   return (
     <div className={s.customBets_wrap}>
@@ -136,87 +131,91 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
         <div className={s.customBets_list}>
           {
             Bets &&
-            AvailableBlocksExplorers &&
-            // Bets.map((bet, ind) => {
-            //     const time = new Date(bet.timestamp * 1000);
-            //     const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
-            //     const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
-            //     return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
-            //         key={ind}
-            //         time={{
-            //             date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
-            //             time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
-            //         }}
-            //         //game_url={`/games/${bet.game_name}`}
-            //         game_name={bet.game_name}
-            //         player_address={bet.player}
-            //         player_name={bet.player_nickname == null ?
-            //             `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
-            //         wager={wager}
-            //         multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-            //         profit={profit} />);
-            // })
-            // (newBet || Bets) && AvailableBlocksExplorers && (activePage == Page.MyBets ?
-            //   Bets.filter((bet) => bet.player.toLowerCase() == address?.toLowerCase()).map((bet, ind) => {
-            //     const time = new Date(bet.timestamp * 1000);
-            //     const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
-            //     const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
-            //     return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
-            //       key={ind}
-            //       time={{
-            //         date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
-            //         time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
-            //       }}
-            //       //game_url={`/games/${bet.game_name}`}
-            //       game_name={bet.game_name}
-            //       player_address={bet.player}
-            //       player_name={bet.player_nickname == null ?
-            //         `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
-            //       wager={wager}
-            //       multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
-            //       profit={profit} />);
-            //   }) :
-            Bets.map((bet, ind) => {
-              const time = new Date(bet.timestamp * 1000);
-              const wager =
-                parseFloat((Number(bet.wager) / 10 ** 18).toFixed(2));
-              const profit = parseFloat(
-                (Number(bet.profit) / 10 ** 18).toFixed(2)
-              );
-              const multiplier = parseFloat((profit / (wager * bet.bets)).toFixed(2));
-              return (
-                <CustomBetsItem
-                  trx_url={`${AvailableBlocksExplorers.get(
-                    bet.network_id
-                  )}/tx/${bet.transaction_hash}`}
-                  key={ind}
-                  time={{
-                    date: `${time.getDate()}.${time.getMonth() + 1
+              AvailableBlocksExplorers &&
+              // Bets.map((bet, ind) => {
+              //     const time = new Date(bet.timestamp * 1000);
+              //     const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+              //     const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+              //     return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
+              //         key={ind}
+              //         time={{
+              //             date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+              //             time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
+              //         }}
+              //         //game_url={`/games/${bet.game_name}`}
+              //         game_name={bet.game_name}
+              //         player_address={bet.player}
+              //         player_name={bet.player_nickname == null ?
+              //             `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
+              //         wager={wager}
+              //         multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+              //         profit={profit} />);
+              // })
+              // (newBet || Bets) && AvailableBlocksExplorers && (activePage == Page.MyBets ?
+              //   Bets.filter((bet) => bet.player.toLowerCase() == address?.toLowerCase()).map((bet, ind) => {
+              //     const time = new Date(bet.timestamp * 1000);
+              //     const wager = parseFloat((Number(bet.wager) / (10 ** 18)).toFixed(2));
+              //     const profit = parseFloat((Number(bet.profit) / (10 ** 18)).toFixed(2));
+              //     return (<CustomBetsItem trx_url={`${AvailableBlocksExplorers.get(bet.network_id)}/tx/${bet.transaction_hash}`}
+              //       key={ind}
+              //       time={{
+              //         date: `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`,
+              //         time: `${time.getHours()}:${("0" + time.getMinutes()).slice(-2)}`
+              //       }}
+              //       //game_url={`/games/${bet.game_name}`}
+              //       game_name={bet.game_name}
+              //       player_address={bet.player}
+              //       player_name={bet.player_nickname == null ?
+              //         `${bet.player.slice(0, 5)}...${bet.player.slice(38, 42)}` : bet.player_nickname}
+              //       wager={wager}
+              //       multiplier={parseFloat((profit / (wager * bet.bets)).toFixed(2))}
+              //       profit={profit} />);
+              //   }) :
+              Bets.map((bet, ind) => {
+                const time = new Date(bet.timestamp * 1000);
+                const wager = parseFloat(
+                  (Number(bet.wager) / 10 ** 18).toFixed(2)
+                );
+                const profit = parseFloat(
+                  (Number(bet.profit) / 10 ** 18).toFixed(2)
+                );
+                const multiplier = parseFloat(
+                  (profit / (wager * bet.bets)).toFixed(2)
+                );
+                return (
+                  <CustomBetsItem
+                    trx_url={`${AvailableBlocksExplorers.get(
+                      bet.network_id
+                    )}/tx/${bet.transaction_hash}`}
+                    key={ind}
+                    time={{
+                      date: `${time.getDate()}.${
+                        time.getMonth() + 1
                       }.${time.getFullYear()}`,
-                    time: `${time.getHours()}:${(
-                      "0" + time.getMinutes()
-                    ).slice(-2)}`,
-                  }}
-                  //game_url={`/games/${bet.game_name}`}
-                  game_name={bet.game_name}
-                  player_address={bet.player}
-                  player_name={
-                    bet.player_nickname == null
-                      ? `${bet.player.slice(0, 5)}...${bet.player.slice(
-                        38,
-                        42
-                      )}`
-                      : bet.player_nickname
-                  }
-                  wager={wager}
-                  bets={bet.bets}
-                  multiplier={isNaN(multiplier) ? 0 : multiplier}
-                  profit={profit}
-                  id={ind}
-                  token={bet.token_name.toUpperCase()}
-                />
-              );
-            })
+                      time: `${time.getHours()}:${(
+                        "0" + time.getMinutes()
+                      ).slice(-2)}`,
+                    }}
+                    //game_url={`/games/${bet.game_name}`}
+                    game_name={bet.game_name}
+                    player_address={bet.player}
+                    player_name={
+                      bet.player_nickname == null
+                        ? `${bet.player.slice(0, 5)}...${bet.player.slice(
+                            38,
+                            42
+                          )}`
+                        : bet.player_nickname
+                    }
+                    wager={wager}
+                    bets={bet.bets}
+                    multiplier={isNaN(multiplier) ? 0 : multiplier}
+                    profit={profit}
+                    id={ind}
+                    token={bet.token_name.toUpperCase()}
+                  />
+                );
+              })
             //)
           }
         </div>

@@ -29,7 +29,7 @@ const WagerContent = () => {
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.$waitingResponse,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
   ]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
@@ -45,10 +45,6 @@ const WagerContent = () => {
   }, []);
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-
-  useEffect(() => {
-    console.log("cardsNewcardsNew", cardsNew);
-  }, [cardsNew]);
 
   const router = useRouter();
 
@@ -71,7 +67,10 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
+          if (
+            (cryptoValue > 0.0 || (isPlaying && !waitingResponse)) &&
+            isConnected
+          ) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
             return null;

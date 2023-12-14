@@ -47,17 +47,14 @@ export const setAvailableExplorers = createEvent<Map<number, string>>();
 
 // handlers
 // $AvailableNetworks.on(Api.getNetworksFx.doneData, (_, payload) => {
-//     console.log(`Networks: ${JSON.stringify(payload)}`);
 //     return (payload.body as Api.T_Networks);
 // });
 
 $AvailableRpcs.on(Api.getRpcsFx.doneData, (_, payload) => {
-  console.log(`Networks: ${JSON.stringify(payload)}`);
   return payload.body as Api.T_Rpcs;
 });
 
 // $AvailableTokens.on(Api.getTokens.doneData, (_, payload) => {
-//     console.log(`Tokens: ${JSON.stringify(payload)}`);
 //     return (payload.body as Api.T_Tokens);
 // }).on(setAvailableTokens, (_, tokens) => tokens);
 

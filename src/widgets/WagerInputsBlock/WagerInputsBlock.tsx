@@ -44,7 +44,7 @@ interface WagerInputsBlockProps {
   wagerVariants?: number[];
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [
     availableTokens,
     cryptoValue,
@@ -135,14 +135,13 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
     if (allowance) {
       const new_allowance =
         Number((allowance as any) / BigInt(100000000000000)) / 10000;
-      console.log("allowance", new_allowance);
       setAllowance(new_allowance);
     }
   }, [allowance]);
@@ -159,7 +158,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
+      "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
     watch: isConnected,
@@ -192,9 +191,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
       return;
     }
     const currency = num * exchangeRate;
-    console.log(cryptoInputValue, currency, betsAmount);
     if (true) {
-      console.log(currency * betsAmount >= 5);
       setCryptoValue(num);
     } else {
       setCryptoValue(0);
@@ -242,11 +239,9 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                 setCryptoValue(0);
                 return;
               }
-              console.log("Wager", num);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
               if (true) {
-                console.log("Crypto value", num);
                 setCryptoValue(num);
               } else {
                 setCryptoValue(0);
@@ -259,9 +254,10 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             {pickedToken && (
               <>
                 <div
-                  className={`${s.pick_token_group} ${(isOpen && s.opened_list,
+                  className={`${s.pick_token_group} ${
+                    (isOpen && s.opened_list,
                     isOpen && s.poker_wager_tokens_list_item_selected)
-                    }`}
+                  }`}
                   onClick={toggle}
                 >
                   <Image
@@ -303,7 +299,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                           className={clsx(
                             s.poker_wager_tokens_list_item,
                             pickedToken.name === token.name &&
-                            s.poker_wager_tokens_list_item_active
+                              s.poker_wager_tokens_list_item_active
                           )}
                           onClick={() => handleChangeToken(token)}
                         >
@@ -340,7 +336,6 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                 setCryptoValue(0);
                 return;
               }
-              console.log("exchange rate", exchangeRate);
               const crypto_value = exchangeRate > 0 ? num / exchangeRate : 0;
               //const currency = Number(crypto_value.toFixed(7));
               setCryptoInputValue(Number(crypto_value.toFixed(7)).toString());

@@ -15,7 +15,6 @@ export const UserAddress: FC<IUserAddress> = (props) => {
     return "Waiting.....";
   }
   const handleNameChange = () => {
-    console.log("Скопировали адрес");
     setIsEditing(true);
   };
 
