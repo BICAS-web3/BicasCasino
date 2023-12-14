@@ -44,7 +44,7 @@ interface WagerInputsBlockProps {
   wagerVariants?: number[];
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [
     availableTokens,
     cryptoValue,
@@ -135,7 +135,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-        "0x0000000000000000000000000000000000000000",
+      "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-      "0x0000000000000000000000000000000000000000"
+        "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
     watch: isConnected,
@@ -206,10 +206,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [isLowBalance, setIsLowBalance] = useState(false);
 
   useEffect(() => {
-    console.log("WAG");
-    console.log("balance, value", ethBalance?.value, betValue, Wagered);
-    if (ethBalance?.value && Wagered) {
-      console.log("balance, value", ethBalance?.value, betValue);
+    if (ethBalance?.value != undefined && Wagered) {
       if (
         !currentBalance ||
         currentBalance == 0 ||
@@ -262,10 +259,9 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
             {pickedToken && (
               <>
                 <div
-                  className={`${s.pick_token_group} ${
-                    (isOpen && s.opened_list,
+                  className={`${s.pick_token_group} ${(isOpen && s.opened_list,
                     isOpen && s.poker_wager_tokens_list_item_selected)
-                  }`}
+                    }`}
                   onClick={toggle}
                 >
                   <Image
@@ -307,7 +303,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
                           className={clsx(
                             s.poker_wager_tokens_list_item,
                             pickedToken.name === token.name &&
-                              s.poker_wager_tokens_list_item_active
+                            s.poker_wager_tokens_list_item_active
                           )}
                           onClick={() => handleChangeToken(token)}
                         >
