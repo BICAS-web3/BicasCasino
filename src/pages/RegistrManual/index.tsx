@@ -13,6 +13,7 @@ import { ManualBonusReceiving } from "@/widgets/ManualBonusReceiving/ManualBonus
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import Injected from "@/public/media/registrManual_images/injectedIco.svg";
+import * as Api from "@/shared/api";
 
 export enum Tab {
   start,
@@ -29,15 +30,16 @@ interface HaveWalletConnectionProps {
 const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   const { connect } = useConnect();
   const { isConnected } = useAccount();
-  const { connectors, isError } = useConnect();
+  const { connectors, isError, error } = useConnect();
   //const router = useRouter();
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     console.log("Error connecting to the wallet");
-  //     localStorage.clear();
-  //   }
-  // }, [isError]);
+  useEffect(() => {
+    if (isError && error) {
+      console.log("Error connecting to the wallet");
+      Api.submitErrorFX({ data: error.message });
+      localStorage.clear();
+    }
+  }, [isError]);
 
   useEffect(() => {
     isConnected && props.setTab(Tab.bonusReceiving);
