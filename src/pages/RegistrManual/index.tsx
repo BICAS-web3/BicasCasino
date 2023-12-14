@@ -44,9 +44,9 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
     isConnected && props.setTab(Tab.bonusReceiving);
   }, [isConnected]);
 
-  useEffect(() => {
-    const popupState = localStorage.getItem;
-  }, []);
+  // useEffect(() => {
+  //   connectors[2];
+  // }, []);
 
   return (
     <div className={s.have_wallet_body}>
@@ -116,7 +116,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               <BtnRightArrow />
             </div>
           )}
-          {connectors[1].ready && (
+          {/* {connectors[1].ready && (
             <div
               className={s.wallet_list_item}
               onClick={() => {
@@ -134,7 +134,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               </div>
               <BtnRightArrow />
             </div>
-          )}
+          )} */}
         </div>
         <p className={s.have_wallet_subTitle}>
           If you are connecting to the <span>WalletConnect</span> protocol, you
@@ -155,7 +155,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   );
 };
 
-interface RegistrManualProps {}
+interface RegistrManualProps { }
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();

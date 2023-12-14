@@ -89,12 +89,19 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
           shimDisconnect: true,
         },
       }),
-      new CoinbaseWalletConnector({
+      new InjectedConnector({
         chains,
         options: {
-          appName: "Bicas Casino",
+          name: "Injected",
+          shimDisconnect: true,
         },
       }),
+      // new CoinbaseWalletConnector({
+      //   chains,
+      //   options: {
+      //     appName: "Bicas Casino",
+      //   },
+      // }),
       new WalletConnectConnector({
         chains,
         options: {
@@ -105,11 +112,13 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
             },
           },
           relayUrl: "wss://relay.walletconnect.org",
+          //isNewChainsStale: false,
         },
       }),
       new MetaMaskConnector({ chains }),
     ],
     publicClient: configuredChains.publicClient,
+    //webSocketPublicClient: configuredChains.webSocketPublicClient
   });
 
   const web3Provider = new Web3.providers.HttpProvider(
