@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
@@ -44,7 +44,7 @@ interface WagerInputsBlockProps {
   wagerVariants?: number[];
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
   const [
     availableTokens,
     cryptoValue,
@@ -57,6 +57,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     //pressButton
     Wagered,
     betValue,
+    isEmtyWager,
+    setIsEmtyWager,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -69,6 +71,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     WagerM.$Wagered,
     //WagerModel.pressButton
     GameModel.$betValue,
+    GameModel.$isEmtyWager,
+    GameModel.setIsEmtyWager,
   ]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
@@ -135,7 +139,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -159,7 +163,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
+      "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
     watch: isConnected,
@@ -219,6 +223,41 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
       }
     }
   }, [Wagered]);
+  const wagerInputRef = useRef<HTMLInputElement>(null);
+  const isEmtyWagerRef = useRef(isEmtyWager);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      wagerInputRef.current &&
+      !wagerInputRef.current.contains(event.target as Node) &&
+      isEmtyWagerRef.current === true
+    ) {
+      wagerInputRef.current.focus();
+    }
+  };
+
+  document.addEventListener("click", handleClickOutside);
+
+  useEffect(() => {
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    isEmtyWagerRef.current = isEmtyWager;
+  }, [isEmtyWager]);
+
+  useEffect(() => {
+    if (Number(cryptoInputValue) > 0) {
+      setIsEmtyWager(false);
+    }
+  }, [cryptoInputValue]);
+  useEffect(() => {
+    return () => {
+      setIsEmtyWager(false);
+    };
+  }, []);
   return (
     <>
       {isLowBalance && (
@@ -229,8 +268,14 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
         />
       )}
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
-        <div className={s.poker_wager_input_kripto_block}>
+        <div
+          className={clsx(
+            s.poker_wager_input_kripto_block,
+            isEmtyWager && s.poker_wager_input_kripto_block_empty
+          )}
+        >
           <input
+            ref={wagerInputRef}
             placeholder="0.0"
             className={s.poker_wager_input_kripto}
             onChange={(e) => {
@@ -259,9 +304,10 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             {pickedToken && (
               <>
                 <div
-                  className={`${s.pick_token_group} ${(isOpen && s.opened_list,
+                  className={`${s.pick_token_group} ${
+                    (isOpen && s.opened_list,
                     isOpen && s.poker_wager_tokens_list_item_selected)
-                    }`}
+                  }`}
                   onClick={toggle}
                 >
                   <Image
@@ -303,7 +349,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                           className={clsx(
                             s.poker_wager_tokens_list_item,
                             pickedToken.name === token.name &&
-                            s.poker_wager_tokens_list_item_active
+                              s.poker_wager_tokens_list_item_active
                           )}
                           onClick={() => handleChangeToken(token)}
                         >

@@ -34,14 +34,16 @@ const WagerContent = () => {
     manualSetting,
     setManualSetting,
     selectedLength,
-    waitingResponse
+    waitingResponse,
+    setIsEmtyWager,
   ] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     MinesModel.$manualSetting,
     MinesModel.setManualSetting,
     MinesModel.$selectedLength,
-    GameModel.$waitingResponse
+    GameModel.$waitingResponse,
+    GameModel.setIsEmtyWager,
   ]);
 
   const { isConnected, isConnecting } = useAccount();
@@ -99,10 +101,13 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
+          if (
+            (cryptoValue > 0.0 || (isPlaying && !waitingResponse)) &&
+            isConnected
+          ) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
-            return null;
+            setIsEmtyWager(true);
           } else {
             router.push(
               isPartner

@@ -29,9 +29,10 @@ import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect] = useUnit([
+  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
+    GameModel.setIsEmtyWager,
   ]);
   const { connectors, connect } = useConnect();
   const { isConnected, isConnecting } = useAccount();
@@ -77,10 +78,10 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
+          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
-            return null;
+            setIsEmtyWager(true);
           } else {
             router.push(
               isPartner

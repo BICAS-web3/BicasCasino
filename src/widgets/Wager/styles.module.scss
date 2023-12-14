@@ -47,9 +47,23 @@
 }
 
 .poker_wager_input_kripto_block {
+  box-sizing: border-box;
+  border-radius: 12px 12px 0px 0px;
+  transition: all 0.5s;
+  border: 1px solid transparent;
   @media (min-width: 1280px) {
     height: 50px;
     box-sizing: border-box;
+  }
+  @media (max-width: 650px) {
+    border-radius: 5px 5px 0px 0px;
+  }
+}
+.poker_wager_input_kripto_block_empty {
+  border-radius: 12px 12px 0px 0px;
+  border: 1px solid var(--Avatars-CLR-Avatar-Red-1, #fc3c37);
+  @media (max-width: 650px) {
+    border-radius: 5px 5px 0px 0px;
   }
 }
 

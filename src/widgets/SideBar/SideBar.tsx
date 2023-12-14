@@ -150,13 +150,13 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
   return (
     <>
       <div className={s.closed_sb_group}>
-        <div className={s.closed_sb_bonus_ico}>
+        <Link href={"/"} className={s.closed_sb_bonus_ico}>
           <HomeBtn />
 
           <div className={s.closed_sb_tooltip} data-id="home-tooltip">
             Home
           </div>
-        </div>
+        </Link>
         <div className={s.closed_sb_bonus_ico}>
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
