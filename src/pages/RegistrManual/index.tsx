@@ -14,6 +14,7 @@ import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 import * as Api from "@/shared/api";
+import * as Sentry from "@sentry/nextjs";
 
 export enum Tab {
   start,
@@ -35,6 +36,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
 
   useEffect(() => {
     if (isError && error) {
+      Sentry.captureException(error);
       console.log("Error connecting to the wallet");
       Api.submitErrorFX({ data: error.message });
       localStorage.clear();
