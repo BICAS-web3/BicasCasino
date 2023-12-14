@@ -17,9 +17,7 @@ export const CopyToClipboardButton: FC<ICopyToClipboardButton> = (props) => {
           setCopied(false);
         }, 3000); // Сбрасываем статус "скопировано" через 3 секунды
       })
-      .catch((error) => {
-        console.error("Ошибка при копировании: ", error);
-      });
+      .catch((error) => {});
   };
   return <BufferCopyIcon onClick={handleCopyClick} />;
 };

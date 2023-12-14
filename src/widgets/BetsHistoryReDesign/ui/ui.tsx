@@ -132,7 +132,6 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
 
   useEffect(() => {
     const run = async () => {
-      console.log("Getting bets");
       await getBets(null);
     };
     run();
@@ -148,7 +147,6 @@ export const BetsHistoryReDesign: FC<IBetsHistoryReDesign> = (props) => {
             <tbody className={styles.tbody}>
               {AvailableBlocksExplorers &&
                 bets.map((bet) => {
-                  console.log("Bet", bet);
                   const time = new Date(bet.timestamp * 1000);
                   const wager = parseFloat(
                     (Number(bet.wager) / 10 ** 18).toFixed(2)

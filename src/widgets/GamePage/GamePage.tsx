@@ -81,7 +81,6 @@ export const GamePage: FC<GamePageProps> = ({
   soundClassName,
   isMines,
 }) => {
-  console.log("Redrawing game page");
   const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
   const [currentToken, setCurrentToken] = useState<{
@@ -273,7 +272,11 @@ export const GamePage: FC<GamePageProps> = ({
                         : s.button_active
                     )}
                     onClick={() => {
-                      if ((cryptoValue > 0.0 || (isPlaying && !waitingResponse)) && isConnected) {
+                      if (
+                        (cryptoValue > 0.0 ||
+                          (isPlaying && !waitingResponse)) &&
+                        isConnected
+                      ) {
                         pressButton();
                       } else if (cryptoValue <= 0.0 && isConnected) {
                         return null;

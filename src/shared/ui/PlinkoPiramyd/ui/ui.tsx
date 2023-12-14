@@ -30,7 +30,6 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
     { volume: 0.4, loop: false }
   );
 
-  // console.log("store: ", arrStore);
   const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
   const [pathIndex, setPathIndex] = useState<number>(-2);
@@ -117,7 +116,6 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
 
     if (pathIndex >= props.path.length) {
       setBallTop(ballTop + lastMove); // last movement to the basket
-      console.log("Animation finished");
       //props.setAnimationFinished(true);
       return;
     }
@@ -132,9 +130,7 @@ export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
           setBallTop(firstMove); // first movement from the starting position
           setPathIndex(pathIndex + 1);
         } else if (pathIndex == -2) {
-          // console.log("TEXT");
           await sleep(200);
-          // console.log("TEXT1");
           setPathIndex(pathIndex + 1);
         }
       } else {
@@ -212,7 +208,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   }, [ball]);
 
   useEffect(() => {
-    // console.log("path, animation finished", props.path, animationFinished);
     if (props.path) {
       if (animationFinished) {
         if (pathIndex == props.path.length) {
@@ -223,7 +218,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
           //setAnimationFinished(false);
           return;
         }
-        // console.log("Changing path", pathIndex);
         setAnimationFinished(false);
         setBalls([
           ...balls,
@@ -243,7 +237,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       //   setAnimationFinished(false);
       //   return;
       // }
-      // console.log("Changing path", pathIndex);
       // setAnimationFinished(false);
       // setPath(props.path[pathIndex]);
       // setPathIndex(pathIndex + 1);
@@ -300,13 +293,10 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
 
   useEffect(() => {
     updateMultipliers(pickedRows, currentLevel);
-    // console.log("sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", pickedRows);
   }, [pickedRows, currentLevel]);
 
   useEffect(() => {
     setRowCount(pickedRows);
-
-    // console.log("PICKED VALUE", pickedRows);
   }, [pickedRows]);
 
   const [multipliersSteps, setMultipliersSteps] = useState<number>(
@@ -445,7 +435,6 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       }
       return multipliersColorCenter;
     }
-    // console.log("11111,", arrStore);
     const multiplierElements = props.multipliers.map((value, i) => {
       const middle = Math.ceil((props.middleC - 1) / 2);
       const matchToMiddle =

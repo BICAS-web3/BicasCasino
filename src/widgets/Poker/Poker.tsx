@@ -102,7 +102,7 @@ export const Poker: FC<PokerProps> = (props) => {
     //gameStatus
     //availableTokens
     setIsPlaying,
-    setWaitingResponse
+    setWaitingResponse,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -124,12 +124,10 @@ export const Poker: FC<PokerProps> = (props) => {
     //GameModel.$gameStatus
     //settingsModel.$AvailableTokens
     GameModel.setIsPlaying,
-    GameModel.setWaitingResponse
+    GameModel.setWaitingResponse,
   ]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
-
-  console.log("ACTIVE CARDS", activeCards);
 
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
   const { address, isConnected } = useAccount();
@@ -168,7 +166,6 @@ export const Poker: FC<PokerProps> = (props) => {
 
   const [setWstate] = useUnit([PokerModel.setWatchState]);
 
-
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
@@ -195,7 +192,7 @@ export const Poker: FC<PokerProps> = (props) => {
     //watch: watchState,
     enabled: true,
     //watch: isConnected,
-    blockTag: 'latest'
+    blockTag: "latest",
   });
 
   useEffect(() => {
@@ -239,11 +236,10 @@ export const Poker: FC<PokerProps> = (props) => {
   const [fees, setFees] = useState<bigint>(BigInt(0));
 
   useEffect(() => {
-    console.log("gas price", data?.gasPrice);
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -289,7 +285,7 @@ export const Poker: FC<PokerProps> = (props) => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -312,8 +308,8 @@ export const Poker: FC<PokerProps> = (props) => {
   //   enabled: true,
   // });
 
-  const { write: finishPlaying, isSuccess: finishedPlaying } =
-    useContractWrite({
+  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite(
+    {
       chainId: chain?.id,
       address: gameAddress as `0x${string}`,
       abi: IPoker,
@@ -322,7 +318,8 @@ export const Poker: FC<PokerProps> = (props) => {
       value: cardsState.find((el) => el) ? fees : BigInt(0),
       gasPrice: prevGasPrice,
       gas: BigInt(400000),
-    });
+    }
+  );
 
   useEffect(() => {
     if (startedPlaying || finishedPlaying) {
@@ -333,35 +330,25 @@ export const Poker: FC<PokerProps> = (props) => {
 
   useEffect(() => {
     if (Wagered) {
-      console.log("Pressed wager");
       if (inGame) {
         setShowFlipCards(false);
         if (finishPlaying) finishPlaying();
       } else {
-        console.log(cryptoValue, currentBalance);
         if (
           cryptoValue != 0 &&
           currentBalance &&
           cryptoValue <= currentBalance
         ) {
-          console.log("Allowance", allowance);
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
-            console.log("Setting allowance");
             if (setAllowance) setAllowance();
             //return;
           } else {
             setActiveCards(initialArrayOfCards);
-            console.log(
-              "Starting playing",
-              startPlaying,
-              BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-              BigInt(VRFFees ? (VRFFees as bigint) : 0) * BigInt(10),
-              pickedToken?.contract_address
-            );
+
             if (startPlaying) {
               startPlaying();
             }
@@ -371,14 +358,6 @@ export const Poker: FC<PokerProps> = (props) => {
       setWagered(false);
     }
   }, [Wagered]);
-
-  // useEffect(() => {
-  //   setWatchState(true);
-  // }, [startedPlaying]);
-
-  // useEffect(() => {
-  //   console.log("available tokens", availableTokens);
-  // }, [availableTokens])
 
   useContractEvent({
     address: gameAddress as `0x${string}`,
@@ -404,38 +383,31 @@ export const Poker: FC<PokerProps> = (props) => {
     abi: IPoker,
     eventName: "VideoPoker_Outcome_Event",
     listener(log) {
-      console.log("Log", log);
       if ((log[0] as any).eventName == "VideoPoker_Outcome_Event") {
-        //console.log('Log', log);
-        console.log("address", (log[0] as any).args.playerAddress as string);
-        console.log("address wallet", address?.toLowerCase());
         if (
           ((log[0] as any).args.playerAddress as string).toLowerCase() ==
           address?.toLowerCase()
         ) {
           setShowFlipCards(false);
           setWaitingResponse(false);
-          console.log("Found Log!");
+
           setActiveCards((log[0] as any).args.playerHand);
           setCardsState([false, false, false, false, false]);
           setInGame(false);
 
           const wagered = (log[0] as any).args.wager;
           if ((log[0] as any).args.payout > 0) {
-            console.log("won");
             const profit = (log[0] as any).args.payout;
-            console.log("profit", profit);
+
             const multiplier = Number(profit / wagered);
-            console.log("multiplier", multiplier);
-            //console.log("token", ((log[0] as any).args.tokenAddress as string).toLowerCase());
+
             const wagered_token = (
               (log[0] as any).args.tokenAddress as string
             ).toLowerCase();
             const token = TOKENS.find(
               (tk) => tk.address == wagered_token
             )?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-            console.log("won token", token);
-            //console.log("available tokens", availableTokens);
+
             const profitFloat =
               Number(profit / BigInt(10000000000000000)) / 100;
             setWonStatus({
@@ -445,50 +417,23 @@ export const Poker: FC<PokerProps> = (props) => {
             });
             setGameStatus(GameModel.GameStatus.Won);
           } else {
-            console.log("lost");
             const wageredFloat =
               Number(wagered / BigInt(10000000000000000)) / 100;
-            console.log("wagered", wageredFloat);
+
             setLostStatus(wageredFloat);
             setGameStatus(GameModel.GameStatus.Lost);
           }
           //setShowRedraw(false);
         }
       } else {
-        console.log("Wrong Log!");
       }
     },
   });
-
-  // useEffect(() => {
-  //   console.log("Play sounds", playSounds);
-  //   if (!playSounds) {
-  //     // /stopSounds();
-  //     //sounds.background.pause();
-  //     stopBackground();
-  //   } else {
-  //     playBackground();
-  //   }
-  // }, [playSounds]);
-
-  // useEffect(() => {
-  //   const run = async () => {
-  //     //await delay(3000);
-  //     playBackground();
-  //   };
-
-  //   if (playSounds) {
-  //     run();
-  //   }
-  // }, [playBackground]);
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards);
     playDrawnCards();
   }, [gameState]);
-
-  //!------------------------------------------------------------------------------------------------------------------------------------------------------------
-  //! Poker combination functions
 
   function hasRoyalFlush(cards: ICards[]) {
     const royalFlushNumbers = [1, 10, 11, 12, 13];
@@ -581,10 +526,6 @@ export const Poker: FC<PokerProps> = (props) => {
   const [combinationName, setCombinationName] = useState("");
 
   function evaluatePokerHand(cards: ICards[]) {
-    // cards.sort((a, b) => a.number - b.number);
-
-    console.log("EVALUATING");
-
     if (hasRoyalFlush(cards)) {
       setCombinationName("Royal Flush");
     } else if (hasStraightFlush(cards)) {
@@ -671,7 +612,7 @@ export const Poker: FC<PokerProps> = (props) => {
                     isEmptyCard={false}
                     coat={0}
                     card={0}
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 ) : (
                   <PokerCard

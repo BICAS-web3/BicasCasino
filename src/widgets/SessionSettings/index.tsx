@@ -46,29 +46,24 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
         })
       ).body as Api.T_Game;
 
-      console.log("game", game);
-
       setGameAddress(game?.address);
     };
 
     run();
   }, [chain]);
 
-  const { signMessage, variables, data: signMessageData, isSuccess } = useSignMessage();
+  const {
+    signMessage,
+    variables,
+    data: signMessageData,
+    isSuccess,
+  } = useSignMessage();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const firstTime = localStorage.getItem("firstTime");
-    console.log("first time", firstTime);
-
-    // const run = async () => {
-
-    // };
 
     if (isConnected) {
-      console.log("SIGNING");
-      //localStorage.setItem('firstTime', 'false');
-      //run();
       const partner_wallet = searchParams.get("partner_address");
       const site_id = searchParams.get("site_id");
       const sub_id = searchParams.get("sub_id");
@@ -107,7 +102,6 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
   // useEffect(() => {
   //     if (allowance) {
   //         const new_allowance = Number((allowance as bigint) / BigInt(100000000000000)) / 10000;
-  //         console.log('allowance', new_allowance);
   //         setAllowance(new_allowance);
   //     }
   // }, [allowance]);
@@ -122,7 +116,6 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
   // useEffect(() => {
   //     if (allowance) {
   //         const new_balance = Number((balance as bigint) / BigInt(100000000000000)) / 10000;
-  //         console.log('balance', new_balance);
   //         setBalance(new_balance);
   //     }
   // }, [balance]);
@@ -131,7 +124,6 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
   useEffect(() => {
     if (!isConnected && !chain) {
       setAvailableTokens({ tokens: [] });
-      console.log("nullyfying tokens");
       return;
     }
     const run = async () => {
@@ -140,7 +132,6 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
           network_id: chain?.id as number,
         })
       ).body as Api.T_Tokens;
-      console.log("tokens", tokens);
       setAvailableTokens(tokens);
     };
 
