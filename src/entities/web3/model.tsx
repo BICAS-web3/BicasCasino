@@ -105,6 +105,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
               "--wcm-z-index": "9999999",
             },
           },
+          relayUrl: 'wss://relay.walletconnect.org'
         },
       }),
       new MetaMaskConnector({ chains }),
