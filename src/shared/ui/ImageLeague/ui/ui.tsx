@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import Image from "next/image";
-import bronzeLeague from "@/public/media/player_icons/bronzeLeague.webp";
+import bronzeLeague from "@/public/media/player_icons/bronzeLeague.png";
 import styles from "./ui.module.scss";
 
 export const ImageLeague: FC<{}> = () => {
