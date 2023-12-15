@@ -45,7 +45,7 @@ const TotalItem: FC<TotalItemProps> = (props) => {
   );
 };
 
-export interface TotalProps1 {}
+export interface TotalProps1 { }
 export const Total: FC<TotalProps1> = (props) => {
   const [totals, setTotals] = useState({
     total_wagered: "-",
@@ -54,6 +54,14 @@ export const Total: FC<TotalProps1> = (props) => {
   });
 
   useEffect(() => {
+    Api.GetTotalsFx().then((response) => {
+      const totals = response.body as Api.T_Totals;
+      setTotals({
+        total_wagered: (totals.sum ? totals.sum : 0).toFixed(2),
+        total_users: totals.player_amount.toString(),
+        total_bets: totals.bets_amount.toString(),
+      });
+    });
     const interval = setInterval(() => {
       Api.GetTotalsFx().then((response) => {
         const totals = response.body as Api.T_Totals;
