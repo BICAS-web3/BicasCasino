@@ -4,7 +4,7 @@ import { useAccount, useContractRead } from "wagmi";
 import Image from "next/image";
 import * as PopupModel from "../model";
 import { useUnit } from "effector-react";
-import checkIco from "@/public/media/banner_images/checkIco.png";
+import checkIco from "@/public/media/banner_images/checkIco.webp";
 import {
   useContractWrite,
   useNetwork,
@@ -22,9 +22,9 @@ import { ABI as abi } from "@/shared/contracts/ClaimBonusABI";
 import { checkPageClicking } from "@/shared/tools";
 import { CloseIcon } from "@/shared/SVGs";
 
-import banner_desktop from "@/public/media/banner_images/popupDeskBg.png";
-import banner_medium from "@/public/media/banner_images/popupTabletBg.png";
-import banner_mobile from "@/public/media/banner_images/popupPhoneBg.png";
+import banner_desktop from "@/public/media/banner_images/popupDeskBg.webp";
+import banner_medium from "@/public/media/banner_images/popupTabletBg.webp";
+import banner_mobile from "@/public/media/banner_images/popupPhoneBg.webp";
 import logo from "@/public/media/banner_images/logo.svg";
 
 import s from "./style.module.scss";
@@ -321,9 +321,8 @@ export const PopUpBonus: FC = () => {
           </button>{" "}
           {!address && !isConnected && (
             <div
-              className={`${s.header_avaibleWallet_wrap} ${
-                walletVisibility && s.avaibleWallet_visible
-              }`}
+              className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
+                }`}
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>

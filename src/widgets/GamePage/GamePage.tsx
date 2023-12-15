@@ -1,5 +1,5 @@
 import s from "./styles.module.scss";
-import gameBg from "../../public/media/game_layout_images/game_background.png";
+import gameBg from "../../public/media/game_layout_images/game_background.webp";
 import { CustomBets } from "@/widgets/CustomBets/CustomBets";
 import { GamePageModal } from "@/widgets/GamePage/GamePageModal";
 import React, { FC, ReactNode, useEffect, useState } from "react";

@@ -3,23 +3,23 @@ import { FC } from "react";
 
 ////images
 
-import pokerDeskImg from "@/public/media/gamesPageImages/pokerDeskImg.png";
-import pokerLaptopImg from "@/public/media/gamesPageImages/pokerLaptopImg.png";
+import pokerDeskImg from "@/public/media/gamesPageImages/pokerDeskImg.webp";
+import pokerLaptopImg from "@/public/media/gamesPageImages/pokerLaptopImg.webp";
 
-import diceDeskImg from "@/public/media/gamesPageImages/diceDeskImg.png";
-import diceLaptopImg from "@/public/media/gamesPageImages/diceLaptopImg.png";
+import diceDeskImg from "@/public/media/gamesPageImages/diceDeskImg.webp";
+import diceLaptopImg from "@/public/media/gamesPageImages/diceLaptopImg.webp";
 
-import coinflipDeskImg from "@/public/media/gamesPageImages/coinflipDeskImg.png";
-import coinflipLaptopImg from "@/public/media/gamesPageImages/coinflipLaptopImg.png";
+import coinflipDeskImg from "@/public/media/gamesPageImages/coinflipDeskImg.webp";
+import coinflipLaptopImg from "@/public/media/gamesPageImages/coinflipLaptopImg.webp";
 
-import minesDeskImg from "@/public/media/gamesPageImages/minesDeskImg.png";
-import minesLaptopImg from "@/public/media/gamesPageImages/minesLaptopImg.png";
+import minesDeskImg from "@/public/media/gamesPageImages/minesDeskImg.webp";
+import minesLaptopImg from "@/public/media/gamesPageImages/minesLaptopImg.webp";
 
-import plinkoDeskImg from "@/public/media/gamesPageImages/plinkoDeskImg.png";
-import plinkoLaptopImg from "@/public/media/gamesPageImages/plinkoLaptopImg.png";
+import plinkoDeskImg from "@/public/media/gamesPageImages/plinkoDeskImg.webp";
+import plinkoLaptopImg from "@/public/media/gamesPageImages/plinkoLaptopImg.webp";
 
-import rpsDeskImg from "@/public/media/gamesPageImages/rpsDeskImg.png";
-import rpsLaptopImg from "@/public/media/gamesPageImages/rpsLaptopImg.png";
+import rpsDeskImg from "@/public/media/gamesPageImages/rpsDeskImg.webp";
+import rpsLaptopImg from "@/public/media/gamesPageImages/rpsLaptopImg.webp";
 import { GamesItem } from "./GamesItem";
 
 ////
@@ -63,7 +63,7 @@ const gamesList = [
   },
 ];
 
-interface GamesPageBlockProps {}
+interface GamesPageBlockProps { }
 
 export const GamesPageBlock: FC<GamesPageBlockProps> = () => {
   return (

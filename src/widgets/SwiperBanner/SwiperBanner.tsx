@@ -10,15 +10,15 @@ import Image from "next/image";
 
 ///images
 
-import swiperImg1 from "@/public/media/swiperBannerImgs/slide1Bg.png";
-import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.png";
-import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.png";
-import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.png";
-import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.png";
-import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.png";
-import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.png";
-import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.png";
-import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.png";
+import swiperImg1 from "@/public/media/swiperBannerImgs/slide1Bg.webp";
+import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.webp";
+import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.webp";
+import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.webp";
+import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.webp";
+import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.webp";
+import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.webp";
+import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.webp";
+import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.webp";
 
 import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
 import kycIco from "@/public/media/swiperBannerImgs/kycIco.svg";
@@ -86,7 +86,7 @@ const swiperSlides = [
   },
 ];
 
-interface SwiperBannerProps {}
+interface SwiperBannerProps { }
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -190,9 +190,8 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
           <SwiperSlide
             key={ind}
             id="swiper-slide-banner"
-            className={`${s.main_banner_swiper_slide} ${
-              isConnected && s.slide_connected
-            } ${slide.subText && s.slide_connected}`}
+            className={`${s.main_banner_swiper_slide} ${isConnected && s.slide_connected
+              } ${slide.subText && s.slide_connected}`}
             data-extra={slide.extraText && "true"}
           >
             <img

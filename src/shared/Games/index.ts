@@ -1,13 +1,13 @@
-import coinflipImg from "@/public/media/games/conflip.png";
-import pokerImg from "@/public/media/games/poker.png";
-import plinkoImg from "@/public/media/games/plinko.png";
+import coinflipImg from "@/public/media/games/conflip.webp";
+import pokerImg from "@/public/media/games/poker.webp";
+import plinkoImg from "@/public/media/games/plinko.webp";
 import { StaticImageData } from "next/image";
-import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.png";
-import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.png";
-import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.png";
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.png";
-import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.png";
-import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.png";
+import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.webp";
+import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
+import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
+import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
+import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 
 export type T_GameData = {
   title: string;
