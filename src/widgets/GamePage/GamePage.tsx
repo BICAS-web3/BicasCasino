@@ -43,6 +43,7 @@ import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
@@ -284,7 +285,7 @@ export const GamePage: FC<GamePageProps> = ({
                       } else if (cryptoValue <= 0.0 && isConnected) {
                         setIsEmtyWager(true);
                       } else {
-                        router.push("/RegistrManual");
+                        window.open("/RegistrManual", "_self");
                       }
                     }}
                   >

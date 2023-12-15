@@ -13,6 +13,7 @@ import { useAccount } from "wagmi";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export interface ConnectWalletButtonProps {}
 
@@ -82,22 +83,20 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
       className={s.connect_wallet_button_wrap}
       data-id={"connect-wallet-block"}
     >
-      <button
+      <Link
+        href={`${
+          isPartner
+            ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+            : "/RegistrManual"
+        }`}
         className={s.connect_wallet_button}
-        onClick={() =>
-          router.push(
-            isPartner
-              ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-              : "/RegistrManual"
-          )
-        }
       >
         {isConnecting && startConnect ? (
           <LoadingDots className={s.join_dots} title="Joinning" />
         ) : (
           "Join Game"
         )}
-      </button>
+      </Link>
       <div
         className={clsx(
           s.header_avaibleWallet_wrap,

@@ -3,6 +3,7 @@ import { FC, useEffect } from "react";
 import Image from "next/image";
 import closeImg from "@/public/media/misc/msFallbackClose.png";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface MessangerFallbackBlockProps {}
 
@@ -120,12 +121,9 @@ export const MessangerFallbackBlock: FC<MessangerFallbackBlockProps> = () => {
         <span className={s.underdevelopment_block_title}>
           The chat room is under development
         </span>
-        <button
-          className={s.underdevelopment_block_button}
-          onClick={() => router.push("/")}
-        >
+        <Link className={s.underdevelopment_block_button} href="/">
           Go to Main page
-        </button>
+        </Link>
       </div>
       <div className={s.messanger_fallback_body}>
         <div className={s.messanger_fallback_header}>
@@ -137,11 +135,9 @@ export const MessangerFallbackBlock: FC<MessangerFallbackBlockProps> = () => {
               <div className={s.header_group_item}></div>
               <div className={s.header_group_item}></div>
             </div>
-            <Image
-              src={closeImg}
-              alt="close-ico"
-              onClick={() => router.push("/")}
-            />
+            <Link href="/">
+              <Image src={closeImg} alt="close-ico" />
+            </Link>
           </div>
         </div>
         <div className={s.messanger_fallback_chat_block}>

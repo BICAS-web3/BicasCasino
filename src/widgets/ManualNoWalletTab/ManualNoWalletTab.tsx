@@ -7,7 +7,7 @@ import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
-import exampleImg from "@/public/media/registrManual_images/connectStepImg.png";
+import exampleImg from "@/public/media/registrManual_images/connectStepImg.webp";
 import { useAccount, useConnect } from "wagmi";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import { Tab } from "@/pages/RegistrManual";

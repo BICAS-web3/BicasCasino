@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { FC, JSX, useEffect, useState } from "react";
 import s from "./styles.module.scss";
-import locker from "../../public/media/total/locker.png";
-import star from "../../public/media/total/star.png";
-import trophy from "../../public/media/total/trophy.png";
+import locker from "../../public/media/total/locker.webp";
+import star from "../../public/media/total/star.webp";
+import trophy from "../../public/media/total/trophy.webp";
 import { SideBarModel } from "../SideBar";
 import { useUnit } from "effector-react";
 import * as Api from "@/shared/api";

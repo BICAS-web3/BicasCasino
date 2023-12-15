@@ -1,8 +1,8 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
-import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.png";
+import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.webp";
+import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.webp";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -28,8 +28,8 @@ import { pickSide } from "../CoinFlipSidePicker/model";
 import { ABI as IPlinko } from "@/shared/contracts/PlinkoABI";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 
-import helmet from "@/public/media/plinko_images/helmet.png";
-import statue from "@/public/media/plinko_images/statue.png";
+import helmet from "@/public/media/plinko_images/helmet.webp";
+import statue from "@/public/media/plinko_images/statue.webp";
 
 import * as PlinkoM from "./model";
 import clsx from "clsx";

@@ -192,16 +192,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             How to play
           </div>
         </div>
-        <Link
-          href={"/nftmarket"}
-          // onClick={() =>
-          // window.open(
-          //   "https://element.market/collections/greekkeepers",
-          //   "_blank"
-          // )
-          // }
-          className={s.closed_sb_other_info_list_item}
-        >
+        <Link href={"/nftmarket"} className={s.closed_sb_other_info_list_item}>
           <NftIco />
           <div className={s.closed_sb_tooltip} data-id="nft-tooltip">
             NFT Market

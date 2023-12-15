@@ -71,7 +71,6 @@ import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMai
 import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.png";
 import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.png";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.png";
-import advPoster from "@/public/media/testAdvertsImgs/poster.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -379,69 +378,6 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps {}
-const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
-  const { isConnected } = useAccount();
-  const device = useDeviceType();
-
-  const [sidebarOpened] = useUnit([SideBarModel.$isOpen]);
-  const [currentImage, setCurrentImage] = useState(mainBg);
-
-  useEffect(() => {
-    if (device === "laptop") {
-      setCurrentImage(laptopBg);
-    } else if (device === "tablet") {
-      setCurrentImage(tabletBg);
-    } else if (device === "phone") {
-      setCurrentImage(phoneBg);
-    } else if (device === "main") {
-      setCurrentImage(mainBg2);
-    }
-  }, [device]);
-
-  return (
-    <div>
-      {!isConnected ? (
-        <>
-          <div
-            className={`${s.background_container} ${
-              !sidebarOpened && s.background_sidebar_closed
-            }`}
-          >
-            <Image src={currentImage} alt={""} className={s.background} />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
-        </>
-      ) : (
-        <div className={s.main_advertaising_blocks}>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
 const preloadModel = async () => {
   await import("@/widgets/Dice/DiceModel");
 };
@@ -482,10 +418,8 @@ export default function Home() {
 
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
-        {/* <div> */}
         <div className={`${s.main_container}`}>
           <Blur />
-          {/* <MainReplacementComponent /> */}
           <SwiperBanner />
           <Games />
           <Total />
@@ -496,15 +430,8 @@ export default function Home() {
             game={undefined}
           />
           <FeedbackSection />
-          {/* <LeaderBoard /> */}
         </div>
-        {/* </div> */}
       </Layout>
-
-      {/* <Footer />
-      <InvitesList />
-      <GamesList />
-      <ConnectWalletModal /> */}
     </>
   );
 }

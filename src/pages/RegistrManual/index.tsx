@@ -14,6 +14,7 @@ import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 import * as Api from "@/shared/api";
+import Link from "next/link";
 
 export enum Tab {
   start,
@@ -155,7 +156,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   );
 };
 
-interface RegistrManualProps { }
+interface RegistrManualProps {}
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();
@@ -173,10 +174,10 @@ const RegistrManual: FC<RegistrManualProps> = () => {
         <div className={s.bottom_blur}></div>
         {tab == Tab.start && (
           <div className={s.registr_manual_body}>
-            <span className={s.tab_back_btn} onClick={() => router.push("/")}>
+            <Link className={s.tab_back_btn} href="/">
               <img src={leftArr.src} alt="left-arr" />
               Back
-            </span>
+            </Link>
             <div className={s.registr_manual_header}>
               <h1 className={s.registr_manual_title}>
                 Do you have a crypto wallet?
@@ -201,9 +202,9 @@ const RegistrManual: FC<RegistrManualProps> = () => {
                 </button>
               </div>
             </div>
-            <button className={s.cancel_btn} onClick={() => router.push("/")}>
+            <Link className={s.cancel_btn} href="/">
               Cancel
-            </button>
+            </Link>
           </div>
         )}
         {tab == Tab.haveWalletConnect && (

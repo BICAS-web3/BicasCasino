@@ -107,12 +107,9 @@ export const Step13Content: FC<Step13ContentProps> = ({
         <button className={s.back_btn} onClick={() => setStep(12)}>
           Back
         </button>
-        <button
-          className={s.exchange_bottom_next_btn}
-          onClick={() => router.push("/")}
-        >
+        <Link className={s.exchange_bottom_next_btn} href="/">
           Next
-        </button>
+        </Link>
       </div>
     </div>
   );
@@ -829,15 +826,10 @@ const WalletPresence: FC<WalletPresenceProps> = ({
           </button>
           <button
             className={s.wallet_btns_item}
-            onClick={
-              () => {
-                setSubPage(ManualModel.SubPage.ExchangeCreation);
-                setStep(0);
-              }
-              // router.push(
-              //   "/RegistrManual?tab=bonusReceiving&subPage=exchange_creation"
-              // )
-            }
+            onClick={() => {
+              setSubPage(ManualModel.SubPage.ExchangeCreation);
+              setStep(0);
+            }}
           >
             {mobile
               ? "I don’t have an account"
@@ -846,13 +838,9 @@ const WalletPresence: FC<WalletPresenceProps> = ({
           </button>
         </div>
       </div>
-      <button
-        className={s.back_btn}
-        data-only={"true"}
-        onClick={() => router.push("/")}
-      >
+      <Link className={s.back_btn} data-only={"true"} href="/">
         Cancel
-      </button>
+      </Link>
     </div>
   );
 };
@@ -910,10 +898,10 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = (props) => {
     <>
       {subPage === ManualModel.SubPage.Start && step === 0 && (
         <div className={s.manual_bonus_reveicing_home_body}>
-          <span className={s.tab_back_btn} onClick={() => router.push("/")}>
+          <Link className={s.tab_back_btn} href="/">
             <img src={leftArr.src} alt="left-arr" />
             Back
-          </span>
+          </Link>
           <div className={s.manual_bonus_reveicing_home_header}>
             <h1 className={s.manual_bonus_reveicing_home_title}>
               To get the bonus and start playing, you need to fund your wallet
@@ -928,18 +916,13 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = (props) => {
             </p>
           </div>
           <div className={s.manual_bonus_reveicing_btns}>
-            <button
-              className={s.back_btn}
-              data-noMargin="true"
-              onClick={() => router.push("/")}
-            >
+            <Link className={s.back_btn} data-noMargin="true" href="/">
               Back
-            </button>
+            </Link>
             <span
               className={s.addFunds_btn}
               onClick={() => {
                 setSubPage(ManualModel.SubPage.WalletPresence);
-                // router.push("/ExchangeManual");
               }}
             >
               <span>Add funds</span>&nbsp;(Recommended)

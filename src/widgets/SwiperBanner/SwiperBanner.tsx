@@ -10,15 +10,15 @@ import Image from "next/image";
 
 ///images
 
-import swiperImg1 from "@/public/media/swiperBannerImgs/slide1Bg.png";
-import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.png";
-import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.png";
-import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.png";
-import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.png";
-import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.png";
-import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.png";
-import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.png";
-import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.png";
+import swiperImg1 from "@/public/media/swiperBannerImgs/slide1Bg.webp";
+import swiperImg2 from "@/public/media/swiperBannerImgs/slide2Bg.webp";
+import swiperImg3 from "@/public/media/swiperBannerImgs/slide3Bg.webp";
+import swiperImg4 from "@/public/media/swiperBannerImgs/slide4Bg.webp";
+import swiperImg5 from "@/public/media/swiperBannerImgs/slide5Bg.webp";
+import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.webp";
+import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.webp";
+import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.webp";
+import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.webp";
 
 import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
 import kycIco from "@/public/media/swiperBannerImgs/kycIco.svg";
@@ -31,7 +31,7 @@ import clsx from "clsx";
 import { checkPageClicking } from "@/shared/tools";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
-///
+import Link from "next/link";
 
 const swiperSlides = [
   {
@@ -126,21 +126,6 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const router = useRouter();
   const { isConnected } = useAccount();
 
-  const handleConnectWalletBtn = () => {
-    !isConnected ? router.push("/RegistrManual") : null;
-    // if (!walletVisibility) {
-    //   router.push("/");
-    //   setWalletVisibility(true);
-    //   setBlur(true);
-    //   document.documentElement.style.overflow = "hidden";
-    //   window.scrollTo(0, 0);
-    // } else {
-    //   setWalletVisibility(false);
-    //   setBlur(false);
-    //   document.documentElement.style.overflow = "visible";
-    // }
-  };
-
   const hideAvaibleWallet = () => {
     setWalletVisibility(false);
     setBlur(false);
@@ -226,12 +211,12 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
               </div>
             )}
             {!isConnected && slide.isBtn === true && (
-              <button
-                onClick={() => handleConnectWalletBtn()}
+              <Link
+                href={`${!isConnected && "/RegistrManual"}`}
                 className={s.join_wallet_btn}
               >
                 {!is650 ? slide.btnFirstText : slide.btnSecondText}
-              </button>
+              </Link>
             )}
             {ind === 6 && (
               <button

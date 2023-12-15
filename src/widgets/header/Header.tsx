@@ -1,7 +1,7 @@
 import { FC, ReactElement, useEffect, useState } from "react";
 import Image from "next/image";
 import s from "./styles.module.scss";
-import AccountIcon from "@/public/media/player_icons/playerIcon1.png";
+import AccountIcon from "@/public/media/player_icons/playerIcon1.webp";
 import { useUnit } from "effector-react";
 import { sessionModel } from "@/entities/session";
 import { settingsModel } from "@/entities/settings";

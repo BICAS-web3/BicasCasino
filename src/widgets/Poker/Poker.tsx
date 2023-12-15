@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Image from "next/image";
-import tableBg from "@/public/media/poker_images/pokerBgImage.png";
+import tableBg from "@/public/media/poker_images/pokerBgImage.webp";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
 import {

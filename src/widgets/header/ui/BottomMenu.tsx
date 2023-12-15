@@ -16,6 +16,7 @@ import { ProfileBtn } from "@/shared/SVGs/ProfileBtn";
 import { MessangerBtn } from "@/shared/SVGs/MessangerBtn";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export interface BottomMenuProps {}
 
@@ -43,35 +44,27 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
     !isOpen && document.documentElement.classList.remove("scroll-disable");
   }, [isOpen]);
 
-  const handleAccountLink = () => {
-    if (!isConnected) {
-      router.push("/AccountFallback");
-    } else {
-      router.push(`/account/${address?.toLowerCase()}`);
-    }
-  };
-
-  const handleMessangerLink = () => {
-    router.push("/MessangerFallback");
-  };
-
   return (
     <div className={`${s.bottom_menu}`}>
       <div className={s.element} onClick={openSB}>
         <SBopenFooterBtn />
       </div>
-      <div
-        className={`${s.element} `}
-        onClick={() => router.push("/games/GamesPage")}
-      >
+      <Link className={`${s.element} `} href="/games/GamesPage">
         <FooterGamesBtn />
-      </div>
-      <div className={`${s.element}`} onClick={handleAccountLink}>
+      </Link>
+      <Link
+        className={`${s.element}`}
+        href={`${
+          !isConnected
+            ? "/AccountFallback"
+            : `/account/${address?.toLowerCase()}`
+        }`}
+      >
         <ProfileBtn />
-      </div>
-      <div className={s.element} onClick={handleMessangerLink}>
+      </Link>
+      <Link className={s.element} href="/MessangerFallback">
         <MessangerBtn />
-      </div>
+      </Link>
     </div>
   );
 };
