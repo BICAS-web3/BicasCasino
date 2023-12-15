@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
@@ -57,6 +57,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     //pressButton
     Wagered,
     betValue,
+    isEmtyWager,
+    setIsEmtyWager,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -69,6 +71,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     WagerM.$Wagered,
     //WagerModel.pressButton
     GameModel.$betValue,
+    GameModel.$isEmtyWager,
+    GameModel.setIsEmtyWager,
   ]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
@@ -216,6 +220,41 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
       }
     }
   }, [Wagered]);
+  const wagerInputRef = useRef<HTMLInputElement>(null);
+  const isEmtyWagerRef = useRef(isEmtyWager);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      wagerInputRef.current &&
+      !wagerInputRef.current.contains(event.target as Node) &&
+      isEmtyWagerRef.current === true
+    ) {
+      wagerInputRef.current.focus();
+    }
+  };
+
+  document.addEventListener("click", handleClickOutside);
+
+  useEffect(() => {
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    isEmtyWagerRef.current = isEmtyWager;
+  }, [isEmtyWager]);
+
+  useEffect(() => {
+    if (Number(cryptoInputValue) > 0) {
+      setIsEmtyWager(false);
+    }
+  }, [cryptoInputValue]);
+  useEffect(() => {
+    return () => {
+      setIsEmtyWager(false);
+    };
+  }, []);
   return (
     <>
       {isLowBalance && (
@@ -226,8 +265,14 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
         />
       )}
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
-        <div className={s.poker_wager_input_kripto_block}>
+        <div
+          className={clsx(
+            s.poker_wager_input_kripto_block,
+            isEmtyWager && s.poker_wager_input_kripto_block_empty
+          )}
+        >
           <input
+            ref={wagerInputRef}
             placeholder="0.0"
             className={s.poker_wager_input_kripto}
             onChange={(e) => {

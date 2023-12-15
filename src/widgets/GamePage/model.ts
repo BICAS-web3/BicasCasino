@@ -15,6 +15,7 @@ export const $multiplier = createStore<number>(0);
 export const $lost = createStore<number>(0);
 export const $token = createStore<string>("");
 export const $betValue = createStore<bigint>(BigInt(0));
+export const $isEmtyWager = createStore<boolean>(false);
 
 // events
 export const setIsPlaying = createEvent<boolean>();
@@ -29,6 +30,7 @@ export const setWonStatus = createEvent<{
 export const setLostStatus = createEvent<number>();
 export const clearStatus = createEvent();
 export const setBetValue = createEvent<bigint>();
+export const setIsEmtyWager = createEvent<boolean>();
 
 // handlers
 $betValue.on(setBetValue, (_, state) => state);
@@ -44,3 +46,4 @@ $multiplier
 $token.on(setWonStatus, (_, data) => data.token).on(clearStatus, () => "");
 $lost.on(setLostStatus, (_, data) => data).on(clearStatus, () => 0);
 $gameStatus.on(clearStatus, () => null);
+$isEmtyWager.on(setIsEmtyWager, (_, state) => state);

@@ -35,15 +35,18 @@ const WagerContent = () => {
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.$waitingResponse,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
   ]);
   const { isConnected, isConnecting } = useAccount();
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [pressButton, setIsEmtyWager] = useUnit([
+    WagerModel.pressButton,
+    GameModel.setIsEmtyWager,
+  ]);
   const { push, reload } = useRouter();
 
   const [isPlaying] = useUnit([RPSGM.$isPlaying]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const { connectors, connect } = useConnect();
+
   useEffect(() => {
     isConnecting && setStartConnect(false);
   }, []);
@@ -76,10 +79,10 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
+          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
-            return null;
+            setIsEmtyWager(true);
           } else {
             router.push(
               isPartner
