@@ -7,7 +7,7 @@ import * as Model from "./model";
 import * as Api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { sessionModel } from "@/entities/session";
-import GKemblem1 from "@/public/media/brand_images/GKemblem1.png";
+import GKemblem1 from "@/public/media/brand_images/GKemblem1.webp";
 import gameIco from "../../public/media/live_bets/mainPageActsGameIco.svg";
 import wagerIco from "../../public/media/live_bets/wagerIco.svg";
 import linkIco from "../../public/media/live_bets/linkIco.svg";
@@ -50,7 +50,7 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
       props.subscriptions.length == 0
         ? ((await Api.getAllLastBets()).body as Api.T_Bets)
         : ((await Api.getGamesAllLastBets(props.subscriptions[0]))
-            .body as Api.T_Bets);
+          .body as Api.T_Bets);
     setBets(bets?.bets);
 
     //setGotBets(true);
@@ -80,8 +80,7 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = (props) => {
       return;
     }
     var newSocket = new WebSocket(
-      `${window.location.protocol === "https:" ? "wss" : "ws"}://${
-        window.location.host
+      `${window.location.protocol === "https:" ? "wss" : "ws"}://${window.location.host
       }/api/updates`
     );
 

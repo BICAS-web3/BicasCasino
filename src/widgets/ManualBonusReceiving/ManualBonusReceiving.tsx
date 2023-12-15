@@ -8,31 +8,31 @@ import { CopyIco } from "@/public/media/registrManual_images/CopyIco";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import { Tab } from "@/pages/RegistrManual";
 
-import step1Img from "@/public/media/registrManual_images/step1Img.png";
-import step2Img from "@/public/media/registrManual_images/step2Img.png";
-import step3Img from "@/public/media/registrManual_images/step3Img.png";
-import step4Img from "@/public/media/registrManual_images/step4Img.png";
-import step5Img from "@/public/media/registrManual_images/step5Img.png";
-import step6Img from "@/public/media/registrManual_images/step6Img.png";
-import step7Img from "@/public/media/registrManual_images/step7Img.png";
-import step8Img from "@/public/media/registrManual_images/step8Img.png";
-import step9Img from "@/public/media/registrManual_images/step9Img.png";
-import step10Img from "@/public/media/registrManual_images/step10Img.png";
-import step11Img from "@/public/media/registrManual_images/step11Img.png";
-import step12Img from "@/public/media/registrManual_images/step12Img.png";
-import step13Img from "@/public/media/registrManual_images/step13Img.png";
+import step1Img from "@/public/media/registrManual_images/step1Img.webp";
+import step2Img from "@/public/media/registrManual_images/step2Img.webp";
+import step3Img from "@/public/media/registrManual_images/step3Img.webp";
+import step4Img from "@/public/media/registrManual_images/step4Img.webp";
+import step5Img from "@/public/media/registrManual_images/step5Img.webp";
+import step6Img from "@/public/media/registrManual_images/step6Img.webp";
+import step7Img from "@/public/media/registrManual_images/step7Img.webp";
+import step8Img from "@/public/media/registrManual_images/step8Img.webp";
+import step9Img from "@/public/media/registrManual_images/step9Img.webp";
+import step10Img from "@/public/media/registrManual_images/step10Img.webp";
+import step11Img from "@/public/media/registrManual_images/step11Img.webp";
+import step12Img from "@/public/media/registrManual_images/step12Img.webp";
+import step13Img from "@/public/media/registrManual_images/step13Img.webp";
 
-import step1MobImg from "@/public/media/registrManual_images/mobImages/step1MobileImg.png";
-import step4MobImg from "@/public/media/registrManual_images/mobImages/step2MobileImg.png";
-import step5MobImg from "@/public/media/registrManual_images/mobImages/step3MobileImg.png";
-import step6MobImg from "@/public/media/registrManual_images/mobImages/step6MobileImg.png";
-import step7MobImg from "@/public/media/registrManual_images/mobImages/step7MobileImg.png";
-import step8MobImg from "@/public/media/registrManual_images/mobImages/step8MobileImg.png";
-import step9MobImg from "@/public/media/registrManual_images/mobImages/step9MobileImg.png";
-import step11MobImg from "@/public/media/registrManual_images/mobImages/step11MobileImg.png";
-import step12MobImg from "@/public/media/registrManual_images/mobImages/step12MobileImg.png";
-import step13MobImg from "@/public/media/registrManual_images/mobImages/step13MobileImg.png";
-import step12SecondImg from "@/public/media/registrManual_images/mobImages/step12SecondImg.png";
+import step1MobImg from "@/public/media/registrManual_images/mobImages/step1MobileImg.webp";
+import step4MobImg from "@/public/media/registrManual_images/mobImages/step2MobileImg.webp";
+import step5MobImg from "@/public/media/registrManual_images/mobImages/step3MobileImg.webp";
+import step6MobImg from "@/public/media/registrManual_images/mobImages/step6MobileImg.webp";
+import step7MobImg from "@/public/media/registrManual_images/mobImages/step7MobileImg.webp";
+import step8MobImg from "@/public/media/registrManual_images/mobImages/step8MobileImg.webp";
+import step9MobImg from "@/public/media/registrManual_images/mobImages/step9MobileImg.webp";
+import step11MobImg from "@/public/media/registrManual_images/mobImages/step11MobileImg.webp";
+import step12MobImg from "@/public/media/registrManual_images/mobImages/step12MobileImg.webp";
+import step13MobImg from "@/public/media/registrManual_images/mobImages/step13MobileImg.webp";
+import step12SecondImg from "@/public/media/registrManual_images/mobImages/step12SecondImg.webp";
 import Link from "next/link";
 import { useUnit } from "effector-react";
 
@@ -199,7 +199,7 @@ export const Step11Content: FC<Step11ContentProps> = ({
     const address = "0x5518e648341147b0f4041c5e2a2cca41bdc723a0";
     navigator.clipboard
       .writeText(address)
-      .then(() => {})
+      .then(() => { })
       .catch((err) => {
         console.error("error copy", err);
       });
@@ -225,11 +225,10 @@ export const Step11Content: FC<Step11ContentProps> = ({
         <div className={s.draxb_address_block}>
           <span className={s.draxb_copy_title}>Copy token address DRAXB</span>
           <div
-            className={`${
-              !mob
+            className={`${!mob
                 ? s.draxb_address_copy_block
                 : s.second_draxb_address_copy_block
-            }`}
+              }`}
             onClick={() => copyToClipboard()}
           >
             <span className={s.draxb_address}>

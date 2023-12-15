@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 import { FC, SetStateAction, useEffect, useState } from "react";
 import s from "./styles.module.scss";
@@ -10,6 +11,20 @@ import { useUnit } from "effector-react";
 import * as Api from "@/shared/api";
 import { web3 } from "@/entities/web3";
 import { keccak256 } from "ethers/lib/utils";
+=======
+import Image from 'next/image';
+import { FC, SetStateAction, useEffect, useState } from 'react';
+import s from './styles.module.scss';
+import playerIconBig from '@/public/media/player_icons/playerIconBig.webp';
+import GKEagle from '@/public/media/brand_images/GKEagle.webp';
+import Pen from '@/public/media/misc/pen.svg';
+import AcceptIcon from '@/public/media/misc/acceptIcon.svg';
+import { sessionModel } from '@/entities/session';
+import { useUnit } from 'effector-react';
+import * as Api from '@/shared/api';
+import { web3 } from '@/entities/web3';
+import { keccak256 } from 'ethers/lib/utils';
+>>>>>>> 4251abc14c7beaf25637fc95ae24fbe616614b98
 import { toUtf8Bytes } from "@ethersproject/strings";
 
 // interface ProfileInfoProps {

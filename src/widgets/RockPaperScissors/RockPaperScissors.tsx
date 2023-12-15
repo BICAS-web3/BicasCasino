@@ -23,7 +23,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 
 import { sessionModel } from "@/entities/session";
 
-import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.png";
+import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.webp";
 
 import { ABI as RPSABI } from "@/shared/contracts/RPSABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -311,7 +311,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -370,24 +370,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -452,7 +452,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {

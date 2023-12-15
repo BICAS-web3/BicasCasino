@@ -1,11 +1,11 @@
 import s from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import Image from "next/image";
-import closeImg from "@/public/media/misc/msFallbackClose.png";
+import closeImg from "@/public/media/misc/msFallbackClose.webp";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-interface MessangerFallbackBlockProps {}
+interface MessangerFallbackBlockProps { }
 
 export const MessangerFallbackBlock: FC<MessangerFallbackBlockProps> = () => {
   const router = useRouter();
