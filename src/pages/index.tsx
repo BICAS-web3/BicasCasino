@@ -68,16 +68,10 @@ import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoTabletImg.w
 import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 
-<<<<<<< HEAD
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.png";
-import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.png";
-import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.png";
-=======
 import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
 import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.webp";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
->>>>>>> 4251abc14c7beaf25637fc95ae24fbe616614b98
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -232,7 +226,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
@@ -312,7 +306,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -320,7 +314,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
     </div>
   );
 };
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -374,8 +368,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -384,71 +379,6 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-<<<<<<< HEAD
-=======
-interface MainReplacementComponentProps { }
-const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
-  const { isConnected } = useAccount();
-  const device = useDeviceType();
-
-  const [sidebarOpened] = useUnit([SideBarModel.$isOpen]);
-  const [currentImage, setCurrentImage] = useState(mainBg);
-
-  useEffect(() => {
-    if (device === "laptop") {
-      setCurrentImage(laptopBg);
-    } else if (device === "tablet") {
-      setCurrentImage(tabletBg);
-    } else if (device === "phone") {
-      setCurrentImage(phoneBg);
-    } else if (device === "main") {
-      setCurrentImage(mainBg2);
-    }
-  }, [device]);
-
-  return (
-    <div>
-      {!isConnected ? (
-        <>
-          <div
-            className={`${s.background_container} ${!sidebarOpened && s.background_sidebar_closed
-              }`}
-          >
-            <Image src={currentImage} alt={""} className={s.background} />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
-        </>
-      ) : (
-        <div className={s.main_advertaising_blocks}>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
->>>>>>> 4251abc14c7beaf25637fc95ae24fbe616614b98
 const preloadModel = async () => {
   await import("@/widgets/Dice/DiceModel");
 };
