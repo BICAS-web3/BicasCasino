@@ -31,12 +31,12 @@ import { CloseSbIco } from "@/shared/SVGs/CloseSbIco";
 import { MoonIco } from "@/shared/SVGs/MoonIco";
 import { SunIco } from "@/shared/SVGs/SunIco";
 
-import usaIco from "@/public/media/countries_images/usaIco.png";
-import uaIco from "@/public/media/countries_images/uaIco.png";
-import indIco from "@/public/media/countries_images/indiaIco.png";
-import chinaIco from "@/public/media/countries_images/chinaIco.png";
-import portugalIco from "@/public/media/countries_images/portugalIco.png";
-import spainIco from "@/public/media/countries_images/spainIco.png";
+import usaIco from "@/public/media/countries_images/usaIco.svg";
+import uaIco from "@/public/media/countries_images/uaIco.svg";
+import indIco from "@/public/media/countries_images/indiaIco.svg";
+import chinaIco from "@/public/media/countries_images/chinaIco.svg";
+import portugalIco from "@/public/media/countries_images/portugalIco.svg";
+import spainIco from "@/public/media/countries_images/spainIco.svg";
 
 import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
