@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Image from "next/image";
-import tableBg from "@/public/media/poker_images/pokerBgImage.png";
+import tableBg from "@/public/media/poker_images/pokerBgImage.webp";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
 import {
@@ -239,7 +239,7 @@ export const Poker: FC<PokerProps> = (props) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -285,7 +285,7 @@ export const Poker: FC<PokerProps> = (props) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -342,7 +342,7 @@ export const Poker: FC<PokerProps> = (props) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
             //return;
@@ -612,7 +612,7 @@ export const Poker: FC<PokerProps> = (props) => {
                     isEmptyCard={false}
                     coat={0}
                     card={0}
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 ) : (
                   <PokerCard

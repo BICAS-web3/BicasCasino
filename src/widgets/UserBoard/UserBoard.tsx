@@ -6,9 +6,9 @@ import { settingsModel } from "@/entities/settings";
 
 import clsx from "clsx";
 
-import gold from "@/public/media/user_board/gold.png";
-import silver from "@/public/media/user_board/silver.png";
-import bronze from "@/public/media/user_board/bronze.png";
+import gold from "@/public/media/user_board/gold.webp";
+import silver from "@/public/media/user_board/silver.webp";
+import bronze from "@/public/media/user_board/bronze.webp";
 
 import * as Api from "@/shared/api";
 

@@ -1,7 +1,7 @@
 import Head from "next/head";
 //import s from "./styles.module.scss";
 import Image from "next/image";
-import MainPageBackground from "@/public/media/misc/MainPageBackground.png";
+import MainPageBackground from "@/public/media/misc/MainPageBackground.webp";
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 

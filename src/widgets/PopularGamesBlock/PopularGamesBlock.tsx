@@ -3,21 +3,21 @@ import s from "./styles.module.scss";
 
 /// images
 
-import pokerPopularDesk from "@/public/media/gamesPageImages/pokerPopularDesk.png";
-import pokerPopularLaptop from "@/public/media/gamesPageImages/pokerPopularLaptop.png";
-import pokerPopularMobile from "@/public/media/gamesPageImages/pokerPopularMobile.png";
+import pokerPopularDesk from "@/public/media/gamesPageImages/pokerPopularDesk.webp";
+import pokerPopularLaptop from "@/public/media/gamesPageImages/pokerPopularLaptop.webp";
+import pokerPopularMobile from "@/public/media/gamesPageImages/pokerPopularMobile.webp";
 
-import dicePopularDesk from "@/public/media/gamesPageImages/dicePopularDesk.png";
-import dicePopularLaptop from "@/public/media/gamesPageImages/dicePopularLaptop.png";
-import dicePopularMobile from "@/public/media/gamesPageImages/dicePopularMobile.png";
+import dicePopularDesk from "@/public/media/gamesPageImages/dicePopularDesk.webp";
+import dicePopularLaptop from "@/public/media/gamesPageImages/dicePopularLaptop.webp";
+import dicePopularMobile from "@/public/media/gamesPageImages/dicePopularMobile.webp";
 
-import plinkoPopularDesk from "@/public/media/gamesPageImages/plinkoPopularDesk.png";
-import plinkoPopularLaptop from "@/public/media/gamesPageImages/plinkoPopularLaptop.png";
-import plinkoPopularMobile from "@/public/media/gamesPageImages/plinkoPopularMobile.png";
+import plinkoPopularDesk from "@/public/media/gamesPageImages/plinkoPopularDesk.webp";
+import plinkoPopularLaptop from "@/public/media/gamesPageImages/plinkoPopularLaptop.webp";
+import plinkoPopularMobile from "@/public/media/gamesPageImages/plinkoPopularMobile.webp";
 
-import minesPopularDesk from "@/public/media/gamesPageImages/minesPopularDesk.png";
-import minesPopularLaptop from "@/public/media/gamesPageImages/minesPopularLaptop.png";
-import minesPopularMobile from "@/public/media/gamesPageImages/minesPopularMobile.png";
+import minesPopularDesk from "@/public/media/gamesPageImages/minesPopularDesk.webp";
+import minesPopularLaptop from "@/public/media/gamesPageImages/minesPopularLaptop.webp";
+import minesPopularMobile from "@/public/media/gamesPageImages/minesPopularMobile.webp";
 import { PopularGamesItem } from "./PopularGamesItem";
 
 ///
@@ -53,7 +53,7 @@ const popularGamesList = [
   },
 ];
 
-interface PopularGamesBlockProps {}
+interface PopularGamesBlockProps { }
 
 export const PopularGamesBlock: FC<PopularGamesBlockProps> = () => {
   return (

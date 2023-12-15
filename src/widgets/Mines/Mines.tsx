@@ -13,7 +13,7 @@ import Image from "next/image";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
 import clsx from "clsx";
 
-import background from "@/public/media/mines_images/mines_bg.png";
+import background from "@/public/media/mines_images/mines_bg.webp";
 
 import { sessionModel } from "@/entities/session";
 
@@ -308,7 +308,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -347,7 +347,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -440,7 +440,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -466,7 +466,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -740,51 +740,51 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
                 {result.value.toFixed(2)}x
               </div>
             ))}
-            {}
+            { }
           </div>
           <div
             className={styles.mines_table}
-            // onMouseDown={() => setIsMouseDown(true)}
-            // onMouseUp={() => setIsMouseDown(false)}
+          // onMouseDown={() => setIsMouseDown(true)}
+          // onMouseUp={() => setIsMouseDown(false)}
           >
             {
               redrawTrigger &&
-                gameField &&
-                pickedTiles &&
-                gameField.map((value, index) => {
-                  const isPicked = value == Tile.Closed && pickedTiles[index];
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        pickTile(index);
-                      }}
-                      //onMouseEnter={() => handleMouseMove(index)}
+              gameField &&
+              pickedTiles &&
+              gameField.map((value, index) => {
+                const isPicked = value == Tile.Closed && pickedTiles[index];
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      pickTile(index);
+                    }}
+                    //onMouseEnter={() => handleMouseMove(index)}
+                    className={clsx(
+                      styles.mine,
+                      isPicked && styles.mine_selected,
+                      isPicked &&
+                      inGame &&
+                      !copySelectedArr.includes(index) &&
+                      ""
+                      // styles.mine_animation
+                    )}
+                  >
+                    <MineIcon
                       className={clsx(
-                        styles.mine,
-                        isPicked && styles.mine_selected,
-                        isPicked &&
-                          inGame &&
-                          !copySelectedArr.includes(index) &&
-                          ""
-                        // styles.mine_animation
+                        styles.mine_main,
+                        isPicked && styles.mine_selected
                       )}
-                    >
-                      <MineIcon
-                        className={clsx(
-                          styles.mine_main,
-                          isPicked && styles.mine_selected
-                        )}
-                      />
+                    />
 
-                      <SelectedMine
-                        index={index}
-                        type={isPicked ? Tile.Selected : value}
-                        waitingResponse={waitingResponse}
-                      />
-                    </div>
-                  );
-                })
+                    <SelectedMine
+                      index={index}
+                      type={isPicked ? Tile.Selected : value}
+                      waitingResponse={waitingResponse}
+                    />
+                  </div>
+                );
+              })
               /* {mineArr.map((index) => {
                 const isSelected = selectedMine.includes(index);
                 // isActive && alert(isActive?.tilesPicked[24]);
