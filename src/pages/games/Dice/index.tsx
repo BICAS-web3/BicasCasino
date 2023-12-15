@@ -39,7 +39,10 @@ const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { push, reload } = useRouter();
   const router = useRouter();
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  const [isPlaying, setIsEmtyWager] = useUnit([
+    GameModel.$isPlaying,
+    GameModel.setIsEmtyWager,
+  ]);
 
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -64,16 +67,18 @@ const WagerContent = () => {
       <ProfitBlock />
       {!isMobile && (
         <button
-          className={`${s.connect_wallet_btn} ${isPlaying && "animation-leftRight"
-            } ${cryptoValue == 0.0 && isConnected
+          className={`${s.connect_wallet_btn} ${
+            isPlaying && "animation-leftRight"
+          } ${
+            cryptoValue == 0.0 && isConnected
               ? s.button_inactive
               : s.button_active
-            }`}
+          }`}
           onClick={() => {
-            if (cryptoValue > 0.0 && (!isPlaying) && isConnected) {
+            if (cryptoValue > 0.0 && !isPlaying && isConnected) {
               pressButton();
             } else if (cryptoValue <= 0.0 && isConnected) {
-              return null;
+              setIsEmtyWager(true);
             } else {
               router.push(
                 isPartner

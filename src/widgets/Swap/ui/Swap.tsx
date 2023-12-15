@@ -17,9 +17,10 @@ import { Blur } from "./Blur";
 
 export interface SwapProps {
   closeClassName?: string;
+  custom?: boolean;
 }
 
-export const Swap: FC<SwapProps> = ({ closeClassName }) => {
+export const Swap: FC<SwapProps> = ({ closeClassName, custom }) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const { toggle, close, dropdownRef, isOpen, open: setOpen } = useDropdown();
   const [swapToggle, swapClose] = useUnit([
@@ -61,7 +62,13 @@ export const Swap: FC<SwapProps> = ({ closeClassName }) => {
             }}
           >
             <SwaptIcon className={s.swap_icon} />
-            <div className={s.games_button_tooltip}>Swap</div>
+            <div
+              className={`${s.games_button_tooltip} ${
+                custom && s.custom_title
+              }`}
+            >
+              Swap
+            </div>
           </div>
         )}
         <article

@@ -179,7 +179,10 @@ export const GamePage: FC<GamePageProps> = ({
   // const won = false;
   // const lost = false;
 
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [pressButton, setIsEmtyWager] = useUnit([
+    WagerModel.pressButton,
+    GameModel.setIsEmtyWager,
+  ]);
 
   const [cryptoValue] = useUnit([
     //CFM.$isPlaying,
@@ -279,7 +282,7 @@ export const GamePage: FC<GamePageProps> = ({
                       ) {
                         pressButton();
                       } else if (cryptoValue <= 0.0 && isConnected) {
-                        return null;
+                        setIsEmtyWager(true);
                       } else {
                         router.push("/RegistrManual");
                       }

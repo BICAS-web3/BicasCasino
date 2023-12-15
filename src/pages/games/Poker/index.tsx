@@ -30,11 +30,13 @@ const WagerContent = () => {
     ConnectModel.setConnect,
     GameModel.$waitingResponse,
     GameModel.$isPlaying,
+
   ]);
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [pressButton, setIsEmtyWager] = useUnit([
+    WagerModel.pressButton,
+    GameModel.setIsEmtyWager,
+  ]);
   const { isConnected, isConnecting } = useAccount();
-  const { connectors, connect } = useConnect();
-  const { push, reload } = useRouter();
 
   const [cardsNew] = useUnit([
     //PokerModel.$isPlaying,
@@ -73,7 +75,7 @@ const WagerContent = () => {
           ) {
             pressButton();
           } else if (cryptoValue <= 0.0 && isConnected) {
-            return null;
+            setIsEmtyWager(true);
           } else {
             router.push(
               isPartner
