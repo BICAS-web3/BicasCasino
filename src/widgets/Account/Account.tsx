@@ -7,7 +7,7 @@ import Info from "@/public/media/select_wallet/Info.svg";
 import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
 import Close from "@/public/media/select_wallet/Close.svg";
-import Avatar from "@/public/media/account_icons/Avatar.png";
+import Avatar from "@/public/media/account_icons/Avatar.webp";
 import ProfileIcon from "@/public/media/account_icons/ProfileIcon.svg";
 // import { ConnectIcon, CopyIcon } from '@/shared/SVGs';
 //import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -21,7 +21,7 @@ import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
-import closeIco from "@/public/media/misc/closeAccIco.png";
+import closeIco from "@/public/media/misc/closeAccIco.webp";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import { useAccount } from "wagmi";
 
@@ -114,7 +114,7 @@ export const Account: FC<AccountProps> = (props) => {
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
             {props.nickname &&
-            props.nickname.toLowerCase() != props.address.toLowerCase()
+              props.nickname.toLowerCase() != props.address.toLowerCase()
               ? props.nickname
               : truncatedAddress}
           </div>

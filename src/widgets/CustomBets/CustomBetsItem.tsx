@@ -1,12 +1,12 @@
 import s from "./styles.module.scss";
 
-import diceIcon from "@/public/media/live_bets/diceIco.png";
-import coinFlipIcon from "@/public/media/live_bets/coinflipIco.png";
-import pokerIcon from "@/public/media/live_bets/pokerIco.png";
-import rpsIcon from "@/public/media/live_bets/rpsIco.png";
-import rpsMobIco from "@/public/media/live_bets/rpsMobIco.png";
-import bombIcon from "@/public/media/live_bets/bombIco.png";
-import plincoIcon from "@/public/media/live_bets/plinkoIco.png";
+import diceIcon from "@/public/media/live_bets/diceIco.webp";
+import coinFlipIcon from "@/public/media/live_bets/coinflipIco.webp";
+import pokerIcon from "@/public/media/live_bets/pokerIco.webp";
+import rpsIcon from "@/public/media/live_bets/rpsIco.webp";
+import rpsMobIco from "@/public/media/live_bets/rpsMobIco.webp";
+import bombIcon from "@/public/media/live_bets/bombIco.webp";
+import plincoIcon from "@/public/media/live_bets/plinkoIco.webp";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
@@ -144,9 +144,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       </div>
       <div className={s.customBets_list_item_profit_block}>
         <span
-          className={`${s.customBets_list_item_profit} ${
-            props.multiplier < 1 && s.lose_profit
-          }`}
+          className={`${s.customBets_list_item_profit} ${props.multiplier < 1 && s.lose_profit
+            }`}
         >
           {props.profit}
         </span>

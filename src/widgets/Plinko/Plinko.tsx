@@ -1,8 +1,8 @@
 import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.png";
-import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.png";
+import tableBg from "@/public/media/games_assets/plinko/plinkoBgImage3.webp";
+import mobilebg from "@/public/media/plinko_images/plinko_mobile_bg.webp";
 import { PlinkoPyramid } from "@/shared/ui/PlinkoPiramyd";
 import { useStore, useUnit } from "effector-react";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -28,8 +28,8 @@ import { pickSide } from "../CoinFlipSidePicker/model";
 import { ABI as IPlinko } from "@/shared/contracts/PlinkoABI";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 
-import helmet from "@/public/media/plinko_images/helmet.png";
-import statue from "@/public/media/plinko_images/statue.png";
+import helmet from "@/public/media/plinko_images/helmet.webp";
+import statue from "@/public/media/plinko_images/statue.webp";
 
 import * as PlinkoM from "./model";
 import clsx from "clsx";
@@ -286,7 +286,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -305,25 +305,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -350,25 +350,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
   });
 
@@ -448,7 +448,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
             //return;
@@ -567,11 +567,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                         className={clsx(
                           styles.multiplier_value,
                           multipliers[ball.value] > 1 &&
-                            styles.multiplier_positive,
+                          styles.multiplier_positive,
                           multipliers[ball.value] < 1 &&
-                            styles.multiplier_negative,
+                          styles.multiplier_negative,
                           multipliers[ball.value] < 0.6 &&
-                            styles.multiplier_extranegative
+                          styles.multiplier_extranegative
                         )}
                         key={i}
                       >
@@ -579,7 +579,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                       </div>
                     )
                 )}
-              {}
+              { }
             </div>
             {path ? (
               <PlinkoPyramid

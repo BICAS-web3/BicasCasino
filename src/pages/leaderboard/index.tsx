@@ -18,10 +18,10 @@ import * as Api from "@/shared/api";
 import BSCNetworkIcon from "@/public/media/networks/bsc.svg";
 //import LinkIcon from '@/public/media/misc/link.svg';
 import { LiveBetsModel, LiveBetsWS } from "@/widgets/LiveBets";
-import mainBg from "@/public/media/misc/mainBg.png";
-import laptopBg from "@/public/media/misc/1280Bg.png";
-import tabletBg from "@/public/media/misc/tabletBg.png";
-import phoneBg from "@/public/media/misc/phoneBg.png";
+import mainBg from "@/public/media/misc/mainBg.webp";
+import laptopBg from "@/public/media/misc/1280Bg.webp";
+import tabletBg from "@/public/media/misc/tabletBg.webp";
+import phoneBg from "@/public/media/misc/phoneBg.webp";
 import { SideBar, SideBarModel } from "@/widgets/SideBar";
 
 import { Layout } from "@/widgets/Layout";
@@ -148,7 +148,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>

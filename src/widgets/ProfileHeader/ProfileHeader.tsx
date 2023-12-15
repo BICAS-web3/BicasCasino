@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import s from './styles.module.scss';
-import playerIconBig from '@/public/media/player_icons/playerIconBig.png';
-import GKEagle from '@/public/media/brand_images/GKEagle.png';
+import playerIconBig from '@/public/media/player_icons/playerIconBig.webp';
+import GKEagle from '@/public/media/brand_images/GKEagle.webp';
 import Pen from '@/public/media/misc/pen.svg';
 import AcceptIcon from '@/public/media/misc/acceptIcon.svg';
 import { sessionModel } from '@/entities/session';
