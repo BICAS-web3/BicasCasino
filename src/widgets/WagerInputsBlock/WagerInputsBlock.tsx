@@ -205,18 +205,26 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
   const [currentBalance] = useUnit([sessionModel.$currentBalance]);
 
   const [isLowBalance, setIsLowBalance] = useState(false);
+  const [isFeeTooLarge, setIsFeeTooLarge] = useState(false);
 
   useEffect(() => {
     if (ethBalance?.value != undefined && Wagered) {
       if (
         !currentBalance ||
         currentBalance == 0 ||
-        cryptoValue * betsAmount > currentBalance ||
-        ethBalance?.value < betValue
+        cryptoValue * betsAmount > currentBalance
+
       ) {
         setIsLowBalance(true);
-      } else {
+        setIsFeeTooLarge(false)
+      }
+      else if (ethBalance?.value < betValue) {
+        setIsFeeTooLarge(true);
         setIsLowBalance(false);
+      }
+      else {
+        setIsLowBalance(false);
+        setIsFeeTooLarge(false);
       }
     }
   }, [Wagered]);
@@ -264,6 +272,13 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
           btnTitle="Top up balance"
         />
       )}
+      {isFeeTooLarge && (
+        <ErrorCheck
+          Wager={Wagered}
+          text={`There is not enough balance in the wallet to pay for the transaction fee, expected value ${Number(betValue / BigInt(10000000000)) / 100000000}`}
+          btnTitle="Top up balance"
+        />
+      )}
       <div ref={dropdownRef} className={s.poker_wager_inputs_block}>
         <div
           className={clsx(
@@ -300,7 +315,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
               <>
                 <div
                   className={`${s.pick_token_group} ${(isOpen && s.opened_list,
-                      isOpen && s.poker_wager_tokens_list_item_selected)
+                    isOpen && s.poker_wager_tokens_list_item_selected)
                     }`}
                   onClick={toggle}
                 >
