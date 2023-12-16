@@ -26,6 +26,7 @@ import { StopWinning } from "@/shared/ui/StopWinning";
 import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const WagerContent = () => {
   const [
@@ -134,24 +135,29 @@ const WagerContent = () => {
 
 export default function MinesGame() {
   return (
-    <Layout gameName="Mines" activePageLink="/games/Mines">
-      <LiveBetsWS
-        subscription_type={"Subscribe"}
-        subscriptions={["Mines", "MinesStart"]}
-      />
-      <div className={styles.mines_container}>
-        <GamePage
-          custom_height={styles.mine_height}
-          gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn."
-          gameTitle="Mines"
-          wagerContent={<WagerContent />}
-          isPoker={false}
-          isMines={true}
-          soundClassName={styles.mines_sound}
-        >
-          <Mines gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn." />
-        </GamePage>
-      </div>
-    </Layout>
+    <>
+      <Head>
+        <title>Games - Mines</title>
+      </Head>
+      <Layout gameName="Mines" activePageLink="/games/Mines">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Mines", "MinesStart"]}
+        />
+        <div className={styles.mines_container}>
+          <GamePage
+            custom_height={styles.mine_height}
+            gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn."
+            gameTitle="Mines"
+            wagerContent={<WagerContent />}
+            isPoker={false}
+            isMines={true}
+            soundClassName={styles.mines_sound}
+          >
+            <Mines gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn." />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
   );
 }

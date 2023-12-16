@@ -14,6 +14,7 @@ import {
 import * as Api from "@/shared/api";
 
 import s from "./style.module.scss";
+import Head from "next/head";
 
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
@@ -86,14 +87,19 @@ const ConnectMarket: FC = () => {
 
 export default function Home() {
   return (
-    <Layout gameName={undefined}>
-      {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
-      <div className={s.main_container}>
-        <div className={s.nft_container}>
-          <ConnectMarket />
+    <>
+      <Head>
+        <title>NFT market</title>
+      </Head>
+      <Layout gameName={undefined}>
+        {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
+        <div className={s.main_container}>
+          <div className={s.nft_container}>
+            <ConnectMarket />
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }
 
