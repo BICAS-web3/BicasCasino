@@ -73,6 +73,13 @@ export default function Document() {
           content="https://game.greekkeepers.io/static/media/SEOBanners/main.webp"
         />
 
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="game.greekkeepers.io" />
+        <meta property="twitter:url" content="https://game.greekkeepers.io" />
+        <meta name="twitter:title" content="WEB3 Gaming Platform" />
+        <meta name="twitter:description" content="Greek Keepers is a WEB3 fully decentralised gaming platform" />
+        <meta name="twitter:image" content="https://game.greekkeepers.io/static/media/SEOBanners/main.webp" />
+
         <noscript>
           <img src="https://mc.yandex.ru/watch/95845285" style={{ "position": "absolute", "left": "-9999px" }} alt="" height="1" width="1" />
         </noscript>
