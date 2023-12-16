@@ -56,9 +56,25 @@ export default function Document() {
         </noscript> */}
         {/* <!-- End Facebook Pixel Code --> */}
 
+        <meta
+          name="description"
+          content="WEB3 decentralised gaming platform"
+          key="desc"
+        />
+        <meta property="og:title" content="WEB3 Gaming Platform" />
+        <meta
+          property="og:description"
+          content="Greek Keepers is a WEB3 fully decentralised gaming platform"
+        />
+        <meta
+          property="og:image"
+          content="https://game.greekkeepers.io/static/media/SEOBanners/main.webp"
+        />
+
         <noscript>
           <img src="https://mc.yandex.ru/watch/95845285" style={{ "position": "absolute", "left": "-9999px" }} alt="" height="1" width="1" />
         </noscript>
+
       </Head>
       <body>
         <noscript
