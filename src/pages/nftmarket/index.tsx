@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import { Layout } from "@/widgets/Layout";
-import { LiveBetsWS } from "@/widgets/LiveBets";
 import { NFTCard } from "@/widgets/NFTCard";
 
 import {
@@ -14,14 +12,10 @@ import {
 import * as Api from "@/shared/api";
 
 import s from "./style.module.scss";
+import { SkeletonCard } from "@/shared/ui/SkeletonCard";
 
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
-
-  // const { address } = useAccount();
-
-  // const { chain } = useNetwork();
-  // const { switchNetwork } = useSwitchNetwork();
 
   const setDefaultValue = async () => {
     await Promise.all(
@@ -35,51 +29,49 @@ const ConnectMarket: FC = () => {
     nfts.length === 0 && setDefaultValue();
   }, []);
 
-  // useEffect(() => {
-  //   if (chain?.id !== 56 && address) {
-  //     switchNetwork?.(56);
-  //   }
-  // }, [address]);
   return (
     <>
-      {nfts
-        .sort((first: any, second: any) => first.id - second.id)
-        .map((item: any, i: number) => {
-          let cAddress;
-          let cFee;
-          let index;
-          if (i < 25) {
-            cAddress = MODEL_1;
-            cFee = BigInt(29000000000000000000);
-            index = i;
-          } else if (i >= 25 && i < 70) {
-            cAddress = MODEL_2;
-            cFee = BigInt(9000000000000000000);
-            index = i % 25;
-          } else if (i >= 70 && i < 200) {
-            cAddress = MODEL_3;
-            cFee = BigInt(1890000000000000000);
-            index = i % 70;
-          } else if (i >= 200) {
-            cAddress = MODEL_4;
-            cFee = BigInt(660000000000000000);
-            index = i % 200;
-          }
-          return (
-            <NFTCard
-              fee={cFee}
-              contractAddress={cAddress}
-              img={item?.image}
-              name={item?.name}
-              number={index as number}
-              price={
-                Number(BigInt(cFee as bigint) / BigInt(1000000000000)) / 1000000
+      {nfts && nfts?.length > 0
+        ? nfts
+            .sort((first: any, second: any) => first.id - second.id)
+            .map((item: any, i: number) => {
+              let cAddress;
+              let cFee;
+              let index;
+              if (i < 25) {
+                cAddress = MODEL_1;
+                cFee = BigInt(29000000000000000000);
+                index = i;
+              } else if (i >= 25 && i < 70) {
+                cAddress = MODEL_2;
+                cFee = BigInt(9000000000000000000);
+                index = i % 25;
+              } else if (i >= 70 && i < 200) {
+                cAddress = MODEL_3;
+                cFee = BigInt(1890000000000000000);
+                index = i % 70;
+              } else if (i >= 200) {
+                cAddress = MODEL_4;
+                cFee = BigInt(660000000000000000);
+                index = i % 200;
               }
-              key={i}
-              id={item.id}
-            />
-          );
-        })}
+              return (
+                <NFTCard
+                  fee={cFee}
+                  contractAddress={cAddress}
+                  img={item?.image}
+                  name={item?.name}
+                  number={index as number}
+                  price={
+                    Number(BigInt(cFee as bigint) / BigInt(1000000000000)) /
+                    1000000
+                  }
+                  key={i}
+                  id={item.id}
+                />
+              );
+            })
+        : Array.from({ length: 100 }).map((_) => <SkeletonCard />)}
     </>
   );
 };
@@ -273,3 +265,13 @@ export default function Home() {
 //     });
 //   }
 // }, [isSuccessFee_0]);
+// useEffect(() => {
+//   if (chain?.id !== 56 && address) {
+//     switchNetwork?.(56);
+//   }
+// }, [address]);
+
+// const { address } = useAccount();
+
+// const { chain } = useNetwork();
+// const { switchNetwork } = useSwitchNetwork();
