@@ -62,7 +62,7 @@ export default function Document() {
           key="desc"
         />
         <meta property="og:title" content="WEB3 Gaming Platform" />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
         <meta property="og:url" content="https://game.greekkeepers.io/" />
         <meta
           property="og:description"
