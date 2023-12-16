@@ -33,6 +33,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
 import { ProfitLine } from "../ProfitLine";
+import { WinMessage } from "../WinMessage";
 
 // чирва 2
 // пика 3
