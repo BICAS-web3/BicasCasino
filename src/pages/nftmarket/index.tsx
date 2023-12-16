@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import { Layout } from "@/widgets/Layout";
-import { LiveBetsWS } from "@/widgets/LiveBets";
 import { NFTCard } from "@/widgets/NFTCard";
 
 import {
@@ -19,11 +17,6 @@ import Head from "next/head";
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
 
-  // const { address } = useAccount();
-
-  // const { chain } = useNetwork();
-  // const { switchNetwork } = useSwitchNetwork();
-
   const setDefaultValue = async () => {
     await Promise.all(
       Array.from({ length: 800 }).map(async (_, id) => {
@@ -36,11 +29,6 @@ const ConnectMarket: FC = () => {
     nfts.length === 0 && setDefaultValue();
   }, []);
 
-  // useEffect(() => {
-  //   if (chain?.id !== 56 && address) {
-  //     switchNetwork?.(56);
-  //   }
-  // }, [address]);
   return (
     <>
       {nfts
@@ -279,3 +267,13 @@ export default function Home() {
 //     });
 //   }
 // }, [isSuccessFee_0]);
+// useEffect(() => {
+//   if (chain?.id !== 56 && address) {
+//     switchNetwork?.(56);
+//   }
+// }, [address]);
+
+// const { address } = useAccount();
+
+// const { chain } = useNetwork();
+// const { switchNetwork } = useSwitchNetwork();
