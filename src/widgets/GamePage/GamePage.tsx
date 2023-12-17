@@ -191,6 +191,24 @@ export const GamePage: FC<GamePageProps> = ({
 
   const router = useRouter();
 
+  useEffect(() => {
+    setGameStatus(GameModel.GameStatus.Won);
+    const handleClick = (e: any) => {
+      const clickedElement = e.target;
+      const attribute = clickedElement.dataset.winlostid;
+      console.log(attribute, gameStatus);
+      if (attribute === undefined) {
+        clearStatus();
+      }
+    };
+
+    window.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <div className={s.game_layout}>
       <ReactHowler
@@ -226,10 +244,9 @@ export const GamePage: FC<GamePageProps> = ({
                 )}
               </button>
               {children}
-
               {gameStatus == GameModel.GameStatus.Won &&
                 gameTitle !== "poker" && (
-                  <div className={s.win_wrapper}>
+                  <div className={s.win_wrapper} data-winlostid="win_message">
                     <WinMessage
                       tokenImage={
                         <Image
@@ -246,7 +263,7 @@ export const GamePage: FC<GamePageProps> = ({
                 )}
 
               {gameStatus == GameModel.GameStatus.Lost && (
-                <div className={s.lost_wrapper}>
+                <div className={s.lost_wrapper} data-winlostid="win_message">
                   <LostMessage amount={lost.toFixed(2)} />
                 </div>
               )}

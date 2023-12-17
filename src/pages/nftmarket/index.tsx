@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 
 import { Layout } from "@/widgets/Layout";
-import { LiveBetsWS } from "@/widgets/LiveBets";
 import { NFTCard } from "@/widgets/NFTCard";
 
 import {
@@ -14,14 +12,10 @@ import {
 import * as Api from "@/shared/api";
 
 import s from "./style.module.scss";
+import Head from "next/head";
 
 const ConnectMarket: FC = () => {
   const [nfts, setNfts] = useState<any>([]);
-
-  // const { address } = useAccount();
-
-  // const { chain } = useNetwork();
-  // const { switchNetwork } = useSwitchNetwork();
 
   const setDefaultValue = async () => {
     await Promise.all(
@@ -35,11 +29,6 @@ const ConnectMarket: FC = () => {
     nfts.length === 0 && setDefaultValue();
   }, []);
 
-  // useEffect(() => {
-  //   if (chain?.id !== 56 && address) {
-  //     switchNetwork?.(56);
-  //   }
-  // }, [address]);
   return (
     <>
       {nfts
@@ -86,14 +75,19 @@ const ConnectMarket: FC = () => {
 
 export default function Home() {
   return (
-    <Layout gameName={undefined}>
-      {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
-      <div className={s.main_container}>
-        <div className={s.nft_container}>
-          <ConnectMarket />
+    <>
+      <Head>
+        <title>NFT market</title>
+      </Head>
+      <Layout gameName={undefined}>
+        {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
+        <div className={s.main_container}>
+          <div className={s.nft_container}>
+            <ConnectMarket />
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }
 
@@ -273,3 +267,13 @@ export default function Home() {
 //     });
 //   }
 // }, [isSuccessFee_0]);
+// useEffect(() => {
+//   if (chain?.id !== 56 && address) {
+//     switchNetwork?.(56);
+//   }
+// }, [address]);
+
+// const { address } = useAccount();
+
+// const { chain } = useNetwork();
+// const { switchNetwork } = useSwitchNetwork();
