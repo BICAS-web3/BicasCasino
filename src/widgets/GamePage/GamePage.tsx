@@ -192,7 +192,6 @@ export const GamePage: FC<GamePageProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    setGameStatus(GameModel.GameStatus.Won);
     const handleClick = (e: any) => {
       const clickedElement = e.target;
       const attribute = clickedElement.dataset.winlostid;
