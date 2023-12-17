@@ -171,9 +171,9 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
                 <Link
                   href={item.link}
                   className={s.tooltip_games_list_item}
-                // onClick={() => {
-                //   location.href = item.link;
-                // }}
+                  // onClick={() => {
+                  //   location.href = item.link;
+                  // }}
                 >
                   <GameIcon iconId={item.icon} />
                   <span className={s.tooltip_games_list_item_title}>
@@ -272,8 +272,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
     <>
       <div className={s.upper_blocks}>
         <div
-          className={`${s.mobile_languages_block} ${activeLanguagesBlock === true && s.visible
-            }`}
+          className={`${s.mobile_languages_block} ${
+            activeLanguagesBlock === true && s.visible
+          }`}
         >
           <div className={s.mobile_languages_block_body}>
             <div className={s.mobile_languages_block_nav}>
@@ -297,8 +298,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                     {item.mobTitle}
                   </div>
                   <div
-                    className={`${s.mobile_languages_block_list_item_checkbox
-                      } ${activeLanguage.id === item.id && s.active_checkbox}`}
+                    className={`${
+                      s.mobile_languages_block_list_item_checkbox
+                    } ${activeLanguage.id === item.id && s.active_checkbox}`}
                   ></div>
                 </div>
               ))}
@@ -330,8 +332,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             }}
           >
             <div
-              className={`${s.header_icon_container} ${!gamesAreOpen && s.games_closed
-                }`}
+              className={`${s.header_icon_container} ${
+                !gamesAreOpen && s.games_closed
+              }`}
             >
               <GamesIcon />
               <span className={s.header_icon_title}>games</span>
@@ -345,48 +348,54 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           <div className={s.game_rows}>
             <Link
               href={"/games/CoinFlip"}
-              className={`${s.game_row} ${props.activePage === "/games/CoinFlip" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/CoinFlip" && s.game_active
+              }`}
             >
               <CoinButton />
               Coinflip
             </Link>
             <Link
               href={"/games/Dice"}
-              className={`${s.game_row} ${props.activePage === "/games/Dice" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Dice" && s.game_active
+              }`}
             >
               <DiceButton />
               Dice
             </Link>
             <Link
               href={"/games/RockPaperScissors"}
-              className={`${s.game_row} ${props.activePage === "/games/RockPaperScissors" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/RockPaperScissors" && s.game_active
+              }`}
             >
               <RPCButton />
               Rock Paper Scissors
             </Link>
             <Link
               href={"/games/Poker"}
-              className={`${s.game_row} ${props.activePage === "/games/Poker" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Poker" && s.game_active
+              }`}
             >
               <PokerButton />
               Poker
             </Link>
             <Link
               href={"/games/Mines"}
-              className={`${s.game_row} ${props.activePage === "/games/Mines" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Mines" && s.game_active
+              }`}
             >
               <MinesButton />
               Mines
             </Link>
             <Link
               href={"/games/Plinko"}
-              className={`${s.game_row} ${props.activePage === "/games/Plinko" && s.game_active
-                }`}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Plinko" && s.game_active
+              }`}
             >
               <PlinkoButton />
               Plinko
@@ -444,13 +453,13 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
         </div>
         <div
           className={s.desk_hidden_language_block}
-          onClick={() => setActiveLanguagesBlock(true)}
+          // onClick={() => setActiveLanguagesBlock(true)}
         >
           <div className={s.desk_hidden_active_language_block}>
             <Image src={activeLanguage.ico} alt="active_language_ico" />
             <span className={s.desk_hidden_language_title}>language</span>
           </div>
-          <Image src={rightArr} alt="right-arr" />
+          {/* <Image src={rightArr} alt="right-arr" /> */}
         </div>
         <div className={s.desk_hidden_theme_block}>
           <div className={s.desk_hidden_active_language_block}>
@@ -526,8 +535,9 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
 
   return (
     <div
-      className={`${s.side_bar} ${isOpen ? s.side_bar_opened : s.side_bar_closed
-        } ${languageMobileBlock && s.mobile_blocks_hidden}`}
+      className={`${s.side_bar} ${
+        isOpen ? s.side_bar_opened : s.side_bar_closed
+      } ${languageMobileBlock && s.mobile_blocks_hidden}`}
       id="sidebar"
     >
       <div
@@ -553,8 +563,9 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
             <MoonIco />
           </div>
           <div
-            className={`${s.theme_block} ${activeTheme === "light" && s.active
-              }`}
+            className={`${s.theme_block} ${
+              activeTheme === "light" && s.active
+            }`}
             onClick={handleChangeTheme}
           >
             <SunIco />
@@ -568,7 +579,7 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
         </div>
         <div className={s.language_changer_block}>
           <Image src={activeLanguage.ico} alt={activeLanguage.id} />
-          <div className={s.languages_list}>
+          {/* <div className={s.languages_list}>
             {activeLanguagesList.map((item, ind) => (
               <div
                 key={ind}
@@ -579,7 +590,7 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
                 <span>{item.title}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
         <div className={s.close_sb_ico} onClick={handleSidebar}>
           <CloseSbIco />
