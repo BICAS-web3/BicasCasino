@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import Image from "next/image";
 import s from "./styles.module.scss";
-import { SkeletonCard } from "@/shared/ui/SkeletonCard";
 
 export interface NFTCardProps {
   img: string;
@@ -27,22 +26,8 @@ export const NFTCard: FC<NFTCardProps> = (props) => {
       }}
       className={s.nft}
     >
-      {imageLoaded === false && (
-        <Image
-          className={s.empty}
-          src={img}
-          alt="nft_img"
-          width={0}
-          height={0}
-          onLoad={() => setImageLoaded(true)}
-        />
-      )}
       <div className={s.nft_image}>
-        {imageLoaded ? (
-          <Image src={img} alt="nft_img" width={1024} height={1024} />
-        ) : (
-          <SkeletonCard className={s.skeleton} />
-        )}
+        <Image src={img} alt="nft_img" width={1024} height={1024} />
       </div>
       <div className={s.nft_about}>
         <span className={s.nft_name}>{name}</span>
