@@ -61,8 +61,8 @@ export const WalletPresence: FC<WalletPresenceProps> = ({
       </Link>
       <div className={s.wallet_header}>
         <span className={s.wallet_upperText}>
-          Now you need to send ETH tokens in the Arbitrum network from your
-          crypto exchange account to the your wallet
+          Now you need to send ETH tokens in the Arbitrum or Polygon network
+          from your crypto exchange account to the your wallet
         </span>
         <h1 className={s.wallet_title}>
           Do you have an account on crypto exchange?

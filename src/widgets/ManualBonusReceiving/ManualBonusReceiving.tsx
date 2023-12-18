@@ -202,7 +202,7 @@ export const Step11Content: FC<Step11ContentProps> = ({
     const address = "0x5518e648341147b0f4041c5e2a2cca41bdc723a0";
     navigator.clipboard
       .writeText(address)
-      .then(() => { })
+      .then(() => {})
       .catch((err) => {
         console.error("error copy", err);
       });
@@ -228,10 +228,11 @@ export const Step11Content: FC<Step11ContentProps> = ({
         <div className={s.draxb_address_block}>
           <span className={s.draxb_copy_title}>Copy token address DRAXB</span>
           <div
-            className={`${!mob
+            className={`${
+              !mob
                 ? s.draxb_address_copy_block
                 : s.second_draxb_address_copy_block
-              }`}
+            }`}
             onClick={() => copyToClipboard()}
           >
             <span className={s.draxb_address}>
@@ -531,7 +532,8 @@ export const Step5Content: FC<Step5ContentProps> = ({
           <p className={s.step_tab_title}>Copy the address</p>
         ) : (
           <p className={s.step_tab_title}>
-            You need to fund your wallet with ETH tokens on the Arbitrum Network
+            You need to fund your wallet with ETH tokens on the Arbitrum or
+            Polygon Network
           </p>
         )}
 
@@ -587,11 +589,12 @@ export const Step4Content: FC<Step4ContentProps> = ({
       <div className={s.step_header}>
         {is700 || mobile ? (
           <p className={s.step_tab_title}>
-            You need to fund your wallet with ETH tokens on the Arbitrum Network
+            You need to fund your wallet with ETH tokens on the Arbitrum or
+            Polygon Network
           </p>
         ) : (
           <p className={s.step_tab_title}>
-            Select token to receive, finding ETH in Arbitrum Network
+            Select token to receive, finding ETH in Arbitrum or Polygon Network
           </p>
         )}
 
@@ -741,7 +744,9 @@ export const Step1Content: FC<Step1ContentProps> = ({
         ) : (
           <p className={s.step_tab_title} data-short="true">
             Please, open Trust Wallet Extension in your browser.
-            <span>Make sure you have switched on ETH in Arbitrum Network.</span>
+            <span>
+              Make sure you have switched on ETH in Arbitrum or Polygon Network.
+            </span>
             To do so, click on magnifier icon
           </p>
         )}
@@ -806,8 +811,8 @@ const WalletPresence: FC<WalletPresenceProps> = ({
       </span>
       <div className={s.wallet_header}>
         <span className={s.wallet_upperText}>
-          Now you need to send ETH tokens in the Arbitrum network from your
-          crypto exchange account to the your wallet
+          Now you need to send ETH tokens in the Arbitrum or Polygon network
+          from your crypto exchange account to the your wallet
         </span>
         <h1 className={s.wallet_title}>
           Do you have an account on crypto exchange?
@@ -916,7 +921,7 @@ export const ManualBonusReceiving: FC<ManualBonusReceivingProps> = (props) => {
           <div className={s.manual_bonus_reveicing_home_header}>
             <h1 className={s.manual_bonus_reveicing_home_title}>
               To get the bonus and start playing, you need to fund your wallet
-              in ETH token in Arbitrum network
+              in ETH token in Arbitrum or Polygon network
             </h1>
             <p className={s.manual_bonus_reveicing_home_text}>
               Since our platform is Web 3.0 based, in order to claim the bonus
