@@ -15,7 +15,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 
 enum DiceActions {
   Rotation = "Animation",
-  Loop = "Loop animation",
+  Loop = "LoopAnimation",
   Stop = "",
 }
 
@@ -29,7 +29,7 @@ export const DiceModel: FC<DiceModelProps> = ({
   action,
   testState,
 }) => {
-  const { scene, animations } = useGLTF("/dice/dice.glb");
+  const { scene, animations } = useGLTF("/dice/dice_2.glb");
   const { isConnected } = useAccount();
   const { actions, mixer } = useAnimations(animations, scene);
   const [gameStatus] = useUnit([GameModel.$gameStatus]);
