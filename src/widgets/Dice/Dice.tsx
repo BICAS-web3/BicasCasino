@@ -236,21 +236,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
   });
 
@@ -332,7 +332,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -402,7 +402,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
             //return;
@@ -438,7 +438,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);

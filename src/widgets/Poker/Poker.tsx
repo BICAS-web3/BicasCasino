@@ -572,10 +572,10 @@ export const Poker: FC<PokerProps> = (props) => {
 
   return (
     <>
-      <ErrorCheck
+      {/* <ErrorCheck
         text="Something went wrong, please contact customer support."
         btnTitle="Contact us"
-      />
+      /> */}
       {gameStatus === GameModel.GameStatus.Won && (
         <PokerCombination
           combinationName={combinationName}
@@ -591,12 +591,12 @@ export const Poker: FC<PokerProps> = (props) => {
           multiplier={Number(multiplier.toFixed(2)).toString()}
         />
       )}
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <div className={s.poker_table_wrap}>
         <WagerLowerBtnsBlock game="poker" text={props.gameText} />
         <div className={s.poker_table_background}>
