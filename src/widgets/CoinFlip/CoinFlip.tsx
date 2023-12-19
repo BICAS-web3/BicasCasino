@@ -431,12 +431,12 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   return (
     <>
-      {/* {error && (
+      {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )} */}
+      )}
       <div className={s.coinflip_table_wrap}>
         <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>
