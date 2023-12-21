@@ -517,9 +517,9 @@
   height: 50px;
   margin: 0 auto;
   border-radius: 12px;
-  .games_button_tooltip {
+  .games_tooltip_wrap {
     padding: 0;
-    left: 110px;
+    left: 65px;
     top: calc(215px - var(--st));
   }
   &:hover {
@@ -550,28 +550,31 @@
   position: relative;
 }
 
-.button:hover > .games_button_tooltip {
+.button:hover > .games_tooltip_wrap {
   display: flex;
 }
 
-.games_button:hover > .games_button_tooltip {
+.games_button:hover > .games_tooltip_wrap {
   display: flex;
+}
+
+.games_tooltip_wrap {
+  top: 100px;
+  position: fixed;
+  left: 65px;
+  display: none;
 }
 
 .games_button_tooltip {
   z-index: 2;
   white-space: nowrap;
-  position: fixed;
-  left: 80px;
-  margin-left: -20px;
-  top: 100px;
+  margin-left: 25px;
   color: #7e7e7e;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 90%;
   letter-spacing: 0.64px;
-  display: none;
   font-family: var(--font-source-sans-3);
   border-radius: 8px;
   background: #282828;
@@ -581,7 +584,7 @@
     content: "";
     position: absolute;
     top: 22px;
-    right: 100%;
+    right: 88%;
     margin-top: -7px;
     border-width: 7px;
     border-style: solid;
@@ -1407,11 +1410,11 @@
 }
 
 .home_ico_block {
-  margin-bottom: 1.5px;
+  margin-bottom: 3px;
   height: 18px;
 }
 
 .bonus_ico_block {
-  margin-bottom: 1.5px;
+  margin-bottom: 3.2px;
   height: 18px;
 }
