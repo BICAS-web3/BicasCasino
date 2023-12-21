@@ -165,22 +165,24 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         </div>
         <div className={`${s.games_button}`}>
           <GamesIcon />
-          <div className={s.games_button_tooltip}>
-            <div className={s.tooltip_games_list}>
-              {gamesList.map((item, ind) => (
-                <Link
-                  href={item.link}
-                  className={s.tooltip_games_list_item}
-                  // onClick={() => {
-                  //   location.href = item.link;
-                  // }}
-                >
-                  <GameIcon iconId={item.icon} />
-                  <span className={s.tooltip_games_list_item_title}>
-                    {item.title}
-                  </span>
-                </Link>
-              ))}
+          <div className={s.games_tooltip_wrap}>
+            <div className={s.games_button_tooltip}>
+              <div className={s.tooltip_games_list}>
+                {gamesList.map((item, ind) => (
+                  <Link
+                    href={item.link}
+                    className={s.tooltip_games_list_item}
+                    // onClick={() => {
+                    //   location.href = item.link;
+                    // }}
+                  >
+                    <GameIcon iconId={item.icon} />
+                    <span className={s.tooltip_games_list_item_title}>
+                      {item.title}
+                    </span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -558,7 +560,7 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
         <div className={s.themes_block}>
           <div
             className={`${s.theme_block} ${activeTheme === "dark" && s.active}`}
-            onClick={handleChangeTheme}
+            // onClick={handleChangeTheme}
           >
             <MoonIco />
           </div>
@@ -566,13 +568,13 @@ export const SideBar: FC<SideBarProps> = ({ activePage }) => {
             className={`${s.theme_block} ${
               activeTheme === "light" && s.active
             }`}
-            onClick={handleChangeTheme}
+            // onClick={handleChangeTheme}
           >
             <SunIco />
           </div>
           <div
             className={s.desk_hidden_theme_changer}
-            onClick={handleChangeTheme}
+            // onClick={handleChangeTheme}
           >
             <MoonIco />
           </div>
