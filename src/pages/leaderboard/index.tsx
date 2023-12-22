@@ -148,7 +148,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -207,6 +207,10 @@ export default function Home() {
   }, [tablet, laptop]);
   return (
     <>
+      {" "}
+      <Head>
+        <title>Leaderboard</title>
+      </Head>
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout gameName={undefined}>
         <div className={`${s.main_container}`}>
