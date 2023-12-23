@@ -9,6 +9,7 @@ html {
   width: 100%;
   overflow-x: hidden !important;
   min-width: 264px;
+  scroll-behavior: smooth;
 }
 
 html.scroll-disable {
