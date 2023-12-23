@@ -45,11 +45,11 @@ export const useDeviceType = () => {
 
       if (width > 1280) {
         setDeviceType("main");
-      } else if (width <= 996 && width > 700) {
+      } else if (width <= 996 && width > 768) {
         setDeviceType("bigTablet");
-      } else if (width <= 1280 && width > 700) {
+      } else if (width <= 1280 && width > 996) {
         setDeviceType("laptop");
-      } else if (width <= 700 && width > 320) {
+      } else if (width <= 768 && width > 320) {
         setDeviceType("tablet");
       } else if (width <= 320) {
         setDeviceType("phone");
