@@ -14,22 +14,30 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
   const [currentItem, setCurrentItem] = useState("poker");
 
   const showTableHandler = () => {
+    const pokerBlock = document.getElementById("poker_hands_wrap");
+
     setCurrentItem("poker");
     if (!accordionActive) {
       setAccordionActive(true);
+      pokerBlock && window.scrollTo(0, pokerBlock?.scrollHeight - 150);
     } else if (accordionActive && currentItem == "about") {
       setCurrentItem("poker");
+      pokerBlock && window.scrollTo(0, pokerBlock?.scrollHeight - 150);
     } else if (accordionActive && currentItem == "poker") {
       setAccordionActive(false);
     }
   };
 
   const aboutHandler = () => {
+    const aboutBlock = document.getElementById("about_game_block");
+
     setCurrentItem("about");
     if (!accordionActive) {
       setAccordionActive(true);
+      aboutBlock && window.scrollTo(0, 750);
     } else if (accordionActive && currentItem == "poker") {
       setCurrentItem("about");
+      aboutBlock && window.scrollTo(0, 750);
     } else if (accordionActive && currentItem == "about") {
       setAccordionActive(false);
     }
@@ -68,6 +76,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
           className={`${s.poker_showTable_wrap} ${
             currentItem == "poker" && s.pokerActive
           }`}
+          id="poker_hands_wrap"
         >
           <PokerHandsBlock />
         </div>
@@ -75,6 +84,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
           className={`${s.aboutTheGame_wrap} ${
             currentItem == "about" && s.aboutActive
           }`}
+          id="about_game_block"
         >
           <p className={s.about_text}>{gameText}</p>
         </div>
