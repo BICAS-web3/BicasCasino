@@ -180,6 +180,10 @@
   @media screen and (max-width: 1920px) {
     width: 100%;
   }
+
+  @media screen and (min-width: 1920px) {
+    width: 100%;
+  }
 }
 
 .sidebar_closed {
@@ -212,6 +216,10 @@
   border: 1px solid #202020;
   border-radius: 20px;
   z-index: 1;
+
+  @media screen and (min-width: 1920px) {
+    max-width: 100%;
+  }
 }
 
 .game_link:hover > .game_link_img {
@@ -340,12 +348,6 @@
 @media screen and (max-width: 1920px) {
   .game_link {
     width: 100%;
-  }
-}
-
-@media screen and (min-width: 1921px) {
-  .game_link {
-    max-width: 638px;
   }
 }
 
