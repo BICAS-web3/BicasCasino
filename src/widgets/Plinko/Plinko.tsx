@@ -35,32 +35,82 @@ import * as PlinkoM from "./model";
 import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { clearInterval } from "timers";
 
 const testBallPath = [
-  [true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false],
-  [false, true, true, false, false, false, true, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, false, true, true, false, false, false],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, true, false, false, true, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false],
-  [false, true, true, false, false, false, true, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, false, true, true, false, false, false],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, true, true, true, true, true, true],
-  [false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false],
-  [false, true, true, false, false, false, true, true],
-  [true, true, true, true, true, true, true, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
+  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
+  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
+  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  //[true, true, false, false, false, true, false, true],
+  // [false, true, true, false, false, false, true, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, false, true, true, false, false, false],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, true, false, false, true, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, false, false, false, true, false, true],
+  // [false, true, true, false, false, false, false, false],
+  // [false, true, true, false, false, false, true, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, false, true, true, false, false, false],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, true, true, true, true, true, true],
+  // [false, true, true, false, false, false, false, false],
+  // [true, true, false, false, false, true, false, true],
+  // [true, true, false, false, false, true, false, true],
+  // [false, true, true, false, false, false, false, false],
+  // [false, true, true, false, false, false, true, true],
+  // [true, true, true, true, true, true, true, true],
   // [false, true, false, true, true, false, false, false],
   // [false, true, true, false, false, false, false, false],
   // [true, true, false, false, false, true, false, true],
@@ -286,7 +336,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -305,25 +355,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -350,25 +400,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
   });
 
@@ -427,6 +477,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     },
   });
 
+
   useEffect(() => {
     if (wagered) {
       // if (path) {
@@ -448,7 +499,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
             //return;
@@ -456,6 +507,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             //setActiveCards(initialArrayOfCards);
 
             if (startPlaying) {
+              setPath(undefined);
               startPlaying();
             }
           }
@@ -566,11 +618,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                         className={clsx(
                           styles.multiplier_value,
                           multipliers[ball.value] > 1 &&
-                            styles.multiplier_positive,
+                          styles.multiplier_positive,
                           multipliers[ball.value] < 1 &&
-                            styles.multiplier_negative,
+                          styles.multiplier_negative,
                           multipliers[ball.value] < 0.6 &&
-                            styles.multiplier_extranegative
+                          styles.multiplier_extranegative
                         )}
                         key={i}
                       >
@@ -578,7 +630,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                       </div>
                     )
                 )}
-              {}
+              { }
             </div>
             {path ? (
               <PlinkoPyramid
@@ -592,7 +644,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
               />
             ) : (
               <PlinkoPyramid
-                inGame={inGame}
+                inGame={false}
                 multipliers={multipliers}
                 setMultipliers={setMultipliers}
                 path={undefined}

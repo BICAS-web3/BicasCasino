@@ -12,166 +12,311 @@ import * as BallModel from "./../model";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
 import clsx from "clsx";
+import { parabolaCoefs } from "./parabolaCoefs";
 
-interface PlinkoBallProps {
-  path: boolean[];
-  setAnimationFinished: any;
-  index: number;
+// interface PlinkoBallProps {
+//   path: boolean[];
+//   setAnimationFinished: any;
+//   index: number;
+// }
+
+// export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
+//   const isDesktop = useMediaQuery("(max-width: 1200px)");
+//   const ballRef = useRef<HTMLDivElement>(null);
+//   const pickedRows = useStore($pickedRows);
+//   const [ball, setBall] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
+
+//   const [playDing, { stop: stopDing }] = useSound(
+//     "/static/media/games_assets/plinko/plinkoDing.mp3",
+//     { volume: 0.4, loop: false }
+//   );
+
+//   const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
+//   const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
+//   const [pathIndex, setPathIndex] = useState<number>(-2);
+//   const device = useDeviceType();
+
+//   useEffect(() => {
+//     // if()
+//     function simulatePlinkoResult() {
+//       let position = 0;
+//       let x = ballLeft;
+
+//       for (let i = 0; i < props.path.length; i++) {
+//         if (props.path[i]) {
+//           x++;
+//         } else {
+//           x--;
+//         }
+
+//         const y = -x * -x;
+
+//         if (y >= 0) {
+//           position = Math.floor((x + pickedRows) / 2);
+//         }
+//       }
+
+//       return position;
+//     }
+
+//     const result = simulatePlinkoResult();
+//     setTimeout(() => {
+//       setBall({ value: result, index: props.index });
+//     }, pickedRows * (isDesktop ? 210 : 215));
+//   }, [props.path]);
+
+//   let lastMove = 0;
+//   let firstMove = 0;
+//   let movingDeep = 0;
+//   let sidesMove = 0;
+
+//   useEffect(() => {
+//     if (device) {
+//       if (device == "bigTablet") {
+//         setBallLeft(-5);
+//         movingDeep = 15;
+//         firstMove = -9;
+//         lastMove = 11;
+//         sidesMove = 13;
+//       } else if (device == "main") {
+//         setBallLeft(-10);
+//         firstMove = -11;
+//         movingDeep = 26;
+//         lastMove = 26;
+//         sidesMove = 17.5;
+//       } else {
+//         setBallLeft(-4);
+//         firstMove = -10;
+//         movingDeep = 11;
+//         lastMove = 5;
+//         sidesMove = 9;
+//       }
+//     }
+//   }, [device]);
+
+//   useEffect(() => {
+//     if (!device) {
+//       return;
+//     }
+//     if (device === "bigTablet") {
+//       movingDeep = 15;
+//       firstMove = -9;
+//       lastMove = 11;
+//       sidesMove = 13;
+//     } else if (device === "main") {
+//       firstMove = -11;
+//       movingDeep = 26;
+//       lastMove = 26;
+//       sidesMove = 17.5;
+//     } else {
+//       firstMove = -10;
+//       movingDeep = 11;
+//       lastMove = 5;
+//       sidesMove = 9;
+//     }
+
+//     if (pathIndex >= props.path.length) {
+//       setBallTop(ballTop + lastMove); // last movement to the basket
+//       //props.setAnimationFinished(true);
+//       return;
+//     }
+
+//     const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+//     const run = async () => {
+//       // main body of the loop
+//       if (pathIndex < 0) {
+//         if (pathIndex == -1) {
+//           playDing();
+//           //await sleep(200);
+//           setBallTop(firstMove); // first movement from the starting position
+//           setPathIndex(pathIndex + 1);
+//         } else if (pathIndex == -2) {
+//           await sleep(200);
+//           setPathIndex(pathIndex + 1);
+//         }
+//       } else {
+//         if (pathIndex == 1) {
+//           props.setAnimationFinished(true);
+//         }
+//         playDing();
+//         const point = props.path[pathIndex];
+//         setBallTop(ballTop + movingDeep);
+//         if (point) {
+//           setBallLeft(ballLeft + sidesMove);
+//         } else {
+//           setBallLeft(ballLeft - sidesMove);
+//         }
+//         await sleep(200); // animation length
+//         setPathIndex(pathIndex + 1);
+//       }
+//     };
+//     run();
+//   }, [pathIndex, device]);
+
+//   return (
+//     <>
+//       {pathIndex < props.path.length ? (
+//         <div
+//           className={styles.plinko_ball}
+//           ref={ballRef}
+//           style={{
+//             top: `${ballTop}px`,
+//             left: `calc(50% + ${ballLeft}px)`,
+//             transition: ballLeft == 0 ? "" : "all 0.2s linear",
+//           }}
+//         >
+//           <PlinkoBallIcon />
+//         </div>
+//       ) : (
+//         <></>
+//       )}
+//     </>
+//   );
+// };
+
+
+
+function genParabolaMovements(path: boolean[], screen: string, startingTop: number) {
+  var x: number = 0;
+  var y: number = 0;
+
+  const coefs = parabolaCoefs[screen] ? parabolaCoefs[screen] : parabolaCoefs['other'];
+  //console.log(screen, coefs);
+
+  let yStep = Math.abs(coefs[16] - startingTop);
+  let xStep = 0;
+
+  if (screen == 'main' || screen == "laptop") {
+    xStep = 1;
+  } else if (screen == "bigTablet") {
+    xStep = 0.764;
+  } else {
+    xStep = 0.529;
+  }
+
+  var to_return: any[] = [];
+  for (var p of path) {
+    //console.log(y, coefs[16] + y);
+    if (p) {
+      to_return.push([
+        {
+          transform: `translate(${(xStep * 1) + x}px, ${coefs[0] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 2) + x}px, ${coefs[1] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 3) + x}px, ${coefs[2] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 4) + x}px, ${coefs[3] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 5) + x}px, ${coefs[4] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 6) + x}px, ${coefs[5] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 7) + x}px, ${coefs[6] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 8) + x}px, ${coefs[7] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 9) + x}px, ${coefs[8] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 10) + x}px, ${coefs[9] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 11) + x}px, ${coefs[10] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 12) + x}px, ${coefs[11] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 13) + x}px, ${coefs[12] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 14) + x}px, ${coefs[13] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 15) + x}px, ${coefs[14] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 16) + x}px, ${coefs[15] + y}px)`
+        },
+        {
+          transform: `translate(${(xStep * 17) + x}px, ${coefs[16] + y}px)`
+        },
+      ]);
+      x += (xStep * 17);
+    } else {
+      to_return.push([
+        {
+          transform: `translate(${x - (xStep * 1)}px, ${coefs[0] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 2)}px, ${coefs[1] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 3)}px, ${coefs[2] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 4)}px, ${coefs[3] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 5)}px, ${coefs[4] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 6)}px, ${coefs[5] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 7)}px, ${coefs[6] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 8)}px, ${coefs[7] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 9)}px, ${coefs[8] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 10)}px, ${coefs[9] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 11)}px, ${coefs[10] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 12)}px, ${coefs[11] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 13)}px, ${coefs[12] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 14)}px, ${coefs[13] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 15)}px, ${coefs[14] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 16)}px, ${coefs[15] + y}px)`
+        },
+        {
+          transform: `translate(${x - (xStep * 17)}px, ${coefs[16] + y}px)`
+        },
+      ]);
+      x -= (xStep * 17);
+    }
+    y += yStep;
+  }
+
+  return to_return;
 }
 
-export const PlinkoBall: FC<PlinkoBallProps> = (props) => {
-  const isDesktop = useMediaQuery("(max-width: 1200px)");
-  const ballRef = useRef<HTMLDivElement>(null);
-  const pickedRows = useStore($pickedRows);
-  const [ball, setBall] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
-
-  const [playDing, { stop: stopDing }] = useSound(
-    "/static/media/games_assets/plinko/plinkoDing.mp3",
-    { volume: 0.4, loop: false }
-  );
-
-  const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
-  const [ballLeft, setBallLeft] = useState<number>(0); // starting position left/X
-  const [pathIndex, setPathIndex] = useState<number>(-2);
-  const device = useDeviceType();
-
-  useEffect(() => {
-    // if()
-    function simulatePlinkoResult() {
-      let position = 0;
-      let x = ballLeft;
-
-      for (let i = 0; i < props.path.length; i++) {
-        if (props.path[i]) {
-          x++;
-        } else {
-          x--;
-        }
-
-        const y = -x * -x;
-
-        if (y >= 0) {
-          position = Math.floor((x + pickedRows) / 2);
-        }
-      }
-
-      return position;
-    }
-
-    const result = simulatePlinkoResult();
-    setTimeout(() => {
-      setBall({ value: result, index: props.index });
-    }, pickedRows * (isDesktop ? 210 : 215));
-  }, [props.path]);
-
-  let lastMove = 0;
-  let firstMove = 0;
-  let movingDeep = 0;
-  let sidesMove = 0;
-
-  useEffect(() => {
-    if (device) {
-      if (device == "bigTablet") {
-        setBallLeft(-5);
-        movingDeep = 15;
-        firstMove = -9;
-        lastMove = 11;
-        sidesMove = 13;
-      } else if (device == "main") {
-        setBallLeft(-10);
-        firstMove = -11;
-        movingDeep = 26;
-        lastMove = 26;
-        sidesMove = 17.5;
-      } else {
-        setBallLeft(-4);
-        firstMove = -10;
-        movingDeep = 11;
-        lastMove = 5;
-        sidesMove = 9;
-      }
-    }
-  }, [device]);
-
-  useEffect(() => {
-    if (!device) {
-      return;
-    }
-    if (device === "bigTablet") {
-      movingDeep = 15;
-      firstMove = -9;
-      lastMove = 11;
-      sidesMove = 13;
-    } else if (device === "main") {
-      firstMove = -11;
-      movingDeep = 26;
-      lastMove = 26;
-      sidesMove = 17.5;
-    } else {
-      firstMove = -10;
-      movingDeep = 11;
-      lastMove = 5;
-      sidesMove = 9;
-    }
-
-    if (pathIndex >= props.path.length) {
-      setBallTop(ballTop + lastMove); // last movement to the basket
-      //props.setAnimationFinished(true);
-      return;
-    }
-
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      // main body of the loop
-      if (pathIndex < 0) {
-        if (pathIndex == -1) {
-          playDing();
-          //await sleep(200);
-          setBallTop(firstMove); // first movement from the starting position
-          setPathIndex(pathIndex + 1);
-        } else if (pathIndex == -2) {
-          await sleep(200);
-          setPathIndex(pathIndex + 1);
-        }
-      } else {
-        if (pathIndex == 1) {
-          props.setAnimationFinished(true);
-        }
-        playDing();
-        const point = props.path[pathIndex];
-        setBallTop(ballTop + movingDeep);
-        if (point) {
-          setBallLeft(ballLeft + sidesMove);
-        } else {
-          setBallLeft(ballLeft - sidesMove);
-        }
-        await sleep(200); // animation length
-        setPathIndex(pathIndex + 1);
-      }
-    };
-    run();
-  }, [pathIndex, device]);
-
-  return (
-    <>
-      {pathIndex < props.path.length ? (
-        <div
-          className={styles.plinko_ball}
-          ref={ballRef}
-          style={{
-            top: `${ballTop}px`,
-            left: `calc(50% + ${ballLeft}px)`,
-            transition: ballLeft == 0 ? "" : "all 0.2s linear",
-          }}
-        >
-          <PlinkoBallIcon />
-        </div>
-      ) : (
-        <></>
-      )}
-    </>
-  );
-};
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
 
 interface IPlinkoPyramid {
   path: boolean[][] | undefined;
@@ -199,49 +344,116 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const [pathIndex, setPathIndex] = useState<number>(0);
   const [path, setPath] = useState<boolean[] | undefined>(undefined);
   const [balls, setBalls] = useState<any[]>([]);
+  const [ballsElements, setBallsElements] = useState<any[]>([]);
+
+  const [ballTop, setBallTop] = useState<number>(-90); // starting position top/Y
 
   // const [ballsArr, setBallsArr] = useState<number[]>([]);
 
-  useEffect(() => {
-    // if (props.ballsArr.length >= props?.path?.length) return;
-    props.setBallsArr((prev: any) => [...prev, ball]);
-  }, [ball]);
+  let lastMove = 0;
+  let [firstMove, setFirstMove] = useState<number>(0);
+  let movingDeep = 0;
+  let sidesMove = 0;
+  const [ballLeft, setBallLeft] = useState<number>(0);
 
   useEffect(() => {
-    if (props.path) {
-      if (animationFinished) {
-        if (pathIndex == props.path.length) {
-          //props.setFinishedAnimation(true);
-          //setPath(undefined);
-          setPathIndex(0);
-          //setBalls([]);
-          //setAnimationFinished(false);
-          return;
-        }
-        setAnimationFinished(false);
-        setBalls([
-          ...balls,
-          <PlinkoBall
-            path={props.path[pathIndex]}
-            setAnimationFinished={setAnimationFinished}
-            key={pathIndex.toString()}
-            index={pathIndex}
-          />,
-        ]);
-        setPath(props.path[pathIndex]);
-        setPathIndex(pathIndex + 1);
-      }
-      // if (pathIndex == props.path.length) {
-      //   //props.setFinishedAnimation(true);
-      //   setPath(undefined);
-      //   setAnimationFinished(false);
-      //   return;
-      // }
-      // setAnimationFinished(false);
-      // setPath(props.path[pathIndex]);
-      // setPathIndex(pathIndex + 1);
+    if (ballLeft != 0) {
+      console.log("balls", ballLeft);
+      setBalls(props.path?.map((val, index) => {
+        return <div
+          id={`ball${index}`}
+          className={styles.plinko_ball}
+          //ref={ballRef}
+          style={{
+            top: `${ballTop}px`,
+            left: `calc(50% + ${ballLeft}px)`,
+            //transition: ballLeft == 0 ? "" : "all 0.2s linear",
+          }}
+        >
+          <PlinkoBallIcon />
+        </div>
+      }) as any[]);
     }
-  }, [animationFinished, props.path]);
+
+  }, [props.path, ballLeft, device]);
+
+  useEffect(() => {
+    if (device) {
+      console.log(device);
+      if (device == "bigTablet") {
+        setBallLeft(-4);
+        movingDeep = 15;
+        setFirstMove(81);
+        lastMove = 11;
+        sidesMove = 13;
+      } else if (device == "main" || device == "laptop") {
+        setBallLeft(-5);
+        setFirstMove(85);
+        movingDeep = 26;
+        lastMove = 26;
+        sidesMove = 17.5;
+      } else {
+        setBallLeft(-3.5);
+        setFirstMove(81);
+        movingDeep = 11;
+        lastMove = 5;
+        sidesMove = 9;
+      }
+    }
+  }, [device]);
+
+  useEffect(() => {
+    if (balls && balls.length > 0 && props.path && device) {
+      //console.log("Anim", balls);
+      const ballTiming = {
+        duration: (800 * props.path[0].length) + 2,
+        iterations: 1,
+        easing: "ease-in",
+        fill: "forwards" as any
+      };
+      props.path?.map((val, index) => {
+        const ball = document.querySelector(`#ball${index}`);
+        //console.log("Ball", ball);
+        let animation = [];
+
+        for (let i = 0; i < index; i++) {
+          for (let i = 0; i < 5; i++) {
+            animation.push({
+              transform: `translate(${getRandomInt(5)}px,${getRandomInt(5)}px)`
+            });
+          }
+        };
+
+        animation.push({
+          transform: `translateY(${firstMove}px)`
+        })
+
+        const anim = genParabolaMovements(val, device?.toString(), firstMove);
+
+        for (var an of anim) {
+          //console.log(an);
+          for (var a of an) {
+            animation.push(a);
+          }
+        }
+
+        // for (var p of val) {
+
+        //   // if (p) {
+        //   //   for (var an of parabolaMovementRight) {
+        //   //     animation.push(an);
+        //   //   }
+        //   // } else {
+        //   //   for (var an of parabolaMovementLeft) {
+        //   //     animation.push(an);
+        //   //   }
+        //   // }
+        // }
+
+        ball?.animate(animation, ballTiming);
+      });
+    }
+  }, [balls]);
 
   const [level] = useUnit([levelModel.$level]);
 
@@ -269,22 +481,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-          ? "3px"
-          : device === "tablet"
-          ? "3px"
-          : device === "phone"
-          ? "3px"
-          : "5px";
+            ? "3px"
+            : device === "tablet"
+              ? "3px"
+              : device === "phone"
+                ? "3px"
+                : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
@@ -422,15 +634,13 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       if (i !== multipliersSteps) {
         if (i / (multipliersSteps / 2) < 2) {
           const formula: number = calcMultipliersColor.r * (i + 1);
-          return `rgb(${multipliersColorStart.r + formula}, ${
-            multipliersColorStart.g + formula
-          }, ${multipliersColorStart.b + formula})`;
+          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula
+            }, ${multipliersColorStart.b + formula})`;
         } else if (i / (multipliersSteps / 2) > 2) {
           const formula: number =
             calcMultipliersColor.r * (multipliersSteps * 2 + 1 - i);
-          return `rgb(${multipliersColorStart.r + formula}, ${
-            multipliersColorStart.g + formula
-          }, ${multipliersColorStart.b + formula})`;
+          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula
+            }, ${multipliersColorStart.b + formula})`;
         }
       }
       return multipliersColorCenter;
@@ -448,12 +658,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
           className={clsx(
             styles.multipiler_cell,
             ball.value === i &&
-              !animationDelay &&
-              value > 1 &&
-              styles.multipiler_cell_animated_positive,
             !animationDelay &&
-              value < 1 &&
-              styles.multipiler_cell_animated_negative
+            value > 1 &&
+            styles.multipiler_cell_animated_positive,
+            !animationDelay &&
+            value < 1 &&
+            styles.multipiler_cell_animated_negative
           )}
           key={i}
         >
@@ -504,7 +714,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
           )}
           <span
             className={clsx(matchToMiddle && styles.white_color)}
-            // style={{ color: "red" }}
+          // style={{ color: "red" }}
           >
             {value}x
           </span>
@@ -523,7 +733,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   return (
     <div className={styles.container}>
       {generateRows()}
-      {path && (
+      {props.path && (
         <div className={styles.plinko_ball_container}>
           {/* <PlinkoBall
             path={path}
