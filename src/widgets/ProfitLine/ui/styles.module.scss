@@ -75,14 +75,15 @@
   letter-spacing: 0.72px;
   // padding: 8.5px 19px;
   border-radius: 5px;
-  width: 60px;
+  // width: 60px;
   height: 40px;
+  padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 60px;
   min-height: 40px;
-  max-width: 60px;
+  // min-width: 60px;
   max-height: 40px;
   @media (max-width: 1280px) {
     min-width: 48px;
