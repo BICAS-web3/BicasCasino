@@ -175,14 +175,14 @@
     }
 
     @media screen and (max-width: 350px) {
-      max-width: 200px;
+      max-width: 230px;
     }
   }
 }
 
 .chainlink_btns {
   margin-right: 220px;
-  margin-top: 20px;
+  margin-top: 48px;
   display: flex;
   gap: 12px;
   align-items: center;
@@ -210,11 +210,13 @@
   }
 
   @media screen and (max-width: 650px) {
-    margin-top: 30px;
+    margin-top: 38px;
   }
+}
 
-  @media screen and (max-width: 350px) {
-    margin-top: 15px;
+.drax_btns {
+  @media screen and (max-width: 700px) {
+    width: 100%;
   }
 }
 
@@ -805,7 +807,7 @@
     font-size: 12px;
     line-height: 10.8px;
     border-radius: 5px;
-    width: 140px;
+    width: 100%;
   }
 }
 
@@ -856,6 +858,6 @@
     font-size: 12px;
     line-height: 10.8px;
     border-radius: 5px;
-    width: 140px;
+    width: 100%;
   }
 }

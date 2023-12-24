@@ -191,11 +191,11 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
         ref={swiperRef}
         slidesPerView={1}
         fadeEffect={{ crossFade: true }}
-        autoplay={{
-          delay: 4500,
-          disableOnInteraction: false,
-        }}
-        speed={1000}
+        // autoplay={{
+        //   delay: 4500,
+        //   disableOnInteraction: false,
+        // }}
+        // speed={1000}
         effect="fade"
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         className={s.main_banner_swiper}
