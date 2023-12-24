@@ -209,7 +209,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             NFT Market
           </div>
         </Link>
-        <div className={s.closed_sb_other_info_list_item}>
+        <div
+          className={s.closed_sb_other_info_list_item}
+          onClick={() =>
+            window.open("https://affiliate.greekkeepers.io/", "_blank")
+          }
+        >
           <AffilateIco />
           <div className={s.closed_sb_tooltip} data-id="affilate-tooltip">
             Affiliate
@@ -432,13 +437,16 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>nft market</div>
           </Link>
-          <div className={s.oth_info_list_item}>
+          <div
+            className={s.oth_info_list_item}
+            onClick={() =>
+              window.open("https://affiliate.greekkeepers.io/", "_blank")
+            }
+          >
             <div className={s.icon_wrapper}>
               <AffilateIco />
             </div>
-            <div className={s.large_header_text}>
-              affiliate <span className={s.soon_page}>Soon…</span>
-            </div>
+            <div className={s.large_header_text}>affiliate</div>
           </div>
           <div
             className={s.support}
