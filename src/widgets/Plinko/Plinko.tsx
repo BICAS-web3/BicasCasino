@@ -647,7 +647,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                 inGame={false}
                 multipliers={multipliers}
                 setMultipliers={setMultipliers}
-                path={testBallPath}
+                path={undefined}
                 ballsArr={ballsArr}
                 setBallsArr={setBallsArr}
                 middleC={multipliers.length}
