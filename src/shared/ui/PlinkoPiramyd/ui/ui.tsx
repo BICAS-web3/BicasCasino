@@ -334,7 +334,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
-  const pickedRows = 16//useStore($pickedRows);
+  const pickedRows = useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
   // const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
