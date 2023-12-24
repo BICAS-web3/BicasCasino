@@ -19,6 +19,8 @@ import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.webp";
 import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.webp";
 import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.webp";
 import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.webp";
+import swiperImg8 from "@/public/media/swiperBannerImgs/draxImg.png";
+import swiperImg9 from "@/public/media/swiperBannerImgs/chainlinkImg.png";
 
 import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
 import kycIco from "@/public/media/swiperBannerImgs/kycIco.svg";
@@ -84,9 +86,25 @@ const swiperSlides = [
     extraText: "",
     img: swiperImg7,
   },
+  {
+    text: "$DRAX",
+    subText:
+      "The DRAX token is a unique investment opportunity. 20% of ecosystem profits are used to buy this token and then burn it",
+    isBtn: false,
+    extraText: "",
+    img: swiperImg8,
+  },
+  {
+    text: "We are using audited and verified ChainLink VRF ORACLE CONTRACT",
+    subText:
+      "As a provider of randomness for fair and provable results of your bets",
+    isBtn: false,
+    extraText: "",
+    img: swiperImg9,
+  },
 ];
 
-interface SwiperBannerProps { }
+interface SwiperBannerProps {}
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -190,8 +208,11 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
           <SwiperSlide
             key={ind}
             id="swiper-slide-banner"
-            className={`${s.main_banner_swiper_slide} ${isConnected && s.slide_connected
-              } ${slide.subText && s.slide_connected}`}
+            className={`${s.main_banner_swiper_slide} ${
+              isConnected && s.slide_connected
+            } ${slide.subText && s.slide_connected} ${
+              ind === 8 && s.slide_last
+            }`}
             data-extra={slide.extraText && "true"}
           >
             <img
@@ -231,6 +252,52 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
               >
                 {!is650 ? slide.btnFirstText : slide.btnSecondText}
               </button>
+            )}
+            {ind === 8 && (
+              <div className={s.chainlink_btns}>
+                <button
+                  className={s.chainlink_btn}
+                  onClick={() =>
+                    window.open("https://chain.link/vrf", "_blank")
+                  }
+                >
+                  Chainlink VRF
+                </button>
+                <button
+                  className={s.chainlink_doc_btn}
+                  onClick={() =>
+                    window.open("https://docs.chain.link/vrf", "_blank")
+                  }
+                >
+                  Documentation
+                </button>
+              </div>
+            )}
+            {ind === 7 && (
+              <div className={clsx(s.token_btns_block, s.drax_btns)}>
+                <button
+                  className={s.buy_drax_btn}
+                  onClick={() =>
+                    window.open(
+                      "https://pancakeswap.finance/swap?outputCurrency=0x7f7F49B6128F7CB89BAaB704F6EA1662A270455b",
+                      "_blank"
+                    )
+                  }
+                >
+                  buy
+                </button>
+                <button
+                  className={s.dextools_btn_drax}
+                  onClick={() =>
+                    window.open(
+                      "https://www.dextools.io/app/en/bnb/pair-explorer/0x1853b96b239a01a7023715f83c890e0b6977411c ",
+                      "_blank"
+                    )
+                  }
+                >
+                  Dextools
+                </button>
+              </div>
             )}
             {ind === 6 && (
               <button
