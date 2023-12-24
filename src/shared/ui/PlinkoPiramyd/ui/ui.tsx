@@ -13,6 +13,7 @@ import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
 import useSound from "use-sound";
 import clsx from "clsx";
 import { parabolaCoefs } from "./parabolaCoefs";
+import { randInt } from "three/src/math/MathUtils.js";
 
 // interface PlinkoBallProps {
 //   path: boolean[];
@@ -333,7 +334,7 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [ball, setBolls] = useUnit([BallModel.$arrayStore, BallModel.setBolls]);
   const [itemArr, setItemArr] = useState([]);
-  const pickedRows = useStore($pickedRows);
+  const pickedRows = 16//useStore($pickedRows);
   const [rowCount, setRowCount] = useState(pickedRows);
   // const [multipliers, setMultipliers] = useState<number[]>([]);
   const device = useDeviceType();
@@ -405,28 +406,32 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     if (balls && balls.length > 0 && props.path && device) {
       //console.log("Anim", balls);
-      const ballTiming = {
-        duration: (800 * props.path[0].length) + 2,
-        iterations: 1,
-        easing: "ease-in",
-        fill: "forwards" as any
-      };
+      // const ballTiming = {
+      //   duration: (800 * props.path[0].length) + 2,
+      //   iterations: 1,
+      //   easing: "ease-in",
+      //   fill: "forwards" as any
+      // };
       props.path?.map((val, index) => {
         const ball = document.querySelector(`#ball${index}`);
         //console.log("Ball", ball);
         let animation = [];
 
-        for (let i = 0; i < index; i++) {
-          for (let i = 0; i < 5; i++) {
-            animation.push({
-              transform: `translate(${getRandomInt(5)}px,${getRandomInt(5)}px)`
-            });
-          }
+        const ballTiming = {
+          duration: (400 * (props.path as any)[0].length) + 2,
+          iterations: 1,
+          easing: "ease-in",
+          fill: "forwards" as any,
+          delay: (400 + randInt(10, 50)) * index
         };
 
         animation.push({
-          transform: `translateY(${firstMove}px)`
-        })
+          transform: `translate(0px, 0px)`
+        });
+
+        animation.push({
+          transform: `translate(0px, ${firstMove}px)`
+        });
 
         const anim = genParabolaMovements(val, device?.toString(), firstMove);
 
