@@ -42,6 +42,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { Scrollbar } from "swiper/modules";
 import { ProfitModel } from "../ProfitBlock";
 import { FC } from "react";
+import useSound from "use-sound";
 
 enum Tile {
   Closed,
@@ -50,6 +51,8 @@ enum Tile {
   Coin,
   Bomb,
 }
+
+const maxReveal = [0, 24, 21, 17, 14, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1];
 
 interface MinesProps {
   gameInfoText: string;
@@ -112,12 +115,21 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     false,
   ];
 
-  const [pickedValue] = useUnit([CustomInputWagerModel.$pickedRows]);
+  const [pickedValue, pickMines] = useUnit([CustomInputWagerModel.$pickedRows, CustomInputWagerModel.pickRows]);
 
   const [gameField, setGameField] = useState<Tile[]>(initialGameField);
   const [pickedTiles, setPickedTiles] = useState<boolean[]>([
     ...initialPickedTiles,
   ]);
+  const [totalOpenedTiles, setTotalOpenedTiles] = useState<number>(0);
+
+  const [playTileClick] = useSound(
+    `/static/media/games_assets/mines/mineClick.mp3`,
+    {
+      playbackRate: ((totalOpenedTiles + 1) / 25) + 0.5,
+      volume: 1,
+    }
+  );
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [inGame, setInGame] = useState<boolean>(false);
@@ -176,6 +188,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     GameModel.setWaitingResponse,
   ]);
 
+
+
   // useEffect(() => {
   //   setSelectedMine([]);
   // }, [pickedValue]);
@@ -190,8 +204,24 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     blockTag: "latest",
   });
 
+  useEffect(() => {
+    setTotalOpenedTiles(0);
+    setPickedTiles(initialPickedTiles);
+    triggerRedraw(true);
+  }, [pickedValue]);
+
   const pickTile = (index: number) => {
     if (gameField[index] == Tile.Closed) {
+      console.log('TILES', totalOpenedTiles, maxReveal[pickedValue]);
+      if (!pickedTiles[index]) {
+        if (totalOpenedTiles >= maxReveal[pickedValue]) {
+          return;
+        }
+        setTotalOpenedTiles(totalOpenedTiles + 1);
+      } else {
+        setTotalOpenedTiles(totalOpenedTiles - 1);
+      }
+      playTileClick();
       pickedTiles[index] = !pickedTiles[index];
       triggerRedraw(true);
     }
@@ -201,9 +231,11 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     revealedTiles: boolean[],
     tilesPicked: boolean[] | undefined
   ) => {
+    var openedTiles = 0;
     setGameField(
       revealedTiles.map((value: boolean) => {
         if (value) {
+          openedTiles += 1;
           return Tile.Coin;
         } else {
           return Tile.Closed;
@@ -214,6 +246,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     if (tilesPicked) {
       setPickedTiles(tilesPicked);
     }
+
+    return openedTiles;
   };
 
   useEffect(() => {
@@ -221,10 +255,12 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
       setInGame(true);
       if (Number((minesState as any)?.requestID) != 0) {
         setWaitingResponse(true);
-        setGameFields((minesState as any)?.revealedTiles as any, undefined);
+        setTotalOpenedTiles(setGameFields((minesState as any)?.revealedTiles as any, undefined));
+        pickMines((minesState as any)?.numMines as any);
       } else {
         setWaitingResponse(false);
-        setGameFields((minesState as any)?.revealedTiles as any, undefined);
+        setTotalOpenedTiles(setGameFields((minesState as any)?.revealedTiles as any, undefined));
+        pickMines((minesState as any)?.numMines as any);
       }
     } else {
       // setInGame(false);
@@ -514,6 +550,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           });
           setWaitingResponse(false);
           setGameField(newGameField);
+          setTotalOpenedTiles(0);
           setPickedTiles([...initialPickedTiles]);
         }
       }
@@ -570,35 +607,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           setGameStatus(GameModel.GameStatus.Lost);
         }
       }
-      //   setSelectedMine([]);
-      //   setFinish(true);
-      //   setInGame(false);
-      //   setTimeout(() => {
-      //     setStepArr([]);
-      //     setSelectedMine([]);
-      //   }, 2000);
-      //   const wagered = (receivedEndEvent as any).args.wager;
-      //   if ((receivedEndEvent as any).args.payout > 0) {
-      //     const profit = (receivedEndEvent as any).args.payout;
-      //     const multiplier = Number(profit / wagered);
-      //     const wagered_token = (
-      //       (receivedEndEvent as any).args.tokenAddress as string
-      //     ).toLowerCase();
-      //     const token = TOKENS.find((tk) => tk.address == wagered_token)?.name;
-      //     const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-      //     setWonStatus({
-      //       profit: profitFloat,
-      //       multiplier,
-      //       token: token as string,
-      //     });
-      //     setGameStatus(GameModel.GameStatus.Won);
-      //   } else {
-      //     const wageredFloat =
-      //       Number(wagered / BigInt(10000000000000000)) / 100;
-      //     setLostStatus(wageredFloat);
-      //     setGameStatus(GameModel.GameStatus.Lost);
-      //   }
-      // }
     },
   });
 
