@@ -36,7 +36,7 @@ export const ProfitLine: FC<ProfitLineProps> = ({
       setFullWon((prev) => prev + profit);
       setGameResult((prev) => [
         ...prev,
-        { value: profit / cryptoValue, status: "won" },
+        { value: cryptoValue === 0 ? 0 : profit / cryptoValue, status: "won" },
       ]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);
