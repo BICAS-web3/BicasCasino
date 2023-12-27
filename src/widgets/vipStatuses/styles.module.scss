@@ -1,0 +1,146 @@
+.vip_statuses_section {
+  margin-top: 30px;
+  border-radius: 20px;
+  background: #181818;
+}
+
+.vip_statuses_title {
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: 1.92px;
+  text-transform: uppercase;
+}
+
+.vip_statuses_body {
+  align-items: center;
+  gap: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 25px 50px;
+}
+
+.vip_statuses_list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.vip_statuses_list_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 20px;
+  background: #151515;
+}
+
+.status_ico {
+  padding: 0 30px;
+  position: relative;
+  bottom: 30px;
+}
+
+.vip_status_lvl_title {
+  color: var(--White-1, #eaeaea);
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 20.5px;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+}
+
+.vip_league {
+  display: block;
+  margin-top: 17px;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 51px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+
+  &[data-id="1"] {
+    color: #cd7f32;
+  }
+
+  &[data-id="2"] {
+    color: #c0c0c0;
+  }
+
+  &[data-id="3"] {
+    color: #ffe09d;
+  }
+}
+
+.vip_benefits_list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.vip_benefits_list_item_title {
+  color: #eaeaea;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.56px;
+  max-width: 315px;
+}
+
+.vip_benefits_list_item {
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.checkbox {
+  background: #252525;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox_active {
+  background: #d18b34;
+  filter: drop-shadow(0px 0px 4px #d18b34);
+}
+
+.vip_status_turnover_title {
+  padding: 0 16px;
+  margin-top: 45px;
+  display: block;
+  color: #eaeaea;
+  max-width: 312px;
+  text-align: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 20.5px;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+
+  span {
+    color: #ffe09d;
+  }
+}

@@ -42,6 +42,7 @@ import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
 import { HomeBtn } from "@/shared/SVGs/HomeBtn";
 import Link from "next/link";
+import { VipButton } from "@/shared/SVGs/VipButton";
 
 const gamesList = [
   {
@@ -161,6 +162,12 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
             Bonus
+          </div>
+        </div>
+        <div className={s.closed_sb_bonus_ico}>
+          <LeaderboardIcon />
+          <div className={s.closed_sb_tooltip} data-id="vip-tooltip">
+            Vip
           </div>
         </div>
         <div className={`${s.games_button}`}>
@@ -326,6 +333,12 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           bonus<span className={s.soon_page}>Soon…</span>
         </div>
+        <Link href="/VipPage" className={s.bonus_button_block}>
+          <div className={s.vip_ico_block}>
+            <LeaderboardIcon />
+          </div>
+          vip club
+        </Link>
         <div
           className={clsx(
             s.buttons_menu,
@@ -408,7 +421,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               Plinko
             </Link>
             <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
-              <LeaderboardIcon />
+              <VipButton />
               LeaderBoard
             </Link>
           </div>
