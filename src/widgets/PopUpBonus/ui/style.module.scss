@@ -9,6 +9,7 @@
   z-index: 101;
   display: flex;
   justify-content: center;
+  transition: all 0.5s;
   @media (min-width: 650px) {
     height: calc(100vh - 70px);
     top: 70px;
