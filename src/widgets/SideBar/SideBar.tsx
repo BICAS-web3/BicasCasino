@@ -158,7 +158,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Home
           </div>
         </Link>
-        <div className={s.closed_sb_bonus_ico}>
+        <Link href={"/Bonus"} className={s.closed_sb_bonus_ico}>
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
             Bonus
@@ -170,6 +170,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Vip
           </div>
         </div>
+        </Link>
         <div className={`${s.games_button}`}>
           <GamesIcon />
           <div className={s.games_tooltip_wrap}>
@@ -327,7 +328,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           home
         </Link>
-        <div className={s.bonus_button_block}>
+        <Link href={"/Bonus"} className={s.bonus_button_block}>
           <div className={s.bonus_ico_block}>
             <BonusIco />
           </div>
@@ -338,6 +339,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             <LeaderboardIcon />
           </div>
           vip club
+
         </Link>
         <div
           className={clsx(
