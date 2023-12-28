@@ -34,13 +34,24 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 
-export const PopUpBonus: FC = () => {
+interface IPopUpBonus {
+  setShowBonus?: (el: boolean) => void;
+  showBonus?: boolean;
+  hide?: boolean;
+}
+
+export const PopUpBonus: FC<IPopUpBonus> = ({
+  setShowBonus,
+  showBonus,
+  hide = false,
+}) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
   ]);
   const [claimed, setClaimed] = useState<boolean>();
-  const [close, setClose] = useState(false);
+  const [close, setClose] = useState(hide);
+
   const [visibility, setVisibility] = useState(false);
   const [walletVisibility, setWalletVisibility] = useState(false);
   const { chain } = useNetwork();
@@ -182,6 +193,7 @@ export const PopUpBonus: FC = () => {
 
   //? close all func
   const closeModal = () => {
+    !setShowBonus?.(false);
     document.documentElement.style.overflow = "visible";
     document.documentElement.style.height = "auto";
     setClose(true);
@@ -251,6 +263,10 @@ export const PopUpBonus: FC = () => {
       document.documentElement.style.height = "auto";
     };
   }, []);
+
+  useEffect(() => {
+    showBonus && setShowBonus?.(close);
+  }, [close]);
   const claimedFromStorage =
     address && localStorage.getItem(address)
       ? JSON.parse(localStorage.getItem(address)!)
@@ -269,7 +285,7 @@ export const PopUpBonus: FC = () => {
       onClick={closeModal}
       className={clsx(
         s.wrapper,
-        close && s.closed,
+        close && !showBonus && s.closed,
         visibility && !isConnected ? s.wrapper_index : s.index_return
       )}
     >
@@ -321,8 +337,9 @@ export const PopUpBonus: FC = () => {
           </button>{" "}
           {!address && !isConnected && (
             <div
-              className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-                }`}
+              className={`${s.header_avaibleWallet_wrap} ${
+                walletVisibility && s.avaibleWallet_visible
+              }`}
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>

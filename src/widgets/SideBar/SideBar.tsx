@@ -158,18 +158,18 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Home
           </div>
         </Link>
-        <div className={s.closed_sb_bonus_ico}>
+        <Link href={"/Bonus"} className={s.closed_sb_bonus_ico}>
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
             Bonus
           </div>
-        </div>
-        <div className={s.closed_sb_bonus_ico}>
+        </Link>
+        <Link href={"/VipPage"} className={s.closed_sb_bonus_ico}>
           <LeaderboardIcon />
           <div className={s.closed_sb_tooltip} data-id="vip-tooltip">
             Vip
           </div>
-        </div>
+        </Link>
         <div className={`${s.games_button}`}>
           <GamesIcon />
           <div className={s.games_tooltip_wrap}>
@@ -327,12 +327,12 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           home
         </Link>
-        <div className={s.bonus_button_block}>
+        <Link href={"/Bonus"} className={s.bonus_button_block}>
           <div className={s.bonus_ico_block}>
             <BonusIco />
           </div>
           bonus<span className={s.soon_page}>Soon…</span>
-        </div>
+        </Link>
         <Link href="/VipPage" className={s.bonus_button_block}>
           <div className={s.vip_ico_block}>
             <LeaderboardIcon />
