@@ -2,6 +2,11 @@
   margin-top: 30px;
   border-radius: 20px;
   background: #181818;
+
+  @media screen and (max-width: 650px) {
+    border-radius: 0;
+    background: none;
+  }
 }
 
 .vip_statuses_title {
@@ -13,6 +18,11 @@
   line-height: 44px;
   letter-spacing: 1.92px;
   text-transform: uppercase;
+
+  @media screen and (max-width: 650px) {
+    font-size: 20px;
+    line-height: 27px;
+  }
 }
 
 .vip_statuses_body {
@@ -21,7 +31,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 25px 50px;
+  padding: 30px 40px;
+
+  @media screen and (max-width: 1280px) {
+    padding: 30px 20px;
+  }
+
+  @media screen and (max-width: 650px) {
+    padding: 30px 0;
+  }
 }
 
 .vip_statuses_list {
@@ -32,17 +50,40 @@
 }
 
 .vip_statuses_list_item {
+  padding: 120px 0 0 0;
+  overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 20px;
   background: #151515;
+
+  @media screen and (max-width: 996px) {
+    padding: 165px 0 0 0;
+  }
+
+  @media screen and (max-width: 650px) {
+    padding: 95px 0 0 0;
+  }
 }
 
 .status_ico {
+  z-index: 20;
   padding: 0 30px;
-  position: relative;
-  bottom: 30px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  @media screen and (max-width: 1125px) {
+    width: 50%;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .vip_status_lvl_title {
@@ -55,6 +96,16 @@
   line-height: 20.5px;
   letter-spacing: 0.64px;
   text-transform: uppercase;
+
+  @media screen and (max-width: 1125px) {
+    font-size: 26px;
+    line-height: 31px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 16px;
+    line-height: 19.2px;
+  }
 }
 
 .vip_league {
@@ -80,6 +131,12 @@
   &[data-id="3"] {
     color: #ffe09d;
   }
+
+  @media screen and (max-width: 650px) {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 10px;
+  }
 }
 
 .vip_benefits_list {
@@ -98,6 +155,11 @@
   line-height: 20px;
   letter-spacing: 0.56px;
   max-width: 315px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 17px;
+  }
 }
 
 .vip_benefits_list_item {
@@ -107,6 +169,14 @@
   justify-content: space-between;
   gap: 15px;
   border-bottom: 1px solid #2e2e2e;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @media screen and (max-width: 1125px) {
+    padding: 10px 15px;
+  }
 }
 
 .checkbox {
@@ -143,4 +213,68 @@
   span {
     color: #ffe09d;
   }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    line-height: 16.8px;
+  }
 }
+
+.swiper_wrap {
+  display: grid;
+  width: 100%;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  padding: 30px 0;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 996px) {
+    width: 330px !important;
+  }
+
+  @media screen and (max-width: 650px) {
+    width: 235px !important;
+
+    &:first-child {
+      margin-left: 20px;
+    }
+  }
+}
+
+.ellipse {
+  position: absolute;
+  top: -85px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 163px;
+  height: 136px;
+
+  mix-blend-mode: hard-light;
+  filter: blur(50px);
+
+  &[data-id="1"] {
+    background: rgba(205, 127, 50, 0.2);
+  }
+
+  &[data-id="2"] {
+    background: rgba(192, 192, 192, 0.2);
+  }
+
+  &[data-id="3"] {
+    background: rgba(243, 189, 107, 0.2);
+  }
+}
+
+// .top_block {
+//   width: 100%;
+//   background: #181818;
+//   height: 30px;
+//   position: absolute;
+//   top: 0;
+//   z-index: 10;
+// }

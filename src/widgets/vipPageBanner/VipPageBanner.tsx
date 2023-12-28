@@ -15,7 +15,7 @@ export const VipPageBanner: FC<VipPageBannerProps> = () => {
         </h3>
         <span className={s.vip_page_banner_text}>
           Become a VIP player and receive incredible privileges, bonuses and
-          gifts from Greek Keepers. By joining our exclusive club, you'll
+          gifts from Greek Keepers. By joining our exclusive club, you&apos;ll
           discover a world of high-end gaming full of exciting tournaments and
           unique opportunities. Discover a world of privileges and rewards by
           becoming part of our VIP community.
