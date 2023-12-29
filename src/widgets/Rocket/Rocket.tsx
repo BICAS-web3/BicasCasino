@@ -151,7 +151,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+    address: gameAddress as `0x${string}`,
     abi: RocketABI,
     functionName: "Rocket_Play",
     gasPrice: prevGasPrice,
@@ -197,7 +197,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,
-    address: "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+    address: gameAddress as `0x${string}`,
     abi: RocketABI,
     functionName: "Rocket_GetState",
     args: [address],
@@ -227,14 +227,14 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+    address: gameAddress as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+      gameAddress as `0x${string}`,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -247,7 +247,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+    address: gameAddress as `0x${string}`,
     abi: RocketABI,
     functionName: "getVRFFee",
     args: [0],
@@ -273,7 +273,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
-    address: "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
+    address: gameAddress as `0x${string}`,
     abi: RocketABI,
     eventName: "Rocket_Outcome_Event",
     listener(log) {
