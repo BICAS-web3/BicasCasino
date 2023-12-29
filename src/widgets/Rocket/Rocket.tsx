@@ -392,6 +392,23 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       video?.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [inGame]);
+
+  useEffect(() => {
+    const video = rocketRef.current;
+    const handleTimeUpdate = () => {
+      if (inGame) {
+        video!.playbackRate = 2;
+      } else {
+        video!.playbackRate = 1;
+      }
+    };
+
+    video?.addEventListener("timeupdate", handleTimeUpdate);
+    return () => {
+      video?.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [inGame]);
+
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0);

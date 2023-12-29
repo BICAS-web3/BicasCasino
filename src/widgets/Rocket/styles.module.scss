@@ -218,7 +218,7 @@
 
 .balls_arr {
   position: absolute;
-  top: 20px;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -244,7 +244,7 @@
     width: (calc(100% - 262px));
   }
   @media (max-width: 650px) {
-    top: 48px;
+    top: 20px;
     width: (calc(100% - 20px));
   }
 }
@@ -332,7 +332,7 @@
 
 .balls_arr {
   position: absolute;
-  top: 20px;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -357,7 +357,7 @@
     width: (calc(100% - 262px));
   }
   @media (max-width: 650px) {
-    top: 48px;
+    top: 20px;
     width: (calc(100% - 20px));
   }
 }
