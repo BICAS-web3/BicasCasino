@@ -9,6 +9,7 @@ import * as WagerModel from "@/widgets/WagerInputsBlock/model";
 
 import { useUnit } from "effector-react";
 
+import { CustomWagerRangeInputModel } from "../../CustomWagerRangeInput";
 export interface ProfitLineProps {
   containerClassName?: string;
   lineClassName?: string;
@@ -18,12 +19,26 @@ export const ProfitLine: FC<ProfitLineProps> = ({
   lineClassName,
   containerClassName,
 }) => {
-  const [gameStatus, lost, profit, cryptoValue] = useUnit([
-    GameModel.$gameStatus,
-    GameModel.$lost,
-    GameModel.$profit,
-    WagerModel.$cryptoValue,
-  ]);
+  const [gameStatus, lost, profit, cryptoValue, betsAmount, isPlaying] =
+    useUnit([
+      GameModel.$gameStatus,
+      GameModel.$lost,
+      GameModel.$profit,
+      WagerModel.$cryptoValue,
+      CustomWagerRangeInputModel.$pickedValue,
+      GameModel.$isPlaying,
+    ]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
 
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -36,7 +51,7 @@ export const ProfitLine: FC<ProfitLineProps> = ({
       setFullWon((prev) => prev + profit);
       setGameResult((prev) => [
         ...prev,
-        { value: profit / cryptoValue, status: "won" },
+ { value: localCryptoValue * localAmount, status: "won" },
       ]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);

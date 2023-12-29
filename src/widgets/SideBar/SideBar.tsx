@@ -13,6 +13,7 @@ import {
   GamesIcon,
   ArrowIcon,
   SupportIcon,
+  RocketIcon,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -74,6 +75,11 @@ const gamesList = [
     icon: "plinko",
     link: "/games/Plinko",
   },
+  {
+    title: "Rocket",
+    icon: "rocket",
+    link: "/games/Rocket",
+  },
 ];
 
 const languagesList = [
@@ -132,6 +138,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <MinesButton />;
   } else if (iconId === "plinko") {
     return <PlinkoButton />;
+  } else if (iconId === "rocket") {
+    return <RocketIcon />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -406,6 +414,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <PlinkoButton />
               Plinko
+            </Link>
+            <Link
+              href={"/games/Rocket"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Rocket" && s.game_active
+              }`}
+            >
+              <RocketIcon />
+              Rocket
             </Link>
             <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
               <LeaderboardIcon />
