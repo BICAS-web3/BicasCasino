@@ -30,7 +30,31 @@
     left: -15%;
   }
 }
-
+.total_container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  text-shadow: 1px 1px 1px #000;
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media (max-width: 650px) {
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    gap: 0px;
+  }
+}
 .slots_table {
   overflow: hidden;
   display: grid;
@@ -79,5 +103,31 @@
 
   img {
     width: 100%;
+  }
+}
+
+.start_game {
+  animation: slot_start infinite 0.5s linear;
+}
+
+@keyframes slot_start {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -700px;
+  }
+}
+
+.start_game_2 {
+  animation: slot_start_2 infinite 0.5s linear;
+}
+
+@keyframes slot_start_2 {
+  0% {
+    top: -700px;
+  }
+  100% {
+    top: 0;
   }
 }

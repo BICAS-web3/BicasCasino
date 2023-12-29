@@ -77,7 +77,13 @@ const WagerContent = () => {
           }
         }}
       >
-        {isConnected ? "Play" : "Connect Wallet"}
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
       </button>
     </>
   );
