@@ -20,3 +20,17 @@
     padding-right: 0;
   }
 }
+
+.height {
+  @media (max-width: 650px) {
+    height: 370px !important;
+    border-bottom: 1px solid var(--gray-3125-night, #252525);
+  }
+}
+
+.sound_btn {
+  bottom: 98px !important;
+  @media (max-width: 650px) {
+    display: none !important;
+  }
+}

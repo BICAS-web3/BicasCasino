@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from "react";
+import { FC, useEffect, useState, useRef, ChangeEvent } from "react";
 
 import {
   useAccount,
@@ -11,6 +11,9 @@ import {
 } from "wagmi";
 
 import { useUnit } from "effector-react";
+import dice_precentage from "@/public/media/dice_icons/dice_precentage.svg";
+import dice_close from "@/public/media/dice_icons/dice_close.svg";
+import dice_swap from "@/public/media/dice_icons/dice_swap.svg";
 
 import Image from "next/image";
 
@@ -41,6 +44,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import rocket from "@/public/media/rocket/rocket.png";
 import { ProfitLine } from "../ProfitLine";
+import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 
 interface IRocket {
   gameText: string;
@@ -130,7 +134,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
-
+  const rollOverNumber = rollOver ? 100 - RollValue : RollValue;
+  const rollUnderNumber = rollOver ? RollValue : 100 - RollValue;
   useEffect(() => {
     setCoefficient(Number(multiplier) / 10000);
   }, [multiplier]);
@@ -374,8 +379,6 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     };
   }, []);
 
-  const [start, setStarrt] = useState(false);
-
   useEffect(() => {
     const video = fairRef.current;
 
@@ -424,6 +427,50 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   useEffect(() => {
     console.log("data", coefficientData);
   }, [coefficientData]);
+  const rangeRef = useRef<HTMLInputElement>(null);
+  const onChange = (el: ChangeEvent<HTMLInputElement>) => {
+    const number_value = Number(el.target.value.toString());
+
+    setRollValue(number_value);
+  };
+  useEffect(() => {
+    let num = rollOver ? 102 : 95;
+    const rangeElement = rangeRef.current;
+    const rangeWidth = (RollValue / num) * rangeElement!.offsetWidth;
+
+    rangeElement?.style.setProperty(
+      "--range-width",
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      }px`
+    );
+  }, [RollValue, rollOver]);
+  const diceValue = [
+    {
+      id: 1,
+      title: "Multiplier",
+      value: (Number(multiplier) / 10000).toFixed(4),
+      img_src: dice_close,
+      img_alt: "close",
+    },
+    {
+      id: 2,
+      title: "Roll",
+      value: rollOver ? rollOverNumber.toFixed(2) : rollUnderNumber.toFixed(2),
+      img_src: dice_swap,
+      img_alt: "swap",
+    },
+    {
+      id: 3,
+      title: "Win Chance",
+      value: win_chance.toFixed(2),
+      img_src: dice_precentage,
+      img_alt: "%",
+    },
+  ];
+  const changeBetween = () => {
+    flipRollOver(RollValue);
+  };
   return (
     <>
       {error && (
@@ -433,68 +480,121 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
         />
       )}
       <section className={s.rocket_table_wrap}>
-        <div className={s.total_container}>
-          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-          <div>
-            Total:&nbsp;
-            <span
-              className={clsx(
-                totalValue > 0 && s.total_won,
-                totalValue < 0 && s.total_lost
-              )}
-            >
-              {Math.abs(totalValue).toFixed(2)}
-            </span>
-          </div>
-        </div>
-        <div className={s.balls_arr}>
-          {coefficientData
-            // .sort((a, b) => b - a)
-            .map((item, i) => (
-              <div
+        {" "}
+        <WagerLowerBtnsBlock
+          className={s.dice_btns}
+          game="dice"
+          text={gameText}
+        />
+        <div className={s.rocket_table_wrap_under}>
+          {" "}
+          <div className={s.total_container}>
+            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:&nbsp;
+              <span
                 className={clsx(
-                  s.multiplier_value,
-                  item >= 1 && s.multiplier_positive,
-                  item < 1 && s.multiplier_negative
+                  totalValue > 0 && s.total_won,
+                  totalValue < 0 && s.total_lost
                 )}
-                key={i}
               >
-                {item}x
-              </div>
-            ))}
-        </div>
-        <video
-          ref={rocketRef}
-          className={s.background_video}
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src="/rocket/bg.mp4" type="video/mp4" />
-        </video>
-        <div className={clsx(s.rocket_box, inGame && s.rocket_box_animation)}>
-          <Image
-            onClick={() => setStarrt((prev) => !prev)}
-            className={clsx(s.rocket, inGame && s.rocket_animation)}
-            src={rocket}
-            alt="rocket"
-          />
-        </div>
-        {inGame && (
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <div className={s.balls_arr}>
+            {coefficientData
+              // .sort((a, b) => b - a)
+              .map((item, i) => (
+                <div
+                  className={clsx(
+                    s.multiplier_value,
+                    item >= 1 && s.multiplier_positive,
+                    item < 1 && s.multiplier_negative
+                  )}
+                  key={i}
+                >
+                  {item}x
+                </div>
+              ))}
+          </div>
           <video
-            ref={fairRef}
-            className={clsx(s.fair)}
+            ref={rocketRef}
+            className={s.background_video}
             autoPlay
             loop
             muted
             playsInline
           >
-            <source src="/rocket/fair.mp4" type="video/mp4" />
+            <source src="/rocket/bg.mp4" type="video/mp4" />
           </video>
-        )}
-      </section>
+          <div className={clsx(s.rocket_box, inGame && s.rocket_box_animation)}>
+            <Image
+              className={clsx(s.rocket, inGame && s.rocket_animation)}
+              src={rocket}
+              alt="rocket"
+            />
+          </div>
+          {inGame && (
+            <video
+              ref={fairRef}
+              className={clsx(s.fair)}
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src="/rocket/fair.mp4" type="video/mp4" />
+            </video>
+          )}
+          <div className={s.range_wrapper}>
+            <div className={s.range_container}>
+              <span className={s.roll_range_value}>{RollValue}</span>
+              <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
+              <div className={s.custom_range_input_body}></div>
+              <input
+                className={clsx(
+                  s.dice_range,
+                  rollOver ? s.dice_over : s.dice_under
+                )}
+                type="range"
+                min={rollOver ? 5 : 0.1}
+                max={rollOver ? 99.9 : 95}
+                value={RollValue}
+                onChange={onChange}
+                ref={rangeRef}
+                step={0.1}
+              />
+              <span className={s.roll_range_max}>{rollOver ? 99.9 : 95}</span>
+            </div>
+          </div>
+        </div>
+        <div className={s.dice_value_container}>
+          {diceValue.map((dice) => (
+            <div key={dice.id} className={s.dice_under_conteiner}>
+              <h3 className={s.dice_under_title}>
+                {dice.title === "Roll" ? "Height" : dice.title}
+                {/* {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>} */}
+              </h3>
+              <div className={clsx(s.dice_under_data)}>
+                <span className={s.dice_under_value}>{dice.value}</span>
+                <div className={clsx(s.dice_under_img)}>
+                  {dice.title !== "Roll" && (
+                    <Image
+                      onClick={() => {
+                        dice.title === "Roll" && changeBetween();
+                      }}
+                      src={dice.img_src}
+                      alt={dice.img_src}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>{" "}
     </>
   );
 };
