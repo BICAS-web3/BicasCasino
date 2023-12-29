@@ -30,7 +30,6 @@ const WagerContent = () => {
     ConnectModel.setConnect,
     GameModel.$waitingResponse,
     GameModel.$isPlaying,
-
   ]);
   const [pressButton, setIsEmtyWager] = useUnit([
     WagerModel.pressButton,
