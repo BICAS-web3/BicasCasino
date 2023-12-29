@@ -234,7 +234,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress,
+      "0xE9dB4B31cB5A4B66535cA0bEc349d8735bcD1E17",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -291,8 +291,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           for (const item of (log[0] as any)?.args?.payouts || []) {
             await new Promise((resolve) => setTimeout(resolve, 500));
             setCoefficientData((prev) => [
-              ...prev,
               Number(item) / Number(wagered),
+              ...prev,
             ]);
           }
         };
@@ -515,7 +515,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
                   )}
                   key={i}
                 >
-                  {item}x
+                  {item?.toFixed(2)}x
                 </div>
               ))}
           </div>
