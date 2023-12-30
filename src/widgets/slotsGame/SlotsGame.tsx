@@ -123,6 +123,8 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     };
   }, []);
   const { isConnected, address } = useAccount();
+
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const [
     lost,
     profit,
@@ -379,6 +381,16 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = async () => {
+          for (const item of (log[0] as any)?.args?.payouts || []) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            setCoefficientData((prev) => [
+              Number(item) / Number(wagered),
+              ...prev,
+            ]);
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -493,7 +505,9 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         ? setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg5))
         : setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg6));
     } else if (getId === 2) {
-      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg2));
+      setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg4));
     } else if (getId === 3) {
       setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg1));
       setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg1));
@@ -539,7 +553,17 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   useEffect(() => {
     console.log(99, imageArr1, imageArr2, imageArr3);
   }, [imageArr1, imageArr2, imageArr3]);
-
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {error && (
@@ -557,7 +581,37 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             alt="slots-static-bg"
           />
         </div>
-        <ProfitLine containerClassName={s.total_container} />
+        <div className={s.total_container}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:&nbsp;
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={s.balls_arr}>
+          {coefficientData
+            // .sort((a, b) => b - a)
+            .map((item, i) => (
+              <div
+                className={clsx(
+                  s.multiplier_value,
+                  item >= 1 && s.multiplier_positive,
+                  item < 1 && s.multiplier_negative
+                )}
+                key={i}
+              >
+                {item?.toFixed(2)}x
+              </div>
+            ))}
+        </div>
         <div className={s.slots_table}>
           <div className={clsx(s.row_wrap, startFirst && s.start_game)}>
             {imageArr1.map((img, ind) => (

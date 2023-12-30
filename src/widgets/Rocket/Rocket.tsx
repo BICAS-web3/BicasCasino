@@ -424,9 +424,6 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
-  useEffect(() => {
-    console.log("data", coefficientData);
-  }, [coefficientData]);
   const rangeRef = useRef<HTMLInputElement>(null);
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
     const number_value = Number(el.target.value.toString());
