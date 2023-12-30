@@ -359,7 +359,9 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   }, [gameStatus]);
 
   const rocketRef = useRef<HTMLVideoElement | null>(null);
+  const bgRef = useRef<HTMLVideoElement | null>(null);
   const fairRef = useRef<HTMLVideoElement | null>(null);
+  const fairStartRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const video = rocketRef.current;
@@ -379,6 +381,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     };
   }, []);
 
+  const [bgImage, setBgImage] = useState(true);
   useEffect(() => {
     const video = fairRef.current;
 
@@ -396,21 +399,21 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     };
   }, [inGame]);
 
-  useEffect(() => {
-    const video = rocketRef.current;
-    const handleTimeUpdate = () => {
-      if (inGame) {
-        video!.playbackRate = 2;
-      } else {
-        video!.playbackRate = 1;
-      }
-    };
+  // useEffect(() => {
+  //   const video = rocketRef.current;
+  //   const handleTimeUpdate = () => {
+  //     if (inGame) {
+  //       video!.playbackRate = 2;
+  //     } else {
+  //       video!.playbackRate = 1;
+  //     }
+  //   };
 
-    video?.addEventListener("timeupdate", handleTimeUpdate);
-    return () => {
-      video?.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, [inGame]);
+  //   video?.addEventListener("timeupdate", handleTimeUpdate);
+  //   return () => {
+  //     video?.removeEventListener("timeupdate", handleTimeUpdate);
+  //   };
+  // }, [inGame]); // bgImage
 
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -468,6 +471,17 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   const changeBetween = () => {
     flipRollOver(RollValue);
   };
+
+  useEffect(() => {
+    const fair = fairRef.current;
+    const fair_1 = fairStartRef.current;
+    const bg = bgRef.current;
+    const bg_2 = rocketRef.current;
+    fair!.currentTime = 0;
+    fair_1!.currentTime = 0;
+    bg!.currentTime = 0;
+    bg_2!.currentTime = 0;
+  }, [inGame]);
   return (
     <>
       {error && (
@@ -518,33 +532,54 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           </div>
           <video
             ref={rocketRef}
-            className={s.background_video}
+            className={clsx(s.background_video, !inGame && s.fair_hide)}
             autoPlay
             loop
             muted
             playsInline
           >
-            <source src="/rocket/bg.mp4" type="video/mp4" />
+            <source src={"/rocket/bg.mp4"} type="video/mp4" />
+          </video>
+          <video
+            ref={bgRef}
+            className={clsx(s.background_video, inGame && s.fair_hide)}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src={"/rocket/bg_1.mp4"} type="video/mp4" />
           </video>
           <div className={clsx(s.rocket_box, inGame && s.rocket_box_animation)}>
             <Image
+              onClick={() => {
+                // setBgImage((prev) => !prev);
+              }}
               className={clsx(s.rocket, inGame && s.rocket_animation)}
               src={rocket}
               alt="rocket"
             />
           </div>
-          {inGame && (
-            <video
-              ref={fairRef}
-              className={clsx(s.fair)}
-              autoPlay
-              loop
-              muted
-              playsInline
-            >
-              <source src="/rocket/fair.mp4" type="video/mp4" />
-            </video>
-          )}
+          <video
+            ref={fairRef}
+            className={clsx(s.fair, !inGame && s.fair_hide)}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="/rocket/fair.mp4" type="video/mp4" />
+          </video>
+          <video
+            ref={fairStartRef}
+            className={clsx(s.fair_2, inGame && s.fair_hide)}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="/rocket/fair_slow.mp4" type="video/mp4" />
+          </video>
           <div className={s.range_wrapper}>
             <div className={s.range_container}>
               <span className={s.roll_range_value}>{RollValue}</span>
