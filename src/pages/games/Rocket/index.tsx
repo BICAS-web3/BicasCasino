@@ -49,7 +49,7 @@ const WagerContent = () => {
         inputType={CustomWagerRangeInputModel.RangeType.Bets}
         inputTitle="Multiple Bets"
         min={1}
-        max={10}
+        max={100}
       />
       <WagerGainLoss />
       <ProfitBlock />
