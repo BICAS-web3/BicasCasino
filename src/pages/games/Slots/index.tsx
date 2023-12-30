@@ -98,10 +98,7 @@ const Slots: FC<SlotsProps> = () => {
         <title>Games - Slots</title>
       </Head>
       <Layout activePageLink="/games/Slots" gameName="Slots">
-        <LiveBetsWS
-          subscription_type={"Subscribe"}
-          subscriptions={["Poker", "PokerStart"]}
-        />
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Slots"]} />
         <div className={s.slots_container}>
           <GamePage
             isPoker={false}
