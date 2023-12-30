@@ -14,6 +14,7 @@ import {
   ArrowIcon,
   SupportIcon,
   RocketIcon,
+  SlotsIcon,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -80,6 +81,11 @@ const gamesList = [
     icon: "rocket",
     link: "/games/Rocket",
   },
+  {
+    title: "Slots",
+    icon: "slots",
+    link: "/games/Slots",
+  },
 ];
 
 const languagesList = [
@@ -140,6 +146,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <PlinkoButton />;
   } else if (iconId === "rocket") {
     return <RocketIcon />;
+  } else if (iconId === "slots") {
+    return <SlotsIcon />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -238,7 +246,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Swap
           </div>
         </div>
-        <div className={s.closed_sb_other_info_list_item}>
+        <div
+          onClick={() => window.open("/Support", "_self")}
+          className={s.closed_sb_other_info_list_item}
+        >
           <SupportIcon />
           <div className={s.closed_sb_tooltip} data-id="support-tooltip">
             Support
@@ -424,6 +435,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <RocketIcon />
               Rocket
             </Link>
+            <Link
+              href={"/games/Slots"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Slots" && s.game_active
+              }`}
+            >
+              <SlotsIcon />
+              Slots
+            </Link>
             <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
               <LeaderboardIcon />
               LeaderBoard
@@ -467,9 +487,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <div
             className={s.support}
-            onClick={() => {
-              location.href = "https://t.me/GKSupportt";
-            }}
+            onClick={() => window.open("/Support", "_self")}
           >
             <div className={s.icon_wrapper}>
               <SupportIcon />
