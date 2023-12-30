@@ -15,3 +15,4 @@ export * from "./CopyIcon";
 export * from "./InfoIcon";
 export * from "./CloseIcon";
 export * from "./RocketIcon";
+export * from "./SlotsIcon";
