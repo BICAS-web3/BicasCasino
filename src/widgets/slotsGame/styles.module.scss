@@ -99,7 +99,10 @@
 .row_wrap {
   width: 100%;
   position: relative;
-  bottom: 23%; /// demo
+  bottom: 27%;
+  @media (max-width: 1280px) {
+    bottom: 23%; /// demo
+  }
 
   img {
     width: 100%;
@@ -107,7 +110,7 @@
 }
 
 .start_game {
-  animation: slot_start infinite 0.5s linear;
+  animation: slot_start infinite 0.4s linear;
 }
 
 @keyframes slot_start {
@@ -115,17 +118,17 @@
     top: 0;
   }
   100% {
-    top: -700px;
+    top: -800px;
   }
 }
 
 .start_game_2 {
-  animation: slot_start_2 infinite 0.5s linear;
+  animation: slot_start_2 infinite 0.4s linear;
 }
 
 @keyframes slot_start_2 {
   0% {
-    top: -700px;
+    top: -800px;
   }
   100% {
     top: 0;

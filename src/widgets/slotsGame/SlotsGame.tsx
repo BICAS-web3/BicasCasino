@@ -22,6 +22,7 @@ import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { ABI as SlotsABI } from "@/shared/contracts/SlotsABI";
 import { useDebounce } from "@/shared/tools";
 import { TOKENS } from "@/shared/tokens";
+
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
@@ -33,43 +34,56 @@ import * as DiceM from "./model";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
 import s from "./styles.module.scss";
+
 import slotsBg from "@/public/media/slots_images/slotsMainBg.png";
 import slots1280Bg from "@/public/media/slots_images/slots1280Bg.png";
-
 import slotsImg1 from "@/public/media/slots_images/slots_items/img1.png";
 import slotsImg2 from "@/public/media/slots_images/slots_items/img2.png";
-import slotsImg3 from "@/public/media/slots_images/slots_items/img3.png";
 import slotsImg4 from "@/public/media/slots_images/slots_items/img4.png";
 import slotsImg5 from "@/public/media/slots_images/slots_items/img5.png";
 import slotsImg6 from "@/public/media/slots_images/slots_items/img6.png";
 import slotsImg7 from "@/public/media/slots_images/slots_items/img7.png";
 
+const coefId = [
+  5, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 12, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 20, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 100,
+];
+
 const rowItems = [
   slotsImg1,
   slotsImg2,
-  slotsImg3,
   slotsImg4,
   slotsImg5,
   slotsImg6,
   slotsImg7,
 ];
 const rowItems_2 = [
-  slotsImg2,
   slotsImg1,
+  slotsImg2,
   slotsImg4,
-  slotsImg3,
-  slotsImg7,
   slotsImg5,
   slotsImg6,
+  slotsImg7,
 ];
 const rowItems_3 = [
   slotsImg1,
+  slotsImg2,
+  slotsImg4,
   slotsImg5,
   slotsImg6,
   slotsImg7,
-  slotsImg2,
-  slotsImg3,
-  slotsImg4,
 ];
 
 import clsx from "clsx";
@@ -82,6 +96,7 @@ interface SlotsGameProps {}
 export const SlotsGame: FC<SlotsGameProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
+  const [getId, setGetId] = useState(-1);
 
   useEffect(() => {
     const handleResize = () => {
@@ -200,7 +215,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: "0x157252ca0672b9569d82870ce98836e310a3a837",
+    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
     abi: SlotsABI,
     functionName: "Slots_Play",
     gasPrice: prevGasPrice,
@@ -245,7 +260,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
-    address: "0x157252ca0672b9569d82870ce98836e310a3a837",
+    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
     abi: SlotsABI,
     functionName: "Slots_GetState",
     args: [address],
@@ -283,7 +298,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      "0x157252ca0672b9569d82870ce98836e310a3a837",
+      "0x35d710a268b3385283e607b5b0C78a73772A7715",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -297,7 +312,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0x157252ca0672b9569d82870ce98836e310a3a837",
+    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
     abi: SlotsABI,
     functionName: "getVRFFee",
     args: [0],
@@ -349,7 +364,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   }, [GameState]);
 
   useContractEvent({
-    address: "0x157252ca0672b9569d82870ce98836e310a3a837",
+    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
     abi: SlotsABI,
     eventName: "Slots_Outcome_Event",
     listener(log) {
@@ -359,6 +374,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         address?.toLowerCase()
       ) {
         console.log("11111,-", (log[0] as any)?.args);
+        setGetId(coefId[(log[0] as any).args?.slotIDs[0]]);
         setWaitingResponse(false);
         const wagered =
           BigInt((log[0] as any).args.wager) *
@@ -454,6 +470,75 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
       setLocalStatus(null);
     }
   }, [inGame]);
+  const [imageArr1, setImageArr1] = useState(rowItems);
+  const [imageArr2, setImageArr2] = useState(rowItems_2);
+  const [imageArr3, setImageArr3] = useState(rowItems_3);
+
+  const updateImageColumn = (
+    column: any,
+    indexToUpdate: any,
+    image: any
+  ): any => {
+    return column.map((el: any, i: any) => (i === indexToUpdate ? image : el));
+  };
+
+  useEffect(() => {
+    if (getId === 0) {
+      const randomInteger_1 = Math.floor(Math.random() * 4);
+      randomInteger_1 >= 1
+        ? setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg1))
+        : setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg2));
+      const randomInteger_2 = Math.floor(Math.random() * 3) + 4;
+      randomInteger_2 >= 5
+        ? setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg5))
+        : setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg6));
+    } else if (getId === 2) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+    } else if (getId === 3) {
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+      setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+    } else if (getId === 5) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+      setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg1));
+    } else if (getId === 10) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg2));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg2));
+      if (localStatus === GameModel.GameStatus.Won) {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg2));
+      } else {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+      }
+    } else if (getId === 12) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg5));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg5));
+      if (localStatus === GameModel.GameStatus.Won) {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg5));
+      } else {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+      }
+    } else if (getId === 20) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg4));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg4));
+      if (localStatus === GameModel.GameStatus.Won) {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg4));
+      } else {
+        setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+      }
+    } else if (getId === 45) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+      setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg7));
+    } else if (getId === 100) {
+      setImageArr1((prev: any) => updateImageColumn(prev, 2, slotsImg6));
+      setImageArr2((prev: any) => updateImageColumn(prev, 2, slotsImg6));
+      setImageArr3((prev: any) => updateImageColumn(prev, 2, slotsImg6));
+    }
+  }, [getId, localStatus]);
+
+  useEffect(() => {
+    console.log(99, imageArr1, imageArr2, imageArr3);
+  }, [imageArr1, imageArr2, imageArr3]);
 
   return (
     <>
@@ -475,23 +560,17 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         <ProfitLine containerClassName={s.total_container} />
         <div className={s.slots_table}>
           <div className={clsx(s.row_wrap, startFirst && s.start_game)}>
-            {rowItems.map((img, ind) => (
+            {imageArr1.map((img, ind) => (
               <img src={img.src} key={ind} className={s.row_img} />
             ))}
           </div>
           <div className={clsx(s.row_wrap, startSecond && s.start_game_2)}>
-            {(localStatus === GameModel.GameStatus.Lost
-              ? rowItems_2
-              : rowItems
-            ).map((img, ind) => (
+            {imageArr2.map((img, ind) => (
               <img src={img.src} key={ind} className={s.row_img} />
             ))}
           </div>
           <div className={clsx(s.row_wrap, startThird && s.start_game)}>
-            {(localStatus === GameModel.GameStatus.Lost
-              ? rowItems_3
-              : rowItems
-            ).map((img, ind) => (
+            {imageArr3.map((img, ind) => (
               <img src={img.src} key={ind} className={s.row_img} />
             ))}
           </div>
