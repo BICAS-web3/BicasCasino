@@ -246,7 +246,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Swap
           </div>
         </div>
-        <div className={s.closed_sb_other_info_list_item}>
+        <div
+          onClick={() => window.open("/Support", "_self")}
+          className={s.closed_sb_other_info_list_item}
+        >
           <SupportIcon />
           <div className={s.closed_sb_tooltip} data-id="support-tooltip">
             Support
@@ -484,9 +487,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <div
             className={s.support}
-            onClick={() => {
-              location.href = "https://t.me/GKSupportt";
-            }}
+            onClick={() => window.open("/Support", "_self")}
           >
             <div className={s.icon_wrapper}>
               <SupportIcon />

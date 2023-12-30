@@ -375,12 +375,11 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         ((log[0] as any).args?.playerAddress as string).toLowerCase() ==
         address?.toLowerCase()
       ) {
-        console.log("11111,-", (log[0] as any)?.args);
-        setGetId(coefId[(log[0] as any).args?.slotIDs[0]]);
+        setGetId(coefId[(log[0] as any)?.args?.slotIDs[0]]);
         setWaitingResponse(false);
         const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
+          BigInt((log[0] as any)?.args?.wager) *
+          BigInt((log[0] as any)?.args?.numGames);
         const handlePayouts = async () => {
           for (const item of (log[0] as any)?.args?.payouts || []) {
             await new Promise((resolve) => setTimeout(resolve, 500));
