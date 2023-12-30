@@ -73,6 +73,14 @@ import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabl
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 
+import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
+import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
+
+import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
+import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
+import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
+import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
+
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
@@ -226,7 +234,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
@@ -301,12 +309,34 @@ const Games: FC<GamesProps> = (props) => {
           closedSidebarImage={rpsMainBg}
           pcImageClosed={rpsMainBgClosed}
         />
+        <Game
+          name={"Rocket"}
+          description={""}
+          link={"/games/Rocket"}
+          tabletImage={rocket_bg}
+          laptopImage={rocket_bg}
+          mobileImage={rocket_bg}
+          pcImage={rocketMainBg}
+          closedSidebarImage={rocket_bg}
+          pcImageClosed={rocket_bg}
+        />
+        <Game
+          name={"Slots"}
+          description={""}
+          link={"/games/Slots"}
+          tabletImage={slot_bg}
+          laptopImage={slot_bg}
+          mobileImage={slot_bg}
+          pcImage={slotsMain}
+          closedSidebarImage={slot_bg}
+          pcImageClosed={slot_bg}
+        />
       </div>
     </div>
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -314,7 +344,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
     </div>
   );
 };
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -368,8 +398,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -378,7 +409,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps { }
+interface MainReplacementComponentProps {}
 const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
   const { isConnected } = useAccount();
   const device = useDeviceType();
@@ -403,8 +434,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
       {!isConnected ? (
         <>
           <div
-            className={`${s.background_container} ${!sidebarOpened && s.background_sidebar_closed
-              }`}
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
           >
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>
