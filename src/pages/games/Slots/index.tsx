@@ -98,14 +98,11 @@ const Slots: FC<SlotsProps> = () => {
         <title>Games - Slots</title>
       </Head>
       <Layout activePageLink="/games/Slots" gameName="Slots">
-        <LiveBetsWS
-          subscription_type={"Subscribe"}
-          subscriptions={["Poker", "PokerStart"]}
-        />
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Slots"]} />
         <div className={s.slots_container}>
           <GamePage
             isPoker={false}
-            gameInfoText="Video Poker - At the start of each round of the game, you are dealt 5 cards with 9 different potential winning combinations. After the first hand, you have the unique opportunity to turn over the cards and try your luck to re-create the best winning combination. In this version of video poker  a royal flush can increase your bet by 100 times, which is guaranteed to give you unforgettable emotions and excitement!"
+            gameInfoText=""
             gameTitle="slots"
             wagerContent={<WagerContent />}
           >

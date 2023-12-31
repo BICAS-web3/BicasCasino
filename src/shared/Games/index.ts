@@ -8,6 +8,8 @@ import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
 import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
+import rocketbg from "@/public/media/games_assets/rocket/rocket_bg.png";
+import slotsbg from "@/public/media/games_assets/slots/slot_bg.png";
 
 export type T_GameData = {
   title: string;
@@ -45,5 +47,15 @@ export const Games: { [key: string]: T_GameData } = {
     title: "Mines",
     text: "Mines",
     imgBackground: minesLaptopBg,
+  },
+  rocket: {
+    title: "Rocket",
+    text: "Rocket",
+    imgBackground: rocketbg,
+  },
+  slots: {
+    title: "Slots",
+    text: "Slots",
+    imgBackground: slotsbg,
   },
 };

@@ -43,15 +43,15 @@
   bottom: 65px;
   width: 133px;
   height: 203px;
-  z-index: 2;
+  z-index: 3;
   @media (max-width: 1280px) {
     bottom: 62px;
   }
   @media (max-width: 998px) {
-    bottom: 32px;
+    bottom: 45px;
   }
   @media (max-width: 700px) {
-    bottom: 13px;
+    bottom: 45px;
   }
 }
 
@@ -64,7 +64,7 @@
     bottom: 65px;
   }
   100% {
-    bottom: 96px;
+    bottom: 92px;
   }
 }
 
@@ -73,7 +73,7 @@
     bottom: -30px;
   }
   100% {
-    bottom: -7px;
+    bottom: -2px;
   }
 }
 
@@ -83,7 +83,7 @@
       bottom: 62px;
     }
     100% {
-      bottom: 96px;
+      bottom: 92px;
     }
   }
 
@@ -92,7 +92,7 @@
       bottom: -33px;
     }
     100% {
-      bottom: -7px;
+      bottom: -2px;
     }
   }
 }
@@ -100,7 +100,7 @@
 @media (max-width: 998px) {
   @keyframes rocket_box {
     0% {
-      bottom: 32px;
+      bottom: 45px;
     }
     100% {
       bottom: 66px;
@@ -108,10 +108,10 @@
   }
   @keyframes fair_animation {
     0% {
-      bottom: -63px;
+      bottom: -50px;
     }
     100% {
-      bottom: -37px;
+      bottom: -27px;
     }
   }
 }
@@ -119,24 +119,27 @@
 @media (max-width: 700px) {
   @keyframes rocket_box {
     0% {
-      bottom: 13px;
+      bottom: 45px;
     }
     100% {
-      bottom: 45px;
+      bottom: 90px;
     }
   }
   @keyframes fair_animation {
     0% {
-      bottom: -80px;
+      bottom: -50px;
     }
+    // 80% {
+    //   bottom: -40px;
+    // }
     100% {
-      bottom: -55px;
+      bottom: -2px;
     }
   }
 }
 
 .rocket_animation {
-  animation: rocket_animations 1s 3.2s infinite;
+  animation: rocket_animations 1s 2.9s infinite;
 }
 
 @keyframes rocket_animations {
@@ -175,6 +178,10 @@
   }
 }
 
+.fvideo {
+  background-color: red;
+}
+
 .fair {
   position: absolute;
   left: 50%;
@@ -182,8 +189,22 @@
   // bottom: -14px;
   width: 105px;
   height: 285px;
-  z-index: 1;
+  z-index: 2;
   animation: fair_animation 3.5s forwards;
+}
+
+.fair_2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  // bottom: -14px;
+  width: 105px;
+  height: 285px;
+  z-index: 2;
+  bottom: -37px;
+  @media (max-width: 998px) {
+    bottom: -50px;
+  }
 }
 
 .plinko_svg_icon {
@@ -693,4 +714,23 @@
 }
 
 .dice_under {
+}
+
+.class {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.clas1 {
+  background-color: red;
+}
+.clas2 {
+  background-color: blue;
+}
+
+.fair_hide {
+  display: none;
 }

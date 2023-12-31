@@ -7,6 +7,8 @@ import rpsIcon from "@/public/media/live_bets/rpsIco.webp";
 import rpsMobIco from "@/public/media/live_bets/rpsMobIco.webp";
 import bombIcon from "@/public/media/live_bets/bombIco.webp";
 import plincoIcon from "@/public/media/live_bets/plinkoIco.webp";
+import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
+import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
@@ -64,6 +66,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(pokerIcon);
     } else if (props.game_name === "Plinko") {
       setGameImg(plincoIcon);
+    } else if (props.game_name === "Slots") {
+      setGameImg(slotsIcon);
+    } else if (props.game_name === "Rocket") {
+      setGameImg(rocketIcon);
     }
   });
 
@@ -144,8 +150,9 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       </div>
       <div className={s.customBets_list_item_profit_block}>
         <span
-          className={`${s.customBets_list_item_profit} ${props.multiplier < 1 && s.lose_profit
-            }`}
+          className={`${s.customBets_list_item_profit} ${
+            props.multiplier < 1 && s.lose_profit
+          }`}
         >
           {props.profit}
         </span>
