@@ -59,9 +59,9 @@ const ConnectMarket: FC<IProps> = ({ refLink }) => {
   }, [currentPageRef]);
 
   useEffect(() => {
-    refLink.current!.addEventListener("scroll", handleScroll);
+    refLink.current?.addEventListener("scroll", handleScroll);
     return () => {
-      refLink.current!.removeEventListener("scroll", handleScroll);
+      refLink.current?.removeEventListener("scroll", handleScroll);
     };
   }, [refLink, handleScroll]);
 
