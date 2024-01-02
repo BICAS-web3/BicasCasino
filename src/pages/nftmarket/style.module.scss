@@ -17,7 +17,7 @@
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: center;
-  max-height: calc(100vh + 50px);
+  max-height: calc(100vh - 170px); // + 50px
   overflow-y: scroll;
   width: fit-content;
   flex: 1 1 auto;
