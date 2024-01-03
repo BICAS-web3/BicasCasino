@@ -692,15 +692,6 @@
   }
 }
 
-.games_closed {
-  color: #979797;
-  svg {
-    path {
-      fill: #979797;
-    }
-  }
-}
-
 .sb_closed_bottom_block {
   display: flex;
   flex-direction: column;
@@ -826,6 +817,12 @@
   align-items: center;
   height: 18px;
   color: #979797;
+  color: #979797;
+  svg {
+    path {
+      fill: #979797;
+    }
+  }
 }
 
 .header_icon_title {
@@ -1264,12 +1261,31 @@
   transform: rotate(1deg);
 }
 
+.active_link {
+  svg {
+    path {
+      fill: white !important;
+    }
+  }
+  color: white !important;
+}
+
+.not_active {
+  svg {
+    path {
+      fill: #979797 !important;
+    }
+  }
+
+  color: #979797 !important;
+}
+
 .tooltip_games_list_item {
   min-width: max-content;
   text-decoration: none;
 }
 .tooltip_games_list_item_title {
-  color: #979797;
+  // color: #979797;
   text-decoration: none !important;
 }
 .desk_hidden_language_title {
@@ -1432,13 +1448,4 @@
 .bonus_ico_block {
   margin-bottom: 3.2px;
   height: 18px;
-}
-
-.active_link {
-  svg {
-    path {
-      fill: white !important;
-    }
-  }
-  color: white !important;
 }
