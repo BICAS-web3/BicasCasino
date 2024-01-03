@@ -10,6 +10,7 @@ import livechatBg from "@/public/media/support/first.png";
 import tgBg from "@/public/media/support/second.png";
 import twitterBg from "@/public/media/support/third.png";
 import mailBg from "@/public/media/support/fourth.png";
+import Link from "next/link";
 
 const supportList = [
   {
@@ -33,7 +34,7 @@ const supportList = [
   {
     title: "Email us",
     ico: mailIco,
-    href: "/",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=greekkeeper@greekkeepers.io",
     bg: mailBg,
   },
 ];
@@ -61,12 +62,9 @@ export const SupportBlock: FC<SupportBlockProps> = () => {
                 />
                 <span className={s.support_list_item_title}>{item.title}</span>
               </div>
-              <button
-                className={s.submit_btn}
-                onClick={() => window.open(item.href, "_blank")}
-              >
+              <Link target="_blank" className={s.submit_btn} href={item.href}>
                 Send a message
-              </button>
+              </Link>
             </div>
           </div>
         ))}
