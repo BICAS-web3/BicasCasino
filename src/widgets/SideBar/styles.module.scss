@@ -95,23 +95,23 @@
 }
 
 .closed_sb_tooltip[data-id="nft-tooltip"] {
-  top: calc(331px - var(--st));
-}
-
-.closed_sb_tooltip[data-id="affilate-tooltip"] {
   top: calc(384px - var(--st));
 }
 
-.closed_sb_tooltip[data-id="htp-tooltip"] {
-  top: calc(277px - var(--st));
-}
-
-.closed_sb_tooltip[data-id="swap-tooltip"] {
+.closed_sb_tooltip[data-id="affilate-tooltip"] {
   top: calc(435px - var(--st));
 }
 
-.closed_sb_tooltip[data-id="support-tooltip"] {
+.closed_sb_tooltip[data-id="htp-tooltip"] {
+  top: calc(331px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="swap-tooltip"] {
   top: calc(489px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="support-tooltip"] {
+  top: calc(543px - var(--st));
 }
 
 .closed_sb_tooltip[data-id="bonus-tooltip"] {
@@ -119,7 +119,11 @@
 }
 
 .closed_sb_tooltip[data-id="home-tooltip"] {
-  top: calc(108px - var(--st));
+  top: calc(107px - var(--st));
+}
+
+.closed_sb_tooltip[data-id="vip-tooltip"] {
+  top: calc(218px - var(--st));
 }
 
 .languages_list {
@@ -300,6 +304,16 @@
   *::-ms-scrollbar-thumb {
     background-color: #3e3e3e;
     border-radius: 4px;
+  }
+}
+
+.vip_ico_block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    margin-bottom: 2px;
   }
 }
 
@@ -520,7 +534,7 @@
   .games_tooltip_wrap {
     padding: 0;
     left: 65px;
-    top: calc(215px - var(--st));
+    top: calc(268px - var(--st));
   }
   &:hover {
     background: #0f0f0f;

@@ -44,7 +44,11 @@ import logo from "@/public/media/brand_images/footerLogo.svg";
 import closeIco from "@/public/media/misc/close.svg";
 import { HomeBtn } from "@/shared/SVGs/HomeBtn";
 import Link from "next/link";
+
+import { VipButton } from "@/shared/SVGs/VipButton";
+
 import { useRouter } from "next/router";
+
 
 const gamesList = [
   {
@@ -193,6 +197,13 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Bonus
           </div>
         </Link>
+        <Link href={"/VipPage"} className={s.closed_sb_bonus_ico}>
+          <LeaderboardIcon />
+          <div className={s.closed_sb_tooltip} data-id="vip-tooltip">
+            Vip
+          </div>
+        </Link>
+        <div className={`${s.games_button}`}>
         <div
           className={clsx(
             s.games_button,
@@ -206,6 +217,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             router.pathname === "/games/Slots" && s.active_link
           )}
         >
+
           <GamesIcon />
           <div className={s.games_tooltip_wrap}>
             <div className={s.games_button_tooltip}>
@@ -381,7 +393,13 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           <div className={s.bonus_ico_block}>
             <BonusIco />
           </div>
-          bonus
+          bonus<span className={s.soon_page}>Soon…</span>
+        </Link>
+        <Link href="/VipPage" className={s.bonus_button_block}>
+          <div className={s.vip_ico_block}>
+            <LeaderboardIcon />
+          </div>
+          vip club
         </Link>
         <div
           className={clsx(
@@ -492,7 +510,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               Slots
             </Link>
             <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
-              <LeaderboardIcon />
+              <VipButton />
               LeaderBoard
             </Link>
           </div>
