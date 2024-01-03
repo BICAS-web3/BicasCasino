@@ -32,6 +32,7 @@ export default function Profile() {
       ).body as api.T_LatestGames;
       const games = r.games;
       if (games != undefined) {
+        console.log(games);
         setLatestGames(
           games.map((game: string, ind) => {
             const game_data = Games[game.toLowerCase() as any];

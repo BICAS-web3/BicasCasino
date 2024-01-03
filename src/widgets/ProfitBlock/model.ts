@@ -1,6 +1,5 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
-import * as api from '@/shared/api';
-
+import { createEffect, createEvent, createStore, sample } from "effector";
+import * as api from "@/shared/api";
 
 // variables
 export const $coefficient = createStore<number>(0);

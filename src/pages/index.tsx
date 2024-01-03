@@ -33,45 +33,53 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBanner.webp";
+import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBg_2.png";
 import pokerMainBgClosed from "@/public/media/games_assets/poker/pokerMainBg2.webp";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
-import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.webp";
+import pokerTabletBg from "@/public/media/games_assets/poker/poker.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.webp";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.webp";
 
-import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBanner.webp";
+import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.png";
 import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.webp";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
-import coinflipTabletBg from "@/public/media/games_assets/coinflip/tabletBg.webp";
+import coinflipTabletBg from "@/public/media/games_assets/coinflip/plinko.jpg";
 import coinflipMobileBg from "@/public/media/games_assets/coinflip/mobileBg.webp";
 import coinflipClosedSidebarImg from "@/public/media/games_assets/coinflip/closedSidebarImg.webp";
 
-import diceMainBg from "@/public/media/games_assets/dice/diceMainBanner.webp";
+import diceMainBg from "@/public/media/games_assets/dice/diceMainBg_3.png";
 import diceMainBgClosed from "@/public/media/games_assets/dice/diceMainBg2.webp";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
-import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.webp";
+import diceTabletBg from "@/public/media/games_assets/dice/dice.png";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.webp";
 import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.webp";
 
-import minesMainBg from "@/public/media/games_assets/mines/minesMainBanner.webp";
+import minesMainBg from "@/public/media/games_assets/mines/minesMainBg_2.png";
 import minesMainBgClosed from "@/public/media/games_assets/mines/minesMainBg2.webp";
 import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.webp";
 import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.webp";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.webp";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.webp";
 
-import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
+import plinkoMainBg from "@/public/media/games_assets/plinko/PlinkoMainBg.png";
 import plinkoMainBgClosed from "@/public/media/games_assets/plinko/plinkoMainBg2.webp";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
-import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoTabletImg.webp";
+import plinkoTabletBg from "@/public/media/games_assets/plinko/plinko.png";
 import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
-import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.webp";
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg_2.png";
+import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.png";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
+
+import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
+import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
+
+import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
+import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
+import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
+import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -226,7 +234,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps { }
+interface GamesProps {}
 
 const Games: FC<GamesProps> = (props) => {
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
@@ -301,12 +309,34 @@ const Games: FC<GamesProps> = (props) => {
           closedSidebarImage={rpsMainBg}
           pcImageClosed={rpsMainBgClosed}
         />
+        <Game
+          name={"Rocket"}
+          description={""}
+          link={"/games/Rocket"}
+          tabletImage={rocket_bg}
+          laptopImage={rocket_bg}
+          mobileImage={rocket_bg}
+          pcImage={rocketMainBg}
+          closedSidebarImage={rocket_bg}
+          pcImageClosed={rocket_bg}
+        />
+        <Game
+          name={"Slots"}
+          description={""}
+          link={"/games/Slots"}
+          tabletImage={slot_bg}
+          laptopImage={slot_bg}
+          mobileImage={slot_bg}
+          pcImage={slotsMain}
+          closedSidebarImage={slot_bg}
+          pcImageClosed={slot_bg}
+        />
       </div>
     </div>
   );
 };
 
-interface GamesTitleProps { }
+interface GamesTitleProps {}
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -314,7 +344,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
     </div>
   );
 };
-interface BannerInfoProps { }
+interface BannerInfoProps {}
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -368,8 +398,9 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
-            } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${
+            !isOpen && s.sidebarClosed
+          } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -378,7 +409,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps { }
+interface MainReplacementComponentProps {}
 const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
   const { isConnected } = useAccount();
   const device = useDeviceType();
@@ -403,8 +434,9 @@ const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
       {!isConnected ? (
         <>
           <div
-            className={`${s.background_container} ${!sidebarOpened && s.background_sidebar_closed
-              }`}
+            className={`${s.background_container} ${
+              !sidebarOpened && s.background_sidebar_closed
+            }`}
           >
             <Image src={currentImage} alt={""} className={s.background} />
             <div className={s.background_gradient}></div>

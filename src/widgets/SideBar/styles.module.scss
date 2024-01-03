@@ -632,7 +632,7 @@
   flex-direction: column;
   position: relative;
   transition: all 1s;
-  min-height: 395px;
+  min-height: 495px;
 }
 
 .buttons_menu_closed {
@@ -641,6 +641,7 @@
   transition: all 1s;
   .menu_header {
     border-bottom: 1px solid #121212;
+    color: #979797;
   }
 }
 
@@ -692,13 +693,11 @@
 }
 
 .games_closed {
+  color: #979797;
   svg {
     path {
       fill: #979797;
     }
-  }
-  .header_icon_title {
-    color: #979797;
   }
 }
 
@@ -826,11 +825,12 @@
   justify-content: center;
   align-items: center;
   height: 18px;
+  color: #979797;
 }
 
 .header_icon_title {
   font-family: var(--font-nunito-sans);
-  color: #eaeaea;
+  // color: #eaeaea;
   font-size: 16px;
   margin-top: 1px;
   letter-spacing: 4%;
@@ -953,6 +953,7 @@
 }
 
 .support {
+  color: #979797;
   box-sizing: border-box;
   flex-direction: row;
   column-gap: 11px;
@@ -968,12 +969,13 @@
       fill: #eaeaea;
     }
     .large_header_text {
-      color: #eaeaea;
+      // color: #eaeaea;
     }
   }
 }
 
 .oth_info_list_item {
+  color: #979797;
   text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
@@ -1027,7 +1029,6 @@
   line-height: 21px;
   letter-spacing: 0.04em;
   text-align: left;
-  color: #979797;
   text-transform: uppercase;
 }
 
@@ -1431,4 +1432,13 @@
 .bonus_ico_block {
   margin-bottom: 3.2px;
   height: 18px;
+}
+
+.active_link {
+  svg {
+    path {
+      fill: white !important;
+    }
+  }
+  color: white !important;
 }

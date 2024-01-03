@@ -197,14 +197,14 @@
   position: absolute;
   left: calc(50% - 191px);
   bottom: 215px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .lost_wrapper {
   position: absolute;
   left: calc(50% - 90.405px);
   top: -1px;
-  z-index: 2;
+  z-index: 3;
 }
 
 @media screen and (max-width: 996px) {
