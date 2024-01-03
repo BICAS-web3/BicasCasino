@@ -33,43 +33,43 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBanner.webp";
+import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBg_2.png";
 import pokerMainBgClosed from "@/public/media/games_assets/poker/pokerMainBg2.webp";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
-import pokerTabletBg from "@/public/media/games_assets/poker/tabletImg.webp";
+import pokerTabletBg from "@/public/media/games_assets/poker/poker.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.webp";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.webp";
 
-import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBanner.webp";
+import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.png";
 import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.webp";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
-import coinflipTabletBg from "@/public/media/games_assets/coinflip/tabletBg.webp";
+import coinflipTabletBg from "@/public/media/games_assets/coinflip/plinko.jpg";
 import coinflipMobileBg from "@/public/media/games_assets/coinflip/mobileBg.webp";
 import coinflipClosedSidebarImg from "@/public/media/games_assets/coinflip/closedSidebarImg.webp";
 
-import diceMainBg from "@/public/media/games_assets/dice/diceMainBanner.webp";
+import diceMainBg from "@/public/media/games_assets/dice/diceMainBg_3.png";
 import diceMainBgClosed from "@/public/media/games_assets/dice/diceMainBg2.webp";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
-import diceTabletBg from "@/public/media/games_assets/dice/tabletPcImg.webp";
+import diceTabletBg from "@/public/media/games_assets/dice/dice.png";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.webp";
 import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.webp";
 
-import minesMainBg from "@/public/media/games_assets/mines/minesMainBanner.webp";
+import minesMainBg from "@/public/media/games_assets/mines/minesMainBg_2.png";
 import minesMainBgClosed from "@/public/media/games_assets/mines/minesMainBg2.webp";
 import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.webp";
 import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.webp";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.webp";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.webp";
 
-import plinkoMainBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
+import plinkoMainBg from "@/public/media/games_assets/plinko/PlinkoMainBg.png";
 import plinkoMainBgClosed from "@/public/media/games_assets/plinko/plinkoMainBg2.webp";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
-import plinkoTabletBg from "@/public/media/games_assets/plinko/plinkoTabletImg.webp";
+import plinkoTabletBg from "@/public/media/games_assets/plinko/plinko.png";
 import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
-import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rpsTabletImg.webp";
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg_2.png";
+import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.png";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 

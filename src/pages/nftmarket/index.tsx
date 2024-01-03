@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from "react";
-
+import { FC, useEffect, useState, useRef, useCallback } from "react";
+import Head from "next/head";
 import { Layout } from "@/widgets/Layout";
 import { NFTCard } from "@/widgets/NFTCard";
-
 import {
   MODEL_1,
   MODEL_2,
@@ -10,24 +9,61 @@ import {
   MODEL_4,
 } from "@/shared/nftContractAddress";
 import * as Api from "@/shared/api";
-
 import s from "./style.module.scss";
-import Head from "next/head";
 
-const ConnectMarket: FC = () => {
-  const [nfts, setNfts] = useState<any>([]);
+const PAGE_SIZE = 100;
+const TOTAL_PAGES = 8;
 
-  const setDefaultValue = async () => {
-    await Promise.all(
-      Array.from({ length: 800 }).map(async (_, id) => {
-        const data = await Api.GetNftMarket(id);
-        setNfts((prev: any) => [...prev, { ...data, id }]);
-      })
-    );
-  };
-  useEffect(() => {
-    nfts.length === 0 && setDefaultValue();
+interface IProps {
+  refLink: React.RefObject<HTMLDivElement>;
+}
+
+const ConnectMarket: FC<IProps> = ({ refLink }) => {
+  const [nfts, setNfts] = useState<any[]>([]);
+  const [currentPageRef, setCurrentRef] = useState(1);
+  const loadingRef = useRef(false);
+
+  const loadNFTs = useCallback(async (page: number) => {
+    try {
+      loadingRef.current = true;
+      const start = (page - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const newNFTs = await Promise.all(
+        Array.from({ length: PAGE_SIZE }).map(async (_, index) => {
+          const data = await Api.GetNftMarket(start + index);
+          return { ...data, id: start + index };
+        })
+      );
+      setNfts((prevNFTs) => [...prevNFTs, ...newNFTs]);
+    } catch (error) {
+      console.error("Error loading NFTs:", error);
+    } finally {
+      loadingRef.current = false;
+    }
   }, []);
+
+  const handleScroll = useCallback(() => {
+    const { scrollTop, clientHeight, scrollHeight } = refLink.current!;
+    if (
+      scrollTop + clientHeight >= scrollHeight &&
+      currentPageRef < TOTAL_PAGES
+    ) {
+      setCurrentRef((prev) => prev + 1);
+    }
+  }, [refLink.current?.clientHeight]);
+
+  useEffect(() => {
+    if (currentPageRef <= TOTAL_PAGES) {
+      loadNFTs(currentPageRef);
+    }
+  }, [currentPageRef]);
+
+  useEffect(() => {
+    refLink.current?.addEventListener("scroll", handleScroll);
+    return () => {
+      refLink.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, [refLink, handleScroll]);
 
   return (
     <>
@@ -66,6 +102,7 @@ const ConnectMarket: FC = () => {
               }
               key={i}
               id={item.id}
+              check={i}
             />
           );
         })}
@@ -74,206 +111,20 @@ const ConnectMarket: FC = () => {
 };
 
 export default function Home() {
+  const marketRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Head>
         <title>NFT market</title>
       </Head>
       <Layout gameName={undefined}>
-        {/* <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} /> */}
         <div className={s.main_container}>
-          <div className={s.nft_container}>
-            <ConnectMarket />
+          <div ref={marketRef} className={s.nft_container}>
+            <ConnectMarket refLink={marketRef} />
           </div>
         </div>
       </Layout>
     </>
   );
 }
-
-// const { data: getNft_5, isSuccess: getNftSuccess_5 } = useContractRead({
-//   chainId: 97,
-//   address: models[5].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-// });
-
-// const { data: getNft_4, isSuccess: getNftSuccess_4 } = useContractRead({
-//   chainId: 97,
-//   address: models[4].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-//   watch: isConnected,
-// });
-// const { data: getNft_3, isSuccess: getNftSuccess_3 } = useContractRead({
-//   chainId: 97,
-//   address: models[3].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-//   watch: isConnected,
-// });
-// const { data: getNft_2, isSuccess: getNftSuccess_2 } = useContractRead({
-//   chainId: 97,
-//   address: models[2].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-//   watch: isConnected,
-// });
-// const { data: getNft_1, isSuccess: getNftSuccess_1 } = useContractRead({
-//   chainId: 97,
-//   address: models[1].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-//   watch: isConnected,
-// });
-// const { data: getNft_0, isSuccess: getNftSuccess_0 } = useContractRead({
-//   chainId: 97,
-//   address: models[0].contractModel,
-//   abi,
-//   functionName: "maxGods",
-//   args: [],
-//   enabled: true,
-//   watch: isConnected,
-// });
-
-// const { data: mintFee_0, isSuccess: isSuccessFee_0 } = useContractRead({
-//   chainId: 97,
-//   address: models[0].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-// const { data: mintFee_1, isSuccess: isSuccessFee_1 } = useContractRead({
-//   chainId: 97,
-//   address: models[1].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-// const { data: mintFee_2, isSuccess: isSuccessFee_2 } = useContractRead({
-//   chainId: 97,
-//   address: models[2].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-// const { data: mintFee_3, isSuccess: isSuccessFee_3 } = useContractRead({
-//   chainId: 97,
-//   address: models[3].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-// const { data: mintFee_4, isSuccess: isSuccessFee_4 } = useContractRead({
-//   chainId: 97,
-//   address: models[4].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-// const { data: mintFee_5, isSuccess: isSuccessFee_5 } = useContractRead({
-//   chainId: 97,
-//   address: models[5].contractModel,
-//   abi,
-//   functionName: "getMintFee",
-//   args: [],
-//   enabled: true,
-// });
-
-// useEffect(() => {
-//   if (isSuccessFee_5) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[5] = {
-//         contractModel: models[5].contractModel,
-//         fee: mintFee_5,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_5]);
-// useEffect(() => {
-//   if (isSuccessFee_4) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[4] = {
-//         contractModel: models[4].contractModel,
-//         fee: mintFee_4,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_4]);
-// useEffect(() => {
-//   if (isSuccessFee_3) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[3] = {
-//         contractModel: models[3].contractModel,
-//         fee: mintFee_3,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_3]);
-// useEffect(() => {
-//   if (isSuccessFee_2) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[2] = {
-//         contractModel: models[2].contractModel,
-//         fee: mintFee_2,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_2]);
-// useEffect(() => {
-//   if (isSuccessFee_1) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[1] = {
-//         contractModel: models[1].contractModel,
-//         fee: mintFee_1,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_1]);
-// useEffect(() => {
-//   if (isSuccessFee_0) {
-//     setModels((prevModels) => {
-//       const updatedModels = [...prevModels];
-//       updatedModels[0] = {
-//         contractModel: models[0].contractModel,
-//         fee: mintFee_0,
-//       };
-//       return updatedModels;
-//     });
-//   }
-// }, [isSuccessFee_0]);
-// useEffect(() => {
-//   if (chain?.id !== 56 && address) {
-//     switchNetwork?.(56);
-//   }
-// }, [address]);
-
-// const { address } = useAccount();
-
-// const { chain } = useNetwork();
-// const { switchNetwork } = useSwitchNetwork();

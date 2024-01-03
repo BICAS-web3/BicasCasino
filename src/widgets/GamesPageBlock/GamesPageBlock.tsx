@@ -63,7 +63,7 @@ const gamesList = [
   },
 ];
 
-interface GamesPageBlockProps { }
+interface GamesPageBlockProps {}
 
 export const GamesPageBlock: FC<GamesPageBlockProps> = () => {
   return (

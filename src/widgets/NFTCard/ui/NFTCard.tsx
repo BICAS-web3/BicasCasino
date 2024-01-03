@@ -10,6 +10,7 @@ export interface NFTCardProps {
   id?: number;
   contractAddress?: string;
   fee?: any;
+  check?: number;
 }
 
 export const NFTCard: FC<NFTCardProps> = (props) => {
