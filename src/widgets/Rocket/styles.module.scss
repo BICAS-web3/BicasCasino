@@ -17,6 +17,13 @@
 }
 
 .background_video {
+  border-radius: 20px 0 0 0;
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0 !important;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 0 !important;
+  }
   position: absolute;
   top: 0;
   left: 0;

@@ -5,6 +5,13 @@
 }
 
 .slots_table_background {
+  border-radius: 20px 0 0 0;
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0 !important;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 0 !important;
+  }
   width: 100%;
   height: 100%;
   position: absolute;

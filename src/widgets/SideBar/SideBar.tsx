@@ -46,6 +46,7 @@ import { HomeBtn } from "@/shared/SVGs/HomeBtn";
 import Link from "next/link";
 
 import { VipButton } from "@/shared/SVGs/VipButton";
+import { useRouter } from "next/router";
 
 const gamesList = [
   {
@@ -165,29 +166,59 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
     SideBarModel.$isOpen,
   ]);
 
+  const path = useRouter().pathname;
+
   return (
     <>
       <div className={s.closed_sb_group}>
-        <Link href={"/"} className={s.closed_sb_bonus_ico}>
+        <Link
+          href={"/"}
+          className={clsx(s.closed_sb_bonus_ico, path === "/" && s.active_link)}
+        >
           <HomeBtn />
 
           <div className={s.closed_sb_tooltip} data-id="home-tooltip">
             Home
           </div>
         </Link>
-        <Link href={"/Bonus"} className={s.closed_sb_bonus_ico}>
+        <Link
+          href={"/Bonus"}
+          className={clsx(
+            s.closed_sb_bonus_ico,
+            path === "/Bonus" && s.active_link
+          )}
+        >
           <BonusIco />
           <div className={s.closed_sb_tooltip} data-id="bonus-tooltip">
             Bonus
           </div>
         </Link>
-        <Link href={"/VipPage"} className={s.closed_sb_bonus_ico}>
+        <Link
+          href={"/VipClub"}
+          className={clsx(
+            s.closed_sb_bonus_ico,
+            path === "/VipClub" && s.active_link
+          )}
+        >
           <LeaderboardIcon />
           <div className={s.closed_sb_tooltip} data-id="vip-tooltip">
             Vip
           </div>
         </Link>
-        <div className={`${s.games_button}`}>
+        <div
+          className={`${clsx(
+            s.games_button,
+            path === "/games/CoinFlip" && s.active_link,
+            path === "/games/Dice" && s.active_link,
+            path === "/games/RockPaperScissors" && s.active_link,
+            path === "/games/Poker" && s.active_link,
+            path === "/games/Mines" && s.active_link,
+            path === "/games/Plinko" && s.active_link,
+            path === "/games/Rocket" && s.active_link,
+            path === "/games/Slots" && s.active_link,
+            path === "/leaderboard" && s.active_link
+          )}`}
+        >
           <GamesIcon />
           <div className={s.games_tooltip_wrap}>
             <div className={s.games_button_tooltip}>
@@ -195,10 +226,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
                 {gamesList.map((item, ind) => (
                   <Link
                     href={item.link}
-                    className={s.tooltip_games_list_item}
-                    // onClick={() => {
-                    //   location.href = item.link;
-                    // }}
+                    className={clsx(
+                      s.tooltip_games_list_item,
+                      path === item.link ? s.active_link : s.not_active
+                    )}
                   >
                     <GameIcon iconId={item.icon} />
                     <span className={s.tooltip_games_list_item_title}>
@@ -220,13 +251,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
         </div>
         <Link
           href={"/nftmarket"}
-          // onClick={() =>
-          // window.open(
-          //   "https://element.market/collections/greekkeepers",
-          //   "_blank"
-          // )
-          // }
-          className={s.closed_sb_other_info_list_item}
+          className={clsx(
+            s.closed_sb_other_info_list_item,
+            path === "/nftmarket" && s.active_link
+          )}
         >
           <NftIco />
           <div className={s.closed_sb_tooltip} data-id="nft-tooltip">
@@ -250,15 +278,18 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             Swap
           </div>
         </div>
-        <div
-          onClick={() => window.open("/Support", "_self")}
-          className={s.closed_sb_other_info_list_item}
+        <Link
+          href="/Support"
+          className={clsx(
+            s.closed_sb_other_info_list_item,
+            path === "/Support" && s.active_link
+          )}
         >
           <SupportIcon />
           <div className={s.closed_sb_tooltip} data-id="support-tooltip">
             Support
           </div>
-        </div>
+        </Link>
       </div>
     </>
   );
@@ -297,6 +328,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
     const lang = languagesList.filter((item) => item.id === id)[0];
     setActiveLanguage(lang);
   };
+
+  const path = useRouter().pathname;
 
   return (
     <>
@@ -337,19 +370,34 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
           </div>
         </div>
-        <Link href={"/"} className={s.bonus_button_block}>
+        <Link
+          href={"/"}
+          className={clsx(s.bonus_button_block, path === "/" && s.active_link)}
+        >
           <div className={s.home_ico_block}>
             <HomeBtn />
           </div>
           home
         </Link>
-        <Link href={"/Bonus"} className={s.bonus_button_block}>
+        <Link
+          href={"/Bonus"}
+          className={clsx(
+            s.bonus_button_block,
+            path === "/Bonus" && s.active_link
+          )}
+        >
           <div className={s.bonus_ico_block}>
             <BonusIco />
           </div>
           bonus
         </Link>
-        <Link href="/VipPage" className={s.bonus_button_block}>
+        <Link
+          href="/VipClub"
+          className={clsx(
+            s.bonus_button_block,
+            path === "/VipClub" && s.active_link
+          )}
+        >
           <div className={s.vip_ico_block}>
             <LeaderboardIcon />
           </div>
@@ -368,9 +416,18 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             }}
           >
             <div
-              className={`${s.header_icon_container} ${
-                !gamesAreOpen && s.games_closed
-              }`}
+              className={clsx(
+                s.header_icon_container,
+                path === "/games/CoinFlip" && s.active_link,
+                path === "/games/Dice" && s.active_link,
+                path === "/games/RockPaperScissors" && s.active_link,
+                path === "/games/Poker" && s.active_link,
+                path === "/games/Mines" && s.active_link,
+                path === "/games/Plinko" && s.active_link,
+                path === "/games/Rocket" && s.active_link,
+                path === "/games/Slots" && s.active_link,
+                path === "/leaderboard" && s.active_link
+              )}
             >
               <GamesIcon />
               <span className={s.header_icon_title}>games</span>
@@ -471,13 +528,10 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
           </div>
           <Link
             href={"/nftmarket"}
-            // onClick={() =>
-            //   window.open(
-            //     "https://element.market/collections/greekkeepers",
-            //     "_blank"
-            //   )
-            // }
-            className={s.oth_info_list_item}
+            className={clsx(
+              s.oth_info_list_item,
+              path === "/nftmarket" && s.active_link
+            )}
           >
             <div className={s.icon_wrapper}>
               <NftIco />
@@ -495,15 +549,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             </div>
             <div className={s.large_header_text}>affiliate</div>
           </div>
-          <div
-            className={s.support}
-            onClick={() => window.open("/Support", "_self")}
+          <Link
+            className={clsx(s.support, path === "/Support" && s.active_link)}
+            href="/Support"
           >
             <div className={s.icon_wrapper}>
               <SupportIcon />
             </div>
             <div className={s.large_header_text}>support</div>
-          </div>
+          </Link>
           <Swap />
         </div>
         <div
