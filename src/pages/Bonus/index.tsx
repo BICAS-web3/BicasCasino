@@ -8,18 +8,12 @@ import bonus_2 from "@/public/media/bonus_icons/bonus_2.svg";
 import bonus_3 from "@/public/media/bonus_icons/bonus_3.svg";
 
 import eclipse from "@/public/media/bonus_icons/sircle_eclipse.svg";
-import section_about_1 from "@/public/media/bonus_images/section_about_1.png";
-import section_about_2 from "@/public/media/bonus_images/section_about_2.png";
-import section_about_3 from "@/public/media/bonus_images/section_about_3.png";
-import section_about_1_2 from "@/public/media/bonus_images/section_about_1_2.png";
-import section_about_2_2 from "@/public/media/bonus_images/section_about_2_2.png";
-import section_about_3_2 from "@/public/media/bonus_images/section_about_3_2.png";
-import section_about_1_3 from "@/public/media/bonus_images/section_about_1_3.png";
-import section_about_2_3 from "@/public/media/bonus_images/section_about_2_3.png";
-import section_about_3_3 from "@/public/media/bonus_images/section_about_3_3.png";
-import section_about_1_4 from "@/public/media/bonus_images/section_about_1_4.png";
-import section_about_2_4 from "@/public/media/bonus_images/section_about_2_4.png";
-import section_about_3_4 from "@/public/media/bonus_images/section_about_3_4.png";
+import section_3 from "@/public/media/bonus_images/section_3.png";
+import section_2_2 from "@/public/media/bonus_images/section_2_2.png";
+import section_2_3 from "@/public/media/bonus_images/section_2_3.png";
+import section_2 from "@/public/media/bonus_images/section_2.png";
+import section_1 from "@/public/media/bonus_images/section_1.png";
+import section_1_3 from "@/public/media/bonus_images/section_1_3.png";
 import bonus_bg from "@/public/media/bonus_images/bonus_bg.png";
 import bonus_bg_2 from "@/public/media/bonus_images/bonus_bg_2.png";
 import bonus_bg_3 from "@/public/media/bonus_images/bonus_bg_3.png";
@@ -132,26 +126,15 @@ export default function Home() {
             <span className={s.about_eclipse_2}></span>
             <div className={clsx(s.about_section_item, s.about_section_item_1)}>
               <Image
-                className={clsx(s.section_about_img, s.section_about_img_1)}
-                src={section_about_1}
+                className={clsx(s.section_about_img, s.section_img_1)}
+                src={section_1}
                 alt="'section_img"
               />
               <Image
-                className={clsx(s.section_about_img, s.section_about_img_2)}
-                src={section_about_1_2}
+                className={clsx(s.section_about_img, s.section_img_1_3)}
+                src={section_1_3}
                 alt="'section_img"
               />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_3)}
-                src={section_about_1_3}
-                alt="'section_img"
-              />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_4)}
-                src={section_about_1_4}
-                alt="'section_img"
-              />
-
               <div className={s.about_text_container}>
                 {" "}
                 <h3>Join the Exciting Adventure with Greek Keepers!</h3>
@@ -175,48 +158,27 @@ export default function Home() {
                 </p>
               </div>
               <Image
-                className={clsx(s.section_about_img, s.section_about_img_1)}
-                src={section_about_2}
-                alt="'section_img"
+                className={clsx(s.section_about_img, s.section_img_2)}
+                src={section_2}
+                alt=""
+              />{" "}
+              <Image
+                className={clsx(s.section_about_img, s.section_img_2_2)}
+                src={section_2_2}
+                alt=""
               />
               <Image
-                className={clsx(s.section_about_img, s.section_about_img_2)}
-                src={section_about_2_2}
-                alt="'section_img"
-              />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_3)}
-                src={section_about_2_3}
-                alt="'section_img"
-              />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_4)}
-                src={section_about_2_4}
-                alt="'section_img"
+                className={clsx(s.section_about_img, s.section_img_2_3)}
+                src={section_2_3}
+                alt=""
               />
             </div>
             <div className={clsx(s.about_section_item, s.about_section_item_3)}>
               <Image
-                className={clsx(s.section_about_img, s.section_about_img_1)}
-                src={section_about_3}
+                className={clsx(s.section_about_img, s.section_img_3)}
+                src={section_3}
                 alt="'section_img"
               />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_2)}
-                src={section_about_3_2}
-                alt="'section_img"
-              />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_3)}
-                src={section_about_3_3}
-                alt="'section_img"
-              />
-              <Image
-                className={clsx(s.section_about_img, s.section_about_img_4)}
-                src={section_about_3_4}
-                alt="'section_img"
-              />
-
               <div className={s.about_text_container}>
                 {" "}
                 <h3>Start your journey with a simple step!</h3>
