@@ -5,7 +5,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
-import HeaderLogo from "@/public/media/brand_images/HeaderLogo.svg";
+import HeaderLogo from "@/public/media/brand_images/HeaderLogo.png";
 
 import * as SidebarM from "@/widgets/SideBar/model";
 
@@ -37,7 +37,13 @@ export const Header: FC<HeaderProps> = (props) => {
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>
         <Link className={s.emblem} href="/">
-          <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
+          <Image
+            className={s.logo}
+            src={HeaderLogo}
+            alt={""}
+            width={36}
+            height={46.07}
+          />
           <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
         </Link>
         <RightMenu isGame={props.isGame} hideHeaderBtn={props.hideHeaderBtn} />
