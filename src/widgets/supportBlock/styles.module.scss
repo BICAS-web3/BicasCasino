@@ -17,6 +17,7 @@
 
 .support_list_item {
   position: relative;
+  overflow: hidden;
 }
 
 .support_list_item_bg {
@@ -26,6 +27,7 @@
   height: 100%;
   object-fit: cover;
   top: 0;
+  transition: all 0.5s;
 }
 
 .support_list_item_title {
@@ -54,6 +56,10 @@
   @media screen and (max-width: 1280px) {
     height: 185px;
   }
+}
+
+.support_list_item:hover > .support_list_item_bg {
+  transform: scale(1.2);
 }
 
 .support_list_item_body {
