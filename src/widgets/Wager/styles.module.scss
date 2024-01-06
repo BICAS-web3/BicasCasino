@@ -203,8 +203,8 @@
   z-index: 9;
   border-radius: 12px;
   @media (max-width: 650px) {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     border-radius: 5px;
   }
 }
@@ -216,6 +216,13 @@
 
 .poker_wager_info_btn_wrap {
   z-index: 8;
+
+  @media screen and (max-width: 650px) {
+    button {
+      width: 32px;
+      height: 32px;
+    }
+  }
 }
 
 .poker_wager_info_modal_block {

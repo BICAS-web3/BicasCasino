@@ -73,6 +73,16 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
     GameModel.switchSounds,
   ]);
 
+  const soundChange = () => {
+    if (playSounds === "off") {
+      switchSounds("on");
+    } else if (playSounds === "on") {
+      switchSounds("effects");
+    } else if (playSounds === "effects") {
+      switchSounds("off");
+    }
+  };
+
   const [infoModalVisibility, setInfoModalVisibility] = useState(false);
   //const [soundState, setSoundState] = useState(true);
   const [handMultiplierBlockVisibility, setHandVisibility] = useUnit([
@@ -90,18 +100,15 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
 
   return (
     <div className={clsx(s.poker_wager_lower_btns_block, className)}>
-      <button
-        className={s.poker_wager_sound_btn}
-        onClick={() => switchSounds()}
-      >
-        {playSounds ? (
-          <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
-        ) : (
+      <button className={s.poker_wager_sound_btn} onClick={soundChange}>
+        {playSounds === "off" ? (
           <Image
             alt="sound-ico-off"
             className={s.sound_ico}
             src={soundOffIco}
           />
+        ) : (
+          <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
         )}
       </button>
       <div className={s.poker_wager_info_btn_wrap}>
