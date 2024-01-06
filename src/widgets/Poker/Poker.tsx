@@ -4,6 +4,7 @@ import Image from "next/image";
 import tableBg from "@/public/media/poker_images/pokerBgImage.webp";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import {
   useAccount,
   useContractEvent,
@@ -83,6 +84,7 @@ export const Poker: FC<PokerProps> = (props) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [
+    betsAmount,
     lost,
     profit,
     gameStatus,
@@ -105,6 +107,7 @@ export const Poker: FC<PokerProps> = (props) => {
     setIsPlaying,
     setWaitingResponse,
   ] = useUnit([
+    CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
     GameModel.$profit,
     GameModel.$gameStatus,
@@ -127,6 +130,7 @@ export const Poker: FC<PokerProps> = (props) => {
     GameModel.setIsPlaying,
     GameModel.setWaitingResponse,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
 
@@ -397,6 +401,13 @@ export const Poker: FC<PokerProps> = (props) => {
           setInGame(false);
 
           const wagered = (log[0] as any).args.wager;
+          const handlePayouts = async () => {
+            setCoefficientData((prev) => [
+              Number((log[0] as any)?.args?.payout) / Number(wagered),
+              ...prev,
+            ]);
+          };
+          handlePayouts();
           if ((log[0] as any).args.payout > 0) {
             const profit = (log[0] as any).args.payout;
 
@@ -558,14 +569,35 @@ export const Poker: FC<PokerProps> = (props) => {
     GameModel.$token,
   ]);
 
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
@@ -606,7 +638,35 @@ export const Poker: FC<PokerProps> = (props) => {
             alt="table-bg"
           />
         </div>{" "}
-        <ProfitLine containerClassName={s.total_container} />
+        <div className={clsx(s.total_container)}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={clsx(s.balls_arr)}>
+          {coefficientData.map((item, i) => (
+            <div
+              className={clsx(
+                s.multiplier_value,
+                item >= 1 && s.multiplier_positive,
+                item < 1 && s.multiplier_negative
+              )}
+              key={i}
+            >
+              {item?.toFixed(2)}x
+            </div>
+          ))}
+        </div>
         <div className={s.poker_table}>
           <div className={s.poker_table_cards_list}>
             {activeCards &&

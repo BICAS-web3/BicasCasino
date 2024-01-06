@@ -145,6 +145,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.setBetValue,
     GameModel.$betValue,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   useEffect(() => {
     setCoefficient(1.98);
@@ -365,6 +366,16 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = async () => {
+          for (const item of (log[0] as any)?.args?.payouts || []) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            setCoefficientData((prev) => [
+              Number(item) / Number(wagered),
+              ...prev,
+            ]);
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -428,7 +439,38 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {error && (
@@ -446,7 +488,35 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
             alt="table-bg"
           />
         </div>
-        <ProfitLine containerClassName={s.total_container} />
+        <div className={clsx(s.total_container)}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={clsx(s.balls_arr)}>
+          {coefficientData.map((item, i) => (
+            <div
+              className={clsx(
+                s.multiplier_value,
+                item >= 1 && s.multiplier_positive,
+                item < 1 && s.multiplier_negative
+              )}
+              key={i}
+            >
+              {item?.toFixed(2)}x
+            </div>
+          ))}
+        </div>
         <div className={s.coinflip_table}>
           <div className={s.coinflip_wrap}>
             <div className={s.coinflip_block}>

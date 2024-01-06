@@ -41,21 +41,29 @@
   z-index: 21;
   left: 0;
   top: 0;
+  @media (max-width: 650px) {
+    width: 97px;
+    height: 132px;
+  }
 }
 
 .rocket_box {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 65px;
+  bottom: 130px; // 65
   width: 133px;
   height: 203px;
   z-index: 3;
   @media (max-width: 1280px) {
-    bottom: 62px;
+    bottom: 115px;
   }
   @media (max-width: 998px) {
     bottom: 45px;
+  }
+  @media (max-width: 650px) {
+    width: 97px;
+    height: 132px;
   }
   @media (max-width: 700px) {
     bottom: 45px;
@@ -63,15 +71,31 @@
 }
 
 .rocket_box_animation {
-  animation: rocket_box 3.8s forwards;
+  animation: rocket_box 0.44s; // 3.8
 }
 
 @keyframes rocket_box {
+  // 0% {
+  //   bottom: 65px;
+  // }
+  // 100% {
+  //   bottom: 92px;
+  // }
   0% {
-    bottom: 65px;
+    bottom: 130px;
+  }
+  90% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    bottom: 300px;
+  }
+  97% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.2);
   }
   100% {
-    bottom: 92px;
+    bottom: 130px;
+    transform: translateX(-50%);
   }
 }
 
@@ -87,10 +111,10 @@
 @media (max-width: 1280px) {
   @keyframes rocket_box {
     0% {
-      bottom: 62px;
+      bottom: 115px;
     }
     100% {
-      bottom: 92px;
+      bottom: 280px;
     }
   }
 
@@ -129,7 +153,7 @@
       bottom: 45px;
     }
     100% {
-      bottom: 90px;
+      bottom: 150px;
     }
   }
   @keyframes fair_animation {
@@ -466,8 +490,6 @@
   }
   @media (max-width: 650px) {
     bottom: 75px;
-  }
-  @media (max-width: 650px) {
     font-size: 10px;
     letter-spacing: 0.4px;
     gap: 0px;
@@ -486,7 +508,7 @@
   margin: 0 auto;
   margin-top: auto;
   padding: 0 20px;
-  z-index: 2;
+  z-index: 3;
   position: relative;
   margin-bottom: 20px;
   @media (max-width: 650px) {
@@ -740,4 +762,172 @@
 
 .fair_hide {
   display: none;
+}
+
+.rocket_fire {
+  position: absolute;
+  margin: 0 auto;
+  width: 5.0625rem;
+  height: 7rem;
+  background: url("../../public/media/rocket/fire_5.png") no-repeat;
+  background-size: 100% auto;
+  background-position: 0 0;
+  -webkit-animation: fire_img 0.7s steps(1) infinite;
+  animation: fire_img 0.7s steps(1) infinite;
+  left: 50%;
+  transform: translateX(-45%);
+  top: calc(100% - 70px);
+  @media (max-width: 650px) {
+    top: calc(100% - 52px);
+  }
+}
+
+.rocket_fire_2 {
+  -webkit-animation: fire_img 0.35s steps(1) infinite;
+  animation: fire_img 0.35s steps(1) infinite;
+}
+
+.none {
+  display: none;
+}
+
+.bomb {
+  display: block;
+  z-index: 1;
+  position: absolute;
+  margin: 0 auto;
+  width: 250px;
+  height: 190px;
+  // background: url("../../public/media/rocket/bbb.png") no-repeat;
+  // background-size: 100% auto;
+  // background-position: 0 -120px;
+  // -webkit-animation: bomb 0.2s 0.3s;
+  // // background: red;
+  // animation: bomb 0.4s 0.1s steps(1) infinite;
+  // // opacity: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleY(-1);
+  top: 75px;
+  @media (max-width: 650px) {
+    top: 0;
+    width: 200px;
+    height: 180px;
+  }
+}
+
+.bomb_2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 115px;
+  font-size: 70px;
+  color: white;
+  z-index: 5;
+  font-family: var(--font-nunito-sans);
+  @media (max-width: 650px) {
+    top: 75px;
+    font-size: 45px;
+  }
+}
+
+@keyframes bomb {
+  0% {
+    background-position: 0px -120px;
+  }
+  15% {
+    background-position: 0px -320px;
+  }
+  30% {
+    background-position: 0px -520px;
+  }
+  45% {
+    background-position: 0px -740px;
+  }
+  60% {
+    background-position: 0px -976px;
+  }
+  80% {
+    background-position: 0px -1222px;
+  }
+  100% {
+    background-position: 0px -1468px;
+  }
+}
+
+@keyframes fire_img {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  5% {
+    background-position: 0px -6.4375rem;
+  }
+  10% {
+    background-position: 0px -12.875rem;
+  }
+  15% {
+    background-position: 0px -19.3125rem;
+  }
+  20% {
+    background-position: 0px -25.75rem;
+  }
+  25% {
+    background-position: 0px -32.1875rem;
+  }
+  30% {
+    background-position: 0px -38.625rem;
+  }
+  35% {
+    background-position: 0px -45.0625rem;
+  }
+  40% {
+    background-position: 0px -51.5rem;
+  }
+  45% {
+    background-position: 0px -57.9375rem;
+  }
+  50% {
+    background-position: 0px -64.375rem;
+  }
+  55% {
+    background-position: 0px -70.8125rem;
+  }
+  60% {
+    background-position: 0px -64.375rem;
+  }
+  65% {
+    background-position: 0px -57.9375rem;
+  }
+  70% {
+    background-position: 0px -51.5rem;
+  }
+  75% {
+    background-position: 0px -45.0625rem;
+  }
+  80% {
+    background-position: 0px -38.625rem;
+  }
+  85% {
+    background-position: 0px -32.1875rem;
+  }
+  90% {
+    background-position: 0px -25.75rem;
+  }
+  95% {
+    background-position: 0px -19.3125rem;
+  }
+  98% {
+    background-position: 0px -12.875rem;
+  }
+  100% {
+    background-position: 0px -6.4375rem;
+  }
+}
+
+.coef_win {
+  color: #34b113;
+}
+
+.coef_lost {
+  color: #e15f02;
 }

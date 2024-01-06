@@ -311,7 +311,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -352,6 +352,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   //   enabled: true,
   // });
 
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -370,24 +371,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -414,6 +415,16 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = async () => {
+          for (const item of (log[0] as any)?.args?.payouts || []) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            setCoefficientData((prev) => [
+              Number(item) / Number(wagered),
+              ...prev,
+            ]);
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -452,7 +463,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -507,6 +518,38 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       }, 1000);
     }
   }, [value]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <div className={s.rps_table_container}>
       <WagerLowerBtnsBlock game="rps" text={gameText} />
@@ -517,7 +560,35 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           alt="table-bg"
         />
       </div>{" "}
-      <ProfitLine containerClassName={s.total_container} />
+      <div className={clsx(s.total_container)}>
+        <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+        <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+        <div>
+          Total:{" "}
+          <span
+            className={clsx(
+              totalValue > 0 && s.total_won,
+              totalValue < 0 && s.total_lost
+            )}
+          >
+            {Math.abs(totalValue).toFixed(2)}
+          </span>
+        </div>
+      </div>
+      <div className={clsx(s.balls_arr)}>
+        {coefficientData.map((item, i) => (
+          <div
+            className={clsx(
+              s.multiplier_value,
+              item >= 1 && s.multiplier_positive,
+              item < 1 && s.multiplier_negative
+            )}
+            key={i}
+          >
+            {item?.toFixed(2)}x
+          </div>
+        ))}
+      </div>
       <div className={s.rps_table}>
         <div className={s.rps_table_inner}>
           <Canvas
