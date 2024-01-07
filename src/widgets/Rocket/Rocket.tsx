@@ -505,7 +505,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             </div>
           </div>
           {/* <div className={clsx(rocketStar && s.bomb)}></div> */}
-          {rocketStar && (
+          {rocketStar && localNumber !== null && localNumber <= 0 && (
             <>
               <img
                 className={clsx(s.bomb)}
