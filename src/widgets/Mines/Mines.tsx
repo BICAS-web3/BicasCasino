@@ -782,8 +782,9 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
               <div
                 className={clsx(
                   styles.multiplier_value,
-                  item >= 1 && styles.multiplier_positive,
-                  item < 1 && styles.multiplier_negative
+                  item > 0
+                    ? styles.multiplier_positive
+                    : styles.multiplier_negative
                 )}
                 key={i}
               >

@@ -415,13 +415,13 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
-        const handlePayouts = async () => {
-          for (const item of (log[0] as any)?.args?.payouts || []) {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setCoefficientData((prev) => [
-              Number(item) / Number(wagered),
-              ...prev,
-            ]);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
           }
         };
         handlePayouts();
@@ -580,8 +580,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           <div
             className={clsx(
               s.multiplier_value,
-              item >= 1 && s.multiplier_positive,
-              item < 1 && s.multiplier_negative
+              item > 0 ? s.multiplier_positive : s.multiplier_negative
             )}
             key={i}
           >
