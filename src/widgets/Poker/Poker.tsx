@@ -658,8 +658,7 @@ export const Poker: FC<PokerProps> = (props) => {
             <div
               className={clsx(
                 s.multiplier_value,
-                item >= 1 && s.multiplier_positive,
-                item < 1 && s.multiplier_negative
+                item > 0 ? s.multiplier_positive : s.multiplier_negative
               )}
               key={i}
             >

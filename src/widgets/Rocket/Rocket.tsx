@@ -520,7 +520,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             <div
               className={clsx(
                 s.multiplier_value,
-                s.bomb_2
+                s.bomb_2,
+                localNumber > 0 ? s.coef_win : s.coef_lost
                 // coefficientData[coefficientData.length - 1] >= 1 && s.coef_win,
                 // coefficientData[coefficientData.length - 1] < 1 && s.coef_lost
               )}
@@ -535,8 +536,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
                 <div
                   className={clsx(
                     s.multiplier_value,
-                    item >= 1 && s.multiplier_positive,
-                    item < 1 && s.multiplier_negative
+                    item > 0 ? s.multiplier_positive : s.multiplier_negative
                   )}
                   key={i}
                 >
