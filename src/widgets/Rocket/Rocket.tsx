@@ -297,7 +297,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
                 Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
               setCoefficientData((prev) => [outCome, ...prev]);
               setLocalNumber(outCome);
-            }, 500 * (i + 1));
+            }, 700 * (i + 1));
           }
         };
         handleCall();
@@ -468,7 +468,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       setTimeout(() => {
         setRocketStar(false);
         setFlyStar(false);
-      }, 450);
+      }, 650);
     }
   }, [coefficientData?.length]);
 
@@ -509,7 +509,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             <>
               <img
                 className={clsx(s.bomb)}
-                src={`/rocket/8.gif?${restartGif}`}
+                src={`/rocket/bomb_2.gif?${restartGif}`}
                 alt="wewsfdesd"
                 width={200}
                 height={200}
