@@ -1,6 +1,7 @@
 .game_layout {
   width: 100%;
   position: relative;
+  // background-color: red !important;
 }
 
 .load {
@@ -8,7 +9,6 @@
   left: 50% !important;
   transform: translateX(-50%) translateY(-50%) !important;
   z-index: 5 !important;
-  background-color: red !important;
 }
 
 .game_wrap {

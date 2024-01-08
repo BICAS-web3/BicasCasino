@@ -44,9 +44,9 @@ import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Preload } from "@/shared/ui/Preload";
 interface CoinFlipProps {
   gameText: string;
-  setIsLoading?: (el: boolean) => void;
 }
 
 enum CoinAction {
@@ -103,10 +103,11 @@ const Model: FC<ModelProps> = ({ action, initial, setIsLoading }) => {
   return <primitive object={scene} />;
 };
 
-export const CoinFlip: FC<CoinFlipProps> = ({ gameText, setIsLoading }) => {
+export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   const [modelLoading, setModelLoading] = useState(true);
   const [imageLoading, setIMageLoading] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [
     lost,
     profit,
@@ -170,7 +171,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText, setIsLoading }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({ watch: true });
+  const { data, isError } = useFeeData({ watch: true });
 
   const [inGame, setInGame] = useState<boolean>(false);
 
@@ -464,6 +465,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText, setIsLoading }) => {
         />
       )}
       <div className={s.coinflip_table_wrap}>
+        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>
           <Image

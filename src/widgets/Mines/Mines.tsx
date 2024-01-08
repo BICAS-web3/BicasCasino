@@ -44,6 +44,7 @@ import { Scrollbar } from "swiper/modules";
 import { ProfitModel } from "../ProfitBlock";
 import { FC } from "react";
 import useSound from "use-sound";
+import { Preload } from "@/shared/ui/Preload";
 
 enum Tile {
   Closed,
@@ -60,10 +61,9 @@ const maxReveal = [
 
 interface MinesProps {
   gameInfoText: string;
-  setIsLoading?: (el: boolean) => void;
 }
 
-export const Mines: FC<MinesProps> = ({ gameInfoText, setIsLoading }) => {
+export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   const initialGameField: Tile[] = [
     Tile.Closed,
     Tile.Closed,
@@ -119,7 +119,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText, setIsLoading }) => {
     false,
     false,
   ];
-
+  const [preloading, setPreloading] = useState(true);
   const [pickedValue, pickMines] = useUnit([
     CustomInputWagerModel.$pickedRows,
     CustomInputWagerModel.pickRows,
@@ -748,6 +748,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText, setIsLoading }) => {
       )}
       <div className={styles.wrapp}>
         <div className={styles.mines_table_wrap}>
+          {preloading && <Preload />}
           <WagerLowerBtnsBlock
             className={styles.mines_block}
             game="mines"
@@ -755,7 +756,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText, setIsLoading }) => {
           />
           <div className={styles.mines_table_background}>
             <Image
-              onLoad={() => setIsLoading?.(false)}
+              onLoad={() => setPreloading(false)}
               src={background}
               className={styles.mines_table_background_img}
               alt="table-bg"

@@ -36,6 +36,7 @@ import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { clearInterval } from "timers";
+import { Preload } from "@/shared/ui/Preload";
 
 const testBallPath = [
   [
@@ -1016,10 +1017,9 @@ const testBallPath = [
 
 interface IPlinko {
   gameText: string;
-  setIsLoading?: (el: boolean) => void;
 }
 
-export const Plinko: FC<IPlinko> = ({ gameText, setIsLoading }) => {
+export const Plinko: FC<IPlinko> = ({ gameText }) => {
   const isMobile = useMediaQuery("(max-width: 480px)");
 
   const [
@@ -1070,10 +1070,11 @@ export const Plinko: FC<IPlinko> = ({ gameText, setIsLoading }) => {
     GameModel.setIsPlaying,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({
+  const { data } = useFeeData({
     watch: isConnected,
     cacheTime: 5000,
   });
@@ -1425,6 +1426,8 @@ export const Plinko: FC<IPlinko> = ({ gameText, setIsLoading }) => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
+        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="plinko" text={gameText} />
         <div className={styles.plinko_table_background}>
           <Image

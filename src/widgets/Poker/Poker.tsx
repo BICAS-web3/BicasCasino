@@ -35,6 +35,7 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import clsx from "clsx";
 import { ProfitLine } from "../ProfitLine";
 import { WinMessage } from "../WinMessage";
+import { Preload } from "@/shared/ui/Preload";
 
 // чирва 2
 // пика 3
@@ -66,12 +67,10 @@ const initialArrayOfCards = [
 interface ICards {
   suit: number;
   number: number;
-  setIsLoading?: (el: boolean) => void;
 }
 
 export interface PokerProps {
   gameText: string;
-  setIsLoading?: (el: boolean) => void;
 }
 
 export const Poker: FC<PokerProps> = (props) => {
@@ -79,6 +78,7 @@ export const Poker: FC<PokerProps> = (props) => {
   // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [imageLoading_1, setImageLoading_1] = useState(true);
   const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [preloading, setPreloading] = useState(true);
   const [
     betsAmount,
     lost,
@@ -600,7 +600,7 @@ export const Poker: FC<PokerProps> = (props) => {
 
   useEffect(() => {
     if (!imageLoading_1 && !imageLoading_2) {
-      props.setIsLoading?.(imageLoading_1);
+      setPreloading(imageLoading_1);
     }
   }, [imageLoading_1, imageLoading_2]);
 
@@ -624,6 +624,7 @@ export const Poker: FC<PokerProps> = (props) => {
 
       <div className={s.poker_table_wrap}>
         <WagerLowerBtnsBlock game="poker" text={props.gameText} />
+        {preloading && <Preload />}{" "}
         <div className={s.poker_table_background}>
           <Image
             onLoad={() => setImageLoading_1(false)}
