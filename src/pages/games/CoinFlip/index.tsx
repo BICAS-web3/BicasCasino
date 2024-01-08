@@ -21,9 +21,10 @@ import clsx from "clsx";
 import * as CFM from "@/widgets/CoinFlip/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -95,8 +96,34 @@ const WagerContent = () => {
 };
 
 export default function CoinFlipGame() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPageLoad(false);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || pageLoad) {
+      document.documentElement.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isLoading, pageLoad]);
+
   return (
     <>
+      {isLoading && <Preload />}
       <Head>
         <title>Games - Coinflip</title>
       </Head>
@@ -112,7 +139,10 @@ export default function CoinFlipGame() {
             gameTitle="coinflip"
             wagerContent={<WagerContent />}
           >
-            <CoinFlip gameText="Coinflip is a classic and simple game where every coin toss keeps you in suspense with an equal chance of success. With a 50% chance of winning, the game promises a multiplier of 1.98x, adding an extra element of excitement. All you have to do is enter your bet amount and press the button to make the coin flip. It's the perfect way to test your luck without complicating the process!" />
+            <CoinFlip
+              setIsLoading={setIsLoading}
+              gameText="Coinflip is a classic and simple game where every coin toss keeps you in suspense with an equal chance of success. With a 50% chance of winning, the game promises a multiplier of 1.98x, adding an extra element of excitement. All you have to do is enter your bet amount and press the button to make the coin flip. It's the perfect way to test your luck without complicating the process!"
+            />
           </GamePage>
         </div>
       </Layout>

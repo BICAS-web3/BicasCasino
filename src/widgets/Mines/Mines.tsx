@@ -60,9 +60,10 @@ const maxReveal = [
 
 interface MinesProps {
   gameInfoText: string;
+  setIsLoading?: (el: boolean) => void;
 }
 
-export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
+export const Mines: FC<MinesProps> = ({ gameInfoText, setIsLoading }) => {
   const initialGameField: Tile[] = [
     Tile.Closed,
     Tile.Closed,
@@ -754,6 +755,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           />
           <div className={styles.mines_table_background}>
             <Image
+              onLoad={() => setIsLoading?.(false)}
               src={background}
               className={styles.mines_table_background_img}
               alt="table-bg"

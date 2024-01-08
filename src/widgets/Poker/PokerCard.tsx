@@ -14,6 +14,7 @@ interface PokerCardProps {
   card: number | undefined;
   isEmptyCard: boolean;
   onClick: () => void;
+  setImageLoading: (el: boolean) => void;
 }
 
 export const PokerCard: FC<PokerCardProps> = (props) => {
@@ -56,6 +57,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
         <>
           <div className={s.poker_table_card_front}>
             <Image
+              onLoad={() => props.setImageLoading(false)}
               src={`${api.BaseStaticUrl}/media/games_assets/poker/${props.coat}/${props.card}.svg`}
               alt="card-image"
               width={200}
@@ -66,6 +68,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
           </div>
           <div className={s.poker_table_card_back}>
             <Image
+              onLoad={() => props.setImageLoading(false)}
               src={backCard}
               alt="card-image"
               className={s.card_img}

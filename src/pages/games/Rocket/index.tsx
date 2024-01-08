@@ -24,6 +24,8 @@ import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
 import { Rocket } from "@/widgets/Rocket/Rocket";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { Preload } from "@/shared/ui/Preload";
+import { useState, useEffect } from "react";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
@@ -89,8 +91,34 @@ const WagerContent = () => {
 };
 
 export default function RocketGame() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPageLoad(false);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || pageLoad) {
+      document.documentElement.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isLoading, pageLoad]);
   return (
     <>
+      {" "}
+      {isLoading && <Preload />}
       <Head>
         <title>Games - Rocket</title>
       </Head>
@@ -108,7 +136,7 @@ export default function RocketGame() {
             custom_height={styles.height}
             soundClassName={styles.sound_btn}
           >
-            <Rocket gameText="" />
+            <Rocket setIsLoading={setIsLoading} gameText="" />
           </GamePage>
         </div>
       </Layout>

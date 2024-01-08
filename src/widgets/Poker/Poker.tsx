@@ -66,23 +66,19 @@ const initialArrayOfCards = [
 interface ICards {
   suit: number;
   number: number;
+  setIsLoading?: (el: boolean) => void;
 }
-// export type T_Card = {
-//   coat: number,
-//   card: number
-// };
 
 export interface PokerProps {
-  // cardsState: boolean[],
-  // setCardsState: any,
-  //initialCards: T_Card[] | undefined,
-  //gameState: any | undefined
   gameText: string;
+  setIsLoading?: (el: boolean) => void;
 }
 
 export const Poker: FC<PokerProps> = (props) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   // const [combinationName, setCombinationName] = useState<CombinationName>();
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
   const [
     betsAmount,
     lost,
@@ -602,12 +598,14 @@ export const Poker: FC<PokerProps> = (props) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2) {
+      props.setIsLoading?.(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2]);
+
   return (
     <>
-      {/* <ErrorCheck
-        text="Something went wrong, please contact customer support."
-        btnTitle="Contact us"
-      /> */}
       {gameStatus === GameModel.GameStatus.Won && (
         <PokerCombination
           combinationName={combinationName}
@@ -623,16 +621,12 @@ export const Poker: FC<PokerProps> = (props) => {
           multiplier={Number(multiplier.toFixed(2)).toString()}
         />
       )}
-      {/* {error && (
-        <ErrorCheck
-          text="Something went wrong, please contact customer support."
-          btnTitle="Contact us"
-        />
-      )} */}
+
       <div className={s.poker_table_wrap}>
         <WagerLowerBtnsBlock game="poker" text={props.gameText} />
         <div className={s.poker_table_background}>
           <Image
+            onLoad={() => setImageLoading_1(false)}
             src={tableBg}
             className={s.poker_table_background_img}
             alt="table-bg"
@@ -672,6 +666,7 @@ export const Poker: FC<PokerProps> = (props) => {
               activeCards.map((item, ind) => {
                 return item.number == -1 ? (
                   <PokerCard
+                    setImageLoading={setImageLoading_2}
                     key={ind}
                     isEmptyCard={false}
                     coat={0}
@@ -680,6 +675,7 @@ export const Poker: FC<PokerProps> = (props) => {
                   />
                 ) : (
                   <PokerCard
+                    setImageLoading={setImageLoading_2}
                     key={`${item.suit}_${item.number}_${transactionHash}`}
                     isEmptyCard={false}
                     coat={item.suit}

@@ -49,9 +49,10 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 
 interface IRocket {
   gameText: string;
+  setIsLoading: (el: boolean) => void;
 }
 
-export const Rocket: FC<IRocket> = ({ gameText }) => {
+export const Rocket: FC<IRocket> = ({ gameText, setIsLoading }) => {
   const { isConnected, address } = useAccount();
 
   const [
@@ -472,6 +473,15 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     }
   }, [coefficientData?.length]);
 
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2) {
+      setIsLoading?.(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2]);
+
   return (
     <>
       {error && (
@@ -545,6 +555,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
               ))}
           </div>
           <video
+            onPlay={() => {
+              setImageLoading_1(false);
+            }}
+            onError={() => {
+              setImageLoading_1(false);
+            }}
             ref={rocketRef}
             className={clsx(s.background_video, !inGame && s.fair_hide)}
             autoPlay
@@ -555,6 +571,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             <source src={"/rocket/bg.mp4"} type="video/mp4" />
           </video>
           <video
+            onError={() => {
+              setImageLoading_1(false);
+            }}
+            onPlay={() => {
+              setImageLoading_1(false);
+            }}
             ref={bgRef}
             className={clsx(s.background_video, inGame && s.fair_hide)}
             autoPlay
@@ -572,9 +594,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             className={clsx(s.rocket_box, rocketStar && s.rocket_box_animation)}
           >
             <Image
-              onClick={() => {
-                // setBgImage((prev) => !prev);
-              }}
+              onLoad={() => setImageLoading_2(false)}
               className={clsx(s.rocket, inGame && s.rocket_animation)}
               src={rocket}
               alt="rocket"

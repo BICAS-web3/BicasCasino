@@ -24,12 +24,13 @@ import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as GameModel from "@/widgets/GamePage/model";
 
 import { Suspense, lazy } from "react";
 import Head from "next/head";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -106,8 +107,34 @@ const WagerContent = () => {
 };
 
 export default function RockPaperScissorsGame() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPageLoad(false);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || pageLoad) {
+      document.documentElement.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isLoading, pageLoad]);
   return (
     <>
+      {" "}
+      {isLoading && <Preload />}
       <Head>
         <title>Games - Rock Paper Scissors</title>
       </Head>
@@ -127,7 +154,10 @@ export default function RockPaperScissorsGame() {
             wagerContent={<WagerContent />}
           >
             <Suspense fallback={<div>...</div>}>
-              <RockPaperScissors gameText="The Rock, Scissors, Paper game offers you a classic selection with the added intrigue of betting. With odds of a draw, win or lose of approximately 33% for each outcome, the game promises an exciting experience. Your choice between rock, scissors or paper not only determines your tactics, but also sets the dynamics of the game. Place your bet and watch this much-loved symbolic duel unfold, where each choice has an equal chance of success or defeat." />
+              <RockPaperScissors
+                setIsLoading={setIsLoading}
+                gameText="The Rock, Scissors, Paper game offers you a classic selection with the added intrigue of betting. With odds of a draw, win or lose of approximately 33% for each outcome, the game promises an exciting experience. Your choice between rock, scissors or paper not only determines your tactics, but also sets the dynamics of the game. Place your bet and watch this much-loved symbolic duel unfold, where each choice has an equal chance of success or defeat."
+              />
             </Suspense>
           </GamePage>
         </div>

@@ -51,14 +51,16 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 interface ModelProps {
   side: string;
   left: boolean;
   yValue: number;
   delay?: number;
+  setIsLoading?: (el: boolean) => void;
 }
 
-const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
+const Model: FC<ModelProps> = ({ side, left, yValue, delay, setIsLoading }) => {
   const [pickedValue] = useUnit([RPSModel.$pickedValue]);
   const [selectedSide, setSelectedSide] = useState(side);
   useEffect(() => {
@@ -67,6 +69,15 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   const { scene } = useGLTF(selectedSide);
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
+
+  const loader = new GLTFLoader();
+
+  loader.load(
+    selectedSide,
+    () => setIsLoading?.(false),
+    undefined,
+    () => setIsLoading?.(false)
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -138,11 +149,17 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
 
 interface RockPaperScissorsProps {
   gameText: string;
+  setIsLoading?: (el: boolean) => void;
 }
 
-export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
+export const RockPaperScissors: FC<RockPaperScissorsProps> = ({
+  gameText,
+  setIsLoading,
+}) => {
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
-
+  const [modelLoading_1, setModelLoading_1] = useState(true);
+  const [modelLoading_2, setModelLoading_2] = useState(true);
+  const [imageLoading, setIMageLoading] = useState(true);
   const [
     lost,
     profit,
@@ -550,11 +567,19 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
+  useEffect(() => {
+    if (!modelLoading_1 && !modelLoading_2 && !imageLoading) {
+      setIsLoading?.(modelLoading_1);
+    }
+  }, [modelLoading_1, modelLoading_2, imageLoading]);
+
   return (
     <div className={s.rps_table_container}>
       <WagerLowerBtnsBlock game="rps" text={gameText} />
       <div className={s.rps_table_background}>
         <Image
+          onLoad={() => setIMageLoading(false)}
           src={tableBg}
           className={s.rps_table_background_img}
           alt="table-bg"
@@ -606,7 +631,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Paper} left={true} />{" "}
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Paper}
+                  left={true}
+                />{" "}
               </Suspense>
             )}
             {value === ModelType.Rock && (
@@ -621,7 +651,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Rock} left={true} />
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Rock}
+                  left={true}
+                />
               </Suspense>
             )}
             {value === ModelType.Scissors && (
@@ -636,7 +671,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Scissors} left={true} />
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Scissors}
+                  left={true}
+                />
               </Suspense>
             )}
           </Canvas>
@@ -657,6 +697,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Paper}
@@ -678,6 +719,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                 />
 
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Rock}
@@ -698,6 +740,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Scissors}
@@ -718,6 +761,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Quest}

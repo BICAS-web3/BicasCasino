@@ -489,3 +489,15 @@
 .multiplier_negative {
   background: var(--switch-in-game-2-e-night, #2e2e2e);
 }
+
+.loader {
+  margin-bottom: 125px;
+  @media (max-width: 1280px) {
+    margin-bottom: 115px;
+    margin-right: 40px;
+  }
+  @media (max-width: 650px) {
+    margin-bottom: 45px;
+    margin-right: 0;
+  }
+}
