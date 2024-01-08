@@ -43,7 +43,7 @@ import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
-
+import soundEffectsIco from "@/public/media/misc/effects.png";
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
   "/static/media/games_assets/music/default_bg_music/4.mp3",
@@ -242,6 +242,15 @@ export const GamePage: FC<GamePageProps> = ({
                     className={s.sound_ico}
                     src={soundOffIco}
                   />
+                ) : playSounds === "effects" ? (
+                  <>
+                    <Image
+                      alt="sound-ico"
+                      className={s.sound_ico_effects}
+                      src={soundEffectsIco}
+                    />
+                    <span>fx</span>
+                  </>
                 ) : (
                   <Image
                     alt="sound-ico"

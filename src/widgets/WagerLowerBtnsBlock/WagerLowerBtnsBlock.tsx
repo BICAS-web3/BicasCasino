@@ -8,6 +8,7 @@ import closeIco from "@/public/media/Wager_icons/closeIco.svg";
 import soundIco from "@/public/media/Wager_icons/soundIco.svg";
 import closeBtnIco from "@/public/media/Wager_icons/closeDownBtnsIco.svg";
 import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
+import soundEffectsIco from "@/public/media/misc/effects.png";
 import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
@@ -107,6 +108,15 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
             className={s.sound_ico}
             src={soundOffIco}
           />
+        ) : playSounds === "effects" ? (
+          <>
+            <Image
+              alt="sound-ico"
+              className={s.sound_ico_effects}
+              src={soundEffectsIco}
+            />
+            <span>fx</span>
+          </>
         ) : (
           <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
         )}

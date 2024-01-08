@@ -8,8 +8,7 @@
 
 .game {
   display: grid;
-  grid-template-columns: 1fr 292px; // minmax(292px, 16.25vw)
-  //! margin-bottom: 40px; !-------------------------------------
+  grid-template-columns: 1fr 292px;
 }
 
 .game_block {
@@ -17,6 +16,31 @@
   min-height: 680px;
   width: 100%;
   position: relative;
+}
+
+.poker_wager_sound_btn {
+  color: #f0b829;
+  font-family: var(--font-nunito-sans);
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 10.2px;
+  letter-spacing: 0.32px;
+
+  span {
+    margin-top: 1.2px;
+    margin-left: 1px;
+  }
+}
+
+.sound_ico_effects {
+  width: 13px !important;
+  height: 15px !important;
+
+  @media screen and (max-width: 650px) {
+    width: 10px !important;
+    height: 13px !important;
+  }
 }
 
 .sound_ico {

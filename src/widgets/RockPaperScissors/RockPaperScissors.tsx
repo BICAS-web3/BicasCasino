@@ -12,8 +12,6 @@ import {
   useFeeData,
 } from "wagmi";
 
-import useSound from "use-sound";
-
 import Image from "next/image";
 
 import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
@@ -231,19 +229,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
-
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
@@ -311,7 +296,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -370,24 +355,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -452,7 +437,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {

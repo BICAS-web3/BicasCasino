@@ -4,7 +4,8 @@ import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.svg";
 import useSound from "use-sound";
 import * as api from "@/shared/api";
-
+import * as GameModel from "@/widgets/GamePage/model";
+import { useUnit } from "effector-react";
 interface itemProps {
   img: StaticImageData;
 }
@@ -27,6 +28,8 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
     { volume: 1 }
   );
 
+  const [musicType] = useUnit([GameModel.$playSounds]);
+
   useEffect(() => {
     if (cardRef.current) {
       setCardWidth(cardRef.current.offsetWidth);
@@ -44,7 +47,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
       onClick={
         !props.isEmptyCard
           ? () => {
-              playRedrawSound();
+              musicType !== "off" && playRedrawSound();
               setCardFlipped(!cardFlipped);
               props.onClick();
             }

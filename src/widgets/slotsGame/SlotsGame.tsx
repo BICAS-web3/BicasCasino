@@ -11,8 +11,6 @@ import {
 
 import { useUnit } from "effector-react";
 
-import useSound from "use-sound";
-
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
 
@@ -249,19 +247,6 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           BigInt(100000000000)
         : BigInt(0)),
   });
-
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
