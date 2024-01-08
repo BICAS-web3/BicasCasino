@@ -219,6 +219,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     triggerRedraw(true);
   }, [pickedValue]);
 
+  const [preloading, setPreloading] = useState(true);
+
   const pickTile = (index: number) => {
     if (gameField[index] == Tile.Closed) {
       console.log("TILES", totalOpenedTiles, maxReveal[pickedValue]);
