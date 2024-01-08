@@ -119,10 +119,11 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     false,
     false,
   ];
-  const [preloading, setPreloading] = useState(true);
-  const [pickedValue, pickMines] = useUnit([
+
+  const [pickedValue, pickMines, musicType] = useUnit([
     CustomInputWagerModel.$pickedRows,
     CustomInputWagerModel.pickRows,
+    GameModel.$playSounds,
   ]);
 
   const [gameField, setGameField] = useState<Tile[]>(initialGameField);
@@ -218,6 +219,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     triggerRedraw(true);
   }, [pickedValue]);
 
+  const [preloading, setPreloading] = useState(true);
+
   const pickTile = (index: number) => {
     if (gameField[index] == Tile.Closed) {
       console.log("TILES", totalOpenedTiles, maxReveal[pickedValue]);
@@ -229,7 +232,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
       } else {
         setTotalOpenedTiles(totalOpenedTiles - 1);
       }
-      playTileClick();
+      musicType !== "off" && playTileClick();
       pickedTiles[index] = !pickedTiles[index];
       triggerRedraw(true);
     }

@@ -12,8 +12,6 @@ import {
   useFeeData,
 } from "wagmi";
 
-import useSound from "use-sound";
-
 import Image from "next/image";
 
 import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
@@ -255,19 +253,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
-
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,

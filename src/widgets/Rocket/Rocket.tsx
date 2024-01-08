@@ -18,8 +18,6 @@ import rocketGif from "@/public/media/rocket/rocket.gif";
 
 import Image from "next/image";
 
-import useSound from "use-sound";
-
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
 
@@ -183,19 +181,6 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           BigInt(100000000000)
         : BigInt(0)),
   });
-
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,

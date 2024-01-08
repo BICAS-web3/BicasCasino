@@ -175,19 +175,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   const [inGame, setInGame] = useState<boolean>(false);
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
-
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,

@@ -212,7 +212,7 @@ export default function Home() {
         <title>Leaderboard</title>
       </Head>
       <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
-      <Layout gameName={undefined}>
+      <Layout activePageLink="/leaderboard" gameName={undefined}>
         <div className={`${s.main_container}`}>
           <Total />
           <LeaderBoard />

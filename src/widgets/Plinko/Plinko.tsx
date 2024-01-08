@@ -1086,10 +1086,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     setInGame(inGame);
   }, [inGame]);
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
   const [playLost, { stop: stopLost }] = useSound(
     "/static/media/games_assets/music/loseSound.mp3",
     { volume: 1, loop: false }
@@ -1102,16 +1098,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   useEffect(() => {
     setPath(undefined);
   }, [rowsAmount]);
-
-  useEffect(() => {
-    if (!playSounds) {
-      // /stopSounds();
-      //sounds.background.pause();
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
@@ -1301,7 +1287,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           BigInt((log[0] as any).args.numGames);
         setPath((log[0] as any).args.paths);
         if ((log[0] as any).args.payout > wagered) {
-          playWon();
+          playSounds !== "off" && playWon();
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
 
@@ -1318,7 +1304,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           });
           setGameStatus(GameModel.GameStatus.Won);
         } else {
-          playLost();
+          playSounds !== "off" && playLost();
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
 
@@ -1497,7 +1483,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                       </div>
                     )
                 )}
-              {}
             </div>
             {path ? (
               <PlinkoPyramid
