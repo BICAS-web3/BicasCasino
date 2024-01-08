@@ -27,6 +27,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -102,8 +103,35 @@ const WagerContent = () => {
 };
 
 export default function DiceGame() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPageLoad(false);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || pageLoad) {
+      document.documentElement.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isLoading, pageLoad]);
+
   return (
     <>
+      {" "}
+      {isLoading && <Preload />}
       <Head>
         <title>Games - Dice</title>
       </Head>
@@ -119,7 +147,10 @@ export default function DiceGame() {
             soundClassName={styles.sound_btn}
           >
             <Suspense fallback={<div>....</div>}>
-              <DiceComponent gameText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years." />
+              <DiceComponent
+                setIsLoading={setIsLoading}
+                gameText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years."
+              />
             </Suspense>
           </GamePage>
         </div>

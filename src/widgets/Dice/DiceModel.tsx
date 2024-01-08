@@ -12,6 +12,10 @@ import { Canvas } from "@react-three/fiber";
 import { AnimationAction, Object3D, LoopOnce } from "three";
 
 import * as GameModel from "@/widgets/GamePage/model";
+import { CanvasLoader } from "../CanvasLoader";
+
+import s from "./styles.module.scss";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 enum DiceActions {
   Rotation = "Animation",
@@ -23,12 +27,22 @@ interface DiceModelProps {
   inGame?: boolean;
   action: DiceActions;
   testState?: boolean;
+  setIsLoading: (el: boolean) => void;
 }
 export const DiceModel: FC<DiceModelProps> = ({
   inGame,
   action,
   testState,
+  setIsLoading,
 }) => {
+  const loader = new GLTFLoader();
+
+  loader.load(
+    "/dice/dice_2.glb",
+    () => setIsLoading(false),
+    undefined,
+    () => setIsLoading(false)
+  );
   const { scene, animations } = useGLTF("/dice/dice_2.glb");
   const { isConnected } = useAccount();
   const { actions, mixer } = useAnimations(animations, scene);
@@ -111,10 +125,12 @@ export const DiceModel: FC<DiceModelProps> = ({
 
 interface DiceCanvasProps {
   inGame?: boolean;
+  setIsLoading: (el: boolean) => void;
 }
 
-export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
+export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame, setIsLoading }) => {
   const [testState, setTestState] = useState(false);
+
   return (
     <Canvas
       onClick={() => setTestState((prev) => !prev)}
@@ -128,6 +144,7 @@ export const DiceCanvas: FC<DiceCanvasProps> = ({ inGame }) => {
         </Stage>
 
         <DiceModel
+          setIsLoading={setIsLoading}
           testState={testState}
           action={DiceActions.Rotation}
           inGame={inGame}

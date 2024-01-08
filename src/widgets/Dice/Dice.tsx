@@ -71,10 +71,18 @@ enum CoinAction {
 
 export interface DiceProps {
   gameText: string;
+  setIsLoading: (el: boolean) => void;
 }
 
-const Dice: FC<DiceProps> = ({ gameText }) => {
+const Dice: FC<DiceProps> = ({ gameText, setIsLoading }) => {
   const { isConnected, address } = useAccount();
+  const [modelLoading, setModelLoading] = useState(true);
+  const [imageLoading, setIMageLoading] = useState(true);
+  useEffect(() => {
+    if (!modelLoading && !imageLoading) {
+      setIsLoading?.(modelLoading);
+    }
+  }, [modelLoading, imageLoading]);
   const [
     lost,
     profit,
@@ -527,13 +535,19 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
         />
         <div className={s.model}>
           <Suspense fallback={<div>...</div>}>
-            <DiceCanvas inGame={inGame} />
+            <DiceCanvas setIsLoading={setModelLoading} inGame={inGame} />
           </Suspense>
         </div>
         <div className={s.dice_container}>
-          <Image className={s.cube} src={dice_cube} alt="cube" />
+          <Image
+            onLoad={() => setIMageLoading(false)}
+            className={s.cube}
+            src={dice_cube}
+            alt="cube"
+          />
           <div className={s.dice_table_background}>
             <Image
+              onLoad={() => setIMageLoading(false)}
               className={s.dice_table_background_img}
               src={bgImage}
               alt="test"

@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Head from "next/head";
 import { Layout } from "@/widgets/Layout";
@@ -21,6 +21,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { WagerModel } from "@/widgets/Wager";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import { Preload } from "@/shared/ui/Preload";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
@@ -92,8 +93,33 @@ const WagerContent = () => {
 interface SlotsProps {}
 
 const Slots: FC<SlotsProps> = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setPageLoad(false);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || pageLoad) {
+      document.documentElement.style.height = "100vh";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+    return () => {
+      document.documentElement.style.height = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [isLoading, pageLoad]);
   return (
     <>
+      {isLoading && <Preload />}
       <Head>
         <title>Games - Slots</title>
       </Head>
@@ -106,7 +132,7 @@ const Slots: FC<SlotsProps> = () => {
             gameTitle="slots"
             wagerContent={<WagerContent />}
           >
-            <SlotsGame />
+            <SlotsGame setIsLoading={setIsLoading} />
           </GamePage>
         </div>
       </Layout>
