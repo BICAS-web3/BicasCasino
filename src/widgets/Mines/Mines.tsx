@@ -32,6 +32,7 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import * as MinesModel from "./model";
 import * as CustomInputWagerModel from "@/widgets/CustomWagerRangeInput/model";
 
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import "swiper/scss";
 import "swiper/css/navigation";
 import styles from "./styles.module.scss";
@@ -43,6 +44,7 @@ import { Scrollbar } from "swiper/modules";
 import { ProfitModel } from "../ProfitBlock";
 import { FC } from "react";
 import useSound from "use-sound";
+import { Preload } from "@/shared/ui/Preload";
 
 enum Tile {
   Closed,
@@ -154,6 +156,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   ]);
 
   const [
+    betsAmount,
     lost,
     profit,
     gameStatus,
@@ -174,6 +177,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     waitingResponse,
     setWaitingResponse,
   ] = useUnit([
+    CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
     GameModel.$profit,
     GameModel.$gameStatus,
@@ -547,7 +551,14 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         ) {
           const mines = (log[0] as any).args.minesTiles;
           const revealed = (log[0] as any).args.revealedTiles;
-
+          const wagered = (receivedEndEvent as any).args.wager;
+          const handlePayouts = async () => {
+            setCoefficientData((prev) => [
+              Number((log[0] as any)?.args?.payout) / Number(wagered),
+              ...prev,
+            ]);
+          };
+          handlePayouts();
           const newGameField = gameField.map((value, index) => {
             if (mines[index]) {
               return Tile.Bomb;
@@ -566,6 +577,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     },
   });
 
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
     address: gameAddress as `0x${string}`,
     abi: ABIMines,
@@ -574,19 +586,12 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
       const receivedEndEvent = log.find(
         (el) => (el as any).eventName === "Mines_End_Event"
       );
-
       if (
         (
           (receivedEndEvent as any).args.playerAddress as string
         ).toLowerCase() == address?.toLowerCase()
       ) {
         setWaitingResponse(false);
-
-        // setTimeout(() => {
-        //   setInGame(false);
-        //   setGameFields(initialPickedTiles, undefined);
-        // }, 2000);
-
         setTimeout(() => {
           setInGame(false);
           triggerRedraw(true);
@@ -594,7 +599,13 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         }, 2000);
 
         const wagered = (receivedEndEvent as any).args.wager;
-
+        // const handlePayouts = async () => {
+        //   setCoefficientData((prev) => [
+        //     Number((log[0] as any)?.args?.payout) / Number(wagered),
+        //     ...prev,
+        //   ]);
+        // };
+        // handlePayouts();
         if ((receivedEndEvent as any).args.payout > 0) {
           const profit = (receivedEndEvent as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -702,8 +713,32 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
   }, [useDebounce(coefficient, 50)]);
 
-  const [stepArr, setStepArr] = useState<any>([]);
-  const [bombArr, setBombArr] = useState<any>([]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {errorWrite && (
@@ -714,6 +749,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
       )}
       <div className={styles.wrapp}>
         <div className={styles.mines_table_wrap}>
+          {preloading && <Preload />}
           <WagerLowerBtnsBlock
             className={styles.mines_block}
             game="mines"
@@ -721,6 +757,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           />
           <div className={styles.mines_table_background}>
             <Image
+              onLoad={() => setPreloading(false)}
               src={background}
               className={styles.mines_table_background_img}
               alt="table-bg"
@@ -744,20 +781,20 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
               </span>
             </div>
           </div>
-          <div className={styles.balls_arr}>
-            {gameResult.map((result, i) => (
+          <div className={clsx(styles.balls_arr)}>
+            {coefficientData.map((item, i) => (
               <div
                 className={clsx(
                   styles.multiplier_value,
-                  result.status === "won" && styles.multiplier_positive,
-                  result.status === "lost" && styles.multiplier_negative
+                  item > 0
+                    ? styles.multiplier_positive
+                    : styles.multiplier_negative
                 )}
                 key={i}
               >
-                {result.value.toFixed(2)}x
+                {item?.toFixed(2)}x
               </div>
             ))}
-            {}
           </div>
           <div
             className={styles.mines_table}

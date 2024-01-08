@@ -36,6 +36,7 @@ import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { clearInterval } from "timers";
+import { Preload } from "@/shared/ui/Preload";
 
 const testBallPath = [
   [
@@ -1068,10 +1069,12 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     GameModel.setWaitingResponse,
     GameModel.setIsPlaying,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({
+  const { data } = useFeeData({
     watch: isConnected,
     cacheTime: 5000,
   });
@@ -1390,6 +1393,16 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [imageLoading_3, setImageLoading_3] = useState(true);
+
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2 && !imageLoading_3) {
+      setIsLoading?.(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2, imageLoading_3]);
+
   return (
     <>
       {error && (
@@ -1399,9 +1412,12 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
+        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="plinko" text={gameText} />
         <div className={styles.plinko_table_background}>
           <Image
+            onLoad={() => setImageLoading_1(false)}
             src={tableBg}
             className={styles.plinko_table_background_img}
             alt="table-bg"
@@ -1410,6 +1426,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             quality={100}
           />
           <Image
+            onLoad={() => setImageLoading_2(false)}
             src={helmet}
             className={styles.helmet}
             alt="helmet"
@@ -1418,6 +1435,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             quality={100}
           />
           <Image
+            onLoad={() => setImageLoading_3(false)}
             src={statue}
             className={styles.statue}
             alt="statue"

@@ -1,5 +1,14 @@
 .game_layout {
   width: 100%;
+  position: relative;
+  // background-color: red !important;
+}
+
+.load {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(-50%) !important;
+  z-index: 5 !important;
 }
 
 .game_wrap {

@@ -24,12 +24,13 @@ import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as GameModel from "@/widgets/GamePage/model";
 
 import { Suspense, lazy } from "react";
 import Head from "next/head";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -108,6 +109,8 @@ const WagerContent = () => {
 export default function RockPaperScissorsGame() {
   return (
     <>
+      {" "}
+      {/* {isLoading && <Preload />} */}
       <Head>
         <title>Games - Rock Paper Scissors</title>
       </Head>

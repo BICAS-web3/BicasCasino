@@ -22,11 +22,12 @@ import Head from "next/head";
 import clsx from "clsx";
 import * as PGM from "@/widgets/Plinko/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ManualAutoWager } from "@/widgets/ManualAutoWager/ManualAutoWager";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([

@@ -88,6 +88,7 @@ import clsx from "clsx";
 import { useFeeData } from "wagmi";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitLine } from "../ProfitLine";
+import { Preload } from "@/shared/ui/Preload";
 
 interface SlotsGameProps {}
 
@@ -95,6 +96,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
   const [getId, setGetId] = useState(-1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -369,13 +371,13 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
-        const handlePayouts = async () => {
-          for (const item of (log[0] as any)?.args?.payouts || []) {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setCoefficientData((prev) => [
-              Number(item) / Number(wagered),
-              ...prev,
-            ]);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
           }
         };
         handlePayouts();
@@ -552,6 +554,21 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [imageLoading_3, setImageLoading_3] = useState(true);
+  const [imageLoading_4, setImageLoading_4] = useState(true);
+
+  useEffect(() => {
+    if (
+      !imageLoading_1 &&
+      !imageLoading_2 &&
+      !imageLoading_3 &&
+      !imageLoading_4
+    ) {
+      setIsLoading(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2, imageLoading_3, imageLoading_4]);
   return (
     <>
       {error && (
@@ -561,9 +578,11 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         />
       )}
       <div className={s.slots_table_wrap}>
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="slots" text={"Slots"} />
         <div className={s.slots_table_background}>
           <img
+            onLoad={() => setImageLoading_1(false)}
             src={is1280 ? slots1280Bg.src : slotsBg.src}
             className={s.slots_table_background}
             alt="slots-static-bg"
@@ -591,8 +610,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
               <div
                 className={clsx(
                   s.multiplier_value,
-                  item >= 1 && s.multiplier_positive,
-                  item < 1 && s.multiplier_negative
+                  item > 0 ? s.multiplier_positive : s.multiplier_negative
                 )}
                 key={i}
               >
@@ -603,17 +621,32 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         <div className={s.slots_table}>
           <div className={clsx(s.row_wrap, startFirst && s.start_game)}>
             {imageArr1.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_2(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
           <div className={clsx(s.row_wrap, startSecond && s.start_game_2)}>
             {imageArr2.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_3(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
           <div className={clsx(s.row_wrap, startThird && s.start_game)}>
             {imageArr3.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_4(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
         </div>

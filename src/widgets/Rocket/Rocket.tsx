@@ -14,6 +14,7 @@ import { useUnit } from "effector-react";
 import dice_precentage from "@/public/media/dice_icons/dice_precentage.svg";
 import dice_close from "@/public/media/dice_icons/dice_close.svg";
 import dice_swap from "@/public/media/dice_icons/dice_swap.svg";
+import rocketGif from "@/public/media/rocket/rocket.gif";
 
 import Image from "next/image";
 
@@ -43,6 +44,7 @@ import { ProfitModel } from "../ProfitBlock";
 import rocket from "@/public/media/rocket/rocket.png";
 import { ProfitLine } from "../ProfitLine";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { Preload } from "@/shared/ui/Preload";
 
 interface IRocket {
   gameText: string;
@@ -50,7 +52,7 @@ interface IRocket {
 
 export const Rocket: FC<IRocket> = ({ gameText }) => {
   const { isConnected, address } = useAccount();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [
     lost,
     profit,
@@ -256,6 +258,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     }
   }, [startedPlaying]);
 
+  const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
     address: gameAddress as `0x${string}`,
@@ -272,16 +275,18 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
-        const handlePayouts = async () => {
-          for (const item of (log[0] as any)?.args?.payouts || []) {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setCoefficientData((prev) => [
-              Number(item) / Number(wagered),
-              ...prev,
-            ]);
+
+        const handleCall = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+              setLocalNumber(outCome);
+            }, 700 * (i + 1));
           }
         };
-        handlePayouts();
+        handleCall();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -345,8 +350,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const rocketRef = useRef<HTMLVideoElement | null>(null);
   const bgRef = useRef<HTMLVideoElement | null>(null);
-  const fairRef = useRef<HTMLVideoElement | null>(null);
-  const fairStartRef = useRef<HTMLVideoElement | null>(null);
+  // const fairRef = useRef<HTMLVideoElement | null>(null);
+  // const fairStartRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const video = rocketRef.current;
@@ -367,38 +372,6 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   }, []);
 
   const [bgImage, setBgImage] = useState(true);
-  useEffect(() => {
-    const video = fairRef.current;
-
-    const handleTimeUpdate = () => {
-      const duration = video?.duration || 0;
-      const currentTime = video?.currentTime || 0;
-      if (currentTime >= duration - 0.3) {
-        video!.currentTime = 4.85;
-      }
-    };
-
-    video?.addEventListener("timeupdate", handleTimeUpdate);
-    return () => {
-      video?.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, [inGame]);
-
-  // useEffect(() => {
-  //   const video = rocketRef.current;
-  //   const handleTimeUpdate = () => {
-  //     if (inGame) {
-  //       video!.playbackRate = 2;
-  //     } else {
-  //       video!.playbackRate = 1;
-  //     }
-  //   };
-
-  //   video?.addEventListener("timeupdate", handleTimeUpdate);
-  //   return () => {
-  //     video?.removeEventListener("timeupdate", handleTimeUpdate);
-  //   };
-  // }, [inGame]); // bgImage
 
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -458,15 +431,42 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   };
 
   useEffect(() => {
-    const fair = fairRef.current;
-    const fair_1 = fairStartRef.current;
+    // const fair = fairRef.current;
+    // const fair_1 = fairStartRef.current;
     const bg = bgRef.current;
     const bg_2 = rocketRef.current;
-    fair!.currentTime = 0;
-    fair_1!.currentTime = 0;
+    // fair!.currentTime = 0;
+    // fair_1!.currentTime = 0;
     bg!.currentTime = 0;
     bg_2!.currentTime = 0;
   }, [inGame]);
+
+  const [flyStar, setFlyStar] = useState(false);
+  const [rocketStar, setRocketStar] = useState(false);
+  const [restartGif, setRestartGif] = useState(0);
+
+  useEffect(() => {
+    console.log("----------", coefficientData.length);
+    if (coefficientData.length > 0) {
+      setRestartGif(restartGif + 1);
+      setRocketStar(true);
+      setFlyStar(true);
+      setTimeout(() => {
+        setRocketStar(false);
+        setFlyStar(false);
+      }, 650);
+    }
+  }, [coefficientData?.length]);
+
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2) {
+      setIsLoading(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2]);
+
   return (
     <>
       {error && (
@@ -476,7 +476,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
         />
       )}
       <section className={s.rocket_table_wrap}>
-        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock
           className={s.dice_btns}
           game="dice"
@@ -499,6 +499,31 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
               </span>
             </div>
           </div>
+          {/* <div className={clsx(rocketStar && s.bomb)}></div> */}
+          {rocketStar && localNumber !== null && localNumber <= 0 && (
+            <>
+              <img
+                className={clsx(s.bomb)}
+                src={`/rocket/bomb_2.gif?${restartGif}`}
+                alt="wewsfdesd"
+                width={200}
+                height={200}
+              />
+            </>
+          )}
+          {localNumber !== null && (
+            <div
+              className={clsx(
+                s.multiplier_value,
+                s.bomb_2,
+                localNumber > 0 ? s.coef_win : s.coef_lost
+                // coefficientData[coefficientData.length - 1] >= 1 && s.coef_win,
+                // coefficientData[coefficientData.length - 1] < 1 && s.coef_lost
+              )}
+            >
+              {localNumber?.toFixed(2)}x
+            </div>
+          )}
           <div className={s.balls_arr}>
             {coefficientData
               // .sort((a, b) => b - a)
@@ -506,8 +531,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
                 <div
                   className={clsx(
                     s.multiplier_value,
-                    item >= 1 && s.multiplier_positive,
-                    item < 1 && s.multiplier_negative
+                    item > 0 ? s.multiplier_positive : s.multiplier_negative
                   )}
                   key={i}
                 >
@@ -516,6 +540,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
               ))}
           </div>
           <video
+            onPlay={() => {
+              setImageLoading_1(false);
+            }}
+            onError={() => {
+              setImageLoading_1(false);
+            }}
             ref={rocketRef}
             className={clsx(s.background_video, !inGame && s.fair_hide)}
             autoPlay
@@ -526,6 +556,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             <source src={"/rocket/bg.mp4"} type="video/mp4" />
           </video>
           <video
+            onError={() => {
+              setImageLoading_1(false);
+            }}
+            onPlay={() => {
+              setImageLoading_1(false);
+            }}
             ref={bgRef}
             className={clsx(s.background_video, inGame && s.fair_hide)}
             autoPlay
@@ -535,36 +571,23 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           >
             <source src={"/rocket/bg_1.mp4"} type="video/mp4" />
           </video>
-          <div className={clsx(s.rocket_box, inGame && s.rocket_box_animation)}>
+          <div
+            onClick={() => {
+              setRestartGif((prev) => prev + 1);
+              // setLocalC((prev) => [...prev, 1]);
+            }}
+            className={clsx(s.rocket_box, rocketStar && s.rocket_box_animation)}
+          >
             <Image
-              onClick={() => {
-                // setBgImage((prev) => !prev);
-              }}
+              onLoad={() => setImageLoading_2(false)}
               className={clsx(s.rocket, inGame && s.rocket_animation)}
               src={rocket}
               alt="rocket"
-            />
+            />{" "}
+            <div
+              className={clsx(s.rocket_fire, inGame && s.rocket_fire_2)}
+            ></div>
           </div>
-          <video
-            ref={fairRef}
-            className={clsx(s.fair, !inGame && s.fair_hide)}
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source src="/rocket/fair.mp4" type="video/mp4" />
-          </video>
-          <video
-            ref={fairStartRef}
-            className={clsx(s.fair_2, inGame && s.fair_hide)}
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source src="/rocket/fair_slow.mp4" type="video/mp4" />
-          </video>
           <div className={s.range_wrapper}>
             <div className={s.range_container}>
               <span className={s.roll_range_value}>{RollValue}</span>
@@ -615,3 +638,58 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     </>
   );
 };
+{
+  /* <video
+            ref={fairRef}
+            className={clsx(s.fair, !inGame && s.fair_hide)}
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src="/rocket/fair.mp4" type="video/mp4" />
+          </video>
+          <video
+            ref={fairStartRef}
+            className={clsx(s.fair_2, !inGame && s.fair_hide)}
+            autoPlay
+            loop
+            muted
+            playsInline
+          > */
+}
+{
+  /* <source src="/rocket/fair_slow.mp4" type="video/mp4" />
+          </video> */
+} // useEffect(() => {
+//   const video = fairRef.current;
+
+//   const handleTimeUpdate = () => {
+//     const duration = video?.duration || 0;
+//     const currentTime = video?.currentTime || 0;
+//     if (currentTime >= duration - 0.3) {
+//       video!.currentTime = 4.85;
+//     }
+//   };
+
+//   video?.addEventListener("timeupdate", handleTimeUpdate);
+//   return () => {
+//     video?.removeEventListener("timeupdate", handleTimeUpdate);
+//   };
+// }, [inGame]);
+
+// useEffect(() => {
+//   const video = rocketRef.current;
+//   const handleTimeUpdate = () => {
+//     if (inGame) {
+//       video!.playbackRate = 2;
+//     } else {
+//       video!.playbackRate = 1;
+//     }
+//   };
+
+//   video?.addEventListener("timeupdate", handleTimeUpdate);
+//   return () => {
+//     video?.removeEventListener("timeupdate", handleTimeUpdate);
+//   };
+// }, [inGame]); // bgImage

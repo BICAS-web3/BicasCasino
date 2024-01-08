@@ -57,6 +57,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
 import { ProfitLine } from "../ProfitLine";
+import { Preload } from "@/shared/ui/Preload";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -72,7 +73,15 @@ export interface DiceProps {
 }
 
 const Dice: FC<DiceProps> = ({ gameText }) => {
+  const [preloading, setPreloading] = useState(true);
   const { isConnected, address } = useAccount();
+  const [modelLoading, setModelLoading] = useState(true);
+  const [imageLoading, setIMageLoading] = useState(true);
+  useEffect(() => {
+    if (!modelLoading && !imageLoading) {
+      setPreloading(modelLoading);
+    }
+  }, [modelLoading, imageLoading]);
   const [
     lost,
     profit,
@@ -332,6 +341,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     }
   }, [startedPlaying]);
 
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
     address: gameAddress as `0x${string}`,
     abi: DiceAbi,
@@ -346,6 +356,16 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -452,7 +472,37 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       img_alt: "%",
     },
   ];
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
 
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
   return (
     <>
       {" "}
@@ -471,19 +521,54 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
         />
         <div className={s.model}>
           <Suspense fallback={<div>...</div>}>
-            <DiceCanvas inGame={inGame} />
+            <DiceCanvas setIsLoading={setModelLoading} inGame={inGame} />
           </Suspense>
         </div>
         <div className={s.dice_container}>
-          <Image className={s.cube} src={dice_cube} alt="cube" />
+          {" "}
+          {preloading && <Preload />}
+          <Image
+            onLoad={() => setIMageLoading(false)}
+            className={s.cube}
+            src={dice_cube}
+            alt="cube"
+          />
           <div className={s.dice_table_background}>
             <Image
+              onLoad={() => setIMageLoading(false)}
               className={s.dice_table_background_img}
               src={bgImage}
               alt="test"
             />
           </div>
-          <ProfitLine containerClassName={s.total_container} />
+          <div className={clsx(s.total_container)}>
+            <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+            <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+            <div>
+              Total:{" "}
+              <span
+                className={clsx(
+                  totalValue > 0 && s.total_won,
+                  totalValue < 0 && s.total_lost
+                )}
+              >
+                {Math.abs(totalValue).toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <div className={clsx(s.balls_arr)}>
+            {coefficientData.map((item, i) => (
+              <div
+                className={clsx(
+                  s.multiplier_value,
+                  item > 0 ? s.multiplier_positive : s.multiplier_negative
+                )}
+                key={i}
+              >
+                {item?.toFixed(2)}x
+              </div>
+            ))}
+          </div>
           <div className={s.range_wrapper}>
             {" "}
             <div className={s.range_container}>
