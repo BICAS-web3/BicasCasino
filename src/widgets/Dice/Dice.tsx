@@ -59,6 +59,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { ProfitModel } from "../ProfitBlock";
 import { ProfitLine } from "../ProfitLine";
+import { Preload } from "@/shared/ui/Preload";
 
 enum CoinAction {
   Rotation = "Rotation",
@@ -71,16 +72,16 @@ enum CoinAction {
 
 export interface DiceProps {
   gameText: string;
-  setIsLoading: (el: boolean) => void;
 }
 
-const Dice: FC<DiceProps> = ({ gameText, setIsLoading }) => {
+const Dice: FC<DiceProps> = ({ gameText }) => {
+  const [preloading, setPreloading] = useState(true);
   const { isConnected, address } = useAccount();
   const [modelLoading, setModelLoading] = useState(true);
   const [imageLoading, setIMageLoading] = useState(true);
   useEffect(() => {
     if (!modelLoading && !imageLoading) {
-      setIsLoading?.(modelLoading);
+      setPreloading(modelLoading);
     }
   }, [modelLoading, imageLoading]);
   const [
@@ -539,6 +540,8 @@ const Dice: FC<DiceProps> = ({ gameText, setIsLoading }) => {
           </Suspense>
         </div>
         <div className={s.dice_container}>
+          {" "}
+          {preloading && <Preload />}
           <Image
             onLoad={() => setIMageLoading(false)}
             className={s.cube}

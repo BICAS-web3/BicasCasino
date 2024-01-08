@@ -52,15 +52,24 @@ import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Preload } from "@/shared/ui/Preload";
 interface ModelProps {
   side: string;
   left: boolean;
   yValue: number;
   delay?: number;
   setIsLoading?: (el: boolean) => void;
+  // isLoading?: boolean;
 }
 
-const Model: FC<ModelProps> = ({ side, left, yValue, delay, setIsLoading }) => {
+const Model: FC<ModelProps> = ({
+  side,
+  left,
+  yValue,
+  delay,
+  setIsLoading,
+  // isLoading,
+}) => {
   const [pickedValue] = useUnit([RPSModel.$pickedValue]);
   const [selectedSide, setSelectedSide] = useState(side);
   useEffect(() => {
@@ -150,12 +159,11 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay, setIsLoading }) => {
 interface RockPaperScissorsProps {
   gameText: string;
   setIsLoading?: (el: boolean) => void;
+  isLoadingd?: boolean;
 }
 
-export const RockPaperScissors: FC<RockPaperScissorsProps> = ({
-  gameText,
-  setIsLoading,
-}) => {
+export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
+  const [isLoadingd, setIsLoading] = useState(true);
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
   const [modelLoading_1, setModelLoading_1] = useState(true);
   const [modelLoading_2, setModelLoading_2] = useState(true);
@@ -576,6 +584,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({
 
   return (
     <div className={s.rps_table_container}>
+      {isLoadingd && <Preload />}
       <WagerLowerBtnsBlock game="rps" text={gameText} />
       <div className={s.rps_table_background}>
         <Image

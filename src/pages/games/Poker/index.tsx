@@ -104,34 +104,9 @@ export default function PokerGame() {
     PokerModel.$showFlipCards,
     PokerModel.flipShowFlipCards,
   ]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [pageLoad, setPageLoad] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setPageLoad(false);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (isLoading || pageLoad) {
-      document.documentElement.style.height = "100vh";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.height = "auto";
-      document.documentElement.style.overflow = "auto";
-    }
-    return () => {
-      document.documentElement.style.height = "auto";
-      document.documentElement.style.overflow = "auto";
-    };
-  }, [isLoading, pageLoad]);
   return (
     <>
-      {" "}
-      {isLoading && <Preload />}
       <Head>
         <title>Games - Poker</title>
       </Head>
@@ -148,10 +123,7 @@ export default function PokerGame() {
             gameTitle="poker"
             wagerContent={<WagerContent />}
           >
-            <Poker
-              setIsLoading={setIsLoading}
-              gameText="Video Poker - At the start of each round of the game, you are dealt 5 cards with 9 different potential winning combinations. After the first hand, you have the unique opportunity to turn over the cards and try your luck to re-create the best winning combination. In this version of video poker  a royal flush can increase your bet by 100 times, which is guaranteed to give you unforgettable emotions and excitement!"
-            />
+            <Poker gameText="Video Poker - At the start of each round of the game, you are dealt 5 cards with 9 different potential winning combinations. After the first hand, you have the unique opportunity to turn over the cards and try your luck to re-create the best winning combination. In this version of video poker  a royal flush can increase your bet by 100 times, which is guaranteed to give you unforgettable emotions and excitement!" />
             {/* show when need to redraw cards */}
 
             {showFlipCards && (

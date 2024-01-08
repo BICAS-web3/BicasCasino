@@ -90,15 +90,15 @@ import clsx from "clsx";
 import { useFeeData } from "wagmi";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitLine } from "../ProfitLine";
+import { Preload } from "@/shared/ui/Preload";
 
-interface SlotsGameProps {
-  setIsLoading: (el: boolean) => void;
-}
+interface SlotsGameProps {}
 
-export const SlotsGame: FC<SlotsGameProps> = ({ setIsLoading }) => {
+export const SlotsGame: FC<SlotsGameProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
   const [getId, setGetId] = useState(-1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -581,7 +581,7 @@ export const SlotsGame: FC<SlotsGameProps> = ({ setIsLoading }) => {
       !imageLoading_3 &&
       !imageLoading_4
     ) {
-      setIsLoading?.(imageLoading_1);
+      setIsLoading(imageLoading_1);
     }
   }, [imageLoading_1, imageLoading_2, imageLoading_3, imageLoading_4]);
   return (
@@ -593,6 +593,7 @@ export const SlotsGame: FC<SlotsGameProps> = ({ setIsLoading }) => {
         />
       )}
       <div className={s.slots_table_wrap}>
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="slots" text={"Slots"} />
         <div className={s.slots_table_background}>
           <img

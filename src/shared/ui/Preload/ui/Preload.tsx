@@ -2,7 +2,7 @@ import { FC } from "react";
 import clsx from "clsx";
 
 import styles from "./styles.module.scss";
-import { Blur } from "@/widgets/ErrorCheck/ui/Blur";
+import { Blur } from "./Blur";
 
 export interface PreloadProps {
   className?: string;

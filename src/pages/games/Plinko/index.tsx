@@ -108,33 +108,8 @@ const WagerContent = () => {
 };
 
 export default function PlinkoGame() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [pageLoad, setPageLoad] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setPageLoad(false);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (isLoading || pageLoad) {
-      document.documentElement.style.height = "100vh";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.documentElement.style.height = "auto";
-      document.documentElement.style.overflow = "auto";
-    }
-    return () => {
-      document.documentElement.style.height = "auto";
-      document.documentElement.style.overflow = "auto";
-    };
-  }, [isLoading, pageLoad]);
   return (
     <>
-      {isLoading && <Preload />}
       <Head>
         <title>Games - Plinko</title>
       </Head>
@@ -150,10 +125,7 @@ export default function PlinkoGame() {
             gameTitle="plinko"
             wagerContent={<WagerContent />}
           >
-            <Plinko
-              setIsLoading={setIsLoading}
-              gameText="Plinko is this exciting game, players launch a ball from the top of a complex triangular pyramid arranged in multiple rows. As if in a dance, the ball bounces off the pins located on each level of the pyramid, creating an unpredictable and exciting path to the finish line. At the bottom of the pyramid, slots with a variety of payouts await players, from modest ones in the center to amazing ones - up to 1000x - on the periphery. The game features the ability to customize the number of rows from 8 to 16, as well as the choice of risk level, whether low, medium or high. Each player choice affects the payout potential, making each roll of the ball a unique test of luck and strategy."
-            />
+            <Plinko gameText="Plinko is this exciting game, players launch a ball from the top of a complex triangular pyramid arranged in multiple rows. As if in a dance, the ball bounces off the pins located on each level of the pyramid, creating an unpredictable and exciting path to the finish line. At the bottom of the pyramid, slots with a variety of payouts await players, from modest ones in the center to amazing ones - up to 1000x - on the periphery. The game features the ability to customize the number of rows from 8 to 16, as well as the choice of risk level, whether low, medium or high. Each player choice affects the payout potential, making each roll of the ball a unique test of luck and strategy." />
           </GamePage>
         </div>
       </Layout>

@@ -46,15 +46,15 @@ import { ProfitModel } from "../ProfitBlock";
 import rocket from "@/public/media/rocket/rocket.png";
 import { ProfitLine } from "../ProfitLine";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { Preload } from "@/shared/ui/Preload";
 
 interface IRocket {
   gameText: string;
-  setIsLoading: (el: boolean) => void;
 }
 
-export const Rocket: FC<IRocket> = ({ gameText, setIsLoading }) => {
+export const Rocket: FC<IRocket> = ({ gameText }) => {
   const { isConnected, address } = useAccount();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [
     lost,
     profit,
@@ -478,7 +478,7 @@ export const Rocket: FC<IRocket> = ({ gameText, setIsLoading }) => {
 
   useEffect(() => {
     if (!imageLoading_1 && !imageLoading_2) {
-      setIsLoading?.(imageLoading_1);
+      setIsLoading(imageLoading_1);
     }
   }, [imageLoading_1, imageLoading_2]);
 
@@ -491,7 +491,7 @@ export const Rocket: FC<IRocket> = ({ gameText, setIsLoading }) => {
         />
       )}
       <section className={s.rocket_table_wrap}>
-        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock
           className={s.dice_btns}
           game="dice"
