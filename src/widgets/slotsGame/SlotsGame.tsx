@@ -457,19 +457,31 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   const [startFirst, setStartFirst] = useState(false);
   const [startSecond, setStartSecond] = useState(false);
   const [startThird, setStartThird] = useState(false);
+  const [startFirstSquese, setStartFirstSquese] = useState(false);
+  const [startSecondSquese, setStartSecondSquese] = useState(false);
+  const [startThirdSquese, setStartThirdSquese] = useState(false);
+
+  const [test, setTest] = useState(false);
 
   useEffect(() => {
     if (inGame) {
       setStartFirst(true);
       setStartSecond(true);
       setStartThird(true);
+      setStartFirstSquese(false);
+      setStartSecondSquese(false);
+      setStartThirdSquese(false);
+      setGameStart(true);
     } else {
       setStartFirst(false);
+      setStartFirstSquese(true);
       setTimeout(() => {
         setStartSecond(false);
+        setStartSecondSquese(true);
       }, 600);
       setTimeout(() => {
         setStartThird(false);
+        setStartThirdSquese(true);
       }, 1200);
     }
   }, [inGame]);
@@ -573,6 +585,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   const [imageLoading_2, setImageLoading_2] = useState(true);
   const [imageLoading_3, setImageLoading_3] = useState(true);
   const [imageLoading_4, setImageLoading_4] = useState(true);
+  const [gameStart, setGameStart] = useState(false);
 
   useEffect(() => {
     if (
@@ -592,7 +605,10 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           btnTitle="Contact us"
         />
       )}
-      <div className={s.slots_table_wrap}>
+      <div
+        // onClick={() => setTest((prev) => !prev)}
+        className={s.slots_table_wrap}
+      >
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="slots" text={"Slots"} />
         <div className={s.slots_table_background}>
@@ -634,27 +650,45 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             ))}
         </div>
         <div className={s.slots_table}>
-          <div className={clsx(s.row_wrap, startFirst && s.start_game)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startFirst && s.start_game,
+              startFirstSquese && gameStart && s.squese
+            )}
+          >
             {imageArr1.map((img, ind) => (
               <img
-                onLoad={() => setImageLoading_2(false)}
+                // onLoad={() => setImageLoading_2(false)}
                 src={img.src}
                 key={ind}
                 className={s.row_img}
               />
             ))}
           </div>
-          <div className={clsx(s.row_wrap, startSecond && s.start_game_2)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startSecond && s.start_game_2,
+              startSecondSquese && gameStart && s.squese
+            )}
+          >
             {imageArr2.map((img, ind) => (
               <img
-                onLoad={() => setImageLoading_3(false)}
+                // onLoad={() => setImageLoading_3(false)}
                 src={img.src}
                 key={ind}
                 className={s.row_img}
               />
             ))}
           </div>
-          <div className={clsx(s.row_wrap, startThird && s.start_game)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startThird && s.start_game,
+              startThirdSquese && gameStart && s.squese
+            )}
+          >
             {imageArr3.map((img, ind) => (
               <img
                 onLoad={() => setImageLoading_4(false)}
