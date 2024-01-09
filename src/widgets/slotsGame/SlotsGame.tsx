@@ -644,7 +644,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           >
             {imageArr1.map((img, ind) => (
               <img
-                // onLoad={() => setImageLoading_2(false)}
+                onLoad={() => setImageLoading_2(false)}
                 src={img.src}
                 key={ind}
                 className={s.row_img}
@@ -660,7 +660,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           >
             {imageArr2.map((img, ind) => (
               <img
-                // onLoad={() => setImageLoading_3(false)}
+                onLoad={() => setImageLoading_3(false)}
                 src={img.src}
                 key={ind}
                 className={s.row_img}
