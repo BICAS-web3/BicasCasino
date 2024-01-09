@@ -42,6 +42,9 @@ import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
+import { RouletteBack } from "@/shared/SVGs/RouletteBack";
+import { RouletteRepeat } from "@/shared/SVGs/RouletteRepeat";
+
 interface IRoulette {
   gameText: string;
 }
@@ -369,6 +372,51 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
     const randomRotation = Math.floor(Math.random() * 360) + 360 * 5; // Rotate multiple times (5 rotations in this example)
     setRotation(randomRotation);
   };
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      width < 650 ? setIsMobile(true) : setIsMobile(false);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // let numbersArrTen = [3, 6, 9, 12, 2, 5, 8, 11, 1, 4, 7, 10];
+  // let numbersArr13 = [15, 18, 21, 24, 14, 17, 20, 23, 13, 16, 19, 22];
+
+  const [numbersArr27, setNumberArr27] = useState([
+    27, 30, 33, 36, 26, 29, 32, 35, 25, 28, 31, 34,
+  ]);
+
+  const [numbersArrTen, setNumberArrTen] = useState([
+    3, 6, 9, 12, 2, 5, 8, 11, 1, 4, 7, 10,
+  ]);
+
+  const [numbersArr13, setNumberArr13] = useState([
+    15, 18, 21, 24, 14, 17, 20, 23, 13, 16, 19, 22,
+  ]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setNumberArr27(numbersArr27.sort((a, b) => a - b));
+      setNumberArrTen(numbersArrTen.sort((a, b) => a - b));
+      setNumberArr13(numbersArr13.sort((a, b) => a - b));
+    } else {
+      setNumberArr27(numbersArr27);
+      setNumberArrTen(numbersArrTen);
+      setNumberArr13(numbersArr13);
+    }
+  }, [isMobile]);
+
   return (
     <>
       {error && (
@@ -391,7 +439,91 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
             alt=""
             className={s.roulette_table_background_img}
           />
-        </div>{" "}
+        </div>
+        <div className={s.roulette_table_body}>
+          <div className={s.roulette_wheel_wrap}></div>
+          <div className={s.roulette_bets_wrap}>
+            <div className={s.roulette_bets_block}>
+              <div className={clsx(s.zero_bet, s.bet_font)}>0</div>
+              <div className={s.n1_to_n10_bets_block}>
+                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                  1st 12
+                </div>
+                <div className={s.n1_to_n10_list}>
+                  {numbersArrTen.map((item, ind) => (
+                    <div
+                      className={clsx(s.bet_block, s.bet_font)}
+                      data-odd={item % 2 === 1}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className={s.n1_to_n18_bet}>
+                  <div className={clsx(s.n1_to_n18_bet_item, s.bet_font)}>
+                    1 to 18
+                  </div>
+                  <div className={clsx(s.n1_to_n18_bet_item, s.bet_font)}>
+                    EVEN
+                  </div>
+                </div>
+              </div>
+              <div className={s.n13_to_n24_bets_block}>
+                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                  2ns 12
+                </div>
+                <div className={s.n13_to_n24_list}>
+                  {numbersArr13.map((item, ind) => (
+                    <div
+                      className={clsx(s.bet_block, s.bet_font)}
+                      data-odd={item % 2 === 1}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className={s.color_bet_block}>
+                  <div className={s.color_bet_block_item}></div>
+                  <div className={s.color_bet_block_item}></div>
+                </div>
+              </div>
+              <div className={s.n25_to_n36_bets_block}>
+                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                  3rd 12
+                </div>
+                <div className={s.n13_to_n24_list}>
+                  {numbersArr27.map((item, ind) => (
+                    <div
+                      className={clsx(s.bet_block, s.bet_font)}
+                      data-odd={item % 2 === 1}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className={s.n25_to_n36_odd_bet}>
+                  <div className={clsx(s.n25_to_n36_bet_item, s.bet_font)}>
+                    ODD
+                  </div>
+                  <div className={clsx(s.n25_to_n36_bet_item, s.bet_font)}>
+                    19 to 36
+                  </div>
+                </div>
+              </div>
+              <div className={s.other_bets_block}>
+                <div className={s.back_bet_btn}>
+                  <RouletteBack />
+                </div>
+                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
+                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
+                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
+                <div className={clsx(s.repeat_bet_btn)}>
+                  <RouletteRepeat />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* <div className={s.s119z0yr}>
           <div className={s.s1c1y24o} style={{ opacity: 1, transform: "none" }}>
             <div
@@ -457,7 +589,7 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
             />
           </div>
         </div> */}
-        <div className={s.roulette_table_wrap_under}>
+        {/* <div className={s.roulette_table_wrap_under}>
           <div className={s.total_container}>
             <span className={s.total_won}>{fullWon.toFixed(2)}</span>
             <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
@@ -488,7 +620,7 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
                 </div>
               ))}
           </div>
-        </div>
+        </div> */}
       </section>{" "}
     </>
   );

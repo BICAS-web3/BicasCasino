@@ -110,6 +110,7 @@ export default function RouletteGame() {
         />
         <div className={s.rps_container}>
           <GamePage
+            roulette={true}
             isPoker={false}
             gameInfoText=""
             gameTitle="roulette"
