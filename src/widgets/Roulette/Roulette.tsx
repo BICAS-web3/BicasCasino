@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef, ChangeEvent } from "react";
+import { FC, useEffect, useState } from "react";
 
 import {
   useAccount,
@@ -42,6 +42,10 @@ import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
+import cross from "@/public/media/roulette_images/cross.png";
+
+import eclipse_1 from "@/public/media/roulette_icons/eclipse_1.svg";
+import { Wheel } from "@/shared/ui/Wheel";
 interface IRoulette {
   gameText: string;
 }
@@ -363,12 +367,47 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
       setIsLoading(imageLoading_1);
     }
   }, [imageLoading_1]);
-  const [rotation, setRotation] = useState(0);
 
-  const rotateWheel = () => {
-    const randomRotation = Math.floor(Math.random() * 360) + 360 * 5; // Rotate multiple times (5 rotations in this example)
-    setRotation(randomRotation);
-  };
+  const arrData = [
+    { angle: 0, value: 0, color: "sector_green" },
+    { angle: 9.72973, value: 32, color: "sector_red" },
+    { angle: 19.4595, value: 15, color: "sector_black" },
+    { angle: 29.1892, value: 19, color: "sector_red" },
+    { angle: 38.9189, value: 4, color: "sector_black" },
+    { angle: 48.6486, value: 21, color: "sector_red" },
+    { angle: 58.3784, value: 2, color: "sector_black" },
+    { angle: 68.1081, value: 25, color: "sector_red" },
+    { angle: 77.8378, value: 17, color: "sector_black" },
+    { angle: 87.5676, value: 34, color: "sector_red" },
+    { angle: 97.2973, value: 6, color: "sector_black" },
+    { angle: 107.027, value: 27, color: "sector_red" },
+    { angle: 116.757, value: 13, color: "sector_black" },
+    { angle: 126.486, value: 36, color: "sector_red" },
+    { angle: 136.216, value: 11, color: "sector_black" },
+    { angle: 145.946, value: 30, color: "sector_red" },
+    { angle: 155.676, value: 8, color: "sector_black" },
+    { angle: 165.405, value: 23, color: "sector_red" },
+    { angle: 175.135, value: 10, color: "sector_black" },
+    { angle: 184.865, value: 5, color: "sector_red" },
+    { angle: 194.595, value: 24, color: "sector_black" },
+    { angle: 204.324, value: 16, color: "sector_red" },
+    { angle: 214.054, value: 33, color: "sector_black" },
+    { angle: 223.784, value: 1, color: "sector_red" },
+    { angle: 233.514, value: 20, color: "sector_black" },
+    { angle: 243.243, value: 14, color: "sector_red" },
+    { angle: 252.973, value: 31, color: "sector_black" },
+    { angle: 262.703, value: 9, color: "sector_red" },
+    { angle: 272.432, value: 22, color: "sector_black" },
+    { angle: 282.162, value: 18, color: "sector_red" },
+    { angle: 291.892, value: 29, color: "sector_black" },
+    { angle: 301.622, value: 7, color: "sector_red" },
+    { angle: 311.351, value: 28, color: "sector_black" },
+    { angle: 321.081, value: 12, color: "sector_red" },
+    { angle: 330.811, value: 35, color: "sector_black" },
+    { angle: 340.541, value: 3, color: "sector_red" },
+    { angle: 350.27, value: 26, color: "sector_black" },
+  ];
+
   return (
     <>
       {error && (
@@ -392,71 +431,7 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
             className={s.roulette_table_background_img}
           />
         </div>{" "}
-        {/* <div className={s.s119z0yr}>
-          <div className={s.s1c1y24o} style={{ opacity: 1, transform: "none" }}>
-            <div
-              className={s.spin_wrap}
-              style={{ transform: "translate(0px, 0px)" }}
-            >
-              <div
-                className={s.scs0t5e}
-                style={{ opacity: 1, transform: "none" }}
-              >
-                <img
-                  className={clsx(s.spin_light, s.active, s.light)}
-                  src="/modules/bonus/light-8df519d7.png"
-                  alt=""
-                  style={{ display: "none" }}
-                />
-                <img
-                  className={s.spin_img}
-                  src="/modules/bonus/crypto_spin-5290c0a3.png"
-                  alt=""
-                />
-
-                <div
-                  className={s.spin_item}
-                  style={{
-                    opacity: 1,
-                    height: "24px",
-                    transform: "rotate(22.5deg)",
-                  }}
-                >
-                  <span className={s.amount}>2.00000</span>
-                  <img className="coin-icon" src="/coin/BCD.black.png" alt="" />
-                </div>
-
-              </div>
-            </div>
-            <div className="point-img">
-              <div className="light-wrap">
-                <div className="point-light"></div>
-              </div>
-              <img
-                src="/modules/bonus/crypto_point-2b3622a0.png"
-                alt=""
-                style={{ opacity: 1, transform: "none" }}
-              />
-            </div>
-          </div>
-          <canvas
-            width="80"
-            height="100"
-            style={{
-              touchAction: "auto",
-              width: "80px",
-              height: "100px",
-              cursor: "inherit",
-            }}
-          ></canvas>
-          <div className={s.btn_img} style={{ opacity: 1, transform: "none" }}>
-            <img
-              className="btn-txt"
-              src="/modules/bonus/crypto_btn-27a97635.png"
-              alt=""
-            />
-          </div>
-        </div> */}
+        <Wheel array={arrData} />
         <div className={s.roulette_table_wrap_under}>
           <div className={s.total_container}>
             <span className={s.total_won}>{fullWon.toFixed(2)}</span>
@@ -474,19 +449,17 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
             </div>
           </div>
           <div className={s.balls_arr}>
-            {coefficientData
-              // .sort((a, b) => b - a)
-              .map((item, i) => (
-                <div
-                  className={clsx(
-                    s.multiplier_value,
-                    item > 0 ? s.multiplier_positive : s.multiplier_negative
-                  )}
-                  key={i}
-                >
-                  {item?.toFixed(2)}x
-                </div>
-              ))}
+            {coefficientData.map((item, i) => (
+              <div
+                className={clsx(
+                  s.multiplier_value,
+                  item > 0 ? s.multiplier_positive : s.multiplier_negative
+                )}
+                key={i}
+              >
+                {item?.toFixed(2)}x
+              </div>
+            ))}
           </div>
         </div>
       </section>{" "}
