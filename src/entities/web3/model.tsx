@@ -108,7 +108,7 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
           projectId: "01e7a60839e8572c2da88e40b1db4893",
           qrModalOptions: {
             themeVariables: {
-              "--wcm-z-index": "9999999",
+              "--w3m-z-index": "9999999",
             },
           },
           relayUrl: "wss://relay.walletconnect.org",

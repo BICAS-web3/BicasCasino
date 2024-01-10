@@ -511,7 +511,13 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <SlotsIcon />
               Slots
             </Link>
-            <Link href={"/leaderboard"} className={clsx(s.leaderboard)}>
+            <Link
+              href={"/leaderboard"}
+              className={clsx(
+                s.leaderboard,
+                props.activePage === "/leaderboard" && s.game_active
+              )}
+            >
               <VipButton />
               LeaderBoard
             </Link>

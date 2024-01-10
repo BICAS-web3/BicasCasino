@@ -21,9 +21,10 @@ import clsx from "clsx";
 import * as CFM from "@/widgets/CoinFlip/model";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);

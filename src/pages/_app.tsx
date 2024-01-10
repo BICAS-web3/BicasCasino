@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import { Fonts } from "@/shared/fonts";
 import "@/shared/styles/index.scss";
 import Script from "next/script";
-import * as fbq from '../shared/tools/index';
+import * as fbq from "../shared/tools/index";
 import "@/shared/styles/global.scss";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
           
             gtag('config', 'G-BMHG0YHS5M');
           
-          `
+          `,
         }}
       />
 
@@ -56,7 +56,7 @@ export default function App({ Component, pageProps }: AppProps) {
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-NDJSCGDF');
           
-          `
+          `,
         }}
       />
 
@@ -78,17 +78,14 @@ export default function App({ Component, pageProps }: AppProps) {
                   webvisor:true
             });
           
-          `
+          `,
         }}
       />
-
-
 
       <EffectorNext values={pageProps?.values}>
         <Fonts />
         <Component {...pageProps} />
       </EffectorNext>
     </>
-
   );
 }

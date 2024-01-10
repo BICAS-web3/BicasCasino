@@ -4,7 +4,8 @@ import Image, { StaticImageData } from "next/image";
 import backCard from "@/public/media/poker_images/backCard.svg";
 import useSound from "use-sound";
 import * as api from "@/shared/api";
-
+import * as GameModel from "@/widgets/GamePage/model";
+import { useUnit } from "effector-react";
 interface itemProps {
   img: StaticImageData;
 }
@@ -14,6 +15,7 @@ interface PokerCardProps {
   card: number | undefined;
   isEmptyCard: boolean;
   onClick: () => void;
+  setImageLoading: (el: boolean) => void;
 }
 
 export const PokerCard: FC<PokerCardProps> = (props) => {
@@ -26,6 +28,8 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
     `/static/media/games_assets/poker/sounds/redrawCard.mp3`,
     { volume: 1 }
   );
+
+  const [musicType] = useUnit([GameModel.$playSounds]);
 
   useEffect(() => {
     if (cardRef.current) {
@@ -44,7 +48,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
       onClick={
         !props.isEmptyCard
           ? () => {
-              playRedrawSound();
+              musicType !== "off" && playRedrawSound();
               setCardFlipped(!cardFlipped);
               props.onClick();
             }
@@ -56,6 +60,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
         <>
           <div className={s.poker_table_card_front}>
             <Image
+              onLoad={() => props.setImageLoading(false)}
               src={`${api.BaseStaticUrl}/media/games_assets/poker/${props.coat}/${props.card}.svg`}
               alt="card-image"
               width={200}
@@ -66,6 +71,7 @@ export const PokerCard: FC<PokerCardProps> = (props) => {
           </div>
           <div className={s.poker_table_card_back}>
             <Image
+              onLoad={() => props.setImageLoading(false)}
               src={backCard}
               alt="card-image"
               className={s.card_img}

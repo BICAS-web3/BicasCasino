@@ -117,7 +117,7 @@
 }
 
 .start_game {
-  animation: slot_start infinite 0.4s linear;
+  animation: slot_start infinite 0.35s steps(550, end);
 }
 
 @keyframes slot_start {
@@ -130,7 +130,7 @@
 }
 
 .start_game_2 {
-  animation: slot_start_2 infinite 0.4s linear;
+  animation: slot_start_2 infinite 0.35s steps(550, end);
 }
 
 @keyframes slot_start_2 {
@@ -139,6 +139,63 @@
   }
   100% {
     top: 0;
+  }
+}
+
+.squese {
+  img {
+    &:nth-child(2) {
+      animation: squese 0.6s;
+    }
+    &:nth-child(3) {
+      animation: squese_2 0.6s;
+    }
+    &:nth-child(4) {
+      animation: squese_3 0.6s;
+    }
+  }
+}
+
+@keyframes squese {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-11px);
+  }
+  66% {
+    transform: translateY(11px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes squese_2 {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-16px);
+  }
+  66% {
+    transform: translateY(16px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes squese_3 {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-11px);
+  }
+  66% {
+    transform: translateY(11px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 

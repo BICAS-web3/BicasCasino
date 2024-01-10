@@ -16,7 +16,7 @@ import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 import Head from "next/head";
 import { useAccount, useConnect } from "wagmi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
@@ -24,6 +24,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
+import { Preload } from "@/shared/ui/Preload";
 const WagerContent = () => {
   const [startConnect, setStartConnect, waitingResponse, isPlaying] = useUnit([
     ConnectModel.$startConnect,

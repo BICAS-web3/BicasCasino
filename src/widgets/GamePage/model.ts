@@ -6,7 +6,7 @@ export enum GameStatus {
 }
 
 // variables
-export const $playSounds = createStore<boolean>(false);
+export const $playSounds = createStore<string>("off");
 export const $gameStatus = createStore<GameStatus | null>(null);
 export const $isPlaying = createStore<boolean>(true);
 export const $waitingResponse = createStore<boolean>(false);
@@ -20,7 +20,7 @@ export const $isEmtyWager = createStore<boolean>(false);
 // events
 export const setIsPlaying = createEvent<boolean>();
 export const setWaitingResponse = createEvent<boolean>();
-export const switchSounds = createEvent<void>();
+export const switchSounds = createEvent<string>();
 export const setGameStatus = createEvent<GameStatus | null>();
 export const setWonStatus = createEvent<{
   profit: number;
@@ -36,7 +36,7 @@ export const setIsEmtyWager = createEvent<boolean>();
 $betValue.on(setBetValue, (_, state) => state);
 $isPlaying.on(setIsPlaying, (_, state) => state);
 $waitingResponse.on(setWaitingResponse, (_, state) => state);
-$playSounds.on(switchSounds, (old, _) => !old);
+$playSounds.on(switchSounds, (old, state) => state);
 $gameStatus.on(setGameStatus, (_, status) => status);
 
 $profit.on(setWonStatus, (_, data) => data.profit).on(clearStatus, () => 0);

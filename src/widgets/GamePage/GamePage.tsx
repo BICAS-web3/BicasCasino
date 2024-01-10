@@ -43,7 +43,7 @@ import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
-
+import soundEffectsIco from "@/public/media/misc/effects.png";
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
   "/static/media/games_assets/music/default_bg_music/4.mp3",
@@ -184,10 +184,7 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.setIsEmtyWager,
   ]);
 
-  const [cryptoValue] = useUnit([
-    //CFM.$isPlaying,
-    WagerAmountModel.$cryptoValue,
-  ]);
+  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
   const router = useRouter();
 
@@ -208,11 +205,21 @@ export const GamePage: FC<GamePageProps> = ({
     };
   }, []);
 
+  const soundChange = () => {
+    if (playSounds === "off") {
+      switchSounds("on");
+    } else if (playSounds === "on") {
+      switchSounds("effects");
+    } else if (playSounds === "effects") {
+      switchSounds("off");
+    }
+  };
+
   return (
     <div className={s.game_layout}>
       <ReactHowler
         src={musicsList[currentSoundIndex]}
-        playing={playSounds}
+        playing={playSounds === "on"}
         onEnd={() => setNewMusic()}
       />
       <div className={s.game_wrap}>
@@ -226,19 +233,29 @@ export const GamePage: FC<GamePageProps> = ({
             <div className={clsx(s.game_block, custom_height)}>
               <button
                 className={clsx(s.poker_wager_sound_btn, soundClassName)}
-                onClick={() => switchSounds()}
+                onClick={soundChange}
+                data-id="2"
               >
-                {playSounds ? (
-                  <Image
-                    alt="sound-ico"
-                    className={s.sound_ico}
-                    src={soundIco}
-                  />
-                ) : (
+                {playSounds === "off" ? (
                   <Image
                     alt="sound-ico-off"
                     className={s.sound_ico}
                     src={soundOffIco}
+                  />
+                ) : playSounds === "effects" ? (
+                  <>
+                    <Image
+                      alt="sound-ico"
+                      className={s.sound_ico_effects}
+                      src={soundEffectsIco}
+                    />
+                    <span>fx</span>
+                  </>
+                ) : (
+                  <Image
+                    alt="sound-ico"
+                    className={s.sound_ico}
+                    src={soundIco}
                   />
                 )}
               </button>
