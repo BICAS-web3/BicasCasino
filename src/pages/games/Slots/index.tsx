@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Head from "next/head";
 import { Layout } from "@/widgets/Layout";
@@ -21,6 +21,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { WagerModel } from "@/widgets/Wager";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
+import { Preload } from "@/shared/ui/Preload";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();

@@ -27,6 +27,7 @@ import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [

@@ -27,6 +27,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
+import { Preload } from "@/shared/ui/Preload";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([

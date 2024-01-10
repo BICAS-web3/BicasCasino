@@ -36,58 +36,909 @@ import clsx from "clsx";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { clearInterval } from "timers";
+import { Preload } from "@/shared/ui/Preload";
 
 const testBallPath = [
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, false, false, false, false, false, true, true, false, false, false, false, false],
-  [true, true, false, false, false, true, false, true, true, true, false, false, false, true, false, true],
-  [false, true, true, false, true, true, false, false, false, true, false, true, false, false, false, false],
-  [false, true, false, true, true, false, false, false, true, true, false, false, false, true, false, true],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
+  [
+    false,
+    true,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+  ],
+  [
+    false,
+    true,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+  ],
   //[true, true, false, false, false, true, false, true],
   // [false, true, true, false, false, false, true, true],
   // [true, true, true, true, true, true, true, true],
@@ -218,10 +1069,12 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     GameModel.setWaitingResponse,
     GameModel.setIsPlaying,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({
+  const { data } = useFeeData({
     watch: isConnected,
     cacheTime: 5000,
   });
@@ -233,10 +1086,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     setInGame(inGame);
   }, [inGame]);
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
   const [playLost, { stop: stopLost }] = useSound(
     "/static/media/games_assets/music/loseSound.mp3",
     { volume: 1, loop: false }
@@ -249,16 +1098,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   useEffect(() => {
     setPath(undefined);
   }, [rowsAmount]);
-
-  useEffect(() => {
-    if (!playSounds) {
-      // /stopSounds();
-      //sounds.background.pause();
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
@@ -336,7 +1175,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -355,25 +1194,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(pickedValue)
+          BigInt(100000000000) *
+          BigInt(pickedValue)
         : BigInt(0)),
     enabled: true,
     //gasPrice: data?.gasPrice
@@ -400,25 +1239,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(pickedValue)
+          BigInt(100000000000) *
+          BigInt(pickedValue)
         : BigInt(0)),
   });
 
@@ -448,7 +1287,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           BigInt((log[0] as any).args.numGames);
         setPath((log[0] as any).args.paths);
         if ((log[0] as any).args.payout > wagered) {
-          playWon();
+          playSounds !== "off" && playWon();
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
 
@@ -465,7 +1304,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           });
           setGameStatus(GameModel.GameStatus.Won);
         } else {
-          playLost();
+          playSounds !== "off" && playLost();
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
 
@@ -476,7 +1315,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       }
     },
   });
-
 
   useEffect(() => {
     if (wagered) {
@@ -499,7 +1337,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
             //return;
@@ -555,6 +1393,16 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [imageLoading_3, setImageLoading_3] = useState(true);
+
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2 && !imageLoading_3) {
+      setIsLoading?.(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2, imageLoading_3]);
+
   return (
     <>
       {error && (
@@ -564,9 +1412,12 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
         />
       )}
       <div className={styles.plinko_table_wrap}>
+        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="plinko" text={gameText} />
         <div className={styles.plinko_table_background}>
           <Image
+            onLoad={() => setImageLoading_1(false)}
             src={tableBg}
             className={styles.plinko_table_background_img}
             alt="table-bg"
@@ -575,6 +1426,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             quality={100}
           />
           <Image
+            onLoad={() => setImageLoading_2(false)}
             src={helmet}
             className={styles.helmet}
             alt="helmet"
@@ -583,6 +1435,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             quality={100}
           />
           <Image
+            onLoad={() => setImageLoading_3(false)}
             src={statue}
             className={styles.statue}
             alt="statue"
@@ -618,11 +1471,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                         className={clsx(
                           styles.multiplier_value,
                           multipliers[ball.value] > 1 &&
-                          styles.multiplier_positive,
+                            styles.multiplier_positive,
                           multipliers[ball.value] < 1 &&
-                          styles.multiplier_negative,
+                            styles.multiplier_negative,
                           multipliers[ball.value] < 0.6 &&
-                          styles.multiplier_extranegative
+                            styles.multiplier_extranegative
                         )}
                         key={i}
                       >
@@ -630,7 +1483,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                       </div>
                     )
                 )}
-              { }
             </div>
             {path ? (
               <PlinkoPyramid

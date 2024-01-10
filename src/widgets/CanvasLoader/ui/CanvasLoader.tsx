@@ -1,7 +1,14 @@
-import { Html, useProgress } from "@react-three/drei";
+import { FC } from "react";
+import { Html } from "@react-three/drei";
 
-export const CanvasLoader = () => {
-  const { progress } = useProgress();
+import clsx from "clsx";
+import s from "./styles.module.scss";
+
+interface IProps {
+  className?: string;
+}
+
+export const CanvasLoader: FC<IProps> = ({ className }) => {
   return (
     <Html
       as="div"
@@ -13,17 +20,7 @@ export const CanvasLoader = () => {
         flexDirection: "column",
       }}
     >
-      <span className="canvas-loader"></span>
-      <p
-        style={{
-          fontSize: 14,
-          color: "#F1F1F1",
-          fontWeight: 800,
-          marginTop: 40,
-        }}
-      >
-        {progress.toFixed(2)}%
-      </p>
+      <span className={clsx(s.preload, className)}></span>
     </Html>
   );
 };

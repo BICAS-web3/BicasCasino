@@ -4,6 +4,7 @@ import Image from "next/image";
 import tableBg from "@/public/media/poker_images/pokerBgImage.webp";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import {
   useAccount,
   useContractEvent,
@@ -34,6 +35,7 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import clsx from "clsx";
 import { ProfitLine } from "../ProfitLine";
 import { WinMessage } from "../WinMessage";
+import { Preload } from "@/shared/ui/Preload";
 
 // чирва 2
 // пика 3
@@ -66,23 +68,19 @@ interface ICards {
   suit: number;
   number: number;
 }
-// export type T_Card = {
-//   coat: number,
-//   card: number
-// };
 
 export interface PokerProps {
-  // cardsState: boolean[],
-  // setCardsState: any,
-  //initialCards: T_Card[] | undefined,
-  //gameState: any | undefined
   gameText: string;
 }
 
 export const Poker: FC<PokerProps> = (props) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   // const [combinationName, setCombinationName] = useState<CombinationName>();
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [preloading, setPreloading] = useState(true);
   const [
+    betsAmount,
     lost,
     profit,
     gameStatus,
@@ -105,6 +103,7 @@ export const Poker: FC<PokerProps> = (props) => {
     setIsPlaying,
     setWaitingResponse,
   ] = useUnit([
+    CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
     GameModel.$profit,
     GameModel.$gameStatus,
@@ -127,6 +126,7 @@ export const Poker: FC<PokerProps> = (props) => {
     GameModel.setIsPlaying,
     GameModel.setWaitingResponse,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
 
@@ -397,6 +397,13 @@ export const Poker: FC<PokerProps> = (props) => {
           setInGame(false);
 
           const wagered = (log[0] as any).args.wager;
+          const handlePayouts = async () => {
+            setCoefficientData((prev) => [
+              Number((log[0] as any)?.args?.payout) / Number(wagered),
+              ...prev,
+            ]);
+          };
+          handlePayouts();
           if ((log[0] as any).args.payout > 0) {
             const profit = (log[0] as any).args.payout;
 
@@ -558,24 +565,47 @@ export const Poker: FC<PokerProps> = (props) => {
     GameModel.$token,
   ]);
 
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
+  useEffect(() => {
+    if (!imageLoading_1 && !imageLoading_2) {
+      setPreloading(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2]);
+
   return (
     <>
-      {/* <ErrorCheck
-        text="Something went wrong, please contact customer support."
-        btnTitle="Contact us"
-      /> */}
       {gameStatus === GameModel.GameStatus.Won && (
         <PokerCombination
           combinationName={combinationName}
@@ -591,28 +621,53 @@ export const Poker: FC<PokerProps> = (props) => {
           multiplier={Number(multiplier.toFixed(2)).toString()}
         />
       )}
-      {/* {error && (
-        <ErrorCheck
-          text="Something went wrong, please contact customer support."
-          btnTitle="Contact us"
-        />
-      )} */}
+
       <div className={s.poker_table_wrap}>
         <WagerLowerBtnsBlock game="poker" text={props.gameText} />
+        {preloading && <Preload />}{" "}
         <div className={s.poker_table_background}>
           <Image
+            onLoad={() => setImageLoading_1(false)}
             src={tableBg}
             className={s.poker_table_background_img}
             alt="table-bg"
           />
         </div>{" "}
-        <ProfitLine containerClassName={s.total_container} />
+        <div className={clsx(s.total_container)}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={clsx(s.balls_arr)}>
+          {coefficientData.map((item, i) => (
+            <div
+              className={clsx(
+                s.multiplier_value,
+                item > 0 ? s.multiplier_positive : s.multiplier_negative
+              )}
+              key={i}
+            >
+              {item?.toFixed(2)}x
+            </div>
+          ))}
+        </div>
         <div className={s.poker_table}>
           <div className={s.poker_table_cards_list}>
             {activeCards &&
               activeCards.map((item, ind) => {
                 return item.number == -1 ? (
                   <PokerCard
+                    setImageLoading={setImageLoading_2}
                     key={ind}
                     isEmptyCard={false}
                     coat={0}
@@ -621,6 +676,7 @@ export const Poker: FC<PokerProps> = (props) => {
                   />
                 ) : (
                   <PokerCard
+                    setImageLoading={setImageLoading_2}
                     key={`${item.suit}_${item.number}_${transactionHash}`}
                     isEmptyCard={false}
                     coat={item.suit}

@@ -11,8 +11,6 @@ import {
 
 import { useUnit } from "effector-react";
 
-import useSound from "use-sound";
-
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
 
@@ -90,6 +88,7 @@ import clsx from "clsx";
 import { useFeeData } from "wagmi";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitLine } from "../ProfitLine";
+import { Preload } from "@/shared/ui/Preload";
 
 interface SlotsGameProps {}
 
@@ -97,6 +96,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
   const [getId, setGetId] = useState(-1);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -250,19 +250,6 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         : BigInt(0)),
   });
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
-
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
     address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
@@ -384,13 +371,13 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
-        const handlePayouts = async () => {
-          for (const item of (log[0] as any)?.args?.payouts || []) {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            setCoefficientData((prev) => [
-              Number(item) / Number(wagered),
-              ...prev,
-            ]);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
           }
         };
         handlePayouts();
@@ -455,19 +442,31 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   const [startFirst, setStartFirst] = useState(false);
   const [startSecond, setStartSecond] = useState(false);
   const [startThird, setStartThird] = useState(false);
+  const [startFirstSquese, setStartFirstSquese] = useState(false);
+  const [startSecondSquese, setStartSecondSquese] = useState(false);
+  const [startThirdSquese, setStartThirdSquese] = useState(false);
+
+  const [test, setTest] = useState(false);
 
   useEffect(() => {
     if (inGame) {
       setStartFirst(true);
       setStartSecond(true);
       setStartThird(true);
+      setStartFirstSquese(false);
+      setStartSecondSquese(false);
+      setStartThirdSquese(false);
+      setGameStart(true);
     } else {
       setStartFirst(false);
+      setStartFirstSquese(true);
       setTimeout(() => {
         setStartSecond(false);
+        setStartSecondSquese(true);
       }, 600);
       setTimeout(() => {
         setStartThird(false);
+        setStartThirdSquese(true);
       }, 1200);
     }
   }, [inGame]);
@@ -567,6 +566,22 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+  const [imageLoading_1, setImageLoading_1] = useState(true);
+  const [imageLoading_2, setImageLoading_2] = useState(true);
+  const [imageLoading_3, setImageLoading_3] = useState(true);
+  const [imageLoading_4, setImageLoading_4] = useState(true);
+  const [gameStart, setGameStart] = useState(false);
+
+  useEffect(() => {
+    if (
+      !imageLoading_1 &&
+      !imageLoading_2 &&
+      !imageLoading_3 &&
+      !imageLoading_4
+    ) {
+      setIsLoading(imageLoading_1);
+    }
+  }, [imageLoading_1, imageLoading_2, imageLoading_3, imageLoading_4]);
   return (
     <>
       {error && (
@@ -575,10 +590,15 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           btnTitle="Contact us"
         />
       )}
-      <div className={s.slots_table_wrap}>
+      <div
+        // onClick={() => setTest((prev) => !prev)}
+        className={s.slots_table_wrap}
+      >
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="slots" text={"Slots"} />
         <div className={s.slots_table_background}>
           <img
+            onLoad={() => setImageLoading_1(false)}
             src={is1280 ? slots1280Bg.src : slotsBg.src}
             className={s.slots_table_background}
             alt="slots-static-bg"
@@ -606,8 +626,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
               <div
                 className={clsx(
                   s.multiplier_value,
-                  item >= 1 && s.multiplier_positive,
-                  item < 1 && s.multiplier_negative
+                  item > 0 ? s.multiplier_positive : s.multiplier_negative
                 )}
                 key={i}
               >
@@ -616,19 +635,52 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             ))}
         </div>
         <div className={s.slots_table}>
-          <div className={clsx(s.row_wrap, startFirst && s.start_game)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startFirst && s.start_game,
+              startFirstSquese && gameStart && s.squese
+            )}
+          >
             {imageArr1.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_2(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
-          <div className={clsx(s.row_wrap, startSecond && s.start_game_2)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startSecond && s.start_game_2,
+              startSecondSquese && gameStart && s.squese
+            )}
+          >
             {imageArr2.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_3(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
-          <div className={clsx(s.row_wrap, startThird && s.start_game)}>
+          <div
+            className={clsx(
+              s.row_wrap,
+              startThird && s.start_game,
+              startThirdSquese && gameStart && s.squese
+            )}
+          >
             {imageArr3.map((img, ind) => (
-              <img src={img.src} key={ind} className={s.row_img} />
+              <img
+                onLoad={() => setImageLoading_4(false)}
+                src={img.src}
+                key={ind}
+                className={s.row_img}
+              />
             ))}
           </div>
         </div>

@@ -8,7 +8,9 @@ import {
   useAnimations,
   useGLTF,
 } from "@react-three/drei";
-import { Canvas, act } from "@react-three/fiber";
+// import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
+
+import { Canvas, act, useLoader } from "@react-three/fiber";
 import { AnimationAction } from "three";
 import { Environment } from "@react-three/drei";
 import { SidePickerModel } from "../CoinFlipSidePicker";
@@ -41,6 +43,8 @@ import { ProfitModel } from "../ProfitBlock";
 
 import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Preload } from "@/shared/ui/Preload";
 interface CoinFlipProps {
   gameText: string;
 }
@@ -57,10 +61,20 @@ enum CoinAction {
 interface ModelProps {
   action: CoinAction;
   initial: SidePickerModel.Side;
+  setIsLoading: (el: boolean) => void;
 }
 
-const Model: FC<ModelProps> = ({ action, initial }) => {
+const Model: FC<ModelProps> = ({ action, initial, setIsLoading }) => {
   const { scene, animations } = useGLTF("/coinflip/coin_old.gltf");
+
+  const loader = new GLTFLoader();
+
+  loader.load(
+    "/coinflip/coin_old.gltf",
+    () => setIsLoading(false),
+    undefined,
+    () => setIsLoading(false)
+  );
   const { actions, mixer } = useAnimations(animations, scene);
 
   if (initial == SidePickerModel.Side.Heads) {
@@ -90,6 +104,10 @@ const Model: FC<ModelProps> = ({ action, initial }) => {
 };
 
 export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
+  const [modelLoading, setModelLoading] = useState(true);
+  const [imageLoading, setIMageLoading] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [
     lost,
     profit,
@@ -145,6 +163,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.setBetValue,
     GameModel.$betValue,
   ]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   useEffect(() => {
     setCoefficient(1.98);
@@ -152,22 +171,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
-  const { data, isError, isLoading } = useFeeData({ watch: true });
+  const { data, isError } = useFeeData({ watch: true });
 
   const [inGame, setInGame] = useState<boolean>(false);
-
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
@@ -272,44 +278,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setBetValue(newValue + BigInt(400000) * prevGasPrice);
   }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
 
-  // const { config: startPlayingConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   functionName: "CoinFlip_Play",
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(300000),
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     pickedSide,
-  //     betsAmount,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //       pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-  //       BigInt(100000000000)
-  //       : BigInt(0)),
-  //   enabled: !inGame,
-  // });
-
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -365,6 +333,16 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -387,7 +365,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
         }
-        //setShowRedraw(false);
       }
     },
   });
@@ -428,7 +405,44 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
+
+  useEffect(() => {
+    if (!modelLoading && !imageLoading) {
+      setIsLoading?.(modelLoading);
+    }
+  }, [modelLoading, imageLoading]);
   return (
     <>
       {error && (
@@ -438,15 +452,45 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         />
       )}
       <div className={s.coinflip_table_wrap}>
+        {" "}
+        {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>
           <Image
+            onLoad={() => setIMageLoading(false)}
             src={tableBg}
             className={s.coinflip_table_background_img}
             alt="table-bg"
           />
         </div>
-        <ProfitLine containerClassName={s.total_container} />
+        <div className={clsx(s.total_container)}>
+          <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+          <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+          <div>
+            Total:{" "}
+            <span
+              className={clsx(
+                totalValue > 0 && s.total_won,
+                totalValue < 0 && s.total_lost
+              )}
+            >
+              {Math.abs(totalValue).toFixed(2)}
+            </span>
+          </div>
+        </div>
+        <div className={clsx(s.balls_arr)}>
+          {coefficientData.map((item, i) => (
+            <div
+              className={clsx(
+                s.multiplier_value,
+                item > 0 ? s.multiplier_positive : s.multiplier_negative
+              )}
+              key={i}
+            >
+              {item?.toFixed(2)}x
+            </div>
+          ))}
+        </div>
         <div className={s.coinflip_table}>
           <div className={s.coinflip_wrap}>
             <div className={s.coinflip_block}>
@@ -457,18 +501,13 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
                 }}
                 style={{ pointerEvents: "none" }}
               >
-                <Suspense fallback={<CanvasLoader />}>
+                <Suspense fallback={<></>}>
                   <Stage adjustCamera={false} environment="dawn">
                     <Environment path="/hdr/" files="kiara_1_dawn_1k.hdr" />
                   </Stage>
                   <ambientLight intensity={1} />
-                  {/* <spotLight
-                    intensity={2.5}
-                    position={[-2, -5, 0]}
-                    angle={10}
-                  /> */}
-                  {/* <directionalLight intensity={2.5} position={[-2, 10, 0]} /> */}
                   <Model
+                    setIsLoading={setModelLoading}
                     action={
                       inGame
                         ? CoinAction.Rotation

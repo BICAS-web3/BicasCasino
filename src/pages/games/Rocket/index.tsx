@@ -24,6 +24,8 @@ import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
 import { Rocket } from "@/widgets/Rocket/Rocket";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { Preload } from "@/shared/ui/Preload";
+import { useState, useEffect } from "react";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([

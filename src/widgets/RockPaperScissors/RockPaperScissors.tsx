@@ -12,8 +12,6 @@ import {
   useFeeData,
 } from "wagmi";
 
-import useSound from "use-sound";
-
 import Image from "next/image";
 
 import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
@@ -51,14 +49,25 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import { ProfitModel } from "../ProfitBlock";
 import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Preload } from "@/shared/ui/Preload";
 interface ModelProps {
   side: string;
   left: boolean;
   yValue: number;
   delay?: number;
+  setIsLoading?: (el: boolean) => void;
+  // isLoading?: boolean;
 }
 
-const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
+const Model: FC<ModelProps> = ({
+  side,
+  left,
+  yValue,
+  delay,
+  setIsLoading,
+  // isLoading,
+}) => {
   const [pickedValue] = useUnit([RPSModel.$pickedValue]);
   const [selectedSide, setSelectedSide] = useState(side);
   useEffect(() => {
@@ -67,6 +76,15 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
   const { scene } = useGLTF(selectedSide);
   const [is1280, setIs1280] = useState(false);
   const [is996, setIs996] = useState(false);
+
+  const loader = new GLTFLoader();
+
+  loader.load(
+    selectedSide,
+    () => setIsLoading?.(false),
+    undefined,
+    () => setIsLoading?.(false)
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -138,11 +156,16 @@ const Model: FC<ModelProps> = ({ side, left, yValue, delay }) => {
 
 interface RockPaperScissorsProps {
   gameText: string;
+  setIsLoading?: (el: boolean) => void;
+  isLoadingd?: boolean;
 }
 
 export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
+  const [isLoadingd, setIsLoading] = useState(true);
   const [value, setValue] = useState<ModelType>(ModelType.Paper);
-
+  const [modelLoading_1, setModelLoading_1] = useState(true);
+  const [modelLoading_2, setModelLoading_2] = useState(true);
+  const [imageLoading, setIMageLoading] = useState(true);
   const [
     lost,
     profit,
@@ -231,19 +254,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const [playBackground, { stop: stopBackground }] = useSound(
-    "/static/media/games_assets/music/background2.wav",
-    { volume: 0.1, loop: true }
-  );
-
-  useEffect(() => {
-    if (!playSounds) {
-      stopBackground();
-    } else {
-      playBackground();
-    }
-  }, [playSounds]);
-
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
     address: gameAddress as `0x${string}`,
@@ -311,7 +321,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -352,6 +362,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   //   enabled: true,
   // });
 
+  const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -370,24 +381,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -414,6 +425,16 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
+        const handlePayouts = () => {
+          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+            setTimeout(() => {
+              const outCome =
+                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+              setCoefficientData((prev) => [outCome, ...prev]);
+            }, 700 * (i + 1));
+          }
+        };
+        handlePayouts();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -452,7 +473,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) setAllowance();
           } else {
@@ -507,17 +528,85 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       }, 1000);
     }
   }, [value]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const [taken, setTaken] = useState(false);
+  const [localAmount, setLocalAmount] = useState<any>(0);
+  const [localCryptoValue, setLocalCryptoValue] = useState(0);
+  useEffect(() => {
+    if (cryptoValue && isPlaying && !taken && betsAmount) {
+      setTaken(true);
+      setLocalAmount(betsAmount);
+      setLocalCryptoValue(cryptoValue);
+    }
+  }, [betsAmount, cryptoValue, isPlaying]);
+
+  const [fullWon, setFullWon] = useState(0);
+  const [fullLost, setFullLost] = useState(0);
+  const [totalValue, setTotalValue] = useState(0.1);
+  const [gameResult, setGameResult] = useState<
+    { value: number; status: "won" | "lost" }[]
+  >([]);
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won) {
+      setFullWon((prev) => prev + profit);
+      setGameResult((prev) => [
+        ...prev,
+        { value: localCryptoValue * localAmount, status: "won" },
+      ]);
+    } else if (gameStatus === GameModel.GameStatus.Lost) {
+      setFullLost((prev) => prev + lost);
+      setGameResult((prev) => [...prev, { value: 0.0, status: "lost" }]);
+    }
+    setTotalValue(fullWon - fullLost);
+  }, [GameModel.GameStatus, profit, lost]);
+
+  useEffect(() => {
+    if (!modelLoading_1 && !modelLoading_2 && !imageLoading) {
+      setIsLoading?.(modelLoading_1);
+    }
+  }, [modelLoading_1, modelLoading_2, imageLoading]);
+
   return (
     <div className={s.rps_table_container}>
+      {isLoadingd && <Preload />}
       <WagerLowerBtnsBlock game="rps" text={gameText} />
       <div className={s.rps_table_background}>
         <Image
+          onLoad={() => setIMageLoading(false)}
           src={tableBg}
           className={s.rps_table_background_img}
           alt="table-bg"
         />
       </div>{" "}
-      <ProfitLine containerClassName={s.total_container} />
+      <div className={clsx(s.total_container)}>
+        <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+        <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+        <div>
+          Total:{" "}
+          <span
+            className={clsx(
+              totalValue > 0 && s.total_won,
+              totalValue < 0 && s.total_lost
+            )}
+          >
+            {Math.abs(totalValue).toFixed(2)}
+          </span>
+        </div>
+      </div>
+      <div className={clsx(s.balls_arr)}>
+        {coefficientData.map((item, i) => (
+          <div
+            className={clsx(
+              s.multiplier_value,
+              item > 0 ? s.multiplier_positive : s.multiplier_negative
+            )}
+            key={i}
+          >
+            {item?.toFixed(2)}x
+          </div>
+        ))}
+      </div>
       <div className={s.rps_table}>
         <div className={s.rps_table_inner}>
           <Canvas
@@ -536,7 +625,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Paper} left={true} />{" "}
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Paper}
+                  left={true}
+                />{" "}
               </Suspense>
             )}
             {value === ModelType.Rock && (
@@ -551,7 +645,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Rock} left={true} />
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Rock}
+                  left={true}
+                />
               </Suspense>
             )}
             {value === ModelType.Scissors && (
@@ -566,7 +665,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   intensity={0.5}
                   color="#fff"
                 />
-                <Model yValue={0.1} side={ModelType.Scissors} left={true} />
+                <Model
+                  setIsLoading={setModelLoading_1}
+                  yValue={0.1}
+                  side={ModelType.Scissors}
+                  left={true}
+                />
               </Suspense>
             )}
           </Canvas>
@@ -587,6 +691,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Paper}
@@ -608,6 +713,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                 />
 
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Rock}
@@ -628,6 +734,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Scissors}
@@ -648,6 +755,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
                   color="#fff"
                 />
                 <Model
+                  setIsLoading={setModelLoading_2}
                   delay={2000}
                   yValue={-0.1}
                   side={ModelType.Quest}
