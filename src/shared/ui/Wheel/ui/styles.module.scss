@@ -6,7 +6,12 @@
   justify-content: center;
   align-items: center;
   border-radius: 454px;
+  margin-left: -54px;
   background: #101010;
+  @media (max-width: 1600px) {
+    width: 300px;
+    height: 300px;
+  }
 }
 
 .eclipse_wrapper {
@@ -18,6 +23,13 @@
   width: 100%;
   height: 100%;
   //   z-index: 1;
+  @media (max-width: 1600px) {
+    width: 189.152px;
+    height: 189.152px;
+    transform: rotate(-136.08deg);
+    top: 16px;
+    display: none;
+  }
 }
 
 .wheel_eclipse {
@@ -31,6 +43,13 @@
   border-radius: 50%;
   border: 1px solid #d5c295;
   z-index: 24;
+  @media (max-width: 1600px) {
+    width: 189.152px;
+    height: 189.152px;
+    transform: rotate(-136.08deg);
+    top: 16px;
+    display: none;
+  }
 }
 
 .wheel_sub_wrapper {
