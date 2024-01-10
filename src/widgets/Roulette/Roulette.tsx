@@ -44,6 +44,7 @@ import { Preload } from "@/shared/ui/Preload";
 import { RouletteBack } from "@/shared/SVGs/RouletteBack";
 import { RouletteRepeat } from "@/shared/SVGs/RouletteRepeat";
 import { Wheel } from "@/shared/ui/Wheel";
+import { Wager100Icon } from "@/shared/SVGs";
 
 interface IRoulette {
   gameText: string;
@@ -439,6 +440,8 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
     15, 18, 21, 24, 14, 17, 20, 23, 13, 16, 19, 22,
   ]);
 
+  const allData = numbersArr13.concat(numbersArrTen).concat(numbersArr27);
+
   useEffect(() => {
     if (isMobile) {
       setNumberArr27(numbersArr27.sort((a, b) => a - b));
@@ -450,6 +453,15 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
       setNumberArr13(numbersArr13);
     }
   }, [isMobile]);
+
+  const [mouseRed, setMouseRed] = useState(false);
+  const [mouseGray, setMouseGray] = useState(false);
+  const [even, setEven] = useState(false);
+  const [odd, setOdd] = useState(false);
+
+  const [wagerData, setWagerData] = useState<number[]>([]);
+
+  useEffect(() => console.log(wagerData), [wagerData]);
 
   return (
     <>
@@ -476,72 +488,186 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
         </div>
 
         <div className={s.roulette_table_body}>
-          {/* <div className={s.roulette_wheel_wrap}></div> */}
-          <Wheel array={arrData} />
+          <Wheel mouseGray={mouseGray} mouseRed={mouseRed} array={arrData} />
           <div className={s.roulette_bets_wrap}>
             <div className={s.roulette_bets_block}>
               <div className={clsx(s.zero_bet, s.bet_font)}>0</div>
               <div className={s.n1_to_n10_bets_block}>
-                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                <div
+                  onClick={() => setWagerData(numbersArrTen)}
+                  className={clsx(s.bets_title_block, s.bet_font)}
+                >
                   1st 12
                 </div>
                 <div className={s.n1_to_n10_list}>
-                  {numbersArrTen.map((item, ind) => (
-                    <div
-                      className={clsx(s.bet_block, s.bet_font)}
-                      data-odd={item % 2 === 1}
-                    >
-                      {item}
-                    </div>
-                  ))}
+                  {numbersArrTen.map((item, ind) => {
+                    return (
+                      <div
+                        onClick={() =>
+                          setWagerData((prev) => {
+                            if (wagerData.includes(item)) {
+                              return prev.filter((el) => el !== item);
+                            } else {
+                              return [...prev, item];
+                            }
+                          })
+                        }
+                        className={clsx(s.bet_block, s.bet_font)}
+                        data-odd={item % 2 === 1}
+                        data-odd-hover={
+                          (item % 2 === 1 && mouseRed) ||
+                          (item % 2 === 1 && even) ||
+                          (item % 2 === 1 &&
+                            Boolean(wagerData.find((el) => el === item)))
+                        }
+                        data-odd-hover-gray={
+                          (item % 2 !== 1 && mouseGray) ||
+                          (item % 2 !== 1 && odd) ||
+                          (item % 2 !== 1 &&
+                            Boolean(wagerData.find((el) => el === item)))
+                        }
+                      >
+                        {item}{" "}
+                        {Boolean(wagerData.find((el) => el === item)) && (
+                          <Wager100Icon className={s.money_icon} />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className={s.n1_to_n18_bet}>
-                  <div className={clsx(s.n1_to_n18_bet_item, s.bet_font)}>
+                  <div
+                    onClick={() =>
+                      setWagerData(allData.filter((el) => el > 0 && el < 19))
+                    }
+                    className={clsx(s.n1_to_n18_bet_item, s.bet_font)}
+                  >
                     1 to 18
                   </div>
-                  <div className={clsx(s.n1_to_n18_bet_item, s.bet_font)}>
+                  <div
+                    onClick={() =>
+                      setWagerData(allData.filter((el) => el % 2 === 1))
+                    }
+                    onMouseEnter={() => setEven(true)}
+                    onMouseLeave={() => setEven(false)}
+                    className={clsx(s.n1_to_n18_bet_item, s.bet_font)}
+                  >
                     EVEN
                   </div>
                 </div>
               </div>
               <div className={s.n13_to_n24_bets_block}>
-                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                <div
+                  onClick={() => setWagerData(numbersArr13)}
+                  className={clsx(s.bets_title_block, s.bet_font)}
+                >
                   2ns 12
                 </div>
                 <div className={s.n13_to_n24_list}>
                   {numbersArr13.map((item, ind) => (
                     <div
+                      onClick={() =>
+                        setWagerData((prev) => {
+                          if (wagerData.includes(item)) {
+                            return prev.filter((el) => el !== item);
+                          } else {
+                            return [...prev, item];
+                          }
+                        })
+                      }
                       className={clsx(s.bet_block, s.bet_font)}
                       data-odd={item % 2 === 1}
+                      data-odd-hover={
+                        (item % 2 === 1 && mouseRed) ||
+                        (item % 2 === 1 && even) ||
+                        (item % 2 === 1 &&
+                          Boolean(wagerData.find((el) => el === item)))
+                      }
+                      data-odd-hover-gray={
+                        (item % 2 !== 1 && mouseGray) ||
+                        (item % 2 !== 1 && odd) ||
+                        (item % 2 !== 1 &&
+                          Boolean(wagerData.find((el) => el === item)))
+                      }
                     >
-                      {item}
+                      {item}{" "}
+                      {Boolean(wagerData.find((el) => el === item)) && (
+                        <Wager100Icon className={s.money_icon} />
+                      )}
                     </div>
                   ))}
                 </div>
                 <div className={s.color_bet_block}>
-                  <div className={s.color_bet_block_item}></div>
-                  <div className={s.color_bet_block_item}></div>
+                  <div
+                    onMouseEnter={() => setMouseRed(true)}
+                    onMouseLeave={() => setMouseRed(false)}
+                    className={s.color_bet_block_item}
+                  ></div>
+                  <div
+                    onMouseEnter={() => setMouseGray(true)}
+                    onMouseLeave={() => setMouseGray(false)}
+                    className={s.color_bet_block_item}
+                  ></div>
                 </div>
               </div>
               <div className={s.n25_to_n36_bets_block}>
-                <div className={clsx(s.bets_title_block, s.bet_font)}>
+                <div
+                  onClick={() => setWagerData(numbersArr27)}
+                  className={clsx(s.bets_title_block, s.bet_font)}
+                >
                   3rd 12
                 </div>
                 <div className={s.n13_to_n24_list}>
                   {numbersArr27.map((item, ind) => (
                     <div
+                      onClick={() =>
+                        setWagerData((prev) => {
+                          if (wagerData.includes(item)) {
+                            return prev.filter((el) => el !== item);
+                          } else {
+                            return [...prev, item];
+                          }
+                        })
+                      }
                       className={clsx(s.bet_block, s.bet_font)}
                       data-odd={item % 2 === 1}
+                      data-odd-hover={
+                        (item % 2 === 1 && mouseRed) ||
+                        (item % 2 === 1 && even) ||
+                        (item % 2 === 1 &&
+                          Boolean(wagerData.find((el) => el === item)))
+                      }
+                      data-odd-hover-gray={
+                        (item % 2 !== 1 && mouseGray) ||
+                        (item % 2 !== 1 && odd) ||
+                        (item % 2 !== 1 &&
+                          Boolean(wagerData.find((el) => el === item)))
+                      }
                     >
                       {item}
+                      {Boolean(wagerData.find((el) => el === item)) && (
+                        <Wager100Icon className={s.money_icon} />
+                      )}
                     </div>
                   ))}
                 </div>
                 <div className={s.n25_to_n36_odd_bet}>
-                  <div className={clsx(s.n25_to_n36_bet_item, s.bet_font)}>
+                  <div
+                    onClick={() =>
+                      setWagerData(allData.filter((el) => el % 2 !== 1))
+                    }
+                    onMouseEnter={() => setOdd(true)}
+                    onMouseLeave={() => setOdd(false)}
+                    className={clsx(s.n25_to_n36_bet_item, s.bet_font)}
+                  >
                     ODD
                   </div>
-                  <div className={clsx(s.n25_to_n36_bet_item, s.bet_font)}>
+                  <div
+                    onClick={() =>
+                      setWagerData(allData.filter((el) => el > 18 && el < 37))
+                    }
+                    className={clsx(s.n25_to_n36_bet_item, s.bet_font)}
+                  >
                     19 to 36
                   </div>
                 </div>
@@ -550,10 +676,46 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
                 <div className={s.back_bet_btn}>
                   <RouletteBack />
                 </div>
-                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
-                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
-                <div className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}>2:1</div>
-                <div className={clsx(s.repeat_bet_btn)}>
+                <div
+                  onClick={() =>
+                    setWagerData(
+                      isMobile
+                        ? [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
+                        : [1, 2, 3, 4, 13, 14, 15, 16, 25, 26, 27, 28]
+                    )
+                  }
+                  className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}
+                >
+                  2:1
+                </div>
+                <div
+                  onClick={() =>
+                    setWagerData(
+                      isMobile
+                        ? [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
+                        : [5, 6, 7, 8, 17, 18, 19, 20, 29, 30, 31, 32]
+                    )
+                  }
+                  className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}
+                >
+                  2:1
+                </div>
+                <div
+                  onClick={() =>
+                    setWagerData(
+                      isMobile
+                        ? [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
+                        : [9, 10, 11, 12, 21, 22, 23, 24, 33, 34, 35, 36]
+                    )
+                  }
+                  className={clsx(s.n2_to_n1_bet_btn, s.bet_font)}
+                >
+                  2:1
+                </div>
+                <div
+                  onClick={() => setWagerData([])}
+                  className={clsx(s.repeat_bet_btn)}
+                >
                   <RouletteRepeat />
                 </div>
               </div>

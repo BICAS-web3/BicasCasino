@@ -16,3 +16,6 @@ export * from "./InfoIcon";
 export * from "./CloseIcon";
 export * from "./RocketIcon";
 export * from "./SlotsIcon";
+export * from "./Wager100Icon";
+export * from "./Wager10Icon";
+// export * from "./Wager1Icon";

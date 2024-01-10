@@ -42,18 +42,23 @@
   padding: 50px;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(100px, 454px) 63%;
+  grid-template-columns: 454px auto;
   gap: 54px;
   align-items: center;
-
-  @media screen and (max-width: 1620px) {
+  @media (max-width: 1920px) {
+    grid-template-columns: 404px auto;
     padding: 20px;
     gap: 20px;
-    grid-template-columns: 28% 69%;
+  }
+  @media screen and (max-width: 1620px) {
+    // grid-template-columns: 30% 70%;
+    display: flex;
+    justify-content: space-between;
   }
 
   @media screen and (max-width: 1500px) {
     grid-template-columns: 1fr;
+    flex-direction: column;
     margin-bottom: 65px;
   }
 
@@ -188,6 +193,7 @@
   align-items: center;
   background: #2b2b30;
   transition: all 0.3s;
+  position: relative;
 
   &:hover {
     background: #484850;
@@ -199,6 +205,13 @@
     &:hover {
       background: #c12c47;
     }
+  }
+
+  &[data-odd-hover="true"] {
+    background: #c12c47;
+  }
+  &[data-odd-hover-gray="true"] {
+    background: #484850;
   }
 
   @media screen and (max-width: 1280px) {
@@ -429,5 +442,18 @@
     gap: 4px;
     flex-direction: row;
     max-width: 100%;
+  }
+}
+
+.money_icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  @media (max-width: 800px) {
+    width: 20px;
+    height: 20px;
   }
 }

@@ -4,15 +4,24 @@ import clsx from "clsx";
 import cross from "@/public/media/roulette_images/cross.png";
 import s from "./styles.module.scss";
 import Image from "next/image";
+import { useMediaQuery } from "@/shared/tools";
 
 export interface WheelProps {
   className?: string;
   array: { angle: number; value: number; color: string }[];
+  mouseRed: boolean;
+  mouseGray: boolean;
 }
 
-export const Wheel: FC<WheelProps> = ({ className, array }) => {
+export const Wheel: FC<WheelProps> = ({
+  className,
+  array,
+  mouseRed,
+  mouseGray,
+}) => {
+  const isMobile = useMediaQuery("(max-width:1600px)");
   return (
-    <div className={s.wheel_wrapper}>
+    <div className={clsx(s.wheel_wrapper, className)}>
       <div className={s.wheel_eclipse}></div>
       <svg
         width="454"
@@ -81,16 +90,21 @@ export const Wheel: FC<WheelProps> = ({ className, array }) => {
           </defs>
           {array.map((item) => (
             <g
-              className={clsx(s.sector_item, s[item.color])}
+              className={clsx(
+                s.sector_item,
+                s[item.color],
+                item.color === "sector_red" && mouseRed && s.mouse_red,
+                item.color === "sector_black" && mouseGray && s.mouse_gray
+              )}
               style={{
-                transform: `rotate(${item.angle}deg) scaleY(1.0355) scaleX(1.045)`,
+                transform: isMobile
+                  ? `rotate(${item.angle}deg) scaleY(1.0355) scaleX(1.045) translate(0,-8px)`
+                  : `rotate(${item.angle}deg) scaleY(1.0355) scaleX(1.045)`,
               }}
             >
-              <span className={s.additional}></span>
               <use xlinkHref="#wheel-sector" className={s.use_tag}></use>
               <use
                 xlinkHref="#wheel-sector"
-                // className={s.use_tag}
                 stroke="#D5C295"
                 fill="none"
                 strokeWidth={1}
@@ -110,7 +124,7 @@ export const Wheel: FC<WheelProps> = ({ className, array }) => {
           <circle
             cx="145"
             cy="145"
-            r="74"
+            r={isMobile ? "86" : "74"}
             fill="#101113"
             stroke="#D5C295"
             strokeWidth="1"
