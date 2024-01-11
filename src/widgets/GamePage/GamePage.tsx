@@ -68,12 +68,14 @@ interface GamePageProps {
   custom_height?: string;
   soundClassName?: string;
   isMines?: boolean;
+  roulette?: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
   children,
   gameTitle,
   gameInfoText,
+  roulette,
   wagerContent,
   isPoker,
   customTitle = false,
@@ -230,7 +232,13 @@ export const GamePage: FC<GamePageProps> = ({
         />
         <div className={s.game_body}>
           <div className={s.game}>
-            <div className={clsx(s.game_block, custom_height)}>
+            <div
+              className={clsx(
+                s.game_block,
+                custom_height,
+                roulette && s.minHeight
+              )}
+            >
               <button
                 className={clsx(s.poker_wager_sound_btn, soundClassName)}
                 onClick={soundChange}

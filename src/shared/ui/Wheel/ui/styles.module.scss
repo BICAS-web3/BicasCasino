@@ -1,0 +1,206 @@
+.wheel_wrapper {
+  width: 454px;
+  height: 454px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 454px;
+  margin-left: -54px;
+  background: #101010;
+  @media (max-width: 1600px) {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+.eclipse_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 383px;
+  height: 382px;
+  width: 100%;
+  height: 100%;
+  //   z-index: 1;
+  @media (max-width: 1600px) {
+    width: 189.152px;
+    height: 189.152px;
+    transform: rotate(-136.08deg);
+    top: 16px;
+    display: none;
+  }
+}
+
+.wheel_eclipse {
+  position: absolute;
+  top: 79px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  width: 293.5px;
+  height: 293.5px;
+  border-radius: 50%;
+  border: 1px solid #d5c295;
+  z-index: 24;
+  @media (max-width: 1600px) {
+    width: 189.152px;
+    height: 189.152px;
+    transform: rotate(-136.08deg);
+    top: 16px;
+    display: none;
+  }
+}
+
+.wheel_sub_wrapper {
+  --f6dhh8: #b3b803;
+  --x2bmh2: #8d1e32;
+  --6b6tfr: #ef7a19;
+  --122fs80: #2b2b30;
+  --1ngof1w: #b6570d;
+  width: 404px;
+  height: 404px;
+  //   position: relative;
+  transform-origin: center center;
+  animation: 12s linear 0s infinite normal none running sectoranim-wyvj9lk;
+  position: relative;
+  z-index: 3;
+}
+
+.darken .wyvj9lk {
+  --f6dhh8: #b3b803;
+  --x2bmh2: #d91740;
+  --6b6tfr: #ef7a19;
+  --122fs80: #16171b;
+  --1ngof1w: #b6570d;
+}
+
+@-webkit-keyframes sectoranim-wyvj9lk {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sectoranim-wyvj9lk {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes sectoranimback-wyvj9lk {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes sectoranimback-wyvj9lk {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.roulette_wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 404px;
+  //   border: 11px solid #ffddbd;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.sector_item {
+  transform-origin: center center;
+  position: relative;
+  z-index: 2;
+  border-right: solid 1px #000;
+  display: block !important;
+  &::after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border: 2px solid #101010;
+    box-sizing: border-box;
+    transform: scaleX(1.045) scaleY(1.045) translateZ(0); /* Match the scaling in your React code */
+    z-index: 5;
+  }
+}
+
+.sector_text {
+  fill: rgb(255, 255, 255);
+  //   font-size: 0.8125rem;
+  text-anchor: middle;
+  user-select: none;
+  color: #fff;
+  font-family: calc(--font-nunito-sans);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  top: 10px;
+  margin-top: 50px;
+}
+
+.wheel_tag {
+  fill: none;
+  transform: scaleY(1.3) translateY(-3.5px);
+}
+
+.sector_green .use_tag {
+  fill: #278d1e;
+}
+
+.sector_green.is_hover .wheel_tag,
+.sector_green:hover .wheel_tag {
+  fill: var(--f6dhh8);
+}
+
+.sector_red .use_tag {
+  fill: var(--x2bmh2);
+}
+
+.sector_red.is-hover .wheel_tag,
+.sector_red:hover .wheel_tag {
+  fill: #c12c47;
+}
+
+.sector_black .use_tag {
+  fill: var(--122fs80);
+}
+
+.sector_black.is-hover .wheel_tag,
+.sector_black:hover .wheel_tag {
+  fill: #484850;
+}
+
+.rod {
+  animation: 8s linear 0s infinite normal none running sectoranimback-wyvj9lk;
+  transform-origin: center center !important;
+}
+
+.cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  z-index: 2;
+}
+
+.additional {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 0;
+  background-color: red;
+}
+
+.mask {
+  position: absolute;
+  bottom: 0;
+}
+
+.wheel_tag {
+  transform: translateY(-0.5px) scaleY(1.095);
+}
