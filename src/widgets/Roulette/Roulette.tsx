@@ -44,6 +44,7 @@ import { Preload } from "@/shared/ui/Preload";
 import { RouletteBack } from "@/shared/SVGs/RouletteBack";
 import { RouletteRepeat } from "@/shared/SVGs/RouletteRepeat";
 import { Wheel } from "@/shared/ui/Wheel";
+import { WinBlock } from "../WinBlock/WinBlock";
 
 interface IRoulette {
   gameText: string;

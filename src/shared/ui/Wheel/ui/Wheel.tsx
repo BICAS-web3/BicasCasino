@@ -4,6 +4,7 @@ import clsx from "clsx";
 import cross from "@/public/media/roulette_images/cross.png";
 import s from "./styles.module.scss";
 import Image from "next/image";
+import { WinBlock } from "@/widgets/WinBlock/WinBlock";
 
 export interface WheelProps {
   className?: string;
@@ -13,6 +14,7 @@ export interface WheelProps {
 export const Wheel: FC<WheelProps> = ({ className, array }) => {
   return (
     <div className={s.wheel_wrapper}>
+      <WinBlock winValue={300} />
       <div className={s.wheel_eclipse}></div>
       <svg
         width="454"
