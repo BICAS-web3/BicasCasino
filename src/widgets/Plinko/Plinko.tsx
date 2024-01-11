@@ -1020,7 +1020,7 @@ interface IPlinko {
 }
 
 export const Plinko: FC<IPlinko> = ({ gameText }) => {
-  const isMobile = useMediaQuery("(max-width: 480px)");
+  const isMobile = useMediaQuery("(max-width: 1280px)");
 
   const [
     lost,
@@ -1398,8 +1398,14 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   const [imageLoading_3, setImageLoading_3] = useState(true);
 
   useEffect(() => {
-    if (!imageLoading_1 && !imageLoading_2 && !imageLoading_3) {
-      setIsLoading?.(imageLoading_1);
+    if (isMobile) {
+      if (!imageLoading_1) {
+        setIsLoading?.(imageLoading_1);
+      }
+    } else {
+      if (!imageLoading_1 && !imageLoading_2 && !imageLoading_3) {
+        setIsLoading?.(imageLoading_1);
+      }
     }
   }, [imageLoading_1, imageLoading_2, imageLoading_3]);
 
