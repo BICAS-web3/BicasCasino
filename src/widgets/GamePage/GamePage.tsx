@@ -7,8 +7,8 @@ import { useUnit } from "effector-react";
 import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as BlurModel from "@/widgets/Blur/model";
 import { Wager } from "@/widgets/Wager/Wager";
-import soundIco from "@/public/media/Wager_icons/soundIco.svg";
-import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
+import soundIco from "@/public/media/Wager_icons/active2.svg";
+import soundOffIco from "@/public/media/Wager_icons/disabled2.svg";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import {
   usePrepareContractWrite,
@@ -43,7 +43,7 @@ import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
-import soundEffectsIco from "@/public/media/misc/effects.png";
+import soundEffectsIco from "@/public/media/Wager_icons/effects2.svg";
 const musicsList = [
   "/static/media/games_assets/music/default_bg_music/3.mp3",
   "/static/media/games_assets/music/default_bg_music/4.mp3",
@@ -57,6 +57,9 @@ const musicsList = [
   "/static/media/games_assets/music/default_bg_music/13.mp3",
   "/static/media/games_assets/music/default_bg_music/14.mp3",
 ];
+
+import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
+import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 
 interface GamePageProps {
   children: ReactNode;
@@ -245,26 +248,40 @@ export const GamePage: FC<GamePageProps> = ({
                 data-id="2"
               >
                 {playSounds === "off" ? (
-                  <Image
-                    alt="sound-ico-off"
-                    className={s.sound_ico}
-                    src={soundOffIco}
-                  />
+                  <>
+                    <Image
+                      alt="sound-ico-off"
+                      className={s.sound_ico}
+                      src={soundOffIco}
+                    />
+                    <Image
+                      alt="sound-ico-off"
+                      // className={s.sound_ico}
+                      src={disabledGroup}
+                    />
+                  </>
                 ) : playSounds === "effects" ? (
                   <>
                     <Image
                       alt="sound-ico"
-                      className={s.sound_ico_effects}
+                      className={s.sound_ico}
                       src={soundEffectsIco}
                     />
                     <span>fx</span>
                   </>
                 ) : (
-                  <Image
-                    alt="sound-ico"
-                    className={s.sound_ico}
-                    src={soundIco}
-                  />
+                  <>
+                    <Image
+                      alt="sound-ico"
+                      className={s.sound_ico}
+                      src={soundIco}
+                    />
+                    <Image
+                      alt="sound-ico"
+                      // className={s.sound_ico}
+                      src={activeGroup}
+                    />
+                  </>
                 )}
               </button>
               {children}
