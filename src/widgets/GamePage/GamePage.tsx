@@ -71,6 +71,7 @@ interface GamePageProps {
   custom_height?: string;
   soundClassName?: string;
   isMines?: boolean;
+  customHeight?: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -83,6 +84,7 @@ export const GamePage: FC<GamePageProps> = ({
   custom_height,
   soundClassName,
   isMines,
+  customHeight,
 }) => {
   const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -233,7 +235,13 @@ export const GamePage: FC<GamePageProps> = ({
         />
         <div className={s.game_body}>
           <div className={s.game}>
-            <div className={clsx(s.game_block, custom_height)}>
+            <div
+              className={clsx(
+                s.game_block,
+                custom_height,
+                customHeight && s.minHeight
+              )}
+            >
               <button
                 className={clsx(s.poker_wager_sound_btn, soundClassName)}
                 onClick={soundChange}

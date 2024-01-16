@@ -1,0 +1,260 @@
+.apples_game_wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0 30px;
+  box-sizing: border-box;
+
+  @media screen and (max-width: 996px) {
+    padding: 64px 30px;
+  }
+}
+
+.apples_table_background {
+  border-radius: 20px 0 0 0;
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0 !important;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 0 !important;
+  }
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.apples_table_block {
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.apples_table_wrap {
+  width: 100%;
+  max-width: 425px;
+  border-radius: 12px;
+  border: 1px solid #105453;
+  background: rgba(3, 33, 45, 0.82);
+  box-shadow: 0px 0px 24.6px 0px rgba(25, 102, 101, 0.89);
+  padding: 70px 24px 24px 24px;
+
+  @media screen and (max-width: 650px) {
+    padding: 19px 17px;
+  }
+}
+
+.apples_table {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media screen and (max-width: 650px) {
+    gap: 8.5px;
+  }
+}
+
+.apples_row {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+
+  @media screen and (max-width: 650px) {
+    gap: 2.8px;
+  }
+}
+
+.apples_row_item {
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: #2a394b;
+  position: relative;
+  height: 40px;
+  padding: 0 10px;
+  cursor: pointer;
+  overflow: hidden;
+
+  @media screen and (max-width: 650px) {
+    height: 28px;
+  }
+}
+
+.apple_item_bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  left: 0px;
+}
+
+.apples_row_item_body {
+  width: 100%;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.row_cf {
+  width: 100%;
+  max-width: 112px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  padding: 0 2px;
+  width: 100%;
+  bottom: 30.5px;
+  left: calc(50% + 2px);
+  transform: translateX(-50%);
+
+  @media screen and (max-width: 650px) {
+    height: 14px;
+    left: calc(50% + 0px);
+    bottom: 20px;
+  }
+
+  @media screen and (max-width: 410px) {
+    width: 25%;
+  }
+}
+
+.cf_bg {
+  position: absolute;
+  top: -5px;
+  left: 0;
+
+  @media screen and (max-width: 650px) {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.apple_ico_wrap {
+  @media screen and (max-width: 650px) {
+    width: 22px;
+    height: 22px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.cf_title {
+  z-index: 5;
+  color: #979797;
+  font-family: var(--font-source-sans-3);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 15px;
+  letter-spacing: 0.48px;
+  margin-right: 4px;
+  margin-bottom: 12px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 8.5px;
+    line-height: 12px;
+    margin-right: 2px;
+  }
+
+  @media screen and (max-width: 340px) {
+    margin-bottom: 11px;
+  }
+}
+
+.game_info_block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  @media screen and (max-width: 650px) {
+    gap: 2.8px;
+  }
+}
+
+.multiplier_title {
+  color: #fff;
+  font-family: var(--font-source-sans-3);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0.4px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 7.1px;
+    line-height: 10px;
+  }
+}
+
+.game_info_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.btns_block {
+  display: flex;
+  gap: 10px;
+}
+
+.clear_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 106.667px;
+  width: 80px;
+  height: 32px;
+  border: 1px solid #2a373d;
+  background: #052430;
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.56px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 17px;
+    width: 57px;
+    height: 23px;
+    border-radius: 75.829px;
+  }
+}
+
+.back_btn {
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #2a373d;
+  background: #052430;
+
+  @media screen and (max-width: 650px) {
+    width: 23px;
+    height: 23px;
+
+    img {
+      width: 12px;
+      height: 11;
+    }
+  }
+}

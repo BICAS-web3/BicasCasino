@@ -35,8 +35,8 @@
 }
 
 .poker_wager_block {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .poker_wager_input_currency_block {
@@ -266,6 +266,11 @@
       height: 32px;
     }
   }
+}
+
+.wager_content {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .poker_wager_info_modal_block {

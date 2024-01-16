@@ -3,6 +3,11 @@
   grid-template-columns: repeat(3, 1fr);
   column-gap: 6px;
   margin-top: 20px;
+
+  @media screen and (max-width: 650px) {
+    grid-row: 1;
+    margin-bottom: 12px;
+  }
 }
 
 .rps_picker_block_item {
