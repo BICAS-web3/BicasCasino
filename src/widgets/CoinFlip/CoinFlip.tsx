@@ -337,7 +337,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) / Number( BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
             }, 700 * (i + 1));
           }
