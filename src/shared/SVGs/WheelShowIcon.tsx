@@ -1,42 +1,35 @@
 export const WheelShowIcon = ({
   className,
   onclick,
-  onMouseEnter,
-  onMouseLeave,
 }: {
   className?: string;
   onclick?: () => void;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
 }) => {
   return (
     <svg
-      width="40"
-      height="40"
-      viewBox="0 0 40 40"
+      width="38"
+      height="38"
+      viewBox="0 0 38 38"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       onClick={onclick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
-      <rect width="40" height="40" rx="12" fill="#202020" />
-      <g filter="url(#filter0_d_10102_46130)">
+      <g filter="url(#filter0_d_10102_46131)">
         <path
-          d="M20 10C25.5395 10 30 14.4605 30 20C30 25.5395 25.5395 30 20 30C14.4605 30 10 25.5395 10 20C10 14.4605 14.4605 10 20 10Z"
+          d="M19 9C24.5395 9 29 13.4605 29 19C29 24.5395 24.5395 29 19 29C13.4605 29 9 24.5395 9 19C9 13.4605 13.4605 9 19 9Z"
           fill="#FFE09D"
         />
       </g>
       <path
-        d="M21 16.0193V14H19V16.0193H21ZM21 26V18.0386H19L19 26H21Z"
+        d="M20 15.0193V13H18V15.0193H20ZM20 25V17.0386H18L18 25H20Z"
         fill="#202020"
       />
       <defs>
         <filter
-          id="filter0_d_10102_46130"
-          x="1.8"
-          y="1.8"
+          id="filter0_d_10102_46131"
+          x="0.8"
+          y="0.8"
           width="36.4"
           height="36.4"
           filterUnits="userSpaceOnUse"
@@ -59,12 +52,12 @@ export const WheelShowIcon = ({
           <feBlend
             mode="normal"
             in2="BackgroundImageFix"
-            result="effect1_dropShadow_10102_46130"
+            result="effect1_dropShadow_10102_46131"
           />
           <feBlend
             mode="normal"
             in="SourceGraphic"
-            in2="effect1_dropShadow_10102_46130"
+            in2="effect1_dropShadow_10102_46131"
             result="shape"
           />
         </filter>

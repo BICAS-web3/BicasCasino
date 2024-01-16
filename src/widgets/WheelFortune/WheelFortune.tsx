@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, use, useEffect, useState } from "react";
 
 import {
   useAccount,
@@ -16,7 +16,7 @@ import { useUnit } from "effector-react";
 
 import Image from "next/image";
 
-import bg from "@/public/media/wheel_images/Frame 1707479789.png";
+import bg from "@/public/media/wheel_images/bg.png";
 
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
@@ -24,7 +24,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { sessionModel } from "@/entities/session";
 
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { ABI as RocketABI } from "@/shared/contracts/RocketABI";
+import { ABI as FortuneWheelABI } from "@/shared/contracts/FortuneWheelABI";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { TOKENS } from "@/shared/tokens";
 
@@ -48,7 +48,7 @@ interface IWheelFortune {
   gameText: string;
 }
 import * as CustomInputWagerModel from "@/widgets/CustomWagerRangeInput/model";
-import { WheelPick, WheelShowIcon } from "@/shared/SVGs";
+import { BallIcon, WheelPick, WheelShowIcon } from "@/shared/SVGs";
 
 interface IWheelColors {
   segment: "#100C1E" | "#1F1435";
@@ -68,7 +68,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   const BLUE_COLOR = "#2C589B";
   const PURPLE_COLOR = "#FB2E90";
   const YELLOW_COLOR = "#FBC02E";
-  const [level] = useUnit([LevelModel.$level]);
+  const [level, setLevel] = useUnit([LevelModel.$level, LevelModel.setLevel]);
   const { isConnected, address } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -105,6 +105,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     waitingResponse,
     setWaitingResponse,
     pickedValue,
+    setPickedValue,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -138,6 +139,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
     CustomInputWagerModel.$pickedRows,
+    CustomInputWagerModel.pickRows,
   ]);
 
   const { data } = useFeeData({
@@ -164,22 +166,55 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   const [inGame, setInGame] = useState<boolean>(false);
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const bigNum = 100000000000;
+
+  const [numSectors, setNumSectors] = useState(0);
+  const [value, setValue] = useState<bigint>(BigInt(0));
+
+  useEffect(() => {
+    const newValue =
+      fees +
+      (pickedToken &&
+      pickedToken?.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+          BigInt(100000000000)
+        : BigInt(0));
+    setValue(
+      fees +
+        (pickedToken?.contract_address ==
+        "0x0000000000000000000000000000000000000000"
+          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+            BigInt(100000000000)
+          : BigInt(0))
+    );
+
+    // setBetValue(newValue + BigInt(400000) * prevGasPrice);
+  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
+
+  useEffect(() => {
+    setNumSectors(pickedValue / 10);
+  }, [pickedValue]);
+
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_Play",
+    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+    abi: FortuneWheelABI,
+    functionName: "Wheel_Play",
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
     args: [
-      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      multiplier,
+      useDebounce(
+        BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+      ),
+      // multiplier,
       pickedToken?.contract_address,
       betsAmount,
+      level === "Easy" ? 0 : level === "Medium" ? 1 : 2,
+      numSectors - 1,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
@@ -191,25 +226,42 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           BigInt(bigNum) *
           BigInt(200),
     ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0)),
+    value: value,
   });
+
+  // useEffect(() => console.log(error), [error]);
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_GetState",
+    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+    abi: FortuneWheelABI,
+    functionName: "Wheel_GetState",
     args: [address],
     enabled: true,
     blockTag: "latest",
+    watch: isConnected as any,
   });
+
+  useEffect(() => {
+    console.log(111, (GameState as any)?.wager);
+    const wager = Number((GameState as any)?.wager);
+    if (wager > 0) {
+      setInGame(true);
+      const locaLevel = (GameState as any)?.risk;
+      const locaSegments = (GameState as any)?.numSectors + 1;
+      if (locaLevel === 0) {
+        setLevel("Easy");
+      } else if (locaLevel === 1) {
+        setLevel("Medium");
+      } else if (locaLevel === 2) {
+        setLevel("Hard");
+      }
+      const segments = locaSegments * 10;
+      setTimeout(() => {
+        setPickedValue(segments);
+      }, 0);
+    }
+  }, [(GameState as any)?.wager]);
 
   useEffect(() => {
     if (GameState && !inGame) {
@@ -233,14 +285,14 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
+    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
     abi: IERC20,
     functionName: "approve",
     enabled:
-      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000" !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress as `0x${string}`,
+      gameAddress,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -253,8 +305,8 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
+    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+    abi: FortuneWheelABI,
     functionName: "getVRFFee",
     args: [0],
     watch: isConnected && !inGame,
@@ -279,10 +331,13 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
+
+  const [outcomes, setOutcomes] = useState<number[]>([]);
+
   useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    eventName: "Rocket_Outcome_Event",
+    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+    abi: FortuneWheelABI,
+    eventName: "Wheel_Outcome_Event",
     listener(log) {
       if (
         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
@@ -299,13 +354,20 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
               setLocalNumber(outCome);
-            }, 700 * (i + 1));
+            }, 1500 * (i + 1));
           }
         };
         handleCall();
+
+        const handleOutcome = () => {
+          setOutcomes((log[0] as any)?.args?.outcomes);
+        };
+        handleOutcome();
+
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -344,11 +406,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         ) {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
+            "0x0000000000000000000000000000000000000000" !=
               "0x0000000000000000000000000000000000000000"
           ) {
             setAllowance?.();
           } else {
+            setOutcomes([]);
             startPlaying?.();
           }
         }
@@ -422,9 +485,9 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           { value: 0.0, color: WHITE_COLOR },
           { value: 1.5, color: BLUE_COLOR },
           { value: 1.7, color: PURPLE_COLOR },
-          { value: 2.0, color: BLUE_COLOR },
+          { value: 2.0, color: YELLOW_COLOR },
           { value: 3.0, color: GREEN_COLOR },
-          { value: 4.0, color: "red" },
+          { value: 4.0, color: "#FF0000" },
         ]);
       } else if (pickedValue === 40) {
         setLevelCoef([
@@ -438,9 +501,9 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         setLevelCoef([
           { value: 0.0, color: WHITE_COLOR },
           { value: 1.5, color: BLUE_COLOR },
-          { value: 2.0, color: GREEN_COLOR },
-          { value: 3.0, color: YELLOW_COLOR },
-          { value: 5.0, color: PURPLE_COLOR },
+          { value: 2.0, color: YELLOW_COLOR },
+          { value: 3.0, color: PURPLE_COLOR },
+          { value: 5.0, color: GREEN_COLOR },
         ]);
       }
     } else {
@@ -502,217 +565,70 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   const [hard50SegColors, setHard50SegColors] = useState<IWheelColors[]>([]);
 
   // Easy level
+  const generateSegmentColors_easy = (
+    count: number,
+    greenIndex: number
+  ): IWheelColors[] => {
+    return Array.from({ length: count }).map((_, el: number) => {
+      if ([1, 11, 21, 31, 41].includes(el)) {
+        return {
+          segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
+          border: GREEN_COLOR,
+        };
+      } else if ([0, 5, 10, 15, 20, 25, 30, 35, 40, 45].includes(el)) {
+        return {
+          segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
+          border: WHITE_COLOR,
+        };
+      } else {
+        return {
+          segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
+          border: BLUE_COLOR,
+        };
+      }
+    });
+  };
+
   useEffect(() => {
     console.log(1);
     if (easy10SegColors?.length < 11) {
-      Array.from({ length: 10 }).map((_, el: number) => {
-        if (el === 0) {
-          setEasy10SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: GREEN_COLOR,
-              },
-            ];
-          });
-        } else if (el === 1 || el === 6) {
-          setEasy10SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: WHITE_COLOR,
-              },
-            ];
-          });
-        } else {
-          setEasy10SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: BLUE_COLOR,
-              },
-            ];
-          });
-        }
-      });
+      setEasy10SegColors((prev: IWheelColors[]) => [
+        ...prev,
+        ...generateSegmentColors_easy(10, 1),
+      ]);
     }
     if (easy20SegColors?.length < 21) {
-      Array.from({ length: 20 }).map((_, el: number) => {
-        if (el === 0 || el === 9) {
-          setEasy20SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: GREEN_COLOR,
-              },
-            ];
-          });
-        } else if (el === 1 || el === 10 || el === 15 || el === 20) {
-          setEasy20SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: WHITE_COLOR,
-              },
-            ];
-          });
-        } else {
-          setEasy20SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: BLUE_COLOR,
-              },
-            ];
-          });
-        }
-      });
+      setEasy20SegColors((prev: IWheelColors[]) => [
+        ...prev,
+        ...generateSegmentColors_easy(20, 1),
+      ]);
     }
     if (easy30SegColors?.length < 31) {
-      Array.from({ length: 30 }).map((_, el: number) => {
-        if (el === 0 || el === 9 || el === 19) {
-          setEasy30SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: GREEN_COLOR,
-              },
-            ];
-          });
-        } else if (
-          el === 1 ||
-          el === 6 ||
-          el === 11 ||
-          el === 16 ||
-          el === 21 ||
-          el === 26
-        ) {
-          setEasy30SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: WHITE_COLOR,
-              },
-            ];
-          });
-        } else {
-          setEasy30SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: BLUE_COLOR,
-              },
-            ];
-          });
-        }
-      });
+      setEasy30SegColors((prev: IWheelColors[]) => [
+        ...prev,
+        ...generateSegmentColors_easy(30, 1),
+      ]);
     }
     if (easy40SegColors?.length < 41) {
-      Array.from({ length: 40 }).map((_, el: number) => {
-        if (el === 0 || el === 9 || el === 19 || el === 29) {
-          setEasy40SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: GREEN_COLOR,
-              },
-            ];
-          });
-        } else if (
-          el === 1 ||
-          el === 6 ||
-          el === 11 ||
-          el === 16 ||
-          el === 21 ||
-          el === 26 ||
-          el === 31 ||
-          el === 36
-        ) {
-          setEasy40SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: WHITE_COLOR,
-              },
-            ];
-          });
-        } else {
-          setEasy40SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: BLUE_COLOR,
-              },
-            ];
-          });
-        }
-      });
+      setEasy40SegColors((prev: IWheelColors[]) => [
+        ...prev,
+        ...generateSegmentColors_easy(40, 1),
+      ]);
     }
     if (easy50SegColors?.length < 51) {
-      Array.from({ length: 50 }).map((_, el: number) => {
-        if (el === 0 || el === 9 || el === 19 || el === 29 || el === 39) {
-          setEasy50SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: GREEN_COLOR,
-              },
-            ];
-          });
-        } else if (
-          el === 1 ||
-          el === 6 ||
-          el === 11 ||
-          el === 16 ||
-          el === 21 ||
-          el === 26 ||
-          el === 31 ||
-          el === 36 ||
-          el === 41 ||
-          el === 46
-        ) {
-          setEasy50SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: WHITE_COLOR,
-              },
-            ];
-          });
-        } else {
-          setEasy50SegColors((prev) => {
-            return [
-              ...prev,
-              {
-                segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: BLUE_COLOR,
-              },
-            ];
-          });
-        }
-      });
+      setEasy50SegColors((prev: IWheelColors[]) => [
+        ...prev,
+        ...generateSegmentColors_easy(50, 1),
+      ]);
     }
   }, [easy10SegColors?.length]);
+
   // Medium level
 
   useEffect(() => {
     if (medium10SegColors?.length < 11) {
       Array.from({ length: 10 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 2) {
           setMedium10SegColors((prev) => {
             return [
               ...prev,
@@ -722,7 +638,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 9) {
+        } else if (el === 0) {
           setMedium10SegColors((prev) => {
             return [
               ...prev,
@@ -732,17 +648,17 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 5) {
+        } else if (el === 6) {
           setMedium10SegColors((prev) => {
             return [
               ...prev,
               {
                 segment: el % 2 === 1 ? "#1F1435" : "#100C1E",
-                border: "#FBC006",
+                border: YELLOW_COLOR,
               },
             ];
           });
-        } else if (el === 3 || el === 7) {
+        } else if (el === 4 || el === 8) {
           setMedium10SegColors((prev) => {
             return [
               ...prev,
@@ -767,7 +683,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (medium20SegColors?.length < 21) {
       Array.from({ length: 20 }).map((_, el: number) => {
-        if (el === 0 || el === 12) {
+        if (el === 1 || el === 9) {
           setMedium20SegColors((prev) => {
             return [
               ...prev,
@@ -777,7 +693,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 8) {
+        } else if (el === 13) {
           setMedium20SegColors((prev) => {
             return [
               ...prev,
@@ -787,7 +703,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 10) {
+        } else if (el === 11) {
           setMedium20SegColors((prev) => {
             return [
               ...prev,
@@ -798,12 +714,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 2 ||
-          el === 4 ||
-          el === 6 ||
-          el === 16 ||
-          el === 14 ||
-          el === 18
+          el === 3 ||
+          el === 5 ||
+          el === 7 ||
+          el === 15 ||
+          el === 17 ||
+          el === 19
         ) {
           setMedium20SegColors((prev) => {
             return [
@@ -829,7 +745,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (medium30SegColors?.length < 31) {
       Array.from({ length: 30 }).map((_, el: number) => {
-        if (el === 6) {
+        if (el === 23) {
           setMedium30SegColors((prev) => {
             return [
               ...prev,
@@ -839,7 +755,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 8) {
+        } else if (el === 15) {
           setMedium30SegColors((prev) => {
             return [
               ...prev,
@@ -849,7 +765,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 16) {
+        } else if (el === 25) {
           setMedium30SegColors((prev) => {
             return [
               ...prev,
@@ -860,12 +776,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 2 ||
-          el === 10 ||
-          el === 12 ||
-          el === 20 ||
-          el === 22 ||
-          el === 26
+          el === 5 ||
+          el === 9 ||
+          el === 11 ||
+          el === 19 ||
+          el === 21 ||
+          el === 29
         ) {
           setMedium30SegColors((prev) => {
             return [
@@ -877,12 +793,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 4 ||
-          el === 14 ||
-          el === 18 ||
-          el === 24 ||
-          el === 28 ||
-          el === 30
+          el === 1 ||
+          el === 3 ||
+          el === 7 ||
+          el === 13 ||
+          el === 17 ||
+          el === 27
         ) {
           setMedium30SegColors((prev) => {
             return [
@@ -908,7 +824,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (medium40SegColors?.length < 41) {
       Array.from({ length: 40 }).map((_, el: number) => {
-        if (el === 8 || el === 22 || el === 32 || el === 38) {
+        if (el === 3 || el === 9 || el === 19 || el === 33) {
           setMedium40SegColors((prev) => {
             return [
               ...prev,
@@ -918,7 +834,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 14) {
+        } else if (el === 27) {
           setMedium40SegColors((prev) => {
             return [
               ...prev,
@@ -929,12 +845,13 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 4 ||
-          el === 12 ||
-          el === 16 ||
-          el === 18 ||
-          el === 26 ||
-          el === 36
+          el === 1 ||
+          el === 5 ||
+          el === 15 ||
+          el === 23 ||
+          el === 25 ||
+          el === 29 ||
+          el === 37
         ) {
           setMedium40SegColors((prev) => {
             return [
@@ -946,14 +863,14 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 2 ||
-          el === 6 ||
-          el === 10 ||
-          el === 20 ||
-          el === 24 ||
-          el === 28 ||
-          el === 30 ||
-          el === 34
+          el === 7 ||
+          el === 11 ||
+          el === 13 ||
+          el === 17 ||
+          el === 21 ||
+          el === 31 ||
+          el === 35 ||
+          el === 39
         ) {
           setMedium40SegColors((prev) => {
             return [
@@ -979,7 +896,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (medium50SegColors?.length < 51) {
       Array.from({ length: 50 }).map((_, el: number) => {
-        if (el === 8) {
+        if (el === 9 || el === 19 || el === 33) {
           setMedium50SegColors((prev) => {
             return [
               ...prev,
@@ -989,16 +906,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (
-          el === 14 ||
-          el === 6 ||
-          el === 24 ||
-          el === 22 ||
-          el === 28 ||
-          el === 36 ||
-          el === 50 ||
-          el === 46
-        ) {
+        } else if (el === 43) {
           setMedium50SegColors((prev) => {
             return [
               ...prev,
@@ -1008,7 +916,16 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               },
             ];
           });
-        } else if (el === 18 || el === 32 || el === 42) {
+        } else if (
+          el === 1 ||
+          el === 5 ||
+          el === 15 ||
+          el === 23 ||
+          el === 27 ||
+          el === 29 ||
+          el === 37 ||
+          el === 47
+        ) {
           setMedium50SegColors((prev) => {
             return [
               ...prev,
@@ -1019,19 +936,19 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             ];
           });
         } else if (
-          el === 2 ||
-          el === 6 ||
-          el === 10 ||
-          el === 12 ||
-          el === 16 ||
-          el === 20 ||
-          el === 26 ||
-          el === 30 ||
-          el === 34 ||
-          el === 38 ||
-          el === 44 ||
-          el === 88 ||
-          el === 40
+          el === 3 ||
+          el === 7 ||
+          el === 11 ||
+          el === 13 ||
+          el === 17 ||
+          el === 21 ||
+          el === 25 ||
+          el === 31 ||
+          el === 35 ||
+          el === 39 ||
+          el === 41 ||
+          el === 45 ||
+          el === 49
         ) {
           setMedium50SegColors((prev) => {
             return [
@@ -1060,7 +977,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   useEffect(() => {
     if (hard10SegColors?.length < 11) {
       Array.from({ length: 10 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 0) {
           setHard10SegColors((prev) => {
             return [
               ...prev,
@@ -1085,7 +1002,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (hard20SegColors?.length < 21) {
       Array.from({ length: 20 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 0) {
           setHard20SegColors((prev) => {
             return [
               ...prev,
@@ -1110,7 +1027,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (hard30SegColors?.length < 31) {
       Array.from({ length: 30 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 0) {
           setHard30SegColors((prev) => {
             return [
               ...prev,
@@ -1135,7 +1052,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (hard40SegColors?.length < 41) {
       Array.from({ length: 40 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 0) {
           setHard40SegColors((prev) => {
             return [
               ...prev,
@@ -1160,7 +1077,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
     if (hard50SegColors?.length < 51) {
       Array.from({ length: 50 }).map((_, el: number) => {
-        if (el === 1) {
+        if (el === 0) {
           setHard50SegColors((prev) => {
             return [
               ...prev,
@@ -1225,7 +1142,6 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
   }, [pickedValue, level, easy10SegColors]);
 
-  const coefData = [0.0, 1.5, 1.7, 2, 3];
   const [highlightIndex, setHighlightIndex] = useState<number[]>([]);
 
   useEffect(() => {
@@ -1237,7 +1153,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           return [...prev, prev.length + 1];
         }
       });
-    }, 500);
+    }, 250);
 
     return () => {
       clearInterval(intervalId); // вCleanup interval on component unmount
@@ -1247,7 +1163,44 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const [inSpeen, setInSpeen] = useState(false);
 
-  const [shwoPlaceholder, setSHowPlaceholder] = useState(false);
+  // const [shwoPlaceholder, setSHowPlaceholder] = useState(false);
+
+  const [testInGame, setTestInGame] = useState(false);
+
+  const [testArr, setTestArr] = useState<number[]>([1, 2, 4, 5, 6, 7, 8, 9]);
+
+  // const [lastNumber, setLastNumbar] = useState<number | null>(null);
+
+  const [lastNum, setLastNum] = useState<null | number>(null);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // useEffect(() => {
+  //   setTimeout(() => setOutcomes([1, 2, 3, 0, 0, 0, 4, 5]), 2000);
+  // }, []);
+
+  const startAnimation = () => {
+    if (currentIndex < outcomes.length) {
+      setTimeout(() => {
+        setLastNum(-1);
+        setTimeout(() => setLastNum(outcomes[currentIndex]), 0);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, 1500);
+    } else {
+      // Animation for all elements in the array is complete
+      setTimeout(() => {
+        setCurrentIndex(0); // Reset the index for future animations
+        setTestInGame(false);
+        setOutcomes([]);
+      }, 1500);
+    }
+  };
+
+  useEffect(() => {
+    if (outcomes?.length > 0) {
+      startAnimation();
+    }
+  }, [outcomes?.length, currentIndex]);
 
   return (
     <>
@@ -1258,15 +1211,24 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         />
       )}
       <section
-        onClick={() => setCount((prev) => prev + 2)}
+        onClick={() => {
+          setCount((prev) => prev + 2);
+          setTestInGame((prev) => !prev);
+          // setDone(true);
+        }}
         className={s.wheel_table_wrap}
       >
-        <span className={s.wheel_eclipse}></span>
+        {/* <span className={s.wheel_eclipse}></span>
         <span className={s.wheel_eclipse_2}></span>
         <span className={s.wheel_eclipse_3}></span>
-        <span className={s.wheel_eclipse_4}></span>
+        <span className={s.wheel_eclipse_4}></span> */}
         {isLoading && <Preload />}
-        <WagerLowerBtnsBlock game="wheel" text={gameText} />
+        <WagerLowerBtnsBlock
+          className={s.sound_mobile}
+          showInfo={false}
+          game="wheel"
+          text={gameText}
+        />
         <div className={s.wheel_table_background}>
           <Image
             onLoad={() => setImageLoading_1(false)}
@@ -1279,7 +1241,6 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           />
         </div>
         <div className={s.wheel_container}>
-          {" "}
           <div className={s.total_container}>
             <span className={s.total_won}>{fullWon.toFixed(2)}</span>
             <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
@@ -1294,15 +1255,43 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                 {Math.abs(totalValue).toFixed(2)}
               </span>
             </div>
-          </div>{" "}
-          <div className={s.wheel_underwrapp}>
-            {" "}
-            <WheelPick
-              className={clsx(s.wheel_pick, inSpeen && s.wheel_pick_animation)}
-            />{" "}
+          </div>
+          <div className={clsx(s.wheel_underwrapp)}>
+            <div className={clsx(s.wheel_pick)}>
+              <svg
+                className={s.circle}
+                width="26"
+                height="26"
+                viewBox="0 0 26 26"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="13" cy="13" r="13" fill="#EF8CFF" />
+                <circle cx="13" cy="13" r="8" fill="#983DC2" />
+              </svg>
+              <svg
+                className={clsx(
+                  s.pick,
+                  inGame && s.wheel_pick_animation,
+                  outcomes.length > 0 && s.wheel_pick_animation_2
+                )}
+                width="10"
+                height="14"
+                viewBox="0 0 10 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M9.64648 0H0L4.82324 13.9238L9.64648 0Z"
+                  fill="#EF8CFF"
+                />
+              </svg>
+            </div>
             <div className={s.wheel_coef_cricle}>
-              {localNumber || (0.0).toFixed(2)}x
-            </div>{" "}
+              {localNumber?.toFixed(2) || (0.0).toFixed(2)}x
+            </div>
             {Array.from({ length: 24 }).map((_, i) => (
               <BallIcon
                 className={clsx(
@@ -1312,7 +1301,16 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                 )}
               />
             ))}
-            <div className={s.wheel_wrapp}>
+            <div
+              className={clsx(
+                s.wheel_wrapp,
+                s[`wheel_wrapp_${pickedValue}`],
+                lastNum !== null &&
+                  lastNum !== -1 &&
+                  s[`wheel_wrapp_${pickedValue}_${lastNum}`],
+                inGame && s.wheel_underwrapp_animation
+              )}
+            >
               <WheelComponent
                 inSpeen={inSpeen}
                 setInSpeen={setInSpeen}
@@ -1333,12 +1331,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               />
             </div>
           </div>
-          <div
-            className={clsx(
-              s.wheel_coeffs,
-              shwoPlaceholder && s.wheel_coeffs_show
-            )}
-          >
+          <div className={clsx(s.wheel_coeffs, true && s.wheel_coeffs_show)}>
             {levelCoef.map((el, i) => (
               <div
                 className={clsx(
@@ -1358,7 +1351,65 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                 <div
                   className={clsx(
                     s.multiplier_value,
-                    item > 0 ? s.multiplier_positive : s.multiplier_negative
+
+                    level === "Hard" &&
+                      item > 0 &&
+                      item < 10 &&
+                      s.multiplier_value_blue,
+                    level === "Hard" && item > 11 && s.multiplier_value_purple,
+                    level === "Easy" && item > 1.3 && s.multiplier_value_blue,
+                    level === "Easy" &&
+                      item > 0 &&
+                      item < 1.3 &&
+                      s.multiplier_value_green,
+                    level === "Medium" &&
+                      item > 0 &&
+                      item < 1.6 &&
+                      s.multiplier_value_blue,
+                    level === "Medium" &&
+                      item == 2 &&
+                      s.multiplier_value_yellow,
+                    (pickedValue === 10 ||
+                      pickedValue === 20 ||
+                      pickedValue === 30) &&
+                      level === "Medium" &&
+                      item < 1.6 &&
+                      item > 0 &&
+                      s.multiplier_value_blue,
+                    (pickedValue === 10 ||
+                      pickedValue === 20 ||
+                      pickedValue === 30) &&
+                      level === "Medium" &&
+                      item < 2 &&
+                      item > 1.6 &&
+                      s.multiplier_value_purple,
+                    (pickedValue === 40 || pickedValue === 50) &&
+                      level === "Medium" &&
+                      item == 3 &&
+                      s.multiplier_value_purple,
+                    (pickedValue === 10 ||
+                      pickedValue === 20 ||
+                      pickedValue === 30) &&
+                      level === "Medium" &&
+                      item == 3 &&
+                      s.multiplier_value_green,
+                    level === "Medium" &&
+                      pickedValue === 30 &&
+                      item == 4 &&
+                      s.multiplier_value_red,
+                    level === "Medium" &&
+                      pickedValue === 40 &&
+                      item == 1.6 &&
+                      s.multiplier_value_green,
+                    level === "Medium" &&
+                      pickedValue === 50 &&
+                      item == 5 &&
+                      s.multiplier_value_green,
+                    level === "Medium" &&
+                      item < 0.1 &&
+                      s.multiplier_value_white,
+                    level === "Hard" && item < 0.1 && s.multiplier_value_white,
+                    level === "Easy" && item < 0.1 && s.multiplier_value_white
                   )}
                   key={i}
                 >
@@ -1367,11 +1418,13 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               ))}
           </div>
         </div>
-        <WheelShowIcon
-          onclick={() => setSHowPlaceholder((prev) => !prev)}
+        <div
+          // onClick={() => setSHowPlaceholder((prev) => !prev)}
           className={s.wheel_show}
-        />
-      </section>{" "}
+        >
+          <WheelShowIcon />
+        </div>
+      </section>
     </>
   );
 };
@@ -1438,7 +1491,7 @@ const WheelComponent = ({
       wheelDraw(segColors);
     }
     console.log(1);
-  }, [segColors]);
+  }, [segColors, isDesktop, isMobile]);
 
   const initCanvas = () => {
     let canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -1453,75 +1506,6 @@ const WheelComponent = ({
     canvasContext = canvas!.getContext("2d");
   };
 
-  // useEffect(() => {
-  //   let canvas = document.getElementById("canvas") as HTMLCanvasElement;
-  //   if (inSpeen) {
-  //     canvas!.addEventListener("click", spin, false);
-  //   } else {
-  //     canvas!.removeEventListener("click", spin);
-  //   }
-  // }, [inSpeen]);
-
-  // const spin = (colors:IWheelColors[]) => {
-  //   setInSpeen(true);
-  //   isStarted = true;
-  //   // onRotate();
-  //   if (timerHandle === 0) {
-  //     spinStart = new Date().getTime();
-  //     // maxSpeed = Math.PI / ((10*2) + Math.random())
-  //     maxSpeed = Math.PI / 10;
-  //     frames = 0;
-  //     timerHandle = setInterval(onTimerTick?.bind(colors), timerDelay) as any;
-  //   }
-  // };
-  // const onTimerTick = (colors: IWheelColors[]) => {
-  //   frames++;
-  //   draw(colors);
-  //   const duration = new Date().getTime() - spinStart;
-  //   let progress = 0;
-  //   let finished = false;
-  //   if (duration < upTime) {
-  //     progress = duration / upTime;
-  //     angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2);
-  //   } else {
-  //     if (winningSegment) {
-  //       if (currentSegment === winningSegment && frames > 10) {
-  //         progress = duration / upTime;
-  //         angleDelta =
-  //           maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-  //         progress = 1;
-  //       } else {
-  //         progress = duration / downTime;
-  //         angleDelta =
-  //           maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-  //       }
-  //     } else {
-  //       progress = duration / downTime;
-  //       if (progress >= 0.8) {
-  //         angleDelta =
-  //           (maxSpeed / 1.2) * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-  //       } else if (progress >= 0.98) {
-  //         angleDelta =
-  //           (maxSpeed / 2) * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-  //       } else
-  //         angleDelta =
-  //           maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
-  //     }
-  //     if (progress >= 1) finished = true;
-  //   }
-
-  //   angleCurrent += angleDelta;
-  //   while (angleCurrent >= Math.PI * 2) angleCurrent -= Math.PI * 2;
-  //   if (finished) {
-  //     setInSpeen(false);
-  //     setFinished(true);
-  //     onFinished(currentSegment);
-  //     clearInterval(timerHandle);
-  //     timerHandle = 0;
-  //     angleDelta = 0;
-  //   }
-  // };
-
   const wheelDraw = (colors: IWheelColors[]) => {
     clear();
     drawWheel(colors);
@@ -1534,56 +1518,6 @@ const WheelComponent = ({
     drawNeedle();
   };
 
-  // const drawSegment = (
-  //   key: number,
-  //   lastAngle: number,
-  //   angle: number,
-  //   colors: IWheelColors[]
-  // ) => {
-  //   const ctx = canvasContext;
-  //   ctx.save();
-
-  //   // Рисуем обводку сегмента
-  //   const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-  //   const borderOffset = 0; // Смещение для избежания мерцания
-  //   const midX = centerX + size * Math.cos((lastAngle + angle) / 2);
-  //   const midY = centerY + size * Math.sin((lastAngle + angle) / 2);
-  //   const controlPointX1 = centerX + size * Math.cos(lastAngle);
-  //   const controlPointY1 = centerY + size * Math.sin(lastAngle);
-  //   const controlPointX2 = centerX + size * Math.cos(angle);
-  //   const controlPointY2 = centerY + size * Math.sin(angle);
-
-  //   ctx.beginPath();
-  //   ctx.moveTo(controlPointX1 - borderOffset, controlPointY1);
-  //   ctx.bezierCurveTo(midX, midY, midX, midY, controlPointX2, controlPointY2);
-  //   ctx.lineWidth = borderWidth;
-  //   ctx.strokeStyle = colors[key + 1]?.border || "red";
-
-  //   // Заливаем цвет обводки сегмента
-  //   ctx.stroke();
-
-  //   // Рисуем сегмент
-  //   // Рисуем сегмент
-  //   ctx.beginPath();
-  //   ctx.moveTo(centerX, centerY);
-  //   ctx.arc(
-  //     centerX,
-  //     centerY,
-  //     size - borderWidth / 2, // Уменьшаем радиус арки
-  //     lastAngle,
-  //     angle,
-  //     false
-  //   );
-  //   ctx.lineTo(centerX, centerY);
-  //   ctx.closePath();
-
-  //   // Заливаем цвет сегмента
-  //   ctx.fillStyle = colors[key]?.segment;
-  //   ctx.fill();
-
-  //   // Восстанавливаем состояние контекста
-  //   ctx.restore();
-  // };
   const drawSegment = (
     key: number,
     lastAngle: number,
@@ -1593,16 +1527,8 @@ const WheelComponent = ({
     const ctx = canvasContext;
     ctx.save();
     const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    //   const borderOffset = 0; // Смещение для избежания мерцания
-    //   const midX = centerX + size * Math.cos((lastAngle + angle) / 2);
-    //   const midY = centerY + size * Math.sin((lastAngle + angle) / 2);
-    //   const controlPointX1 = centerX + size * Math.cos(lastAngle);
-    //   const controlPointY1 = centerY + size * Math.sin(lastAngle);
-    //   const controlPointX2 = centerX + size * Math.cos(angle);
-    //   const controlPointY2 = centerY + size * Math.sin(angle);
-    // Радиусы для внутренней и внешней окружности сегмента
-    const innerRadius = size; // или любой другой размер, который вам нравится
-    const outerRadius = size;
+    const innerRadius = level === "Medium" ? size + 0.0001 : size; // или любой другой размер, который вам нравится
+    const outerRadius = level === "Medium" ? size + 0.0001 : size;
 
     // Начинаем новый путь
     ctx.beginPath();
@@ -1724,26 +1650,12 @@ const WheelComponent = ({
     >
       <canvas
         id="canvas"
-        width={isMobile ? 260 : isDesktop ? "310" : "424"}
-        height={isMobile ? 260 : isDesktop ? "310" : "424"}
+        width={isMobile ? 260 : isDesktop ? 310 : 424}
+        height={isMobile ? 260 : isDesktop ? 310 : 424}
         style={{
           pointerEvents: isFinished && isOnlyOnce ? "none" : "auto",
         }}
       />
     </div>
-  );
-};
-const BallIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      width="11"
-      height="11"
-      viewBox="0 0 11 11"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <circle cx="5.52148" cy="5.62695" r="5" fill="#D9D9D9" />
-    </svg>
   );
 };

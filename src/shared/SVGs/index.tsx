@@ -18,3 +18,4 @@ export * from "./RocketIcon";
 export * from "./SlotsIcon";
 export * from "./WheelPick";
 export * from "./WheelShowIcon";
+export * from "./BallIcon";
