@@ -1273,7 +1273,10 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                 className={clsx(
                   s.pick,
                   inGame && s.wheel_pick_animation,
-                  outcomes.length > 0 && s.wheel_pick_animation_2
+                  outcomes.length > 0 &&
+                    lastNum !== null &&
+                    lastNum > -1 &&
+                    s.wheel_pick_animation_2
                 )}
                 width="10"
                 height="14"
@@ -1357,11 +1360,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                       item < 10 &&
                       s.multiplier_value_blue,
                     level === "Hard" && item > 11 && s.multiplier_value_purple,
-                    level === "Easy" && item > 1.3 && s.multiplier_value_blue,
+                    level === "Easy" && item > 1.3 && s.multiplier_value_green,
                     level === "Easy" &&
                       item > 0 &&
                       item < 1.3 &&
-                      s.multiplier_value_green,
+                      s.multiplier_value_blue,
                     level === "Medium" &&
                       item > 0 &&
                       item < 1.6 &&

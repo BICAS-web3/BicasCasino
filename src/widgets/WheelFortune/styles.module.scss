@@ -703,10 +703,10 @@
   top: 5px;
   animation: pick_animation 0.15s infinite steps(2);
 }
-.wheel_pick_animation {
+.wheel_pick_animation_2 {
   transform: translateX(-50%) rotate(-40deg);
   top: 5px;
-  animation: pick_animation 0.15s 1.5s infinite steps(2);
+  animation: pick_animation 0.15s 0.3s infinite steps(2);
 }
 
 .pick {
