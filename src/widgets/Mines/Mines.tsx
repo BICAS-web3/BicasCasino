@@ -741,6 +741,15 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
+  useEffect(
+    () =>
+      setCoefficientData([
+        2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0,
+      ]),
+    []
+  );
+
   return (
     <>
       {errorWrite && (
@@ -881,7 +890,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
               })} */
             }
           </div>{" "}
-          <div className={styles.bottom_wrapper}>
+          {/* <div className={styles.bottom_wrapper}>
             <div className={styles.bottom}>
               <Swiper
                 ref={swiperRef}
@@ -922,7 +931,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
                 className={clsx(styles.arr_icon, styles.arr_icon_right)}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
