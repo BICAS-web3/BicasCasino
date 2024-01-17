@@ -6,6 +6,7 @@ import {
   Chain,
   PublicClient,
   createStorage,
+  sepolia,
 } from "wagmi";
 import { bsc } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -37,12 +38,31 @@ export const setWagmiConfig = createEvent<any>();
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
   const networks = payload.body as Api.T_Networks;
-
+  console.log(JSON.stringify(payload.body));
   var chains = [];
   var publicClient = [];
   var explorers = new Map<number, string>();
 
-  for (var network of networks.networks) {
+  for (var network of networks.networks.concat([
+    {
+      basic_info: {
+        network_id: sepolia.id,
+        network_name: "Sepolia",
+        short_name: "SEP",
+        currency_name: "SEP",
+        currency_symbol: "SEP",
+        decimals: sepolia.nativeCurrency.decimals,
+      },
+      rpcs: [
+        {
+          id: 1,
+          network_id: 1,
+          url: "https://rpc.sepolia.org/",
+        },
+      ],
+      explorers: [{ id: 1, network_id: 1, url: "https://bscscan.com" }],
+    },
+  ])) {
     if (network.explorers.length == 0) {
       continue;
     }
