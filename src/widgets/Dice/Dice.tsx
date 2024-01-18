@@ -381,12 +381,14 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             token: token as string,
           });
           setGameStatus(GameModel.GameStatus.Won);
+          console.log("win");
         } else {
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
 
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
+          console.log("lost");
         }
       }
     },

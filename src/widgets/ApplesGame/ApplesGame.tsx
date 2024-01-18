@@ -5,6 +5,8 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import appleBg from "@/public/media/apples/appleItemBg.svg";
 import appleBgTrue from "@/public/media/apples/appleItemBgTrue.svg";
 import appleBgFalse from "@/public/media/apples/appleItemBgFalse.svg";
+import appleCoefTrue from "@/public/media/apples/appleCoefBgTrue.svg";
+import appleCoefFalse from "@/public/media/apples/appleCoefBgFalse.svg";
 import cfBg from "@/public/media/apples/cfBg.svg";
 import { AppleIco } from "@/shared/SVGs/AppleIco";
 import backIco from "@/public/media/apples/backIco.svg";
@@ -36,7 +38,7 @@ import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
 import { useFeeData } from "wagmi";
-import * as CoinflipM from "./model";
+import * as ApplesModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { AppleFalseIco } from "@/shared/SVGs/AppleFalse";
@@ -115,7 +117,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     lost,
     profit,
     playSounds,
-    pickedSide,
     setActivePicker,
     pickSide,
     wagered,
@@ -138,11 +139,11 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setIsPlaying,
     setBetValue,
     betValue,
+    pickedSide,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
     GameModel.$playSounds,
-    SidePickerModel.$pickedSide,
     SidePickerModel.setActive,
     SidePickerModel.pickSide,
     WagerButtonModel.$Wagered,
@@ -165,6 +166,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     GameModel.setIsPlaying,
     GameModel.setBetValue,
     GameModel.$betValue,
+    SidePickerModel.$pickedSide,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
@@ -215,8 +217,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     abi: IERC20,
     functionName: "approve",
     enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
+      // "0x0000000000000000000000000000000000000000" !=
+      // "0x0000000000000000000000000000000000000000",
+      true,
     args: [
       gameAddress,
       useDebounce(
@@ -229,7 +232,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   const { write: setAllowance, isSuccess: allowanceIsSet } =
     useContractWrite(allowanceConfig);
-
+  // useEffect(() => alert(allowanceIsSet), [allowanceIsSet]);
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
@@ -320,24 +323,21 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         address?.toLowerCase()
       ) {
         console.log("-------", (log[0] as any).args, "----");
-        setWaitingResponse(false);
-        const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
-        const handlePayouts = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
-              setCoefficientData((prev) => [outCome, ...prev]);
-            }, 700 * (i + 1));
-          }
+        const handlePayouts = async () => {
+          setCoefficientData((prev) => [
+            Number((log[0] as any)?.args?.payout) / Number(wagered),
+            ...prev,
+          ]);
         };
         handlePayouts();
 
         const getResult = () => {
           setResultApples((log[0] as any).args.mines);
         };
+        getResult();
+        setWaitingResponse(false);
+        const wagered = BigInt((log[0] as any).args.wager);
+
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -380,10 +380,11 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
           //   pickedToken?.contract_address !=
           //     "0x0000000000000000000000000000000000000000"
           // ) {
-          //   alert(1);
-          //   setAllowance?.();
+          //   if (setAllowance) {
+          //     setAllowance();
+          //     alert(2);
+          //   }
           // } else {
-          //   alert(2);
           //   startPlaying?.();
           // }
         }
@@ -391,6 +392,15 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       setWagered(false);
     }
   }, [wagered]);
+  useEffect(() => {
+    setActivePicker(true);
+    setInGame(false);
+    if (gameStatus == GameModel.GameStatus.Won) {
+      pickSide(pickedSide);
+    } else if (gameStatus == GameModel.GameStatus.Lost) {
+      pickSide(pickedSide ^ 1);
+    }
+  }, [gameStatus]);
   //!--------------------------------------------------
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -417,6 +427,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   // useEffect(() => {
   //   setTimeout(() => setResultApples([0, 0, 1, 2]), 8000);
   // }, []);
+
+  // useEffect(() => setCoefficientData([0, 0, 2, 0, 2, 9]), []);
 
   return (
     <>
@@ -460,7 +472,12 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               )}
               key={i}
             >
-              {item?.toFixed(2)}x
+              {item > 0 ? (
+                <img alt="" src={appleCoefTrue.src} />
+              ) : (
+                <img alt="" src={appleCoefFalse.src} />
+              )}
+              <span>{item?.toFixed(2)}x</span>
             </div>
           ))}
         </div>
@@ -492,7 +509,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               const indexToUpdate = currentIndex;
                               if (
                                 currentIndex <= appleData.length &&
-                                resultApples?.length === 0
+                                resultApples?.length === 0 &&
+                                !inGame
                               ) {
                                 if (appleData[indexToUpdate] !== undefined) {
                                   setAppleData((prev: IAppleData[]) => {
