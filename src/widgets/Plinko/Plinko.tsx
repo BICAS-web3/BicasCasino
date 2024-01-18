@@ -23,6 +23,7 @@ import {
   usePrepareContractWrite,
   useContractWrite,
   useContractEvent,
+  useWaitForTransaction,
 } from "wagmi";
 import { pickSide } from "../CoinFlipSidePicker/model";
 import { ABI as IPlinko } from "@/shared/contracts/PlinkoABI";
@@ -1146,10 +1147,38 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           : 0
       ),
     ],
+    gasPrice: (data?.gasPrice as any),
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
+  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
     useContractWrite(allowanceConfig);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData])
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance
+  })
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setPath(undefined);
+      //setActivePicker(false);
+      setInGame(true);
+      setWaitingResponse(true);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
@@ -1175,49 +1204,49 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
 
-  const { config: startPlayingConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: IPlinko,
-    functionName: "Plinko_Play",
-    args: [
-      BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-      pickedToken?.contract_address,
-      //pickedSide,
-      rowsAmount,
-      pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
-      pickedValue,
-      useDebounce(stopGain)
-        ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
-      useDebounce(stopLoss)
-        ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
-    ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
-        : BigInt(0)),
-    enabled: true,
-    //gasPrice: data?.gasPrice
-    //gas: BigInt(3000000),
-  });
+  // const { config: startPlayingConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPlinko,
+  //   functionName: "Plinko_Play",
+  //   args: [
+  //     BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+  //     pickedToken?.contract_address,
+  //     //pickedSide,
+  //     rowsAmount,
+  //     pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
+  //     pickedValue,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+  //       BigInt(100000000000)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //       pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000)) *
+  //       BigInt(100000000000) *
+  //       BigInt(pickedValue)
+  //       : BigInt(0)),
+  //   enabled: true,
+  //   //gasPrice: data?.gasPrice
+  //   //gas: BigInt(3000000),
+  // });
 
   const {
     write: startPlaying,
@@ -1239,25 +1268,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(pickedValue)
+        BigInt(100000000000) *
+        BigInt(pickedValue)
         : BigInt(0)),
   });
 
@@ -1337,9 +1366,14 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setPath(undefined);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
@@ -1477,11 +1511,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                         className={clsx(
                           styles.multiplier_value,
                           multipliers[ball.value] > 1 &&
-                            styles.multiplier_positive,
+                          styles.multiplier_positive,
                           multipliers[ball.value] < 1 &&
-                            styles.multiplier_negative,
+                          styles.multiplier_negative,
                           multipliers[ball.value] < 0.6 &&
-                            styles.multiplier_extranegative
+                          styles.multiplier_extranegative
                         )}
                         key={i}
                       >

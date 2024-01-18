@@ -16,6 +16,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 
 import { useUnit } from "effector-react";
@@ -243,21 +244,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
+        BigInt(bigNum) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
   });
 
@@ -308,10 +309,37 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           : 0
       ),
     ],
+    gasPrice: (data?.gasPrice as any),
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
+  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
     useContractWrite(allowanceConfig);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData])
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance
+  })
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -326,7 +354,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -360,7 +388,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
             }, 700 * (i + 1));
           }
@@ -407,9 +436,14 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setActivePicker(false);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
@@ -443,8 +477,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${
-        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
