@@ -1168,7 +1168,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   })
 
   useEffect(() => {
-    if (inGame && allowanceIsSet) {
+    if (inGame && allowanceIsSet && watchAllowance) {
       setWatchAllowance(false);
       startPlaying();
     } else if (allowanceError) {
@@ -1369,6 +1369,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
             "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
+              console.log('Setting allowance');
               setAllowance();
               setPath(undefined);
               setInGame(true);
