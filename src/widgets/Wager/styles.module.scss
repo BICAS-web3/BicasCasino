@@ -39,6 +39,7 @@
   flex-direction: column;
 
   @media screen and (max-width: 650px) {
+    height: fit-content;
     display: grid;
     grid-template-columns: 1fr;
   }

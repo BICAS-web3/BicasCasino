@@ -5,8 +5,8 @@
   margin-top: 20px;
 
   @media screen and (max-width: 650px) {
-    grid-row: 1;
     margin-bottom: 12px;
+    grid-row: 1;
   }
 }
 
@@ -22,6 +22,11 @@
   transition: all 0.3s;
   justify-content: center;
   padding: 9px 18px;
+
+  @media screen and (max-width: 1280px) {
+    padding: 9px 12px;
+  }
+
   @media screen and (max-width: 650px) {
     border-radius: 5px !important;
   }

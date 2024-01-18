@@ -888,6 +888,8 @@
   background: #121212;
   cursor: pointer;
   transition: all 0.2s;
+  display: grid;
+  grid-template-columns: 19px auto;
   svg {
     path {
       transition: all 0.2s;
@@ -905,6 +907,11 @@
   svg {
     transition: all 0.2s;
   }
+}
+
+.games {
+  display: grid;
+  grid-template-columns: 19px auto;
 }
 
 .game_active {
