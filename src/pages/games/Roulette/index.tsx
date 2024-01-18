@@ -113,7 +113,7 @@ export default function RouletteGame() {
             roulette={true}
             isPoker={false}
             gameInfoText=""
-            gameTitle="roulette"
+            gameTitle="poker"
             wagerContent={<WagerContent />}
           >
             <Suspense fallback={<div>...</div>}>
