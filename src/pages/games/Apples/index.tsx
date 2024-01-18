@@ -25,6 +25,7 @@ import {
 } from "@/widgets/WagerInputsBlock";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { ABI as IAppleAbi } from "@/shared/contracts/AppleABI";
+import * as AppleModel from "@/widgets/ApplesGame/model";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -48,10 +49,20 @@ const WagerContent = () => {
   const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
+  const [
+    startConnect,
+    setStartConnect,
+    setIsEmtyWager,
+    gameResult,
+    setReset,
+    reset,
+  ] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
+    AppleModel.$gameResult,
+    AppleModel.setReset,
+    AppleModel.$reset,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -75,16 +86,20 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-            pressButton();
-          } else if (cryptoValue <= 0.0 && isConnected) {
-            setIsEmtyWager(true);
+          if (gameResult?.length > 0) {
+            setReset(!reset);
           } else {
-            router.push(
-              isPartner
-                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                : "/RegistrManual"
-            );
+            if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+              pressButton();
+            } else if (cryptoValue <= 0.0 && isConnected) {
+              setIsEmtyWager(true);
+            } else {
+              router.push(
+                isPartner
+                  ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                  : "/RegistrManual"
+              );
+            }
           }
         }}
       >

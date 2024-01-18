@@ -47,7 +47,7 @@ interface ApplesGameProps {}
 
 export const ApplesGame: FC<ApplesGameProps> = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([]);
-  const [resultApples, setResultApples] = useState<number[]>([]);
+  // const [resultApples, setResultApples] = useState<number[]>([]);
 
   const [apples, setApples] = useState<number[]>([]);
 
@@ -140,6 +140,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setBetValue,
     betValue,
     pickedSide,
+    appleGameResult,
+    setAppleGameResult,
+    reset,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -167,6 +170,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     GameModel.setBetValue,
     GameModel.$betValue,
     SidePickerModel.$pickedSide,
+    ApplesModel.$gameResult,
+    ApplesModel.setGameResult,
+    ApplesModel.$reset,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
@@ -332,7 +338,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         handlePayouts();
 
         const getResult = () => {
-          setResultApples((log[0] as any).args.mines);
+          setAppleGameResult((log[0] as any).args.mines);
         };
         getResult();
         setWaitingResponse(false);
@@ -430,6 +436,16 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   // useEffect(() => setCoefficientData([0, 0, 2, 0, 2, 9]), []);
 
+  const handleReset = () => {
+    setAppleGameResult([]);
+    setAppleData([]);
+    setApples([]);
+  };
+
+  useEffect(() => {
+    handleReset();
+  }, [reset]);
+
   return (
     <>
       {" "}
@@ -499,9 +515,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                       </div>
                       {item.apples.map((_: any, ind2: any) => {
                         const picked = appleData[currentIndex]?.value === ind2;
-                        const resultExist = resultApples?.length > 0;
+                        const resultExist = appleGameResult?.length > 0;
                         const falseResult =
-                          resultApples[currentIndex] ===
+                          appleGameResult[currentIndex] ===
                           appleData[currentIndex]?.value;
                         return (
                           <div
@@ -509,7 +525,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               const indexToUpdate = currentIndex;
                               if (
                                 currentIndex <= appleData.length &&
-                                resultApples?.length === 0 &&
+                                appleGameResult?.length === 0 &&
                                 !inGame
                               ) {
                                 if (appleData[indexToUpdate] !== undefined) {
@@ -532,7 +548,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                             className={clsx(
                               s.apples_row_item,
                               currentIndex <= appleData.length &&
-                                resultApples?.length === 0 &&
+                                appleGameResult?.length === 0 &&
                                 s.clicked,
                               picked && s.apple_picked,
                               picked && falseResult && s.apple_picked_false,
@@ -612,20 +628,18 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.btns_block}>
                 <button
                   onClick={() => {
-                    setResultApples([]);
-                    setAppleData([]);
-                    setApples([]);
+                    handleReset;
                   }}
                   className={clsx(
                     s.clear_btn,
-                    resultApples?.length > 0 && s.clear_btn_active
+                    appleGameResult?.length > 0 && s.clear_btn_active
                   )}
                 >
                   Clear
                 </button>
                 <button
                   onClick={() => {
-                    if (appleData.length > 0 && resultApples?.length === 0) {
+                    if (appleData.length > 0 && appleGameResult?.length === 0) {
                       if (appleData?.length === 1) {
                         setAppleData([]);
                       } else {
@@ -638,7 +652,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   }}
                   className={clsx(
                     s.back_btn,
-                    resultApples?.length > 0 && s.back_btn_disable
+                    appleGameResult?.length > 0 && s.back_btn_disable
                   )}
                 >
                   <img src={backIco.src} alt="back-static-ico" />
