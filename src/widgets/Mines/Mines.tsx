@@ -8,6 +8,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 import Image from "next/image";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
@@ -359,7 +360,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -398,7 +399,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -470,13 +471,37 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           : 0
       ),
     ],
+    gasPrice: (data?.gasPrice as any),
+    gas: BigInt(50000),
   });
 
-  const {
-    write: setAllowance,
-    isSuccess: allowanceIsSet,
-    error: allErr,
-  } = useContractWrite(allowanceConfig);
+  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
+    useContractWrite(allowanceConfig);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData])
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance
+  })
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError || (inGame && errorWrite)) {
+      setWatchAllowance(false);
+      setWaitingResponse(false);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError, errorWrite]);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -491,7 +516,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -517,9 +542,14 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setWaitingResponse(true);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
           } else {
             if (pickedTiles.map((value) => value).length > 0) {
               startPlaying?.();
@@ -809,47 +839,47 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           </div>
           <div
             className={styles.mines_table}
-            // onMouseDown={() => setIsMouseDown(true)}
-            // onMouseUp={() => setIsMouseDown(false)}
+          // onMouseDown={() => setIsMouseDown(true)}
+          // onMouseUp={() => setIsMouseDown(false)}
           >
             {
               redrawTrigger &&
-                gameField &&
-                pickedTiles &&
-                gameField.map((value, index) => {
-                  const isPicked = value == Tile.Closed && pickedTiles[index];
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        pickTile(index);
-                      }}
-                      //onMouseEnter={() => handleMouseMove(index)}
+              gameField &&
+              pickedTiles &&
+              gameField.map((value, index) => {
+                const isPicked = value == Tile.Closed && pickedTiles[index];
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      pickTile(index);
+                    }}
+                    //onMouseEnter={() => handleMouseMove(index)}
+                    className={clsx(
+                      styles.mine,
+                      isPicked && styles.mine_selected,
+                      isPicked &&
+                      inGame &&
+                      !copySelectedArr.includes(index) &&
+                      ""
+                      // styles.mine_animation
+                    )}
+                  >
+                    <MineIcon
                       className={clsx(
-                        styles.mine,
-                        isPicked && styles.mine_selected,
-                        isPicked &&
-                          inGame &&
-                          !copySelectedArr.includes(index) &&
-                          ""
-                        // styles.mine_animation
+                        styles.mine_main,
+                        isPicked && styles.mine_selected
                       )}
-                    >
-                      <MineIcon
-                        className={clsx(
-                          styles.mine_main,
-                          isPicked && styles.mine_selected
-                        )}
-                      />
+                    />
 
-                      <SelectedMine
-                        index={index}
-                        type={isPicked ? Tile.Selected : value}
-                        waitingResponse={waitingResponse}
-                      />
-                    </div>
-                  );
-                })
+                    <SelectedMine
+                      index={index}
+                      type={isPicked ? Tile.Selected : value}
+                      waitingResponse={waitingResponse}
+                    />
+                  </div>
+                );
+              })
               /* {mineArr.map((index) => {
                 const isSelected = selectedMine.includes(index);
                 // isActive && alert(isActive?.tilesPicked[24]);

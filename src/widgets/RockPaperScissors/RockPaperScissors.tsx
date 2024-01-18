@@ -10,6 +10,7 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useFeeData,
+  useWaitForTransaction,
 } from "wagmi";
 
 import Image from "next/image";
@@ -281,9 +282,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     }
   }, [GameState]);
 
-  useEffect(() => {
-    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
-  }, [inGame]);
+  // useEffect(() => {
+  //   inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  // }, [inGame]);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -294,17 +295,44 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress as `0x${string}`,
+      gameAddress,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
           : 0
       ),
     ],
+    gasPrice: (data?.gasPrice as any),
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
+  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
     useContractWrite(allowanceConfig);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData])
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance
+  })
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
 
@@ -321,7 +349,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -381,24 +409,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(100000000000) *
-          BigInt(200),
+        BigInt(100000000000) *
+        BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -474,9 +502,14 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setActivePicker(false);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
           } else {
             if (startPlaying) {
               startPlaying();

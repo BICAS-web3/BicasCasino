@@ -238,18 +238,25 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
     useContractWrite(allowanceConfig);
 
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData])
+
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-    hash: allowanceData?.hash
+    hash: allowanceData?.hash,
+    enabled: watchAllowance
   })
 
   useEffect(() => {
-    console.log("Allowance status", allowanceIsSet);
-  }, [allowanceIsSet])
-
-  useEffect(() => {
     if (inGame && allowanceIsSet) {
+      setWatchAllowance(false);
       startPlaying();
     } else if (allowanceError) {
+      setWatchAllowance(false);
       setActivePicker(true);
       setInGame(false);
       setWaitingResponse(false);
