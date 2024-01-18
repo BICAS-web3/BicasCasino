@@ -42,6 +42,7 @@ import * as ApplesModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { AppleFalseIco } from "@/shared/SVGs/AppleFalse";
+import { ApplesWinBlock } from "../ApplesWin/ApplesWinBlock";
 
 interface ApplesGameProps {}
 
@@ -434,8 +435,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   //   setTimeout(() => setAppleGameResult([0, 0, 1, 2]), 3000);
   // }, []);
 
-  // useEffect(() => setCoefficientData([0, 0, 2, 0, 2, 9]), []);
-
   const handleReset = () => {
     setAppleGameResult([]);
     setAppleData([]);
@@ -499,6 +498,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         </div>
         <div className={s.apples_table_block}>
           <div className={s.apples_table_wrap}>
+            {gameStatus === GameModel.GameStatus.Won && (
+              <ApplesWinBlock cf={100} profit={100} />
+            )}
             <div className={s.apples_table}>
               {chunkedApplesArr &&
                 chunkedApplesArr.map((item: any, ind: any) => {
@@ -507,15 +509,17 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                     <div className={s.apples_row} key={ind}>
                       <div className={s.row_cf}>
                         {currentIndex >= appleData.length && (
-                          <span className={s.cf_title}>
-                            {item.cf.toFixed(2)}
-                          </span>
+                          <>
+                            <span className={s.cf_title}>
+                              {item.cf.toFixed(2)}
+                            </span>
+                            <img
+                              src={cfBg.src}
+                              className={s.cf_bg}
+                              alt="cf-static-bg"
+                            />
+                          </>
                         )}
-                        <img
-                          src={cfBg.src}
-                          className={s.cf_bg}
-                          alt="cf-static-bg"
-                        />
                       </div>
                       {item.apples.map((_: any, ind2: any) => {
                         const picked = appleData[currentIndex]?.value === ind2;

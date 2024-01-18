@@ -140,7 +140,7 @@ const Apples: FC<ApplesProps> = () => {
           <GamePage
             isPoker={false}
             gameInfoText=""
-            gameTitle="slots"
+            gameTitle="poker"
             wagerContent={<WagerContent />}
             customHeight={true}
           >
