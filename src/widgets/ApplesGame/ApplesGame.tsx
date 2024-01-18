@@ -334,6 +334,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
             Number((log[0] as any)?.args?.payout) / Number(wagered),
             ...prev,
           ]);
+          const outCome =
+            Number((log[0] as any)?.args?.payouts[i]) /
+            Number(BigInt((log[0] as any).args.wager));
         };
         handlePayouts();
 
@@ -431,7 +434,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   }, [GameModel.GameStatus, profit, lost]);
 
   // useEffect(() => {
-  //   setTimeout(() => setResultApples([0, 0, 1, 2]), 8000);
+  //   setTimeout(() => setAppleGameResult([0, 0, 1, 2]), 3000);
   // }, []);
 
   // useEffect(() => setCoefficientData([0, 0, 2, 0, 2, 9]), []);
@@ -555,7 +558,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               picked &&
                                 !falseResult &&
                                 resultExist &&
-                                s.apple_picked_true
+                                s.apple_picked_true,
+                              currentIndex === appleData.length &&
+                                s.apple_picked
                             )}
                           >
                             {resultExist && picked ? (
@@ -628,7 +633,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.btns_block}>
                 <button
                   onClick={() => {
-                    handleReset;
+                    handleReset();
                   }}
                   className={clsx(
                     s.clear_btn,
