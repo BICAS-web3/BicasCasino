@@ -1,18 +1,29 @@
 import { FC } from "react";
 import clsx from "clsx";
-
+import * as GameModel from "@/widgets/GamePage/model";
 import cross from "@/public/media/roulette_images/cross.png";
 import s from "./styles.module.scss";
 import Image from "next/image";
+import { WinBlock } from "@/widgets/WinBlock/WinBlock";
 
 export interface WheelProps {
   className?: string;
+  profit?: any;
+  gameStatus: any;
   array: { angle: number; value: number; color: string }[];
 }
 
-export const Wheel: FC<WheelProps> = ({ className, array }) => {
+export const Wheel: FC<WheelProps> = ({
+  className,
+  array,
+  gameStatus,
+  profit,
+}) => {
   return (
     <div className={s.wheel_wrapper}>
+      {gameStatus === GameModel.GameStatus.Won && (
+        <WinBlock winValue={profit} />
+      )}
       <div className={s.wheel_eclipse}></div>
       <svg
         width="454"

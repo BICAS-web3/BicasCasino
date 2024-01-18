@@ -44,6 +44,7 @@ import { Preload } from "@/shared/ui/Preload";
 import { RouletteBack } from "@/shared/SVGs/RouletteBack";
 import { RouletteRepeat } from "@/shared/SVGs/RouletteRepeat";
 import { Wheel } from "@/shared/ui/Wheel";
+import { WinBlock } from "../WinBlock/WinBlock";
 
 interface IRoulette {
   gameText: string;
@@ -477,7 +478,7 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
 
         <div className={s.roulette_table_body}>
           {/* <div className={s.roulette_wheel_wrap}></div> */}
-          <Wheel array={arrData} />
+          <Wheel array={arrData} gameStatus={gameStatus} profit={profit} />
           <div className={s.roulette_bets_wrap}>
             <div className={s.roulette_bets_block}>
               <div className={clsx(s.zero_bet, s.bet_font)}>0</div>

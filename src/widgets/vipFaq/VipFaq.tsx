@@ -8,24 +8,48 @@ import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 const questions = {
   general: [
     {
-      title: "What is an Affiliates Program?",
-      text: "The Greek Keepers Affiliate Program is a partnership between you and the operator game.greekkeepers.io. The operator pays you a commission for any leads that are sent through your sites/social media/forums/links etc. Every referred customer that is active and produces revenue, generates profit for you.",
+      title: "What the VIP program is for ?",
+      text: "The VIP Program is an exclusive offer designed for the most loyal and active members of the community. It is a system of privileges and rewards designed to show appreciation and gratitude for the constant support and activity of the players.",
       id: 0,
     },
     {
-      title: "How to join the affiliate program?",
-      text: "The Greek Keepers Affiliate Program is a partnership between you and the operator game.greekkeepers.io. The operator pays you a commission for any leads that are sent through your sites/social media/forums/links etc. Every referred customer that is active and produces revenue, generates profit for you.",
+      title: "How do we calculate levels ?",
+      text: "On our gaming platform, we reward our users with VIP levels based on the total amount of funds put into the games. This reward system ensures that every bet you make brings you closer to new levels of privileges and exclusive features, deepening your immersion in the world of gaming.",
       id: 1,
     },
     {
-      title: "How much can I earn as an affiliate?",
-      text: "The Greek Keepers Affiliate Program is a partnership between you and the operator game.greekkeepers.io. The operator pays you a commission for any leads that are sent through your sites/social media/forums/links etc. Every referred customer that is active and produces revenue, generates profit for you.",
+      title: "How do I calculate the amount left to level up?",
+      text: "To find out how much is left before you level up on the platform, you can easily go to your personal account and see your total betting turnover. This feature allows you to track your progress at any time and plan further actions to reach the next Vip level.",
       id: 2,
     },
     {
-      title: "How much can I earn as an affiliate?",
-      text: "The Greek Keepers Affiliate Program is a partnership between you and the operator game.greekkeepers.io. The operator pays you a commission for any leads that are sent through your sites/social media/forums/links etc. Every referred customer that is active and produces revenue, generates profit for you.",
+      title: "What DRAXB is used for",
+      text: "On our platform, the DRAXB token acts as a unique bonus means. To activate and utilize these bonus tokens, you need to wager with the DRAXB token for an amount that is 150 times the initial bonus. This is an easy and exciting way to maximize your opportunities and dive into the world of gaming with new perspectives.",
       id: 3,
+    },
+    {
+      title: "Where can I find answers to additional questions ?",
+      text: "If you have any questions or need more information, we are always happy to help you in our Greek Keepers telegram chat. Feel free to ask your questions there, where our team will be quick and happy to provide you with all the information you need. Alternatively, if you prefer a more formal way of communication, we are always open to your emails. Write to our mail and we will be sure to respond to all your queries as soon as possible. Your satisfaction and convenience in communicating with us is our priority.",
+      id: 4,
+    },
+  ],
+  vip: [
+    {
+      title: "Exclusive Access:",
+      text: "Our VIP customers enjoy the privilege of 24/7 access to personalized support. At any time of the day or night, our highly trained experts are available to assist and answer any questions related to the gaming platform.",
+      id: 0,
+    },
+    {
+      title: "Personalized Service:",
+      text: "Each VIP customer receives a designated personal account manager who is familiar with the player's history and preferences. This provides more efficient and focused service, as well as assistance with any questions or concerns.",
+      id: 1,
+    },
+    {
+      title: "Quick Problem Solving:",
+      text: `With prioritized service, all VIP customer inquiries and concerns are handled first, ensuring a faster and more efficient resolution.`,
+      text_2:
+        " Your VIP support at Greek Keepers is a guarantee that your time at our casino will be as comfortable, safe and enjoyable as possible",
+      id: 2,
     },
   ],
 };
@@ -33,7 +57,9 @@ const questions = {
 interface VipFaqProps {}
 
 export const VipFaq: FC<VipFaqProps> = () => {
-  const [activeStatus, setActiveStatus] = useState("general");
+  const [activeStatus, setActiveStatus] = useState<"general" | "vip">(
+    "general"
+  );
   const [activeAccordeon, setActiveAccordeon] = useState<number[]>([]);
   const swiperRef = useRef<SwiperRef>(null);
   const handleChangeAccordeon = (id: number) => {
@@ -52,10 +78,11 @@ export const VipFaq: FC<VipFaqProps> = () => {
     <section className={s.faq_section}>
       <div className={s.faq_body}>
         <h3 className={s.faq_title}>FAQ of our VIP Club</h3>
-        <div className={s.mob_swiper}>
+        {/* <div className={s.mob_swiper}>
           <Swiper ref={swiperRef} slidesPerView={"auto"} centeredSlides={true}>
             <SwiperSlide className={s.slide}>
               <button
+                onClick={() => setActiveStatus("general")}
                 className={clsx(
                   s.faq_types_btns_item,
                   activeStatus === "general" && s.btn_active
@@ -65,15 +92,22 @@ export const VipFaq: FC<VipFaqProps> = () => {
               </button>
             </SwiperSlide>
             <SwiperSlide className={s.slide}>
-              <button className={s.faq_types_btns_item}>Privileges</button>
-            </SwiperSlide>
-            <SwiperSlide className={s.slide}>
-              <button className={s.faq_types_btns_item}>VIP-Manager</button>
+              <button
+                onClick={() => setActiveStatus("vip")}
+                className={clsx(
+                  s.faq_types_btns_item,
+                  activeStatus === "vip" && s.btn_active
+                )}
+              >
+                VIP Support
+              </button>
             </SwiperSlide>
           </Swiper>
-        </div>
+        </div> */}
+
         <div className={s.faq_types_btns}>
           <button
+            onClick={() => setActiveStatus("general")}
             className={clsx(
               s.faq_types_btns_item,
               activeStatus === "general" && s.btn_active
@@ -81,12 +115,19 @@ export const VipFaq: FC<VipFaqProps> = () => {
           >
             General
           </button>
-          <button className={s.faq_types_btns_item}>Privileges</button>
-          <button className={s.faq_types_btns_item}>VIP-Manager</button>
+          <button
+            onClick={() => setActiveStatus("vip")}
+            className={clsx(
+              s.faq_types_btns_item,
+              activeStatus === "vip" && s.btn_active
+            )}
+          >
+            VIP Support
+          </button>
         </div>
         <div className={s.faq_block}>
           <div className={s.accordeon_block}>
-            {questions.general.map((item, ind) => (
+            {questions[activeStatus]?.map((item: any, ind: number) => (
               <div key={item.id} className={`${s.accordeon} `}>
                 <div
                   className={s.accordeon_header}
@@ -108,6 +149,9 @@ export const VipFaq: FC<VipFaqProps> = () => {
                 >
                   <div className={s.accordeon_content}>
                     <p className={s.accordeon_text}>{item.text}</p>
+                    <p className={clsx(s.accordeon_text, s.accordeon_text_2)}>
+                      {item?.text_2}
+                    </p>
                   </div>
                 </div>
               </div>

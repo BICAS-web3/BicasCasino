@@ -45,11 +45,12 @@
 .faq_types_btns {
   display: flex;
   background: #181818;
+  gap: 5px;
 
   @media screen and (max-width: 650px) {
     padding: 0 16px;
-    width: 100%;
-    display: none;
+    // width: 100%;
+    // display: none;
   }
 }
 
@@ -69,6 +70,7 @@
 .faq_types_btns_item {
   border: none;
   background: inherit;
+  transition: all 0.5s;
   cursor: pointer;
   border-radius: 12px;
   display: flex;
@@ -90,6 +92,22 @@
 
   @media screen and (max-width: 650px) {
     width: 100%;
+    border: none;
+    background: inherit;
+    transition: all 0.5s;
+    cursor: pointer;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eaeaea;
+    font-family: var(--font-nunito-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 150px;
+    height: 40px;
   }
 }
 
@@ -181,6 +199,9 @@
   font-style: normal;
   font-weight: 400;
   line-height: 19px;
+  &_2 {
+    margin-top: 0 !important;
+  }
 }
 
 .faq_block {
