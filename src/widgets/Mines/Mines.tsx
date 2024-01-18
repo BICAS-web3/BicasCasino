@@ -492,7 +492,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   })
 
   useEffect(() => {
-    if (inGame && allowanceIsSet) {
+    if (inGame && allowanceIsSet && watchAllowance) {
       setWatchAllowance(false);
       startPlaying();
     } else if (allowanceError || (inGame && errorWrite)) {

@@ -330,7 +330,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   })
 
   useEffect(() => {
-    if (inGame && allowanceIsSet) {
+    if (inGame && allowanceIsSet && watchAllowance) {
       setWatchAllowance(false);
       startPlaying();
     } else if (allowanceError) {
