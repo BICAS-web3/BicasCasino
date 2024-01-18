@@ -6,6 +6,7 @@ import appleBg from "@/public/media/apples/appleItemBg.svg";
 import cfBg from "@/public/media/apples/cfBg.svg";
 import { AppleIco } from "@/shared/SVGs/AppleIco";
 import backIco from "@/public/media/apples/backIco.svg";
+import { ApplesWinBlock } from "../ApplesWin/ApplesWinBlock";
 
 interface ApplesGameProps {}
 
@@ -78,6 +79,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         </div>
         <div className={s.apples_table_block}>
           <div className={s.apples_table_wrap}>
+            <ApplesWinBlock />
             <div className={s.apples_table}>
               {chunkedApplesArr &&
                 chunkedApplesArr.map((item: any, ind: any) => (
