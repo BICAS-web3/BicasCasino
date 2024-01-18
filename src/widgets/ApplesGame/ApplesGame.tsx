@@ -8,6 +8,7 @@ import appleBgFalse from "@/public/media/apples/appleItemBgFalse.svg";
 import appleCoefTrue from "@/public/media/apples/appleCoefBgTrue.svg";
 import appleCoefFalse from "@/public/media/apples/appleCoefBgFalse.svg";
 import cfBg from "@/public/media/apples/cfBg.svg";
+import cfBgActive from "@/public/media/apples/cfBgActive.svg";
 import { AppleIco } from "@/shared/SVGs/AppleIco";
 import backIco from "@/public/media/apples/backIco.svg";
 import clsx from "clsx";
@@ -58,6 +59,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   }, [appleData]);
   const [applesArr, setApplesArr] = useState(Array(27).fill({}));
   const [chunkedApplesArr, setChunkedApplesArr] = useState<any>([]);
+
+  useEffect(() => console.log(chunkedApplesArr), [chunkedApplesArr]);
 
   useEffect(() => {
     const updateChunkedArray = () => {
@@ -447,7 +450,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   return (
     <>
-      {" "}
       {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
@@ -507,18 +509,27 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   const currentIndex = Math.abs(ind - 8);
                   return (
                     <div className={s.apples_row} key={ind}>
+                      {" "}
+                      {(currentIndex === appleData.length ||
+                        (9 === appleData.length && ind === 0)) && (
+                        <img
+                          src={cfBgActive.src}
+                          className={s.cf_bg_active}
+                          alt="cf-static-bg"
+                        />
+                      )}
                       <div className={s.row_cf}>
                         {currentIndex >= appleData.length && (
-                          <>
-                            <span className={s.cf_title}>
-                              {item.cf.toFixed(2)}
-                            </span>
-                            <img
-                              src={cfBg.src}
-                              className={s.cf_bg}
-                              alt="cf-static-bg"
-                            />
-                          </>
+                          <span className={s.cf_title}>
+                            {item.cf.toFixed(2)}
+                          </span>
+                        )}
+                        {currentIndex > appleData.length && (
+                          <img
+                            src={cfBg.src}
+                            className={s.cf_bg}
+                            alt="cf-static-bg"
+                          />
                         )}
                       </div>
                       {item.apples.map((_: any, ind2: any) => {
@@ -588,19 +599,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                                 alt="apple-static-bg"
                               />
                             )}
-
-                            {/* <img
-                              src={appleBg.src}
-                              className={clsx(
-                                resultExist && picked
-                                  ? falseResult
-                                    ? s.apple_item_bg_false
-                                    : s.apple_item_bg_true
-                                  : s.apple_item_bg,
-                                s.apple_item_bg
-                              )}
-                              alt="apple-static-bg"
-                            /> */}
                             <div className={s.apples_row_item_body}>
                               <div
                                 className={clsx(
@@ -630,7 +628,15 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
             <div className={s.game_info_wrap}>
               <div className={s.game_info_block}>
                 <span className={s.multiplier_title}>
-                  Current Multiplier: 1.30x
+                  Current Multiplier:{" "}
+                  {chunkedApplesArr[
+                    Math.abs(
+                      appleData.length -
+                        chunkedApplesArr?.length +
+                        (appleData.length === 9 ? 0 : 1)
+                    )
+                  ]?.cf?.toFixed(2)}
+                  x
                 </span>
                 <span className={s.multiplier_title}>Max Payout: 136.483</span>
               </div>
@@ -641,7 +647,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   }}
                   className={clsx(
                     s.clear_btn,
-                    appleGameResult?.length > 0 && s.clear_btn_active
+                    appleGameResult?.length > 0 && s.clear_btn_active,
+                    appleData?.length <= 0 && s.clear_btn_disactive
                   )}
                 >
                   Clear
@@ -661,10 +668,17 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   }}
                   className={clsx(
                     s.back_btn,
-                    appleGameResult?.length > 0 && s.back_btn_disable
+                    appleGameResult?.length > 0 && s.back_btn_disable,
+                    appleData?.length <= 0 && s.back_btn_disactive
                   )}
                 >
-                  <img src={backIco.src} alt="back-static-ico" />
+                  <BackIcon
+                    className={clsx(
+                      s.back_icon,
+                      appleData?.length <= 0 && s.back_btn_disactive
+                    )}
+                  />
+                  {/* <img src={backIco.src} alt="back-static-ico" /> */}
                 </button>
               </div>
             </div>
@@ -672,5 +686,23 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         </div>
       </div>
     </>
+  );
+};
+
+export const BackIcon = ({ className }: { className?: string }) => {
+  return (
+    <svg
+      width="17"
+      height="16"
+      viewBox="0 0 17 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M4 4.04102V6.5L0 3.24935L4 0V2.45768H9C12.7762 2.45768 16.7 4.64801 16.7 8.79102C16.7 12.934 12.7762 15.1243 9 15.1243H2V13.541H9C10.5913 13.541 12.1174 13.0406 13.2426 12.1498C14.3679 11.259 15 10.0508 15 8.79102C15 7.53124 14.3679 6.32306 13.2426 5.43226C12.1174 4.54146 10.5913 4.04102 9 4.04102H4Z"
+        fill="#7E7E7E"
+      />
+    </svg>
   );
 };

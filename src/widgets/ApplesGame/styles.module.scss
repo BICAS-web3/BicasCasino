@@ -56,11 +56,16 @@
 
 .apples_table {
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   gap: 12px;
+  padding-top: 16px;
+  margin-top: -16px;
 
-  @media screen and (max-width: 650px) {
+  @media (max-width: 650px) {
     gap: 8.5px;
+    padding-top: 12px;
+    margin-top: -12px;
   }
 }
 
@@ -177,6 +182,17 @@
   @media screen and (max-width: 650px) {
     height: 100%;
     width: 100%;
+  }
+}
+
+.cf_bg_active {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  @media (max-width: 650px) {
+    top: -11px;
   }
 }
 
@@ -307,10 +323,16 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.56px;
+  transition: all 0.5s;
   cursor: pointer;
   &_active {
     border: 1px solid #49b446;
     box-shadow: 0px 0px 4px 0px rgba(79, 202, 136, 0.65);
+  }
+  &_disactive {
+    color: #2a373d;
+    border: 1.067px solid #2a373d;
+    cursor: default;
   }
 
   @media screen and (max-width: 650px) {
@@ -335,6 +357,7 @@
   &_disable {
     cursor: default;
   }
+
   @media screen and (max-width: 650px) {
     width: 23px;
     height: 23px;
@@ -343,6 +366,23 @@
       width: 12px;
       height: 11;
     }
+  }
+}
+
+.back_icon {
+  path {
+    transition: all 0.5s !important;
+  }
+  @media (max-width: 650px) {
+    width: 11px;
+    height: 10px;
+  }
+}
+
+.back_btn_disactive {
+  cursor: default;
+  path {
+    fill: #2a373d;
   }
 }
 .total_container {
