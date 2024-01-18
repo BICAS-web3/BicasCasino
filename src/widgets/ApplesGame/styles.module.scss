@@ -121,6 +121,12 @@
   }
 }
 
+.apple_pick {
+  cursor: pointer;
+  background: #293e3e;
+  box-shadow: 0px 0px 4px 0px rgba(79, 202, 136, 0.65) inset;
+}
+
 .apple_item_bg {
   position: absolute;
   width: 100%;

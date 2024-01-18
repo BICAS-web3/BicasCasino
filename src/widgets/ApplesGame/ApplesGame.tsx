@@ -334,9 +334,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
             Number((log[0] as any)?.args?.payout) / Number(wagered),
             ...prev,
           ]);
-          const outCome =
-            Number((log[0] as any)?.args?.payouts[i]) /
-            Number(BigInt((log[0] as any).args.wager));
         };
         handlePayouts();
 
@@ -509,7 +506,11 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   return (
                     <div className={s.apples_row} key={ind}>
                       <div className={s.row_cf}>
-                        <span className={s.cf_title}>{item.cf.toFixed(2)}</span>
+                        {currentIndex >= appleData.length && (
+                          <span className={s.cf_title}>
+                            {item.cf.toFixed(2)}
+                          </span>
+                        )}
                         <img
                           src={cfBg.src}
                           className={s.cf_bg}
@@ -559,8 +560,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                                 !falseResult &&
                                 resultExist &&
                                 s.apple_picked_true,
-                              currentIndex === appleData.length &&
-                                s.apple_picked
+                              currentIndex === appleData.length && s.apple_pick
                             )}
                           >
                             {resultExist && picked ? (
