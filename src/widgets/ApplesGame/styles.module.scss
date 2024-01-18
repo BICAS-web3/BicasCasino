@@ -45,8 +45,9 @@
   border-radius: 12px;
   border: 1px solid #105453;
   background: rgba(3, 33, 45, 0.82);
+  margin-top: 30px;
   box-shadow: 0px 0px 24.6px 0px rgba(25, 102, 101, 0.89);
-  padding: 70px 24px 24px 24px;
+  padding: 35px 24px 14px 24px;
 
   @media screen and (max-width: 650px) {
     padding: 19px 17px;
@@ -81,11 +82,43 @@
   position: relative;
   height: 40px;
   padding: 0 10px;
-  cursor: pointer;
+  // cursor: pointer;
   overflow: hidden;
+  transition: all 0.5s;
 
   @media screen and (max-width: 650px) {
     height: 28px;
+  }
+}
+
+.clicked {
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background: #293e3e;
+    box-shadow: 0px 0px 4px 0px rgba(79, 202, 136, 0.65) inset;
+  }
+}
+
+.apple_picked {
+  cursor: default;
+  background: #293e3e;
+  box-shadow: 0px 0px 6px 0px #4fca88 inset;
+  &_false {
+    background: #9f3131;
+    box-shadow: none;
+    &:hover {
+      background: #9f3131;
+      box-shadow: 0px 0px 4px 0px #9f3131;
+    }
+  }
+  &_true {
+    background: #4e9f31;
+    box-shadow: none;
+    &:hover {
+      background: #4e9f31;
+      box-shadow: 0px 0px 4px 0px #4e9f31;
+    }
   }
 }
 
@@ -142,6 +175,17 @@
 }
 
 .apple_ico_wrap {
+  transition: all 0.5s;
+  svg {
+    position: relative;
+    z-index: 2;
+    path {
+      transition: all 0.5s;
+    }
+  }
+}
+
+.apple_ico_wrap {
   @media screen and (max-width: 650px) {
     width: 22px;
     height: 22px;
@@ -149,6 +193,34 @@
     svg {
       width: 100%;
       height: 100%;
+      path {
+        transition: all 0.5s;
+      }
+      rect {
+        transition: all 0.5s;
+      }
+    }
+  }
+}
+
+.apple_picked_svg {
+  svg {
+    path {
+      stroke: #49b446;
+    }
+    rect {
+      stroke: #49b446;
+    }
+  }
+}
+
+.red {
+  svg {
+    path {
+      stroke: #b44646;
+    }
+    rect {
+      stroke: #b44646;
     }
   }
 }
@@ -229,6 +301,11 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.56px;
+  cursor: pointer;
+  &_active {
+    border: 1px solid #49b446;
+    box-shadow: 0px 0px 4px 0px rgba(79, 202, 136, 0.65);
+  }
 
   @media screen and (max-width: 650px) {
     font-size: 12px;
@@ -248,7 +325,10 @@
   height: 32px;
   border: 1px solid #2a373d;
   background: #052430;
-
+  cursor: pointer;
+  &_disable {
+    cursor: default;
+  }
   @media screen and (max-width: 650px) {
     width: 23px;
     height: 23px;
@@ -258,4 +338,130 @@
       height: 11;
     }
   }
+}
+.total_container {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
+  @media (max-width: 650px) {
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    gap: 0px;
+  }
+}
+
+.total_won {
+  color: #4ed26c;
+}
+
+.total_lost {
+  color: #fc3c37;
+}
+
+.balls_arr {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 3px;
+  // width: 800px;
+  width: (calc(100% - 398px));
+  overflow-x: scroll;
+  gap: 10px;
+  scrollbar-width: 0;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    background-color: transparent;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  @media (max-width: 1980px) {
+    width: (calc(100% - 358px));
+  }
+  @media (max-width: 1280px) {
+    width: (calc(100% - 262px));
+  }
+  @media (max-width: 650px) {
+    top: 10px;
+    width: (calc(100% - 20px));
+  }
+}
+
+.multiplier_value {
+  box-sizing: border-box;
+  color: #052430;
+  text-shadow: 0px 0px 10px rgba(118, 180, 70, 0.3);
+  font-family: var(--font-nunito-sans);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 128.16%; /* 23.069px */
+  letter-spacing: 0.72px;
+  // padding: 8.5px 19px;
+  border-radius: 5px;
+  // width: 60px;
+  height: 30px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+  min-height: 30px;
+  // min-width: 60px;
+  max-height: 30px;
+  position: relative;
+  overflow: hidden;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  span {
+    position: relative;
+    z-index: 2;
+  }
+  @media (max-width: 1280px) {
+    min-width: 48px;
+    min-height: 24px;
+    max-width: 48px;
+    max-height: 24px;
+    width: 48px;
+    height: 24px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 128.16%; /* 17.942px */
+    letter-spacing: 0.56px;
+  }
+  @media (max-width: 650px) {
+    font-size: 12px;
+    letter-spacing: 0.48px;
+  }
+}
+
+.multiplier_positive {
+  background: #4e9f31;
+}
+
+.multiplier_negative {
+  background: rgba(159, 49, 49, 0.9);
 }

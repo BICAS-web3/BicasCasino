@@ -1,10 +1,14 @@
 import s from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import explosionGif from "@/public/media/apples/explosion.gif";
+import tokenIco from "@/public/media/apples/tokenIco.svg";
 
-interface ApplesWinBlockProps {}
+interface ApplesWinBlockProps {
+  cf: number;
+  profit: number;
+}
 
-export const ApplesWinBlock: FC<ApplesWinBlockProps> = () => {
+export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({ cf, profit }) => {
   useEffect(() => {
     const winBlock = document.getElementById("apples_win_block");
 
@@ -28,8 +32,15 @@ export const ApplesWinBlock: FC<ApplesWinBlockProps> = () => {
       <div className={s.apples_win_body}>
         <h3 className={s.apples_win_title}>You win!</h3>
         <div className={s.apples_win_info}>
-          <span className={s.cf_title}>x4.00</span>
-          <span className={s.win_quantity_title}>163.23</span>
+          {/* <span className={s.cf_title}>x{cf.toFixed(2)}</span> */}
+          <span className={s.win_quantity_title}>
+            {profit.toFixed(2)}{" "}
+            <img
+              src={tokenIco.src}
+              className={s.token_ico}
+              alt="token-static"
+            />
+          </span>
         </div>
       </div>
     </div>
