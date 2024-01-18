@@ -137,6 +137,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
         <img
           src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`}
           alt="wager-ico"
+          className={s.icon}
         />
         <span className={s.customBets_list_item_wager}>
           {/* {props.bets}x{parseFloat(props.wager.toFixed(2))} */}
@@ -159,6 +160,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
         <img
           src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`}
           alt="wager-ico"
+          className={s.icon}
         />
       </div>
     </div>
