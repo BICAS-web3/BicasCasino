@@ -60,6 +60,7 @@ const musicsList = [
 
 import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
 import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
+import { RefundButton } from "@/shared/ui/Refund";
 
 interface GamePageProps {
   children: ReactNode;
@@ -111,6 +112,7 @@ export const GamePage: FC<GamePageProps> = ({
     MinesModel.setManualSetting,
   ]);
   const [
+    setRefund,
     availableTokens,
     gameStatus,
     setGameStatus,
@@ -124,6 +126,7 @@ export const GamePage: FC<GamePageProps> = ({
     isPlaying,
     waitingResponse,
   ] = useUnit([
+    GameModel.setRefund,
     settingsModel.$AvailableTokens,
     GameModel.$gameStatus,
     GameModel.setGameStatus,
@@ -315,37 +318,46 @@ export const GamePage: FC<GamePageProps> = ({
               // }
               ButtonElement={
                 isMobile ? (
-                  <button
-                    className={clsx(
-                      s.connect_wallet_btn,
-                      s.mobile,
-                      isPlaying && "animation-leftRight",
-                      !isPlaying && cryptoValue == 0.0 && isConnected
-                        ? s.button_inactive
-                        : s.button_active
+                  <>
+                    {" "}
+                    <button
+                      className={clsx(
+                        s.connect_wallet_btn,
+                        s.mobile,
+                        isPlaying && "animation-leftRight",
+                        !isPlaying && cryptoValue == 0.0 && isConnected
+                          ? s.button_inactive
+                          : s.button_active
+                      )}
+                      onClick={() => {
+                        if (
+                          (cryptoValue > 0.0 ||
+                            (isPlaying && !waitingResponse)) &&
+                          isConnected
+                        ) {
+                          pressButton();
+                        } else if (cryptoValue <= 0.0 && isConnected) {
+                          setIsEmtyWager(true);
+                        } else {
+                          router.push("/RegistrManual");
+                        }
+                      }}
+                    >
+                      {waitingResponse ? (
+                        <LoadingDots className={s.dots_black} title="Playing" />
+                      ) : isConnected ? (
+                        "Play"
+                      ) : (
+                        "Connect Wallet"
+                      )}
+                    </button>
+                    {isPlaying && (
+                      <RefundButton
+                        className={s.connect_wallet_btn}
+                        onClick={() => setRefund(true)}
+                      />
                     )}
-                    onClick={() => {
-                      if (
-                        (cryptoValue > 0.0 ||
-                          (isPlaying && !waitingResponse)) &&
-                        isConnected
-                      ) {
-                        pressButton();
-                      } else if (cryptoValue <= 0.0 && isConnected) {
-                        setIsEmtyWager(true);
-                      } else {
-                        router.push("/RegistrManual");
-                      }
-                    }}
-                  >
-                    {waitingResponse ? (
-                      <LoadingDots className={s.dots_black} title="Playing" />
-                    ) : isConnected ? (
-                      "Play"
-                    ) : (
-                      "Connect Wallet"
-                    )}
-                  </button>
+                  </>
                 ) : (
                   <></>
                 )
