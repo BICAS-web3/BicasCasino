@@ -26,12 +26,14 @@ import { Rocket } from "@/widgets/Rocket/Rocket";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { Preload } from "@/shared/ui/Preload";
 import { useState, useEffect } from "react";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
+  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
   const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -85,7 +87,13 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>{" "}
+      {isPlaying && (
+        <RefundButton
+          onClick={() => setRefund(true)}
+          className={styles.mobile}
+        />
+      )}
     </>
   );
 };

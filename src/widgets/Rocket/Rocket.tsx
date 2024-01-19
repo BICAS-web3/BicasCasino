@@ -86,6 +86,9 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
+    isPlaying,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -118,6 +121,9 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
+    GameModel.$isPlaying,
   ]);
 
   const { data } = useFeeData({
@@ -165,21 +171,21 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
   });
 
@@ -229,12 +235,34 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: RocketABI,
+    functionName: "Rocket_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
@@ -242,13 +270,13 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
     staleTime: Infinity,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -275,7 +303,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -357,7 +385,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
               setAllowance();
@@ -434,7 +462,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
