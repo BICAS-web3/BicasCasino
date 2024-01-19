@@ -34,3 +34,8 @@
     display: none !important;
   }
 }
+.mobile {
+  @media (max-width: 996px) {
+    display: none;
+  }
+}

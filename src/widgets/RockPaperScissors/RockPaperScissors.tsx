@@ -193,6 +193,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -219,6 +221,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
 
   useEffect(() => {
@@ -302,25 +306,47 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
 
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: RPSABI,
+    functionName: "RockPaperScissors_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
   useEffect(() => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -349,7 +375,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -409,24 +435,24 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
@@ -502,7 +528,7 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
               setAllowance();
@@ -562,7 +588,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       }, 1000);
     }
   }, [value]);
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
