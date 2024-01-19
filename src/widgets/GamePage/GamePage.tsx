@@ -286,7 +286,8 @@ export const GamePage: FC<GamePageProps> = ({
               </button>
               {children}
               {gameStatus == GameModel.GameStatus.Won &&
-                gameTitle !== "poker" && (
+                gameTitle !== "poker" &&
+                gameTitle !== "apples" && (
                   <div className={s.win_wrapper} data-winlostid="win_message">
                     <WinMessage
                       tokenImage={

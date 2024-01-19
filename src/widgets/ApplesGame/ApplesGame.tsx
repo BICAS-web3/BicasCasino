@@ -448,6 +448,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     handleReset();
   }, [reset]);
 
+  // useEffect(() => setInGame(true), []);
+
   return (
     <>
       {error && (
@@ -510,7 +512,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   return (
                     <div className={s.apples_row} key={ind}>
                       {" "}
-                      {(currentIndex === appleData.length ||
+                      {((inGame || appleGameResult?.length > 0
+                        ? currentIndex === appleData.length - 1
+                        : currentIndex === appleData.length) ||
                         (9 === appleData.length && ind === 0)) && (
                         <img
                           src={cfBgActive.src}
@@ -524,7 +528,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                             {item.cf.toFixed(2)}
                           </span>
                         )}
-                        {currentIndex > appleData.length && (
+                        {(inGame || appleGameResult?.length > 0
+                          ? currentIndex > appleData.length - 1
+                          : currentIndex > appleData.length) && (
                           <img
                             src={cfBg.src}
                             className={s.cf_bg}
@@ -568,6 +574,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               s.apples_row_item,
                               currentIndex <= appleData.length &&
                                 appleGameResult?.length === 0 &&
+                                !inGame &&
                                 s.clicked,
                               picked && s.apple_picked,
                               picked && falseResult && s.apple_picked_false,
@@ -575,7 +582,10 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                                 !falseResult &&
                                 resultExist &&
                                 s.apple_picked_true,
-                              currentIndex === appleData.length && s.apple_pick
+                              currentIndex === appleData.length &&
+                                !inGame &&
+                                appleGameResult?.length === 0 &&
+                                s.apple_pick
                             )}
                           >
                             {resultExist && picked ? (
@@ -643,19 +653,26 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.btns_block}>
                 <button
                   onClick={() => {
-                    handleReset();
+                    if (!inGame) {
+                      handleReset();
+                    }
                   }}
                   className={clsx(
                     s.clear_btn,
                     appleGameResult?.length > 0 && s.clear_btn_active,
-                    appleData?.length <= 0 && s.clear_btn_disactive
+                    appleData?.length <= 0 && s.clear_btn_disactive,
+                    inGame && s.clear_btn_disactive
                   )}
                 >
                   Clear
                 </button>
                 <button
                   onClick={() => {
-                    if (appleData.length > 0 && appleGameResult?.length === 0) {
+                    if (
+                      appleData.length > 0 &&
+                      appleGameResult?.length === 0 &&
+                      !inGame
+                    ) {
                       if (appleData?.length === 1) {
                         setAppleData([]);
                       } else {
@@ -669,7 +686,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   className={clsx(
                     s.back_btn,
                     appleGameResult?.length > 0 && s.back_btn_disable,
-                    appleData?.length <= 0 && s.back_btn_disactive
+                    appleData?.length <= 0 && s.back_btn_disactive,
+                    inGame && s.back_btn_disactive
                   )}
                 >
                   <BackIcon
