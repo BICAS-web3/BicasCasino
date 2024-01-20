@@ -1421,12 +1421,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
               ))}
           </div>
         </div>
-        <div
+        {/* <div
           // onClick={() => setSHowPlaceholder((prev) => !prev)}
           className={s.wheel_show}
         >
           <WheelShowIcon />
-        </div>
+        </div> */}
       </section>
     </>
   );

@@ -103,6 +103,7 @@
   line-height: normal;
   letter-spacing: 0.72px;
   position: relative;
+  overflow: hidden;
   span {
     position: relative;
     z-index: 2;
@@ -133,7 +134,10 @@
     height: 0;
     content: "";
     transition: all 0.5s;
-    border-radius: 5px;
+    // border-radius: 5px;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     z-index: 1;
   }
   &:hover {
@@ -249,8 +253,8 @@
       right: 146px;
     }
     @media (max-width: 650px) {
-      right: 119px;
-      top: 0.5px;
+      right: 113px;
+      top: -0.5px;
     }
   }
   &_3 {
@@ -334,8 +338,8 @@
       right: 12px;
     }
     @media (max-width: 650px) {
-      top: 203px;
-      right: 9.8px;
+      top: 199px;
+      right: 12px;
     }
   }
   &_10 {
@@ -503,7 +507,7 @@
     }
     @media (max-width: 650px) {
       top: 23.4px;
-      left: 58.4px;
+      left: 57.4px;
     }
   }
   &_24 {
@@ -824,9 +828,9 @@
 }
 
 .sound_mobile {
-  margin-right: 50px;
+  // margin-right: 50px;
   @media (max-width: 650px) {
-    margin-right: 40px;
+    // margin-right: 40px;
   }
 }
 
