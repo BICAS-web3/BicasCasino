@@ -6,6 +6,7 @@ import {
   Chain,
   PublicClient,
   createStorage,
+  sepolia,
 } from "wagmi";
 import { bsc } from "@wagmi/core/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -36,6 +37,7 @@ export const setWagmiConfig = createEvent<any>();
 // handlers
 $WagmiConfig.on(setWagmiConfig, (_, config) => config);
 $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
+  console.log(333, JSON.stringify(payload.body));
   const networks = payload.body as Api.T_Networks;
 
   var chains = [];

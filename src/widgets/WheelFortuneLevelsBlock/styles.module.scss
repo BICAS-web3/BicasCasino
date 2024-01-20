@@ -1,0 +1,59 @@
+.wheel_levels_list {
+  display: flex;
+  width: 100%;
+  margin-top: 6px;
+  background: #202020;
+  border-radius: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
+}
+
+.wheel_level_btn {
+  transition: all 0.5s;
+  background: #202020;
+  display: flex;
+  height: 40px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  color: #7e7e7e;
+  border: none;
+  width: 100%;
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  font-family: var(--font-nunito-sans);
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+  border-radius: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
+}
+
+.wheel_level_btn.active {
+  color: #eaeaea;
+  background: #2e2e2e;
+}
+
+.wheel_levels_list_title {
+  color: #7e7e7e;
+  font-family: var(--font-source-sans-3);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
+
+.wheel_levels_list_block {
+  margin-top: 12px;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
+}

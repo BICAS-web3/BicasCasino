@@ -8,14 +8,18 @@ interface CustomWagerRangeInputProps {
   inputTitle: string;
   min: number;
   max: number;
+  step?: number;
+  customArr?: number[];
   inputType?: CustomWagerRangeInputModel.RangeType;
 }
 
 export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
   inputTitle,
   min,
+  step,
   max,
   inputType,
+  customArr,
 }) => {
   const [value, setValue] = useState(0);
   const [trackWidth, setTrackWidth] = useState(0);
@@ -81,13 +85,14 @@ export const CustomWagerRangeInput: FC<CustomWagerRangeInputProps> = ({
             onChange={changeInputValue}
             max={max}
             min={min}
+            step={step}
             style={{ "--sx": `${trackWidth}%` } as any}
           />
         </div>
         <span className={s.custom_range_input_max_value}>{max}</span>
       </div>
       <div className={s.custom_range_setter}>
-        {arrData.map((val, i) => (
+        {(customArr ? customArr : arrData).map((val, i) => (
           <div
             className={s.custom_range_setter_item}
             onClick={() => handleInputBtns(val)}
