@@ -7,6 +7,7 @@ import Link from "next/link";
 import * as api from "@/shared/api";
 import { useMediaQuery } from "@/shared/tools";
 import clsx from "clsx";
+import appleIcon from "@/public/media/apples_icon/apple_icon.jpg";
 import diceIcon from "@/public/media/live_bets/dice.svg";
 import coinFlipIcon from "@/public/media/live_bets/coinFlip.svg";
 import pokerIcon from "@/public/media/live_bets/poker.svg";
@@ -52,6 +53,8 @@ export const TableItem: FC<IBetData> = (props) => {
       setGameImg(slotsIcon);
     } else if (props.game_name === "Rocket") {
       setGameImg(rocketIcon);
+    } else if (props.game_name === "Apples") {
+      setGameImg(appleIcon);
     }
   });
   return (

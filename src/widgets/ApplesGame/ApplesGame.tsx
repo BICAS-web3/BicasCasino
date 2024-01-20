@@ -44,6 +44,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { AppleFalseIco } from "@/shared/SVGs/AppleFalse";
 import { ApplesWinBlock } from "../ApplesWin/ApplesWinBlock";
+import { Preload } from "@/shared/ui/Preload";
 
 interface ApplesGameProps {}
 
@@ -462,12 +463,15 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         <WagerLowerBtnsBlock game="apples" text={"apples"} />
         <div className={s.apples_table_background}>
           <img
+            onLoad={() => setIsLoading(false)}
             src={applesBg.src}
             className={s.apples_table_background}
             alt="apples-static-bg"
           />
         </div>{" "}
+        {isLoading && <Preload />}
         <div className={clsx(s.total_container)}>
+          {" "}
           <span className={s.total_won}>{fullWon.toFixed(2)}</span>
           <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
           <div>
