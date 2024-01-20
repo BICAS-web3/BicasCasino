@@ -2,6 +2,9 @@ import { FC, ReactElement } from "react";
 
 import s from "./styles.module.scss";
 import { ManualAutoWager } from "../ManualAutoWager/ManualAutoWager";
+import * as GameModel from "@/widgets/GamePage/model";
+import { useUnit } from "effector-react";
+import clsx from "clsx";
 
 interface WagerProps {
   wagerContent: any;
@@ -14,12 +17,13 @@ export const Wager: FC<WagerProps> = ({
   ManualElement,
   ButtonElement,
 }) => {
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   return (
     <div className={s.poker_wager_wrap}>
       <div className={s.poker_wager_block}>
         {/* <ManualAutoWager /> */}
         {ManualElement}
-        {ButtonElement}
+        <div className={clsx(isPlaying && s.flex)}> {ButtonElement}</div>
         <h2 className={s.poker_wager_title}>Wager</h2>
         {wagerContent}
       </div>

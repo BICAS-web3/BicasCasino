@@ -781,3 +781,11 @@
     height: 24px;
   }
 }
+
+.flex {
+  width: 100%;
+  display: flex;
+  align-items: self-start;
+  gap: 10px;
+  justify-content: space-between;
+}

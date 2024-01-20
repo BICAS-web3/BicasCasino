@@ -16,6 +16,7 @@ export const $lost = createStore<number>(0);
 export const $token = createStore<string>("");
 export const $betValue = createStore<bigint>(BigInt(0));
 export const $isEmtyWager = createStore<boolean>(false);
+export const $refund = createStore<boolean>(false);
 
 // events
 export const setIsPlaying = createEvent<boolean>();
@@ -31,6 +32,7 @@ export const setLostStatus = createEvent<number>();
 export const clearStatus = createEvent();
 export const setBetValue = createEvent<bigint>();
 export const setIsEmtyWager = createEvent<boolean>();
+export const setRefund = createEvent<boolean>();
 
 // handlers
 $betValue.on(setBetValue, (_, state) => state);
@@ -47,3 +49,4 @@ $token.on(setWonStatus, (_, data) => data.token).on(clearStatus, () => "");
 $lost.on(setLostStatus, (_, data) => data).on(clearStatus, () => 0);
 $gameStatus.on(clearStatus, () => null);
 $isEmtyWager.on(setIsEmtyWager, (_, state) => state);
+$refund.on(setRefund, (_, state) => state);

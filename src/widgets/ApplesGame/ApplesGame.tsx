@@ -148,6 +148,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     appleGameResult,
     setAppleGameResult,
     reset,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -178,6 +180,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     ApplesModel.$gameResult,
     ApplesModel.setGameResult,
     ApplesModel.$reset,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
@@ -322,6 +326,25 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       setWaitingResponse(true);
     }
   }, [startedPlaying]);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+    abi: IAppleAbi,
+    functionName: "Apples_Refund",
+    enabled: inGame,
+    args: [],
+    gas: BigInt(100000),
+  });
+
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
 
   useContractEvent({
     address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
@@ -495,7 +518,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               ) : (
                 <img alt="" src={appleCoefFalse.src} />
               )}
-              <span>{item?.toFixed(2)}x</span>
+              <span>{(item / 100)?.toFixed(2)}x</span>
             </div>
           ))}
         </div>

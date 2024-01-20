@@ -10,13 +10,7 @@ import clsx from "clsx";
 import { useUnit } from "effector-react";
 import * as ConnectModel from "@/widgets/Layout/model";
 import * as GameModel from "@/widgets/GamePage/model";
-import {
-  useAccount,
-  useConnect,
-  useNetwork,
-  usePrepareContractWrite,
-  useContractWrite,
-} from "wagmi";
+import { useAccount } from "wagmi";
 import { WagerModel } from "@/widgets/Wager";
 import { useRouter } from "next/router";
 import {
@@ -24,45 +18,32 @@ import {
   WagerInputsBlock,
 } from "@/widgets/WagerInputsBlock";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
-import { ABI as IAppleAbi } from "@/shared/contracts/AppleABI";
 import * as AppleModel from "@/widgets/ApplesGame/model";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const { isConnected, isConnecting, address } = useAccount();
-  const { chain } = useNetwork();
-  const { config: refundConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: "0x7ad7948F38Ee1456587976FAebD5f94646c20072",
-    abi: IAppleAbi,
-    functionName: "Apples_Refund",
-    enabled: isPlaying,
-    args: [],
-  });
+  const { isConnected, isConnecting } = useAccount();
 
-  const { write: setRefund, isSuccess: refundIsSet } =
-    useContractWrite(refundConfig);
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const { connectors, connect } = useConnect();
-  const { push, reload } = useRouter();
   const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const [
-    startConnect,
     setStartConnect,
     setIsEmtyWager,
     gameResult,
     setReset,
     reset,
+    setRefund,
   ] = useUnit([
-    ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
     AppleModel.$gameResult,
     AppleModel.setReset,
     AppleModel.$reset,
+    GameModel.setRefund,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -112,12 +93,7 @@ const WagerContent = () => {
         )}
       </button>
       {isPlaying && (
-        <button
-          className={clsx(s.btn_refund, s.mobile)}
-          onClick={() => setRefund?.()}
-        >
-          Refund
-        </button>
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )}
     </>
   );

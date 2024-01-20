@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -35,10 +36,11 @@ const WagerContent = () => {
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
+  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -48,6 +50,7 @@ const WagerContent = () => {
   const site_id = queryParams.get("site_id");
   const sub_id = queryParams.get("sub_id");
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
+
   return (
     <>
       <WagerInputsBlock />
@@ -91,6 +94,9 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
+      {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )}
     </>
   );
 };

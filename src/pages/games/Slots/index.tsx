@@ -22,6 +22,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { isConnected, isConnecting } = useAccount();
@@ -31,10 +32,11 @@ const WagerContent = () => {
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
+  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -85,7 +87,10 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>{" "}
+      {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )}
     </>
   );
 };

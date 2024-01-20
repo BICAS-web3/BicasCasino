@@ -69,3 +69,8 @@
     cursor: default;
   }
 }
+.mobile {
+  @media (max-width: 996px) {
+    display: none !important;
+  }
+}
