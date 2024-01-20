@@ -101,7 +101,7 @@ export default function RouletteGame() {
   return (
     <>
       <Head>
-        <title>Games - Rock Paper Scissors</title>
+        <title>Games - Roulette</title>
       </Head>
       <Layout activePageLink="/games/Roulette" gameName={"Roulette"}>
         <LiveBetsWS

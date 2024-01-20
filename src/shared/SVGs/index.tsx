@@ -19,3 +19,4 @@ export * from "./SlotsIcon";
 export * from "./Wager100Icon";
 export * from "./Wager10Icon";
 // export * from "./Wager1Icon";
+export * from "./RouletteBtnIcon";

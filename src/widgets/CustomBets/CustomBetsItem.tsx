@@ -17,6 +17,7 @@ import Link from "next/link";
 import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import { useAccount } from "wagmi";
+import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
 
 export interface CustomBetsItemProps {
   trx_url: string;
@@ -70,6 +71,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(slotsIcon);
     } else if (props.game_name === "Rocket") {
       setGameImg(rocketIcon);
+    } else if (props.game_name === "Roulette") {
+      setGameImg(rouletteIcon);
     }
   });
 

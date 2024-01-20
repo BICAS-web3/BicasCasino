@@ -15,6 +15,7 @@ import {
   SupportIcon,
   RocketIcon,
   SlotsIcon,
+  RouletteBtnIconIcon,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -89,6 +90,16 @@ const gamesList = [
     icon: "slots",
     link: "/games/Slots",
   },
+  {
+    title: "Slots",
+    icon: "slots",
+    link: "/games/Slots",
+  },
+  {
+    title: "Roulette",
+    icon: "roulette",
+    link: "/games/Roulette",
+  },
 ];
 
 const languagesList = [
@@ -151,6 +162,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <RocketIcon />;
   } else if (iconId === "slots") {
     return <SlotsIcon />;
+  } else if (iconId === "roulette") {
+    return <RouletteBtnIconIcon />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -216,6 +229,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Plinko" && s.active_link,
             path === "/games/Rocket" && s.active_link,
             path === "/games/Slots" && s.active_link,
+            path === "/games/Roulette" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
         >
@@ -426,6 +440,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Plinko" && s.active_link,
                 path === "/games/Rocket" && s.active_link,
                 path === "/games/Slots" && s.active_link,
+                path === "/games/Roulette" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
               )}
@@ -511,6 +526,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <SlotsIcon />
               Slots
+            </Link>
+            <Link
+              href={"/games/Roulette"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Roulette" && s.game_active
+              }`}
+            >
+              <RouletteBtnIconIcon />
+              Roulette
             </Link>
             <Link
               href={"/leaderboard"}

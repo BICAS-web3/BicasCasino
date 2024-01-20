@@ -40,6 +40,8 @@ import pokerTabletBg from "@/public/media/games_assets/poker/poker.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.webp";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.webp";
 
+import rouletteBanner from "@/public/media/roulette_images/banner.jpg";
+
 import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.png";
 import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.webp";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
@@ -330,6 +332,17 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={slotsMain}
           closedSidebarImage={slot_bg}
           pcImageClosed={slot_bg}
+        />
+        <Game
+          name={"Roulette"}
+          description={""}
+          link={"/games/Roulette"}
+          tabletImage={rouletteBanner}
+          laptopImage={rouletteBanner}
+          mobileImage={rouletteBanner}
+          pcImage={rouletteBanner}
+          closedSidebarImage={rouletteBanner}
+          pcImageClosed={rouletteBanner}
         />
       </div>
     </div>
