@@ -193,7 +193,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   const { data: GameState, refetch: fetchGameState } = useContractRead({
     chainId: chain?.id,
-    address: "0x7ad7948F38Ee1456587976FAebD5f94646c20072",
+    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
     abi: IAppleAbi,
     functionName: "Apples_GetState",
     args: [address],
@@ -224,13 +224,12 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x0000000000000000000000000000000000000000",
+    address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
-      // "0x0000000000000000000000000000000000000000" !=
-      // "0x0000000000000000000000000000000000000000",
-      true,
+      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
       useDebounce(
@@ -255,7 +254,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0x7ad7948F38Ee1456587976FAebD5f94646c20072",
+    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
     abi: IAppleAbi,
     functionName: "getVRFFee",
     args: [0],
@@ -277,7 +276,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     const newValue =
       fees +
       (pickedToken &&
-      "0x0000000000000000000000000000000000000000" ==
+      pickedToken?.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
           BigInt(100000000000)
@@ -285,7 +284,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setValue(
       fees +
         (pickedToken &&
-        "0x0000000000000000000000000000000000000000" ==
+        pickedToken?.contract_address ==
           "0x0000000000000000000000000000000000000000"
           ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
             BigInt(100000000000)
@@ -301,7 +300,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: "0x7ad7948F38Ee1456587976FAebD5f94646c20072",
+    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
     abi: IAppleAbi,
     functionName: "Apples_Play",
     gasPrice: prevGasPrice,
@@ -310,7 +309,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       useDebounce(
         BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
       ),
-      "0x0000000000000000000000000000000000000000",
+      pickedToken?.contract_address,
       apples,
     ],
     value: value,
@@ -325,7 +324,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   }, [startedPlaying]);
 
   useContractEvent({
-    address: "0x7ad7948F38Ee1456587976FAebD5f94646c20072",
+    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
     abi: IAppleAbi,
     eventName: "Apples_Outcome_Event",
     listener(log) {
@@ -385,19 +384,15 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
           currentBalance &&
           total_value <= currentBalance
         ) {
-          startPlaying?.();
-          // if (
-          //   (!allowance || (allowance && allowance <= cryptoValue)) &&
-          //   pickedToken?.contract_address !=
-          //     "0x0000000000000000000000000000000000000000"
-          // ) {
-          //   if (setAllowance) {
-          //     setAllowance();
-          //     alert(2);
-          //   }
-          // } else {
-          //   startPlaying?.();
-          // }
+          if (
+            (!allowance || (allowance && allowance <= cryptoValue)) &&
+            pickedToken?.contract_address !=
+              "0x0000000000000000000000000000000000000000"
+          ) {
+            setAllowance?.();
+          } else {
+            startPlaying?.();
+          }
         }
       }
       setWagered(false);
