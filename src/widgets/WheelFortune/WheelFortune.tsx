@@ -285,11 +285,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+    address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
-      "0x0000000000000000000000000000000000000000" !=
+      pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
       gameAddress,
@@ -406,7 +406,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         ) {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
-            "0x0000000000000000000000000000000000000000" !=
+            pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
             setAllowance?.();
