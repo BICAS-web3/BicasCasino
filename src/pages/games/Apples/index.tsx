@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import Head from "next/head";
 import { Layout } from "@/widgets/Layout";
@@ -37,6 +37,7 @@ const WagerContent = () => {
     setReset,
     reset,
     setRefund,
+    emptyField,
   ] = useUnit([
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
@@ -44,6 +45,7 @@ const WagerContent = () => {
     AppleModel.setReset,
     AppleModel.$reset,
     GameModel.setRefund,
+    AppleModel.$emptyField,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -53,6 +55,15 @@ const WagerContent = () => {
   const site_id = queryParams.get("site_id");
   const sub_id = queryParams.get("sub_id");
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  const [title, setTitle] = useState(false);
+
+  useEffect(() => {
+    if (title) {
+      setTimeout(() => {
+        setTitle(false);
+      }, 2000);
+    }
+  }, [title]);
 
   return (
     <>
@@ -67,19 +78,23 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (gameResult?.length > 0) {
-            setReset(!reset);
+          if (emptyField) {
+            setTitle(true);
           } else {
-            if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-              pressButton();
-            } else if (cryptoValue <= 0.0 && isConnected) {
-              setIsEmtyWager(true);
+            if (gameResult?.length > 0) {
+              setReset(!reset);
             } else {
-              router.push(
-                isPartner
-                  ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                  : "/RegistrManual"
-              );
+              if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+                pressButton();
+              } else if (cryptoValue <= 0.0 && isConnected) {
+                setIsEmtyWager(true);
+              } else {
+                router.push(
+                  isPartner
+                    ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                    : "/RegistrManual"
+                );
+              }
             }
           }
         }}
@@ -87,14 +102,18 @@ const WagerContent = () => {
         {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
-          "Play"
+          title ? (
+            "Select Fields"
+          ) : (
+            "Play"
+          )
         ) : (
           "Connect Wallet"
         )}
       </button>
-      {isPlaying && (
+      {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )}
+      )} */}
     </>
   );
 };

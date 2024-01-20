@@ -52,6 +52,16 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([]);
   // const [resultApples, setResultApples] = useState<number[]>([]);
 
+  const [setEmpty] = useUnit([ApplesModel.setEmptyField]);
+
+  useEffect(() => {
+    if (appleData.length === 0) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+    }
+  }, [appleData.length]);
+
   const [apples, setApples] = useState<number[]>([]);
 
   useEffect(() => {
@@ -327,24 +337,24 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     }
   }, [startedPlaying]);
 
-  const { config: refundConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-    abi: IAppleAbi,
-    functionName: "Apples_Refund",
-    enabled: inGame,
-    args: [],
-    gas: BigInt(100000),
-  });
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+  //   abi: IAppleAbi,
+  //   functionName: "Apples_Refund",
+  //   enabled: false,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
 
-  const { write: callRefund } = useContractWrite(refundConfig);
+  // const { write: callRefund } = useContractWrite(refundConfig);
 
-  useEffect(() => {
-    if (refund) {
-      callRefund?.();
-      setRefund(false);
-    }
-  }, [refund]);
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
 
   useContractEvent({
     address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",

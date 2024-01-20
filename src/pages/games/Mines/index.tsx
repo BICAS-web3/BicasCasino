@@ -132,12 +132,12 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      {isPlaying && (
+      {/* {isPlaying && (
         <RefundButton
           onClick={() => setRefund(true)}
           className={styles.mobile}
         />
-      )}
+      )} */}
     </>
   );
 };

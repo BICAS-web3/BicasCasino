@@ -360,12 +360,12 @@ export const GamePage: FC<GamePageProps> = ({
                         "Connect Wallet"
                       )}
                     </button>
-                    {isPlaying && (
+                    {/* {isPlaying && (
                       <RefundButton
                         className={s.connect_wallet_btn}
                         onClick={() => setRefund(true)}
                       />
-                    )}
+                    )} */}
                   </>
                 ) : (
                   <></>

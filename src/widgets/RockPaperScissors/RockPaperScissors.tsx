@@ -318,23 +318,23 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     data: allowanceData,
   } = useContractWrite(allowanceConfig);
 
-  const { config: refundConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RPSABI,
-    functionName: "RockPaperScissors_Refund",
-    enabled: isPlaying,
-    args: [],
-    gas: BigInt(100000),
-  });
-  const { write: callRefund } = useContractWrite(refundConfig);
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RPSABI,
+  //   functionName: "RockPaperScissors_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
 
-  useEffect(() => {
-    if (refund) {
-      callRefund?.();
-      setRefund(false);
-    }
-  }, [refund]);
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
   useEffect(() => {
