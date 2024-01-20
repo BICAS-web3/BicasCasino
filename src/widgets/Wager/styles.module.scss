@@ -37,40 +37,18 @@
 .poker_wager_block {
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 650px) {
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
 
 .poker_wager_input_currency_block {
   @media (min-width: 1280px) {
     height: 50px;
     box-sizing: border-box;
-  }
-}
-
-.poker_wager_sound_btn {
-  color: #f0b829;
-  font-family: var(--font-nunito-sans);
-  font-size: 8px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 10.2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 0.32px;
-
-  span {
-    margin-top: 1.2px;
-    margin-left: 1px;
-  }
-}
-
-.sound_ico_effects {
-  width: 13px !important;
-  height: 15px !important;
-
-  @media screen and (max-width: 650px) {
-    width: 10px !important;
-    height: 13px !important;
   }
 }
 
@@ -217,15 +195,45 @@
   align-items: end;
 }
 
+.poker_wager_sound_btn {
+  display: flex;
+  padding-left: 8px;
+  align-items: center;
+
+  span {
+    color: #f0b829;
+    font-family: var(--font-nunito-sans);
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 10.2px;
+    letter-spacing: 0.32px;
+  }
+}
+
+.active_group {
+  width: 6.29px !important;
+  height: 8.5px !important;
+}
+
+.disabled_group {
+  width: 7.5px !important;
+  height: 7px !important;
+}
+
+.poker_wager_info_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .poker_wager_sound_btn,
 .poker_wager_info_btn {
   cursor: pointer;
   background: #202020;
   border: none;
   outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   width: 40px;
   height: 40px;
   z-index: 8;
@@ -236,14 +244,22 @@
     border-radius: 5px;
 
     img {
-      width: 15px;
-      height: 13px;
+      width: 9.6px;
+      height: 14px;
+    }
+
+    span {
+      margin-top: 1.2px;
     }
   }
 }
 
+.fx {
+  margin-left: 1px;
+}
+
 .sound_ico {
-  width: 19px;
+  width: 13px;
   height: 16px;
 }
 
@@ -759,4 +775,12 @@
     width: 24px;
     height: 24px;
   }
+}
+
+.flex {
+  width: 100%;
+  display: flex;
+  align-items: self-start;
+  gap: 10px;
+  justify-content: space-between;
 }

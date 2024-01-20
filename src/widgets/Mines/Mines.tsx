@@ -8,6 +8,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 import Image from "next/image";
 import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
@@ -176,6 +177,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     setCoefficient,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -197,6 +200,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     ProfitModel.setCoefficient,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
 
   // useEffect(() => {
@@ -336,6 +341,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
   }, [data]);
 
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -470,13 +476,57 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           : 0
       ),
     ],
+    gasPrice: data?.gasPrice as any,
+    gas: BigInt(50000),
   });
 
   const {
     write: setAllowance,
-    isSuccess: allowanceIsSet,
-    error: allErr,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
   } = useContractWrite(allowanceConfig);
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: ABIMines,
+    functionName: "Mines_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData]);
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance,
+  });
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet && watchAllowance) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError || (inGame && errorWrite)) {
+      setWatchAllowance(false);
+      setWaitingResponse(false);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError, errorWrite]);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -519,7 +569,12 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setWaitingResponse(true);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
           } else {
             if (pickedTiles.map((value) => value).length > 0) {
               startPlaying?.();
@@ -715,8 +770,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
   }, [useDebounce(coefficient, 50)]);
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
   const [localCryptoValue, setLocalCryptoValue] = useState(0);
@@ -881,7 +934,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
               })} */
             }
           </div>{" "}
-          <div className={styles.bottom_wrapper}>
+          {/* <div className={styles.bottom_wrapper}>
             <div className={styles.bottom}>
               <Swiper
                 ref={swiperRef}
@@ -922,7 +975,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
                 className={clsx(styles.arr_icon, styles.arr_icon_right)}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

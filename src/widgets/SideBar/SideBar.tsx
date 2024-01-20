@@ -436,7 +436,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Rocket" && s.active_link,
                 path === "/games/Slots" && s.active_link,
                 path === "/games/WheelFortune" && s.active_link,
-                path === "/leaderboard" && s.active_link
+                path === "/leaderboard" && s.active_link,
+                s.games
               )}
             >
               <GamesIcon />

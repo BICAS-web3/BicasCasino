@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [
@@ -38,6 +39,7 @@ const WagerContent = () => {
     selectedLength,
     waitingResponse,
     setIsEmtyWager,
+    setRefund,
   ] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
@@ -46,6 +48,7 @@ const WagerContent = () => {
     MinesModel.$selectedLength,
     GameModel.$waitingResponse,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
 
   const { isConnected, isConnecting } = useAccount();
@@ -129,7 +132,12 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      {/* <WagerLowerBtnsBlock game="mines" /> */}
+      {isPlaying && (
+        <RefundButton
+          onClick={() => setRefund(true)}
+          className={styles.mobile}
+        />
+      )}
     </>
   );
 };
@@ -153,7 +161,7 @@ export default function MinesGame() {
             wagerContent={<WagerContent />}
             isPoker={false}
             isMines={true}
-            soundClassName={styles.mines_sound}
+            // soundClassName={styles.mines_sound}
           >
             <Mines gameInfoText="Mines - In this exciting game, players have the ability to customize the game duration from 1 to 24 min. The main task is to open mines while avoiding their activation. The more mines are opened and the more cleverly the player dodges them, the bigger the payout multiplier becomes. The uniqueness of the game lies in the possibility of players to cash out their winnings at any time, making each game session filled with decisions and strategic maneuvers, where each move can bring both success and unexpected turn." />
           </GamePage>

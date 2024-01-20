@@ -31,6 +31,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { Suspense, lazy } from "react";
 import Head from "next/head";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -46,7 +47,10 @@ const WagerContent = () => {
   ]);
   const { push, reload } = useRouter();
 
-  const [isPlaying] = useUnit([RPSGM.$isPlaying]);
+  const [isPlaying, setRefund] = useUnit([
+    RPSGM.$isPlaying,
+    GameModel.setRefund,
+  ]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
   useEffect(() => {
@@ -101,7 +105,10 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>{" "}
+      {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )}
     </>
   );
 };

@@ -1,5 +1,10 @@
 .face_tails_wrap {
   margin-top: 14px;
+
+  @media screen and (max-width: 650px) {
+    margin-bottom: 12px;
+    grid-row: 2;
+  }
 }
 
 .face_tails_block {

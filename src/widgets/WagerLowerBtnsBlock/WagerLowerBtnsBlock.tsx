@@ -5,10 +5,10 @@ import infoLightIco from "@/public/media/Wager_icons/infoLightIco.svg";
 import openHandIco from "@/public/media/Wager_icons/openHandIco.svg";
 import openHandLightIco from "@/public/media/Wager_icons/openHandLightIco.svg";
 import closeIco from "@/public/media/Wager_icons/closeIco.svg";
-import soundIco from "@/public/media/Wager_icons/soundIco.svg";
+import soundIco from "@/public/media/Wager_icons/active2.svg";
 import closeBtnIco from "@/public/media/Wager_icons/closeDownBtnsIco.svg";
-import soundOffIco from "@/public/media/Wager_icons/volumeOffIco.svg";
-import soundEffectsIco from "@/public/media/misc/effects.png";
+import soundOffIco from "@/public/media/Wager_icons/disabled2.svg";
+import soundEffectsIco from "@/public/media/Wager_icons/effects2.svg";
 import Image from "next/image";
 import { useUnit } from "effector-react";
 import * as GameModel from "@/widgets/GamePage/model";
@@ -18,6 +18,8 @@ import { PokerHandsBlock } from "../PokerHandsBlock/PokerHandsBlock";
 import { CustomEllipseBlur } from "../CustomEllipseBlur.tsx/CustomEllipseBlur";
 import burgerIco from "@/public/media/misc/burgerIco.svg";
 import clsx from "clsx";
+import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
+import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 
 const pokerHandMultiplierList = [
   {
@@ -105,22 +107,36 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
     <div className={clsx(s.poker_wager_lower_btns_block, className)}>
       <button className={s.poker_wager_sound_btn} onClick={soundChange}>
         {playSounds === "off" ? (
-          <Image
-            alt="sound-ico-off"
-            className={s.sound_ico}
-            src={soundOffIco}
-          />
+          <>
+            <Image
+              alt="sound-ico-off"
+              className={s.sound_ico}
+              src={soundOffIco}
+            />
+            <Image
+              alt="sound-ico-off"
+              className={s.disabled_group}
+              src={disabledGroup}
+            />
+          </>
         ) : playSounds === "effects" ? (
           <>
             <Image
               alt="sound-ico"
-              className={s.sound_ico_effects}
+              className={s.sound_ico}
               src={soundEffectsIco}
             />
-            <span>fx</span>
+            <span className={s.fx}>fx</span>
           </>
         ) : (
-          <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
+          <>
+            <Image alt="sound-ico" className={s.sound_ico} src={soundIco} />
+            <Image
+              alt="sound-ico"
+              className={s.active_group}
+              src={activeGroup}
+            />
+          </>
         )}
       </button>
       {showInfo && (

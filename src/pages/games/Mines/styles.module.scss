@@ -74,12 +74,12 @@
 }
 
 .mine_height {
-  min-height: 770px;
+  // min-height: 770px;
   @media (max-width: 1280px) {
-    min-height: 457px;
+    // min-height: 457px;
   }
   @media (max-width: 650px) {
-    min-height: 373px;
+    // min-height: 373px;
   }
 }
 
@@ -131,6 +131,12 @@
 
 .connect_wallet_btn {
   @media screen and (max-width: 996px) {
+    display: none !important;
+  }
+}
+
+.mobile {
+  @media (max-width: 996px) {
     display: none !important;
   }
 }

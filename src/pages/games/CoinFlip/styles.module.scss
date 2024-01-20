@@ -108,7 +108,7 @@
 
 .mobile {
   @media (max-width: 996px) {
-    display: none;
+    display: none !important;
   }
 }
 
