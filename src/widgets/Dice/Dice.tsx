@@ -16,6 +16,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 
 import { useUnit } from "effector-react";
@@ -114,6 +115,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -146,7 +149,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
     const number_value = Number(el.target.value.toString());
@@ -308,10 +314,59 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           : 0
       ),
     ],
+    gasPrice: data?.gasPrice as any,
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: DiceAbi,
+    functionName: "Dice_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData]);
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance,
+  });
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet && watchAllowance) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -360,7 +415,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
             }, 700 * (i + 1));
           }
@@ -409,7 +465,12 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setActivePicker(false);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
@@ -482,7 +543,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
   const [localCryptoValue, setLocalCryptoValue] = useState(0);
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true);

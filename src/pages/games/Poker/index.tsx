@@ -25,13 +25,16 @@ import * as GameModel from "@/widgets/GamePage/model";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 const WagerContent = () => {
-  const [startConnect, setStartConnect, waitingResponse, isPlaying] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.$waitingResponse,
-    GameModel.$isPlaying,
-  ]);
+  const [startConnect, setStartConnect, waitingResponse, isPlaying, setRefund] =
+    useUnit([
+      ConnectModel.$startConnect,
+      ConnectModel.setConnect,
+      GameModel.$waitingResponse,
+      GameModel.$isPlaying,
+      GameModel.setRefund,
+    ]);
   const [pressButton, setIsEmtyWager] = useUnit([
     WagerModel.pressButton,
     GameModel.setIsEmtyWager,
@@ -94,7 +97,10 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>{" "}
+      {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )}
     </>
   );
 };

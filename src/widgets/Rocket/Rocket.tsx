@@ -8,6 +8,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 
 import { useUnit } from "effector-react";
@@ -85,6 +86,9 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
+    isPlaying,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -117,6 +121,9 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
+    GameModel.$isPlaying,
   ]);
 
   const { data } = useFeeData({
@@ -214,23 +221,74 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
+    address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress as `0x${string}`,
+      gameAddress,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
           : 0
       ),
     ],
+    gasPrice: data?.gasPrice as any,
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance } = useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: RocketABI,
+    functionName: "Rocket_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
+
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData]);
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    staleTime: Infinity,
+    enabled: watchAllowance,
+  });
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet && watchAllowance) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
@@ -280,7 +338,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
               setLocalNumber(outCome);
             }, 700 * (i + 1));
@@ -328,7 +387,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            setAllowance?.();
+            if (setAllowance) {
+              setAllowance();
+              setActivePicker(false);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
           } else {
             startPlaying?.();
           }

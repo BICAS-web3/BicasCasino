@@ -13,6 +13,7 @@ import {
   useFeeData,
   useNetwork,
   usePrepareContractWrite,
+  useWaitForTransaction,
 } from "wagmi";
 import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
@@ -102,6 +103,8 @@ export const Poker: FC<PokerProps> = (props) => {
     //availableTokens
     setIsPlaying,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -125,6 +128,8 @@ export const Poker: FC<PokerProps> = (props) => {
     //settingsModel.$AvailableTokens
     GameModel.setIsPlaying,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
@@ -229,10 +234,50 @@ export const Poker: FC<PokerProps> = (props) => {
           : 0
       ),
     ],
+    gasPrice: data?.gasPrice as any,
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+  });
+
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: IPoker,
+    functionName: "VideoPoker_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet) {
+      startPlaying();
+    } else if (allowanceError) {
+      //setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
 
@@ -345,7 +390,11 @@ export const Poker: FC<PokerProps> = (props) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setInGame(true);
+              setWaitingResponse(true);
+            }
             //return;
           } else {
             setActiveCards(initialArrayOfCards);
@@ -564,8 +613,6 @@ export const Poker: FC<PokerProps> = (props) => {
     GameModel.$multiplier,
     GameModel.$token,
   ]);
-
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);

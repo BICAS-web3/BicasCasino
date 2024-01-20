@@ -10,6 +10,7 @@ import {
   useNetwork,
   usePrepareContractWrite,
   useFeeData,
+  useWaitForTransaction,
 } from "wagmi";
 
 import Image from "next/image";
@@ -192,6 +193,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -218,6 +221,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
 
   useEffect(() => {
@@ -281,9 +286,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     }
   }, [GameState]);
 
-  useEffect(() => {
-    inGame ? setPlayingStatus(true) : setPlayingStatus(false);
-  }, [inGame]);
+  // useEffect(() => {
+  //   inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+  // }, [inGame]);
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
@@ -294,17 +299,66 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress as `0x${string}`,
+      gameAddress,
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
           : 0
       ),
     ],
+    gasPrice: data?.gasPrice as any,
+    gas: BigInt(50000),
   });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  const { config: refundConfig } = usePrepareContractWrite({
+    chainId: chain?.id,
+    address: gameAddress as `0x${string}`,
+    abi: RPSABI,
+    functionName: "RockPaperScissors_Refund",
+    enabled: isPlaying,
+    args: [],
+    gas: BigInt(100000),
+  });
+  const { write: callRefund } = useContractWrite(refundConfig);
+
+  useEffect(() => {
+    if (refund) {
+      callRefund?.();
+      setRefund(false);
+    }
+  }, [refund]);
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (allowanceData) {
+      setWatchAllowance(true);
+    }
+  }, [allowanceData]);
+
+  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+    hash: allowanceData?.hash,
+    enabled: watchAllowance,
+  });
+
+  useEffect(() => {
+    if (inGame && allowanceIsSet && watchAllowance) {
+      setWatchAllowance(false);
+      startPlaying();
+    } else if (allowanceError) {
+      setWatchAllowance(false);
+      setActivePicker(true);
+      setInGame(false);
+      setWaitingResponse(false);
+    }
+  }, [inGame, allowanceIsSet, allowanceError]);
 
   const [fees, setFees] = useState<bigint>(BigInt(0));
 
@@ -429,7 +483,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
             }, 700 * (i + 1));
           }
@@ -475,7 +530,12 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            if (setAllowance) {
+              setAllowance();
+              setActivePicker(false);
+              setInGame(true);
+              setWaitingResponse(true);
+            }
           } else {
             if (startPlaying) {
               startPlaying();
@@ -528,7 +588,6 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       }, 1000);
     }
   }, [value]);
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
