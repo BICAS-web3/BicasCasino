@@ -1,0 +1,22 @@
+.hourse_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+  width: calc(100% - 40px);
+  padding: 100px 20px 0 20px;
+  @media screen and (max-width: 1280px) {
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 76px;
+    padding-left: 20px;
+  }
+  @media screen and (max-width: 650px) {
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-top: 56px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
