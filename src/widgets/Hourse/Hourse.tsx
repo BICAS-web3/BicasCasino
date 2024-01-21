@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import {
   useAccount,
@@ -419,6 +419,42 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
+  const [testGame, setTestGame] = useState(false);
+
+  const hourse_1_1 = useRef<HTMLVideoElement | null>(null);
+  const hourse_1_2 = useRef<HTMLVideoElement | null>(null);
+  const hourse_2_1 = useRef<HTMLVideoElement | null>(null);
+  const hourse_2_2 = useRef<HTMLVideoElement | null>(null);
+  const hourse_3_1 = useRef<HTMLVideoElement | null>(null);
+  const hourse_3_2 = useRef<HTMLVideoElement | null>(null);
+  const hourse_4_1 = useRef<HTMLVideoElement | null>(null);
+  const hourse_4_2 = useRef<HTMLVideoElement | null>(null);
+  const hourse_5_1 = useRef<HTMLVideoElement | null>(null);
+  const hourse_5_2 = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const bg_1_1 = hourse_1_1.current;
+    const bg_1_2 = hourse_1_2.current;
+    bg_1_1!.currentTime = 0;
+    bg_1_2!.currentTime = 0;
+    const bg_2_1 = hourse_1_1.current;
+    const bg_2_2 = hourse_1_2.current;
+    bg_2_1!.currentTime = 0;
+    bg_2_2!.currentTime = 0;
+    const bg_3_1 = hourse_1_1.current;
+    const bg_3_2 = hourse_1_2.current;
+    bg_3_1!.currentTime = 0;
+    bg_3_2!.currentTime = 0;
+    const bg_4_1 = hourse_1_1.current;
+    const bg_4_2 = hourse_1_2.current;
+    bg_4_1!.currentTime = 0;
+    bg_4_2!.currentTime = 0;
+    const bg_5_1 = hourse_1_1.current;
+    const bg_5_2 = hourse_1_2.current;
+    bg_5_1!.currentTime = 0;
+    bg_5_2!.currentTime = 0;
+  }, [testGame]);
+
   return (
     <>
       {isLoading && (
@@ -427,7 +463,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           btnTitle="Contact us"
         />
       )}
-      <section className={s.hourse_table_wrap}>
+      <section
+        onClick={() => setTestGame((prev) => !prev)}
+        className={s.hourse_table_wrap}
+      >
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
           className={s.hourse_btns}
@@ -444,13 +483,124 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <Image src={hourse_logo} alt="" className={s.hourse_logo} />
         </div>
         <video
-          className={clsx(s.hourse_1)}
-          autoPlay={inGame}
-          loop={inGame}
+          ref={hourse_1_1}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_1), testGame && s.hidden)
+          )}
+          autoPlay={false}
+          loop={false}
           muted
           playsInline
         >
           <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_1_2}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_1), !testGame && s.hidden)
+          )}
+          autoPlay={true}
+          loop={true}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_2_1}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_2), testGame && s.hidden)
+          )}
+          autoPlay={false}
+          loop={false}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_2_2}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_2), !testGame && s.hidden)
+          )}
+          autoPlay={true}
+          loop={true}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_3_1}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_3), testGame && s.hidden)
+          )}
+          autoPlay={false}
+          loop={false}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_3_2}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_3), !testGame && s.hidden)
+          )}
+          autoPlay={true}
+          loop={true}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_4_1}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_4), testGame && s.hidden)
+          )}
+          autoPlay={false}
+          loop={false}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_4_2}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_4), !testGame && s.hidden)
+          )}
+          autoPlay={true}
+          loop={true}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_5_1}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_5), testGame && s.hidden)
+          )}
+          autoPlay={false}
+          loop={false}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
+        </video>
+        <video
+          ref={hourse_5_2}
+          className={clsx(
+            clsx(clsx(s.hourse, s.hourse_5), !testGame && s.hidden)
+          )}
+          autoPlay={true}
+          loop={true}
+          muted
+          playsInline
+        >
+          <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
         <div className={s.total_container}>
           <span className={s.total_won}>{fullWon.toFixed(2)}</span>

@@ -143,10 +143,40 @@
   background: var(--switch-in-game-2-e-night, #2e2e2e);
 }
 
-.hourse_1 {
-  width: 266px;
-  height: 143px;
-  top: 189px;
-  left: 123px;
+.hidden {
+  display: none;
+}
+
+.hourse {
   position: absolute;
+  &_1 {
+    width: 266px;
+    height: 143px;
+    top: 189px; // -10
+    left: 123px; // - 60
+  }
+  &_2 {
+    width: 286px;
+    height: 151px;
+    top: 232px;
+    left: 94px;
+  }
+  &_3 {
+    width: 299px;
+    height: 159px;
+    top: 282px;
+    left: 67px;
+  }
+  &_4 {
+    width: 320px;
+    height: 170px;
+    top: 342px;
+    left: 27px;
+  }
+  &_5 {
+    top: 402px;
+    left: calc(-46px + 35vw);
+    width: 381px;
+    height: 202px;
+  }
 }
