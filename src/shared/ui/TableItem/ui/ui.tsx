@@ -14,7 +14,7 @@ import rpsIcon from "@/public/media/live_bets/rps.svg";
 import bombIcon from "@/public/media/live_bets/bomb.svg";
 import plincoIcon from "@/public/media/live_bets/plinco.svg";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
-
+import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
 import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
 export const TableItem: FC<IBetData> = (props) => {
@@ -52,6 +52,8 @@ export const TableItem: FC<IBetData> = (props) => {
       setGameImg(slotsIcon);
     } else if (props.game_name === "Rocket") {
       setGameImg(rocketIcon);
+    } else if (props.game_name === "Wheel Fortune") {
+      setGameImg(wheelIcon);
     }
   });
   return (

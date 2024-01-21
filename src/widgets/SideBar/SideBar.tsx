@@ -15,6 +15,7 @@ import {
   SupportIcon,
   RocketIcon,
   SlotsIcon,
+  WheelFortuneIcon,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -89,6 +90,11 @@ const gamesList = [
     icon: "slots",
     link: "/games/Slots",
   },
+  {
+    title: "Wheel Fortune",
+    icon: "wheelFortune",
+    link: "/games/WheelFortune",
+  },
 ];
 
 const languagesList = [
@@ -151,6 +157,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <RocketIcon />;
   } else if (iconId === "slots") {
     return <SlotsIcon />;
+  } else if (iconId === "wheelFortune") {
+    return <WheelFortuneIcon />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -215,6 +223,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Mines" && s.active_link,
             path === "/games/Plinko" && s.active_link,
             path === "/games/Rocket" && s.active_link,
+            path === "/games/WheelFortune" && s.active_link,
             path === "/games/Slots" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
@@ -426,6 +435,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Plinko" && s.active_link,
                 path === "/games/Rocket" && s.active_link,
                 path === "/games/Slots" && s.active_link,
+                path === "/games/WheelFortune" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
               )}
@@ -511,6 +521,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <SlotsIcon />
               Slots
+            </Link>
+            <Link
+              href={"/games/WheelFortune"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/WheelFortune" && s.game_active
+              }`}
+            >
+              <WheelFortuneIcon />
+              Wheel Fortune
             </Link>
             <Link
               href={"/leaderboard"}

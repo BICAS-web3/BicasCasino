@@ -16,3 +16,7 @@ export * from "./InfoIcon";
 export * from "./CloseIcon";
 export * from "./RocketIcon";
 export * from "./SlotsIcon";
+export * from "./WheelPick";
+export * from "./WheelShowIcon";
+export * from "./BallIcon";
+export * from "./WheelFortuneIcon";
