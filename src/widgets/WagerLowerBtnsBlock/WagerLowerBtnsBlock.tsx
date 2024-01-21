@@ -64,12 +64,14 @@ interface WagerLowerBtnsBlockProps {
   game: string;
   className?: string;
   text?: string;
+  showInfo?: boolean;
 }
 
 export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
   game,
   className,
   text,
+  showInfo = true,
 }) => {
   const [playSounds, switchSounds] = useUnit([
     GameModel.$playSounds,
@@ -137,34 +139,36 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
           </>
         )}
       </button>
-      <div className={s.poker_wager_info_btn_wrap}>
-        <button
-          className={s.poker_wager_info_btn}
-          onClick={() => setInfoModalVisibility(!infoModalVisibility)}
-        >
-          {infoModalVisibility ? (
-            <Image alt="info-ico-light" src={closeBtnIco} />
-          ) : (
-            <Image alt="info-ico-default" src={infoIco} />
-          )}
-        </button>
-        <div
-          className={`${s.poker_wager_info_modal_block} ${
-            infoModalVisibility && s.active
-          }`}
-        >
-          <div className={s.ellipse_blur_wrap}>
-            <CustomEllipseBlur />
+      {showInfo && (
+        <div className={s.poker_wager_info_btn_wrap}>
+          <button
+            className={s.poker_wager_info_btn}
+            onClick={() => setInfoModalVisibility(!infoModalVisibility)}
+          >
+            {infoModalVisibility ? (
+              <Image alt="info-ico-light" src={closeBtnIco} />
+            ) : (
+              <Image alt="info-ico-default" src={infoIco} />
+            )}
+          </button>
+          <div
+            className={`${s.poker_wager_info_modal_block} ${
+              infoModalVisibility && s.active
+            }`}
+          >
+            <div className={s.ellipse_blur_wrap}>
+              <CustomEllipseBlur />
+            </div>
+            <Image
+              src={closeIco}
+              alt="close-ico"
+              onClick={() => setInfoModalVisibility(false)}
+              className={s.poker_wager_info_modal_close_ico}
+            />
+            <p className={s.poker_wager_info_modal_text}>{text}</p>
           </div>
-          <Image
-            src={closeIco}
-            alt="close-ico"
-            onClick={() => setInfoModalVisibility(false)}
-            className={s.poker_wager_info_modal_close_ico}
-          />
-          <p className={s.poker_wager_info_modal_text}>{text}</p>
         </div>
-      </div>
+      )}
       {game && game === "poker" && (
         <div className={s.hand_multiplier_wrap}>
           <div

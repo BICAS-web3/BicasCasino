@@ -19,6 +19,7 @@ import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import { useAccount } from "wagmi";
 
+import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 export interface CustomBetsItemProps {
   trx_url: string;
   time: {
@@ -71,6 +72,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(slotsIcon);
     } else if (props.game_name === "Rocket") {
       setGameImg(rocketIcon);
+    } else if (props.game_name === "Wheel Fortune") {
+      setGameImg(wheelIcon);
     } else if (props.game_name === "Apples") {
       setGameImg(appleIcon);
     }
