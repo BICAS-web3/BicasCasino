@@ -1046,6 +1046,9 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     pickedLevel,
     setWaitingResponse,
     setIsPlaying,
+    refund,
+    setRefund,
+    isPlaying,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -1069,6 +1072,9 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     levelModel.$level,
     GameModel.setWaitingResponse,
     GameModel.setIsPlaying,
+    GameModel.$refund,
+    GameModel.setRefund,
+    GameModel.$isPlaying,
   ]);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -1147,25 +1153,46 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPlinko,
+  //   functionName: "Plinko_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
+
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
   useEffect(() => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -1204,7 +1231,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -1268,25 +1295,25 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
       pickedValue,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(pickedValue)
+          BigInt(100000000000) *
+          BigInt(pickedValue)
         : BigInt(0)),
   });
 
@@ -1366,10 +1393,10 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
-              console.log('Setting allowance');
+              console.log("Setting allowance");
               setAllowance();
               setPath(undefined);
               setInGame(true);
@@ -1512,11 +1539,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
                         className={clsx(
                           styles.multiplier_value,
                           multipliers[ball.value] > 1 &&
-                          styles.multiplier_positive,
+                            styles.multiplier_positive,
                           multipliers[ball.value] < 1 &&
-                          styles.multiplier_negative,
+                            styles.multiplier_negative,
                           multipliers[ball.value] < 0.6 &&
-                          styles.multiplier_extranegative
+                            styles.multiplier_extranegative
                         )}
                         key={i}
                       >

@@ -73,6 +73,8 @@ import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.png
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 
+import appleBanner from "@/public/media/apples/banner.jpg";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
 
@@ -80,6 +82,8 @@ import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
 import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
 import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
 import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
+
+import wheelFortuneBanner from "@/public/media/wheel_images/banner.jpg";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -330,6 +334,28 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={slotsMain}
           closedSidebarImage={slot_bg}
           pcImageClosed={slot_bg}
+        />{" "}
+        <Game
+          name={"Wheel Fortune"}
+          description={""}
+          link={"/games/WheelFortune"}
+          tabletImage={wheelFortuneBanner}
+          laptopImage={wheelFortuneBanner}
+          mobileImage={wheelFortuneBanner}
+          pcImage={wheelFortuneBanner}
+          closedSidebarImage={wheelFortuneBanner}
+          pcImageClosed={wheelFortuneBanner}
+        />{" "}
+        <Game
+          name={"Apples"}
+          description={""}
+          link={"/games/Apples"}
+          pcImage={appleBanner}
+          tabletImage={appleBanner}
+          laptopImage={appleBanner}
+          mobileImage={appleBanner}
+          closedSidebarImage={appleBanner}
+          pcImageClosed={appleBanner}
         />
       </div>
     </div>

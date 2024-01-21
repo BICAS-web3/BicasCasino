@@ -115,6 +115,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     setIsPlaying,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -147,7 +149,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const onChange = (el: ChangeEvent<HTMLInputElement>) => {
     const number_value = Number(el.target.value.toString());
@@ -244,21 +249,21 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(bigNum) *
-        BigInt(200),
+          BigInt(bigNum) *
+          BigInt(200),
     ],
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0)),
   });
 
@@ -309,12 +314,34 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: DiceAbi,
+  //   functionName: "Dice_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
+
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
@@ -322,12 +349,12 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -354,7 +381,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -410,12 +437,14 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             token: token as string,
           });
           setGameStatus(GameModel.GameStatus.Won);
+          console.log("win");
         } else {
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
 
           setLostStatus(wageredFloat);
           setGameStatus(GameModel.GameStatus.Lost);
+          console.log("lost");
         }
       }
     },
@@ -436,7 +465,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
               setAllowance();
@@ -477,7 +506,8 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${
+        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);
@@ -515,7 +545,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
   const [localCryptoValue, setLocalCryptoValue] = useState(0);
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true);

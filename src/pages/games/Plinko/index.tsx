@@ -28,12 +28,14 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect, setIsEmtyWager] = useUnit([
+  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
   const { connectors, connect } = useConnect();
   const { isConnected, isConnecting } = useAccount();
@@ -102,7 +104,13 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button>{" "}
+      {/* {isPlaying && (
+        <RefundButton
+          onClick={() => setRefund(true)}
+          className={styles.mobile}
+        />
+      )} */}
     </>
   );
 };

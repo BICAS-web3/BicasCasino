@@ -10,6 +10,7 @@ import plincoIcon from "@/public/media/live_bets/plinkoIco.webp";
 import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
 import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
+import appleIcon from "@/public/media/apples_icon/apple_icon.jpg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import { useAccount } from "wagmi";
 
+import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 export interface CustomBetsItemProps {
   trx_url: string;
   time: {
@@ -70,6 +72,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(slotsIcon);
     } else if (props.game_name === "Rocket") {
       setGameImg(rocketIcon);
+    } else if (props.game_name === "Wheel Fortune") {
+      setGameImg(wheelIcon);
+    } else if (props.game_name === "Apples") {
+      setGameImg(appleIcon);
     }
   });
 

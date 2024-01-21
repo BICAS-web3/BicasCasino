@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Preload } from "@/shared/ui/Preload";
+import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [
@@ -38,6 +39,7 @@ const WagerContent = () => {
     selectedLength,
     waitingResponse,
     setIsEmtyWager,
+    setRefund,
   ] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
@@ -46,6 +48,7 @@ const WagerContent = () => {
     MinesModel.$selectedLength,
     GameModel.$waitingResponse,
     GameModel.setIsEmtyWager,
+    GameModel.setRefund,
   ]);
 
   const { isConnected, isConnecting } = useAccount();
@@ -129,7 +132,12 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>
-      {/* <WagerLowerBtnsBlock game="mines" /> */}
+      {/* {isPlaying && (
+        <RefundButton
+          onClick={() => setRefund(true)}
+          className={styles.mobile}
+        />
+      )} */}
     </>
   );
 };

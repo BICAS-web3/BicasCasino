@@ -27,7 +27,7 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useWaitForTransaction
+  useWaitForTransaction,
 } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
@@ -136,6 +136,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setIsPlaying,
     setBetValue,
     betValue,
+    refund,
+    setRefund,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -163,7 +165,11 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.setIsPlaying,
     GameModel.setBetValue,
     GameModel.$betValue,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   useEffect(() => {
@@ -231,25 +237,47 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: ICoinFlip,
+  //   functionName: "CoinFlip_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+
+  // const { write: callRefund } = useContractWrite(refundConfig);
+
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-
   useEffect(() => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -278,7 +306,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -289,19 +317,19 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     const newValue =
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(0));
     setValue(
       fees +
-      (pickedToken &&
+        (pickedToken &&
         pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
-        : BigInt(0))
+          "0x0000000000000000000000000000000000000000"
+          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+            BigInt(100000000000)
+          : BigInt(0))
     );
 
     setBetValue(newValue + BigInt(400000) * prevGasPrice);
@@ -327,16 +355,16 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
       useDebounce(stopLoss)
         ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-        BigInt(100000000000)
+          BigInt(100000000000)
         : BigInt(Math.floor(cryptoValue * 10000000)) *
-        BigInt(100000000000) *
-        BigInt(200),
+          BigInt(100000000000) *
+          BigInt(200),
     ],
     value: value,
   });
@@ -366,7 +394,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
             setTimeout(() => {
               const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(BigInt((log[0] as any).args.wager));
+                Number((log[0] as any)?.args?.payouts[i]) /
+                Number(BigInt((log[0] as any).args.wager));
               setCoefficientData((prev) => [outCome, ...prev]);
             }, 700 * (i + 1));
           }
@@ -411,7 +440,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
               setAllowance();
@@ -439,7 +468,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
@@ -546,8 +574,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
                       inGame
                         ? CoinAction.Rotation
                         : pickedSide == SidePickerModel.Side.Heads
-                          ? CoinAction.TailsHeads
-                          : CoinAction.TailsHeads
+                        ? CoinAction.TailsHeads
+                        : CoinAction.TailsHeads
                     }
                     initial={pickedSide}
                   />

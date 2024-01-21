@@ -177,6 +177,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     setCoefficient,
     waitingResponse,
     setWaitingResponse,
+    refund,
+    setRefund,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -198,6 +200,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     ProfitModel.setCoefficient,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
   ]);
 
   // useEffect(() => {
@@ -337,6 +341,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
   }, [data]);
 
+  const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const {
     write: startPlaying,
     isSuccess: startedPlaying,
@@ -360,7 +365,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -399,7 +404,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     value:
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
+      pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
         : BigInt(0)),
@@ -471,25 +476,45 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           : 0
       ),
     ],
-    gasPrice: (data?.gasPrice as any),
+    gasPrice: data?.gasPrice as any,
     gas: BigInt(50000),
   });
 
-  const { write: setAllowance, error: allowanceError, status: allowanceStatus, data: allowanceData } =
-    useContractWrite(allowanceConfig);
+  const {
+    write: setAllowance,
+    error: allowanceError,
+    status: allowanceStatus,
+    data: allowanceData,
+  } = useContractWrite(allowanceConfig);
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: ABIMines,
+  //   functionName: "Mines_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
 
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
   useEffect(() => {
     if (allowanceData) {
       setWatchAllowance(true);
     }
-  }, [allowanceData])
+  }, [allowanceData]);
 
   const { isSuccess: allowanceIsSet } = useWaitForTransaction({
     hash: allowanceData?.hash,
-    enabled: watchAllowance
-  })
+    enabled: watchAllowance,
+  });
 
   useEffect(() => {
     if (inGame && allowanceIsSet && watchAllowance) {
@@ -516,7 +541,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     if (VRFFees && data?.gasPrice) {
       setFees(
         BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-        BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
       );
     }
   }, [VRFFees, data]);
@@ -542,7 +567,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              "0x0000000000000000000000000000000000000000"
           ) {
             if (setAllowance) {
               setAllowance();
@@ -745,8 +770,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
   }, [useDebounce(coefficient, 50)]);
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
   const [localCryptoValue, setLocalCryptoValue] = useState(0);
@@ -771,15 +794,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
-
-  useEffect(
-    () =>
-      setCoefficientData([
-        2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0,
-      ]),
-    []
-  );
-
   return (
     <>
       {errorWrite && (
@@ -839,47 +853,47 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           </div>
           <div
             className={styles.mines_table}
-          // onMouseDown={() => setIsMouseDown(true)}
-          // onMouseUp={() => setIsMouseDown(false)}
+            // onMouseDown={() => setIsMouseDown(true)}
+            // onMouseUp={() => setIsMouseDown(false)}
           >
             {
               redrawTrigger &&
-              gameField &&
-              pickedTiles &&
-              gameField.map((value, index) => {
-                const isPicked = value == Tile.Closed && pickedTiles[index];
-                return (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      pickTile(index);
-                    }}
-                    //onMouseEnter={() => handleMouseMove(index)}
-                    className={clsx(
-                      styles.mine,
-                      isPicked && styles.mine_selected,
-                      isPicked &&
-                      inGame &&
-                      !copySelectedArr.includes(index) &&
-                      ""
-                      // styles.mine_animation
-                    )}
-                  >
-                    <MineIcon
+                gameField &&
+                pickedTiles &&
+                gameField.map((value, index) => {
+                  const isPicked = value == Tile.Closed && pickedTiles[index];
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        pickTile(index);
+                      }}
+                      //onMouseEnter={() => handleMouseMove(index)}
                       className={clsx(
-                        styles.mine_main,
-                        isPicked && styles.mine_selected
+                        styles.mine,
+                        isPicked && styles.mine_selected,
+                        isPicked &&
+                          inGame &&
+                          !copySelectedArr.includes(index) &&
+                          ""
+                        // styles.mine_animation
                       )}
-                    />
+                    >
+                      <MineIcon
+                        className={clsx(
+                          styles.mine_main,
+                          isPicked && styles.mine_selected
+                        )}
+                      />
 
-                    <SelectedMine
-                      index={index}
-                      type={isPicked ? Tile.Selected : value}
-                      waitingResponse={waitingResponse}
-                    />
-                  </div>
-                );
-              })
+                      <SelectedMine
+                        index={index}
+                        type={isPicked ? Tile.Selected : value}
+                        waitingResponse={waitingResponse}
+                      />
+                    </div>
+                  );
+                })
               /* {mineArr.map((index) => {
                 const isSelected = selectedMine.includes(index);
                 // isActive && alert(isActive?.tilesPicked[24]);
