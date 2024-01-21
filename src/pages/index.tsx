@@ -75,6 +75,8 @@ import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 
 import appleBanner from "@/public/media/apples/banner.jpg";
 
+import hourseBanner from "@/public/media/hourse_images/banner.jpg";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
 
@@ -356,6 +358,17 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={appleBanner}
           closedSidebarImage={appleBanner}
           pcImageClosed={appleBanner}
+        />
+        <Game
+          name={"Hourse"}
+          description={""}
+          link={"/games/Hourse"}
+          pcImage={hourseBanner}
+          tabletImage={hourseBanner}
+          laptopImage={hourseBanner}
+          mobileImage={hourseBanner}
+          closedSidebarImage={hourseBanner}
+          pcImageClosed={hourseBanner}
         />
       </div>
     </div>
