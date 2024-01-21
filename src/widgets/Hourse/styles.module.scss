@@ -20,8 +20,102 @@
 }
 .hourse_table_background_img {
   width: 100%;
-  object-fit: cover;
+  // object-fit: cover;
   height: 100%;
+  position: absolute;
+  &_deep {
+    width: 100%;
+    // object-fit: cover;
+    min-width: max-content;
+    height: 100%;
+    left: 0;
+    position: absolute;
+  }
+  &_1 {
+    &_start {
+      left: 0;
+      animation: hide_img 2s linear forwards;
+      z-index: 2;
+      @keyframes hide_img {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -1438px;
+        }
+      }
+    }
+  }
+  &_2 {
+    left: 100%;
+    &_start {
+      animation: start_img 4s linear infinite;
+      @keyframes start_img {
+        0% {
+          left: 100%;
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    }
+  }
+  &_3 {
+    left: 200%;
+    &_start {
+      animation: start_2_img 4s 2s linear infinite;
+      @keyframes start_2_img {
+        0% {
+          left: 100%;
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    }
+  }
+  &_4 {
+    left: 300%;
+    &_start {
+      animation: start_3_img 4s 4s linear infinite;
+      @keyframes start_3_img {
+        0% {
+          left: 100%;
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    }
+  }
+  &_5 {
+    left: 300%;
+    &_start {
+      animation: start_4_img 6s 4s linear infinite;
+      @keyframes start_4_img {
+        0% {
+          left: 100%;
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    }
+  }
+  // &_6 {
+  //   left: 300%;
+  //   &_start {
+  //     animation: start_5_img 18s linear infinite;
+  //     @keyframes start_5_img {
+  //       0% {
+  //         left: 500%;
+  //       }
+  //       100% {
+  //         left: -100%;
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 .hourse_logo {
@@ -147,36 +241,95 @@
   display: none;
 }
 
+$hourse_step: 35;
+
 .hourse {
   position: absolute;
+  transition: all 3s;
   &_1 {
     width: 266px;
     height: 143px;
-    top: 189px; // -10
-    left: 123px; // - 60
+    top: 199px;
+    left: 183px;
+    transition: all 3s;
+    &_run {
+      animation: hourse_1 8s forwards;
+      @keyframes hourse_1 {
+        0% {
+          left: 183px;
+        }
+        100% {
+          left: calc(#{$hourse_step}vw + 183px);
+        }
+      }
+    }
   }
   &_2 {
     width: 286px;
     height: 151px;
-    top: 232px;
-    left: 94px;
+    top: 242px;
+    left: 154px;
+    &_run {
+      animation: hourse_2 8s forwards;
+      @keyframes hourse_2 {
+        0% {
+          left: 154px;
+        }
+        100% {
+          left: calc(#{$hourse_step}vw + 154px);
+        }
+      }
+    }
   }
   &_3 {
     width: 299px;
     height: 159px;
-    top: 282px;
-    left: 67px;
+    top: 292px;
+    left: 127px;
+    &_run {
+      animation: hourse_3 8s forwards;
+      @keyframes hourse_3 {
+        0% {
+          left: 127px;
+        }
+        100% {
+          left: calc(#{$hourse_step}vw + 127px);
+        }
+      }
+    }
   }
   &_4 {
     width: 320px;
     height: 170px;
-    top: 342px;
-    left: 27px;
+    top: 352px;
+    left: 87px;
+    &_run {
+      animation: hourse_4 8s forwards;
+      @keyframes hourse_4 {
+        0% {
+          left: 87px;
+        }
+        100% {
+          left: calc(#{$hourse_step}vw + 87px);
+        }
+      }
+    }
   }
   &_5 {
-    top: 402px;
-    left: calc(-46px + 35vw);
+    top: 412px;
+    left: 14px;
     width: 381px;
     height: 202px;
+    &_run {
+      animation: hourse_5 8s forwards;
+      @keyframes hourse_5 {
+        0% {
+          left: 14px;
+        }
+        100% {
+          left: calc(14px + #{$hourse_step}vw);
+        }
+      }
+    }
   }
 }

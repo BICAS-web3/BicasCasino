@@ -28,6 +28,7 @@ import { Preload } from "@/shared/ui/Preload";
 import { useState, useEffect } from "react";
 import { RefundButton } from "@/shared/ui/Refund";
 import { Hourse } from "@/widgets/Hourse/Hourse";
+import { HourseSelecteor } from "@/shared/ui/HourseSelecteor";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
@@ -51,6 +52,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
+      <HourseSelecteor />
       <button
         className={clsx(
           s.connect_wallet_btn,

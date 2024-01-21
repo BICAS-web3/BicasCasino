@@ -41,7 +41,8 @@ import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
-import hourseBg from "@/public/media/hourse_images/bg.png";
+import hourseBg from "@/public/media/hourse_images/bg_.png";
+import hourseBg_2 from "@/public/media/hourse_images/bg_2.png";
 import hourse_logo from "@/public/media/hourse_icons/logo.svg";
 interface IHourse {
   gameText: string;
@@ -455,6 +456,55 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     bg_5_2!.currentTime = 0;
   }, [testGame]);
 
+  const [play_1, setPlay_1] = useState(false);
+  const [play_2, setPlay_2] = useState(false);
+  const [play_3, setPlay_3] = useState(false);
+  const [play_4, setPlay_4] = useState(false);
+  const [play_5, setPlay_5] = useState(false);
+
+  const [allLoaded, setAllLoaded] = useState(false);
+
+  useEffect(() => {
+    if (play_1 && play_2 && play_3 && play_4 && play_5) {
+      setAllLoaded(true);
+    }
+  }, [play_1, play_2, play_3, play_4, play_5]);
+
+  const [hourseLoad_1, setHourseLoad_1] = useState(false);
+  const [hourseLoad_2, setHourseLoad_2] = useState(false);
+  const [hourseLoad_3, setHourseLoad_3] = useState(false);
+  const [hourseLoad_4, setHourseLoad_4] = useState(false);
+  const [hourseLoad_5, setHourseLoad_5] = useState(false);
+  const [loadImage, setLoadImage] = useState(false);
+
+  useEffect(() => {
+    console.log(
+      hourseLoad_1,
+      hourseLoad_2,
+      hourseLoad_3,
+      hourseLoad_4,
+      hourseLoad_5,
+      loadImage
+    );
+    if (
+      hourseLoad_1 &&
+      hourseLoad_2 &&
+      hourseLoad_3 &&
+      hourseLoad_4 &&
+      hourseLoad_5 &&
+      loadImage
+    ) {
+      setIsLoading(false);
+    }
+  }, [
+    hourseLoad_1,
+    hourseLoad_2,
+    hourseLoad_3,
+    hourseLoad_4,
+    hourseLoad_5,
+    loadImage,
+  ]);
+
   return (
     <>
       {isLoading && (
@@ -474,131 +524,177 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           text={gameText}
         />
         <div className={s.hourse_table_background}>
+          <div
+            className={clsx(
+              s.hourse_table_background_img,
+              s.hourse_table_background_img_1,
+              testGame && allLoaded && s.hourse_table_background_img_1_start
+            )}
+          >
+            <Image
+              className={s.hourse_table_background_img_deep}
+              onLoad={() => setLoadImage(true)}
+              src={hourseBg}
+              alt="table-bg"
+            />
+            <Image src={hourse_logo} alt="" className={s.hourse_logo} />
+          </div>
           <Image
-            onLoad={() => setIsLoading(false)}
-            src={hourseBg}
-            className={s.hourse_table_background_img}
+            src={hourseBg_2}
+            className={clsx(
+              s.hourse_table_background_img,
+              s.hourse_table_background_img_2,
+              testGame && allLoaded && s.hourse_table_background_img_2_start
+            )}
             alt="table-bg"
           />
-          <Image src={hourse_logo} alt="" className={s.hourse_logo} />
+          <Image
+            src={hourseBg_2}
+            className={clsx(
+              s.hourse_table_background_img,
+              s.hourse_table_background_img_3,
+              testGame && allLoaded && s.hourse_table_background_img_3_start
+            )}
+            alt="table-bg"
+          />
         </div>
         <video
           ref={hourse_1_1}
-          className={clsx(
-            clsx(clsx(s.hourse, s.hourse_1), testGame && s.hidden)
-          )}
+          className={clsx(s.hourse, s.hourse_1, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_1(true)}
         >
           <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
         </video>
         <video
+          onPlay={() => setPlay_1(true)}
           ref={hourse_1_2}
           className={clsx(
-            clsx(clsx(s.hourse, s.hourse_1), !testGame && s.hidden)
+            s.hourse,
+            s.hourse_1,
+            !testGame && s.hidden,
+            testGame && allLoaded && s.hourse_1_run
           )}
           autoPlay={true}
           loop={true}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_1(true)}
         >
           <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
         </video>
         <video
           ref={hourse_2_1}
-          className={clsx(
-            clsx(clsx(s.hourse, s.hourse_2), testGame && s.hidden)
-          )}
+          className={clsx(s.hourse, s.hourse_2, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_2(true)}
         >
           <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
         </video>
         <video
+          onPlay={() => setPlay_2(true)}
           ref={hourse_2_2}
           className={clsx(
-            clsx(clsx(s.hourse, s.hourse_2), !testGame && s.hidden)
+            s.hourse,
+            s.hourse_2,
+            !testGame && s.hidden,
+            testGame && allLoaded && s.hourse_2_run
           )}
           autoPlay={true}
           loop={true}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_2(true)}
         >
           <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
         </video>
         <video
           ref={hourse_3_1}
-          className={clsx(
-            clsx(clsx(s.hourse, s.hourse_3), testGame && s.hidden)
-          )}
+          className={clsx(s.hourse, s.hourse_3, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_3(true)}
         >
           <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
         </video>
         <video
+          onPlay={() => setPlay_3(true)}
           ref={hourse_3_2}
           className={clsx(
-            clsx(clsx(s.hourse, s.hourse_3), !testGame && s.hidden)
+            s.hourse,
+            s.hourse_3,
+            !testGame && s.hidden,
+            testGame && allLoaded && s.hourse_3_run
           )}
           autoPlay={true}
           loop={true}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_3(true)}
         >
           <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
         </video>
         <video
           ref={hourse_4_1}
-          className={clsx(
-            clsx(clsx(s.hourse, s.hourse_4), testGame && s.hidden)
-          )}
+          className={clsx(s.hourse, s.hourse_4, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_4(true)}
         >
           <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
         </video>
         <video
+          onPlay={() => setPlay_4(true)}
           ref={hourse_4_2}
           className={clsx(
-            clsx(clsx(s.hourse, s.hourse_4), !testGame && s.hidden)
+            s.hourse,
+            s.hourse_4,
+            !testGame && s.hidden,
+            testGame && allLoaded && s.hourse_4_run
           )}
           autoPlay={true}
           loop={true}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_4(true)}
         >
           <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
         </video>
         <video
           ref={hourse_5_1}
-          className={clsx(
-            clsx(clsx(s.hourse, s.hourse_5), testGame && s.hidden)
-          )}
+          className={clsx(s.hourse, s.hourse_5, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_5(true)}
         >
           <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
         <video
+          onPlay={() => setPlay_5(true)}
           ref={hourse_5_2}
           className={clsx(
-            clsx(clsx(s.hourse, s.hourse_5), !testGame && s.hidden)
+            s.hourse,
+            s.hourse_5,
+            !testGame && s.hidden,
+            testGame && allLoaded && s.hourse_5_run
           )}
           autoPlay={true}
           loop={true}
           muted
           playsInline
+          onLoadedData={() => setHourseLoad_5(true)}
         >
           <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
