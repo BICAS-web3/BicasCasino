@@ -1,0 +1,92 @@
+.apples_win_block {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  transition: all 0.9s;
+}
+
+.block_invisible {
+  z-index: -1;
+}
+
+.explosion_gif {
+  position: absolute;
+  width: 270px;
+  height: 270px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.apples_win_body {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s;
+  text-align: center;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 180px;
+  border: 1px solid #105453;
+  background: rgba(6, 40, 54, 1);
+  box-shadow: 0px 0px 24.6px 0px rgba(25, 102, 101, 0.89);
+}
+
+.apples_win_title {
+  margin-bottom: 16px;
+  color: #4ed26c;
+  font-family: var(--font-source-sans-3);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0.96px;
+}
+
+.apples_win_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cf_title {
+  color: #fff;
+  font-family: var(--font-source-sans-3);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0.96px;
+}
+
+.win_quantity_title {
+  display: flex;
+  gap: 8px;
+  color: #fff;
+  font-family: var(--font-source-sans-3);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: 0.64px;
+}
+
+.block_appearing {
+  z-index: 5;
+
+  .apples_win_body {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.token_ico {
+  width: 24px;
+  height: 24px;
+}

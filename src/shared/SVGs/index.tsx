@@ -20,3 +20,4 @@ export * from "./WheelPick";
 export * from "./WheelShowIcon";
 export * from "./BallIcon";
 export * from "./WheelFortuneIcon";
+export * from "./AppleBtn";

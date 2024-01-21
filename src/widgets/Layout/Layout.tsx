@@ -55,9 +55,11 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         <WagmiConfig config={wagmiConfig}>
           <SessionInit game={props.gameName} />
 
-          {popupBonusState === `"true"`
-            || pathname === "/RegistrManual"
-            || pathname === "/ExchangeManual" ? null : <PopUpBonus />}
+          {popupBonusState === `"true"` ||
+          pathname === "/RegistrManual" ||
+          pathname === "/ExchangeManual" ? null : (
+            <PopUpBonus />
+          )}
 
           <div
             className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
