@@ -23,18 +23,23 @@
   // object-fit: cover;
   height: 100%;
   position: absolute;
+  // overflow: hidden;
   &_deep {
     width: 100%;
     // object-fit: cover;
     min-width: max-content;
     height: 100%;
     left: 0;
+    @media (max-width: 650px) {
+      width: 200%;
+    }
     position: absolute;
   }
   &_1 {
     &_start {
       left: 0;
       animation: hide_img 2s linear forwards;
+
       z-index: 2;
       @keyframes hide_img {
         0% {
@@ -44,12 +49,18 @@
           left: -1438px;
         }
       }
+      @media (max-width: 650px) {
+        animation: hide_img 1s linear forwards;
+      }
     }
   }
   &_2 {
     left: 100%;
     &_start {
       animation: start_img 4s linear infinite;
+      @media (max-width: 650px) {
+        animation: start_img 2s linear forwards;
+      }
       @keyframes start_img {
         0% {
           left: 100%;
@@ -64,6 +75,9 @@
     left: 200%;
     &_start {
       animation: start_2_img 4s 2s linear infinite;
+      @media (max-width: 650px) {
+        animation: start_2_img 2s 1s linear forwards;
+      }
       @keyframes start_2_img {
         0% {
           left: 100%;
@@ -74,48 +88,6 @@
       }
     }
   }
-  &_4 {
-    left: 300%;
-    &_start {
-      animation: start_3_img 4s 4s linear infinite;
-      @keyframes start_3_img {
-        0% {
-          left: 100%;
-        }
-        100% {
-          left: -100%;
-        }
-      }
-    }
-  }
-  &_5 {
-    left: 300%;
-    &_start {
-      animation: start_4_img 6s 4s linear infinite;
-      @keyframes start_4_img {
-        0% {
-          left: 100%;
-        }
-        100% {
-          left: -100%;
-        }
-      }
-    }
-  }
-  // &_6 {
-  //   left: 300%;
-  //   &_start {
-  //     animation: start_5_img 18s linear infinite;
-  //     @keyframes start_5_img {
-  //       0% {
-  //         left: 500%;
-  //       }
-  //       100% {
-  //         left: -100%;
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 .hourse_logo {
@@ -123,6 +95,11 @@
   left: 366px;
   bottom: 50px;
   mix-blend-mode: color-burn;
+  @media (max-width: 650px) {
+    width: 243.652px;
+    bottom: 15px;
+    left: 275px;
+  }
 }
 .total_container {
   position: absolute;
@@ -263,6 +240,12 @@ $hourse_step: 35;
         }
       }
     }
+    @media (max-width: 650px) {
+      width: 199.5px;
+      height: 107.25px;
+      top: 149px;
+      left: 137px;
+    }
   }
   &_2 {
     width: 286px;
@@ -279,6 +262,12 @@ $hourse_step: 35;
           left: calc(#{$hourse_step}vw + 154px);
         }
       }
+    }
+    @media (max-width: 650px) {
+      width: 214.5px;
+      height: 113.25px;
+      top: 181px;
+      left: 115px;
     }
   }
   &_3 {
@@ -297,6 +286,12 @@ $hourse_step: 35;
         }
       }
     }
+    @media (max-width: 650px) {
+      top: 219px;
+      left: 95px;
+      width: 224.25px;
+      height: 119.25px;
+    }
   }
   &_4 {
     width: 320px;
@@ -314,6 +309,12 @@ $hourse_step: 35;
         }
       }
     }
+    @media (max-width: 650px) {
+      top: 264px;
+      left: 65px;
+      width: 240px;
+      height: 127.5px;
+    }
   }
   &_5 {
     top: 412px;
@@ -330,6 +331,12 @@ $hourse_step: 35;
           left: calc(14px + #{$hourse_step}vw);
         }
       }
+    }
+    @media (max-width: 650px) {
+      width: 285.75px;
+      height: 151.5px;
+      top: 309px;
+      left: 10px;
     }
   }
 }

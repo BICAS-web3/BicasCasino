@@ -478,14 +478,6 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
   const [loadImage, setLoadImage] = useState(false);
 
   useEffect(() => {
-    console.log(
-      hourseLoad_1,
-      hourseLoad_2,
-      hourseLoad_3,
-      hourseLoad_4,
-      hourseLoad_5,
-      loadImage
-    );
     if (
       hourseLoad_1 &&
       hourseLoad_2 &&
