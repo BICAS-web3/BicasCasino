@@ -10,6 +10,7 @@ import plincoIcon from "@/public/media/live_bets/plinkoIco.webp";
 import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
 import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
+import appleIcon from "@/public/media/apples_icon/apple_icon.jpg";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -73,6 +74,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(rocketIcon);
     } else if (props.game_name === "Wheel Fortune") {
       setGameImg(wheelIcon);
+    } else if (props.game_name === "Apples") {
+      setGameImg(appleIcon);
     }
   });
 

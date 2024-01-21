@@ -274,6 +274,11 @@
   }
 }
 
+.wager_content {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .poker_wager_info_modal_block {
   display: flex;
   flex-direction: column;

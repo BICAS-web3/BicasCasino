@@ -73,6 +73,8 @@ import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.png
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 
+import appleBanner from "@/public/media/apples/banner.jpg";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
 
@@ -332,7 +334,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={slotsMain}
           closedSidebarImage={slot_bg}
           pcImageClosed={slot_bg}
-        />
+        />{" "}
         <Game
           name={"Wheel Fortune"}
           description={""}
@@ -343,6 +345,17 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={wheelFortuneBanner}
           closedSidebarImage={wheelFortuneBanner}
           pcImageClosed={wheelFortuneBanner}
+        />{" "}
+        <Game
+          name={"Apples"}
+          description={""}
+          link={"/games/Apples"}
+          pcImage={appleBanner}
+          tabletImage={appleBanner}
+          laptopImage={appleBanner}
+          mobileImage={appleBanner}
+          closedSidebarImage={appleBanner}
+          pcImageClosed={appleBanner}
         />
       </div>
     </div>

@@ -100,9 +100,9 @@ const WagerContent = () => {
           )}
         </button>
       )}{" "}
-      {isPlaying && (
+      {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )}
+      )} */}
     </>
   );
 };

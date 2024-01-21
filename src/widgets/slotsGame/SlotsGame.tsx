@@ -446,23 +446,23 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     }
   }, [wagered]);
 
-  const { config: refundConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: SlotsABI,
-    functionName: "Slots_Refund",
-    enabled: isPlaying,
-    args: [],
-    gas: BigInt(100000),
-  });
-  const { write: callRefund } = useContractWrite(refundConfig);
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: SlotsABI,
+  //   functionName: "Slots_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
 
-  useEffect(() => {
-    if (refund) {
-      callRefund?.();
-      setRefund(false);
-    }
-  }, [refund]);
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
 
   const [startFirst, setStartFirst] = useState(false);
   const [startSecond, setStartSecond] = useState(false);
