@@ -37,3 +37,6 @@ yarn.lock
 /.idea
 /.idea
 #package-lock.json
+
+# Sentry Config File
+.sentryclirc

@@ -21,3 +21,6 @@ export * from "./WheelShowIcon";
 export * from "./BallIcon";
 export * from "./WheelFortuneIcon";
 export * from "./AppleBtn";
+export * from "./Wager100Icon";
+export * from "./Wager10Icon";
+// export * from "./Wager1Icon";
