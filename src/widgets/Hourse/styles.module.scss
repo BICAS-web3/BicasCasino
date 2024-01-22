@@ -252,6 +252,7 @@ $hourse_step: 35;
     height: 151px;
     top: 242px;
     left: 154px;
+    z-index: 2;
     &_run {
       animation: hourse_2 8s forwards;
       @keyframes hourse_2 {
@@ -275,6 +276,7 @@ $hourse_step: 35;
     height: 159px;
     top: 292px;
     left: 127px;
+    z-index: 4;
     &_run {
       animation: hourse_3 8s forwards;
       @keyframes hourse_3 {
@@ -298,6 +300,7 @@ $hourse_step: 35;
     height: 170px;
     top: 352px;
     left: 87px;
+    z-index: 6;
     &_run {
       animation: hourse_4 8s forwards;
       @keyframes hourse_4 {
@@ -321,6 +324,7 @@ $hourse_step: 35;
     left: 14px;
     width: 381px;
     height: 202px;
+    z-index: 8;
     &_run {
       animation: hourse_5 8s forwards;
       @keyframes hourse_5 {
@@ -338,5 +342,25 @@ $hourse_step: 35;
       top: 309px;
       left: 10px;
     }
+  }
+}
+.fence {
+  position: absolute;
+  top: 0;
+  left: 0;
+  &_1 {
+    z-index: 1;
+  }
+  &_2 {
+    z-index: 3;
+  }
+  &_3 {
+    z-index: 5;
+  }
+  &_4 {
+    z-index: 7;
+  }
+  &_5 {
+    z-index: 9;
   }
 }

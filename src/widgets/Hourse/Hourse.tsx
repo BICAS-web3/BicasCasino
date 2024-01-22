@@ -44,6 +44,13 @@ import { Preload } from "@/shared/ui/Preload";
 import hourseBg from "@/public/media/hourse_images/bg_.png";
 import hourseBg_2 from "@/public/media/hourse_images/bg_2.png";
 import hourse_logo from "@/public/media/hourse_icons/logo.svg";
+
+import fence_1 from "@/public/media/hourse_images/fence_1.png";
+import fence_2 from "@/public/media/hourse_images/fence_2.png";
+import fence_3 from "@/public/media/hourse_images/fence_3.png";
+import fence_4 from "@/public/media/hourse_images/fence_4.png";
+import fence_5 from "@/public/media/hourse_images/fence_5.png";
+
 interface IHourse {
   gameText: string;
 }
@@ -690,6 +697,51 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         >
           <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
+        <Image
+          src={fence_1}
+          className={clsx(
+            s.fence,
+            s.fence_1,
+            testGame && allLoaded && s.hourse_table_background_img_1_start
+          )}
+          alt=""
+        />
+        <Image
+          src={fence_2}
+          className={clsx(
+            s.fence,
+            s.fence_2,
+            testGame && allLoaded && s.hourse_table_background_img_1_start
+          )}
+          alt=""
+        />
+        <Image
+          src={fence_3}
+          className={clsx(
+            s.fence,
+            s.fence_3,
+            testGame && allLoaded && s.hourse_table_background_img_1_start
+          )}
+          alt=""
+        />
+        <Image
+          src={fence_4}
+          className={clsx(
+            s.fence,
+            s.fence_4,
+            testGame && allLoaded && s.hourse_table_background_img_1_start
+          )}
+          alt=""
+        />
+        <Image
+          src={fence_5}
+          className={clsx(
+            s.fence,
+            s.fence_5,
+            testGame && allLoaded && s.hourse_table_background_img_1_start
+          )}
+          alt=""
+        />
         <div className={s.total_container}>
           <span className={s.total_won}>{fullWon.toFixed(2)}</span>
           <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
