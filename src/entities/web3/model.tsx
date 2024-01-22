@@ -44,26 +44,27 @@ $Chains.on(Api.getNetworksFx.doneData, (_, payload) => {
   var publicClient = [];
   var explorers = new Map<number, string>();
 
-  for (var network of networks.networks.concat([
-    {
-      basic_info: {
-        network_id: sepolia.id,
-        network_name: "Sepolia",
-        short_name: "SEP",
-        currency_name: "SEP",
-        currency_symbol: "SEP",
-        decimals: sepolia.nativeCurrency.decimals,
-      },
-      rpcs: [
-        {
-          id: 1,
-          network_id: 1,
-          url: "https://rpc.sepolia.org/",
-        },
-      ],
-      explorers: [{ id: 1, network_id: 1, url: "https://bscscan.com" }],
-    },
-  ])) {
+  //   .concat([
+  //   {
+  //     basic_info: {
+  //       network_id: sepolia.id,
+  //       network_name: "Sepolia",
+  //       short_name: "SEP",
+  //       currency_name: "SEP",
+  //       currency_symbol: "SEP",
+  //       decimals: sepolia.nativeCurrency.decimals,
+  //     },
+  //     rpcs: [
+  //       {
+  //         id: 1,
+  //         network_id: 1,
+  //         url: "https://rpc.sepolia.org/",
+  //       },
+  //     ],
+  //     explorers: [{ id: 1, network_id: 1, url: "https://bscscan.com" }],
+  //   },
+  // ])
+  for (var network of networks.networks) {
     if (network.explorers.length == 0) {
       continue;
     }

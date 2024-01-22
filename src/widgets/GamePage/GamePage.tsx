@@ -73,12 +73,14 @@ interface GamePageProps {
   soundClassName?: string;
   isMines?: boolean;
   customHeight?: boolean;
+  roulette?: boolean;
 }
 
 export const GamePage: FC<GamePageProps> = ({
   children,
   gameTitle,
   gameInfoText,
+  roulette,
   wagerContent,
   isPoker,
   customTitle = false,

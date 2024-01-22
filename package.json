@@ -15,6 +15,7 @@
     "@effector/next": "^0.5.1",
     "@react-three/drei": "^9.88.7",
     "@react-three/fiber": "^8.14.5",
+    "@sentry/nextjs": "^7.87.0",
     "@types/node": "20.4.9",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
