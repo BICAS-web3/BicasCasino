@@ -39,6 +39,7 @@
 }
 
 .apples_table_wrap {
+  box-sizing: border-box;
   position: relative;
   width: 100%;
   max-width: 425px;
@@ -59,17 +60,19 @@
   overflow: hidden;
   flex-direction: column;
   gap: 12px;
-  padding-top: 16px;
+  padding-top: 20px;
   margin-top: -16px;
 
   @media (max-width: 650px) {
     gap: 8.5px;
-    padding-top: 12px;
+    padding-top: 18px;
     margin-top: -12px;
   }
 }
 
 .apples_row {
+  box-sizing: border-box;
+  padding: 0 4px;
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -151,7 +154,7 @@
 
 .row_cf {
   width: 100%;
-  max-width: 112px;
+  max-width: 100px;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -160,7 +163,7 @@
   padding: 0 2px;
   width: 100%;
   bottom: 30.5px;
-  left: calc(50% + 2px);
+  left: 50%;
   transform: translateX(-50%);
 
   @media screen and (max-width: 650px) {
@@ -175,6 +178,7 @@
 }
 
 .cf_bg {
+  width: 100%;
   position: absolute;
   top: -5px;
   left: 0;
@@ -187,13 +191,13 @@
 
 .cf_bg_active {
   position: absolute;
-  top: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  // width: calc(100% + 1px);
+  top: -18px;
+  left: 49.9%;
+  transform: translateX(-49.9%);
   width: 100%;
   @media (max-width: 650px) {
     top: -11px;
+    object-fit: cover;
   }
 }
 
@@ -306,6 +310,11 @@
 .btns_block {
   display: flex;
   gap: 10px;
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    justify-content: end;
+  }
 }
 
 .clear_btn {
@@ -339,9 +348,17 @@
   @media screen and (max-width: 650px) {
     font-size: 12px;
     line-height: 17px;
-    width: 57px;
+    width: 95px;
     height: 23px;
     border-radius: 75.829px;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 29%;
+  }
+
+  @media screen and (max-width: 420px) {
+    width: 26.7%;
   }
 }
 
