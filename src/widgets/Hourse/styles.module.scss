@@ -39,7 +39,6 @@
     &_start {
       left: 0;
       animation: hide_img 2s linear forwards;
-
       z-index: 2;
       @keyframes hide_img {
         0% {
@@ -50,7 +49,7 @@
         }
       }
       @media (max-width: 650px) {
-        animation: hide_img 1s linear forwards;
+        animation: hide_img 1.6s linear forwards;
       }
     }
   }
@@ -59,7 +58,7 @@
     &_start {
       animation: start_img 4s linear infinite;
       @media (max-width: 650px) {
-        animation: start_img 2s linear forwards;
+        animation: start_img 2s linear infinite;
       }
       @keyframes start_img {
         0% {
@@ -76,7 +75,7 @@
     &_start {
       animation: start_2_img 4s 2s linear infinite;
       @media (max-width: 650px) {
-        animation: start_2_img 2s 1s linear forwards;
+        animation: start_2_img 2s 1s linear infinite;
       }
       @keyframes start_2_img {
         0% {
@@ -218,11 +217,12 @@
   display: none;
 }
 
-$hourse_step: 35;
-
 .hourse {
+  --hourse-step: 20vw;
+  @media (max-width: 998px) {
+    --hourse-step: 8vw;
+  }
   position: absolute;
-  transition: all 3s;
   &_1 {
     width: 266px;
     height: 143px;
@@ -236,7 +236,7 @@ $hourse_step: 35;
           left: 183px;
         }
         100% {
-          left: calc(#{$hourse_step}vw + 183px);
+          left: calc(var(--hourse-step) + 183px);
         }
       }
     }
@@ -260,7 +260,7 @@ $hourse_step: 35;
           left: 154px;
         }
         100% {
-          left: calc(#{$hourse_step}vw + 154px);
+          left: calc(var(--hourse-step) + 154px);
         }
       }
     }
@@ -284,7 +284,7 @@ $hourse_step: 35;
           left: 127px;
         }
         100% {
-          left: calc(#{$hourse_step}vw + 127px);
+          left: calc(var(--hourse-step) + 127px);
         }
       }
     }
@@ -308,7 +308,7 @@ $hourse_step: 35;
           left: 87px;
         }
         100% {
-          left: calc(#{$hourse_step}vw + 87px);
+          left: calc(var(--hourse-step) + 87px);
         }
       }
     }
@@ -332,7 +332,7 @@ $hourse_step: 35;
           left: 14px;
         }
         100% {
-          left: calc(14px + #{$hourse_step}vw);
+          left: calc(14px + var(--hourse-step));
         }
       }
     }

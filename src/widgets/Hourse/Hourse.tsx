@@ -22,7 +22,7 @@ import { sessionModel } from "@/entities/session";
 
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { ABI as RocketABI } from "@/shared/contracts/RocketABI";
-import { useDebounce } from "@/shared/tools";
+import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { TOKENS } from "@/shared/tokens";
 
 import { WagerModel as WagerButtonModel } from "../Wager";
@@ -51,11 +51,21 @@ import fence_3 from "@/public/media/hourse_images/fence_3.png";
 import fence_4 from "@/public/media/hourse_images/fence_4.png";
 import fence_5 from "@/public/media/hourse_images/fence_5.png";
 
+import fence_mobile_1 from "@/public/media/hourse_images/fence_mobile_1.png";
+import fence_mobile_2 from "@/public/media/hourse_images/fence_mobile_2.png";
+import fence_mobile_3 from "@/public/media/hourse_images/fence_mobile_3.png";
+import fence_mobile_4 from "@/public/media/hourse_images/fence_mobile_4.png";
+import fence_mobile_5 from "@/public/media/hourse_images/fence_mobile_5.png";
+
+import finish_line from "@/public/media/hourse_images/finishLine.png";
+
 interface IHourse {
   gameText: string;
 }
 
 export const Hourse: FC<IHourse> = ({ gameText }) => {
+  const isMobile = useMediaQuery("(max-width: 650px)");
+  const isDesktop = useMediaQuery("(min-width: 1280px)");
   const { isConnected, address } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
   const [
@@ -429,6 +439,16 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
 
   const [testGame, setTestGame] = useState(false);
 
+  const [hourseRun, setHourseRun] = useState(false);
+  const [hoursePlay, setHoursePlay] = useState(false);
+
+  useEffect(() => {
+    if (testGame) {
+      setHoursePlay(true);
+      setHourseRun(true);
+    }
+  }, [testGame]);
+
   const hourse_1_1 = useRef<HTMLVideoElement | null>(null);
   const hourse_1_2 = useRef<HTMLVideoElement | null>(null);
   const hourse_2_1 = useRef<HTMLVideoElement | null>(null);
@@ -461,7 +481,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     const bg_5_2 = hourse_1_2.current;
     bg_5_1!.currentTime = 0;
     bg_5_2!.currentTime = 0;
-  }, [testGame]);
+  }, [hoursePlay]);
 
   const [play_1, setPlay_1] = useState(false);
   const [play_2, setPlay_2] = useState(false);
@@ -503,6 +523,232 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     hourseLoad_5,
     loadImage,
   ]);
+
+  const [randomNumber, setRandomNumber] = useState<number | null>(null);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+
+    const generateRandomNumber = () => {
+      if (testGame) {
+        const randomValue = Math.floor(Math.random() * 11) - 5;
+        setRandomNumber(randomValue);
+      } else {
+        setRandomNumber(null);
+      }
+    };
+
+    if (testGame) {
+      setTimeout(() => {
+        generateRandomNumber();
+        intervalId = setInterval(generateRandomNumber, 3000);
+      }, 3000);
+    } else {
+      setRandomNumber(null);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [testGame]);
+
+  const [result, setResult] = useState<number[]>([]);
+
+  // useEffect(() => {
+  //   if (testGame) {
+  //     setTimeout(()=> {
+  //     setResult([0, 2, 4, 3, 1]);},5000)
+  //   }
+  // }, [testGame]);
+
+  const [stepValue, setStepValue] = useState(90);
+
+  useEffect(() => {
+    if (isDesktop) {
+      setStepValue(120);
+    } else {
+      setStepValue(90);
+    }
+  }, [isDesktop]);
+
+  const [hourse_speed_1, setHourse_speed_1] = useState(3);
+  const [hourse_speed_2, setHourse_speed_2] = useState(3);
+  const [hourse_speed_3, setHourse_speed_3] = useState(3);
+  const [hourse_speed_4, setHourse_speed_4] = useState(3);
+  const [hourse_speed_5, setHourse_speed_5] = useState(3);
+
+  const [hourseStay_1, setHourseStay_1] = useState(true);
+  const [hourseStay_2, setHourseStay_2] = useState(true);
+  const [hourseStay_3, setHourseStay_3] = useState(true);
+  const [hourseStay_4, setHourseStay_4] = useState(true);
+  const [hourseStay_5, setHourseStay_5] = useState(true);
+
+  useEffect(() => {
+    if (testGame) {
+      setHourseStay_1(false);
+      setHourseStay_2(false);
+      setHourseStay_3(false);
+      setHourseStay_4(false);
+      setHourseStay_5(false);
+    } else if (!testGame && result?.length > 0) {
+      setTimeout(() => {
+        setHourseStay_1(true);
+      }, hourse_speed_1);
+      setTimeout(() => {
+        setHourseStay_2(true);
+      }, hourse_speed_2);
+      setTimeout(() => {
+        setHourseStay_3(true);
+      }, hourse_speed_3);
+      setTimeout(() => {
+        setHourseStay_4(true);
+      }, hourse_speed_4);
+      setTimeout(() => {
+        setHourseStay_5(true);
+      }, hourse_speed_5);
+    }
+  }, [result, testGame]);
+
+  useEffect(() => {
+    const first = 0.6;
+    const second = 1.2;
+    const third = 1.8;
+    const fourth = 2.4;
+    const fivth = 3;
+    if (result?.length > 0) {
+      switch (result[0]) {
+        case 0:
+          setHourse_speed_1(first);
+          break;
+        case 1:
+          setHourse_speed_1(second);
+          break;
+        case 2:
+          setHourse_speed_1(third);
+          break;
+        case 3:
+          setHourse_speed_1(fourth);
+          break;
+        case 4:
+          setHourse_speed_1(fivth);
+          break;
+      }
+      switch (result[1]) {
+        case 0:
+          setHourse_speed_2(first);
+          break;
+        case 1:
+          setHourse_speed_2(second);
+          break;
+        case 2:
+          setHourse_speed_2(third);
+          break;
+        case 3:
+          setHourse_speed_2(fourth);
+          break;
+        case 4:
+          setHourse_speed_2(fivth);
+          break;
+      }
+      switch (result[2]) {
+        case 0:
+          setHourse_speed_3(first);
+          break;
+        case 1:
+          setHourse_speed_3(second);
+          break;
+        case 2:
+          setHourse_speed_3(third);
+          break;
+        case 3:
+          setHourse_speed_3(fourth);
+          break;
+        case 4:
+          setHourse_speed_3(fivth);
+          break;
+      }
+      switch (result[3]) {
+        case 0:
+          setHourse_speed_4(first);
+          break;
+        case 1:
+          setHourse_speed_4(second);
+          break;
+        case 2:
+          setHourse_speed_4(third);
+          break;
+        case 3:
+          setHourse_speed_4(fourth);
+          break;
+        case 4:
+          setHourse_speed_4(fivth);
+          break;
+      }
+      switch (result[4]) {
+        case 0:
+          setHourse_speed_5(first);
+          break;
+        case 1:
+          setHourse_speed_5(second);
+          break;
+        case 2:
+          setHourse_speed_5(third);
+          break;
+        case 3:
+          setHourse_speed_5(fourth);
+          break;
+        case 4:
+          setHourse_speed_5(fivth);
+          break;
+      }
+    }
+  }, [result?.length]);
+
+  const [testBool, setTestBool] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setTestBool(false), 4000);
+  }, []);
+
+  const hourseData = [
+    {
+      number: 1,
+      speed: hourse_speed_1,
+      ref1: hourse_1_1,
+      ref2: hourse_1_2,
+      stay: hourseStay_1,
+    },
+    {
+      number: 2,
+      speed: hourse_speed_2,
+      ref1: hourse_2_1,
+      ref2: hourse_2_2,
+      stay: hourseStay_2,
+    },
+    {
+      number: 3,
+      speed: hourse_speed_3,
+      ref1: hourse_3_1,
+      ref2: hourse_3_2,
+      stay: hourseStay_3,
+    },
+    {
+      number: 4,
+      speed: hourse_speed_4,
+      ref1: hourse_4_1,
+      ref2: hourse_4_2,
+      stay: hourseStay_4,
+    },
+    {
+      number: 5,
+      speed: hourse_speed_5,
+      ref1: hourse_5_1,
+      ref2: hourse_5_2,
+      stay: hourseStay_5,
+    },
+  ];
 
   return (
     <>
@@ -569,6 +815,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
         </video>
         <video
+          style={{
+            transition: `all ${hourse_speed_1}s`,
+            transform:
+              result.length > 0
+                ? "translateX(200px)"
+                : randomNumber === 1 || randomNumber === -1
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           onPlay={() => setPlay_1(true)}
           ref={hourse_1_2}
           className={clsx(
@@ -576,9 +831,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse_1,
             !testGame && s.hidden,
             testGame && allLoaded && s.hourse_1_run
+            // testGame && allLoaded && randomNumber === 1 && s.hourse_1_run_more
           )}
           autoPlay={true}
-          loop={true}
+          loop={!hourseStay_1}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_1(true)}
@@ -597,6 +853,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
         </video>
         <video
+          style={{
+            transition: `all ${hourse_speed_2}s`,
+            transform:
+              result.length > 0
+                ? "translateX(200px)"
+                : randomNumber === 2 || randomNumber === -2
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           onPlay={() => setPlay_2(true)}
           ref={hourse_2_2}
           className={clsx(
@@ -604,9 +869,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse_2,
             !testGame && s.hidden,
             testGame && allLoaded && s.hourse_2_run
+            // testGame && allLoaded && randomNumber === 2 && s.hourse_2_run_more
           )}
           autoPlay={true}
-          loop={true}
+          loop={!hourseStay_2}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_2(true)}
@@ -625,6 +891,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
         </video>
         <video
+          style={{
+            transition: `all ${hourse_speed_3}s`,
+            transform:
+              result.length > 0
+                ? "translateX(200px)"
+                : randomNumber === 3 || randomNumber === -3
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           onPlay={() => setPlay_3(true)}
           ref={hourse_3_2}
           className={clsx(
@@ -632,9 +907,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse_3,
             !testGame && s.hidden,
             testGame && allLoaded && s.hourse_3_run
+            // testGame && allLoaded && randomNumber === 3 && s.hourse_3_run_more
           )}
           autoPlay={true}
-          loop={true}
+          loop={!hourseStay_3}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_3(true)}
@@ -653,6 +929,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
         </video>
         <video
+          style={{
+            transition: `all ${hourse_speed_4}s`,
+            transform:
+              result.length > 0
+                ? "translateX(200px)"
+                : randomNumber === 4 || randomNumber === -4
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           onPlay={() => setPlay_4(true)}
           ref={hourse_4_2}
           className={clsx(
@@ -660,9 +945,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse_4,
             !testGame && s.hidden,
             testGame && allLoaded && s.hourse_4_run
+            // testGame && allLoaded && randomNumber === 4 && s.hourse_4_run_more
           )}
           autoPlay={true}
-          loop={true}
+          loop={!hourseStay_4}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_4(true)}
@@ -681,6 +967,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
         <video
+          style={{
+            transition: `all ${hourse_speed_5}s`,
+            transform:
+              result.length > 0
+                ? "translateX(200px)"
+                : randomNumber === 5 || randomNumber === -5
+                ? `translateX(${randomNumber > 0 ? stepValue : -90}px)`
+                : "",
+          }}
           onPlay={() => setPlay_5(true)}
           ref={hourse_5_2}
           className={clsx(
@@ -688,9 +983,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse_5,
             !testGame && s.hidden,
             testGame && allLoaded && s.hourse_5_run
+            // testGame && allLoaded && randomNumber === 5 && s.hourse_5_run_more
           )}
-          autoPlay={true}
-          loop={true}
+          autoPlay={testBool}
+          loop={testBool}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_5(true)}
@@ -698,7 +994,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
         </video>
         <Image
-          src={fence_1}
+          src={isMobile ? fence_mobile_1 : fence_1}
           className={clsx(
             s.fence,
             s.fence_1,
@@ -707,7 +1003,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           alt=""
         />
         <Image
-          src={fence_2}
+          src={isMobile ? fence_mobile_2 : fence_2}
           className={clsx(
             s.fence,
             s.fence_2,
@@ -716,7 +1012,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           alt=""
         />
         <Image
-          src={fence_3}
+          src={isMobile ? fence_mobile_3 : fence_3}
           className={clsx(
             s.fence,
             s.fence_3,
@@ -725,7 +1021,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           alt=""
         />
         <Image
-          src={fence_4}
+          src={isMobile ? fence_mobile_4 : fence_4}
           className={clsx(
             s.fence,
             s.fence_4,
@@ -734,7 +1030,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           alt=""
         />
         <Image
-          src={fence_5}
+          src={isMobile ? fence_mobile_5 : fence_5}
           className={clsx(
             s.fence,
             s.fence_5,
