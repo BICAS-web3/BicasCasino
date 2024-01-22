@@ -229,297 +229,300 @@
   transition: all 0.5s;
   position: absolute;
   z-index: 2;
+  @media (max-width: 1280px) {
+    width: 7.75px;
+    height: 7.75px;
+  }
   @media (max-width: 650px) {
     width: 6.3px;
     height: 6.3px;
   }
   &_1 {
-    top: -5px;
-    left: 213px;
+    top: -2.8px;
+    left: 217.98px;
     @media (max-width: 1280px) {
-      top: -2px;
-      left: 158px;
+      top: -2.11px;
+      left: 158.69px;
     }
     @media (max-width: 650px) {
-      left: 129.7px;
-      top: -1.7px;
+      left: 123.78px;
+      top: -1.74px;
     }
   }
   &_2 {
-    top: -3px;
-    right: 201px;
+    top: -0.8px;
+    right: 201.6px;
     @media (max-width: 1280px) {
-      top: -2.5px;
-      right: 146px;
+      top: -0.3px;
+      right: 146.03px;
     }
     @media (max-width: 650px) {
-      right: 113px;
-      top: -0.5px;
+      right: 113.9px;
+      top: -0.6px;
     }
   }
   &_3 {
-    top: 16px;
-    right: 139px;
+    top: 16.9px;
+    right: 139.92px;
     @media (max-width: 1280px) {
-      top: 12px;
-      right: 101px;
+      top: 12.31px;
+      right: 101.18px;
     }
     @media (max-width: 650px) {
-      top: 10px;
-      right: 82px;
+      top: 9.4px;
+      right: 78.8px;
     }
   }
   &_4 {
-    top: 51px;
-    right: 82px;
+    top: 51.2px;
+    right: 84.03px;
     @media (max-width: 1280px) {
-      top: 37px;
-      right: 60px;
+      top: 37.28px;
+      right: 60.59px;
     }
     @media (max-width: 650px) {
-      top: 30.5px;
-      right: 49.5px;
+      top: 28.8px;
+      right: 47px;
     }
   }
   &_5 {
-    top: 96px;
-    right: 37.5px;
+    top: 96.19px;
+    right: 42.01px;
     @media (max-width: 1280px) {
-      top: 70px;
-      right: 30px;
+      top: 70.03px;
+      right: 30.14px;
     }
     @media (max-width: 650px) {
-      top: 57px;
-      right: 24px;
+      top: 54.3px;
+      right: 23.1px;
     }
   }
   &_6 {
-    top: 153px;
-    right: 9px;
+    top: 153.13px;
+    right: 11.78px;
     @media (max-width: 1280px) {
-      top: 111px;
-      right: 8px;
+      top: 111.48px;
+      right: 8.31px;
     }
     @media (max-width: 650px) {
-      top: 91px;
-      right: 7px;
+      top: 86.6px;
+      right: 5.95px;
     }
   }
   &_7 {
-    top: 211.5px;
-    right: -5.5px;
+    top: 216.22px;
+    right: -2.28px;
     @media (max-width: 1280px) {
-      top: 157px;
-      right: -1.5px;
+      top: 157.4px;
+      right: -1.74px;
     }
     @media (max-width: 650px) {
-      top: 128px;
-      right: -1.5px;
+      top: 122.3px;
+      right: -2px;
     }
   }
   &_8 {
-    top: 275.4px;
-    right: -5.5px;
+    top: 280.89px;
+    right: -0.8px;
     @media (max-width: 1280px) {
-      top: 204px;
-      right: 0.6px;
+      top: 204.37px;
+      right: -0.6px;
     }
     @media (max-width: 650px) {
-      top: 167px;
-      right: 0.5;
+      top: 159px;
+      right: -1.2px;
     }
   }
   &_9 {
-    top: 337px;
-    right: 12px;
+    top: 341.55px;
+    right: 16.47px;
     @media (max-width: 1280px) {
-      top: 248px;
-      // bottom: 102px;
-      right: 12px;
+      top: 248.34px;
+      right: 11.99px;
     }
     @media (max-width: 650px) {
-      top: 199px;
-      right: 12px;
+      top: 193.3px;
+      right: 8.6px;
     }
   }
   &_10 {
-    bottom: 86px;
-    right: 48px;
+    bottom: 86.11px;
+    right: 49.57px;
     @media (max-width: 1280px) {
-      bottom: 62px;
-      right: 36px;
+      bottom: 62.1px;
+      right: 36.09px;
     }
     @media (max-width: 650px) {
-      right: 29.5px;
-      bottom: 50px;
+      right: 27.4px;
+      bottom: 49px;
     }
   }
   &_11 {
-    bottom: 41px;
-    right: 97px;
+    bottom: 41.08px;
+    right: 97.34px;
     @media (max-width: 1280px) {
-      bottom: 30px;
-      right: 70px;
+      bottom: 29.47px;
+      right: 70.87px;
     }
     @media (max-width: 650px) {
-      bottom: 24px;
-      right: 58px;
+      bottom: 23.5px;
+      right: 54.6px;
     }
   }
   &_12 {
-    bottom: 11px;
+    bottom: 11.05px;
     right: 154.5px;
     @media (max-width: 1280px) {
-      bottom: 8px;
-      right: 112px;
+      bottom: 7.77px;
+      right: 112.48px;
     }
     @media (max-width: 650px) {
-      bottom: 6px;
-      right: 92px;
+      bottom: 6.5px;
+      right: 87.1px;
     }
   }
   &_13 {
-    bottom: -2.7px;
-    right: 218px;
+    bottom: -2.78px;
+    right: 218.09px;
     @media (max-width: 1280px) {
-      right: 158px;
-      bottom: -2px;
+      right: 158.77px;
+      bottom: -2.1px;
     }
     @media (max-width: 650px) {
-      right: 129.79px;
+      right: 123.29px;
       bottom: -1.7px;
     }
   }
   &_14 {
-    bottom: -1px;
-    left: 202px;
+    bottom: -1.05px;
+    left: 202.42px;
     @media (max-width: 1280px) {
-      left: 146px;
-      bottom: -0.7px;
+      left: 146.62px;
+      bottom: -0.76px;
     }
     @media (max-width: 650px) {
-      left: 119.8px;
-      bottom: 0.6;
+      left: 114.93px;
+      bottom: -0.3px;
     }
   }
   &_15 {
-    left: 140px;
-    bottom: 16.5px;
+    left: 139.96px;
+    bottom: 16.59px;
     @media (max-width: 1280px) {
-      left: 101px;
-      bottom: 12px;
+      left: 101.2px;
+      bottom: 12.07px;
     }
     @media (max-width: 650px) {
-      left: 82.7px;
-      bottom: 9.8px;
+      left: 79.4px;
+      bottom: 9.67px;
     }
   }
   &_16 {
-    bottom: 50px;
-    left: 85px;
+    bottom: 49.9px;
+    left: 84.91px;
     @media (max-width: 1280px) {
-      left: 61px;
-      bottom: 36px;
+      left: 61.23px;
+      bottom: 36.33px;
     }
     @media (max-width: 650px) {
-      left: 50px;
-      bottom: 29.7px;
+      left: 48.1px;
+      bottom: 28.5px;
     }
   }
   &_17 {
-    bottom: 97.9px;
-    left: 40px;
+    bottom: 97.77px;
+    left: 40.16px;
     @media (max-width: 1280px) {
-      left: 29px;
-      bottom: 71px;
+      left: 28.8px;
+      bottom: 71.18px;
     }
     @media (max-width: 650px) {
-      left: 23.5px;
-      bottom: 58px;
+      left: 22.65px;
+      bottom: 55.67px;
     }
   }
   &_18 {
-    bottom: 155px;
-    left: 10px;
+    bottom: 154.97px;
+    left: 10.39px;
     @media (max-width: 1280px) {
-      left: 7px;
-      bottom: 113px;
+      left: 7.3px;
+      bottom: 112.83px;
     }
     @media (max-width: 650px) {
-      left: 6px;
-      top: 194.5px;
+      left: 5.7px;
+      top: 185.5px;
     }
   }
   &_19 {
-    bottom: 216px;
-    left: -6px;
+    bottom: 218.16px;
+    left: -3.17px;
     @media (max-width: 1280px) {
-      left: -2px;
-      bottom: 159px;
+      left: -2.38px;
+      bottom: 158.82px;
     }
     @media (max-width: 650px) {
-      top: 158.2px;
+      top: 151.1px;
       left: -2px;
     }
   }
   &_20 {
-    top: 202px;
-    left: -1px;
+    top: 201.97px;
+    left: -1.29px;
     @media (max-width: 1280px) {
-      top: 146px;
-      left: -1px;
+      top: 146.29px;
+      left: -0.94px;
     }
     @media (max-width: 650px) {
-      top: 119.5px;
-      left: 0.7;
+      top: 114.28px;
+      left: -0.93px;
     }
   }
   &_21 {
-    top: 140px;
-    left: 16px;
+    top: 140.1px;
+    left: 16.31px;
     @media (max-width: 1280px) {
-      top: 101px;
-      left: 12px;
+      top: 101.3px;
+      left: 11.88px;
     }
     @media (max-width: 650px) {
-      top: 82.8px;
-      left: 9.7px;
+      top: 79.23px;
+      left: 9.08px;
     }
   }
   &_22 {
-    top: 84.3px;
-    left: 50.3px;
+    top: 84.37px;
+    left: 50.27px;
     @media (max-width: 1280px) {
-      top: 60.5px;
-      left: 36.5px;
+      top: 60.84px;
+      left: 36.6px;
     }
     @media (max-width: 650px) {
-      top: 49.7px;
-      left: 29.9px;
+      top: 47.65px;
+      left: 28.39px;
     }
   }
   &_23 {
-    top: 40px;
-    left: 98px;
+    top: 39.97px;
+    left: 98.21px;
     @media (max-width: 1280px) {
-      top: 28.5px;
+      top: 28.66px;
       left: 71.5px;
     }
     @media (max-width: 650px) {
-      top: 23.4px;
-      left: 57.4px;
+      top: 22.49px;
+      left: 55.66px;
     }
   }
   &_24 {
-    top: 10.5px;
-    left: 150px;
+    top: 10.53px;
+    left: 155.24px;
     @media (max-width: 1280px) {
       top: 7px;
-      left: 113px;
+      left: 113.02px;
     }
     @media (max-width: 650px) {
-      top: 6px;
-      left: 92.3px;
+      top: 5.81px;
+      left: 88.1px;
     }
   }
 }

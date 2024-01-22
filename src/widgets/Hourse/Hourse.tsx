@@ -706,50 +706,6 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     }
   }, [result?.length]);
 
-  const [testBool, setTestBool] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => setTestBool(false), 4000);
-  }, []);
-
-  const hourseData = [
-    {
-      number: 1,
-      speed: hourse_speed_1,
-      ref1: hourse_1_1,
-      ref2: hourse_1_2,
-      stay: hourseStay_1,
-    },
-    {
-      number: 2,
-      speed: hourse_speed_2,
-      ref1: hourse_2_1,
-      ref2: hourse_2_2,
-      stay: hourseStay_2,
-    },
-    {
-      number: 3,
-      speed: hourse_speed_3,
-      ref1: hourse_3_1,
-      ref2: hourse_3_2,
-      stay: hourseStay_3,
-    },
-    {
-      number: 4,
-      speed: hourse_speed_4,
-      ref1: hourse_4_1,
-      ref2: hourse_4_2,
-      stay: hourseStay_4,
-    },
-    {
-      number: 5,
-      speed: hourse_speed_5,
-      ref1: hourse_5_1,
-      ref2: hourse_5_2,
-      stay: hourseStay_5,
-    },
-  ];
-
   return (
     <>
       {isLoading && (
@@ -985,8 +941,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             testGame && allLoaded && s.hourse_5_run
             // testGame && allLoaded && randomNumber === 5 && s.hourse_5_run_more
           )}
-          autoPlay={testBool}
-          loop={testBool}
+          autoPlay={true}
+          loop={!hourseStay_5}
           muted
           playsInline
           onLoadedData={() => setHourseLoad_5(true)}
