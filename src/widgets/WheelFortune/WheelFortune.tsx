@@ -1541,19 +1541,18 @@ const WheelComponent = ({
     // Перемещаемся к начальной точке дуги
     const startX = centerX + innerRadius * Math.cos(lastAngle);
     const startY = centerY + innerRadius * Math.sin(lastAngle);
-    //! ctx.moveTo(startX, startY);
-    if (isMobile || count < 50 || count === 20) {
-      !ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-      if (count === 20) {
-        !ctx.moveTo(startX, startY);
-      }
+    // if (isMobile || count < 50) {
+    //   if (count === 20 || (count === 10 && level === "Medium")) {
+    //     ctx.moveTo(startX, startY);
+    //   }
+    //   ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    // }
+    if (isMobile || count < 50) {
+      ctx.moveTo(startX, startY);
+      ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     }
 
     // Рисуем дугу до конечной точки
-
-    // ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-    if (segColors?.length < 29) {
-    }
 
     // Рисуем линию до внешней окружности
     const endX = centerX + outerRadius * Math.cos(angle);
