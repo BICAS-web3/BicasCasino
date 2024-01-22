@@ -14,7 +14,7 @@ import backIco from "@/public/media/apples/backIco.svg";
 import clsx from "clsx";
 //?------------
 import Image from "next/image";
-
+import mobLine from "@/public/media/apples/mobLine.svg";
 // import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
 
 import { SidePickerModel } from "../CoinFlipSidePicker";
@@ -477,8 +477,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     handleReset();
   }, [reset]);
 
-  // useEffect(() => setInGame(true), []);
-
   return (
     <>
       {error && (
@@ -671,16 +669,31 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.game_info_block}>
                 <span className={s.multiplier_title}>
                   Current Multiplier:{" "}
-                  {chunkedApplesArr[
-                    Math.abs(
-                      appleData.length -
-                        chunkedApplesArr?.length +
-                        (appleData.length === 9 ? 0 : 1)
-                    )
-                  ]?.cf?.toFixed(2)}
+                  {appleData.length !== 0
+                    ? chunkedApplesArr[
+                        Math.abs(
+                          appleData.length -
+                            chunkedApplesArr?.length +
+                            (appleData.length === 9 ? 0 : 0)
+                        )
+                      ]?.cf?.toFixed(2)
+                    : 0}
                   x
                 </span>
-                <span className={s.multiplier_title}>Max Payout: 136.483</span>
+                <span className={s.multiplier_title}>
+                  Max Payout:{" "}
+                  {appleData.length !== 0
+                    ? (
+                        chunkedApplesArr[
+                          Math.abs(
+                            appleData.length -
+                              chunkedApplesArr?.length +
+                              (appleData.length === 9 ? 0 : 0)
+                          )
+                        ]?.cf?.toFixed(2) * cryptoValue
+                      ).toFixed(3)
+                    : 0}
+                </span>
               </div>
               <div className={s.btns_block}>
                 <button
