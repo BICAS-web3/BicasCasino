@@ -669,15 +669,20 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.game_info_block}>
                 <span className={s.multiplier_title}>
                   Current Multiplier:{" "}
-                  {appleData.length !== 0
+                  {inGame || appleGameResult?.length > 0
+                    ? chunkedApplesArr[
+                        Math.abs(appleData.length - chunkedApplesArr?.length)
+                      ]?.cf?.toFixed(2)
+                    : appleData.length < 9
                     ? chunkedApplesArr[
                         Math.abs(
                           appleData.length -
                             chunkedApplesArr?.length +
+                            1 +
                             (appleData.length === 9 ? 0 : 0)
                         )
                       ]?.cf?.toFixed(2)
-                    : 0}
+                    : chunkedApplesArr[0]?.cf?.toFixed(2)}
                   x
                 </span>
                 <span className={s.multiplier_title}>
