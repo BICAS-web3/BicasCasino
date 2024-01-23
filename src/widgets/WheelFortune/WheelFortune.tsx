@@ -1547,9 +1547,9 @@ const WheelComponent = ({
     //   }
     //   ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     // }
+    ctx.moveTo(startX, startY);
+    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     if (isMobile || count < 50) {
-      ctx.moveTo(startX, startY);
-      ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     }
 
     // Рисуем дугу до конечной точки
@@ -1564,7 +1564,7 @@ const WheelComponent = ({
 
     // Закрываем путь
     ctx.closePath();
-
+    ctx.lineJoin = "bevel";
     // Заливаем цвет сегмента
     ctx.fillStyle = colors[key]?.segment;
     ctx.fill();
