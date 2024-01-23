@@ -541,7 +541,35 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   const currentIndex = Math.abs(ind - 8);
                   return (
                     <div className={s.apples_row} key={ind}>
-                      {" "}
+                      {ind === chunkedApplesArr.length - 1 && (
+                        <>
+                          {" "}
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_left
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_right
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_left
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_right
+                            )}
+                          ></span>
+                        </>
+                      )}
                       {((inGame || appleGameResult?.length > 0
                         ? currentIndex === appleData.length - 1
                         : currentIndex === appleData.length) ||
@@ -552,6 +580,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                           alt="cf-static-bg"
                         />
                       )}
+
                       <div className={s.row_cf}>
                         {currentIndex >= appleData.length && (
                           <span className={s.cf_title}>
