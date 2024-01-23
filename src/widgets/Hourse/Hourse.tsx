@@ -525,12 +525,13 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
   ]);
 
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
+  const [result, setResult] = useState<number[]>([]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
     const generateRandomNumber = () => {
-      if (testGame) {
+      if (result.length === 0 && testGame) {
         const randomValue = Math.floor(Math.random() * 11) - 5;
         setRandomNumber(randomValue);
       } else {
@@ -538,7 +539,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
       }
     };
 
-    if (testGame) {
+    if (result.length === 0 && testGame) {
       setTimeout(() => {
         generateRandomNumber();
         intervalId = setInterval(generateRandomNumber, 3000);
@@ -552,16 +553,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         clearInterval(intervalId);
       }
     };
+  }, [result, testGame]);
+
+  useEffect(() => {
+    if (testGame) {
+      setTimeout(() => {
+        setResult([4, 1, 2, 3, 0]);
+      }, 10000);
+    }
   }, [testGame]);
-
-  const [result, setResult] = useState<number[]>([]);
-
-  // useEffect(() => {
-  //   if (testGame) {
-  //     setTimeout(()=> {
-  //     setResult([0, 2, 4, 3, 1]);},5000)
-  //   }
-  // }, [testGame]);
 
   const [stepValue, setStepValue] = useState(90);
 
@@ -573,138 +573,141 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     }
   }, [isDesktop]);
 
-  const [hourse_speed_1, setHourse_speed_1] = useState(3);
-  const [hourse_speed_2, setHourse_speed_2] = useState(3);
-  const [hourse_speed_3, setHourse_speed_3] = useState(3);
-  const [hourse_speed_4, setHourse_speed_4] = useState(3);
-  const [hourse_speed_5, setHourse_speed_5] = useState(3);
+  const [hourse_speed_1, setHourse_speed_1] = useState<number | null>(null);
+  const [hourse_speed_2, setHourse_speed_2] = useState<number | null>(null);
+  const [hourse_speed_3, setHourse_speed_3] = useState<number | null>(null);
+  const [hourse_speed_4, setHourse_speed_4] = useState<number | null>(null);
+  const [hourse_speed_5, setHourse_speed_5] = useState<number | null>(null);
 
-  const [hourseStay_1, setHourseStay_1] = useState(true);
-  const [hourseStay_2, setHourseStay_2] = useState(true);
-  const [hourseStay_3, setHourseStay_3] = useState(true);
-  const [hourseStay_4, setHourseStay_4] = useState(true);
-  const [hourseStay_5, setHourseStay_5] = useState(true);
-
+  const [hourseStay_1, setHourseStay_1] = useState(false);
+  const [hourseStay_2, setHourseStay_2] = useState(false);
+  const [hourseStay_3, setHourseStay_3] = useState(false);
+  const [hourseStay_4, setHourseStay_4] = useState(false);
+  const [hourseStay_5, setHourseStay_5] = useState(false);
   useEffect(() => {
-    if (testGame) {
-      setHourseStay_1(false);
-      setHourseStay_2(false);
-      setHourseStay_3(false);
-      setHourseStay_4(false);
-      setHourseStay_5(false);
-    } else if (!testGame && result?.length > 0) {
-      setTimeout(() => {
-        setHourseStay_1(true);
-      }, hourse_speed_1);
-      setTimeout(() => {
-        setHourseStay_2(true);
-      }, hourse_speed_2);
-      setTimeout(() => {
-        setHourseStay_3(true);
-      }, hourse_speed_3);
-      setTimeout(() => {
-        setHourseStay_4(true);
-      }, hourse_speed_4);
-      setTimeout(() => {
-        setHourseStay_5(true);
-      }, hourse_speed_5);
-    }
-  }, [result, testGame]);
-
-  useEffect(() => {
-    const first = 0.6;
-    const second = 1.2;
-    const third = 1.8;
-    const fourth = 2.4;
-    const fivth = 3;
     if (result?.length > 0) {
       switch (result[0]) {
         case 0:
-          setHourse_speed_1(first);
+          setHourse_speed_1(1);
           break;
         case 1:
-          setHourse_speed_1(second);
+          setHourse_speed_1(2);
           break;
         case 2:
-          setHourse_speed_1(third);
+          setHourse_speed_1(3);
           break;
         case 3:
-          setHourse_speed_1(fourth);
+          setHourse_speed_1(4);
           break;
         case 4:
-          setHourse_speed_1(fivth);
+          setHourse_speed_1(5);
           break;
       }
       switch (result[1]) {
         case 0:
-          setHourse_speed_2(first);
+          setHourse_speed_2(1);
           break;
         case 1:
-          setHourse_speed_2(second);
+          setHourse_speed_2(2);
           break;
         case 2:
-          setHourse_speed_2(third);
+          setHourse_speed_2(3);
           break;
         case 3:
-          setHourse_speed_2(fourth);
+          setHourse_speed_2(4);
           break;
         case 4:
-          setHourse_speed_2(fivth);
+          setHourse_speed_2(5);
           break;
       }
       switch (result[2]) {
         case 0:
-          setHourse_speed_3(first);
+          setHourse_speed_3(1);
           break;
         case 1:
-          setHourse_speed_3(second);
+          setHourse_speed_3(2);
           break;
         case 2:
-          setHourse_speed_3(third);
+          setHourse_speed_3(3);
           break;
         case 3:
-          setHourse_speed_3(fourth);
+          setHourse_speed_3(4);
           break;
         case 4:
-          setHourse_speed_3(fivth);
+          setHourse_speed_3(5);
           break;
       }
       switch (result[3]) {
         case 0:
-          setHourse_speed_4(first);
+          setHourse_speed_4(1);
           break;
         case 1:
-          setHourse_speed_4(second);
+          setHourse_speed_4(2);
           break;
         case 2:
-          setHourse_speed_4(third);
+          setHourse_speed_4(3);
           break;
         case 3:
-          setHourse_speed_4(fourth);
+          setHourse_speed_4(4);
           break;
         case 4:
-          setHourse_speed_4(fivth);
+          setHourse_speed_4(5);
           break;
       }
       switch (result[4]) {
         case 0:
-          setHourse_speed_5(first);
+          setHourse_speed_5(1);
           break;
         case 1:
-          setHourse_speed_5(second);
+          setHourse_speed_5(2);
           break;
         case 2:
-          setHourse_speed_5(third);
+          setHourse_speed_5(3);
           break;
         case 3:
-          setHourse_speed_5(fourth);
+          setHourse_speed_5(4);
           break;
         case 4:
-          setHourse_speed_5(fivth);
+          setHourse_speed_5(5);
           break;
       }
     }
   }, [result?.length]);
+  useEffect(() => {
+    if (result?.length > 0 && hourse_speed_1) {
+      setTimeout(() => {
+        setHourseStay_1(true);
+      }, hourse_speed_1 * 1500);
+    }
+  }, [result?.length, hourse_speed_1]);
+  useEffect(() => {
+    if (result?.length > 0 && hourse_speed_2) {
+      setTimeout(() => {
+        setHourseStay_2(true);
+      }, hourse_speed_2 * 1500);
+    }
+  }, [result?.length, hourse_speed_2]);
+  useEffect(() => {
+    if (result?.length > 0 && hourse_speed_3) {
+      setTimeout(() => {
+        setHourseStay_3(true);
+      }, hourse_speed_3 * 1500);
+    }
+  }, [result?.length, hourse_speed_3]);
+  useEffect(() => {
+    if (result?.length > 0 && hourse_speed_4) {
+      setTimeout(() => {
+        setHourseStay_4(true);
+      }, hourse_speed_4 * 1500);
+    }
+  }, [result?.length, hourse_speed_4]);
+  useEffect(() => {
+    if (result?.length > 0 && hourse_speed_5) {
+      setTimeout(() => {
+        setHourseStay_5(true);
+      }, hourse_speed_5 * 1500);
+    }
+  }, [result?.length, hourse_speed_5]);
 
   return (
     <>
@@ -772,11 +775,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         </video>
         <video
           style={{
-            transition: `all ${hourse_speed_1}s`,
             transform:
-              result.length > 0
-                ? "translateX(200px)"
-                : randomNumber === 1 || randomNumber === -1
+              randomNumber === 1 || randomNumber === -1
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
@@ -786,8 +786,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse,
             s.hourse_1,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_1_run
-            // testGame && allLoaded && randomNumber === 1 && s.hourse_1_run_more
+            testGame && allLoaded && s.hourse_1_run,
+            s[`hourse_animation_${hourse_speed_1}`],
+            result?.length > 0 && s.hourse_finish_1
           )}
           autoPlay={true}
           loop={!hourseStay_1}
@@ -810,11 +811,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         </video>
         <video
           style={{
-            transition: `all ${hourse_speed_2}s`,
             transform:
-              result.length > 0
-                ? "translateX(200px)"
-                : randomNumber === 2 || randomNumber === -2
+              randomNumber === 2 || randomNumber === -2
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
@@ -824,8 +822,10 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse,
             s.hourse_2,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_2_run
-            // testGame && allLoaded && randomNumber === 2 && s.hourse_2_run_more
+            testGame && allLoaded && s.hourse_2_run,
+            testGame && allLoaded && s.hourse_2_run,
+            s[`hourse_animation_${hourse_speed_2}`],
+            result?.length > 0 && s.hourse_finish_2
           )}
           autoPlay={true}
           loop={!hourseStay_2}
@@ -848,11 +848,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         </video>
         <video
           style={{
-            transition: `all ${hourse_speed_3}s`,
             transform:
-              result.length > 0
-                ? "translateX(200px)"
-                : randomNumber === 3 || randomNumber === -3
+              randomNumber === 3 || randomNumber === -3
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
@@ -862,8 +859,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse,
             s.hourse_3,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_3_run
-            // testGame && allLoaded && randomNumber === 3 && s.hourse_3_run_more
+            testGame && allLoaded && s.hourse_3_run,
+            s[`hourse_animation_${hourse_speed_3}`],
+            result?.length > 0 && s.hourse_finish_3
           )}
           autoPlay={true}
           loop={!hourseStay_3}
@@ -886,11 +884,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         </video>
         <video
           style={{
-            transition: `all ${hourse_speed_4}s`,
             transform:
-              result.length > 0
-                ? "translateX(200px)"
-                : randomNumber === 4 || randomNumber === -4
+              randomNumber === 4 || randomNumber === -4
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
@@ -900,8 +895,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse,
             s.hourse_4,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_4_run
-            // testGame && allLoaded && randomNumber === 4 && s.hourse_4_run_more
+            testGame && allLoaded && s.hourse_4_run,
+            s[`hourse_animation_${hourse_speed_4}`],
+            result?.length > 0 && s.hourse_finish_4
           )}
           autoPlay={true}
           loop={!hourseStay_4}
@@ -924,11 +920,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         </video>
         <video
           style={{
-            transition: `all ${hourse_speed_5}s`,
             transform:
-              result.length > 0
-                ? "translateX(200px)"
-                : randomNumber === 5 || randomNumber === -5
+              randomNumber === 5 || randomNumber === -5
                 ? `translateX(${randomNumber > 0 ? stepValue : -90}px)`
                 : "",
           }}
@@ -938,8 +931,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             s.hourse,
             s.hourse_5,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_5_run
-            // testGame && allLoaded && randomNumber === 5 && s.hourse_5_run_more
+            testGame && allLoaded && s.hourse_5_run,
+            s[`hourse_animation_${hourse_speed_5}`],
+            result?.length > 0 && s.hourse_finish_5
           )}
           autoPlay={true}
           loop={!hourseStay_5}
