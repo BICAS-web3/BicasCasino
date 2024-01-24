@@ -541,7 +541,35 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   const currentIndex = Math.abs(ind - 8);
                   return (
                     <div className={s.apples_row} key={ind}>
-                      {" "}
+                      {ind === chunkedApplesArr.length - 1 && (
+                        <>
+                          {" "}
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_left
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_right
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_left
+                            )}
+                          ></span>
+                          <span
+                            className={clsx(
+                              s.apples_shadow,
+                              s.apples_shadow_right
+                            )}
+                          ></span>
+                        </>
+                      )}
                       {((inGame || appleGameResult?.length > 0
                         ? currentIndex === appleData.length - 1
                         : currentIndex === appleData.length) ||
@@ -552,6 +580,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                           alt="cf-static-bg"
                         />
                       )}
+
                       <div className={s.row_cf}>
                         {currentIndex >= appleData.length && (
                           <span className={s.cf_title}>
@@ -669,15 +698,20 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
               <div className={s.game_info_block}>
                 <span className={s.multiplier_title}>
                   Current Multiplier:{" "}
-                  {appleData.length !== 0
+                  {inGame || appleGameResult?.length > 0
+                    ? chunkedApplesArr[
+                        Math.abs(appleData.length - chunkedApplesArr?.length)
+                      ]?.cf?.toFixed(2)
+                    : appleData.length < 9
                     ? chunkedApplesArr[
                         Math.abs(
                           appleData.length -
                             chunkedApplesArr?.length +
+                            1 +
                             (appleData.length === 9 ? 0 : 0)
                         )
                       ]?.cf?.toFixed(2)
-                    : 0}
+                    : chunkedApplesArr[0]?.cf?.toFixed(2)}
                   x
                 </span>
                 <span className={s.multiplier_title}>

@@ -542,3 +542,24 @@
 .multiplier_negative {
   background: rgba(159, 49, 49, 0.9);
 }
+
+.apples_shadow {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 36, 48, 1) 0%,
+    rgba(255, 255, 255, 0) 100%,
+    rgba(245, 245, 245, 0) 100%
+  );
+  transform: rotate(-90deg);
+  z-index: 20;
+  &_left {
+    left: -11px;
+  }
+  &_right {
+    right: -11px;
+  }
+}

@@ -1529,23 +1529,30 @@ const WheelComponent = ({
   ) => {
     const ctx = canvasContext;
     ctx.save();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
     const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    const innerRadius = level === "Medium" ? size + 0.0001 : size; // или любой другой размер, который вам нравится
-    const outerRadius = level === "Medium" ? size + 0.0001 : size;
+    // const innerRadius = level === "Medium" ? size + 0.0001 : size;
+    // const outerRadius = level === "Medium" ? size + 0.0001 : size;
+    const innerRadius = size;
+    const outerRadius = size;
 
-    // Начинаем новый путь
     ctx.beginPath();
 
     // Перемещаемся к начальной точке дуги
     const startX = centerX + innerRadius * Math.cos(lastAngle);
     const startY = centerY + innerRadius * Math.sin(lastAngle);
-    // ctx.moveTo(startX, startY);
+    // if (isMobile || count < 50) {
+    //   if (count === 20 || (count === 10 && level === "Medium")) {
+    //     ctx.moveTo(startX, startY);
+    //   }
+    //   ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    // }
+    ctx.moveTo(startX, startY);
+    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    if (isMobile || count < 50) {
+    }
 
     // Рисуем дугу до конечной точки
-
-    if (segColors?.length < 29) {
-      ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-    }
 
     // Рисуем линию до внешней окружности
     const endX = centerX + outerRadius * Math.cos(angle);
@@ -1557,13 +1564,13 @@ const WheelComponent = ({
 
     // Закрываем путь
     ctx.closePath();
-
+    ctx.lineJoin = "bevel";
     // Заливаем цвет сегмента
     ctx.fillStyle = colors[key]?.segment;
     ctx.fill();
 
     // Рисуем внутреннюю обводку
-    ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15; // или любая другая толщина
+    ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15; //isMobile ? 10 : isDesktop ? 12 : 15 или любая другая толщина
     ctx.strokeStyle = colors[key + 1]?.border || "red";
     ctx.stroke();
     ctx.beginPath();
