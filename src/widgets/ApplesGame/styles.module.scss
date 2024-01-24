@@ -8,6 +8,10 @@
   @media screen and (max-width: 996px) {
     padding: 64px 30px;
   }
+
+  @media screen and (max-width: 650px) {
+    padding: 44px 10px;
+  }
 }
 
 .apples_table_background {
@@ -52,6 +56,12 @@
 
   @media screen and (max-width: 650px) {
     padding: 19px 17px;
+    margin-bottom: 40px;
+    margin-top: 0;
+  }
+
+  @media screen and (max-width: 480px) {
+    max-width: 325px;
   }
 }
 
@@ -64,7 +74,7 @@
   margin-top: -16px;
 
   @media (max-width: 650px) {
-    gap: 8.5px;
+    gap: 10px;
     padding-top: 18px;
     margin-top: -12px;
   }
@@ -90,11 +100,10 @@
   position: relative;
   height: 40px;
   padding: 0 10px;
-  // cursor: pointer;
   overflow: hidden;
   transition: all 0.5s;
 
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 480px) {
     height: 28px;
   }
 }
@@ -196,8 +205,11 @@
   transform: translateX(-49.9%);
   width: 100%;
   @media (max-width: 650px) {
+    top: -16px;
+  }
+
+  @media (max-width: 480px) {
     top: -11px;
-    object-fit: cover;
     width: 99%;
   }
 }
