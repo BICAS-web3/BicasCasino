@@ -460,29 +460,6 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
   const hourse_5_1 = useRef<HTMLVideoElement | null>(null);
   const hourse_5_2 = useRef<HTMLVideoElement | null>(null);
 
-  useEffect(() => {
-    const bg_1_1 = hourse_1_1.current;
-    const bg_1_2 = hourse_1_2.current;
-    bg_1_1!.currentTime = 0;
-    bg_1_2!.currentTime = 0;
-    const bg_2_1 = hourse_1_1.current;
-    const bg_2_2 = hourse_1_2.current;
-    bg_2_1!.currentTime = 0;
-    bg_2_2!.currentTime = 0;
-    const bg_3_1 = hourse_1_1.current;
-    const bg_3_2 = hourse_1_2.current;
-    bg_3_1!.currentTime = 0;
-    bg_3_2!.currentTime = 0;
-    const bg_4_1 = hourse_1_1.current;
-    const bg_4_2 = hourse_1_2.current;
-    bg_4_1!.currentTime = 0;
-    bg_4_2!.currentTime = 0;
-    const bg_5_1 = hourse_1_1.current;
-    const bg_5_2 = hourse_1_2.current;
-    bg_5_1!.currentTime = 0;
-    bg_5_2!.currentTime = 0;
-  }, [hoursePlay]);
-
   const [play_1, setPlay_1] = useState(false);
   const [play_2, setPlay_2] = useState(false);
   const [play_3, setPlay_3] = useState(false);
@@ -584,134 +561,129 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
   const [hourseStay_3, setHourseStay_3] = useState(false);
   const [hourseStay_4, setHourseStay_4] = useState(false);
   const [hourseStay_5, setHourseStay_5] = useState(false);
+
+  useEffect(() => {
+    const bg_1_1 = hourse_1_1.current;
+    const bg_1_2 = hourse_1_2.current;
+    bg_1_1!.currentTime = 0;
+    bg_1_2!.currentTime = 0;
+    const bg_2_1 = hourse_1_1.current;
+    const bg_2_2 = hourse_1_2.current;
+    bg_2_1!.currentTime = 0;
+    bg_2_2!.currentTime = 0;
+    const bg_3_1 = hourse_1_1.current;
+    const bg_3_2 = hourse_1_2.current;
+    bg_3_1!.currentTime = 0;
+    bg_3_2!.currentTime = 0;
+    const bg_4_1 = hourse_1_1.current;
+    const bg_4_2 = hourse_1_2.current;
+    bg_4_1!.currentTime = 0;
+    bg_4_2!.currentTime = 0;
+    const bg_5_1 = hourse_1_1.current;
+    const bg_5_2 = hourse_1_2.current;
+    bg_5_1!.currentTime = 0;
+    bg_5_2!.currentTime = 0;
+  }, [
+    hoursePlay,
+    hourseStay_1,
+    hourseStay_2,
+    hourseStay_3,
+    hourseStay_4,
+    hourseStay_5,
+  ]);
+
   useEffect(() => {
     if (result?.length > 0) {
-      switch (result[0]) {
-        case 0:
-          setHourse_speed_1(1);
-          break;
-        case 1:
-          setHourse_speed_1(2);
-          break;
-        case 2:
-          setHourse_speed_1(3);
-          break;
-        case 3:
-          setHourse_speed_1(4);
-          break;
-        case 4:
-          setHourse_speed_1(5);
-          break;
-      }
-      switch (result[1]) {
-        case 0:
-          setHourse_speed_2(1);
-          break;
-        case 1:
-          setHourse_speed_2(2);
-          break;
-        case 2:
-          setHourse_speed_2(3);
-          break;
-        case 3:
-          setHourse_speed_2(4);
-          break;
-        case 4:
-          setHourse_speed_2(5);
-          break;
-      }
-      switch (result[2]) {
-        case 0:
-          setHourse_speed_3(1);
-          break;
-        case 1:
-          setHourse_speed_3(2);
-          break;
-        case 2:
-          setHourse_speed_3(3);
-          break;
-        case 3:
-          setHourse_speed_3(4);
-          break;
-        case 4:
-          setHourse_speed_3(5);
-          break;
-      }
-      switch (result[3]) {
-        case 0:
-          setHourse_speed_4(1);
-          break;
-        case 1:
-          setHourse_speed_4(2);
-          break;
-        case 2:
-          setHourse_speed_4(3);
-          break;
-        case 3:
-          setHourse_speed_4(4);
-          break;
-        case 4:
-          setHourse_speed_4(5);
-          break;
-      }
-      switch (result[4]) {
-        case 0:
-          setHourse_speed_5(1);
-          break;
-        case 1:
-          setHourse_speed_5(2);
-          break;
-        case 2:
-          setHourse_speed_5(3);
-          break;
-        case 3:
-          setHourse_speed_5(4);
-          break;
-        case 4:
-          setHourse_speed_5(5);
-          break;
+      const setHourseSpeed = (index: number) => {
+        const value = result[index];
+        const speed = value >= 0 && value <= 4 ? value + 1 : null;
+        switch (index) {
+          case 0:
+            setHourse_speed_1(speed);
+            break;
+          case 1:
+            setHourse_speed_2(speed);
+            break;
+          case 2:
+            setHourse_speed_3(speed);
+            break;
+          case 3:
+            setHourse_speed_4(speed);
+            break;
+          case 4:
+            setHourse_speed_5(speed);
+            break;
+          default:
+            break;
+        }
+      };
+
+      for (let i = 0; i < Math.min(result.length, 5); i++) {
+        setHourseSpeed(i);
       }
     }
   }, [result?.length]);
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   useEffect(() => {
     if (result?.length > 0 && hourse_speed_1) {
       setTimeout(() => {
         setHourseStay_1(true);
-      }, hourse_speed_1 * 1500);
+      }, hourse_speed_1 * 1000);
     }
   }, [result?.length, hourse_speed_1]);
   useEffect(() => {
     if (result?.length > 0 && hourse_speed_2) {
       setTimeout(() => {
         setHourseStay_2(true);
-      }, hourse_speed_2 * 1500);
+      }, hourse_speed_2 * 1000);
     }
   }, [result?.length, hourse_speed_2]);
   useEffect(() => {
     if (result?.length > 0 && hourse_speed_3) {
       setTimeout(() => {
         setHourseStay_3(true);
-      }, hourse_speed_3 * 1500);
+      }, hourse_speed_3 * 1000);
     }
   }, [result?.length, hourse_speed_3]);
   useEffect(() => {
     if (result?.length > 0 && hourse_speed_4) {
       setTimeout(() => {
         setHourseStay_4(true);
-      }, hourse_speed_4 * 1500);
+      }, hourse_speed_4 * 1000);
     }
   }, [result?.length, hourse_speed_4]);
   useEffect(() => {
     if (result?.length > 0 && hourse_speed_5) {
       setTimeout(() => {
         setHourseStay_5(true);
-      }, hourse_speed_5 * 1500);
+      }, hourse_speed_5 * 1000);
     }
   }, [result?.length, hourse_speed_5]);
 
+  const [showFinish, setShowFinish] = useState(false);
+
+  useEffect(() => {
+    if (result.length > 0) {
+      setShowFinish(true);
+    }
+  }, [result.length]);
+
+  useEffect(() => {
+    console.log(
+      hourseStay_1,
+      hourseStay_2,
+      hourseStay_3,
+      hourseStay_4,
+      hourseStay_5
+    );
+  }, [hourseStay_1, hourseStay_2, hourseStay_3, hourseStay_4, hourseStay_5]);
+
   return (
     <>
-      {isLoading && (
+      {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
@@ -748,19 +720,35 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             className={clsx(
               s.hourse_table_background_img,
               s.hourse_table_background_img_2,
-              testGame && allLoaded && s.hourse_table_background_img_2_start
+              !showFinish &&
+                testGame &&
+                allLoaded &&
+                s.hourse_table_background_img_2_start,
+              showFinish && s.hourse_table_background_img_2_finish
             )}
             alt="table-bg"
           />
-          <Image
-            src={hourseBg_2}
-            className={clsx(
-              s.hourse_table_background_img,
-              s.hourse_table_background_img_3,
-              testGame && allLoaded && s.hourse_table_background_img_3_start
-            )}
-            alt="table-bg"
-          />
+          {showFinish ? (
+            <Image
+              src={finish_line}
+              className={clsx(
+                s.hourse_table_background_img,
+                s.hourse_table_background_img_3,
+                testGame && allLoaded && s.hourse_table_background_img_3_finish
+              )}
+              alt="table-bg"
+            />
+          ) : (
+            <Image
+              src={hourseBg_2}
+              className={clsx(
+                s.hourse_table_background_img,
+                s.hourse_table_background_img_3,
+                testGame && allLoaded && s.hourse_table_background_img_3_start
+              )}
+              alt="table-bg"
+            />
+          )}
         </div>
         <video
           ref={hourse_1_1}
@@ -937,7 +925,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           )}
           autoPlay={true}
           loop={!hourseStay_5}
-          muted
+          muted={true}
           playsInline
           onLoadedData={() => setHourseLoad_5(true)}
         >

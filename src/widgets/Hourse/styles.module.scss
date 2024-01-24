@@ -69,6 +69,20 @@
         }
       }
     }
+    &_finish {
+      animation: finish_img 1.5s linear forwards;
+      @media (max-width: 650px) {
+        animation: finish_img 1s linear forwards;
+      }
+      @keyframes finish_img {
+        0% {
+          left: 0;
+        }
+        100% {
+          left: -100%;
+        }
+      }
+    }
   }
   &_3 {
     left: 200%;
@@ -83,6 +97,20 @@
         }
         100% {
           left: -100%;
+        }
+      }
+    }
+    &_finish {
+      animation: finish_2_img 1.5s linear forwards;
+      @media (max-width: 650px) {
+        animation: finish_2_img 2s 1s linear forwards;
+      }
+      @keyframes finish_2_img {
+        0% {
+          left: 100%;
+        }
+        100% {
+          left: 0;
         }
       }
     }
@@ -222,6 +250,31 @@
   --hourse-step: 20vw;
   @media (max-width: 998px) {
     --hourse-step: 8vw;
+  }
+  --hourse-substep: 15.79vw;
+  @media (max-width: 1800px) {
+    --hourse-substep: 10.5vw;
+  }
+  @media (max-width: 1550px) {
+    --hourse-substep: 3.5vw;
+  }
+  @media (max-width: 1400px) {
+    --hourse-substep: 0.8vw;
+  }
+  @media (max-width: 998px) {
+    --hourse-substep: 25vw;
+  }
+  @media (max-width: 800px) {
+    --hourse-substep: 17vw;
+  }
+  @media (max-width: 700px) {
+    --hourse-substep: 14vw;
+  }
+  @media (max-width: 650px) {
+    --hourse-substep: 30vw;
+  }
+  @media (max-width: 450px) {
+    --hourse-substep: 20vw;
   }
   position: absolute;
   &_1 {
@@ -366,90 +419,90 @@
   }
 }
 .hourse_animation_1 {
-  animation: anumation_hourse_1 1.5s forwards;
+  animation: anumation_hourse_1 1s forwards;
   @keyframes anumation_hourse_1 {
     0% {
-      transform: translateX(calc(14px + var(--hourse-step)));
+      transform: translateX(calc(183px + var(--hourse-step)));
     }
     50% {
-      transform: translateX(100px);
+      transform: translateX(calc(-7.89vw + var(--hourse-step)));
     }
     100% {
-      transform: translateX(calc(300px + var(--hourse-step)));
+      transform: translateX(calc(var(--hourse-substep) + var(--hourse-step)));
     }
   }
 }
 .hourse_animation_2 {
-  animation: anumation_hourse_2 3s forwards;
+  animation: anumation_hourse_2 2s forwards;
   @keyframes anumation_hourse_2 {
     0% {
-      transform: translateX(calc(14px + var(--hourse-step)));
+      transform: translateX(calc(154px + var(--hourse-step)));
     }
     50% {
-      transform: translateX(100px);
+      transform: translateX(calc(-7.89vw + var(--hourse-step)));
     }
     100% {
-      transform: translateX(calc(300px + var(--hourse-step)));
+      transform: translateX(calc(var(--hourse-substep) + var(--hourse-step)));
     }
   }
 }
 .hourse_animation_3 {
-  animation: anumation_hourse_3 4.5s forwards;
+  animation: anumation_hourse_3 3s forwards;
   @keyframes anumation_hourse_3 {
     0% {
-      transform: translateX(calc(14px + var(--hourse-step)));
+      transform: translateX(calc(127px + var(--hourse-step)));
     }
     50% {
-      transform: translateX(100px);
+      transform: translateX(calc(-7.89vw + var(--hourse-step)));
     }
     100% {
-      transform: translateX(calc(300px + var(--hourse-step)));
+      transform: translateX(calc(var(--hourse-substep) + var(--hourse-step)));
     }
   }
 }
 .hourse_animation_4 {
-  animation: anumation_hourse_4 6s forwards;
+  animation: anumation_hourse_4 4s forwards;
   @keyframes anumation_hourse_4 {
     0% {
-      transform: translateX(calc(14px + var(--hourse-step)));
+      transform: translateX(calc(87px + var(--hourse-step)));
     }
     50% {
-      transform: translateX(100px);
+      transform: translateX(calc(-7.89vw + var(--hourse-step)));
     }
     100% {
-      transform: translateX(calc(300px + var(--hourse-step)));
+      transform: translateX(calc(var(--hourse-substep) + var(--hourse-step)));
     }
   }
 }
 .hourse_animation_5 {
-  animation: anumation_hourse_5 7.5s forwards;
+  animation: anumation_hourse_5 5s forwards;
   @keyframes anumation_hourse_5 {
     0% {
       transform: translateX(calc(14px + var(--hourse-step)));
     }
     50% {
-      transform: translateX(100px);
+      transform: translateX(calc(-7.89vw + var(--hourse-step)));
     }
     100% {
-      transform: translateX(calc(300px + var(--hourse-step)));
+      transform: translateX(calc(var(--hourse-substep) + var(--hourse-step)));
     }
   }
 }
 
 .hourse_finish {
   &_1 {
-    left: 200px;
+    left: 10.53vw;
   }
   &_2 {
-    left: 170px;
+    left: 10.26vw;
   }
   &_3 {
-    left: 160px;
+    left: 10.26vw;
   }
   &_4 {
-    left: 145px;
+    left: 10vw;
   }
   &_5 {
-    left: 110px;
+    left: 8.95vw;
   }
 }
