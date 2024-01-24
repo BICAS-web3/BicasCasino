@@ -21,7 +21,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { sessionModel } from "@/entities/session";
 
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { ABI as RocketABI } from "@/shared/contracts/RocketABI";
+import { ABI as RaceABI } from "@/shared/contracts/RaceABI";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
 import { TOKENS } from "@/shared/tokens";
 
@@ -35,35 +35,35 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
-import * as HourseModel from "./model";
+import * as HorseModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
-import hourseBg from "@/public/media/hourse_images/bg_.png";
-import hourseBg_2 from "@/public/media/hourse_images/bg_2.png";
-import hourse_logo from "@/public/media/hourse_icons/logo.svg";
+import HorseBg from "@/public/media/Horse_images/bg_.png";
+import HorseBg_2 from "@/public/media/Horse_images/bg_2.png";
+import Horse_logo from "@/public/media/Horse_icons/logo.svg";
 
-import fence_1 from "@/public/media/hourse_images/fence_1.png";
-import fence_2 from "@/public/media/hourse_images/fence_2.png";
-import fence_3 from "@/public/media/hourse_images/fence_3.png";
-import fence_4 from "@/public/media/hourse_images/fence_4.png";
-import fence_5 from "@/public/media/hourse_images/fence_5.png";
+import fence_1 from "@/public/media/Horse_images/fence_1.png";
+import fence_2 from "@/public/media/Horse_images/fence_2.png";
+import fence_3 from "@/public/media/Horse_images/fence_3.png";
+import fence_4 from "@/public/media/Horse_images/fence_4.png";
+import fence_5 from "@/public/media/Horse_images/fence_5.png";
 
-import fence_mobile_1 from "@/public/media/hourse_images/fence_mobile_1.png";
-import fence_mobile_2 from "@/public/media/hourse_images/fence_mobile_2.png";
-import fence_mobile_3 from "@/public/media/hourse_images/fence_mobile_3.png";
-import fence_mobile_4 from "@/public/media/hourse_images/fence_mobile_4.png";
-import fence_mobile_5 from "@/public/media/hourse_images/fence_mobile_5.png";
+import fence_mobile_1 from "@/public/media/Horse_images/fence_mobile_1.png";
+import fence_mobile_2 from "@/public/media/Horse_images/fence_mobile_2.png";
+import fence_mobile_3 from "@/public/media/Horse_images/fence_mobile_3.png";
+import fence_mobile_4 from "@/public/media/Horse_images/fence_mobile_4.png";
+import fence_mobile_5 from "@/public/media/Horse_images/fence_mobile_5.png";
 
-import finish_line from "@/public/media/hourse_images/finishLine.png";
+import finish_line from "@/public/media/Horse_images/finishLine.png";
 
-interface IHourse {
+interface IHorse {
   gameText: string;
 }
 
-export const Hourse: FC<IHourse> = ({ gameText }) => {
+export const Horse: FC<IHorse> = ({ gameText }) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const { isConnected, address } = useAccount();
@@ -103,10 +103,13 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     refund,
     setRefund,
     isPlaying,
+    HorseNumber,
+    gameResult,
+    setGameResult,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    HourseModel.setPlayingStatus,
+    HorseModel.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -138,6 +141,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     GameModel.$refund,
     GameModel.setRefund,
     GameModel.$isPlaying,
+    HorseModel.$HorseNumber,
+    HorseModel.$gameResult,
+    HorseModel.setGameResult,
   ]);
 
   const { data } = useFeeData({
@@ -171,15 +177,15 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_Play",
+    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    abi: RaceABI,
+    functionName: "Race_Play",
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
     args: [
       useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      multiplier,
-      pickedToken?.contract_address,
+      "0x0000000000000000000000000000000000000000",
+      HorseNumber, // number of horse
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
@@ -195,7 +201,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     value:
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+      "0x0000000000000000000000000000000000000000" ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
           BigInt(100000000000)
@@ -204,9 +210,9 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_GetState",
+    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    abi: RaceABI,
+    functionName: "Race_GetState",
     args: [address],
     enabled: true,
     blockTag: "latest",
@@ -234,14 +240,14 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
+    address: "0x0000000000000000000000000000000000000000" as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
-      pickedToken?.contract_address !=
+      "0x0000000000000000000000000000000000000000" !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      gameAddress,
+      "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -259,23 +265,23 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     data: allowanceData,
   } = useContractWrite(allowanceConfig);
 
-  const { config: refundConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_Refund",
-    enabled: isPlaying,
-    args: [],
-    gas: BigInt(100000),
-  });
-  const { write: callRefund } = useContractWrite(refundConfig);
+  // const { config: refundConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+  //   abi: RaceABI,
+  //   functionName: "Race_Refund",
+  //   enabled: isPlaying,
+  //   args: [],
+  //   gas: BigInt(100000),
+  // });
+  // const { write: callRefund } = useContractWrite(refundConfig);
 
-  useEffect(() => {
-    if (refund) {
-      callRefund?.();
-      setRefund(false);
-    }
-  }, [refund]);
+  // useEffect(() => {
+  //   if (refund) {
+  //     callRefund?.();
+  //     setRefund(false);
+  //   }
+  // }, [refund]);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
@@ -305,8 +311,8 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
+    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    abi: RaceABI,
     functionName: "getVRFFee",
     args: [0],
     watch: isConnected && !inGame,
@@ -332,15 +338,40 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    eventName: "Rocket_Outcome_Event",
+    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    abi: RaceABI,
+    eventName: "Race_Outcome_Event",
     listener(log) {
       if (
         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
         address?.toLowerCase()
       ) {
         console.log("------", (log[0] as any).args, "-------");
+
+        const handleResult = () => {
+          const resultNumber = (log[0] as any).args.raceOutcomes[0];
+          function shuffleArray(array: number[]) {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+          }
+          let existingArray = [0, 1, 2, 3, 4];
+
+          if (existingArray.includes(resultNumber)) {
+            existingArray = existingArray.filter(
+              (digit) => digit !== resultNumber
+            );
+            existingArray = shuffleArray(existingArray);
+            existingArray.unshift(resultNumber);
+
+            console.log(existingArray, HorseNumber);
+            setGameResult(existingArray);
+          }
+        };
+
+        handleResult();
 
         setWaitingResponse(false);
         const wagered =
@@ -395,20 +426,21 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           currentBalance &&
           total_value <= currentBalance
         ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            if (setAllowance) {
-              setAllowance();
-              setActivePicker(false);
-              setInGame(true);
-              setWaitingResponse(true);
-            }
-          } else {
-            startPlaying?.();
-          }
+          // if (
+          //   (!allowance || (allowance && allowance <= cryptoValue)) &&
+          //    "0x0000000000000000000000000000000000000000" !=
+          //     "0x0000000000000000000000000000000000000000"
+          // ) {
+          //   if (setAllowance) {
+          //     setAllowance();
+          //     setInGame(true);
+          //     setWaitingResponse(true);
+          //   }
+          // } else {
+          //   startPlaying?.();
+          // }
+
+          startPlaying?.();
         }
       }
       setWagered(false);
@@ -439,26 +471,32 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
 
   const [testGame, setTestGame] = useState(false);
 
-  const [hourseRun, setHourseRun] = useState(false);
-  const [hoursePlay, setHoursePlay] = useState(false);
+  useEffect(() => {
+    if (inGame) {
+      setTestGame(true);
+    }
+  }, [inGame]);
+
+  const [HorseRun, setHorseRun] = useState(false);
+  const [HorsePlay, setHorsePlay] = useState(false);
 
   useEffect(() => {
     if (testGame) {
-      setHoursePlay(true);
-      setHourseRun(true);
+      setHorsePlay(true);
+      setHorseRun(true);
     }
   }, [testGame]);
 
-  const hourse_1_1 = useRef<HTMLVideoElement | null>(null);
-  const hourse_1_2 = useRef<HTMLVideoElement | null>(null);
-  const hourse_2_1 = useRef<HTMLVideoElement | null>(null);
-  const hourse_2_2 = useRef<HTMLVideoElement | null>(null);
-  const hourse_3_1 = useRef<HTMLVideoElement | null>(null);
-  const hourse_3_2 = useRef<HTMLVideoElement | null>(null);
-  const hourse_4_1 = useRef<HTMLVideoElement | null>(null);
-  const hourse_4_2 = useRef<HTMLVideoElement | null>(null);
-  const hourse_5_1 = useRef<HTMLVideoElement | null>(null);
-  const hourse_5_2 = useRef<HTMLVideoElement | null>(null);
+  const Horse_1_1 = useRef<HTMLVideoElement | null>(null);
+  const Horse_1_2 = useRef<HTMLVideoElement | null>(null);
+  const Horse_2_1 = useRef<HTMLVideoElement | null>(null);
+  const Horse_2_2 = useRef<HTMLVideoElement | null>(null);
+  const Horse_3_1 = useRef<HTMLVideoElement | null>(null);
+  const Horse_3_2 = useRef<HTMLVideoElement | null>(null);
+  const Horse_4_1 = useRef<HTMLVideoElement | null>(null);
+  const Horse_4_2 = useRef<HTMLVideoElement | null>(null);
+  const Horse_5_1 = useRef<HTMLVideoElement | null>(null);
+  const Horse_5_2 = useRef<HTMLVideoElement | null>(null);
 
   const [play_1, setPlay_1] = useState(false);
   const [play_2, setPlay_2] = useState(false);
@@ -474,41 +512,40 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     }
   }, [play_1, play_2, play_3, play_4, play_5]);
 
-  const [hourseLoad_1, setHourseLoad_1] = useState(false);
-  const [hourseLoad_2, setHourseLoad_2] = useState(false);
-  const [hourseLoad_3, setHourseLoad_3] = useState(false);
-  const [hourseLoad_4, setHourseLoad_4] = useState(false);
-  const [hourseLoad_5, setHourseLoad_5] = useState(false);
+  const [HorseLoad_1, setHorseLoad_1] = useState(false);
+  const [HorseLoad_2, setHorseLoad_2] = useState(false);
+  const [HorseLoad_3, setHorseLoad_3] = useState(false);
+  const [HorseLoad_4, setHorseLoad_4] = useState(false);
+  const [HorseLoad_5, setHorseLoad_5] = useState(false);
   const [loadImage, setLoadImage] = useState(false);
 
   useEffect(() => {
     if (
-      hourseLoad_1 &&
-      hourseLoad_2 &&
-      hourseLoad_3 &&
-      hourseLoad_4 &&
-      hourseLoad_5 &&
+      HorseLoad_1 &&
+      HorseLoad_2 &&
+      HorseLoad_3 &&
+      HorseLoad_4 &&
+      HorseLoad_5 &&
       loadImage
     ) {
       setIsLoading(false);
     }
   }, [
-    hourseLoad_1,
-    hourseLoad_2,
-    hourseLoad_3,
-    hourseLoad_4,
-    hourseLoad_5,
+    HorseLoad_1,
+    HorseLoad_2,
+    HorseLoad_3,
+    HorseLoad_4,
+    HorseLoad_5,
     loadImage,
   ]);
 
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
-  const [result, setResult] = useState<number[]>([]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
     const generateRandomNumber = () => {
-      if (result.length === 0 && testGame) {
+      if (gameResult.length === 0 && testGame) {
         const randomValue = Math.floor(Math.random() * 11) - 5;
         setRandomNumber(randomValue);
       } else {
@@ -516,7 +553,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
       }
     };
 
-    if (result.length === 0 && testGame) {
+    if (gameResult.length === 0 && testGame) {
       setTimeout(() => {
         generateRandomNumber();
         intervalId = setInterval(generateRandomNumber, 3000);
@@ -530,15 +567,48 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
         clearInterval(intervalId);
       }
     };
-  }, [result, testGame]);
+  }, [gameResult, testGame]);
+  const [Horse_speed_1, setHorse_speed_1] = useState<number | null>(null);
+  const [Horse_speed_2, setHorse_speed_2] = useState<number | null>(null);
+  const [Horse_speed_3, setHorse_speed_3] = useState<number | null>(null);
+  const [Horse_speed_4, setHorse_speed_4] = useState<number | null>(null);
+  const [Horse_speed_5, setHorse_speed_5] = useState<number | null>(null);
+
+  const [HorseStay_1, setHorseStay_1] = useState(false);
+  const [HorseStay_2, setHorseStay_2] = useState(false);
+  const [HorseStay_3, setHorseStay_3] = useState(false);
+  const [HorseStay_4, setHorseStay_4] = useState(false);
+  const [HorseStay_5, setHorseStay_5] = useState(false);
 
   useEffect(() => {
-    if (testGame) {
-      setTimeout(() => {
-        setResult([4, 1, 2, 3, 0]);
-      }, 10000);
-    }
-  }, [testGame]);
+    const bg_1_1 = Horse_1_1.current;
+    const bg_1_2 = Horse_1_2.current;
+    bg_1_1!.currentTime = 0;
+    bg_1_2!.currentTime = 0;
+    const bg_2_1 = Horse_2_1.current;
+    const bg_2_2 = Horse_2_2.current;
+    bg_2_1!.currentTime = 0;
+    bg_2_2!.currentTime = 0;
+    const bg_3_1 = Horse_3_1.current;
+    const bg_3_2 = Horse_3_2.current;
+    bg_3_1!.currentTime = 0;
+    bg_3_2!.currentTime = 0;
+    const bg_4_1 = Horse_4_1.current;
+    const bg_4_2 = Horse_4_2.current;
+    bg_4_1!.currentTime = 0;
+    bg_4_2!.currentTime = 0;
+    const bg_5_1 = Horse_5_1.current;
+    const bg_5_2 = Horse_5_2.current;
+    bg_5_1!.currentTime = 0;
+    bg_5_2!.currentTime = 0;
+  }, [
+    HorsePlay,
+    HorseStay_1,
+    HorseStay_2,
+    HorseStay_3,
+    HorseStay_4,
+    HorseStay_5,
+  ]);
 
   const [stepValue, setStepValue] = useState(90);
 
@@ -550,136 +620,135 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
     }
   }, [isDesktop]);
 
-  const [hourse_speed_1, setHourse_speed_1] = useState<number | null>(null);
-  const [hourse_speed_2, setHourse_speed_2] = useState<number | null>(null);
-  const [hourse_speed_3, setHourse_speed_3] = useState<number | null>(null);
-  const [hourse_speed_4, setHourse_speed_4] = useState<number | null>(null);
-  const [hourse_speed_5, setHourse_speed_5] = useState<number | null>(null);
-
-  const [hourseStay_1, setHourseStay_1] = useState(false);
-  const [hourseStay_2, setHourseStay_2] = useState(false);
-  const [hourseStay_3, setHourseStay_3] = useState(false);
-  const [hourseStay_4, setHourseStay_4] = useState(false);
-  const [hourseStay_5, setHourseStay_5] = useState(false);
-
   useEffect(() => {
-    const bg_1_1 = hourse_1_1.current;
-    const bg_1_2 = hourse_1_2.current;
-    bg_1_1!.currentTime = 0;
-    bg_1_2!.currentTime = 0;
-    const bg_2_1 = hourse_1_1.current;
-    const bg_2_2 = hourse_1_2.current;
-    bg_2_1!.currentTime = 0;
-    bg_2_2!.currentTime = 0;
-    const bg_3_1 = hourse_1_1.current;
-    const bg_3_2 = hourse_1_2.current;
-    bg_3_1!.currentTime = 0;
-    bg_3_2!.currentTime = 0;
-    const bg_4_1 = hourse_1_1.current;
-    const bg_4_2 = hourse_1_2.current;
-    bg_4_1!.currentTime = 0;
-    bg_4_2!.currentTime = 0;
-    const bg_5_1 = hourse_1_1.current;
-    const bg_5_2 = hourse_1_2.current;
-    bg_5_1!.currentTime = 0;
-    bg_5_2!.currentTime = 0;
-  }, [
-    hoursePlay,
-    hourseStay_1,
-    hourseStay_2,
-    hourseStay_3,
-    hourseStay_4,
-    hourseStay_5,
-  ]);
-
-  useEffect(() => {
-    if (result?.length > 0) {
-      const setHourseSpeed = (index: number) => {
-        const value = result[index];
-        const speed = value >= 0 && value <= 4 ? value + 1 : null;
-        switch (index) {
-          case 0:
-            setHourse_speed_1(speed);
-            break;
-          case 1:
-            setHourse_speed_2(speed);
-            break;
-          case 2:
-            setHourse_speed_3(speed);
-            break;
-          case 3:
-            setHourse_speed_4(speed);
-            break;
-          case 4:
-            setHourse_speed_5(speed);
-            break;
-          default:
-            break;
-        }
-      };
-
-      for (let i = 0; i < Math.min(result.length, 5); i++) {
-        setHourseSpeed(i);
-      }
-    }
-  }, [result?.length]);
-
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  useEffect(() => {
-    if (result?.length > 0 && hourse_speed_1) {
+    if (testGame) {
       setTimeout(() => {
-        setHourseStay_1(true);
-      }, hourse_speed_1 * 1000);
+        setGameResult([0, 3, 2, 1, 4]);
+      }, 5000);
     }
-  }, [result?.length, hourse_speed_1]);
-  useEffect(() => {
-    if (result?.length > 0 && hourse_speed_2) {
-      setTimeout(() => {
-        setHourseStay_2(true);
-      }, hourse_speed_2 * 1000);
-    }
-  }, [result?.length, hourse_speed_2]);
-  useEffect(() => {
-    if (result?.length > 0 && hourse_speed_3) {
-      setTimeout(() => {
-        setHourseStay_3(true);
-      }, hourse_speed_3 * 1000);
-    }
-  }, [result?.length, hourse_speed_3]);
-  useEffect(() => {
-    if (result?.length > 0 && hourse_speed_4) {
-      setTimeout(() => {
-        setHourseStay_4(true);
-      }, hourse_speed_4 * 1000);
-    }
-  }, [result?.length, hourse_speed_4]);
-  useEffect(() => {
-    if (result?.length > 0 && hourse_speed_5) {
-      setTimeout(() => {
-        setHourseStay_5(true);
-      }, hourse_speed_5 * 1000);
-    }
-  }, [result?.length, hourse_speed_5]);
+  }, [testGame]);
 
+  const callResult = (
+    delay: number,
+    callBackStay: (el: boolean) => void,
+    callBackTime: (el: number) => void
+  ) => {
+    callBackTime(delay);
+    setTimeout(() => {
+      callBackStay(true);
+    }, delay);
+  };
   const [showFinish, setShowFinish] = useState(false);
 
   useEffect(() => {
-    if (result.length > 0) {
-      setShowFinish(true);
+    const processHorse = async (
+      value: number,
+      index: number,
+      setHorseSpeed: (el: number) => void,
+      setHorseStay: (el: boolean) => void
+    ) => {
+      if (index === 0) {
+        if (value === 0) {
+          callResult(1, setHorseStay, setHorseSpeed);
+        } else if (value === 1) {
+          callResult(1, setHorseStay_2, setHorse_speed_2);
+        } else if (value === 2) {
+          callResult(1, setHorseStay_3, setHorse_speed_3);
+        } else if (value === 3) {
+          callResult(1, setHorseStay_4, setHorse_speed_4);
+        } else if (value === 4) {
+          callResult(1, setHorseStay_5, setHorse_speed_5);
+        }
+      }
+      if (index === 1) {
+        if (value === 0) {
+          setHorse_speed_1(2);
+          callResult(2, setHorseStay_1, setHorse_speed_1);
+        } else if (value === 1) {
+          callResult(2, setHorseStay_2, setHorse_speed_2);
+        } else if (value === 2) {
+          callResult(2, setHorseStay_3, setHorse_speed_3);
+        } else if (value === 3) {
+          callResult(2, setHorseStay_4, setHorse_speed_4);
+        } else if (value === 4) {
+          callResult(2, setHorseStay_5, setHorse_speed_5);
+        }
+      }
+      if (index === 2) {
+        if (value === 0) {
+          callResult(3, setHorseStay_1, setHorse_speed_1);
+        } else if (value === 1) {
+          callResult(3, setHorseStay_2, setHorse_speed_2);
+        } else if (value === 2) {
+          callResult(3, setHorseStay_3, setHorse_speed_3);
+        } else if (value === 3) {
+          callResult(3, setHorseStay_4, setHorse_speed_4);
+        } else if (value === 4) {
+          callResult(3, setHorseStay_5, setHorse_speed_5);
+        }
+      }
+      if (index === 3) {
+        if (value === 0) {
+          callResult(4, setHorseStay_1, setHorse_speed_1);
+        } else if (value === 1) {
+          callResult(4, setHorseStay_2, setHorse_speed_2);
+        } else if (value === 2) {
+          callResult(4, setHorseStay_3, setHorse_speed_3);
+        } else if (value === 3) {
+          callResult(4, setHorseStay_4, setHorse_speed_4);
+        } else if (value === 4) {
+          callResult(4, setHorseStay_5, setHorse_speed_5);
+        }
+      }
+      if (index === 4) {
+        if (value === 0) {
+          callResult(5, setHorseStay_1, setHorse_speed_1);
+        } else if (value === 1) {
+          callResult(5, setHorseStay_2, setHorse_speed_2);
+        } else if (value === 2) {
+          callResult(5, setHorseStay_3, setHorse_speed_3);
+        } else if (value === 3) {
+          callResult(5, setHorseStay_4, setHorse_speed_4);
+        } else if (value === 4) {
+          callResult(5, setHorseStay_5, setHorse_speed_5);
+        }
+      }
+    };
+    const processResult = async () => {
+      if (gameResult && gameResult.length === 5) {
+        for (const [index, value] of (gameResult as any).entries()) {
+          await processHorse(value, index, setHorse_speed_1, setHorseStay_1);
+          await processHorse(value, index, setHorse_speed_2, setHorseStay_2);
+          await processHorse(value, index, setHorse_speed_3, setHorseStay_3);
+          await processHorse(value, index, setHorse_speed_4, setHorseStay_4);
+          await processHorse(value, index, setHorse_speed_5, setHorseStay_5);
+        }
+      }
+    };
+
+    if (gameResult?.length === 5) {
+      processResult();
+    } else if (gameResult.length === 0) {
+      setTestGame(false);
+      setHorseStay_1(false);
+      setHorseStay_2(false);
+      setHorseStay_3(false);
+      setHorseStay_4(false);
+      setHorseStay_5(false);
+      setHorse_speed_1(null);
+      setHorse_speed_2(null);
+      setHorse_speed_3(null);
+      setHorse_speed_4(null);
+      setHorse_speed_5(null);
+      setShowFinish(false);
     }
-  }, [result.length]);
+  }, [gameResult?.length]);
 
   useEffect(() => {
-    console.log(
-      hourseStay_1,
-      hourseStay_2,
-      hourseStay_3,
-      hourseStay_4,
-      hourseStay_5
-    );
-  }, [hourseStay_1, hourseStay_2, hourseStay_3, hourseStay_4, hourseStay_5]);
+    if (gameResult.length > 0) {
+      setShowFinish(true);
+    }
+  }, [gameResult.length]);
 
   return (
     <>
@@ -691,40 +760,40 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
       )}
       <section
         onClick={() => setTestGame((prev) => !prev)}
-        className={s.hourse_table_wrap}
+        className={s.horse_table_wrap}
       >
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
-          className={s.hourse_btns}
-          game="hourse"
+          className={s.horse_btns}
+          game="Horse"
           text={gameText}
         />
-        <div className={s.hourse_table_background}>
+        <div className={s.horse_table_background}>
           <div
             className={clsx(
-              s.hourse_table_background_img,
-              s.hourse_table_background_img_1,
-              testGame && allLoaded && s.hourse_table_background_img_1_start
+              s.horse_table_background_img,
+              s.horse_table_background_img_1,
+              testGame && allLoaded && s.horse_table_background_img_1_start
             )}
           >
             <Image
-              className={s.hourse_table_background_img_deep}
+              className={s.horse_table_background_img_deep}
               onLoad={() => setLoadImage(true)}
-              src={hourseBg}
+              src={HorseBg}
               alt="table-bg"
             />
-            <Image src={hourse_logo} alt="" className={s.hourse_logo} />
+            <Image src={Horse_logo} alt="" className={s.horse_logo} />
           </div>
           <Image
-            src={hourseBg_2}
+            src={HorseBg_2}
             className={clsx(
-              s.hourse_table_background_img,
-              s.hourse_table_background_img_2,
+              s.horse_table_background_img,
+              s.horse_table_background_img_2,
               !showFinish &&
                 testGame &&
                 allLoaded &&
-                s.hourse_table_background_img_2_start,
-              showFinish && s.hourse_table_background_img_2_finish
+                s.horse_table_background_img_2_start,
+              showFinish && s.horse_table_background_img_2_finish
             )}
             alt="table-bg"
           />
@@ -732,34 +801,34 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
             <Image
               src={finish_line}
               className={clsx(
-                s.hourse_table_background_img,
-                s.hourse_table_background_img_3,
-                testGame && allLoaded && s.hourse_table_background_img_3_finish
+                s.horse_table_background_img,
+                s.horse_table_background_img_3,
+                testGame && allLoaded && s.horse_table_background_img_3_finish
               )}
               alt="table-bg"
             />
           ) : (
             <Image
-              src={hourseBg_2}
+              src={HorseBg_2}
               className={clsx(
-                s.hourse_table_background_img,
-                s.hourse_table_background_img_3,
-                testGame && allLoaded && s.hourse_table_background_img_3_start
+                s.horse_table_background_img,
+                s.horse_table_background_img_3,
+                testGame && allLoaded && s.horse_table_background_img_3_start
               )}
               alt="table-bg"
             />
           )}
         </div>
         <video
-          ref={hourse_1_1}
-          className={clsx(s.hourse, s.hourse_1, testGame && s.hidden)}
+          ref={Horse_1_1}
+          className={clsx(s.horse, s.horse_1, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_1(true)}
+          onLoadedData={() => setHorseLoad_1(true)}
         >
-          <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
+          <source src={"/horse/horse_1.webm"} type="video/mp4" />
         </video>
         <video
           style={{
@@ -769,33 +838,33 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
                 : "",
           }}
           onPlay={() => setPlay_1(true)}
-          ref={hourse_1_2}
+          ref={Horse_1_2}
           className={clsx(
-            s.hourse,
-            s.hourse_1,
+            s.horse,
+            s.horse_1,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_1_run,
-            s[`hourse_animation_${hourse_speed_1}`],
-            result?.length > 0 && s.hourse_finish_1
+            testGame && allLoaded && s.horse_1_run,
+            s[`horse_animation_${Horse_speed_1}`],
+            gameResult?.length > 0 && s.horse_finish_1
           )}
           autoPlay={true}
-          loop={!hourseStay_1}
+          loop={!HorseStay_1}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_1(true)}
+          onLoadedData={() => setHorseLoad_1(true)}
         >
-          <source src={"/hourse/hourse_1.webm"} type="video/mp4" />
+          <source src={"/horse/horse_1.webm"} type="video/mp4" />
         </video>
         <video
-          ref={hourse_2_1}
-          className={clsx(s.hourse, s.hourse_2, testGame && s.hidden)}
+          ref={Horse_2_1}
+          className={clsx(s.horse, s.horse_2, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_2(true)}
+          onLoadedData={() => setHorseLoad_2(true)}
         >
-          <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
+          <source src={"/horse/horse_2.webm"} type="video/mp4" />
         </video>
         <video
           style={{
@@ -805,34 +874,34 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
                 : "",
           }}
           onPlay={() => setPlay_2(true)}
-          ref={hourse_2_2}
+          ref={Horse_2_2}
           className={clsx(
-            s.hourse,
-            s.hourse_2,
+            s.horse,
+            s.horse_2,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_2_run,
-            testGame && allLoaded && s.hourse_2_run,
-            s[`hourse_animation_${hourse_speed_2}`],
-            result?.length > 0 && s.hourse_finish_2
+            testGame && allLoaded && s.horse_2_run,
+            testGame && allLoaded && s.horse_2_run,
+            s[`horse_animation_${Horse_speed_2}`],
+            gameResult?.length > 0 && s.horse_finish_2
           )}
           autoPlay={true}
-          loop={!hourseStay_2}
+          loop={!HorseStay_2}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_2(true)}
+          onLoadedData={() => setHorseLoad_2(true)}
         >
-          <source src={"/hourse/hourse_2.webm"} type="video/mp4" />
+          <source src={"/horse/horse_2.webm"} type="video/mp4" />
         </video>
         <video
-          ref={hourse_3_1}
-          className={clsx(s.hourse, s.hourse_3, testGame && s.hidden)}
+          ref={Horse_3_1}
+          className={clsx(s.horse, s.horse_3, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_3(true)}
+          onLoadedData={() => setHorseLoad_3(true)}
         >
-          <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
+          <source src={"/horse/horse_3.webm"} type="video/mp4" />
         </video>
         <video
           style={{
@@ -842,33 +911,33 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
                 : "",
           }}
           onPlay={() => setPlay_3(true)}
-          ref={hourse_3_2}
+          ref={Horse_3_2}
           className={clsx(
-            s.hourse,
-            s.hourse_3,
+            s.horse,
+            s.horse_3,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_3_run,
-            s[`hourse_animation_${hourse_speed_3}`],
-            result?.length > 0 && s.hourse_finish_3
+            testGame && allLoaded && s.horse_3_run,
+            s[`horse_animation_${Horse_speed_3}`],
+            gameResult?.length > 0 && s.horse_finish_3
           )}
           autoPlay={true}
-          loop={!hourseStay_3}
+          loop={!HorseStay_3}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_3(true)}
+          onLoadedData={() => setHorseLoad_3(true)}
         >
-          <source src={"/hourse/hourse_3.webm"} type="video/mp4" />
+          <source src={"/horse/horse_3.webm"} type="video/mp4" />
         </video>
         <video
-          ref={hourse_4_1}
-          className={clsx(s.hourse, s.hourse_4, testGame && s.hidden)}
+          ref={Horse_4_1}
+          className={clsx(s.horse, s.horse_4, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_4(true)}
+          onLoadedData={() => setHorseLoad_4(true)}
         >
-          <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
+          <source src={"/horse/horse_4.webm"} type="video/mp4" />
         </video>
         <video
           style={{
@@ -878,33 +947,33 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
                 : "",
           }}
           onPlay={() => setPlay_4(true)}
-          ref={hourse_4_2}
+          ref={Horse_4_2}
           className={clsx(
-            s.hourse,
-            s.hourse_4,
+            s.horse,
+            s.horse_4,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_4_run,
-            s[`hourse_animation_${hourse_speed_4}`],
-            result?.length > 0 && s.hourse_finish_4
+            testGame && allLoaded && s.horse_4_run,
+            s[`horse_animation_${Horse_speed_4}`],
+            gameResult?.length > 0 && s.horse_finish_4
           )}
           autoPlay={true}
-          loop={!hourseStay_4}
+          loop={!HorseStay_4}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_4(true)}
+          onLoadedData={() => setHorseLoad_4(true)}
         >
-          <source src={"/hourse/hourse_4.webm"} type="video/mp4" />
+          <source src={"/horse/horse_4.webm"} type="video/mp4" />
         </video>
         <video
-          ref={hourse_5_1}
-          className={clsx(s.hourse, s.hourse_5, testGame && s.hidden)}
+          ref={Horse_5_1}
+          className={clsx(s.horse, s.horse_5, testGame && s.hidden)}
           autoPlay={false}
           loop={false}
           muted
           playsInline
-          onLoadedData={() => setHourseLoad_5(true)}
+          onLoadedData={() => setHorseLoad_5(true)}
         >
-          <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
+          <source src={"/horse/horse_5.webm"} type="video/mp4" />
         </video>
         <video
           style={{
@@ -914,29 +983,29 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
                 : "",
           }}
           onPlay={() => setPlay_5(true)}
-          ref={hourse_5_2}
+          ref={Horse_5_2}
           className={clsx(
-            s.hourse,
-            s.hourse_5,
+            s.horse,
+            s.horse_5,
             !testGame && s.hidden,
-            testGame && allLoaded && s.hourse_5_run,
-            s[`hourse_animation_${hourse_speed_5}`],
-            result?.length > 0 && s.hourse_finish_5
+            testGame && allLoaded && s.horse_5_run,
+            s[`horse_animation_${Horse_speed_5}`],
+            gameResult?.length > 0 && s.horse_finish_5
           )}
           autoPlay={true}
-          loop={!hourseStay_5}
+          loop={!HorseStay_5}
           muted={true}
           playsInline
-          onLoadedData={() => setHourseLoad_5(true)}
+          onLoadedData={() => setHorseLoad_5(true)}
         >
-          <source src={"/hourse/hourse_5.webm"} type="video/mp4" />
+          <source src={"/horse/horse_5.webm"} type="video/mp4" />
         </video>
         <Image
           src={isMobile ? fence_mobile_1 : fence_1}
           className={clsx(
             s.fence,
             s.fence_1,
-            testGame && allLoaded && s.hourse_table_background_img_1_start
+            testGame && allLoaded && s.horse_table_background_img_1_start
           )}
           alt=""
         />
@@ -945,7 +1014,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_2,
-            testGame && allLoaded && s.hourse_table_background_img_1_start
+            testGame && allLoaded && s.horse_table_background_img_1_start
           )}
           alt=""
         />
@@ -954,7 +1023,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_3,
-            testGame && allLoaded && s.hourse_table_background_img_1_start
+            testGame && allLoaded && s.horse_table_background_img_1_start
           )}
           alt=""
         />
@@ -963,7 +1032,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_4,
-            testGame && allLoaded && s.hourse_table_background_img_1_start
+            testGame && allLoaded && s.horse_table_background_img_1_start
           )}
           alt=""
         />
@@ -972,7 +1041,7 @@ export const Hourse: FC<IHourse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_5,
-            testGame && allLoaded && s.hourse_table_background_img_1_start
+            testGame && allLoaded && s.horse_table_background_img_1_start
           )}
           alt=""
         />

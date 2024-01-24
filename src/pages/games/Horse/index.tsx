@@ -2,16 +2,12 @@ import { GamePage } from "@/widgets/GamePage/GamePage";
 import { Layout } from "@/widgets/Layout";
 import styles from "./style.module.scss";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
-import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import {
-  CustomWagerRangeInput,
-  CustomWagerRangeInputModel,
-} from "@/widgets/CustomWagerRangeInput";
+
 import s from "@/pages/games/CoinFlip/styles.module.scss";
 
 import * as ConnectModel from "@/widgets/Layout/model";
@@ -22,22 +18,17 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
-import { Rocket } from "@/widgets/Rocket/Rocket";
-import { WagerGainLoss } from "@/widgets/WagerGainLoss";
-import { Preload } from "@/shared/ui/Preload";
-import { useState, useEffect } from "react";
-import { RefundButton } from "@/shared/ui/Refund";
-import { Hourse } from "@/widgets/Hourse/Hourse";
-import { HourseSelecteor } from "@/shared/ui/HourseSelecteor";
+import { Horse } from "@/widgets/Horse/Horse";
+import { HorseSelecteor } from "@/shared/ui/HorseSelecteor";
+import * as RaceModel from "@/widgets/Horse/model";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.setIsEmtyWager,
-    GameModel.setRefund,
+  const [gameResult, setGameResult] = useUnit([
+    RaceModel.$gameResult,
+    RaceModel.setGameResult,
   ]);
-  const { isConnected, isConnecting } = useAccount();
+  const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
+  const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -52,7 +43,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      <HourseSelecteor />
+      <HorseSelecteor />
       <button
         className={clsx(
           s.connect_wallet_btn,
@@ -63,58 +54,55 @@ const WagerContent = () => {
             : s.button_active
         )}
         onClick={() => {
-          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-            pressButton();
-          } else if (cryptoValue <= 0.0 && isConnected) {
-            setIsEmtyWager(true);
+          if (gameResult.length === 0) {
+            if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+              pressButton();
+            } else if (cryptoValue <= 0.0 && isConnected) {
+              setIsEmtyWager(true);
+            } else {
+              router.push(
+                isPartner
+                  ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                  : "/RegistrManual"
+              );
+            }
           } else {
-            router.push(
-              isPartner
-                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                : "/RegistrManual"
-            );
+            setGameResult([]);
           }
         }}
       >
-        {isPlaying ? (
+        {gameResult.length > 0 ? (
+          "Reset"
+        ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"
         ) : (
           "Connect Wallet"
         )}
-      </button>{" "}
-      {/* {isPlaying && (
-        <RefundButton
-          onClick={() => setRefund(true)}
-          className={styles.mobile}
-        />
-      )} */}
+      </button>
     </>
   );
 };
 
-export default function HourseGame() {
+export default function HorseGame() {
   return (
     <>
       <Head>
-        <title>Games - Hourse</title>
+        <title>Games - Horse</title>
       </Head>
-      <Layout activePageLink="/games/Hourse" gameName="Hourse">
-        <LiveBetsWS
-          subscription_type={"Subscribe"}
-          subscriptions={["Hourse"]}
-        />
-        <div className={styles.hourse_container}>
+      <Layout activePageLink="/games/Horse" gameName="Horse">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Horse"]} />
+        <div className={styles.Horse_container}>
           <GamePage
             isPoker={false}
             gameInfoText=""
-            gameTitle="hourse"
+            gameTitle="Horse"
             wagerContent={<WagerContent />}
             custom_height={styles.height}
             soundClassName={styles.sound_btn}
           >
-            <Hourse gameText="" />
+            <Horse gameText="" />
           </GamePage>
         </div>
       </Layout>

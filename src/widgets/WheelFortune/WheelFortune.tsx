@@ -1467,6 +1467,7 @@ const WheelComponent = ({
   inSpeen: boolean;
   setInSpeen: (el: boolean) => void;
 }) => {
+  useEffect(() => console.log(JSON.stringify(segColors)), [segColors]);
   const isMobile = useMediaQuery("(max-width: 650px)");
   const isDesktop = useMediaQuery("(max-width: 1280px)");
   const [level, pickedValue] = useUnit([
@@ -1539,9 +1540,15 @@ const WheelComponent = ({
     // Перемещаемся к начальной точке дуги
     const startX = centerX + innerRadius * Math.cos(lastAngle);
     const startY = centerY + innerRadius * Math.sin(lastAngle);
+    // if (isMobile || count < 50) {
+    //   if (count === 20 || (count === 10 && level === "Medium")) {
+    //     ctx.moveTo(startX, startY);
+    //   }
+    //   ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    // }
+    ctx.moveTo(startX, startY);
+    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     if (isMobile || count < 50) {
-      ctx.moveTo(startX, startY);
-      ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     }
     // Рисуем дугу до конечной точки
     // Рисуем линию до внешней окружности
@@ -1552,6 +1559,7 @@ const WheelComponent = ({
     ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
     // Закрываем путь
     ctx.closePath();
+    ctx.lineJoin = "bevel";
     // Заливаем цвет сегмента
     ctx.fillStyle = colors[key]?.segment;
     ctx.fill();
