@@ -70,7 +70,7 @@
       }
     }
     &_finish {
-      animation: finish_img 1s linear forwards;
+      animation: finish_img 1.5s linear forwards;
       @media (max-width: 1400px) {
         animation: finish_img 1.5s linear forwards;
       }
@@ -104,7 +104,7 @@
       }
     }
     &_finish {
-      animation: finish_2_img 1s linear forwards;
+      animation: finish_2_img 1.5s linear forwards;
       @media (max-width: 1400px) {
         animation: finish_2_img 1.5s linear forwards;
       }
@@ -254,6 +254,7 @@
 .horse {
   transition: transform 3s;
   position: relative;
+  transform: translateX(0);
 
   &_shadow {
     position: absolute;
@@ -261,31 +262,42 @@
     left: 50%;
     transform: translateX(-50%);
   }
-  --horse-step: 20vw;
+  --horse-step: 12vw;
   --horse-backstep: -8vw;
   @media (max-width: 998px) {
     --horse-step: 8vw;
   }
   --horse-substep: 60%;
   @media (max-width: 1800px) {
-    --horse-substep: 10.5vw;
+    --horse-substep: 20%;
   }
   @media (max-width: 1550px) {
-    --horse-substep: 3.5vw;
+    --horse-substep: 10%;
     --horse-backstep: -9vw;
-    --horse-step: 13vw;
+    --horse-step: 10vw;
   }
   @media (max-width: 1400px) {
-    --horse-substep: 0.8vw;
+    --horse-step: 6.5vw;
+  }
+  @media (max-width: 1350px) {
+    --horse-step: 5vw;
+  }
+  @media (max-width: 1280px) {
+    --horse-step: 9.5vw;
+  }
+  @media (max-width: 1080px) {
+    --horse-step: 5.5vw;
   }
   @media (max-width: 998px) {
-    --horse-substep: 25vw;
-  }
-  @media (max-width: 800px) {
     --horse-substep: 17vw;
   }
+  @media (max-width: 810px) {
+    --horse-substep: 11vw;
+    --horse-step: 2.7vw;
+  }
   @media (max-width: 700px) {
-    --horse-substep: 14vw;
+    --horse-substep: 5vw;
+    --horse-step: 0.5vw;
   }
   @media (max-width: 650px) {
     --horse-substep: 30vw;
@@ -360,12 +372,18 @@
     left: 183px;
     &_run {
       animation: horse_1 8s forwards;
+      &_center {
+        left: calc(var(--horse-step) + 195px);
+        @media (max-width: 650px) {
+          left: calc(var(--horse-step) + 175px);
+        }
+      }
       @keyframes horse_1 {
         0% {
           left: 183px;
         }
         100% {
-          left: calc(var(--horse-step) + 183px);
+          left: calc(var(--horse-step) + 195px);
         }
       }
     }
@@ -374,6 +392,14 @@
       height: 107.25px;
       top: 149px;
       left: 137px;
+      @keyframes horse_1 {
+        0% {
+          left: 137px;
+        }
+        100% {
+          left: calc(var(--horse-step) + 175px);
+        }
+      }
     }
   }
   &_2 {
@@ -384,12 +410,15 @@
     z-index: 2;
     &_run {
       animation: horse_2 8s forwards;
+      &_center {
+        left: calc(var(--horse-step) + 194px);
+      }
       @keyframes horse_2 {
         0% {
           left: 154px;
         }
         100% {
-          left: calc(var(--horse-step) + 154px);
+          left: calc(var(--horse-step) + 194px);
         }
       }
     }
@@ -408,12 +437,15 @@
     z-index: 4;
     &_run {
       animation: horse_3 8s forwards;
+      &_center {
+        left: calc(var(--horse-step) + 177px);
+      }
       @keyframes horse_3 {
         0% {
           left: 127px;
         }
         100% {
-          left: calc(var(--horse-step) + 127px);
+          left: calc(var(--horse-step) + 177px);
         }
       }
     }
@@ -432,12 +464,15 @@
     z-index: 6;
     &_run {
       animation: horse_4 8s forwards;
+      &_center {
+        left: calc(var(--horse-step) + 160px);
+      }
       @keyframes horse_4 {
         0% {
           left: 87px;
         }
         100% {
-          left: calc(var(--horse-step) + 87px);
+          left: calc(var(--horse-step) + 160px);
         }
       }
     }
@@ -456,12 +491,38 @@
     z-index: 8;
     &_run {
       animation: horse_5 8s forwards;
+      &_center {
+        left: calc(14px + var(--horse-step) + 100px);
+      }
       @keyframes horse_5 {
         0% {
           left: 14px;
         }
         100% {
-          left: calc(14px + var(--horse-step));
+          left: calc(14px + var(--horse-step) + 100px);
+        }
+      }
+      @media (max-width: 1800px) {
+        left: calc(14px + var(--horse-step) + 135px);
+        @keyframes horse_5 {
+          0% {
+            left: 14px;
+          }
+          100% {
+            left: calc(14px + var(--horse-step) + 135px);
+          }
+        }
+      }
+
+      @media (max-width: 1080px) {
+        left: calc(14px + var(--horse-step) + 115px);
+        @keyframes horse_5 {
+          0% {
+            left: 14px;
+          }
+          100% {
+            left: calc(14px + var(--horse-step) + 115px);
+          }
         }
       }
     }
@@ -494,10 +555,10 @@
   }
 }
 .horse_animation_1 {
-  animation: anumation_horse_1 1s linear forwards;
+  animation: anumation_horse_1 1.5s linear forwards;
   @keyframes anumation_horse_1 {
     0% {
-      transform: translateX(var(--horse-step));
+      transform: translateX(0);
     }
     50% {
       transform: translateX(calc(var(--horse-backstep) + var(--horse-step)));
@@ -508,10 +569,10 @@
   }
 }
 .horse_animation_2 {
-  animation: anumation_horse_2 2s linear forwards;
+  animation: anumation_horse_2 2.5s linear forwards;
   @keyframes anumation_horse_2 {
     0% {
-      transform: translateX(var(--horse-step));
+      transform: translateX(0);
     }
     50% {
       transform: translateX(calc(var(--horse-backstep) + var(--horse-step)));
@@ -525,7 +586,7 @@
   animation: anumation_horse_3 3s linear forwards;
   @keyframes anumation_horse_3 {
     0% {
-      transform: translateX(var(--horse-step));
+      transform: translateX(0);
     }
     50% {
       transform: translateX(calc(var(--horse-backstep) + var(--horse-step)));
@@ -536,10 +597,10 @@
   }
 }
 .horse_animation_4 {
-  animation: anumation_horse_4 4s linear forwards;
+  animation: anumation_horse_4 3.5s linear forwards;
   @keyframes anumation_horse_4 {
     0% {
-      transform: translateX(var(--horse-step));
+      transform: translateX(0);
     }
     50% {
       transform: translateX(calc(var(--horse-backstep) + var(--horse-step)));
@@ -550,40 +611,16 @@
   }
 }
 .horse_animation_5 {
-  animation: anumation_horse_5 4s linear forwards;
+  animation: anumation_horse_5 3.5s linear forwards;
   @keyframes anumation_horse_5 {
     0% {
-      transform: translateX(var(--horse-step));
+      transform: translateX(0);
     }
     50% {
       transform: translateX(calc(var(--horse-backstep) + var(--horse-step)));
     }
     100% {
       transform: translateX(calc(var(--horse-substep) + var(--horse-step)));
-    }
-  }
-}
-
-.horse_finish {
-  &_1 {
-    left: 14vw;
-  }
-  &_2 {
-    left: 13.26vw;
-  }
-  &_3 {
-    left: 13vw;
-  }
-  &_4 {
-    left: 12vw;
-  }
-  &_5 {
-    left: 8.95vw;
-    @media (max-width: 650px) {
-      left: 5vw;
-    }
-    @media (max-width: 350px) {
-      left: 1.5vw;
     }
   }
 }

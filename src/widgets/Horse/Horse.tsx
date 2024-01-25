@@ -639,10 +639,21 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     callBackStay: (el: boolean) => void,
     callBackTime: (el: number) => void
   ) => {
+    let localDelay;
+    if (delay === 4) {
+      localDelay = 3.5;
+    } else if (delay === 1) {
+      localDelay = 1.5;
+    } else if (delay === 2) {
+      localDelay = 2.5;
+    } else {
+      localDelay = delay;
+    }
+
     callBackTime(delay);
     setTimeout(() => {
       callBackStay(true);
-    }, delay * 1000);
+    }, localDelay * 1000);
   };
   const [showFinish, setShowFinish] = useState(false);
 
@@ -761,6 +772,17 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
       }, 10);
     }
   }, [testGame]);
+
+  const [makeCenter, setMakeCenter] = useState(false);
+
+  useEffect(() => {
+    if (testGame) {
+      setTimeout(() => setMakeCenter(true), 8000);
+    } else {
+      setMakeCenter(false);
+    }
+  }, [testGame]);
+
   return (
     <>
       {error && (
@@ -837,7 +859,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
             s.horse_1,
             testGame && allLoaded && s.horse_1_run,
             s[`horse_animation_${Horse_speed_1}`],
-            gameResult?.length > 0 && s.horse_finish_1
+            gameResult?.length > 0 && s.horse_finish_1,
+            makeCenter && s.horse_1_run_center
           )}
           style={{
             transform:
@@ -884,7 +907,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
             s.horse_2,
             testGame && allLoaded && s.horse_2_run,
             s[`horse_animation_${Horse_speed_2}`],
-            gameResult?.length > 0 && s.horse_finish_2
+            gameResult?.length > 0 && s.horse_finish_2,
+            makeCenter && s.horse_2_run_center
           )}
         >
           {(testGame || gameResult.length > 0) && (
@@ -908,22 +932,23 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              testGame &&
-              randomNumber &&
-              (randomNumber === 3 || randomNumber === -3)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
+          // style={{
+          //   transform:
+          //     testGame &&
+          //     randomNumber &&
+          //     (randomNumber === 3 || randomNumber === -3)
+          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+          //       : "",
+          // }}
           className={clsx(
             s.horse,
 
             !sidebarOpened && s.horse_expand,
             s.horse_3,
             testGame && allLoaded && s.horse_3_run,
+            gameResult?.length > 0 && s.horse_finish_3,
             s[`horse_animation_${Horse_speed_3}`],
-            gameResult?.length > 0 && s.horse_finish_3
+            makeCenter && s.horse_3_run_center
           )}
         >
           {(testGame || gameResult.length > 0) && (
@@ -947,21 +972,22 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              testGame &&
-              randomNumber &&
-              (randomNumber === 4 || randomNumber === -4)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
+          // style={{
+          //   transform:
+          //     testGame &&
+          //     randomNumber &&
+          //     (randomNumber === 4 || randomNumber === -4)
+          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+          //       : "",
+          // }}
           className={clsx(
             s.horse,
             !sidebarOpened && s.horse_expand,
             s.horse_4,
             testGame && allLoaded && s.horse_4_run,
             s[`horse_animation_${Horse_speed_4}`],
-            gameResult?.length > 0 && s.horse_finish_4
+            gameResult?.length > 0 && s.horse_finish_4,
+            makeCenter && s.horse_4_run_center
           )}
         >
           {(testGame || gameResult.length > 0) && (
@@ -985,22 +1011,22 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              testGame &&
-              randomNumber &&
-              (randomNumber === 5 || randomNumber === -5)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
+          // style={{
+          //   transform:
+          //     testGame &&
+          //     randomNumber &&
+          //     (randomNumber === 5 || randomNumber === -5)
+          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+          //       : "",
+          // }}
           className={clsx(
             s.horse,
-
             !sidebarOpened && s.horse_expand,
             s.horse_5,
             testGame && allLoaded && s.horse_5_run,
+            gameResult?.length > 0 && s.horse_finish_5,
             s[`horse_animation_${Horse_speed_5}`],
-            gameResult?.length > 0 && s.horse_finish_5
+            makeCenter && s.horse_5_run_center
           )}
         >
           {(testGame || gameResult.length > 0) && (
