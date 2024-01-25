@@ -61,7 +61,7 @@ const musicsList = [
 import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
 import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 import { RefundButton } from "@/shared/ui/Refund";
-
+import * as RaceModel from "@/widgets/Horse/model";
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
@@ -95,7 +95,10 @@ export const GamePage: FC<GamePageProps> = ({
     token: api.T_Token;
     price: number;
   }>();
-
+  const [gameResult, setGameResult] = useUnit([
+    RaceModel.$gameResult,
+    RaceModel.setGameResult,
+  ]);
   const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
@@ -329,18 +332,19 @@ export const GamePage: FC<GamePageProps> = ({
               // }
               ButtonElement={
                 isMobile ? (
-                  <>
-                    {" "}
-                    <button
-                      className={clsx(
-                        s.connect_wallet_btn,
-                        s.mobile,
-                        isPlaying && "animation-leftRight",
-                        !isPlaying && cryptoValue == 0.0 && isConnected
-                          ? s.button_inactive
-                          : s.button_active
-                      )}
-                      onClick={() => {
+                  <button
+                    className={clsx(
+                      s.connect_wallet_btn,
+                      s.mobile,
+                      isPlaying && "animation-leftRight",
+                      !isPlaying && cryptoValue == 0.0 && isConnected
+                        ? s.button_inactive
+                        : s.button_active
+                    )}
+                    onClick={() => {
+                      if (gameTitle === "Horse" && gameResult.length > 0) {
+                        setGameResult([]);
+                      } else {
                         if (
                           (cryptoValue > 0.0 ||
                             (isPlaying && !waitingResponse)) &&
@@ -352,23 +356,19 @@ export const GamePage: FC<GamePageProps> = ({
                         } else {
                           router.push("/RegistrManual");
                         }
-                      }}
-                    >
-                      {waitingResponse ? (
-                        <LoadingDots className={s.dots_black} title="Playing" />
-                      ) : isConnected ? (
-                        "Play"
-                      ) : (
-                        "Connect Wallet"
-                      )}
-                    </button>
-                    {/* {isPlaying && (
-                      <RefundButton
-                        className={s.connect_wallet_btn}
-                        onClick={() => setRefund(true)}
-                      />
-                    )} */}
-                  </>
+                      }
+                    }}
+                  >
+                    {gameTitle === "Horse" && gameResult.length > 0 ? (
+                      "Reset"
+                    ) : waitingResponse ? (
+                      <LoadingDots className={s.dots_black} title="Playing" />
+                    ) : isConnected ? (
+                      "Play"
+                    ) : (
+                      "Connect Wallet"
+                    )}
+                  </button>
                 ) : (
                   <></>
                 )

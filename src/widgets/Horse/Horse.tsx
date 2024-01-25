@@ -19,6 +19,7 @@ import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
 
 import { sessionModel } from "@/entities/session";
+import * as SidebarModel from "@/widgets/SideBar/model";
 
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { ABI as RaceABI } from "@/shared/contracts/RaceABI";
@@ -59,6 +60,11 @@ import fence_mobile_5 from "@/public/media/Horse_images/fence_mobile_5.png";
 
 import finish_line from "@/public/media/Horse_images/finishLine.png";
 
+import shadow_5 from "@/public/media/Horse_icons/shadow_5.svg";
+import shadow_4 from "@/public/media/Horse_icons/shadow_4.svg";
+import shadow_3 from "@/public/media/Horse_icons/shadow_3.svg";
+import shadow_2 from "@/public/media/Horse_icons/shadow_2.svg";
+import shadow_1 from "@/public/media/Horse_icons/shadow_1.svg";
 interface IHorse {
   gameText: string;
 }
@@ -145,6 +151,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     HorseModel.$gameResult,
     HorseModel.setGameResult,
   ]);
+  const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
 
   const { data } = useFeeData({
     watch: isConnected,
@@ -477,26 +484,19 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     }
   }, [inGame]);
 
-  const [HorseRun, setHorseRun] = useState(false);
   const [HorsePlay, setHorsePlay] = useState(false);
 
   useEffect(() => {
     if (testGame) {
       setHorsePlay(true);
-      setHorseRun(true);
     }
   }, [testGame]);
 
-  const Horse_1_1 = useRef<HTMLVideoElement | null>(null);
-  const Horse_1_2 = useRef<HTMLVideoElement | null>(null);
-  const Horse_2_1 = useRef<HTMLVideoElement | null>(null);
-  const Horse_2_2 = useRef<HTMLVideoElement | null>(null);
-  const Horse_3_1 = useRef<HTMLVideoElement | null>(null);
-  const Horse_3_2 = useRef<HTMLVideoElement | null>(null);
-  const Horse_4_1 = useRef<HTMLVideoElement | null>(null);
-  const Horse_4_2 = useRef<HTMLVideoElement | null>(null);
-  const Horse_5_1 = useRef<HTMLVideoElement | null>(null);
-  const Horse_5_2 = useRef<HTMLVideoElement | null>(null);
+  const horse_1 = useRef<HTMLVideoElement | null>(null);
+  const horse_2 = useRef<HTMLVideoElement | null>(null);
+  const horse_3 = useRef<HTMLVideoElement | null>(null);
+  const horse_4 = useRef<HTMLVideoElement | null>(null);
+  const horse_5 = useRef<HTMLVideoElement | null>(null);
 
   const [play_1, setPlay_1] = useState(false);
   const [play_2, setPlay_2] = useState(false);
@@ -581,40 +581,46 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
   const [HorseStay_5, setHorseStay_5] = useState(false);
 
   useEffect(() => {
-    const bg_1_1 = Horse_1_1.current;
-    const bg_1_2 = Horse_1_2.current;
-    bg_1_1!.currentTime = 0;
-    bg_1_2!.currentTime = 0;
-    const bg_2_1 = Horse_2_1.current;
-    const bg_2_2 = Horse_2_2.current;
-    bg_2_1!.currentTime = 0;
-    bg_2_2!.currentTime = 0;
-    const bg_3_1 = Horse_3_1.current;
-    const bg_3_2 = Horse_3_2.current;
-    bg_3_1!.currentTime = 0;
-    bg_3_2!.currentTime = 0;
-    const bg_4_1 = Horse_4_1.current;
-    const bg_4_2 = Horse_4_2.current;
-    bg_4_1!.currentTime = 0;
-    bg_4_2!.currentTime = 0;
-    const bg_5_1 = Horse_5_1.current;
-    const bg_5_2 = Horse_5_2.current;
-    bg_5_1!.currentTime = 0;
-    bg_5_2!.currentTime = 0;
-  }, [
-    HorsePlay,
-    HorseStay_1,
-    HorseStay_2,
-    HorseStay_3,
-    HorseStay_4,
-    HorseStay_5,
-  ]);
+    if (!HorseStay_1 && testGame) {
+      horse_1.current!.play();
+    } else {
+      horse_1.current!.pause();
+    }
+  }, [HorsePlay, testGame, HorseStay_1]);
+  useEffect(() => {
+    if (!HorseStay_2 && testGame) {
+      horse_2.current!.play();
+    } else {
+      horse_2.current!.pause();
+    }
+  }, [HorsePlay, testGame, HorseStay_2]);
+  useEffect(() => {
+    if (!HorseStay_3 && testGame) {
+      horse_3.current!.play();
+    } else {
+      horse_3.current!.pause();
+    }
+  }, [HorsePlay, testGame, HorseStay_3]);
+  useEffect(() => {
+    if (!HorseStay_4 && testGame) {
+      horse_4.current!.play();
+    } else {
+      horse_4.current!.pause();
+    }
+  }, [HorsePlay, testGame, HorseStay_4]);
+  useEffect(() => {
+    if (!HorseStay_5 && testGame) {
+      horse_5.current!.play();
+    } else {
+      horse_5.current!.pause();
+    }
+  }, [HorsePlay, testGame, HorseStay_5]);
 
   const [stepValue, setStepValue] = useState(90);
 
   useEffect(() => {
     if (isDesktop) {
-      setStepValue(120);
+      setStepValue(150);
     } else {
       setStepValue(90);
     }
@@ -624,7 +630,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     if (testGame) {
       setTimeout(() => {
         setGameResult([0, 3, 2, 1, 4]);
-      }, 5000);
+      }, 9000);
     }
   }, [testGame]);
 
@@ -636,20 +642,15 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     callBackTime(delay);
     setTimeout(() => {
       callBackStay(true);
-    }, delay);
+    }, delay * 1000);
   };
   const [showFinish, setShowFinish] = useState(false);
 
   useEffect(() => {
-    const processHorse = async (
-      value: number,
-      index: number,
-      setHorseSpeed: (el: number) => void,
-      setHorseStay: (el: boolean) => void
-    ) => {
+    const processHorse = async (value: number, index: number) => {
       if (index === 0) {
         if (value === 0) {
-          callResult(1, setHorseStay, setHorseSpeed);
+          callResult(1, setHorseStay_1, setHorse_speed_1);
         } else if (value === 1) {
           callResult(1, setHorseStay_2, setHorse_speed_2);
         } else if (value === 2) {
@@ -702,26 +703,26 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
       }
       if (index === 4) {
         if (value === 0) {
-          callResult(5, setHorseStay_1, setHorse_speed_1);
+          callResult(4, setHorseStay_1, setHorse_speed_1);
         } else if (value === 1) {
-          callResult(5, setHorseStay_2, setHorse_speed_2);
+          callResult(4, setHorseStay_2, setHorse_speed_2);
         } else if (value === 2) {
-          callResult(5, setHorseStay_3, setHorse_speed_3);
+          callResult(4, setHorseStay_3, setHorse_speed_3);
         } else if (value === 3) {
-          callResult(5, setHorseStay_4, setHorse_speed_4);
+          callResult(4, setHorseStay_4, setHorse_speed_4);
         } else if (value === 4) {
-          callResult(5, setHorseStay_5, setHorse_speed_5);
+          callResult(4, setHorseStay_5, setHorse_speed_5);
         }
       }
     };
     const processResult = async () => {
       if (gameResult && gameResult.length === 5) {
         for (const [index, value] of (gameResult as any).entries()) {
-          await processHorse(value, index, setHorse_speed_1, setHorseStay_1);
-          await processHorse(value, index, setHorse_speed_2, setHorseStay_2);
-          await processHorse(value, index, setHorse_speed_3, setHorseStay_3);
-          await processHorse(value, index, setHorse_speed_4, setHorseStay_4);
-          await processHorse(value, index, setHorse_speed_5, setHorseStay_5);
+          await processHorse(value, index);
+          await processHorse(value, index);
+          await processHorse(value, index);
+          await processHorse(value, index);
+          await processHorse(value, index);
         }
       }
     };
@@ -749,7 +750,17 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
       setShowFinish(true);
     }
   }, [gameResult.length]);
-
+  useEffect(() => {
+    if (!testGame) {
+      setTimeout(() => {
+        horse_1.current!.currentTime = 0;
+        horse_2.current!.currentTime = 0;
+        horse_3.current!.currentTime = 0;
+        horse_4.current!.currentTime = 0;
+        horse_5.current!.currentTime = 0;
+      }, 10);
+    }
+  }, [testGame]);
   return (
     <>
       {error && (
@@ -819,187 +830,200 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
             />
           )}
         </div>
-        <video
-          ref={Horse_1_1}
-          className={clsx(s.horse, s.horse_1, testGame && s.hidden)}
-          autoPlay={false}
-          loop={false}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_1(true)}
-        >
-          <source src={"/horse/horse_1.webm"} type="video/mp4" />
-        </video>
-        <video
-          style={{
-            transform:
-              randomNumber === 1 || randomNumber === -1
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
-          onPlay={() => setPlay_1(true)}
-          ref={Horse_1_2}
+        <div
           className={clsx(
             s.horse,
+            !sidebarOpened && s.horse_expand,
             s.horse_1,
-            !testGame && s.hidden,
             testGame && allLoaded && s.horse_1_run,
             s[`horse_animation_${Horse_speed_1}`],
             gameResult?.length > 0 && s.horse_finish_1
           )}
-          autoPlay={true}
-          loop={!HorseStay_1}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_1(true)}
-        >
-          <source src={"/horse/horse_1.webm"} type="video/mp4" />
-        </video>
-        <video
-          ref={Horse_2_1}
-          className={clsx(s.horse, s.horse_2, testGame && s.hidden)}
-          autoPlay={false}
-          loop={false}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_2(true)}
-        >
-          <source src={"/horse/horse_2.webm"} type="video/mp4" />
-        </video>
-        <video
           style={{
             transform:
-              randomNumber === 2 || randomNumber === -2
+              testGame &&
+              randomNumber &&
+              (randomNumber === 1 || randomNumber === -1)
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
-          onPlay={() => setPlay_2(true)}
-          ref={Horse_2_2}
+        >
+          {(testGame || gameResult.length > 0) && (
+            <Image
+              src={shadow_1}
+              alt=""
+              className={clsx(s.horse_shadow, s.horse_shadow_1)}
+            />
+          )}
+          <video
+            className={clsx(s.horse_size, s.horse_size_1)}
+            onPlay={() => setPlay_1(true)}
+            ref={horse_1}
+            autoPlay={true}
+            loop={true}
+            muted
+            playsInline
+            onLoadedData={() => setHorseLoad_1(true)}
+          >
+            <source src={"/horse/horse_1.webm"} type="video/mp4" />
+          </video>
+        </div>
+        <div
+          style={{
+            transform:
+              testGame &&
+              randomNumber &&
+              (randomNumber === 2 || randomNumber === -2)
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           className={clsx(
             s.horse,
+
+            !sidebarOpened && s.horse_expand,
             s.horse_2,
-            !testGame && s.hidden,
-            testGame && allLoaded && s.horse_2_run,
             testGame && allLoaded && s.horse_2_run,
             s[`horse_animation_${Horse_speed_2}`],
             gameResult?.length > 0 && s.horse_finish_2
           )}
-          autoPlay={true}
-          loop={!HorseStay_2}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_2(true)}
         >
-          <source src={"/horse/horse_2.webm"} type="video/mp4" />
-        </video>
-        <video
-          ref={Horse_3_1}
-          className={clsx(s.horse, s.horse_3, testGame && s.hidden)}
-          autoPlay={false}
-          loop={false}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_3(true)}
-        >
-          <source src={"/horse/horse_3.webm"} type="video/mp4" />
-        </video>
-        <video
+          {(testGame || gameResult.length > 0) && (
+            <Image
+              src={shadow_2}
+              alt=""
+              className={clsx(s.horse_shadow, s.horse_shadow_2)}
+            />
+          )}
+          <video
+            className={clsx(s.horse_size, s.horse_size_2)}
+            onPlay={() => setPlay_2(true)}
+            ref={horse_2}
+            autoPlay={true}
+            loop={true}
+            muted
+            playsInline
+            onLoadedData={() => setHorseLoad_2(true)}
+          >
+            <source src={"/horse/horse_2.webm"} type="video/mp4" />
+          </video>
+        </div>
+        <div
           style={{
             transform:
-              randomNumber === 3 || randomNumber === -3
+              testGame &&
+              randomNumber &&
+              (randomNumber === 3 || randomNumber === -3)
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
-          onPlay={() => setPlay_3(true)}
-          ref={Horse_3_2}
           className={clsx(
             s.horse,
+
+            !sidebarOpened && s.horse_expand,
             s.horse_3,
-            !testGame && s.hidden,
             testGame && allLoaded && s.horse_3_run,
             s[`horse_animation_${Horse_speed_3}`],
             gameResult?.length > 0 && s.horse_finish_3
           )}
-          autoPlay={true}
-          loop={!HorseStay_3}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_3(true)}
         >
-          <source src={"/horse/horse_3.webm"} type="video/mp4" />
-        </video>
-        <video
-          ref={Horse_4_1}
-          className={clsx(s.horse, s.horse_4, testGame && s.hidden)}
-          autoPlay={false}
-          loop={false}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_4(true)}
-        >
-          <source src={"/horse/horse_4.webm"} type="video/mp4" />
-        </video>
-        <video
+          {(testGame || gameResult.length > 0) && (
+            <Image
+              src={shadow_3}
+              alt=""
+              className={clsx(s.horse_shadow, s.horse_shadow_3)}
+            />
+          )}
+          <video
+            onPlay={() => setPlay_3(true)}
+            ref={horse_3}
+            className={clsx(s.horse_size, s.horse_size_3)}
+            autoPlay={true}
+            loop={true}
+            muted
+            playsInline
+            onLoadedData={() => setHorseLoad_3(true)}
+          >
+            <source src={"/horse/horse_3.webm"} type="video/mp4" />
+          </video>
+        </div>
+        <div
           style={{
             transform:
-              randomNumber === 4 || randomNumber === -4
+              testGame &&
+              randomNumber &&
+              (randomNumber === 4 || randomNumber === -4)
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
-          onPlay={() => setPlay_4(true)}
-          ref={Horse_4_2}
           className={clsx(
             s.horse,
+            !sidebarOpened && s.horse_expand,
             s.horse_4,
-            !testGame && s.hidden,
             testGame && allLoaded && s.horse_4_run,
             s[`horse_animation_${Horse_speed_4}`],
             gameResult?.length > 0 && s.horse_finish_4
           )}
-          autoPlay={true}
-          loop={!HorseStay_4}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_4(true)}
         >
-          <source src={"/horse/horse_4.webm"} type="video/mp4" />
-        </video>
-        <video
-          ref={Horse_5_1}
-          className={clsx(s.horse, s.horse_5, testGame && s.hidden)}
-          autoPlay={false}
-          loop={false}
-          muted
-          playsInline
-          onLoadedData={() => setHorseLoad_5(true)}
-        >
-          <source src={"/horse/horse_5.webm"} type="video/mp4" />
-        </video>
-        <video
+          {(testGame || gameResult.length > 0) && (
+            <Image
+              src={shadow_4}
+              alt=""
+              className={clsx(s.horse_shadow, s.horse_shadow_4)}
+            />
+          )}
+          <video
+            className={clsx(s.horse_size, s.horse_size_4)}
+            onPlay={() => setPlay_4(true)}
+            ref={horse_4}
+            autoPlay={true}
+            loop={true}
+            muted
+            playsInline
+            onLoadedData={() => setHorseLoad_4(true)}
+          >
+            <source src={"/horse/horse_4.webm"} type="video/mp4" />
+          </video>
+        </div>
+        <div
           style={{
             transform:
-              randomNumber === 5 || randomNumber === -5
-                ? `translateX(${randomNumber > 0 ? stepValue : -90}px)`
+              testGame &&
+              randomNumber &&
+              (randomNumber === 5 || randomNumber === -5)
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
-          onPlay={() => setPlay_5(true)}
-          ref={Horse_5_2}
           className={clsx(
             s.horse,
+
+            !sidebarOpened && s.horse_expand,
             s.horse_5,
-            !testGame && s.hidden,
             testGame && allLoaded && s.horse_5_run,
             s[`horse_animation_${Horse_speed_5}`],
             gameResult?.length > 0 && s.horse_finish_5
           )}
-          autoPlay={true}
-          loop={!HorseStay_5}
-          muted={true}
-          playsInline
-          onLoadedData={() => setHorseLoad_5(true)}
         >
-          <source src={"/horse/horse_5.webm"} type="video/mp4" />
-        </video>
+          {(testGame || gameResult.length > 0) && (
+            <Image
+              src={shadow_5}
+              alt=""
+              className={clsx(s.horse_shadow, s.horse_shadow_5)}
+            />
+          )}
+          <video
+            className={clsx(s.horse_size, s.horse_size_5)}
+            onPlay={() => setPlay_5(true)}
+            ref={horse_5}
+            autoPlay={true}
+            loop={true}
+            muted={true}
+            playsInline
+            onLoadedData={() => setHorseLoad_5(true)}
+          >
+            <source src={"/horse/horse_5.webm"} type="video/mp4" />
+          </video>
+        </div>
+
         <Image
           src={isMobile ? fence_mobile_1 : fence_1}
           className={clsx(
