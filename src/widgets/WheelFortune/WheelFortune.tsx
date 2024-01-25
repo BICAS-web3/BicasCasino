@@ -1503,6 +1503,12 @@ const WheelComponent = ({
       canvas.setAttribute("width", `${width}`);
       canvas.setAttribute("height", `${height}`);
       canvas.setAttribute("id", "canvas");
+      var dpr = window.devicePixelRatio || 1;
+      var rect = canvas?.getBoundingClientRect();
+      canvas!.width = rect?.width * dpr;
+      canvas!.height = rect?.height * dpr;
+      var ctx = canvas?.getContext("2d");
+      ctx!.scale(dpr, dpr);
       document!.getElementById("wheel")!.appendChild(canvas);
     }
     // canvas!.addEventListener("click", spin, false);
@@ -1535,9 +1541,7 @@ const WheelComponent = ({
     // const outerRadius = level === "Medium" ? size + 0.0001 : size;
     const innerRadius = size;
     const outerRadius = size;
-
     ctx.beginPath();
-
     // Перемещаемся к начальной точке дуги
     const startX = centerX + innerRadius * Math.cos(lastAngle);
     const startY = centerY + innerRadius * Math.sin(lastAngle);
@@ -1551,24 +1555,19 @@ const WheelComponent = ({
     ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     if (isMobile || count < 50) {
     }
-
     // Рисуем дугу до конечной точки
-
     // Рисуем линию до внешней окружности
     const endX = centerX + outerRadius * Math.cos(angle);
     const endY = centerY + outerRadius * Math.sin(angle);
     ctx.lineTo(endX, endY);
-
     // Рисуем дугу по внешней окружности в обратном направлении
     ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
-
     // Закрываем путь
     ctx.closePath();
     ctx.lineJoin = "bevel";
     // Заливаем цвет сегмента
     ctx.fillStyle = colors[key]?.segment;
     ctx.fill();
-
     // Рисуем внутреннюю обводку
     ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15; //isMobile ? 10 : isDesktop ? 12 : 15 или любая другая толщина
     ctx.strokeStyle = colors[key + 1]?.border || "red";
@@ -1654,6 +1653,8 @@ const WheelComponent = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%",
+        height: "100%",
       }}
     >
       <canvas
