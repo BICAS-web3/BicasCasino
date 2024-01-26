@@ -534,6 +534,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   }, [imageLoading_1, imageLoading_2]);
   const [rocketCrash] = useSound("/music/rocket_crush.mp3", { volume: 1 });
   const [rocketWin] = useSound("/music/rocket_win.mp3", { volume: 1 });
+  const [rocketFly] = useSound("/music/rocket_fly_2.mp3", { volume: 1 });
 
   useEffect(() => {
     if (rocketStar && localNumber !== null && localNumber <= 0) {
@@ -544,6 +545,14 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     }
   }, [rocketStar, localNumber !== null, localNumber]);
 
+  useEffect(() => {
+    if (inGame) {
+      setTimeout(() => {
+        rocketFly();
+      }, 2000);
+    }
+  }, [inGame]);
+
   return (
     <>
       {error && (
@@ -552,11 +561,11 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           btnTitle="Contact us"
         />
       )}
-      <ReactHowler
-        src={"/music/rocket_fly.mp3"}
-        playing={inGame && playSounds !== "off"}
+      {/* <ReactHowler
+        src={"/music/rocket_fly_2.mp3"}
+        playing={!inGame && playSounds !== "off"}
         loop
-      />
+      /> */}
       <section className={s.rocket_table_wrap}>
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock

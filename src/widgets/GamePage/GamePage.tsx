@@ -45,17 +45,17 @@ import * as MinesModel from "@/widgets/Mines/model";
 import { useRouter } from "next/router";
 import soundEffectsIco from "@/public/media/Wager_icons/effects2.svg";
 const musicsList = [
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/3.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/4.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/5.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/6.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/7.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/8.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/9.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/10.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/12.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/13.mp3",
-  "https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/14.mp3",
+  "/static/media/games_assets/music/default_bg_music/3.mp3",
+  "/static/media/games_assets/music/default_bg_music/4.mp3",
+  "/static/media/games_assets/music/default_bg_music/5.mp3",
+  "/static/media/games_assets/music/default_bg_music/6.mp3",
+  "/static/media/games_assets/music/default_bg_music/7.mp3",
+  "/static/media/games_assets/music/default_bg_music/8.mp3",
+  "/static/media/games_assets/music/default_bg_music/9.mp3",
+  "/static/media/games_assets/music/default_bg_music/10.mp3",
+  "/static/media/games_assets/music/default_bg_music/12.mp3",
+  "/static/media/games_assets/music/default_bg_music/13.mp3",
+  "/static/media/games_assets/music/default_bg_music/14.mp3",
 ];
 
 import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
