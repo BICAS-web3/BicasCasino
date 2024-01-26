@@ -46,6 +46,8 @@ import rocket from "@/public/media/rocket/rocket.png";
 import { ProfitLine } from "../ProfitLine";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
+import ReactHowler from "react-howler";
+import useSound from "use-sound";
 
 interface IRocket {
   gameText: string;
@@ -530,6 +532,17 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       setIsLoading(imageLoading_1);
     }
   }, [imageLoading_1, imageLoading_2]);
+  const [rocketCrash] = useSound("/music/rocket_crush.mp3", { volume: 1 });
+  const [rocketWin] = useSound("/music/rocket_win.mp3", { volume: 1 });
+
+  useEffect(() => {
+    if (rocketStar && localNumber !== null && localNumber <= 0) {
+      rocketCrash();
+    }
+    if (rocketStar && localNumber !== null && localNumber > 0) {
+      rocketWin();
+    }
+  }, [rocketStar, localNumber !== null, localNumber]);
 
   return (
     <>
@@ -539,6 +552,11 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           btnTitle="Contact us"
         />
       )}
+      <ReactHowler
+        src={"/music/rocket_fly.mp3"}
+        playing={inGame && playSounds !== "off"}
+        loop
+      />
       <section className={s.rocket_table_wrap}>
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock

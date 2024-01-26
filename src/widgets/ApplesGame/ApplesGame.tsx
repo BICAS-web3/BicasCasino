@@ -193,6 +193,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     GameModel.$refund,
     GameModel.setRefund,
   ]);
+
+  const [playApple] = useSound("/music/apple_click.mp3", { volume: 1 });
+
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   useEffect(() => {
@@ -606,6 +609,11 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                         return (
                           <div
                             onClick={() => {
+                              currentIndex <= appleData.length &&
+                                playSounds !== "off" &&
+                                !inGame &&
+                                appleGameResult?.length === 0 &&
+                                playApple();
                               const indexToUpdate = currentIndex;
                               if (
                                 currentIndex <= appleData.length &&
