@@ -296,6 +296,7 @@ export const GamePage: FC<GamePageProps> = ({
               {children}
               {gameStatus == GameModel.GameStatus.Won &&
                 gameTitle !== "poker" &&
+                gameTitle !== "race" &&
                 gameTitle !== "apples" && (
                   <div className={s.win_wrapper} data-winlostid="win_message">
                     <WinMessage

@@ -65,6 +65,8 @@ import shadow_4 from "@/public/media/race_icons/shadow_4.svg";
 import shadow_3 from "@/public/media/race_icons/shadow_3.svg";
 import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
 import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
+import { WinMessage } from "../WinMessage";
+import { RaceWin } from "@/shared/ui/RaceWin";
 interface IRace {
   gameText: string;
 }
@@ -808,6 +810,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
           game="race"
           text={gameText}
         />
+        {gameStatus === GameModel.GameStatus.Won && <RaceWin />}
         <div className={s.race_table_background}>
           <div
             className={clsx(
@@ -1073,7 +1076,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
             <source src={"/race/horse_5.webm"} type="video/mp4" />
           </video>
         </div>
-
         <Image
           src={isMobile ? fence_mobile_1 : fence_1}
           className={clsx(
