@@ -4,27 +4,27 @@ import clsx from "clsx";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 
-import * as HouresModel from "@/widgets/Horse/model";
+import * as RaceModel from "@/widgets/Race/model";
 
 export interface HorseSelecteorProps {
   className?: string;
 }
 
 export const HorseSelecteor: FC<HorseSelecteorProps> = ({ className }) => {
-  const [HorseNumber, setHorseNumber] = useUnit([
-    HouresModel.$HorseNumber,
-    HouresModel.setHorseNumber,
+  const [raceNumber, setRaceNumber] = useUnit([
+    RaceModel.$raceNumber,
+    RaceModel.setRaceNumber,
   ]);
   return (
-    <div className={clsx(s.Horse_selecteor, className)}>
-      <h3 className={s.Horse_selecteor_title}>Horse number</h3>
-      <div className={s.Horse_selecteor_body}>
+    <div className={clsx(s.horse_selecteor, className)}>
+      <h3 className={s.horse_selecteor_title}>Horse number</h3>
+      <div className={s.horse_selecteor_body}>
         {[1, 2, 3, 4, 5].map((el) => (
           <span
-            onClick={() => setHorseNumber(el - 1)}
+            onClick={() => setRaceNumber(el - 1)}
             className={clsx(
-              s.Horse_selecteor_item,
-              HorseNumber === el - 1 && s.Horse_selecteor_item_active
+              s.horse_selecteor_item,
+              raceNumber === el - 1 && s.horse_selecteor_item_active
             )}
             key={el}
           >

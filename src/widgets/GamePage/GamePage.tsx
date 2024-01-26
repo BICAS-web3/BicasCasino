@@ -61,7 +61,7 @@ const musicsList = [
 import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
 import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 import { RefundButton } from "@/shared/ui/Refund";
-import * as RaceModel from "@/widgets/Horse/model";
+import * as RaceModel from "@/widgets/Race/model";
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
@@ -95,9 +95,10 @@ export const GamePage: FC<GamePageProps> = ({
     token: api.T_Token;
     price: number;
   }>();
-  const [gameResult, setGameResult] = useUnit([
+  const [gameResult, setGameResult, setReset] = useUnit([
     RaceModel.$gameResult,
     RaceModel.setGameResult,
+    RaceModel.setReset,
   ]);
   const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
@@ -344,6 +345,7 @@ export const GamePage: FC<GamePageProps> = ({
                     onClick={() => {
                       if (gameTitle === "Horse" && gameResult.length > 0) {
                         setGameResult([]);
+                        setReset(true);
                       } else {
                         if (
                           (cryptoValue > 0.0 ||
