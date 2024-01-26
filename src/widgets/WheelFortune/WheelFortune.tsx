@@ -49,6 +49,8 @@ interface IWheelFortune {
 }
 import * as CustomInputWagerModel from "@/widgets/CustomWagerRangeInput/model";
 import { BallIcon, WheelPick, WheelShowIcon } from "@/shared/SVGs";
+import useSound from "use-sound";
+import ReactHowler from "react-howler";
 
 interface IWheelColors {
   segment: "#100C1E" | "#1F1435";
@@ -141,6 +143,8 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     CustomInputWagerModel.$pickedRows,
     CustomInputWagerModel.pickRows,
   ]);
+
+  const [playWheel] = useSound("/music/wheel.mp3", { volume: 1 });
 
   const { data } = useFeeData({
     watch: isConnected,
@@ -1218,10 +1222,15 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         }}
         className={s.wheel_table_wrap}
       >
-        {/* <span className={s.wheel_eclipse}></span>
-        <span className={s.wheel_eclipse_2}></span>
-        <span className={s.wheel_eclipse_3}></span>
-        <span className={s.wheel_eclipse_4}></span> */}
+        <ReactHowler
+          src={"/music/wheel.mp3"}
+          playing={
+            (inGame ||
+              (outcomes.length > 0 && lastNum !== null && lastNum > -1)) &&
+            playSounds !== "off"
+          }
+          rate={2}
+        />
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
           className={s.sound_mobile}
