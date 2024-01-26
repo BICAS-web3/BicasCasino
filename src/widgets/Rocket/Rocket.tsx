@@ -534,7 +534,8 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
   }, [imageLoading_1, imageLoading_2]);
   const [rocketCrash] = useSound("/music/rocket_crush.mp3", { volume: 1 });
   const [rocketWin] = useSound("/music/rocket_win.mp3", { volume: 1 });
-  const [rocketFly] = useSound("/music/rocket_fly_2.mp3", { volume: 1 });
+  // const [rocketFly] = useSound("/music/rocket_fly_2.mp3", { volume: 1 });
+  const [rocketStart] = useSound("/music/rocket_fly_start.mp3", { volume: 1 });
 
   useEffect(() => {
     if (rocketStar && localNumber !== null && localNumber <= 0) {
@@ -545,11 +546,19 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
     }
   }, [rocketStar, localNumber !== null, localNumber]);
 
+  const [bgPlay, setBgPlay] = useState(false);
   useEffect(() => {
     if (inGame) {
-      setTimeout(() => {
-        rocketFly();
-      }, 2000);
+      Promise.all([
+        new Promise((resolve) =>
+          setTimeout(() => resolve(rocketStart()), 1500)
+        ),
+        new Promise((resolve) =>
+          setTimeout(() => resolve(setBgPlay(true)), 2000)
+        ),
+      ]);
+    } else {
+      setBgPlay(false);
     }
   }, [inGame]);
 
@@ -561,11 +570,12 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           btnTitle="Contact us"
         />
       )}
-      {/* <ReactHowler
+      <ReactHowler
         src={"/music/rocket_fly_2.mp3"}
-        playing={!inGame && playSounds !== "off"}
+        playing={bgPlay && playSounds !== "off"}
         loop
-      /> */}
+        volume={2}
+      />
       <section className={s.rocket_table_wrap}>
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
