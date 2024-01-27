@@ -67,6 +67,8 @@ import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
 import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
 import { WinMessage } from "../WinMessage";
 import { RaceWin } from "@/shared/ui/RaceWin";
+import useSound from "use-sound";
+import ReactHowler from "react-howler";
 interface IRace {
   gameText: string;
 }
@@ -160,6 +162,19 @@ export const Race: FC<IRace> = ({ gameText }) => {
     RaceModel.setRaceNumber,
   ]);
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
+  const [raceWin] = useSound("/music/race_win.mp3", { volume: 1 });
+  const [raceLose] = useSound("/music/race_lose.mp3", { volume: 1 });
+
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won && playSounds !== "off") {
+      raceWin();
+    } else if (
+      gameStatus === GameModel.GameStatus.Lost &&
+      playSounds !== "off"
+    ) {
+      raceLose();
+    }
+  }, [gameStatus]);
 
   const { data } = useFeeData({
     watch: isConnected,
@@ -792,6 +807,17 @@ export const Race: FC<IRace> = ({ gameText }) => {
       setMakeCenter(false);
     }
   }, [startGame]);
+
+  const [raceSound, setRaceSound] = useState(false);
+
+  useEffect(() => {
+    if (inGame) {
+      setTimeout(() => setRaceSound(true), 300);
+    } else {
+      setTimeout(() => setRaceSound(false), 3000);
+    }
+  }, [inGame]);
+
   return (
     <>
       {error && (
@@ -810,7 +836,12 @@ export const Race: FC<IRace> = ({ gameText }) => {
           game="race"
           text={gameText}
         />
-        {gameStatus === GameModel.GameStatus.Won && <RaceWin />}
+        {gameStatus === GameModel.GameStatus.Won && <RaceWin />}{" "}
+        <ReactHowler
+          src={"/music/race_stomp.mp3"}
+          playing={raceSound && playSounds !== "off"}
+          loop
+        />
         <div className={s.race_table_background}>
           <div
             className={clsx(
