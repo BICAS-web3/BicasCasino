@@ -1476,6 +1476,7 @@ const WheelComponent = ({
   inSpeen: boolean;
   setInSpeen: (el: boolean) => void;
 }) => {
+  useEffect(() => console.log(JSON.stringify(segColors)), [segColors]);
   const isMobile = useMediaQuery("(max-width: 650px)");
   const isDesktop = useMediaQuery("(max-width: 1280px)");
   const [level, pickedValue] = useUnit([
@@ -1504,6 +1505,21 @@ const WheelComponent = ({
     }
     console.log(1);
   }, [segColors, isDesktop, isMobile]);
+  function setupCanvas(canvas: HTMLCanvasElement) {
+    // Get the device pixel ratio, falling back to 1.
+    var dpr = window.devicePixelRatio || 1;
+    // Get the size of the canvas in CSS pixels.
+    var rect = canvas?.getBoundingClientRect();
+    // Give the canvas pixel dimensions of their CSS
+    // size * the device pixel ratio.
+    canvas!.width = rect?.width * dpr;
+    canvas!.height = rect?.height * dpr;
+    var ctx = canvas?.getContext("2d");
+    // Scale all drawing operations by the dpr, so you
+    // don't have to worry about the difference.
+    ctx!.scale(dpr, dpr);
+    return ctx;
+  }
 
   const initCanvas = () => {
     let canvas = document.getElementById("canvas") as HTMLCanvasElement;

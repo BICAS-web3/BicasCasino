@@ -37,6 +37,7 @@
     "react-blockies": "^1.4.1",
     "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
+    "react-fast-marquee": "^1.6.3",
     "react-howler": "^5.2.0",
     "react-jazzicon": "^1.0.4",
     "react-router-dom": "^6.15.0",
