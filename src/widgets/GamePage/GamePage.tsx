@@ -247,7 +247,8 @@ export const GamePage: FC<GamePageProps> = ({
               className={clsx(
                 s.game_block,
                 custom_height,
-                customHeight && s.minHeight
+                customHeight && s.minHeight,
+                gameTitle === "carRace" && s.carRace_height
               )}
             >
               <button
