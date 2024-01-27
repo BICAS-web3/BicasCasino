@@ -21,6 +21,7 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import { RefundButton } from "@/shared/ui/Refund";
 import { CarsRace } from "@/widgets/CarsRace/CarsRace";
+import { CarSelector } from "@/shared/ui/CarSelector";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -70,6 +71,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
+      <CarSelector />
       <button
         className={clsx(
           s.connect_wallet_btn,
