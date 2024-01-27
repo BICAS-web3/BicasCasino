@@ -207,14 +207,14 @@ export const Race: FC<IRace> = ({ gameText }) => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "Race_Play",
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
     args: [
       useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      "0x0000000000000000000000000000000000000000",
+      pickedToken?.contract_address,
       raceNumber, // number of race
       betsAmount,
       useDebounce(stopGain)
@@ -231,7 +231,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
     value:
       fees +
       (pickedToken &&
-      "0x0000000000000000000000000000000000000000" ==
+      pickedToken?.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
           BigInt(100000000000)
@@ -240,7 +240,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "Race_GetState",
     args: [address],
@@ -274,14 +274,14 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+    address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
-      "0x0000000000000000000000000000000000000000" !=
+      pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+      "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -301,7 +301,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
   // const { config: refundConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
-  //   address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+  //   address: '0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d',
   //   abi: RaceABI,
   //   functionName: "Race_Refund",
   //   enabled: isPlaying,
@@ -351,7 +351,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "getVRFFee",
     args: [0],
@@ -378,7 +378,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     eventName: "Race_Outcome_Event",
     listener(log) {
