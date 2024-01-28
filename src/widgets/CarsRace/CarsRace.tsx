@@ -575,10 +575,10 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   return (
     <section
       className={s.cars_table_wrap}
-      // onClick={() => {
-      //   setStartGame(true);
-      //   setWheelStart(true);
-      // }}
+      onClick={() => {
+        setStartGame(true);
+        setWheelStart(true);
+      }}
     >
       <WagerLowerBtnsBlock game="Cars" text={gameText} />
       {gameStatus === GameModel.GameStatus.Won && <RaceWin />}
