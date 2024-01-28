@@ -26,6 +26,9 @@
   right: 0;
   left: 0;
   object-fit: cover;
+  @media (max-width: 650px) {
+    width: 1078px;
+  }
 }
 
 .static_bg_img {
@@ -48,6 +51,10 @@
   top: 0;
   @media (max-width: 2000px) {
     min-width: 1438px;
+  }
+
+  @media (max-width: 650px) {
+    min-width: 1078px;
   }
 
   &_hide {
@@ -119,6 +126,16 @@
   }
 }
 
+@media (max-width: 650px) {
+  @keyframes startImgHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
 .main_city_bg_img {
   z-index: 10;
   position: absolute;
@@ -131,6 +148,10 @@
   @media (max-width: 2000px) {
     min-width: 1478px;
     left: 1438px;
+  }
+  @media (max-width: 650px) {
+    min-width: 1078px;
+    left: 1078px;
   }
 
   @media screen and (min-width: 1950px) {
@@ -185,7 +206,6 @@
     left: 0;
   }
   100% {
-    left: -100%;
     left: -1438px;
   }
 }
@@ -210,6 +230,25 @@
   }
 }
 
+@media (max-width: 650px) {
+  @keyframes cityMainStart {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+
+  @keyframes cityMainFinish {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
 .main_city_bg_copy {
   z-index: 10;
   position: absolute;
@@ -226,6 +265,10 @@
   @media (max-width: 2000px) {
     min-width: 1478px;
     left: 2876px;
+  }
+  @media (max-width: 650px) {
+    min-width: 1078px;
+    left: 2146px;
   }
 
   &_start {
@@ -262,6 +305,17 @@
     }
     100% {
       left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes mainBgCopyStart {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
     }
   }
 }
@@ -347,6 +401,10 @@
   @media (max-width: 2000px) {
     min-width: 1478px;
   }
+
+  @media (max-width: 650px) {
+    min-width: 1078px;
+  }
   &_hide {
     animation: startMountainsHide 3.2s linear forwards;
   }
@@ -372,6 +430,17 @@
   }
 }
 
+@media (max-width: 650px) {
+  @keyframes startMountainsHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
 .mountains_second {
   z-index: 8;
   position: absolute;
@@ -381,6 +450,11 @@
   @media (max-width: 2000px) {
     left: 2876px;
     min-width: 1478px;
+  }
+
+  @media (max-width: 650px) {
+    left: 2146px;
+    min-width: 1078px;
   }
   top: 0;
   object-fit: cover;
@@ -415,6 +489,18 @@
   }
 }
 
+@media (max-width: 650px) {
+  @keyframes mountainsSecondStart {
+    0% {
+      left: 1078px;
+    }
+
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
 @keyframes mountainsSecondFinish {
   0% {
     left: 0;
@@ -438,6 +524,11 @@
   @media (max-width: 2000px) {
     left: 2876px;
     min-width: 1478px;
+  }
+
+  @media (max-width: 650px) {
+    left: 2146px;
+    min-width: 1078px;
   }
   top: 0;
   object-fit: cover;
@@ -467,6 +558,16 @@
   }
 }
 
+@media (max-width: 650px) {
+  @keyframes mountainsBgCopy {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
 .finish_mountains_bg {
   z-index: 8;
   position: absolute;
@@ -504,7 +605,7 @@
   @media screen and (max-width: 650px) {
     width: 200px;
     height: 62px;
-    bottom: 60px !important;
+    bottom: 67.5px !important;
   }
 }
 
@@ -524,6 +625,9 @@
   transform: translateX(200px);
   @media (max-width: 1280px) {
     transform: translateX(80px);
+  }
+  @media (max-width: 650px) {
+    transform: translateX(20px);
   }
 }
 
@@ -677,12 +781,31 @@
     }
   }
 }
+@media (max-width: 650px) {
+  @keyframes car_in_game {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(20px);
+    }
+  }
+
+  @keyframes car_finish {
+    0% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+}
 
 .total_container {
   position: absolute;
   bottom: 10px;
   left: 10px;
-  z-index: 10;
+  z-index: 17;
   color: white;
   display: flex;
   flex-direction: column;
@@ -693,6 +816,7 @@
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.56px;
+
   @media (max-width: 1200px) {
     font-size: 12px;
   }
@@ -790,4 +914,15 @@
 
 .multiplier_negative {
   background: var(--switch-in-game-2-e-night, #2e2e2e);
+}
+
+.car_lower_btn {
+  z-index: 11;
+}
+
+.win_index {
+  z-index: 17 !important;
+}
+.load_index {
+  z-index: 17 !important;
 }

@@ -332,6 +332,7 @@ export const GamePage: FC<GamePageProps> = ({
               )}
             </div>
             <Wager
+              isFlex={gameTitle === "carRace" ? false : true}
               // ManualElement={
               //   isMines ? (
               //     <ManualSetting

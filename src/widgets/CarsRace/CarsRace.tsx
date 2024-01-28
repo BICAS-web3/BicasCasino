@@ -41,6 +41,7 @@ import { ProfitModel } from "../ProfitBlock";
 import * as CarModel from "./model";
 import { RaceWin } from "@/shared/ui/RaceWin";
 import ReactHowler from "react-howler";
+import { Preload } from "@/shared/ui/Preload";
 
 interface CarsRaceProps {
   gameText: string;
@@ -575,13 +576,19 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   return (
     <section
       className={s.cars_table_wrap}
-      onClick={() => {
-        setStartGame(true);
-        setWheelStart(true);
-      }}
+      // onClick={() => {
+      //   setStartGame(true);
+      //   setWheelStart(true);
+      // }}
     >
-      <WagerLowerBtnsBlock game="Cars" text={gameText} />
-      {gameStatus === GameModel.GameStatus.Won && <RaceWin />}
+      <WagerLowerBtnsBlock
+        game="Cars"
+        text={gameText}
+        className={s.car_lower_btn}
+      />
+      {gameStatus === GameModel.GameStatus.Won && (
+        <RaceWin className={s.win_index} />
+      )}
       <ReactHowler
         src={"/music/car_process.mp3"}
         playing={raceSound && playSounds !== "off"}
@@ -596,6 +603,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
         />
         <div className={clsx(s.start_bg_img, startGame && s.start_bg_img_hide)}>
           <img
+            onLoad={() => setIsLoading(false)}
             src={cityStartImg.src}
             className={s.start_bg_city}
             alt="start-bg-img"
@@ -750,6 +758,8 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           </span>
         </div>
       </div>
+
+      {isLoading && <Preload index={s.load_index} className={s.load_index} />}
     </section>
   );
 };
