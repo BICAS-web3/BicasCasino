@@ -25,6 +25,11 @@
     border-radius: 0;
   }
 }
+
+.img {
+  width: 100%;
+  height: 100%;
+}
 .race_table_background_img {
   width: 100%;
   // object-fit: cover;
@@ -43,16 +48,33 @@
     position: absolute;
   }
   &_1 {
+    width: 1438px;
+    @media (min-width: 2000px) {
+      width: 100%;
+    }
+    @media (max-width: 650px) {
+      width: 100%;
+    }
     &_start {
       left: 0;
       animation: hide_img 2s linear forwards;
-      z-index: 2;
+      // z-index: 2;
       @keyframes hide_img {
         0% {
           left: 0;
         }
         100% {
           left: -1438px;
+        }
+      }
+      @media (min-width: 2000px) {
+        @keyframes hide_img {
+          0% {
+            left: 0;
+          }
+          100% {
+            left: -100%;
+          }
         }
       }
       @media (max-width: 650px) {
@@ -72,6 +94,7 @@
     }
   }
   &_2 {
+    z-index: 2;
     left: 100%;
     &_start {
       animation: start_img 4s linear infinite;
@@ -133,6 +156,7 @@
       }
     }
     &_finish {
+      min-width: auto;
       animation: finish_2_img 1.5s linear forwards;
       @media (max-width: 1400px) {
         animation: finish_2_img 1.5s linear forwards;
@@ -153,7 +177,7 @@
 }
 
 .race_logo {
-  z-index: 1;
+  z-index: 3;
   position: absolute;
   left: 366px;
   bottom: 50px;
@@ -302,9 +326,12 @@
     --race-substep: 20%;
   }
   @media (max-width: 1550px) {
-    --race-step: 10vw;
+    --race-step: 9vw;
   }
-  @media (max-width: 650px) {
+  @media (max-width: 900px) {
+    --race-step: 3.5vw;
+  }
+  @media (max-width: 680px) {
     --race-step: 0vw;
   }
 
@@ -909,49 +936,20 @@
   }
 }
 
-// @media (max-width: 1400px) {
-//   --race-step: 6.5vw;
-// }
-// @media (max-width: 1350px) {
-//   --race-step: 5vw;
-// }
-// @media (max-width: 1280px) {
-//   --race-step: 9.5vw;
-// }
-// @media (max-width: 1080px) {
-//   --race-step: 5.5vw;
-// }
-// @media (max-width: 998px) {
-//   --race-substep: 17vw;
-// }
-// @media (max-width: 810px) {
-//   --race-substep: 11vw;
-//   --race-step: 2.7vw;
-// }
-// @media (max-width: 700px) {
-//   --race-substep: 5vw;
-//   --race-step: 0.5vw;
-// }
-// @media (max-width: 650px) {
-//   --race-substep: 30vw;
-// }
-// @media (max-width: 450px) {
-//   --race-substep: 20vw;
-// }
-// @media (max-width: 380px) {
-//   --race-substep: 11vw;
-// }
-
-// &_expand {
-//   --race-step: calc(20vw + 147px) !important;
-
-//   @media (max-width: 1550px) {
-//     --race-step: calc(13vw + 147px) !important;
-//   }
-//   @media (max-width: 998px) {
-//     // --race-step: calc(8vw + 147px) !important;
-//   }
-//   @media (max-width: 650px) {
-//     --race-step: 8vw !important;
-//   }
-// }
+.banner {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 328.808px;
+  height: 112.511px;
+  @media (max-width: 998px) {
+    width: 228.735px;
+    height: 78.268px;
+  }
+  &_6 {
+    @media (max-width: 650px) {
+      display: none;
+    }
+  }
+}
