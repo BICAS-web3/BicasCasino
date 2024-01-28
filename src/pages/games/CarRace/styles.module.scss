@@ -138,3 +138,14 @@
     cursor: default;
   }
 }
+
+.selector {
+  margin-top: 12px;
+  @media (max-width: 650px) {
+    margin-top: 8px;
+  }
+}
+
+.car_sound {
+  z-index: 11;
+}

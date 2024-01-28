@@ -61,7 +61,10 @@ const musicsList = [
 import activeGroup from "@/public/media/Wager_icons/activeGroup.svg";
 import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 import { RefundButton } from "@/shared/ui/Refund";
-import * as RaceModel from "@/widgets/Horse/model";
+import * as RaceModel from "@/widgets/Race/model";
+import * as CarModel from "@/widgets/CarsRace/model";
+
+import { CarSelector } from "@/shared/ui/CarSelector";
 interface GamePageProps {
   children: ReactNode;
   gameTitle: string;
@@ -95,9 +98,10 @@ export const GamePage: FC<GamePageProps> = ({
     token: api.T_Token;
     price: number;
   }>();
-  const [gameResult, setGameResult] = useUnit([
+  const [gameResult, setGameResult, setReset] = useUnit([
     RaceModel.$gameResult,
     RaceModel.setGameResult,
+    RaceModel.setReset,
   ]);
   const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
@@ -132,6 +136,9 @@ export const GamePage: FC<GamePageProps> = ({
     switchSounds,
     isPlaying,
     waitingResponse,
+    carResult,
+    raceResult,
+    setCarReset,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -146,6 +153,9 @@ export const GamePage: FC<GamePageProps> = ({
     GameModel.switchSounds,
     GameModel.$isPlaying,
     GameModel.$waitingResponse,
+    CarModel.$gameResult,
+    RaceModel.$gameResult,
+    CarModel.setReset,
   ]);
 
   //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
@@ -296,6 +306,8 @@ export const GamePage: FC<GamePageProps> = ({
               {children}
               {gameStatus == GameModel.GameStatus.Won &&
                 gameTitle !== "poker" &&
+                gameTitle !== "race" &&
+                gameTitle !== "carRace" &&
                 gameTitle !== "apples" && (
                   <div className={s.win_wrapper} data-winlostid="win_message">
                     <WinMessage
@@ -333,43 +345,52 @@ export const GamePage: FC<GamePageProps> = ({
               // }
               ButtonElement={
                 isMobile ? (
-                  <button
-                    className={clsx(
-                      s.connect_wallet_btn,
-                      s.mobile,
-                      isPlaying && "animation-leftRight",
-                      !isPlaying && cryptoValue == 0.0 && isConnected
-                        ? s.button_inactive
-                        : s.button_active
-                    )}
-                    onClick={() => {
-                      if (gameTitle === "Horse" && gameResult.length > 0) {
-                        setGameResult([]);
-                      } else {
-                        if (
-                          (cryptoValue > 0.0 ||
-                            (isPlaying && !waitingResponse)) &&
-                          isConnected
-                        ) {
-                          pressButton();
-                        } else if (cryptoValue <= 0.0 && isConnected) {
-                          setIsEmtyWager(true);
+                  <>
+                    <button
+                      className={clsx(
+                        s.connect_wallet_btn,
+                        s.mobile,
+                        isPlaying && "animation-leftRight",
+                        !isPlaying && cryptoValue == 0.0 && isConnected
+                          ? s.button_inactive
+                          : s.button_active
+                      )}
+                      onClick={() => {
+                        if (gameTitle === "race" && gameResult.length > 0) {
+                          setGameResult([]);
+                          setReset(true);
+                        } else if (carResult.length > 0) {
+                          setCarReset(true);
                         } else {
-                          router.push("/RegistrManual");
+                          if (
+                            (cryptoValue > 0.0 ||
+                              (isPlaying && !waitingResponse)) &&
+                            isConnected
+                          ) {
+                            pressButton();
+                          } else if (cryptoValue <= 0.0 && isConnected) {
+                            setIsEmtyWager(true);
+                          } else {
+                            router.push("/RegistrManual");
+                          }
                         }
-                      }
-                    }}
-                  >
-                    {gameTitle === "Horse" && gameResult.length > 0 ? (
-                      "Reset"
-                    ) : waitingResponse ? (
-                      <LoadingDots className={s.dots_black} title="Playing" />
-                    ) : isConnected ? (
-                      "Play"
-                    ) : (
-                      "Connect Wallet"
+                      }}
+                    >
+                      {(gameTitle === "race" && raceResult.length > 0) ||
+                      (gameTitle === "carRace" && carResult.length > 0) ? (
+                        "Reset"
+                      ) : waitingResponse ? (
+                        <LoadingDots className={s.dots_black} title="Playing" />
+                      ) : isConnected ? (
+                        "Play"
+                      ) : (
+                        "Connect Wallet"
+                      )}
+                    </button>
+                    {gameTitle === "carRace" && (
+                      <CarSelector className={s.car_selector} />
                     )}
-                  </button>
+                  </>
                 ) : (
                   <></>
                 )

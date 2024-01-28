@@ -36,40 +36,44 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
-import * as HorseModel from "./model";
+import * as RaceModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
-import HorseBg from "@/public/media/Horse_images/bg_.png";
-import HorseBg_2 from "@/public/media/Horse_images/bg_2.png";
-import Horse_logo from "@/public/media/Horse_icons/logo.svg";
+import raceBg from "@/public/media/race_images/bg_.png";
+import raceBg_2 from "@/public/media/race_images/bg_2.png";
+import race_logo from "@/public/media/race_icons/logo.svg";
 
-import fence_1 from "@/public/media/Horse_images/fence_1.png";
-import fence_2 from "@/public/media/Horse_images/fence_2.png";
-import fence_3 from "@/public/media/Horse_images/fence_3.png";
-import fence_4 from "@/public/media/Horse_images/fence_4.png";
-import fence_5 from "@/public/media/Horse_images/fence_5.png";
+import fence_1 from "@/public/media/race_images/fence_1.png";
+import fence_2 from "@/public/media/race_images/fence_2.png";
+import fence_3 from "@/public/media/race_images/fence_3.png";
+import fence_4 from "@/public/media/race_images/fence_4.png";
+import fence_5 from "@/public/media/race_images/fence_5.png";
 
-import fence_mobile_1 from "@/public/media/Horse_images/fence_mobile_1.png";
-import fence_mobile_2 from "@/public/media/Horse_images/fence_mobile_2.png";
-import fence_mobile_3 from "@/public/media/Horse_images/fence_mobile_3.png";
-import fence_mobile_4 from "@/public/media/Horse_images/fence_mobile_4.png";
-import fence_mobile_5 from "@/public/media/Horse_images/fence_mobile_5.png";
+import fence_mobile_1 from "@/public/media/race_images/fence_mobile_1.png";
+import fence_mobile_2 from "@/public/media/race_images/fence_mobile_2.png";
+import fence_mobile_3 from "@/public/media/race_images/fence_mobile_3.png";
+import fence_mobile_4 from "@/public/media/race_images/fence_mobile_4.png";
+import fence_mobile_5 from "@/public/media/race_images/fence_mobile_5.png";
 
-import finish_line from "@/public/media/Horse_images/finishLine.png";
+import finish_line from "@/public/media/race_images/finishLine.png";
 
-import shadow_5 from "@/public/media/Horse_icons/shadow_5.svg";
-import shadow_4 from "@/public/media/Horse_icons/shadow_4.svg";
-import shadow_3 from "@/public/media/Horse_icons/shadow_3.svg";
-import shadow_2 from "@/public/media/Horse_icons/shadow_2.svg";
-import shadow_1 from "@/public/media/Horse_icons/shadow_1.svg";
-interface IHorse {
+import shadow_5 from "@/public/media/race_icons/shadow_5.svg";
+import shadow_4 from "@/public/media/race_icons/shadow_4.svg";
+import shadow_3 from "@/public/media/race_icons/shadow_3.svg";
+import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
+import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
+import { WinMessage } from "../WinMessage";
+import { RaceWin } from "@/shared/ui/RaceWin";
+import useSound from "use-sound";
+import ReactHowler from "react-howler";
+interface IRace {
   gameText: string;
 }
 
-export const Horse: FC<IHorse> = ({ gameText }) => {
+export const Race: FC<IRace> = ({ gameText }) => {
   const isMobile = useMediaQuery("(max-width: 650px)");
   const isDesktop = useMediaQuery("(min-width: 1280px)");
   const { isConnected, address } = useAccount();
@@ -109,13 +113,16 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     refund,
     setRefund,
     isPlaying,
-    HorseNumber,
+    raceNumber,
     gameResult,
     setGameResult,
+    setReset,
+    reset,
+    setRaceNumber,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    HorseModel.setPlayingStatus,
+    RaceModel.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -147,11 +154,27 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     GameModel.$refund,
     GameModel.setRefund,
     GameModel.$isPlaying,
-    HorseModel.$HorseNumber,
-    HorseModel.$gameResult,
-    HorseModel.setGameResult,
+    RaceModel.$raceNumber,
+    RaceModel.$gameResult,
+    RaceModel.setGameResult,
+    RaceModel.setReset,
+    RaceModel.$reset,
+    RaceModel.setRaceNumber,
   ]);
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
+  const [raceWin] = useSound("/music/race_win.mp3", { volume: 1 });
+  const [raceLose] = useSound("/music/race_lose.mp3", { volume: 1 });
+
+  useEffect(() => {
+    if (gameStatus === GameModel.GameStatus.Won && playSounds !== "off") {
+      raceWin();
+    } else if (
+      gameStatus === GameModel.GameStatus.Lost &&
+      playSounds !== "off"
+    ) {
+      raceLose();
+    }
+  }, [gameStatus]);
 
   const { data } = useFeeData({
     watch: isConnected,
@@ -184,15 +207,15 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     error,
   } = useContractWrite({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "Race_Play",
     gasPrice: prevGasPrice,
     gas: BigInt(400000),
     args: [
       useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      "0x0000000000000000000000000000000000000000",
-      HorseNumber, // number of horse
+      pickedToken?.contract_address,
+      raceNumber, // number of race
       betsAmount,
       useDebounce(stopGain)
         ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
@@ -208,7 +231,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     value:
       fees +
       (pickedToken &&
-      "0x0000000000000000000000000000000000000000" ==
+      pickedToken?.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
           BigInt(100000000000)
@@ -217,7 +240,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
 
   const { data: GameState } = useContractRead({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "Race_GetState",
     args: [address],
@@ -226,6 +249,10 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
   });
 
   useEffect(() => {
+    console.log(GameState);
+    if ((GameState as any)?.horseNum) {
+      setRaceNumber((GameState as any)?.horseNum);
+    }
     if (GameState && !inGame) {
       if (
         (GameState as any).requestID != BigInt(0) &&
@@ -247,14 +274,14 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
 
   const { config: allowanceConfig } = usePrepareContractWrite({
     chainId: chain?.id,
-    address: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+    address: pickedToken?.contract_address as `0x${string}`,
     abi: IERC20,
     functionName: "approve",
     enabled:
-      "0x0000000000000000000000000000000000000000" !=
+      pickedToken?.contract_address !=
       "0x0000000000000000000000000000000000000000",
     args: [
-      "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+      "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
       useDebounce(
         currentBalance
           ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
@@ -274,7 +301,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
 
   // const { config: refundConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
-  //   address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+  //   address: '0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d',
   //   abi: RaceABI,
   //   functionName: "Race_Refund",
   //   enabled: isPlaying,
@@ -289,6 +316,12 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
   //     setRefund(false);
   //   }
   // }, [refund]);
+
+  useEffect(() => {
+    if (reset) {
+      setTimeout(() => setReset(false), 2000);
+    }
+  }, [reset]);
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
@@ -318,7 +351,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
 
   const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
     chainId: chain?.id,
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     functionName: "getVRFFee",
     args: [0],
@@ -345,7 +378,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   useContractEvent({
-    address: "0xF519dB2AeB4a26B5080Cd975B6aD6A86d0492739",
+    address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
     eventName: "Race_Outcome_Event",
     listener(log) {
@@ -373,7 +406,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
             existingArray = shuffleArray(existingArray);
             existingArray.unshift(resultNumber);
 
-            console.log(existingArray, HorseNumber);
+            console.log(existingArray, raceNumber);
             setGameResult(existingArray);
           }
         };
@@ -476,27 +509,27 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
-  const [testGame, setTestGame] = useState(false);
+  const [startGame, setStartGame] = useState(false);
 
   useEffect(() => {
     if (inGame) {
-      setTestGame(true);
+      setStartGame(true);
     }
   }, [inGame]);
 
-  const [HorsePlay, setHorsePlay] = useState(false);
+  const [racePlay, setRacePlay] = useState(false);
 
   useEffect(() => {
-    if (testGame) {
-      setHorsePlay(true);
+    if (startGame) {
+      setRacePlay(true);
     }
-  }, [testGame]);
+  }, [startGame]);
 
-  const horse_1 = useRef<HTMLVideoElement | null>(null);
-  const horse_2 = useRef<HTMLVideoElement | null>(null);
-  const horse_3 = useRef<HTMLVideoElement | null>(null);
-  const horse_4 = useRef<HTMLVideoElement | null>(null);
-  const horse_5 = useRef<HTMLVideoElement | null>(null);
+  const race_1 = useRef<HTMLVideoElement | null>(null);
+  const race_2 = useRef<HTMLVideoElement | null>(null);
+  const race_3 = useRef<HTMLVideoElement | null>(null);
+  const race_4 = useRef<HTMLVideoElement | null>(null);
+  const race_5 = useRef<HTMLVideoElement | null>(null);
 
   const [play_1, setPlay_1] = useState(false);
   const [play_2, setPlay_2] = useState(false);
@@ -512,32 +545,26 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     }
   }, [play_1, play_2, play_3, play_4, play_5]);
 
-  const [HorseLoad_1, setHorseLoad_1] = useState(false);
-  const [HorseLoad_2, setHorseLoad_2] = useState(false);
-  const [HorseLoad_3, setHorseLoad_3] = useState(false);
-  const [HorseLoad_4, setHorseLoad_4] = useState(false);
-  const [HorseLoad_5, setHorseLoad_5] = useState(false);
+  const [raceLoad_1, setRaceLoad_1] = useState(false);
+  const [raceLoad_2, setRaceLoad_2] = useState(false);
+  const [raceLoad_3, setRaceLoad_3] = useState(false);
+  const [raceLoad_4, setRaceLoad_4] = useState(false);
+  const [raceLoad_5, setRaceLoad_5] = useState(false);
   const [loadImage, setLoadImage] = useState(false);
 
   useEffect(() => {
-    if (
-      HorseLoad_1 &&
-      HorseLoad_2 &&
-      HorseLoad_3 &&
-      HorseLoad_4 &&
-      HorseLoad_5 &&
+    console.log(
+      raceLoad_1,
+      raceLoad_2,
+      raceLoad_3,
+      raceLoad_4,
+      raceLoad_5,
       loadImage
-    ) {
+    );
+    if (loadImage) {
       setIsLoading(false);
     }
-  }, [
-    HorseLoad_1,
-    HorseLoad_2,
-    HorseLoad_3,
-    HorseLoad_4,
-    HorseLoad_5,
-    loadImage,
-  ]);
+  }, [raceLoad_1, raceLoad_2, raceLoad_3, raceLoad_4, raceLoad_5, loadImage]);
 
   const [randomNumber, setRandomNumber] = useState<number | null>(null);
 
@@ -545,7 +572,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     let intervalId: NodeJS.Timeout | null = null;
 
     const generateRandomNumber = () => {
-      if (gameResult.length === 0 && testGame) {
+      if (gameResult.length === 0 && startGame) {
         const randomValue = Math.floor(Math.random() * 11) - 5;
         setRandomNumber(randomValue);
       } else {
@@ -553,7 +580,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
       }
     };
 
-    if (gameResult.length === 0 && testGame) {
+    if (gameResult.length === 0 && startGame) {
       setTimeout(() => {
         generateRandomNumber();
         intervalId = setInterval(generateRandomNumber, 3000);
@@ -567,54 +594,54 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
         clearInterval(intervalId);
       }
     };
-  }, [gameResult, testGame]);
-  const [Horse_speed_1, setHorse_speed_1] = useState<number | null>(null);
-  const [Horse_speed_2, setHorse_speed_2] = useState<number | null>(null);
-  const [Horse_speed_3, setHorse_speed_3] = useState<number | null>(null);
-  const [Horse_speed_4, setHorse_speed_4] = useState<number | null>(null);
-  const [Horse_speed_5, setHorse_speed_5] = useState<number | null>(null);
+  }, [gameResult, startGame]);
+  const [horse_speed_1, setHorse_speed_1] = useState<number | null>(null);
+  const [horse_speed_2, setHorse_speed_2] = useState<number | null>(null);
+  const [horse_speed_3, setHorse_speed_3] = useState<number | null>(null);
+  const [horse_speed_4, setHorse_speed_4] = useState<number | null>(null);
+  const [horse_speed_5, setHorse_speed_5] = useState<number | null>(null);
 
-  const [HorseStay_1, setHorseStay_1] = useState(false);
-  const [HorseStay_2, setHorseStay_2] = useState(false);
-  const [HorseStay_3, setHorseStay_3] = useState(false);
-  const [HorseStay_4, setHorseStay_4] = useState(false);
-  const [HorseStay_5, setHorseStay_5] = useState(false);
+  const [horseStay_1, setHorseStay_1] = useState(false);
+  const [horseStay_2, setHorseStay_2] = useState(false);
+  const [horseStay_3, setHorseStay_3] = useState(false);
+  const [horseStay_4, setHorseStay_4] = useState(false);
+  const [horseStay_5, setHorseStay_5] = useState(false);
 
   useEffect(() => {
-    if (!HorseStay_1 && testGame) {
-      horse_1.current!.play();
+    if (!horseStay_1 && startGame) {
+      race_1.current!.play();
     } else {
-      horse_1.current!.pause();
+      race_1.current!.pause();
     }
-  }, [HorsePlay, testGame, HorseStay_1]);
+  }, [racePlay, startGame, horseStay_1]);
   useEffect(() => {
-    if (!HorseStay_2 && testGame) {
-      horse_2.current!.play();
+    if (!horseStay_2 && startGame) {
+      race_2.current!.play();
     } else {
-      horse_2.current!.pause();
+      race_2.current!.pause();
     }
-  }, [HorsePlay, testGame, HorseStay_2]);
+  }, [racePlay, startGame, horseStay_2]);
   useEffect(() => {
-    if (!HorseStay_3 && testGame) {
-      horse_3.current!.play();
+    if (!horseStay_3 && startGame) {
+      race_3.current!.play();
     } else {
-      horse_3.current!.pause();
+      race_3.current!.pause();
     }
-  }, [HorsePlay, testGame, HorseStay_3]);
+  }, [racePlay, startGame, horseStay_3]);
   useEffect(() => {
-    if (!HorseStay_4 && testGame) {
-      horse_4.current!.play();
+    if (!horseStay_4 && startGame) {
+      race_4.current!.play();
     } else {
-      horse_4.current!.pause();
+      race_4.current!.pause();
     }
-  }, [HorsePlay, testGame, HorseStay_4]);
+  }, [racePlay, startGame, horseStay_4]);
   useEffect(() => {
-    if (!HorseStay_5 && testGame) {
-      horse_5.current!.play();
+    if (!horseStay_5 && startGame) {
+      race_5.current!.play();
     } else {
-      horse_5.current!.pause();
+      race_5.current!.pause();
     }
-  }, [HorsePlay, testGame, HorseStay_5]);
+  }, [racePlay, startGame, horseStay_5]);
 
   const [stepValue, setStepValue] = useState(90);
 
@@ -626,13 +653,13 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     }
   }, [isDesktop]);
 
-  useEffect(() => {
-    if (testGame) {
-      setTimeout(() => {
-        setGameResult([0, 3, 2, 1, 4]);
-      }, 9000);
-    }
-  }, [testGame]);
+  // useEffect(() => {
+  //   if (startGame) {
+  //     setTimeout(() => {
+  //       setGameResult([0, 3, 2, 1, 4]);
+  //     }, 9000);
+  //   }
+  // }, [startGame]);
 
   const callResult = (
     delay: number,
@@ -640,14 +667,12 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     callBackTime: (el: number) => void
   ) => {
     let localDelay;
-    if (delay === 4) {
-      localDelay = 3.5;
-    } else if (delay === 1) {
-      localDelay = 1.5;
+    if (delay === 1) {
+      localDelay = isMobile ? 1.5 : 2.3;
     } else if (delay === 2) {
-      localDelay = 2.5;
+      localDelay = isMobile ? 2 : 3;
     } else {
-      localDelay = delay;
+      localDelay = isMobile ? 2.3 : 3.3;
     }
 
     callBackTime(delay);
@@ -658,7 +683,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
   const [showFinish, setShowFinish] = useState(false);
 
   useEffect(() => {
-    const processHorse = async (value: number, index: number) => {
+    const processrace = async (value: number, index: number) => {
       if (index === 0) {
         if (value === 0) {
           callResult(1, setHorseStay_1, setHorse_speed_1);
@@ -729,11 +754,11 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     const processResult = async () => {
       if (gameResult && gameResult.length === 5) {
         for (const [index, value] of (gameResult as any).entries()) {
-          await processHorse(value, index);
-          await processHorse(value, index);
-          await processHorse(value, index);
-          await processHorse(value, index);
-          await processHorse(value, index);
+          await processrace(value, index);
+          await processrace(value, index);
+          await processrace(value, index);
+          await processrace(value, index);
+          await processrace(value, index);
         }
       }
     };
@@ -741,7 +766,7 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     if (gameResult?.length === 5) {
       processResult();
     } else if (gameResult.length === 0) {
-      setTestGame(false);
+      setStartGame(false);
       setHorseStay_1(false);
       setHorseStay_2(false);
       setHorseStay_3(false);
@@ -762,26 +787,36 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
     }
   }, [gameResult.length]);
   useEffect(() => {
-    if (!testGame) {
+    if (!startGame) {
       setTimeout(() => {
-        horse_1.current!.currentTime = 0;
-        horse_2.current!.currentTime = 0;
-        horse_3.current!.currentTime = 0;
-        horse_4.current!.currentTime = 0;
-        horse_5.current!.currentTime = 0;
+        race_1.current!.currentTime = 0;
+        race_2.current!.currentTime = 0;
+        race_3.current!.currentTime = 0;
+        race_4.current!.currentTime = 0;
+        race_5.current!.currentTime = 0;
       }, 10);
     }
-  }, [testGame]);
+  }, [startGame]);
 
   const [makeCenter, setMakeCenter] = useState(false);
 
   useEffect(() => {
-    if (testGame) {
+    if (startGame) {
       setTimeout(() => setMakeCenter(true), 8000);
     } else {
       setMakeCenter(false);
     }
-  }, [testGame]);
+  }, [startGame]);
+
+  const [raceSound, setRaceSound] = useState(false);
+
+  useEffect(() => {
+    if (inGame) {
+      setTimeout(() => setRaceSound(true), 300);
+    } else {
+      setTimeout(() => setRaceSound(false), 3000);
+    }
+  }, [inGame]);
 
   return (
     <>
@@ -792,41 +827,49 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
         />
       )}
       <section
-        onClick={() => setTestGame((prev) => !prev)}
-        className={s.horse_table_wrap}
+        // onClick={() => setStartGame((prev) => !prev)}
+        className={s.race_table_wrap}
       >
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
-          className={s.horse_btns}
-          game="Horse"
+          className={s.race_btns}
+          game="race"
           text={gameText}
         />
-        <div className={s.horse_table_background}>
+        {gameStatus === GameModel.GameStatus.Won && <RaceWin />}{" "}
+        <ReactHowler
+          src={"/music/race_stomp.mp3"}
+          playing={raceSound && playSounds !== "off"}
+          loop
+        />
+        <div className={s.race_table_background}>
           <div
             className={clsx(
-              s.horse_table_background_img,
-              s.horse_table_background_img_1,
-              testGame && allLoaded && s.horse_table_background_img_1_start
+              s.race_table_background_img,
+              s.race_table_background_img_1,
+              startGame && allLoaded && s.race_table_background_img_1_start,
+              reset && s.race_table_background_img_1_reset
             )}
           >
             <Image
-              className={s.horse_table_background_img_deep}
+              className={s.race_table_background_img_deep}
               onLoad={() => setLoadImage(true)}
-              src={HorseBg}
+              src={raceBg}
               alt="table-bg"
             />
-            <Image src={Horse_logo} alt="" className={s.horse_logo} />
+            <Image src={race_logo} alt="" className={s.race_logo} />
           </div>
           <Image
-            src={HorseBg_2}
+            src={raceBg_2}
             className={clsx(
-              s.horse_table_background_img,
-              s.horse_table_background_img_2,
+              s.race_table_background_img,
+              s.race_table_background_img_2,
               !showFinish &&
-                testGame &&
+                startGame &&
                 allLoaded &&
-                s.horse_table_background_img_2_start,
-              showFinish && s.horse_table_background_img_2_finish
+                s.race_table_background_img_2_start,
+              showFinish && s.race_table_background_img_2_finish,
+              reset && s.race_table_background_img_2_reset
             )}
             alt="table-bg"
           />
@@ -834,19 +877,19 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
             <Image
               src={finish_line}
               className={clsx(
-                s.horse_table_background_img,
-                s.horse_table_background_img_3,
-                testGame && allLoaded && s.horse_table_background_img_3_finish
+                s.race_table_background_img,
+                s.race_table_background_img_3,
+                startGame && allLoaded && s.race_table_background_img_3_finish
               )}
               alt="table-bg"
             />
           ) : (
             <Image
-              src={HorseBg_2}
+              src={raceBg_2}
               className={clsx(
-                s.horse_table_background_img,
-                s.horse_table_background_img_3,
-                testGame && allLoaded && s.horse_table_background_img_3_start
+                s.race_table_background_img,
+                s.race_table_background_img_3,
+                startGame && allLoaded && s.race_table_background_img_3_start
               )}
               alt="table-bg"
             />
@@ -854,208 +897,223 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
         </div>
         <div
           className={clsx(
-            s.horse,
-            !sidebarOpened && s.horse_expand,
-            s.horse_1,
-            testGame && allLoaded && s.horse_1_run,
-            s[`horse_animation_${Horse_speed_1}`],
-            gameResult?.length > 0 && s.horse_finish_1,
-            makeCenter && s.horse_1_run_center
+            s.race,
+            !sidebarOpened && s.race_expand,
+            s.race_1,
+            startGame && allLoaded && s.race_1_run,
+            s[`race_animation_${horse_speed_1}`],
+            gameResult?.length > 0 && s.race_finish_1,
+            makeCenter && s.race_1_run_center,
+            reset && s.race_1_reset
           )}
           style={{
             transform:
-              testGame &&
+              startGame &&
               randomNumber &&
               (randomNumber === 1 || randomNumber === -1)
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
         >
-          {(testGame || gameResult.length > 0) && (
+          {(startGame || gameResult.length > 0) && (
             <Image
               src={shadow_1}
               alt=""
-              className={clsx(s.horse_shadow, s.horse_shadow_1)}
+              className={clsx(s.race_shadow, s.race_shadow_1)}
             />
           )}
           <video
-            className={clsx(s.horse_size, s.horse_size_1)}
+            className={clsx(s.race_size, s.race_size_1)}
             onPlay={() => setPlay_1(true)}
-            ref={horse_1}
+            ref={race_1}
             autoPlay={true}
             loop={true}
             muted
             playsInline
-            onLoadedData={() => setHorseLoad_1(true)}
+            onLoad={() => setRaceLoad_1(true)}
+            onLoadedData={() => setRaceLoad_1(true)}
+            onError={() => setRaceLoad_1(true)}
           >
-            <source src={"/horse/horse_1.webm"} type="video/mp4" />
+            <source src={"/race/horse_1.webm"} type="video/mp4" />
           </video>
         </div>
         <div
           style={{
             transform:
-              testGame &&
+              startGame &&
               randomNumber &&
               (randomNumber === 2 || randomNumber === -2)
                 ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
                 : "",
           }}
           className={clsx(
-            s.horse,
+            s.race,
 
-            !sidebarOpened && s.horse_expand,
-            s.horse_2,
-            testGame && allLoaded && s.horse_2_run,
-            s[`horse_animation_${Horse_speed_2}`],
-            gameResult?.length > 0 && s.horse_finish_2,
-            makeCenter && s.horse_2_run_center
+            !sidebarOpened && s.race_expand,
+            s.race_2,
+            startGame && allLoaded && s.race_2_run,
+            s[`race_animation_${horse_speed_2}`],
+            gameResult?.length > 0 && s.race_finish_2,
+            makeCenter && s.race_2_run_center,
+            reset && s.race_2_reset
           )}
         >
-          {(testGame || gameResult.length > 0) && (
+          {(startGame || gameResult.length > 0) && (
             <Image
               src={shadow_2}
               alt=""
-              className={clsx(s.horse_shadow, s.horse_shadow_2)}
+              className={clsx(s.race_shadow, s.race_shadow_2)}
             />
           )}
           <video
-            className={clsx(s.horse_size, s.horse_size_2)}
+            className={clsx(s.race_size, s.race_size_2)}
             onPlay={() => setPlay_2(true)}
-            ref={horse_2}
+            ref={race_2}
             autoPlay={true}
             loop={true}
             muted
             playsInline
-            onLoadedData={() => setHorseLoad_2(true)}
+            onLoad={() => setRaceLoad_2(true)}
+            onLoadedData={() => setRaceLoad_2(true)}
+            onError={() => setRaceLoad_2(true)}
           >
-            <source src={"/horse/horse_2.webm"} type="video/mp4" />
+            <source src={"/race/horse_2.webm"} type="video/mp4" />
           </video>
         </div>
         <div
-          // style={{
-          //   transform:
-          //     testGame &&
-          //     randomNumber &&
-          //     (randomNumber === 3 || randomNumber === -3)
-          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-          //       : "",
-          // }}
+          style={{
+            transform:
+              startGame &&
+              randomNumber &&
+              (randomNumber === 3 || randomNumber === -3)
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           className={clsx(
-            s.horse,
+            s.race,
 
-            !sidebarOpened && s.horse_expand,
-            s.horse_3,
-            testGame && allLoaded && s.horse_3_run,
-            gameResult?.length > 0 && s.horse_finish_3,
-            s[`horse_animation_${Horse_speed_3}`],
-            makeCenter && s.horse_3_run_center
+            !sidebarOpened && s.race_expand,
+            s.race_3,
+            startGame && allLoaded && s.race_3_run,
+            gameResult?.length > 0 && s.race_finish_3,
+            s[`race_animation_${horse_speed_3}`],
+            makeCenter && s.race_3_run_center,
+            reset && s.race_3_reset
           )}
         >
-          {(testGame || gameResult.length > 0) && (
+          {(startGame || gameResult.length > 0) && (
             <Image
               src={shadow_3}
               alt=""
-              className={clsx(s.horse_shadow, s.horse_shadow_3)}
+              className={clsx(s.race_shadow, s.race_shadow_3)}
             />
           )}
           <video
             onPlay={() => setPlay_3(true)}
-            ref={horse_3}
-            className={clsx(s.horse_size, s.horse_size_3)}
+            ref={race_3}
+            className={clsx(s.race_size, s.race_size_3)}
             autoPlay={true}
             loop={true}
             muted
             playsInline
-            onLoadedData={() => setHorseLoad_3(true)}
+            onLoad={() => setRaceLoad_3(true)}
+            onLoadedData={() => setRaceLoad_3(true)}
+            onError={() => setRaceLoad_3(true)}
           >
-            <source src={"/horse/horse_3.webm"} type="video/mp4" />
+            <source src={"/race/horse_3.webm"} type="video/mp4" />
           </video>
         </div>
         <div
-          // style={{
-          //   transform:
-          //     testGame &&
-          //     randomNumber &&
-          //     (randomNumber === 4 || randomNumber === -4)
-          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-          //       : "",
-          // }}
+          style={{
+            transform:
+              startGame &&
+              randomNumber &&
+              (randomNumber === 4 || randomNumber === -4)
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           className={clsx(
-            s.horse,
-            !sidebarOpened && s.horse_expand,
-            s.horse_4,
-            testGame && allLoaded && s.horse_4_run,
-            s[`horse_animation_${Horse_speed_4}`],
-            gameResult?.length > 0 && s.horse_finish_4,
-            makeCenter && s.horse_4_run_center
+            s.race,
+            !sidebarOpened && s.race_expand,
+            s.race_4,
+            startGame && allLoaded && s.race_4_run,
+            s[`race_animation_${horse_speed_4}`],
+            gameResult?.length > 0 && s.race_finish_4,
+            makeCenter && s.race_4_run_center,
+            reset && s.race_4_reset
           )}
         >
-          {(testGame || gameResult.length > 0) && (
+          {(startGame || gameResult.length > 0) && (
             <Image
               src={shadow_4}
               alt=""
-              className={clsx(s.horse_shadow, s.horse_shadow_4)}
+              className={clsx(s.race_shadow, s.race_shadow_4)}
             />
           )}
           <video
-            className={clsx(s.horse_size, s.horse_size_4)}
+            className={clsx(s.race_size, s.race_size_4)}
             onPlay={() => setPlay_4(true)}
-            ref={horse_4}
+            ref={race_4}
             autoPlay={true}
             loop={true}
             muted
             playsInline
-            onLoadedData={() => setHorseLoad_4(true)}
+            onLoad={() => setRaceLoad_4(true)}
+            onLoadedData={() => setRaceLoad_4(true)}
+            onError={() => setRaceLoad_4(true)}
           >
-            <source src={"/horse/horse_4.webm"} type="video/mp4" />
+            <source src={"/race/horse_4.webm"} type="video/mp4" />
           </video>
         </div>
         <div
-          // style={{
-          //   transform:
-          //     testGame &&
-          //     randomNumber &&
-          //     (randomNumber === 5 || randomNumber === -5)
-          //       ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-          //       : "",
-          // }}
+          style={{
+            transform:
+              startGame &&
+              randomNumber &&
+              (randomNumber === 5 || randomNumber === -5)
+                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
+                : "",
+          }}
           className={clsx(
-            s.horse,
-            !sidebarOpened && s.horse_expand,
-            s.horse_5,
-            testGame && allLoaded && s.horse_5_run,
-            gameResult?.length > 0 && s.horse_finish_5,
-            s[`horse_animation_${Horse_speed_5}`],
-            makeCenter && s.horse_5_run_center
+            s.race,
+            !sidebarOpened && s.race_expand,
+            s.race_5,
+            startGame && allLoaded && s.race_5_run,
+            gameResult?.length > 0 && s.race_finish_5,
+            s[`race_animation_${horse_speed_5}`],
+            makeCenter && s.race_5_run_center,
+            reset && s.race_5_reset
           )}
         >
-          {(testGame || gameResult.length > 0) && (
+          {(startGame || gameResult.length > 0) && (
             <Image
               src={shadow_5}
               alt=""
-              className={clsx(s.horse_shadow, s.horse_shadow_5)}
+              className={clsx(s.race_shadow, s.race_shadow_5)}
             />
           )}
           <video
-            className={clsx(s.horse_size, s.horse_size_5)}
+            className={clsx(s.race_size, s.race_size_5)}
             onPlay={() => setPlay_5(true)}
-            ref={horse_5}
+            ref={race_5}
             autoPlay={true}
             loop={true}
             muted={true}
             playsInline
-            onLoadedData={() => setHorseLoad_5(true)}
+            onLoad={() => setRaceLoad_5(true)}
+            onLoadedData={() => setRaceLoad_5(true)}
+            onError={() => setRaceLoad_5(true)}
           >
-            <source src={"/horse/horse_5.webm"} type="video/mp4" />
+            <source src={"/race/horse_5.webm"} type="video/mp4" />
           </video>
         </div>
-
         <Image
           src={isMobile ? fence_mobile_1 : fence_1}
           className={clsx(
             s.fence,
             s.fence_1,
-            testGame && allLoaded && s.horse_table_background_img_1_start
+            reset && s.fence_reset,
+            startGame && allLoaded && s.race_table_background_img_1_start
           )}
           alt=""
         />
@@ -1064,7 +1122,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_2,
-            testGame && allLoaded && s.horse_table_background_img_1_start
+            reset && s.fence_reset,
+            startGame && allLoaded && s.race_table_background_img_1_start
           )}
           alt=""
         />
@@ -1073,7 +1132,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_3,
-            testGame && allLoaded && s.horse_table_background_img_1_start
+            reset && s.fence_reset,
+            startGame && allLoaded && s.race_table_background_img_1_start
           )}
           alt=""
         />
@@ -1082,7 +1142,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_4,
-            testGame && allLoaded && s.horse_table_background_img_1_start
+            reset && s.fence_reset,
+            startGame && allLoaded && s.race_table_background_img_1_start
           )}
           alt=""
         />
@@ -1091,7 +1152,8 @@ export const Horse: FC<IHorse> = ({ gameText }) => {
           className={clsx(
             s.fence,
             s.fence_5,
-            testGame && allLoaded && s.horse_table_background_img_1_start
+            reset && s.fence_reset,
+            startGame && allLoaded && s.race_table_background_img_1_start
           )}
           alt=""
         />

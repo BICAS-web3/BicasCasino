@@ -18,14 +18,15 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
-import { Horse } from "@/widgets/Horse/Horse";
+import { Race } from "@/widgets/Race/Race";
 import { HorseSelecteor } from "@/shared/ui/HorseSelecteor";
-import * as RaceModel from "@/widgets/Horse/model";
+import * as RaceModel from "@/widgets/Race/model";
 
 const WagerContent = () => {
-  const [gameResult, setGameResult] = useUnit([
+  const [gameResult, setGameResult, setReset] = useUnit([
     RaceModel.$gameResult,
     RaceModel.setGameResult,
+    RaceModel.setReset,
   ]);
   const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
   const { isConnected } = useAccount();
@@ -68,6 +69,7 @@ const WagerContent = () => {
             }
           } else {
             setGameResult([]);
+            setReset(true);
           }
         }}
       >
@@ -85,24 +87,24 @@ const WagerContent = () => {
   );
 };
 
-export default function HorseGame() {
+export default function RaceGame() {
   return (
     <>
       <Head>
-        <title>Games - Horse</title>
+        <title>Games - Race</title>
       </Head>
-      <Layout activePageLink="/games/Horse" gameName="Horse">
-        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Horse"]} />
-        <div className={styles.Horse_container}>
+      <Layout activePageLink="/games/Race" gameName="Race">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Race"]} />
+        <div className={styles.race_container}>
           <GamePage
             isPoker={false}
             gameInfoText=""
-            gameTitle="Horse"
+            gameTitle="race"
             wagerContent={<WagerContent />}
             custom_height={styles.height}
             soundClassName={styles.sound_btn}
           >
-            <Horse gameText="" />
+            <Race gameText="" />
           </GamePage>
         </div>
       </Layout>

@@ -1,29 +1,32 @@
 import { FC, useEffect, useState } from "react";
-import s from "./styles.module.scss";
+import { useUnit } from "effector-react";
+import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 import Head from "next/head";
+
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { GamePage } from "@/widgets/GamePage/GamePage";
-import { ApplesGame } from "@/widgets/ApplesGame/ApplesGame";
-import { LoadingDots } from "@/shared/ui/LoadingDots";
-import clsx from "clsx";
-import { useUnit } from "effector-react";
+import { ProfitBlock } from "@/widgets/ProfitBlock";
+import { CarsRace } from "@/widgets/CarsRace/CarsRace";
 import * as ConnectModel from "@/widgets/Layout/model";
 import * as GameModel from "@/widgets/GamePage/model";
-import { useAccount } from "wagmi";
 import { WagerModel } from "@/widgets/Wager";
-import { useRouter } from "next/router";
+import * as CarModel from "@/widgets/CarsRace/model";
 import {
   WagerModel as WagerAmountModel,
   WagerInputsBlock,
 } from "@/widgets/WagerInputsBlock";
-import { ProfitBlock } from "@/widgets/ProfitBlock";
-import * as AppleModel from "@/widgets/ApplesGame/model";
-import { RefundButton } from "@/shared/ui/Refund";
-import { CarsRace } from "@/widgets/CarsRace/CarsRace";
+
+import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { CarSelector } from "@/shared/ui/CarSelector";
+import { useMediaQuery } from "@/shared/tools";
+
+import s from "./styles.module.scss";
+import clsx from "clsx";
 
 const WagerContent = () => {
+  const isMobile = useMediaQuery("(max-width: 996px)");
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const { isConnected, isConnecting } = useAccount();
 
@@ -32,22 +35,11 @@ const WagerContent = () => {
   const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [
-    setStartConnect,
-    setIsEmtyWager,
-    gameResult,
-    setReset,
-    reset,
-    setRefund,
-    emptyField,
-  ] = useUnit([
+  const [setStartConnect, setIsEmtyWager, gameResult, setReset] = useUnit([
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
-    AppleModel.$gameResult,
-    AppleModel.setReset,
-    AppleModel.$reset,
-    GameModel.setRefund,
-    AppleModel.$emptyField,
+    CarModel.$gameResult,
+    CarModel.setReset,
   ]);
   useEffect(() => {
     isConnecting && setStartConnect(false);
@@ -71,7 +63,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      <CarSelector />
+      {!isMobile && <CarSelector className={s.selector} />}
       <button
         className={clsx(
           s.connect_wallet_btn,
@@ -94,6 +86,8 @@ const WagerContent = () => {
                   : "/RegistrManual"
               );
             }
+          } else {
+            setReset(true);
           }
         }}
       >
@@ -130,6 +124,7 @@ const Apples: FC<ApplesProps> = () => {
             gameInfoText=""
             gameTitle="carRace"
             wagerContent={<WagerContent />}
+            soundClassName={s.car_sound}
           >
             <CarsRace gameText="" />
           </GamePage>

@@ -358,3 +358,10 @@
     margin-bottom: 15px !important;
   }
 }
+
+.car_selector {
+  margin-bottom: 12px;
+  @media (max-width: 650px) {
+    margin-bottom: 8px;
+  }
+}

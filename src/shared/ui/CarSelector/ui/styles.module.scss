@@ -19,6 +19,9 @@
   display: flex;
   border-radius: 12px;
   background: var(--gray-320-night, #202020);
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 }
 
 .btn {
@@ -38,6 +41,9 @@
   outline: none;
   background: transparent;
   cursor: pointer;
+  @media (max-width: 650px) {
+    border-radius: 5px;
+  }
 
   &_active {
     background: var(--switch-in-game-2-e-night, #2e2e2e);
