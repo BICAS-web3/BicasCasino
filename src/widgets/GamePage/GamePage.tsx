@@ -344,7 +344,7 @@ export const GamePage: FC<GamePageProps> = ({
                         : s.button_active
                     )}
                     onClick={() => {
-                      if (gameTitle === "Horse" && gameResult.length > 0) {
+                      if (gameTitle === "race" && gameResult.length > 0) {
                         setGameResult([]);
                         setReset(true);
                       } else {
@@ -362,7 +362,7 @@ export const GamePage: FC<GamePageProps> = ({
                       }
                     }}
                   >
-                    {gameTitle === "Horse" && gameResult.length > 0 ? (
+                    {gameTitle === "race" && gameResult.length > 0 ? (
                       "Reset"
                     ) : waitingResponse ? (
                       <LoadingDots className={s.dots_black} title="Playing" />
