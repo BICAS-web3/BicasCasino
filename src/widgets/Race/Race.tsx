@@ -65,6 +65,14 @@ import shadow_4 from "@/public/media/race_icons/shadow_4.svg";
 import shadow_3 from "@/public/media/race_icons/shadow_3.svg";
 import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
 import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
+
+import banner_1 from "@/public/media/race_images/race_banner_1.png";
+import banner_2 from "@/public/media/race_images/race_banner_2.png";
+import banner_3 from "@/public/media/race_images/race_banner_3.png";
+import banner_4 from "@/public/media/race_images/race_banner_4.png";
+import banner_5 from "@/public/media/race_images/race_banner_5.png";
+import banner_6 from "@/public/media/race_images/race_banner_6_.png";
+
 import { WinMessage } from "../WinMessage";
 import { RaceWin } from "@/shared/ui/RaceWin";
 import useSound from "use-sound";
@@ -376,7 +384,9 @@ export const Race: FC<IRace> = ({ gameText }) => {
   }, [startedPlaying]);
 
   const [localNumber, setLocalNumber] = useState<number | null>(null);
-  const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  const [coefficientData, setCoefficientData] = useState<
+    { value: number; status: "lose" | "win" }[]
+  >([]);
   useContractEvent({
     address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
     abi: RaceABI,
@@ -413,23 +423,28 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
         handleResult();
 
+        const getCoef = (status: "lose" | "win") => {
+          const num = (log[0] as any).args.raceOutcomes[0];
+          setCoefficientData((prev) => [...prev, { value: num, status }]);
+        };
+
         setWaitingResponse(false);
         const wagered =
           BigInt((log[0] as any).args.wager) *
           BigInt((log[0] as any).args.numGames);
 
-        const handleCall = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) /
-                Number(BigInt((log[0] as any).args.wager));
-              setCoefficientData((prev) => [outCome, ...prev]);
-              setLocalNumber(outCome);
-            }, 700 * (i + 1));
-          }
-        };
-        handleCall();
+        // const handleCall = () => {
+        //   for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+        //     setTimeout(() => {
+        //       const outCome =
+        //         Number((log[0] as any)?.args?.payouts[i]) /
+        //         Number(BigInt((log[0] as any).args.wager));
+        //       setCoefficientData((prev) => [outCome, ...prev]);
+        //       setLocalNumber(outCome);
+        //     }, 700 * (i + 1));
+        //   }
+        // };
+        // handleCall();
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -444,12 +459,14 @@ export const Race: FC<IRace> = ({ gameText }) => {
             multiplier,
             token: token as string,
           });
+          getCoef("win");
           setGameStatus(GameModel.GameStatus.Won);
         } else {
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
 
           setLostStatus(wageredFloat);
+          getCoef("lose");
           setGameStatus(GameModel.GameStatus.Lost);
         }
       }
@@ -657,7 +674,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
   //   if (startGame) {
   //     setTimeout(() => {
   //       setGameResult([0, 3, 2, 1, 4]);
-  //     }, 9000);
+  //     }, 10000);
   //   }
   // }, [startGame]);
 
@@ -858,9 +875,13 @@ export const Race: FC<IRace> = ({ gameText }) => {
               alt="table-bg"
             />
             <Image src={race_logo} alt="" className={s.race_logo} />
+            <Image
+              src={banner_6}
+              alt=""
+              className={clsx(s.banner, s.banner_6)}
+            />
           </div>
-          <Image
-            src={raceBg_2}
+          <div
             className={clsx(
               s.race_table_background_img,
               s.race_table_background_img_2,
@@ -871,28 +892,59 @@ export const Race: FC<IRace> = ({ gameText }) => {
               showFinish && s.race_table_background_img_2_finish,
               reset && s.race_table_background_img_2_reset
             )}
-            alt="table-bg"
-          />
-          {showFinish ? (
+          >
             <Image
-              src={finish_line}
+              className={s.img}
+              width={1438}
+              src={raceBg_2}
+              alt="table-bg"
+            />
+            <Image
+              src={banner_5}
+              className={clsx(s.banner, s.banner_5)}
+              alt=""
+            />
+          </div>
+          {showFinish ? (
+            <div
               className={clsx(
                 s.race_table_background_img,
                 s.race_table_background_img_3,
                 startGame && allLoaded && s.race_table_background_img_3_finish
               )}
-              alt="table-bg"
-            />
+            >
+              <Image
+                src={banner_4}
+                alt=""
+                className={clsx(s.banner, s.banner_4)}
+              />
+              <Image
+                className={s.img}
+                width={1438}
+                src={finish_line}
+                alt="table-bg"
+              />
+            </div>
           ) : (
-            <Image
-              src={raceBg_2}
+            <div
               className={clsx(
                 s.race_table_background_img,
                 s.race_table_background_img_3,
                 startGame && allLoaded && s.race_table_background_img_3_start
               )}
-              alt="table-bg"
-            />
+            >
+              <Image
+                src={banner_4}
+                alt=""
+                className={clsx(s.banner, s.banner_4)}
+              />
+              <Image
+                className={s.img}
+                width={1438}
+                src={raceBg_2}
+                alt="table-bg"
+              />
+            </div>
           )}
         </div>
         <div
@@ -1173,19 +1225,22 @@ export const Race: FC<IRace> = ({ gameText }) => {
           </div>
         </div>
         <div className={s.balls_arr}>
-          {coefficientData
-            // .sort((a, b) => b - a)
-            .map((item, i) => (
-              <div
-                className={clsx(
-                  s.multiplier_value,
-                  item > 0 ? s.multiplier_positive : s.multiplier_negative
-                )}
-                key={i}
-              >
-                {item?.toFixed(2)}x
-              </div>
-            ))}
+          {coefficientData.length > 0 &&
+            coefficientData
+              // .sort((a, b) => b - a)
+              .map((item, i) => (
+                <div
+                  className={clsx(
+                    s.multiplier_value,
+                    item?.status === "win"
+                      ? s.multiplier_positive
+                      : s.multiplier_negative
+                  )}
+                  key={i}
+                >
+                  {item?.value + 1}
+                </div>
+              ))}
         </div>
       </section>
     </>
