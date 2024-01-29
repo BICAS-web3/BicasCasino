@@ -18,6 +18,7 @@ import {
   WheelFortuneIcon,
   AppleBtnIco,
   RaceButton,
+  CarBtn,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -107,6 +108,11 @@ const gamesList = [
     icon: "race",
     link: "/games/Race",
   },
+  {
+    title: "Cars",
+    icon: "cars",
+    link: "/games/Cars",
+  },
 ];
 
 const languagesList = [
@@ -175,6 +181,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <AppleBtnIco />;
   } else if (iconId === "race") {
     return <RaceButton />;
+  } else if (iconId === "cars") {
+    return <CarBtn />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -243,6 +251,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Slots" && s.active_link,
             path === "/games/Apples" && s.active_link,
             path === "/games/Race" && s.active_link,
+            path === "/games/Cars" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
         >
@@ -456,6 +465,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/WheelFortune" && s.active_link,
                 path === "/games/Apples" && s.active_link,
                 path === "/games/Race" && s.active_link,
+                path === "/games/Cars" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
               )}
@@ -568,6 +578,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <RaceButton />
               Race
+            </Link>
+            <Link
+              href={"/games/Cars"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Cars" && s.game_active
+              }`}
+            >
+              <CarBtn />
+              Cars
             </Link>
             <Link
               href={"/leaderboard"}

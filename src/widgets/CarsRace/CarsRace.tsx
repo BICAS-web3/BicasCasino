@@ -472,18 +472,22 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
-  // useEffect(() => {
-  //   if (startGame) {
-  //     Promise.all([
-  //       new Promise((resolve) =>
-  //         setTimeout(() => resolve(setGameResult([1, 2])), 6000)
-  //       ),
-  //       new Promise((resolve) =>
-  //         setTimeout(() => resolve(setShowFinish(true)), 5000)
-  //       ),
-  //     ]);
-  //   }
-  // }, [startGame]);
+  useEffect(() => {
+    if (startGame) {
+      Promise.all([
+        // new Promise((resolve) =>
+        //   setTimeout(() => resolve(setGameResult([1, 2])), 6000)
+        // ),
+        // new Promise((resolve) =>
+        //   setTimeout(() => resolve(setShowFinish(true)), 5000)
+        // ),
+        setTimeout(() => {
+          setGameResult([1, 2]);
+          setInGame(false);
+        }, 3000),
+      ]);
+    }
+  }, [startGame]);
 
   const [raceSound, setRaceSound] = useState(false);
 
@@ -492,7 +496,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   const [carInProgress, setCarInProgress] = useState(false);
   useEffect(() => {
     if (inGame) {
-      carStart();
+      if (playSounds !== "off") {
+        carStart();
+      }
 
       Promise.all([
         new Promise((resolve) =>
@@ -576,10 +582,11 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   return (
     <section
       className={s.cars_table_wrap}
-      // onClick={() => {
-      //   setStartGame(true);
-      //   setWheelStart(true);
-      // }}
+      onClick={() => {
+        // setStartGame(true);
+        // setWheelStart(true);
+        setInGame(true);
+      }}
     >
       <WagerLowerBtnsBlock
         game="Cars"
