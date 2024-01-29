@@ -378,7 +378,7 @@ export const GamePage: FC<GamePageProps> = ({
                       }}
                     >
                       {(gameTitle === "race" && raceResult.length > 0) ||
-                      (gameTitle === "carRace" && carResult.length > 0) ? (
+                      (gameTitle === "cars" && carResult.length > 0) ? (
                         "Reset"
                       ) : waitingResponse ? (
                         <LoadingDots className={s.dots_black} title="Playing" />

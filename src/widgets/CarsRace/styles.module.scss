@@ -15,6 +15,9 @@
   top: 0;
   left: 0;
   overflow: hidden;
+  @media (max-width: 650px) {
+    border-radius: 0;
+  }
 }
 
 .static_moon_img {
@@ -25,7 +28,7 @@
   bottom: 0;
   right: 0;
   left: 0;
-  object-fit: cover;
+  // object-fit: cover;
   @media (max-width: 650px) {
     width: 1078px;
   }
@@ -33,13 +36,14 @@
 
 .static_bg_img {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-  object-fit: cover;
+  min-height: max-content;
+  // object-fit: cover;
 }
 
 .start_bg_img {
@@ -59,10 +63,6 @@
 
   &_hide {
     animation: startImgHide 2.5s linear forwards;
-
-    // @media screen and (min-width: 1950px) {
-    //   animation: startImgHideBigScreen 2.5s linear forwards !important;
-    // }
   }
 
   @media screen and (min-width: 1950px) {
@@ -72,7 +72,7 @@
   .start_bg_city {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    // object-fit: cover;
     position: absolute;
     top: 0;
 
@@ -85,10 +85,12 @@
     position: absolute;
     bottom: 0;
     left: 350px;
+    bottom: -15px;
 
     @media screen and (max-width: 650px) {
       left: 300px;
       height: 100px;
+      bottom: -35px;
     }
 
     @media screen and (max-width: 420px) {
@@ -96,15 +98,6 @@
     }
   }
 }
-
-// @keyframes startImgHideBigScreen {
-//   0% {
-//     left: 0;
-//   }
-//   100% {
-//     left: -100%;
-//   }
-// }
 
 @keyframes startImgHide {
   0% {
@@ -143,7 +136,7 @@
   height: 100%;
   left: 100%;
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
 
   @media (max-width: 1800px) {
     min-width: 1478px;
@@ -160,28 +153,8 @@
 
   &_start {
     animation: cityMainStart 5s linear infinite;
-
-    // @media screen and (min-width: 1950px) {
-    //   animation: cityMainStartBigScreen 5s linear infinite !important;
-    // }
-  }
-  &_finish {
-    animation: cityMainFinish 1.5s linear forwards;
-
-    // @media screen and (min-width: 1950px) {
-    //   animation: cityMainFinishBigScreen 1.5s linear forwards;
-    // }
   }
 }
-
-// @keyframes cityMainStartBigScreen {
-//   0% {
-//     left: 100%;
-//   }
-//   100% {
-//     left: -100%;
-//   }
-// }
 
 @keyframes cityMainStart {
   0% {
@@ -191,15 +164,6 @@
     left: -100%;
   }
 }
-
-// @keyframes cityMainFinishBigScreen {
-//   0% {
-//     left: 0;
-//   }
-//   100% {
-//     left: -100%;
-//   }
-// }
 
 @keyframes cityMainFinish {
   0% {
@@ -261,10 +225,11 @@
   height: 100%;
   left: 200%;
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
   @media (max-width: 1800px) {
     min-width: 1478px;
     left: 2876px;
+    // left: 800px;
   }
   @media (max-width: 650px) {
     min-width: 1078px;
@@ -278,6 +243,9 @@
     //   animation: bigScreenStart 5s 2.5s linear infinite !important;
     // }
   }
+  // &_showFinish {
+  //   animation: mainBgCopyFinish 2s linear forwards;
+  // }
 }
 
 // @keyframes bigScreenStart {
@@ -309,6 +277,24 @@
   }
 }
 
+.img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+@keyframes mainBgCopyFinish {
+  0% {
+    left: auto;
+  }
+
+  100% {
+    left: -1438px;
+  }
+}
+
 @media (max-width: 650px) {
   @keyframes mainBgCopyStart {
     0% {
@@ -325,19 +311,19 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  left: 200%;
+  // left: 200%;
+  right: -200%;
   top: 0;
-
-  // @media screen and (min-width: 1950px) {
-  //   width: 100%;
-  // }
-
+  @media (max-width: 1800px) {
+    min-width: 1478px;
+    // left: 1438px;
+  }
+  @media (max-width: 650px) {
+    min-width: 1078px;
+    // left: 1078px;
+  }
   &_finish {
-    animation: endCityBgFinish 1.5s linear forwards;
-
-    // @media screen and (min-width: 1950px) {
-    //   animation: endCityBgFinishBigScreen 1.5s linear forwards !important;
-    // }
+    animation: endCityBgFinish 2.5s linear forwards;
   }
 
   .finish_city_bg {
@@ -345,13 +331,13 @@
     top: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    // object-fit: cover;
   }
 
   .finish_stop_line {
     position: absolute;
     right: 250px;
-    bottom: 0;
+    bottom: -15px;
 
     @media screen and (max-width: 1280px) {
       right: 180px;
@@ -363,6 +349,7 @@
 
     @media screen and (max-width: 650px) {
       height: 100px;
+      bottom: -35px;
     }
 
     @media screen and (max-width: 420px) {
@@ -371,22 +358,33 @@
   }
 }
 
-// @keyframes endCityBgFinishBigScreen {
-//   0% {
-//     left: 100%;
-//   }
-//   100% {
-//     left: 0;
-//   }
-// }
-
 @keyframes endCityBgFinish {
   0% {
-    left: 100%;
+    right: -100%;
   }
   100% {
-    // left: calc((1438px - var(--leftOffset)) * -1);
-    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes endCityBgFinish {
+    0% {
+      right: -1478px;
+    }
+    100% {
+      right: 0;
+    }
+  }
+}
+@media (max-width: 650px) {
+  @keyframes endCityBgFinish {
+    0% {
+      right: -1078px;
+    }
+    100% {
+      right: 0;
+    }
   }
 }
 
@@ -397,7 +395,7 @@
   height: 100%;
   left: 0;
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
   @media (max-width: 1800px) {
     min-width: 1478px;
   }
@@ -457,7 +455,7 @@
     min-width: 1078px;
   }
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
 
   &_start {
     animation: mountainsSecondStart 6.4s linear infinite;
@@ -531,7 +529,7 @@
     min-width: 1078px;
   }
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
 
   &_start {
     animation: mainBgCopyStart 6.4s 3.2s linear infinite;
@@ -575,7 +573,13 @@
   height: 100%;
   left: 200%;
   top: 0;
-  object-fit: cover;
+  // object-fit: cover;
+  @media (max-width: 1800px) {
+    width: 1478px;
+  }
+  @media (max-width: 650px) {
+    width: 1078px;
+  }
 
   &_finish {
     animation: endMountainsBg 2s linear forwards;
@@ -605,7 +609,7 @@
   @media screen and (max-width: 650px) {
     width: 200px;
     height: 62px;
-    bottom: 67.5px !important;
+    bottom: 45px !important;
   }
 }
 
@@ -623,6 +627,10 @@
 
 .car_progress {
   transform: translateX(200px);
+
+  @media (max-width: 1800px) {
+    transform: translateX(120px);
+  }
   @media (max-width: 1280px) {
     transform: translateX(80px);
   }
@@ -737,10 +745,10 @@
 }
 .car_wrap_animation {
   &_1 {
-    animation: car_finish 3.3s 1.2s forwards;
+    animation: car_finish 3.3s 2.25s forwards;
   }
   &_2 {
-    animation: car_finish 4.8s 1.2s forwards;
+    animation: car_finish 4.8s 2.25s forwards;
   }
 }
 
@@ -762,7 +770,26 @@
   }
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1800px) {
+  @keyframes car_in_game {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(120px);
+    }
+  }
+
+  @keyframes car_finish {
+    0% {
+      transform: translateX(120px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+}
+@media (max-width: 1500px) {
   @keyframes car_in_game {
     0% {
       transform: translateX(0);
@@ -796,7 +823,7 @@
       transform: translateX(20px);
     }
     100% {
-      transform: translateX(100vw);
+      transform: translateX(150vw);
     }
   }
 }
@@ -925,4 +952,11 @@
 }
 .load_index {
   z-index: 17 !important;
+}
+.stop_animation {
+  animation-play-state: paused;
+}
+
+.finish_city_bg_img {
+  z-index: 14;
 }

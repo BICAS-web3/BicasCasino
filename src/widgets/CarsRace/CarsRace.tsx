@@ -379,7 +379,11 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             }, 700 * (i + 1));
           }
         };
-        handlePayouts();
+        Promise.all([
+          new Promise((resolve) =>
+            setTimeout(() => resolve(handlePayouts()), 6000)
+          ),
+        ]);
         if ((log[0] as any).args.payout > wagered) {
           const profit = (log[0] as any).args.payout;
           const multiplier = Number(profit / wagered);
@@ -389,18 +393,41 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
           const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
+          Promise.all([
+            new Promise((resolve) =>
+              setTimeout(
+                () =>
+                  resolve(
+                    setWonStatus({
+                      profit: profitFloat,
+                      multiplier,
+                      token: token as string,
+                    })
+                  ),
+                6000
+              )
+            ),
+            new Promise((resolve) =>
+              setTimeout(
+                () => resolve(setGameStatus(GameModel.GameStatus.Won)),
+                6000
+              )
+            ),
+          ]);
         } else {
           const wageredFloat =
             Number(wagered / BigInt(10000000000000000)) / 100;
-
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
+          Promise.all([
+            new Promise((resolve) =>
+              setTimeout(() => resolve(setLostStatus(wageredFloat)), 6000)
+            ),
+            new Promise((resolve) =>
+              setTimeout(
+                () => resolve(setGameStatus(GameModel.GameStatus.Lost)),
+                6000
+              )
+            ),
+          ]);
         }
       }
     },
@@ -472,18 +499,16 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
-  useEffect(() => {
-    if (startGame) {
-      Promise.all([
-        new Promise((resolve) =>
-          setTimeout(() => resolve(setGameResult([1, 2])), 6000)
-        ),
-        // new Promise((resolve) =>
-        //   setTimeout(() => resolve(setShowFinish(true)), 5000)
-        // ),
-      ]);
-    }
-  }, [startGame]);
+  // useEffect(() => {
+  //   if (startGame) {
+  //     Promise.all([
+  //       setTimeout(() => {
+  //         setGameResult([1, 2]);
+  //         setInGame(false);
+  //       }, 5000),
+  //     ]);
+  //   }
+  // }, [startGame]);
 
   const [raceSound, setRaceSound] = useState(false);
 
@@ -492,7 +517,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   const [carInProgress, setCarInProgress] = useState(false);
   useEffect(() => {
     if (inGame) {
-      carStart();
+      if (playSounds !== "off") {
+        carStart();
+      }
 
       Promise.all([
         new Promise((resolve) =>
@@ -509,7 +536,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
         ),
       ]);
     } else {
-      setTimeout(() => setRaceSound(false), 3000);
+      setTimeout(() => setRaceSound(false), 4500);
     }
   }, [inGame]);
 
@@ -533,7 +560,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
       setTimeout(() => {
         generateRandomNumber();
         intervalId = setInterval(generateRandomNumber, 3000);
-      }, 3000);
+      }, 7000);
     } else {
       setRandomMove(0);
     }
@@ -553,16 +580,19 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
       setShowFinish(false);
       setCarInProgress(false);
       setReset(false);
+      setStopAnimation(false);
     }
   }, [reset]);
 
   useEffect(() => {
     if (gameResult.length > 0) {
       setShowFinish(true);
+      setTimeout(() => setStopAnimation(true), 2500);
     }
   }, [gameResult.length]);
 
   const isDesktop = useMediaQuery("(min-width: 1280px)");
+  const isSmall = useMediaQuery("(max-width: 420px)");
   const [stepValue, setStepValue] = useState(90);
 
   useEffect(() => {
@@ -573,14 +603,14 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     }
   }, [isDesktop]);
 
+  const [stopAnimation, setStopAnimation] = useState(false);
+
   return (
     <section
       className={s.cars_table_wrap}
-      onClick={() => {
-        // setStartGame(true);
-        // setWheelStart(true);
-        setInGame(true);
-      }}
+      // onClick={() => {
+      //   setInGame(true);
+      // }}
     >
       <WagerLowerBtnsBlock
         game="Cars"
@@ -627,8 +657,8 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           src={cityMainImg.src}
           className={clsx(
             s.main_city_bg_img,
-            !showFinish && startGame && s.main_city_bg_img_start,
-            showFinish && s.main_city_bg_img_finish
+            startGame && s.main_city_bg_img_start,
+            stopAnimation && s.stop_animation
           )}
           alt="main-city-bg"
         />
@@ -636,60 +666,41 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           src={mountainsBg.src}
           className={clsx(
             s.mountains_second,
-            !showFinish && startGame && s.mountains_second_start,
-            showFinish && s.mountains_second_finish
+            startGame && s.mountains_second_start,
+            stopAnimation && s.stop_animation
           )}
           alt="mountains-bg"
         />
-        {showFinish ? (
-          <>
-            <div
-              className={clsx(
-                s.finish_city_bg_img,
-                startGame && s.finish_city_bg_img_finish
-              )}
-              style={{ "--leftOffset": `${bgWidth}px` } as any}
-            >
-              <img
-                src={cityFinishImg.src}
-                className={s.finish_city_bg}
-                alt="finish-bg-img"
-              />
-              <img
-                src={stopLine.src}
-                className={s.finish_stop_line}
-                alt="stop-line"
-              />
-            </div>
-            <img
-              src={mountainsBg.src}
-              className={clsx(
-                s.finish_mountains_bg,
-                startGame && s.finish_mountains_bg_finish
-              )}
-              alt="mountains-finish"
-            />
-          </>
-        ) : (
-          <>
-            <img
-              src={cityMainImg.src}
-              className={clsx(
-                s.main_city_bg_copy,
-                startGame && s.main_city_bg_copy_start
-              )}
-              alt="main-city-bg-2"
-            />
-            <img
-              src={mountainsBg.src}
-              className={clsx(
-                s.mountains_bg_copy,
-                startGame && s.mountains_bg_copy_start
-              )}
-              alt="mountains-copy"
-            />
-          </>
-        )}
+        <div
+          className={clsx(
+            s.finish_city_bg_img,
+            showFinish && s.finish_city_bg_img_finish
+          )}
+        >
+          <img
+            src={stopLine.src}
+            className={s.finish_stop_line}
+            alt="stop-line"
+          />
+        </div>
+        <img
+          className={clsx(
+            s.main_city_bg_copy,
+            startGame && s.main_city_bg_copy_start,
+            stopAnimation && s.stop_animation
+          )}
+          src={cityMainImg.src}
+          alt="main-city-bg-2"
+        />
+        <img
+          src={mountainsBg.src}
+          className={clsx(
+            s.mountains_bg_copy,
+            startGame && s.mountains_bg_copy_start,
+            stopAnimation && s.stop_animation
+          )}
+          alt="mountains-copy"
+        />
       </div>
       <div className={s.cars_body}>
         <div
@@ -700,7 +711,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
               randomeMove !== 0 &&
               (randomeMove === 1 || randomeMove === -1)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
-                : "",
+                : isSmall
+                ? "15px"
+                : "50px",
           }}
           className={clsx(
             s.car1_wrap,
@@ -719,7 +732,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
               randomeMove !== 0 &&
               (randomeMove === 2 || randomeMove === -2)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
-                : "",
+                : isSmall
+                ? "30px"
+                : "70px",
           }}
           className={clsx(
             s.car2_wrap,
