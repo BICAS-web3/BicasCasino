@@ -1,6 +1,6 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import applesBg from "@/public/media/apples/applesMainBg.png";
+import applesBg from "@/public/media/apples/applesBg.png";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import appleBg from "@/public/media/apples/appleItemBg.svg";
 import appleBgTrue from "@/public/media/apples/appleItemBgTrue.svg";
@@ -494,7 +494,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
           <img
             onLoad={() => setIsLoading(false)}
             src={applesBg.src}
-            className={s.apples_table_background}
+            className={s.apples_table_background_img}
             alt="apples-static-bg"
           />
         </div>{" "}
@@ -585,7 +585,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                       )}
 
                       <div className={s.row_cf}>
-                        {currentIndex >= appleData.length && (
+                        {(currentIndex >= appleData.length ||
+                          currentIndex === 8) && (
                           <span className={s.cf_title}>
                             {item.cf.toFixed(2)}
                           </span>
@@ -608,7 +609,24 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                           appleData[currentIndex]?.value;
                         return (
                           <div
-                            onClick={() => {
+                            onContextMenu={(e) => {
+                              e.preventDefault();
+
+                              if (e.button === 2) {
+                                if (
+                                  appleData.length !== 0 &&
+                                  appleData[appleData.length - 1].number ===
+                                    currentIndex
+                                ) {
+                                  const poppedArr = appleData.slice(
+                                    0,
+                                    currentIndex
+                                  );
+                                  setAppleData(poppedArr);
+                                }
+                              }
+                            }}
+                            onClick={(e) => {
                               currentIndex <= appleData.length &&
                                 playSounds !== "off" &&
                                 !inGame &&
