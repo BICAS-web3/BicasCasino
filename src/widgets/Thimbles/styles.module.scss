@@ -1,6 +1,124 @@
 .thimbles_table_wrap {
   position: relative;
   height: 100%;
+  --distance: 222px;
+  @keyframes ball_1 {
+    0% {
+      transform: translate(0, 0) scale(1);
+      z-index: 2;
+    }
+    8% {
+      transform: translate(calc(var(--distance) / 2), 50px) scale(1.075);
+    }
+    16% {
+      transform: translate(var(--distance), 50px) scale(1.15);
+      z-index: 1;
+    }
+    33% {
+      transform: translate(calc(var(--distance) * 2), 0) scale(1);
+    }
+    49% {
+      transform: translate(calc(var(--distance) * 2), 0) scale(1);
+      z-index: 2;
+    }
+    57% {
+      z-index: 6;
+      transform: translate(calc(var(--distance) * 2.5), 0) scale(1);
+    }
+    66% {
+      transform: translate(var(--distance), 50px) scale(1.15);
+      z-index: 6;
+    }
+    74% {
+      transform: translate(calc(var(--distance) / 2), 25px) scale(1.075);
+    }
+    82% {
+      transform: translate(0, 0) scale(1);
+      z-index: 4;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      z-index: 4;
+    }
+  }
+
+  @keyframes ball_2 {
+    0% {
+      // background-color: blue;
+      transform: translate(0, 0) scale(1);
+    }
+    8% {
+      transform: translate(calc((var(--distance) / 2) * -1), 0) scale(1);
+    }
+    16% {
+      transform: translate(calc(var(--distance) * -1), 0) scale(1);
+    }
+    33% {
+      transform: translate(calc(var(--distance) * -1), 0) scale(1);
+      z-index: 2;
+    }
+    49% {
+      transform: translate(0, 40px) scale(1.15);
+    }
+
+    57% {
+      transform: translate(calc(var(--distance) / 2), -20px) scale(1);
+    }
+    66% {
+      transform: translate(var(--distance), -20px) scale(1);
+      z-index: 5;
+    }
+    74% {
+      transform: translate(var(--distance), 0) scale(1);
+    }
+    82% {
+      transform: translate(var(--distance), 0) scale(1);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
+
+  @keyframes ball_3 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    8% {
+      transform: translate(0, 0) scale(1);
+    }
+    16% {
+      transform: translate(0, 0) scale(1);
+    }
+    24% {
+      transform: translate(calc(var(--distance) / 2), 0) scale(1);
+      z-index: 2;
+    }
+    33% {
+      transform: translate(calc(var(--distance) * -1), 10px) scale(1.15);
+      z-index: 1;
+    }
+    49% {
+      transform: translate(calc(var(--distance) * -1.5), -50px) scale(0.9);
+    }
+
+    57% {
+      transform: translate(calc(var(--distance) * -1.5), -20px) scale(1);
+    }
+    66% {
+      transform: translate(calc(var(--distance) * -2), 0) scale(1);
+      z-index: 2;
+    }
+    74% {
+      transform: translate(calc(var(--distance) * -2.5), 25px) scale(0.9);
+      z-index: 7;
+    }
+    82% {
+      transform: translate(calc(var(--distance) * -1), 50px) scale(1);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+  }
 }
 
 .thimbles_table_bg_wrap {
@@ -44,6 +162,7 @@
 .thimbles_block {
   display: flex;
   gap: 35px;
+  // gap: 0;
   margin-bottom: 73px;
   position: relative;
 
@@ -107,6 +226,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: all 0.5s;
+  position: relative;
+  &_1 {
+    animation: ball_1 1.5s infinite linear;
+  }
+  &_2 {
+    animation: ball_2 1.5s infinite linear;
+    // background-color: blue;
+  }
+  &_3 {
+    animation: ball_3 1.5s infinite linear;
+    // background-color: green;
+  }
 }
 
 .thimble_shadow {
@@ -148,7 +280,7 @@
   user-select: none;
   position: absolute;
   bottom: 15px;
-  left: 49%;
+  left: 48%;
   transform: translateX(-50%);
 
   @media screen and (max-width: 760px) {
@@ -161,4 +293,17 @@
     height: 20px;
     bottom: 7px;
   }
+}
+
+.btn {
+  position: absolute;
+  z-index: 20;
+
+  border: none;
+  outline: none;
+  background-color: antiquewhite;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 10px 25px;
+  cursor: pointer;
 }
