@@ -74,6 +74,7 @@ interface GamePageProps {
   isMines?: boolean;
   customHeight?: boolean;
   roulette?: boolean;
+  customCname?: any;
 }
 
 export const GamePage: FC<GamePageProps> = ({
@@ -88,6 +89,7 @@ export const GamePage: FC<GamePageProps> = ({
   soundClassName,
   isMines,
   customHeight,
+  customCname,
 }) => {
   const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -248,11 +250,16 @@ export const GamePage: FC<GamePageProps> = ({
               className={clsx(
                 s.game_block,
                 custom_height,
-                customHeight && s.minHeight
+                customHeight && s.minHeight,
+                customCname && customCname
               )}
             >
               <button
-                className={clsx(s.poker_wager_sound_btn, soundClassName)}
+                className={clsx(
+                  s.poker_wager_sound_btn,
+                  soundClassName,
+                  gameTitle === "graph" && s.height
+                )}
                 onClick={soundChange}
                 data-id="2"
               >

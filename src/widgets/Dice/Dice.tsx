@@ -632,7 +632,6 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             ))}
           </div>
           <div className={s.range_wrapper}>
-            {" "}
             <div className={s.range_container}>
               <span className={s.roll_range_value}>{RollValue}</span>
               <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span>
