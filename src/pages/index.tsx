@@ -338,7 +338,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImageClosed={slot_bg}
         />{" "}
         <Game
-          name={"Wheel Fortune"}
+          name={"Wheel of Fortune"}
           description={""}
           link={"/games/WheelFortune"}
           tabletImage={wheelFortuneBanner}

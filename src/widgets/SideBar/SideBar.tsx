@@ -549,7 +549,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               }`}
             >
               <WheelFortuneIcon />
-              Wheel Fortune
+              Wheel of Fortune
             </Link>
             <Link
               href={"/games/Apples"}
