@@ -25,6 +25,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
       pokerBlock && window.scrollTo(0, pokerBlock?.scrollHeight - 150);
     } else if (accordionActive && currentItem == "poker") {
       setAccordionActive(false);
+      window.scrollTo(0, 0);
     }
   };
 
@@ -40,6 +41,7 @@ export const GamePageBottomBlock: FC<GamePageBottomBlockProps> = ({
       aboutBlock && window.scrollTo(0, 750);
     } else if (accordionActive && currentItem == "about") {
       setAccordionActive(false);
+      window.scrollTo(0, 0);
     }
   };
 
