@@ -93,7 +93,7 @@ const gamesList = [
     link: "/games/Slots",
   },
   {
-    title: "Wheel Fortune",
+    title: "Wheel of Fortune",
     icon: "wheelFortune",
     link: "/games/WheelFortune",
   },
