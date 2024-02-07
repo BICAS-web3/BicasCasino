@@ -96,7 +96,8 @@ export const GraphGame: FC<GraphGameProps> = () => {
   const [profitsTaken, setProfitsTaken] = useState(false);
   const [balance, setBalance] = useState(0);
   const [isCrashed, setIsCrashed] = useState(false);
-
+  const [numbers, setNumbers] = useState([]);
+  const [timeUnderPoint, setTimeUnderPoint] = useState<string[]>([]);
   useEffect(() => {
     const canvas = document.getElementById("game") as HTMLCanvasElement;
     const ctx = canvas!.getContext("2d");
@@ -198,19 +199,19 @@ export const GraphGame: FC<GraphGameProps> = () => {
         // crashCurve(betAmount);
         // updateCurvePoints();
         updateCurve(false);
-      }, 1000);
+      }, 0);
     }
     const loop = setInterval(() => {
       updateCurvePoints();
       updateCurve(true);
-    }, 6); // ! duration
+    }, 10); // ! duration
     if (balance > 0) {
       startGame();
       setGameLoop(loop as any);
 
       setTimeout(() => {
         crashCurve(betAmount);
-      }, getRandomCrashTime(1, 5.5));
+      }, 0);
     }
 
     return () => {
@@ -293,14 +294,6 @@ export const GraphGame: FC<GraphGameProps> = () => {
         setNumber((prev) => prev + 1);
         setBalance(1);
         setIsCrashed(true);
-        // Устанавливаем цвет градиента сразу после обновления isCrashed
-        // const canvas = document.getElementById("game") as HTMLCanvasElement;
-        // const ctx = canvas!.getContext("2d");
-        // const gradient = ctx!.createLinearGradient(canvas.width, 0, 0, 0);
-        // gradient.addColorStop(0, hex);
-        // gradient.addColorStop(1, hex);
-        // ctx!.fillStyle = gradient;
-        // ctx!.strokeStyle = gradient;
       }}
       className={s.graph_game_container}
     >
