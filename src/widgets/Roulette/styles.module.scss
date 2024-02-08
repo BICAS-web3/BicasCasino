@@ -130,22 +130,22 @@
 .bet_font {
   color: #e4e4e4;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 600;
   line-height: 25px;
   letter-spacing: 0.72px;
 
   @media screen and (max-width: 1620px) {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 
   @media screen and (max-width: 800px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 9px;
+    font-size: 0.5625rem;
   }
 }
 

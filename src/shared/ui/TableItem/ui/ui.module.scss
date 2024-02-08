@@ -82,19 +82,19 @@
 .player_name,
 .item {
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #eaeaea;
   font-weight: 700;
   line-height: 120%;
   letter-spacing: 0.56px;
   @media (max-width: 650px) {
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 500;
   }
   &_wager,
   &_multiplier {
     font-family: var(--font-source-sans-3);
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #eaeaea;
     line-height: 120%;
     letter-spacing: 0.56px;
@@ -105,7 +105,7 @@
 .time {
   @media (max-width: 650px) {
     color: var(--gray-57-e-night, #7e7e7e);
-    font-size: 8px;
+    font-size: 0.5rem;
   }
 }
 
@@ -117,21 +117,21 @@
 
 .profit {
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   line-height: 120%;
   letter-spacing: 0.56px;
   color: var(--Live-bets-win, #29f061);
   text-overflow: ellipsis;
   @media screen and (max-width: 375px) {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
 }
 
 .address {
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 120%;
   letter-spacing: 0.56px;

@@ -20,19 +20,19 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 28px;
+  font-size: 1.75rem;
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
   letter-spacing: 0.56px;
 
   @media screen and (max-width: 700px) {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 30px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 26px;
     margin-bottom: 16px;
   }
@@ -111,7 +111,7 @@
   color: #7e7e7e;
   text-align: center;
   font-family: var(--font-source-sans-3);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 600;
   line-height: 21.6px;
@@ -128,7 +128,7 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
@@ -136,12 +136,12 @@
   margin-top: 30px;
 
   @media screen and (max-width: 700px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 15px;
   }
 }
@@ -179,7 +179,7 @@
   height: 50px;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -197,7 +197,7 @@
   z-index: 10;
   color: #ffe09d;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -240,7 +240,7 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
@@ -251,7 +251,7 @@
 
   @media screen and (max-width: 650px) {
     margin: 20px 16px 0 16px;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
   }
 }
@@ -266,7 +266,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
@@ -289,7 +289,7 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
@@ -319,7 +319,7 @@
   align-items: center;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -344,7 +344,7 @@
   gap: 14px;
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;

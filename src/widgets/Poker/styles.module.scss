@@ -223,7 +223,7 @@
     #121212;
   color: #0f0f0f;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -239,7 +239,7 @@
     width: 180px;
     height: 40px;
     padding: 8px 6px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     border-radius: 5px;
   }
 }
@@ -253,7 +253,7 @@
   text-align: center;
   text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.3);
   font-family: var(--font-nunito-sans);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 900;
   line-height: 90%;
@@ -269,18 +269,18 @@
   color: transparent;
 
   @media (max-width: 1200px) {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   @media (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }
 
 .win_message {
   text-shadow: 0px 0px 11px rgba(249, 131, 44, 0.3);
   font-family: var(--font-nunito-sans);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 900;
   line-height: 90%;
@@ -296,11 +296,11 @@
   color: transparent;
 
   @media (max-width: 1200px) {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   @media (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }
 
@@ -323,17 +323,17 @@
   color: var(--white-1-ea-night, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 900;
   line-height: 90%; /* 18px */
 
   @media (max-width: 1200px) {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   @media (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -341,14 +341,14 @@
   color: var(--gray-57-e-night, #7e7e7e);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 90%; /* 14.4px */
   margin-top: 14px;
 
   @media (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     margin-top: 10px;
   }
 }
@@ -372,16 +372,16 @@
   flex-direction: column;
   gap: 5px;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.56px;
   @media (max-width: 1200px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   @media (max-width: 650px) {
-    font-size: 10px;
+    font-size: 0.625rem;
     letter-spacing: 0.4px;
     gap: 0px;
   }
@@ -430,7 +430,7 @@
   color: var(--white-1-ea-night, #eaeaea);
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%; /* 23.069px */
@@ -454,14 +454,14 @@
     max-height: 24px;
     width: 48px;
     height: 24px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%; /* 17.942px */
     letter-spacing: 0.56px;
   }
   @media (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     letter-spacing: 0.48px;
   }
 }

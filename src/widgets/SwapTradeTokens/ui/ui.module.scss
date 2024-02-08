@@ -34,27 +34,27 @@
 
     .title {
       font-family: var(--font-source-sans-3);
-      font-size: 30px;
+      font-size: 1.875rem;
       font-weight: 600;
       line-height: 43px;
       letter-spacing: 0.04em;
       text-align: left;
       color: #eaeaea;
       @media (320px <=width <= 700px) {
-        font-size: 16px;
+        font-size: 1rem;
       }
     }
 
     .description {
       font-family: var(--font-source-sans-3);
-      font-size: 18px;
+      font-size: 1.125rem;
       font-weight: 500;
       line-height: 26px;
       letter-spacing: 0.04em;
       text-align: left;
       color: #7e7e7e;
       @media (320px <=width <= 700px) {
-        font-size: 10px;
+        font-size: 0.625rem;
       }
     }
   }

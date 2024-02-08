@@ -22,7 +22,7 @@
 .faq_title {
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -30,12 +30,12 @@
   margin-bottom: 35px;
 
   @media screen and (max-width: 700px) {
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 40px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 28px;
     margin-bottom: 20px;
     padding: 0 16px;
@@ -78,7 +78,7 @@
   align-items: center;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -102,7 +102,7 @@
     align-items: center;
     color: #eaeaea;
     font-family: var(--font-nunito-sans);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -168,13 +168,13 @@
 .accordeon_title {
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;
   line-height: 25px;
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19px;
   }
 }
@@ -195,7 +195,7 @@
   padding-top: 10px;
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 19px;

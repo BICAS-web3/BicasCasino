@@ -37,7 +37,7 @@
   justify-content: center;
   align-items: center;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -55,7 +55,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     width: 140px;
     height: 40px;
     max-height: 40px;

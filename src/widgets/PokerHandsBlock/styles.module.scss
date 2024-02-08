@@ -113,7 +113,7 @@
 .poker_hands_titles_list_item {
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -128,7 +128,7 @@
   }
   @media screen and (max-width: 650px) {
     text-align: start;
-    font-size: 10px;
+    font-size: 0.625rem;
   }
 }
 
@@ -141,7 +141,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 130%;
@@ -156,7 +156,7 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
@@ -168,7 +168,7 @@
 .poker_hand_description {
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 300;
   line-height: 130%;
