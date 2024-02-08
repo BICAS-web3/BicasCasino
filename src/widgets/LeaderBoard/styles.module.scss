@@ -9,7 +9,7 @@
   font-family: var(--font-source-sans-3);
   color: #e5c787;
   text-align: center;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.96px;
   margin-bottom: 20px;
@@ -70,7 +70,7 @@
 .leader_board_list_item_rank {
   font-family: var(--font-source-sans-3);
   color: #eaeaea;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 900;
   line-height: 120%;
   letter-spacing: 0.64px;
@@ -91,7 +91,7 @@
   // .leader_board_list_item_player_icon_title {
   //   font-family: var(--font-nunito-sans);
   //   color: #fff;
-  //   font-size: 14px;
+  //   font-size: 0.875rem;
   //   font-weight: 700;
   // }
 }
@@ -99,7 +99,7 @@
 .leader_board_list_item_address {
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
@@ -109,7 +109,7 @@
 .leader_board_list_item_volume {
   font-family: var(--font-source-sans-3);
   color: #eaeaea;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
@@ -119,7 +119,7 @@
 .leader_board_list_item_player_title {
   font-family: var(--font-source-sans-3);
   color: #eaeaea;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
@@ -129,7 +129,7 @@
 .leader_board_list_titles_item {
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -165,7 +165,7 @@
   background: #202020;
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-style: normal;
   font-weight: 600;
   line-height: 120%;
@@ -348,15 +348,15 @@
 
   .leader_board_list_item_address,
   .leader_board_list_item_player_title {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
 
   .leader_board_list_item_rank {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 
   .leader_board_list_titles_item {
-    font-size: 8px;
+    font-size: 0.5rem;
   }
 
   .leader_board_list_item_player_icon {
@@ -380,7 +380,7 @@
 
 @media (max-width: 650px) {
   .leader_board_title {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.64px;
     margin-bottom: 12px;
@@ -391,7 +391,7 @@
   }
 
   .leader_board_list_item_volume {
-    font-size: 10px;
+    font-size: 0.625rem;
     letter-spacing: 0.4px;
   }
   .leader_board_list_item {
@@ -411,7 +411,7 @@
 
 .no_data {
   font-family: var(--font-source-sans-3);
-  font-size: 40px;
+  font-size: 2.5rem;
   margin: auto;
   color: white;
   display: block;

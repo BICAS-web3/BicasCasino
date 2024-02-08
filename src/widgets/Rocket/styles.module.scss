@@ -327,7 +327,7 @@
   color: var(--white-1-ea-night, #eaeaea);
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -349,14 +349,14 @@
     max-height: 24px;
     width: 48px;
     height: 24px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%;
     letter-spacing: 0.56px;
   }
   @media (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     letter-spacing: 0.48px;
   }
 }
@@ -378,16 +378,16 @@
   flex-direction: column;
   gap: 5px;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.56px;
   @media (max-width: 1200px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   @media (max-width: 650px) {
-    font-size: 10px;
+    font-size: 0.625rem;
     letter-spacing: 0.4px;
     gap: 0px;
     bottom: 75px;
@@ -441,7 +441,7 @@
   color: var(--white-1-ea-night, #eaeaea);
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%; /* 23.069px */
@@ -464,14 +464,14 @@
     max-height: 24px;
     width: 48px;
     height: 24px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: normal;
     font-weight: 800;
     line-height: 128.16%; /* 17.942px */
     letter-spacing: 0.56px;
   }
   @media (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     letter-spacing: 0.48px;
   }
 }
@@ -493,17 +493,17 @@
   flex-direction: column;
   gap: 5px;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.56px;
   @media (max-width: 1200px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   @media (max-width: 650px) {
     bottom: 75px;
-    font-size: 10px;
+    font-size: 0.625rem;
     letter-spacing: 0.4px;
     gap: 0px;
   }
@@ -543,7 +543,7 @@
   gap: 10px;
   margin-bottom: 12px;
   @media (min-width: 1280px) {
-    font-size: 16px;
+    font-size: 1rem;
   }
   @media (min-width: 700px) {
     margin-bottom: 15px;
@@ -552,7 +552,7 @@
     color: #eaeaea;
     text-align: center;
     font-family: var(--font-nunito-sans);
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 900;
     line-height: 150.8%;
     /* 21.112px */
@@ -637,7 +637,7 @@
   span {
     text-align: right;
     font-family: var(--font-source-sans-3);
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.72px;
@@ -707,7 +707,7 @@
 .dice_under_title {
   color: var(--gray-57-e, #7e7e7e);
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: normal;
   letter-spacing: 0.56px;
@@ -717,7 +717,7 @@
   color: var(--white-1-ea, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.56px;
@@ -833,13 +833,13 @@
   left: 50%;
   transform: translateX(-50%);
   top: 115px;
-  font-size: 70px;
+  font-size: 4.375rem;
   color: white;
   z-index: 5;
   font-family: var(--font-nunito-sans);
   @media (max-width: 650px) {
     top: 75px;
-    font-size: 45px;
+    font-size: 2.8125rem;
   }
 }
 

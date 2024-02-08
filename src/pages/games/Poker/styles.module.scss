@@ -44,7 +44,7 @@
   align-items: center;
   color: #0f0f0f;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -59,7 +59,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     display: none;
   }
 

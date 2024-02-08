@@ -1,33 +1,29 @@
 .bet_status {
-    position: absolute;
-    width: 100px;
-    height: 40px;
-    font-family: var(--font-neue-machina);
-    font-weight: 900;
-    font-size: 20px;
-    z-index: 10000;
-    top: 5vh;
-    justify-self: center;
-    display: none;
-    color: white;
-    border-radius: 5px;
-    border: 2px solid #C69E55;
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  font-family: var(--font-neue-machina);
+  font-weight: 900;
+  font-size: 1.25rem;
+  z-index: 10000;
+  top: 5vh;
+  justify-self: center;
+  display: none;
+  color: white;
+  border-radius: 5px;
+  border: 2px solid #c69e55;
 }
-
-
 
 .bet_won {
-    background: #74cf37;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: #74cf37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-
 .bet_lost {
-    background: #ff2d2d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: #ff2d2d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
