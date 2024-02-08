@@ -26,7 +26,7 @@
   justify-content: center;
   align-items: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
@@ -36,7 +36,7 @@
   cursor: pointer;
   text-transform: uppercase;
   @media (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     border-radius: 5px;
   }
 }

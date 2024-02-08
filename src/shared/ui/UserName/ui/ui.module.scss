@@ -1,6 +1,6 @@
 .user_name {
   font-family: var(--font-nunito-sans);
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   line-height: 39px;
   letter-spacing: 0.04em;
@@ -27,17 +27,17 @@
       background-color: transparent;
       color: var(--White-1, #eaeaea);
       font-family: var(--font-nunito-sans);
-      font-size: 28px;
+      font-size: 1.75rem;
       font-style: normal;
       font-weight: 700;
       line-height: 140%; /* 39.2px */
       letter-spacing: 1.12px;
       @media screen and (max-width: 768px) {
         width: 130px;
-        font-size: 18px;
+        font-size: 1.125rem;
       }
       @media screen and (max-width: 650px) {
-        font-size: 16px;
+        font-size: 1rem;
       }
     }
 
@@ -46,7 +46,7 @@
       top: 50%;
       right: -1px;
       // transform: translateY(-50%);
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: 900;
       font-family: var(--font-nunito-sans);
       color: #7e7e7e;
@@ -58,17 +58,17 @@
       @media screen and (max-width: 768px) {
         padding: 6px;
         border-radius: 5px;
-        font-size: 12px;
+        font-size: 0.75rem;
       }
       @media screen and (max-width: 425px) {
         padding: 5px;
         border-radius: 5px;
-        font-size: 8px;
+        font-size: 0.5rem;
       }
       @media screen and (max-width: 375px) {
         padding: 3px;
         border-radius: 5px;
-        font-size: 9px;
+        font-size: 0.5625rem;
       }
     }
     .ok_button:hover {
@@ -77,11 +77,11 @@
   }
 
   .name_span {
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: 700;
     font-family: var(--font-nunito-sans);
     @media screen and (max-width: 425px) {
-      font-size: 16px;
+      font-size: 1rem;
     }
   }
 }

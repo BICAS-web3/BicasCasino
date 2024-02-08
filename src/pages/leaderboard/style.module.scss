@@ -82,7 +82,7 @@
 .banner_info .header {
   font-family: var(--font-nunito-sans);
   font-weight: 700;
-  font-size: 50px;
+  font-size: 3.125rem;
   line-height: 60px;
   color: #eaeaea;
 }
@@ -96,7 +96,7 @@
 
 .connect_wallet_container .text {
   font-family: var(--font-source-sans-3);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 0.04em;
@@ -109,7 +109,7 @@
   justify-content: center;
   align-items: center;
   font-family: var(--font-source-sans-3);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 22px;
   letter-spacing: 0.04em;
@@ -200,7 +200,7 @@
   column-gap: 12px;
   font-family: var(--font-nunito-sans);
   font-weight: 800;
-  font-size: 30px;
+  font-size: 1.875rem;
   line-height: 40.92px;
   letter-spacing: 6%;
 }
@@ -211,7 +211,7 @@
 .game_description {
   font-family: var(--font-source-sans-3);
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 28px;
   letter-spacing: 4%;
   opacity: 75%;
@@ -223,7 +223,7 @@
 @media only screen and (max-width: 1280px) {
   // .sidebar_closed
   .banner_info .header {
-    font-size: 35px;
+    font-size: 2.1875rem;
     line-height: 42px;
   }
 
@@ -274,12 +274,12 @@
   }
 
   .game_name {
-    font-size: 25px;
+    font-size: 1.5625rem;
     line-height: 34.1px;
   }
 
   .game_description {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 23px;
   }
 }
@@ -335,13 +335,13 @@
     width: 126px;
     height: 34px;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 14.4px;
     font-weight: 800;
   }
 
   .connect_wallet_container .text {
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 12px;
   }
 
@@ -350,7 +350,7 @@
   }
 
   .banner_info .header {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 24px;
   }
 
@@ -370,7 +370,7 @@
   }
 
   .game_name {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19.1px;
   }
 
@@ -380,7 +380,7 @@
   }
 
   .game_description {
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 14px;
   }
 

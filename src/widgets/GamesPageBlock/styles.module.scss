@@ -14,7 +14,7 @@
 .games_block_title {
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 800;
   line-height: 15px;
@@ -23,7 +23,7 @@
   text-transform: uppercase;
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -76,7 +76,7 @@
   z-index: 10;
   color: #e9e9f5;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 800;
   line-height: 40px;
@@ -84,11 +84,11 @@
   text-transform: uppercase;
 
   @media screen and (max-width: 700px) {
-    font-size: 25px;
+    font-size: 1.5625rem;
     line-height: 30px;
   }
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 20px;
   }
 }

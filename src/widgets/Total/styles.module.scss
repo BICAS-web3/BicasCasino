@@ -52,7 +52,7 @@
   color: var(--White-1, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -65,7 +65,7 @@
 .statistic {
   color: #e5c787;
   font-family: var(--font-nunito-sans);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -100,7 +100,7 @@
       position: absolute;
     }
     .statistic {
-      font-size: 25px;
+      font-size: 1.5625rem;
       font-weight: 800;
       line-height: 120%;
       letter-spacing: 1px;
@@ -110,7 +110,7 @@
       justify-content: center;
     }
     .description {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 120%;
       letter-spacing: 0.56%;
       bottom: 14px;
@@ -129,7 +129,7 @@
     bottom: 37px;
   }
   // .statistic {
-  //   font-size: 40px;
+  //   font-size: 2.5rem;;
   //   font-style: normal;
   //   font-weight: 800;
   //   line-height: 128.16%;
@@ -158,7 +158,7 @@
       filter: blur(3.9vw);
     }
     .statistic {
-      font-size: 25px;
+      font-size: 1.5625rem;
       font-weight: 800;
       line-height: 120%;
       letter-spacing: 1px;
@@ -168,7 +168,7 @@
       justify-content: center;
     }
     .description {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 120%;
       letter-spacing: 0.56%;
       bottom: 14px;
@@ -201,7 +201,7 @@
       position: absolute;
     }
     .statistic {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 800;
       line-height: 120%;
       letter-spacing: 0.8px;
@@ -211,7 +211,7 @@
       justify-content: center;
     }
     .description {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 120%;
       letter-spacing: 0.48px;
       bottom: 20px;
@@ -261,7 +261,7 @@
       position: absolute;
     }
     .statistic {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 800;
       line-height: 120%;
       letter-spacing: 0.8px;
@@ -271,7 +271,7 @@
       justify-content: center;
     }
     .description {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 120%;
       letter-spacing: 0.48px;
       bottom: 6px;

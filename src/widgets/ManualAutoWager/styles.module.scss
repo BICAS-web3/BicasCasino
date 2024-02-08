@@ -1,33 +1,33 @@
 .manual_auto_block {
-    margin-bottom: 12px;
-    width: 100%;
-    display: flex;
-    border-radius: 12px;
-    background: #202020;
+  margin-bottom: 12px;
+  width: 100%;
+  display: flex;
+  border-radius: 12px;
+  background: #202020;
 }
 .manual_auto_block_item {
-    width: 100%;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    padding: 0 10px;
-    color: #7E7E7E;
-    font-family: var(--font-nunito-sans);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    letter-spacing: 0.56px;
-    text-transform: uppercase;
-    border-radius: 12px;
+  width: 100%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 10px;
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  text-transform: uppercase;
+  border-radius: 12px;
 }
 
 .manual_auto_block_item.active {
-    color: #EAEAEA;
-    background: #2E2E2E;
+  color: #eaeaea;
+  background: #2e2e2e;
 }
