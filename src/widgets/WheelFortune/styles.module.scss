@@ -845,11 +845,11 @@ $angle_30: 12;
 $angle_40: 9;
 $angle_50: 7.2;
 
-$step_10: -107;
-$step_20: -99;
-$step_30: -96;
-$step_40: -94;
-$step_50: -93;
+$step_10: -107 - 36;
+$step_20: -99 - 18;
+$step_30: -96 - 12;
+$step_40: -94 - 9;
+$step_50: -93 - 7.2;
 
 $_10_steps: 10;
 $_20_steps: 20;
@@ -859,7 +859,7 @@ $_50_steps: 50;
 
 .wheel_wrapp {
   &_10 {
-    transform: rotate(#{$step_10}deg);
+    transform: rotate(#{$step_10}deg); //
   }
   &_20 {
     transform: rotate(#{$step_20}deg);
