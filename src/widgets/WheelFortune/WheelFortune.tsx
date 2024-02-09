@@ -1559,38 +1559,85 @@ const WheelComponent = ({
     colors: IWheelColors[]
   ) => {
     const ctx = canvasContext;
-    ctx.save();
-    const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    const innerRadius = size;
-    const outerRadius = size;
-    ctx.beginPath();
-    const startX = centerX + innerRadius * Math.cos(lastAngle);
-    const startY = centerY + innerRadius * Math.sin(lastAngle);
-    ctx.moveTo(startX, startY);
-    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-    if (isMobile || count < 50) {
-      const endX = centerX + outerRadius * Math.cos(angle);
-      const endY = centerY + outerRadius * Math.sin(angle);
-      ctx.lineTo(endX, endY);
-    }
-    ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
-    ctx.closePath();
-    ctx.lineJoin = "bevel";
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    ctx.strokeStyle = colors[key + 1]?.border || "red";
-    ctx.stroke();
-    ctx.restore();
+    // ctx.save();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+    // const innerRadius = size;
+    // const outerRadius = size;
+    // ctx.beginPath();
+    // const startX = centerX + innerRadius * Math.cos(lastAngle);
+    // const startY = centerY + innerRadius * Math.sin(lastAngle);
+    // ctx.moveTo(startX, startY);
+    // ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    // if (isMobile || count < 50) {
+    //   const endX = centerX + outerRadius * Math.cos(angle);
+    //   const endY = centerY + outerRadius * Math.sin(angle);
+    //   ctx.lineTo(endX, endY);
+    // }
+    // ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
+    // ctx.closePath();
+    // ctx.lineJoin = "bevel";
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+    // ctx.strokeStyle = colors[key + 1]?.border || "red";
+    // ctx.stroke();
+    // ctx.restore();
 
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, size - borderWidth / 2, lastAngle, angle, false);
-    ctx.lineTo(centerX, centerY);
-    ctx.closePath();
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    ctx.restore();
+    // ctx.save();
+    // ctx.beginPath();
+    // ctx.arc(centerX, centerY, size - borderWidth / 2, lastAngle, angle, false);
+    // ctx.lineTo(centerX, centerY);
+    // ctx.closePath();
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.restore();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+
+    function toRad(deg: number): number {
+      return deg * (Math.PI / 180.0);
+    }
+    const width = (document.getElementById("canvas") as HTMLCanvasElement)
+      .width;
+    const height = (document.getElementById("canvas") as HTMLCanvasElement)
+      .height;
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = width / 2 - (isMobile ? 14 : 5);
+    ctx!.beginPath();
+    ctx!.arc(centerX, centerY, radius, toRad(0), toRad(360));
+    ctx!.lineTo(centerX, centerY);
+    ctx!.fill();
+    let currentDeg = 0;
+    let step = 360 / count;
+    let startDeg = currentDeg;
+    for (let i = 0; i < count; i++, startDeg += step) {
+      let endDeg = startDeg + step;
+
+      let color = colors[i].segment;
+      let colorStyle = color;
+
+      ctx!.beginPath();
+      // Рисуем сегмент без обводки
+      ctx!.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg));
+      ctx!.lineTo(centerX, centerY);
+      let colorStyle2 = colors[i].border;
+      ctx!.fillStyle = colorStyle2;
+      ctx!.fill();
+      ctx!.beginPath();
+      // Рисуем сегмент с обводкой
+      ctx!.arc(
+        centerX,
+        centerY,
+        radius - (isMobile ? 12 : isDesktop ? 16 : 18),
+        toRad(startDeg - (isMobile ? 0.4 : 0.25)),
+        toRad(endDeg)
+      );
+      ctx!.fillStyle = colorStyle;
+      ctx!.lineTo(centerX, centerY);
+      ctx!.fill();
+    }
+    // ctx.restore();
   };
 
   const drawWheel = (colors: IWheelColors[]) => {
