@@ -21,6 +21,7 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import { RefundButton } from "@/shared/ui/Refund";
 import { BlackJackGame } from "@/widgets/BlackJackGame/BlackJackGame";
+import { BjPicker } from "@/widgets/BjPicker/BjPicker";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -68,6 +69,8 @@ const WagerContent = () => {
 
   return (
     <>
+      <WagerInputsBlock bjVariants={true} />
+      <BjPicker />
       <button
         className={clsx(
           s.connect_wallet_btn,

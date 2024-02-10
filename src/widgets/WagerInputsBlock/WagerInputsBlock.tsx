@@ -40,11 +40,27 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 //   },
 // ];
 
+const bjVariantsList = [
+  {
+    title: "Min",
+  },
+  {
+    title: "/2",
+  },
+  {
+    title: "x2",
+  },
+  {
+    title: "Max",
+  },
+];
+
 interface WagerInputsBlockProps {
   wagerVariants?: number[];
+  bjVariants?: boolean;
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
   const [
     availableTokens,
     cryptoValue,
@@ -139,7 +155,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     watch:
       isConnected &&
       pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
+        "0x0000000000000000000000000000000000000000",
   });
 
   useEffect(() => {
@@ -162,7 +178,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
     address: address,
     token:
       pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
+      "0x0000000000000000000000000000000000000000"
         ? undefined
         : (pickedToken?.contract_address as `0x${string}`),
     watch: isConnected,
@@ -213,16 +229,13 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
         !currentBalance ||
         currentBalance == 0 ||
         cryptoValue * betsAmount > currentBalance
-
       ) {
         setIsLowBalance(true);
-        setIsFeeTooLarge(false)
-      }
-      else if (ethBalance?.value < betValue) {
+        setIsFeeTooLarge(false);
+      } else if (ethBalance?.value < betValue) {
         setIsFeeTooLarge(true);
         setIsLowBalance(false);
-      }
-      else {
+      } else {
         setIsLowBalance(false);
         setIsFeeTooLarge(false);
       }
@@ -275,7 +288,9 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
       {isFeeTooLarge && (
         <ErrorCheck
           Wager={Wagered}
-          text={`There is not enough balance in the wallet to pay for the transaction fee, expected value ${Number(betValue / BigInt(10000000000)) / 100000000}`}
+          text={`There is not enough balance in the wallet to pay for the transaction fee, expected value ${
+            Number(betValue / BigInt(10000000000)) / 100000000
+          }`}
           btnTitle="Top up balance"
         />
       )}
@@ -314,9 +329,10 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
             {pickedToken && (
               <>
                 <div
-                  className={`${s.pick_token_group} ${(isOpen && s.opened_list,
+                  className={`${s.pick_token_group} ${
+                    (isOpen && s.opened_list,
                     isOpen && s.poker_wager_tokens_list_item_selected)
-                    }`}
+                  }`}
                   onClick={toggle}
                 >
                   <Image
@@ -358,7 +374,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
                           className={clsx(
                             s.poker_wager_tokens_list_item,
                             pickedToken.name === token.name &&
-                            s.poker_wager_tokens_list_item_active
+                              s.poker_wager_tokens_list_item_active
                           )}
                           onClick={() => handleChangeToken(token)}
                         >
@@ -411,24 +427,54 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ }) => {
           </div>
         </div>
         <div className={s.poker_wager_increase_block}>
-          {[5, 7.5, 10, 12.5, 15].map((cNumber) => (
-            <div
-              key={cNumber}
-              className={s.poker_wager_halve_block}
-              onClick={() => {
-                const currency = Number((cNumber * exchangeRate).toFixed(7));
-                setCurrencyInputValue(currency.toString());
-                setCryptoValue(cNumber);
-                setCryptoInputValue(Number(cNumber.toFixed(7)).toString());
-                const newCurrencyValue = cNumber * exchangeRate;
-                setCurrencyInputValue(
-                  Number(newCurrencyValue.toFixed(7)).toString()
-                );
-              }}
-            >
-              <span className={s.poker_wager_halve_title}>{cNumber}</span>
-            </div>
-          ))}
+          {!bjVariants
+            ? [5, 7.5, 10, 12.5, 15].map((cNumber) => (
+                <div
+                  key={cNumber}
+                  className={s.poker_wager_halve_block}
+                  onClick={() => {
+                    const currency = Number(
+                      (cNumber * exchangeRate).toFixed(7)
+                    );
+                    setCurrencyInputValue(currency.toString());
+                    setCryptoValue(cNumber);
+                    setCryptoInputValue(Number(cNumber.toFixed(7)).toString());
+                    const newCurrencyValue = cNumber * exchangeRate;
+                    setCurrencyInputValue(
+                      Number(newCurrencyValue.toFixed(7)).toString()
+                    );
+                  }}
+                >
+                  <span className={s.poker_wager_halve_title}>{cNumber}</span>
+                </div>
+              ))
+            : bjVariantsList.map((item, ind) => (
+                <div
+                  className={s.poker_wager_halve_block}
+                  key={ind}
+                  onClick={() => {
+                    const minVal = 1;
+                    const maxVal = 100;
+                    if (item.title === "Min") {
+                      setCryptoInputValue(minVal.toString());
+                    } else if (item.title === "Max") {
+                      setCryptoInputValue(maxVal.toString());
+                    } else if (cryptoInputValue.length && item.title === "/2") {
+                      setCryptoInputValue(
+                        (Number(cryptoInputValue) / 2).toString()
+                      );
+                    } else if (cryptoInputValue.length && item.title === "x2") {
+                      setCryptoInputValue(
+                        (Number(cryptoInputValue) * 2).toString()
+                      );
+                    }
+                  }}
+                >
+                  <span className={s.poker_wager_halve_title}>
+                    {item.title}
+                  </span>
+                </div>
+              ))}
         </div>
       </div>
     </>

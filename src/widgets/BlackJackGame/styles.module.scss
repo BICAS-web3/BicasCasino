@@ -15,4 +15,228 @@
   object-fit: cover;
   width: 100%;
   height: 100%;
+  border-radius: 20px 0 0 0;
+
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0;
+  }
+
+  @media screen and (max-width: 650px) {
+    border-radius: 0;
+  }
 }
+
+.bj_body {
+  width: calc(100% - 40px);
+  height: calc(100% - 140px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 70px 20px;
+}
+
+.deck {
+  position: absolute;
+  top: 50px;
+  left: 68%;
+
+  @media screen and (max-width: 1280px) {
+    left: 82%;
+  }
+
+  @media screen and (max-width: 1180px) {
+    left: 78%;
+  }
+
+  @media screen and (max-width: 996px) {
+    top: 30px;
+  }
+
+  @media screen and (max-width: 650px) {
+    top: 20px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.current_cards {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 17;
+}
+
+.card {
+  transform: translateX(0%);
+  left: 68%;
+  position: absolute;
+  width: 114px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s;
+  top: 50px;
+
+  @media screen and (max-width: 1280px) {
+    left: 82%;
+  }
+
+  @media screen and (max-width: 1180px) {
+    left: 78%;
+  }
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 66.5px;
+    top: 30px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 56.5px;
+    top: 20px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.card_front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+  position: absolute;
+  width: 113px;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+  height: 160px;
+  transform: rotateY(0deg);
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 65.5px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 55.5px;
+  }
+}
+
+.card.flipped {
+  opacity: 0;
+  visibility: hidden;
+  .card_front {
+    transform: rotateY(180deg);
+  }
+
+  .card_back {
+    transform: rotateY(0deg);
+  }
+}
+
+.card_back {
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.simulated_cards {
+  position: relative;
+}
+
+.simulated_cards_item {
+  position: absolute;
+  width: 114px;
+  height: 160px;
+  top: 0;
+  left: 0;
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 66.5px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 56.5px;
+  }
+
+  &:nth-child(1) {
+    z-index: 13;
+  }
+
+  &:nth-child(2) {
+    margin: 3px 0 0 3px;
+    z-index: 12;
+  }
+
+  &:nth-child(3) {
+    margin: 6px 0 0 6px;
+    z-index: 11;
+  }
+
+  &:nth-child(4) {
+    margin: 9px 0 0 9px;
+    z-index: 10;
+  }
+
+  &:nth-child(5) {
+    margin: 12px 0 0 12px;
+    z-index: 9;
+  }
+
+  &:nth-child(6) {
+    margin: 15px 0 0 15px;
+    z-index: 8;
+  }
+
+  &:nth-child(7) {
+    margin: 18px 0 0 18px;
+    z-index: 7;
+  }
+}
+
+.active_cards_wrap {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+// .cardToHost {
+//   animation: cardToDealer 0.4s forwards ease;
+// }
+
+// @keyframes cardToDealer {
+//   0% {
+//     transform: translateX(0%);
+//     left: 68%;
+//   }
+
+//   100% {
+//     transform: translateX(-50%);
+//     left: 50%;
+//   }
+// }
