@@ -1559,61 +1559,85 @@ const WheelComponent = ({
     colors: IWheelColors[]
   ) => {
     const ctx = canvasContext;
-    ctx.save();
+    // ctx.save();
     // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    // const innerRadius = level === "Medium" ? size + 0.0001 : size;
-    // const outerRadius = level === "Medium" ? size + 0.0001 : size;
-    const innerRadius = size;
-    const outerRadius = size;
-    ctx.beginPath();
-    // Перемещаемся к начальной точке дуги
-    const startX = centerX + innerRadius * Math.cos(lastAngle);
-    const startY = centerY + innerRadius * Math.sin(lastAngle);
+    // const innerRadius = size;
+    // const outerRadius = size;
+    // ctx.beginPath();
+    // const startX = centerX + innerRadius * Math.cos(lastAngle);
+    // const startY = centerY + innerRadius * Math.sin(lastAngle);
+    // ctx.moveTo(startX, startY);
+    // ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
     // if (isMobile || count < 50) {
-    //   if (count === 20 || (count === 10 && level === "Medium")) {
-    //     ctx.moveTo(startX, startY);
-    //   }
-    //   ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    //   const endX = centerX + outerRadius * Math.cos(angle);
+    //   const endY = centerY + outerRadius * Math.sin(angle);
+    //   ctx.lineTo(endX, endY);
     // }
-    ctx.moveTo(startX, startY);
-    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-    if (isMobile || count < 50) {
-    }
-    // Рисуем дугу до конечной точки
-    // Рисуем линию до внешней окружности
-    const endX = centerX + outerRadius * Math.cos(angle);
-    const endY = centerY + outerRadius * Math.sin(angle);
-    ctx.lineTo(endX, endY);
-    // Рисуем дугу по внешней окружности в обратном направлении
-    ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
-    // Закрываем путь
-    ctx.closePath();
-    ctx.lineJoin = "bevel";
-    // Заливаем цвет сегмента
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    // Рисуем внутреннюю обводку
-    ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15; //isMobile ? 10 : isDesktop ? 12 : 15 или любая другая толщина
-    ctx.strokeStyle = colors[key + 1]?.border || "red";
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.arc(
-      centerX,
-      centerY,
-      size - borderWidth / 2, // Уменьшаем радиус арки
-      lastAngle,
-      angle,
-      false
-    );
-    ctx.lineTo(centerX, centerY);
-    ctx.closePath();
+    // ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
+    // ctx.closePath();
+    // ctx.lineJoin = "bevel";
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+    // ctx.strokeStyle = colors[key + 1]?.border || "red";
+    // ctx.stroke();
+    // ctx.restore();
 
-    // Заливаем цвет сегмента
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    ctx.restore();
+    // ctx.save();
+    // ctx.beginPath();
+    // ctx.arc(centerX, centerY, size - borderWidth / 2, lastAngle, angle, false);
+    // ctx.lineTo(centerX, centerY);
+    // ctx.closePath();
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.restore();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+
+    function toRad(deg: number): number {
+      return deg * (Math.PI / 180.0);
+    }
+    const width = (document.getElementById("canvas") as HTMLCanvasElement)
+      .width;
+    const height = (document.getElementById("canvas") as HTMLCanvasElement)
+      .height;
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = width / 2 - (isMobile ? 14 : 5);
+    ctx!.beginPath();
+    ctx!.arc(centerX, centerY, radius, toRad(0), toRad(360));
+    ctx!.lineTo(centerX, centerY);
+    ctx!.fill();
+    let currentDeg = 0;
+    let step = 360 / count;
+    let startDeg = currentDeg;
+    for (let i = 0; i < count; i++, startDeg += step) {
+      let endDeg = startDeg + step;
+
+      let color = colors[i].segment;
+      let colorStyle = color;
+
+      ctx!.beginPath();
+      // Рисуем сегмент без обводки
+      ctx!.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg));
+      ctx!.lineTo(centerX, centerY);
+      let colorStyle2 = colors[i].border;
+      ctx!.fillStyle = colorStyle2;
+      ctx!.fill();
+      ctx!.beginPath();
+      // Рисуем сегмент с обводкой
+      ctx!.arc(
+        centerX,
+        centerY,
+        radius - (isMobile ? 12 : isDesktop ? 16 : 18),
+        toRad(startDeg - (isMobile ? 0.4 : 0.25)),
+        toRad(endDeg)
+      );
+      ctx!.fillStyle = colorStyle;
+      ctx!.lineTo(centerX, centerY);
+      ctx!.fill();
+    }
+    // ctx.restore();
   };
 
   const drawWheel = (colors: IWheelColors[]) => {

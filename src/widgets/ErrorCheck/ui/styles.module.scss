@@ -23,7 +23,7 @@
   h3 {
     color: #ff8e26;
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 900;
     line-height: normal;
@@ -31,7 +31,7 @@
     font-family: var(--font-nunito-sans);
 
     @media (max-width: 650px) {
-      font-size: 22px;
+      font-size: 1.375rem;
     }
   }
 
@@ -39,7 +39,7 @@
     color: var(--white-1-ea-night, var(--White-1, #eaeaea));
     text-align: center;
     font-family: var(--font-nunito-sans);
-    font-size: 16px;
+    font-size: 1rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -47,7 +47,7 @@
     max-width: 409px;
 
     @media (max-width: 650px) {
-      font-size: 13px;
+      font-size: 0.8125rem;
       letter-spacing: normal;
       max-width: 280px;
     }
@@ -76,7 +76,7 @@
 .btn {
   color: #0f0f0f;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -94,7 +94,7 @@
     width: 200px;
     border-radius: 12px;
     height: 40px;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 
   &:hover {

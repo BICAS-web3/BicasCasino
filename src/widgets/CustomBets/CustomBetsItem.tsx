@@ -18,8 +18,9 @@ import Link from "next/link";
 import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import { useAccount } from "wagmi";
-
+import carIcon from "@/public/media/cars/icon.jpg";
 import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
+import thimbleIcon from "@/public/media/thimbles/icon.jpg";
 export interface CustomBetsItemProps {
   trx_url: string;
   time: {
@@ -76,6 +77,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(wheelIcon);
     } else if (props.game_name === "Apples") {
       setGameImg(appleIcon);
+    } else if (props.game_name === "Cars") {
+      setGameImg(carIcon);
+    } else if (props.game_name === "Thimbles") {
+      setGameImg(thimbleIcon);
     }
   });
 

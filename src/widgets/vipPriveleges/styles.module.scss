@@ -21,7 +21,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -30,12 +30,12 @@
   margin-bottom: 10px;
 
   @media screen and (max-width: 700px) {
-    font-size: 26px;
+    font-size: 1.625rem;
     line-height: 35px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
     margin-bottom: 20px;
   }
@@ -51,7 +51,7 @@
 .benefits_title {
   color: var(--Text-H2, #e9e9f5);
   font-family: var(--font-nunito-sans);
-  font-size: 26px;
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 800;
   line-height: 35px;
@@ -60,12 +60,12 @@
   margin-bottom: 16px;
 
   @media screen and (max-width: 996px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 25px;
   }
 }
@@ -73,14 +73,14 @@
 .benefits_text {
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: 22.4px;
   letter-spacing: 0.64px;
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19.6px;
   }
 }

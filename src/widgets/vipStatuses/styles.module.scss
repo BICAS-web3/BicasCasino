@@ -12,7 +12,7 @@
 .vip_statuses_title {
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 32px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 700;
   line-height: 44px;
@@ -20,7 +20,7 @@
   text-transform: uppercase;
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
   }
 }
@@ -90,7 +90,7 @@
   color: var(--White-1, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 20.5px;
@@ -98,12 +98,12 @@
   text-transform: uppercase;
 
   @media screen and (max-width: 1125px) {
-    font-size: 26px;
+    font-size: 1.625rem;
     line-height: 31px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 19.2px;
   }
 }
@@ -113,7 +113,7 @@
   margin-top: 17px;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 800;
   line-height: 51px;
@@ -133,7 +133,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 30px;
+    font-size: 1.875rem;
     line-height: 36px;
     margin-top: 10px;
   }
@@ -149,7 +149,7 @@
 .vip_benefits_list_item_title {
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
@@ -157,7 +157,7 @@
   max-width: 315px;
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 17px;
   }
 }
@@ -202,7 +202,7 @@
   max-width: 312px;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 20.5px;
@@ -215,7 +215,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 16.8px;
   }
 }

@@ -77,15 +77,18 @@ import appleBanner from "@/public/media/apples/banner.jpg";
 
 import HorseBanner from "@/public/media/race_images/banner.jpg";
 
+import carBanner from "@/public/media/cars/banner.jpg";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
+import thimblesBanner from "@/public/media/thimbles/banner.jpg";
 
 import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
 import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
 import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
 import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
 
-import wheelFortuneBanner from "@/public/media/wheel_images/banner.jpg";
+import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.jpg";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -338,7 +341,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImageClosed={slot_bg}
         />{" "}
         <Game
-          name={"Wheel Fortune"}
+          name={"Wheel of Fortune"}
           description={""}
           link={"/games/WheelFortune"}
           tabletImage={wheelFortuneBanner}
@@ -369,6 +372,28 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={HorseBanner}
           closedSidebarImage={HorseBanner}
           pcImageClosed={HorseBanner}
+        />
+        <Game
+          name={"Cars"}
+          description={""}
+          link={"/games/Cars"}
+          pcImage={carBanner}
+          tabletImage={carBanner}
+          laptopImage={carBanner}
+          mobileImage={carBanner}
+          closedSidebarImage={carBanner}
+          pcImageClosed={carBanner}
+        />
+        <Game
+          name={"Thimbles"}
+          description={""}
+          link={"/games/Thimbles"}
+          pcImage={thimblesBanner}
+          tabletImage={thimblesBanner}
+          laptopImage={thimblesBanner}
+          mobileImage={thimblesBanner}
+          closedSidebarImage={thimblesBanner}
+          pcImageClosed={thimblesBanner}
         />
       </div>
     </div>

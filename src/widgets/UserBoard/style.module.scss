@@ -7,7 +7,7 @@
 .period_title {
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
@@ -29,7 +29,7 @@
   letter-spacing: 0.56px;
   font-weight: 600;
   color: #7e7e7e;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: var(--font-source-sans-3);
   cursor: pointer;
   background-color: transparent;
@@ -145,7 +145,7 @@
 
 .dunkin {
   color: #7e7e7e;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 138.4%;
   font-family: var(--font-nunito-sans);
@@ -172,7 +172,7 @@
   color: var(--White-1, #eaeaea);
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -183,7 +183,7 @@
 .statistic {
   color: #e5c787;
   font-family: var(--font-nunito-sans);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -209,7 +209,7 @@
     // height: 184px;
     height: 150px;
     .statistic {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -220,7 +220,7 @@
       margin-top: 10px;
     }
     .description {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 120%;
       letter-spacing: 0.56%;
     }
@@ -237,7 +237,7 @@
   }
   .period_title {
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -253,7 +253,7 @@
   }
   .total_item {
     .description {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 120%;
       letter-spacing: 0.48px;
     }
@@ -276,7 +276,7 @@
 @media (max-width: 650px) {
   .period_title {
     margin-bottom: 8px;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .total_item_overflow_container {
     padding-top: 58px;
@@ -285,7 +285,7 @@
     box-shadow: none;
   }
   .period_button {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     line-height: 120%;
     letter-spacing: 0.48px;
@@ -303,7 +303,7 @@
     // height: 136px;
     height: 126px;
     .statistic {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 800;
       line-height: 120%;
       letter-spacing: 0.8px;
@@ -315,7 +315,7 @@
       margin-top: 15px;
     }
     .description {
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 120%;
       letter-spacing: 0.48px;
     }
@@ -326,7 +326,7 @@
     }
   }
   .dunkin {
-    font-size: 12px;
+    font-size: 0.75rem;
     font-family: var(--font-nunito-sans-3);
     letter-spacing: 0.24px;
   }

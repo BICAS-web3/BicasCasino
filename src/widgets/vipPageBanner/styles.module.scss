@@ -49,7 +49,7 @@
   z-index: 5;
   color: #e9e9f5;
   font-family: var(--font-nunito-sans);
-  font-size: 40px;
+  font-size: 2.5rem;
   font-style: normal;
   font-weight: 700;
   line-height: 55px;
@@ -62,12 +62,12 @@
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 30px;
+    font-size: 1.875rem;
     line-height: 40px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
   }
 }
@@ -102,20 +102,20 @@
   display: block;
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
   line-height: 28px;
   letter-spacing: 0.8px;
 
   @media screen and (max-width: 700px) {
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 25.2px;
     max-width: 340px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19.6px;
     max-width: 340px;
   }
@@ -140,7 +140,7 @@
   color: #0f0f0f;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: 16.2px;

@@ -33,14 +33,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
   const { pathname } = useRouter();
 
-  // useEffect(() => {
-  //   if(asPath === "/RegistrManual"){
-
-  //   }
-  // }, [asPath])
-
   useEffect(() => {
-    if (window.innerWidth <= 650) close();
+    if (window.innerWidth <= 650 || props.gameName !== undefined) close();
   }, []);
 
   useEffect(() => {
@@ -62,7 +56,11 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
           )}
 
           <div
-            className={`${s.page_container} ${!isOpen && s.side_bar_closed}`}
+            className={clsx(
+              s.page_container,
+              !isOpen && s.side_bar_closed,
+              props.gameName !== undefined && s.overlayed
+            )}
           >
             <Header
               isGame={props.gameName != undefined}
@@ -75,6 +73,14 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
                 swapOpen && s.swap_open
               )}
             >
+              {props.gameName !== undefined && (
+                <div
+                  className={clsx(
+                    s.sidebar_overlay,
+                    isOpen && s.overlay_active
+                  )}
+                ></div>
+              )}
               <SideBar activePage={props.activePageLink} />
             </div>
 
