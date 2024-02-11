@@ -33,6 +33,16 @@
   position: relative;
 }
 
+.carRace_height {
+  @media screen and (max-width: 996px) {
+    height: 680px !important;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 550px !important;
+  }
+}
+
 .minHeight {
   @media screen and (max-width: 996px) {
     height: 100% !important;
@@ -346,5 +356,12 @@
   margin-bottom: 13px !important;
   @media (max-width: 650px) {
     margin-bottom: 15px !important;
+  }
+}
+
+.car_selector {
+  margin-bottom: 12px;
+  @media (max-width: 650px) {
+    margin-bottom: 8px;
   }
 }

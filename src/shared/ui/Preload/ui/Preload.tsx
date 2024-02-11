@@ -6,12 +6,13 @@ import { Blur } from "./Blur";
 
 export interface PreloadProps {
   className?: string;
+  index?: string;
 }
 
-export const Preload: FC<PreloadProps> = ({ className }) => {
+export const Preload: FC<PreloadProps> = ({ className, index }) => {
   return (
     <>
-      <Blur isOpen />
+      <Blur index={index} isOpen />
       <span className={clsx(styles.preload, className)}></span>
     </>
   );
