@@ -106,12 +106,12 @@
   font-weight: 800;
   line-height: 25px;
   @media (320px <=width <= 700px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
   @media (700px <=width <= 1280px) {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   @media (1280px <=width <= 3486px) {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 }

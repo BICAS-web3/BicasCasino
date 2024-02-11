@@ -1,7 +1,7 @@
 .support_title {
   color: #fff;
   font-family: var(--font-nunito-sans);
-  font-size: 36px;
+  font-size: 2.25rem;
   font-style: normal;
   font-weight: 700;
   line-height: 46.1px;
@@ -9,7 +9,7 @@
   margin-bottom: 20px;
 
   @media screen and (max-width: 650px) {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 30.7px;
     margin-bottom: 14px;
   }
@@ -33,7 +33,7 @@
 .support_list_item_title {
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 42px;
@@ -103,7 +103,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 22.4px;
@@ -111,7 +111,7 @@
 
   @media screen and (max-width: 650px) {
     width: 160px;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19.6px;
   }
 }

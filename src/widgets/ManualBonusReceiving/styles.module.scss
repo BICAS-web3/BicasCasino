@@ -26,7 +26,7 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 50px;
+  font-size: 3.125rem;
   font-style: normal;
   font-weight: 700;
   line-height: 68px;
@@ -35,17 +35,17 @@
   max-width: 1320px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 36px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 33px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
     margin: 0 16px;
     margin-bottom: 6px;
@@ -62,19 +62,19 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
   max-width: 1220px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 33px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
     margin: 0 16px;
   }
@@ -109,7 +109,7 @@
   align-items: center;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -124,7 +124,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     min-height: 40px;
     margin-bottom: 85px;
     border-radius: 8px;
@@ -158,7 +158,7 @@
   align-items: center;
   color: #ffe09d;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -194,7 +194,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: 40px;
@@ -204,7 +204,7 @@
 
   @media screen and (max-width: 1280px) {
     line-height: 25px;
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   @media screen and (max-width: 700px) {
@@ -214,7 +214,7 @@
   @media screen and (max-width: 650px) {
     margin: 20px 16px;
     line-height: 20px;
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 
@@ -223,7 +223,7 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 50px;
+  font-size: 3.125rem;
   font-style: normal;
   font-weight: 700;
   line-height: 63px;
@@ -233,19 +233,19 @@
 
   @media screen and (max-width: 1280px) {
     line-height: 36px;
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 
   @media screen and (max-width: 700px) {
     line-height: 32px;
-    font-size: 24px;
+    font-size: 1.5rem;
     margin-bottom: 6px;
   }
 
   @media screen and (max-width: 650px) {
     margin: 6px 16px;
     line-height: 27px;
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }
 
@@ -253,7 +253,7 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 25px;
@@ -261,12 +261,12 @@
 
   @media screen and (max-width: 1280px) {
     line-height: 22px;
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   @media screen and (max-width: 650px) {
     line-height: 15px;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
 
@@ -299,7 +299,7 @@
   color: #7e7e7e;
   text-align: center;
   font-family: var(--font-source-sans-3);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 600;
   line-height: 21.6px;
@@ -359,7 +359,7 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 50px;
+  font-size: 3.125rem;
   font-style: normal;
   font-weight: 700;
   line-height: 65px;
@@ -368,19 +368,19 @@
   margin-bottom: 20px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 38px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 32px;
     margin: 0 16px;
     margin-bottom: 20px !important;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
     margin-bottom: 16px !important;
   }
@@ -413,19 +413,19 @@
   color: #7e7e7e;
   text-align: center;
   font-family: var(--font-source-sans-3);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 600;
   line-height: 21.6px;
 
   @media screen and (max-width: 700px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 19px;
     color: #eaeaea;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 16.8px;
   }
 }
@@ -480,25 +480,25 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
   max-width: 690px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19px;
     margin: 0 16px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
   }
 }
@@ -523,24 +523,24 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: 25px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
     margin: 0 16px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 10px;
     color: #979797;
   }
@@ -569,7 +569,7 @@
   align-items: center;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -580,7 +580,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     min-height: 40px;
     border-radius: 8px;
   }
@@ -608,7 +608,7 @@
   align-items: center;
   color: #ffe09d;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -620,7 +620,7 @@
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     height: 40px;
     border-radius: 8px;
   }
@@ -642,7 +642,7 @@
   color: #fff;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: 41px;
@@ -662,18 +662,18 @@
   }
 
   @media screen and (max-width: 1280px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 27px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 16px;
+    font-size: 1rem;
     margin-bottom: 12px;
     line-height: 22px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
   }
 }
@@ -693,7 +693,7 @@
   position: absolute;
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 34px;
@@ -722,7 +722,7 @@
   color: #bebebe;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 600;
   line-height: 25px;
@@ -730,17 +730,17 @@
   margin-bottom: 12px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
     margin-bottom: 5px;
   }
@@ -768,7 +768,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-style: normal;
   font-weight: 400;
   line-height: 40px;
@@ -776,16 +776,16 @@
   margin-bottom: 6px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 19px;
   }
   @media screen and (max-width: 650px) {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
     color: #bebebe;
   }
@@ -802,7 +802,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -816,7 +816,7 @@
 
   @media screen and (max-width: 700px) {
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 22px;
   }
 
@@ -824,7 +824,7 @@
     border: 1px solid rgba(234, 234, 234, 0.04);
     background: rgba(234, 234, 234, 0.02);
     color: #7e7e7e;
-    font-size: 10px;
+    font-size: 0.625rem;
     line-height: 14px;
     height: 40px;
     box-sizing: border-box;
@@ -851,7 +851,7 @@
     color: #7e7e7e;
     text-align: center;
     font-family: var(--font-source-sans-3);
-    font-size: 10px;
+    font-size: 0.625rem;
     font-style: normal;
     font-weight: 400;
     line-height: 14px;
@@ -868,23 +868,23 @@
   color: #e5c787;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 50px;
+  font-size: 3.125rem;
   font-style: normal;
   font-weight: 600;
   line-height: 55px;
 
   @media screen and (max-width: 1280px) {
-    font-size: 28px;
+    font-size: 1.75rem;
     line-height: 33px;
   }
 
   @media screen and (max-width: 700px) {
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 25px;
   }
 
   @media screen and (max-width: 650px) {
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 21px;
   }
 }
@@ -896,7 +896,7 @@
   gap: 14px;
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
@@ -909,7 +909,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 600;
   line-height: 22px;
@@ -928,7 +928,7 @@
 
   @media screen and (max-width: 650px) {
     margin-top: 20px;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 16px;
   }
 }

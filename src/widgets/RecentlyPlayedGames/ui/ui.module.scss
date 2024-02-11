@@ -18,7 +18,7 @@
   }
   .recently_played_heading {
     font-family: var(--font-nunito-sans);
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 800;
     // line-height: 26px;
     letter-spacing: 0.04em;
@@ -28,7 +28,7 @@
     margin-left: 30px;
     margin-bottom: -2px;
     @media screen and (max-width: 650px) {
-      font-size: 14px;
+      font-size: 0.875rem;
       margin-left: 0;
     }
   }
@@ -84,34 +84,34 @@
           color: #e9e9f5;
           text-transform: uppercase;
           font-family: var(--font-nunito-sans);
-          font-size: 30px;
+          font-size: 1.875rem;
           font-weight: 800;
           line-height: 100%;
           @media screen and (max-width: 1280px) {
-            font-size: 20px;
+            font-size: 1.25rem;
           }
           @media screen and (max-width: 650px) {
-            font-size: 14px;
+            font-size: 0.875rem;
           }
         }
         .game_text {
           font-family: var(--font-source-sans-3);
-          font-size: 20px;
+          font-size: 1.25rem;
           font-weight: 400;
           text-align: left;
           color: #ffffffbf;
           margin-top: 10px;
           line-height: 100%;
           @media screen and (max-width: 1024px) {
-            font-size: 18px;
+            font-size: 1.125rem;
             white-space: break-spaces;
           }
           @media screen and (max-width: 768px) {
-            font-size: 18px;
+            font-size: 1.125rem;
             white-space: break-spaces;
           }
           @media screen and (max-width: 425px) {
-            font-size: 14px;
+            font-size: 0.875rem;
           }
         }
         @media (max-width: 650px) {

@@ -475,9 +475,17 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
 
   useEffect(() => {
     if (inGame) {
-      setStartFirst(true);
-      setStartSecond(true);
-      setStartThird(true);
+      Promise.all([
+        new Promise((resolve) =>
+          setTimeout(() => resolve(setStartFirst(true)), 0)
+        ),
+        new Promise((resolve) =>
+          setTimeout(() => resolve(setStartSecond(true)), 500)
+        ),
+        new Promise((resolve) =>
+          setTimeout(() => resolve(setStartThird(true)), 1000)
+        ),
+      ]);
       setStartFirstSquese(false);
       setStartSecondSquese(false);
       setStartThirdSquese(false);
@@ -616,7 +624,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
         />
       )}
       <div
-        // onClick={() => setTest((prev) => !prev)}
+        onClick={() => setInGame((prev) => !prev)}
         className={s.slots_table_wrap}
       >
         {isLoading && <Preload />}

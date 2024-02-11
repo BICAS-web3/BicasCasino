@@ -87,7 +87,7 @@ import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
 import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
 import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
 
-import wheelFortuneBanner from "@/public/media/wheel_images/banner.jpg";
+import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.jpg";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -340,7 +340,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImageClosed={slot_bg}
         />{" "}
         <Game
-          name={"Wheel Fortune"}
+          name={"Wheel of Fortune"}
           description={""}
           link={"/games/WheelFortune"}
           tabletImage={wheelFortuneBanner}

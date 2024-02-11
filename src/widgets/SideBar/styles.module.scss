@@ -67,7 +67,7 @@
   align-items: center;
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   white-space: nowrap;
   font-weight: 600;
@@ -159,7 +159,7 @@
   gap: 7px;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
@@ -352,7 +352,7 @@
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-nunito-sans);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 18px;
   letter-spacing: 0.04em;
@@ -381,7 +381,7 @@
   background: #121212;
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 21px;
@@ -584,7 +584,7 @@
   white-space: nowrap;
   margin-left: 25px;
   color: #7e7e7e;
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 600;
   line-height: 90%;
@@ -651,6 +651,7 @@
   flex-direction: column;
   gap: 3px;
   padding-bottom: 20px;
+  padding: 0 0 0 10px;
 }
 
 .sidebar_close_block {
@@ -670,7 +671,7 @@
   min-height: 50px;
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -723,7 +724,7 @@
 .sb_closed_language_title {
   color: var(--gray-57-e-night, #7e7e7e);
   font-family: var(--font-nunito-sans);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 600;
   line-height: 128.16%;
@@ -828,7 +829,7 @@
 .header_icon_title {
   font-family: var(--font-nunito-sans);
   // color: #eaeaea;
-  font-size: 16px;
+  font-size: 1rem;
   margin-top: 1px;
   letter-spacing: 4%;
   font-weight: 800;
@@ -841,6 +842,7 @@
   row-gap: 5px;
   display: flex;
   flex-direction: column;
+  padding: 0 0 0 10px;
 }
 
 .arrow {
@@ -883,7 +885,7 @@
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 17.94px;
   background: #121212;
   cursor: pointer;
@@ -1028,7 +1030,7 @@
 .large_header_text {
   text-decoration: none;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 800;
   line-height: 21px;
   letter-spacing: 0.04em;
@@ -1164,7 +1166,7 @@
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 17.94px;
   background: #121212;
   cursor: pointer;
@@ -1254,7 +1256,7 @@
   color: white;
   bottom: 0;
   right: 20px;
-  font-size: 9px;
+  font-size: 0.5625rem;
   transform: rotate(1deg);
 }
 
@@ -1288,7 +1290,7 @@
 .desk_hidden_language_title {
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;
@@ -1340,7 +1342,7 @@
   color: #eaeaea;
   text-align: center;
   font-family: var(--font-nunito-sans);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
@@ -1352,7 +1354,7 @@
   gap: 15px;
   color: #7e7e7e;
   font-family: var(--font-source-sans-3);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 500;
   line-height: 17px;
@@ -1421,7 +1423,7 @@
   align-items: center;
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 800;
   line-height: 128.16%;

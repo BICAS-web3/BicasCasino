@@ -94,7 +94,7 @@ const gamesList = [
     link: "/games/Slots",
   },
   {
-    title: "Wheel Fortune",
+    title: "Wheel of Fortune",
     icon: "wheelFortune",
     link: "/games/WheelFortune",
   },
@@ -559,7 +559,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               }`}
             >
               <WheelFortuneIcon />
-              Wheel Fortune
+              Wheel of Fortune
             </Link>
             <Link
               href={"/games/Apples"}

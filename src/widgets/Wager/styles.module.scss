@@ -18,7 +18,7 @@
 .poker_wager_title {
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -118,7 +118,7 @@
   font-family: var(--font-nunito-sans);
   width: 100%;
   color: #eaeaea;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
@@ -179,7 +179,7 @@
   font-family: var(--font-nunito-sans);
   color: var(--Gray-5, #7e7e7e);
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
@@ -203,7 +203,7 @@
   span {
     color: #f0b829;
     font-family: var(--font-nunito-sans);
-    font-size: 8px;
+    font-size: 0.5rem;
     font-style: normal;
     font-weight: 700;
     line-height: 10.2px;
@@ -310,7 +310,7 @@
   margin-bottom: 20px;
   font-family: var(--font-nunito-sans);
   color: #eaeaea;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-style: normal;
   font-weight: 700;
   line-height: 120%;
@@ -322,7 +322,7 @@
   max-width: 90%;
   color: #eaeaea;
   font-family: var(--font-source-sans-3);
-  font-size: 16px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 300;
   line-height: 160%;
@@ -356,7 +356,7 @@
   align-items: center;
   color: #0f0f0f;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -413,7 +413,7 @@
   margin: 0 20px;
   font-family: var(--font-nunito-sans);
   color: #eaeaea;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   letter-spacing: 0.56px;
@@ -448,7 +448,7 @@
     margin-left: 6px;
     color: var(--gray-57-e-night, #7e7e7e);
     font-family: var(--font-nunito-sans);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-style: normal;
     font-weight: 700;
     line-height: 150.8%; /* 18.096px */
@@ -459,7 +459,7 @@
 .poker_wager_tokens_list_item_title_active {
   color: var(--white-1-ea-night, #eaeaea);
   font-family: var(--font-nunito-sans);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%; /* 18.096px */
@@ -586,7 +586,7 @@
 .hand_multiplier_block_header_title {
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
@@ -609,7 +609,7 @@
 .hand_multiplier_list_item_title {
   font-family: var(--font-source-sans-3);
   color: #eaeaea;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
   line-height: 110%;
@@ -618,7 +618,7 @@
 .hand_multiplier_list_item_multiplier {
   color: #e5c787;
   font-family: var(--font-source-sans-3);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
@@ -653,7 +653,7 @@
   font-family: var(--font-nunito-sans);
   color: #7e7e7e;
   text-align: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 700;
   line-height: 150.8%;
@@ -722,13 +722,13 @@
     align-items: start;
   }
   .poker_wager_info_modal_title {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .poker_wager_info_modal_text {
-    font-size: 10px;
+    font-size: 0.625rem;
   }
   .poker_wager_drawing_cards_btn {
-    font-size: 12px;
+    font-size: 0.75rem;
     width: 100%;
   }
   .poker_wager_inputs_block,
@@ -743,7 +743,7 @@
   .poker_wager_title,
   .poker_wager_input_kripto,
   .poker_wager_input_currency {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .poker_wager_max_block {
     border-radius: 0 0 5px 0;

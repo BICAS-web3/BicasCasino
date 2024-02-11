@@ -13,7 +13,7 @@
 .popular_games_title {
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 800;
   line-height: 15px;
@@ -22,7 +22,7 @@
   text-transform: uppercase;
 
   @media screen and (max-width: 650px) {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -76,7 +76,7 @@
 .popular_games_list_item_title {
   color: #e9e9f5;
   font-family: var(--font-nunito-sans);
-  font-size: 25px;
+  font-size: 1.5625rem;
   font-style: normal;
   font-weight: 800;
   line-height: 30px;
@@ -86,7 +86,7 @@
   position: relative;
 
   @media screen and (max-width: 700px) {
-    font-size: 19px;
+    font-size: 1.1875rem;
   }
 }
 
@@ -95,7 +95,7 @@
 
 @media screen and (max-width: 700px) {
   .popular_games_list_item_title {
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 18px;
   }
 

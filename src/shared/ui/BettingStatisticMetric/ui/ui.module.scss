@@ -22,29 +22,29 @@
 
   color: var(--White-1, #eaeaea);
   font-family: var(--font-source-sans-3);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-style: normal;
   font-weight: 700;
   line-height: 115%; /* 11.5px */
   letter-spacing: 0.4px;
-  font-size: 16px;
+  font-size: 1rem;
   @media screen and (max-width: 651px) {
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
 }
 
 .metric_total {
   font-family: var(--font-nunito-sans);
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 100%;
   letter-spacing: 0em;
   text-align: right;
   color: #e5c787;
   @media screen and (max-width: 768px) {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
   @media screen and (max-width: 651px) {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
