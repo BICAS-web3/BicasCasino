@@ -24,4 +24,5 @@ export * from "./AppleBtn";
 export * from "./Wager100Icon";
 export * from "./Wager10Icon";
 export * from "./RaceIcon";
+export * from "./CardSelectIcon";
 // export * from "./Wager1Icon";

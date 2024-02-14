@@ -69,6 +69,7 @@
 }
 
 .card {
+  box-shadow: 0px 4px 11.699999809265137px 0px rgba(0, 0, 0, 0.25);
   transform: translateX(0%);
   left: 68%;
   position: absolute;
@@ -115,9 +116,12 @@
   backface-visibility: hidden;
   height: 160px;
   transform: rotateY(0deg);
-  img {
+  &_img {
     width: 100%;
-    height: 100%;
+    // height: 100%;
+    box-sizing: border-box;
+    border: 3px solid transparent;
+    border-radius: 6.6px;
   }
 
   @media screen and (max-width: 996px) {
@@ -155,6 +159,12 @@
   top: 0;
   backface-visibility: hidden;
   height: 100%;
+  &_show {
+    backface-visibility: visible;
+  }
+  &_hide {
+    backface-visibility: hidden;
+  }
 
   img {
     width: 100%;
@@ -240,3 +250,110 @@
 //     left: 50%;
 //   }
 // }
+
+// .card {
+//   &_0 {
+//     background-color: red;
+//   }
+//   &_1 {
+//     background-color: rgb(9, 255, 0);
+//   }
+//   &_2 {
+//     background-color: rgb(38, 0, 255);
+//   }
+//   &_3 {
+//     background-color: rgb(140, 0, 255);
+//   }
+//   &_4 {
+//     background-color: rgb(255, 230, 0);
+//   }
+//   &_5 {
+//     background-color: rgb(5, 5, 5);
+//   }
+//   &_6 {
+//     background-color: rgb(0, 255, 221);
+//   }
+//   &_7 {
+//     background-color: rgb(103, 87, 161);
+//   }
+//   &_8 {
+//     background-color: rgb(230, 170, 170);
+//   }
+//   &_9 {
+//     background-color: rgb(255, 102, 0);
+//   }
+// }
+
+.card_value {
+  transition: all 0.5s;
+  position: absolute;
+  border: 1px solid rgba(130, 130, 130, 1);
+  // background: linear-gradient(0deg, #063739, #063739),
+  //   linear-gradient(0deg, #828282, #828282);
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  width: 44px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  color: rgba(255, 255, 255, 1);
+  transition: all 0.5s 0.5s;
+}
+
+.active_step {
+  border: 3px solid rgba(0, 142, 255, 1);
+}
+
+.card_win {
+  border: 3px solid rgba(62, 207, 142, 1);
+}
+
+.card_lose {
+  border: 3px solid rgba(224, 71, 73, 1);
+}
+
+.card_count_win {
+  border: 1px solid rgba(62, 207, 142, 1);
+}
+
+.card_count_lose {
+  border: 1px solid rgba(224, 71, 73, 1);
+}
+
+.lose_notification {
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+  border: 2px solid rgba(224, 71, 73, 1);
+  width: 77px;
+  height: 29px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transition: all 0.5s;
+  transform: translateX(-50%) scaleY(0);
+  bottom: 245px;
+  opacity: 0;
+}
+
+.lose_notification_show {
+  transform: translateX(-50%) scaleY(1);
+  opacity: 1;
+}
