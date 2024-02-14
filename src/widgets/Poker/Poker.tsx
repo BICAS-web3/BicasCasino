@@ -5,16 +5,16 @@ import tableBg from "@/public/media/poker_images/pokerBgImage.webp";
 import { PokerCard } from "./PokerCard";
 import { useUnit } from "effector-react";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useFeeData,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";
 import { T_Card } from "@/shared/api";
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from "use-sound";
@@ -136,19 +136,19 @@ export const Poker: FC<PokerProps> = (props) => {
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards);
 
   //const [cardsState, setCardsState] = useState<boolean[]>([false, false, false, false, false]);
-  const { address, isConnected } = useAccount();
-  const { chain } = useNetwork();
-  const { data, isError, isLoading } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  // const { address, isConnected } = useAccount();
+  // const { chain } = useNetwork();
+  // const { data, isError, isLoading } = useFeeData({
+  //   watch: isConnected,
+  //   cacheTime: 5000,
+  // });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
 
   const [cardsState, setCardsState] = useState<boolean[]>([
     false,
@@ -176,78 +176,78 @@ export const Poker: FC<PokerProps> = (props) => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: IPoker,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPoker,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected,
+  // });
 
-  const {
-    data: GameState,
-    refetch: fetchGameState,
-    error: readErr,
-  } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: IPoker,
-    functionName: "VideoPoker_GetState",
-    args: [address],
-    //watch: watchState,
-    enabled: true,
-    //watch: isConnected,
-    blockTag: "latest",
-  });
+  // const {
+  //   data: GameState,
+  //   refetch: fetchGameState,
+  //   error: readErr,
+  // } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPoker,
+  //   functionName: "VideoPoker_GetState",
+  //   args: [address],
+  //   //watch: watchState,
+  //   enabled: true,
+  //   //watch: isConnected,
+  //   blockTag: "latest",
+  // });
 
-  useEffect(() => {
-    if (GameState) {
-      if ((GameState as any).ingame) {
-        setInGame(true);
-        if (
-          !(GameState as any).isFirstRequest &&
-          (GameState as any).requestID == 0
-        ) {
-          flipShowFlipCards();
-          setInGame(true);
-          setActiveCards((GameState as any).cardsInHand);
-        }
-      } else {
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState) {
+  //     if ((GameState as any).ingame) {
+  //       setInGame(true);
+  //       if (
+  //         !(GameState as any).isFirstRequest &&
+  //         (GameState as any).requestID == 0
+  //       ) {
+  //         flipShowFlipCards();
+  //         setInGame(true);
+  //         setActiveCards((GameState as any).cardsInHand);
+  //       }
+  //     } else {
+  //     }
+  //   }
+  // }, [GameState]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      gameAddress,
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-    gasPrice: data?.gasPrice as any,
-    gas: BigInt(50000),
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     gameAddress,
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  //   gasPrice: data?.gasPrice as any,
+  //   gas: BigInt(50000),
+  // });
 
-  const {
-    write: setAllowance,
-    error: allowanceError,
-    status: allowanceStatus,
-    data: allowanceData,
-  } = useContractWrite(allowanceConfig);
+  // const {
+  //   write: setAllowance,
+  //   error: allowanceError,
+  //   status: allowanceStatus,
+  //   data: allowanceData,
+  // } = useContractWrite(allowanceConfig);
 
-  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-    hash: allowanceData?.hash,
-  });
+  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+  //   hash: allowanceData?.hash,
+  // });
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
@@ -269,26 +269,26 @@ export const Poker: FC<PokerProps> = (props) => {
   //   }
   // }, [refund]);
 
-  useEffect(() => {
-    if (inGame && allowanceIsSet) {
-      startPlaying();
-    } else if (allowanceError) {
-      //setActivePicker(true);
-      setInGame(false);
-      setWaitingResponse(false);
-    }
-  }, [inGame, allowanceIsSet, allowanceError]);
+  // useEffect(() => {
+  //   if (inGame && allowanceIsSet) {
+  //     startPlaying();
+  //   } else if (allowanceError) {
+  //     //setActivePicker(true);
+  //     setInGame(false);
+  //     setWaitingResponse(false);
+  //   }
+  // }, [inGame, allowanceIsSet, allowanceError]);
 
-  const [fees, setFees] = useState<bigint>(BigInt(0));
+  // const [fees, setFees] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
   // const { config: startPlayingConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
@@ -311,38 +311,38 @@ export const Poker: FC<PokerProps> = (props) => {
   //   enabled: true,
   // });
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: IPoker,
-    functionName: "VideoPoker_Start",
-    args: [
-      useDebounce(
-        BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-      ),
-      pickedToken?.contract_address,
-    ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-        : BigInt(0)),
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPoker,
+  //   functionName: "VideoPoker_Start",
+  //   args: [
+  //     useDebounce(
+  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //     ),
+  //     pickedToken?.contract_address,
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //     pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //       : BigInt(0)),
+  // });
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
 
   // const { config: finishPlayingConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
@@ -354,138 +354,138 @@ export const Poker: FC<PokerProps> = (props) => {
   //   enabled: true,
   // });
 
-  const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite(
-    {
-      chainId: chain?.id,
-      address: gameAddress as `0x${string}`,
-      abi: IPoker,
-      functionName: "VideoPoker_Replace",
-      args: [cardsState.map((el) => (el ? 1 : 0))],
-      value: cardsState.find((el) => el) ? fees : BigInt(0),
-      gasPrice: prevGasPrice,
-      gas: BigInt(400000),
-    }
-  );
+  // const { write: finishPlaying, isSuccess: finishedPlaying } = useContractWrite(
+  //   {
+  //     chainId: chain?.id,
+  //     address: gameAddress as `0x${string}`,
+  //     abi: IPoker,
+  //     functionName: "VideoPoker_Replace",
+  //     args: [cardsState.map((el) => (el ? 1 : 0))],
+  //     value: cardsState.find((el) => el) ? fees : BigInt(0),
+  //     gasPrice: prevGasPrice,
+  //     gas: BigInt(400000),
+  //   }
+  // );
 
-  useEffect(() => {
-    if (startedPlaying || finishedPlaying) {
-      setWaitingResponse(true);
-      //setCardsNew(false);
-    }
-  }, [startedPlaying, finishedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying || finishedPlaying) {
+  //     setWaitingResponse(true);
+  //     //setCardsNew(false);
+  //   }
+  // }, [startedPlaying, finishedPlaying]);
 
-  useEffect(() => {
-    if (Wagered) {
-      if (inGame) {
-        setShowFlipCards(false);
-        if (finishPlaying) finishPlaying();
-      } else {
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          cryptoValue <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            if (setAllowance) {
-              setAllowance();
-              setInGame(true);
-              setWaitingResponse(true);
-            }
-            //return;
-          } else {
-            setActiveCards(initialArrayOfCards);
+  // useEffect(() => {
+  //   if (Wagered) {
+  //     if (inGame) {
+  //       setShowFlipCards(false);
+  //       if (finishPlaying) finishPlaying();
+  //     } else {
+  //       if (
+  //         cryptoValue != 0 &&
+  //         currentBalance &&
+  //         cryptoValue <= currentBalance
+  //       ) {
+  //         if (
+  //           (!allowance || (allowance && allowance <= cryptoValue)) &&
+  //           pickedToken?.contract_address !=
+  //             "0x0000000000000000000000000000000000000000"
+  //         ) {
+  //           if (setAllowance) {
+  //             setAllowance();
+  //             setInGame(true);
+  //             setWaitingResponse(true);
+  //           }
+  //           //return;
+  //         } else {
+  //           setActiveCards(initialArrayOfCards);
 
-            if (startPlaying) {
-              startPlaying();
-            }
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [Wagered]);
+  //           if (startPlaying) {
+  //             startPlaying();
+  //           }
+  //         }
+  //       }
+  //     }
+  //     setWagered(false);
+  //   }
+  // }, [Wagered]);
 
-  useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: IPoker,
-    eventName: "VideoPoker_Start_Event",
-    listener(log) {
-      if ((log[0] as any).eventName == "VideoPoker_Start_Event") {
-        if (
-          ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-          address?.toLowerCase()
-        ) {
-          setWaitingResponse(false);
-          //setCardsNew(true);
-          setActiveCards((log[0] as any).args.playerHand as T_Card[]);
-          setShowFlipCards(true);
-        }
-      }
-    },
-  });
+  // useContractEvent({
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPoker,
+  //   eventName: "VideoPoker_Start_Event",
+  //   listener(log) {
+  //     if ((log[0] as any).eventName == "VideoPoker_Start_Event") {
+  //       if (
+  //         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //         address?.toLowerCase()
+  //       ) {
+  //         setWaitingResponse(false);
+  //         //setCardsNew(true);
+  //         setActiveCards((log[0] as any).args.playerHand as T_Card[]);
+  //         setShowFlipCards(true);
+  //       }
+  //     }
+  //   },
+  // });
 
-  useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: IPoker,
-    eventName: "VideoPoker_Outcome_Event",
-    listener(log) {
-      if ((log[0] as any).eventName == "VideoPoker_Outcome_Event") {
-        if (
-          ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-          address?.toLowerCase()
-        ) {
-          setShowFlipCards(false);
-          setWaitingResponse(false);
+  // useContractEvent({
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IPoker,
+  //   eventName: "VideoPoker_Outcome_Event",
+  //   listener(log) {
+  //     if ((log[0] as any).eventName == "VideoPoker_Outcome_Event") {
+  //       if (
+  //         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //         address?.toLowerCase()
+  //       ) {
+  //         setShowFlipCards(false);
+  //         setWaitingResponse(false);
 
-          setActiveCards((log[0] as any).args.playerHand);
-          setCardsState([false, false, false, false, false]);
-          setInGame(false);
+  //         setActiveCards((log[0] as any).args.playerHand);
+  //         setCardsState([false, false, false, false, false]);
+  //         setInGame(false);
 
-          const wagered = (log[0] as any).args.wager;
-          const handlePayouts = async () => {
-            setCoefficientData((prev) => [
-              Number((log[0] as any)?.args?.payout) / Number(wagered),
-              ...prev,
-            ]);
-          };
-          handlePayouts();
-          if ((log[0] as any).args.payout > 0) {
-            const profit = (log[0] as any).args.payout;
+  //         const wagered = (log[0] as any).args.wager;
+  //         const handlePayouts = async () => {
+  //           setCoefficientData((prev) => [
+  //             Number((log[0] as any)?.args?.payout) / Number(wagered),
+  //             ...prev,
+  //           ]);
+  //         };
+  //         handlePayouts();
+  //         if ((log[0] as any).args.payout > 0) {
+  //           const profit = (log[0] as any).args.payout;
 
-            const multiplier = Number(profit / wagered);
+  //           const multiplier = Number(profit / wagered);
 
-            const wagered_token = (
-              (log[0] as any).args.tokenAddress as string
-            ).toLowerCase();
-            const token = TOKENS.find(
-              (tk) => tk.address == wagered_token
-            )?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  //           const wagered_token = (
+  //             (log[0] as any).args.tokenAddress as string
+  //           ).toLowerCase();
+  //           const token = TOKENS.find(
+  //             (tk) => tk.address == wagered_token
+  //           )?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-            const profitFloat =
-              Number(profit / BigInt(10000000000000000)) / 100;
-            setWonStatus({
-              profit: profitFloat,
-              multiplier,
-              token: token as string,
-            });
-            setGameStatus(GameModel.GameStatus.Won);
-          } else {
-            const wageredFloat =
-              Number(wagered / BigInt(10000000000000000)) / 100;
+  //           const profitFloat =
+  //             Number(profit / BigInt(10000000000000000)) / 100;
+  //           setWonStatus({
+  //             profit: profitFloat,
+  //             multiplier,
+  //             token: token as string,
+  //           });
+  //           setGameStatus(GameModel.GameStatus.Won);
+  //         } else {
+  //           const wageredFloat =
+  //             Number(wagered / BigInt(10000000000000000)) / 100;
 
-            setLostStatus(wageredFloat);
-            setGameStatus(GameModel.GameStatus.Lost);
-          }
-          //setShowRedraw(false);
-        }
-      } else {
-      }
-    },
-  });
+  //           setLostStatus(wageredFloat);
+  //           setGameStatus(GameModel.GameStatus.Lost);
+  //         }
+  //         //setShowRedraw(false);
+  //       }
+  //     } else {
+  //     }
+  //   },
+  // });
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards);

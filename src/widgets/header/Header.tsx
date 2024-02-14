@@ -36,7 +36,7 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import * as HeaderAccModel from "@/widgets/Account/model";
 import closeIco from "@/public/media/headerIcons/Close.svg";
 import { Account } from "../Account";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import TestProfilePic from "@/public/media/misc/TestProfilePic.svg";
 import Link from "next/link";
 import { checkPageClicking } from "@/shared/tools";
@@ -44,7 +44,7 @@ import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 
-interface EmblemProps { }
+interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
     <Link className={s.emblem} href="/">
@@ -54,7 +54,7 @@ const Emblem: FC<EmblemProps> = (props) => {
   );
 };
 
-interface LeftMenuProps { }
+interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
   return (
     <div className={s.left_menu}>
@@ -63,7 +63,7 @@ const LeftMenu: FC<LeftMenuProps> = (props) => {
   );
 };
 
-interface LinksProps { }
+interface LinksProps {}
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
@@ -75,7 +75,7 @@ const Links: FC<LinksProps> = (props) => {
   );
 };
 
-interface ConnectWalletButtonProps { }
+interface ConnectWalletButtonProps {}
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -125,10 +125,10 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
     setBlur(false);
     document.documentElement.style.overflow = "visible";
   };
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
-  const { isConnecting } = useAccount();
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
+  // const { isConnecting } = useAccount();
   return (
     <div
       className={s.connect_wallet_button_wrap}
@@ -141,15 +141,16 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
           handleConnectWalletBtn();
         }}
       >
-        {isConnecting && startConnect ? (
+        {true && startConnect ? ( // isConnecting
           <LoadingDots className={s.dots_black} title="Connecting" />
         ) : (
           "Connect Wallet"
         )}
       </div>
       <div
-        className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-          }`}
+        className={`${s.header_avaibleWallet_wrap} ${
+          walletVisibility && s.avaibleWallet_visible
+        }`}
       >
         <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
       </div>
@@ -161,7 +162,7 @@ interface RightMenuProps {
   isGame: boolean;
 }
 const RightMenu: FC<RightMenuProps> = (props) => {
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
 
   const [screenWidth, setScreenWidth] = useState(0);
 
@@ -187,14 +188,14 @@ const RightMenu: FC<RightMenuProps> = (props) => {
     sessionModel.logOut,
   ]);
 
-  useEffect(() => {
-    if (address == undefined) {
-      logOut();
-      return;
-    }
+  // useEffect(() => {
+  //   if (address == undefined) {
+  //     logOut();
+  //     return;
+  //   }
 
-    logIn({ address: (address as string).toLowerCase() });
-  }, [address]);
+  //   logIn({ address: (address as string).toLowerCase() });
+  // }, [address]);
 
   const closeSidebar = () => {
     close();
@@ -243,7 +244,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
         </button>
       ) : (
         <div className={s.header_mobile_right_wrap}>
-          {isConnected ? (
+          {true ? ( // isConnected
             <div className={s.header_profile_ico_wrap}>
               <div
                 className={s.header_profile_ico_block}
@@ -253,12 +254,13 @@ const RightMenu: FC<RightMenuProps> = (props) => {
               </div>
               {isHeaderAccOpened && (
                 <Account
-                  address={address as string}
+                  // address={address as string}
+                  address=""
                   nickname={currentNickname}
                 />
               )}
             </div>
-          ) : isConnected && isOpen ? (
+          ) : true && isOpen ? ( // isConnected
             <button
               className={s.header_mobile_closeSidebar_btn}
               onClick={closeSidebar}
@@ -274,7 +276,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
   );
 };
 
-interface BottomMenuProps { }
+interface BottomMenuProps {}
 const BottomMenu: FC<BottomMenuProps> = (props) => {
   const [openSidebar, closeSb, isOpen] = useUnit([
     SideBarModel.Open,

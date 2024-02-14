@@ -1,6 +1,6 @@
 import { FC, Suspense, useEffect, useRef, useState } from "react";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import {
   Environment,
   Preload,
@@ -44,7 +44,7 @@ export const DiceModel: FC<DiceModelProps> = ({
     () => setIsLoading(false)
   );
   const { scene, animations } = useGLTF("/dice/dice_2.glb");
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
   const { actions, mixer } = useAnimations(animations, scene);
   const [gameStatus] = useUnit([GameModel.$gameStatus]);
   const modelRef = useRef<Object3D>(null);
@@ -81,10 +81,10 @@ export const DiceModel: FC<DiceModelProps> = ({
 
   useEffect(() => {
     inGameRef.current = inGame;
-    if (inGame && isConnected && gameStatus === null) {
-      setStartAnimation((prev) => !prev);
-    }
-  }, [inGame, isConnected, gameStatus]);
+    // if (inGame && isConnected && gameStatus === null) {
+    //   setStartAnimation((prev) => !prev);
+    // }
+  }, [inGame, gameStatus]); // isConnected
 
   const diceLightDirections = [
     [5, -10, 5],

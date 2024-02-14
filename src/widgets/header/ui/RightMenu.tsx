@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
@@ -27,7 +27,7 @@ export interface RightMenuProps {
   hideHeaderBtn?: boolean | false;
 }
 export const RightMenu: FC<RightMenuProps> = (props) => {
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
   const { isOpen, toggle, close, dropdownRef } = useDropdown();
   const [screenWidth, setScreenWidth] = useState(0);
   const [avaSize, setAvaSize] = useState("50");
@@ -54,14 +54,14 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
     sessionModel.logOut,
   ]);
 
-  useEffect(() => {
-    if (address == undefined) {
-      logOut();
-      return;
-    }
+  // useEffect(() => {
+  //   if (address == undefined) {
+  //     logOut();
+  //     return;
+  //   }
 
-    logIn({ address: (address as string).toLowerCase() });
-  }, [address]);
+  //   logIn({ address: (address as string).toLowerCase() });
+  // }, [address]);
 
   const closeSidebar = () => {
     closeSb();
@@ -102,7 +102,7 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   return (
     <div className={`${s.right_menu} ${props.hideHeaderBtn && s.hidden_style}`}>
       <NetworkSelect isGame={props.isGame} />
-      {isConnected && (
+      {true && ( // isConnected
         <div className={s.button}>
           <Image src={BellIcon} alt={"notification"} className={s.icon} />
           {notification && <div className={s.new_notification}></div>}
@@ -120,17 +120,22 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
         </button>
       ) : (
         <div className={s.header_mobile_right_wrap} ref={dropdownRef}>
-          {isConnected ? (
+          {true ? ( // isConnected
             <div className={s.header_profile_ico_wrap}>
               <div className={s.header_profile_ico_block}>
                 <div className={s.header_blockies_wrap} onClick={toggle}>
-                  <BlockiesAva address={address} size={avaSize} />
+                  <BlockiesAva
+                    address={""}
+                    size={avaSize}
+                    // address={address}
+                  />
                 </div>
               </div>
               {isHeaderAccOpened && (
                 <div>
                   <Account
-                    address={address as string}
+                    address={""}
+                    // address={address as string}
                     nickname={currentNickname}
                     toggle={toggle}
                   />

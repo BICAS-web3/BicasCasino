@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from "react";
 
-import { useAccount, useContractRead } from "wagmi";
+// import { useAccount, useContractRead } from "wagmi";
 import Image from "next/image";
 import * as PopupModel from "../model";
 import { useUnit } from "effector-react";
 import checkIco from "@/public/media/banner_images/checkIco.webp";
-import {
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-  useSwitchNetwork,
-} from "wagmi";
+// import {
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useSwitchNetwork,
+// } from "wagmi";
 
 import { AvaibleWallet } from "@/widgets/AvaibleWallet";
 import { SideBarModel } from "@/widgets/SideBar";
@@ -54,9 +54,9 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
 
   const [visibility, setVisibility] = useState(false);
   const [walletVisibility, setWalletVisibility] = useState(false);
-  const { chain } = useNetwork();
-  const { address, isConnected, isConnecting } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
+  // const { chain } = useNetwork();
+  // const { address, isConnected, isConnecting } = useAccount();
+  // const { switchNetwork } = useSwitchNetwork();
   const [showStateModal, setShowStateModal] = useState(false);
 
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
@@ -70,32 +70,32 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   if (documentWidth < 700) bgImage = banner_mobile;
 
   //? Read func to check of claimed bonus
-  const {
-    data: claimedState,
-    isSuccess: readSuccess,
-    isFetching,
-    error,
-  } = useContractRead({
-    chainId: chain?.id,
-    address:
-      chain?.id === 42161
-        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
-        : "0x255854fA295C36a667979410313b304e36bcd65b",
-    abi,
-    functionName: "claimedBonus",
-    args: [address],
-    enabled: true,
-    //watch: isConnected,
-  });
+  // const {
+  //   data: claimedState,
+  //   isSuccess: readSuccess,
+  //   isFetching,
+  //   error,
+  // } = useContractRead({
+  //   chainId: chain?.id,
+  //   address:
+  //     chain?.id === 42161
+  //       ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+  //       : "0x255854fA295C36a667979410313b304e36bcd65b",
+  //   abi,
+  //   functionName: "claimedBonus",
+  //   args: [address],
+  //   enabled: true,
+  //   //watch: isConnected,
+  // });
 
   const [showState, setShowState] = useUnit([
     PopupModel.$showState,
     PopupModel.setShowState,
   ]);
 
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
   useEffect(() => {
     return () => {
       setStartConnect(false);
@@ -117,9 +117,9 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
 
   //? connect wallet func
   const handleConnectWalletBtn = () => {
-    if (!chainState && address) {
-      switchNetwork!(137);
-    }
+    // if (!chainState && address) {
+    //   switchNetwork!(137);
+    // }
     if (isMainWalletOpen) {
       return null;
     }
@@ -164,27 +164,27 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   };
 
   //? contract to add bonus
-  const { config: ClaimBonusConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address:
-      chain?.id === 42161
-        ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
-        : "0x255854fA295C36a667979410313b304e36bcd65b",
-    abi,
-    functionName: "claimBonus",
-    enabled: true,
-  });
-  const { write: claimBouns, isSuccess } = useContractWrite(ClaimBonusConfig);
+  // const { config: ClaimBonusConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address:
+  //     chain?.id === 42161
+  //       ? "0x5518E648341147B0F4041c5e2a2cca41BDc723a0"
+  //       : "0x255854fA295C36a667979410313b304e36bcd65b",
+  //   abi,
+  //   functionName: "claimBonus",
+  //   enabled: true,
+  // });
+  // const { write: claimBouns, isSuccess } = useContractWrite(ClaimBonusConfig);
 
-  useEffect(() => {
-    if (address && isSuccess && setVisibility) {
-      closeModal();
-      setVisibility(false);
-      setClaimed(true);
-      localStorage.setItem(address, JSON.stringify(true));
-    }
-    setWalletVisibility(false);
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (address && isSuccess && setVisibility) {
+  //     closeModal();
+  //     setVisibility(false);
+  //     setClaimed(true);
+  //     localStorage.setItem(address, JSON.stringify(true));
+  //   }
+  //   setWalletVisibility(false);
+  // }, [isSuccess]);
 
   if (!close) {
     document.documentElement.style.overflow = "hidden";
@@ -206,18 +206,18 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   const site_id = queryParams.get("site_id");
   const sub_id = queryParams.get("sub_id");
   const claimBonus = () => {
-    if (!isConnected) {
-      router.push(
-        isPartner
-          ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-          : "/RegistrManual"
-      );
-      // handleConnectWalletBtn();
-    } else if (!chainState) {
-      switchNetwork!(137);
-    } else {
-      claimBouns?.();
-    }
+    // if (!isConnected) {
+    //   router.push(
+    //     isPartner
+    //       ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+    //       : "/RegistrManual"
+    //   );
+    //   // handleConnectWalletBtn();
+    // } else if (!chainState) {
+    //   switchNetwork!(137);
+    // } else {
+    //   claimBouns?.();
+    // }
   };
 
   useEffect(() => {
@@ -242,18 +242,18 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   }, []);
 
   useEffect(() => {
-    claimed === true && isConnected && closeModal();
+    // claimed === true && isConnected && closeModal();
   }, [claimed]);
 
   const [chainState, setChainState] = useState<boolean>();
 
-  useEffect(() => {
-    if (chain?.id === 42161 || chain?.id === 137) {
-      setChainState(true);
-    } else {
-      setChainState(false);
-    }
-  }, [chain?.id]);
+  // useEffect(() => {
+  //   if (chain?.id === 42161 || chain?.id === 137) {
+  //     setChainState(true);
+  //   } else {
+  //     setChainState(false);
+  //   }
+  // }, [chain?.id]);
 
   useEffect(() => {
     document.documentElement.style.overflow = "hidden";
@@ -264,21 +264,21 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
     };
   }, []);
 
-  useEffect(() => {
-    showBonus && setShowBonus?.(close);
-  }, [close]);
-  const claimedFromStorage =
-    address && localStorage.getItem(address)
-      ? JSON.parse(localStorage.getItem(address)!)
-      : false;
-  if (
-    (address && claimedFromStorage === true) ||
-    (address && claimed === true)
-  ) {
-    document.documentElement.style.overflow = "visible";
-    document.documentElement.style.height = "auto";
-    return;
-  }
+  // useEffect(() => {
+  //   showBonus && setShowBonus?.(close);
+  // }, [close]);
+  // const claimedFromStorage =
+  //   address && localStorage.getItem(address)
+  //     ? JSON.parse(localStorage.getItem(address)!)
+  //     : false;
+  // if (
+  //   (address && claimedFromStorage === true) ||
+  //   (address && claimed === true)
+  // ) {
+  //   document.documentElement.style.overflow = "visible";
+  //   document.documentElement.style.height = "auto";
+  //   return;
+  // }
 
   return (
     <div
@@ -286,15 +286,15 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
       className={clsx(
         s.wrapper,
         close && !showBonus && s.closed,
-        visibility && !isConnected ? s.wrapper_index : s.index_return
+        visibility && false ? s.wrapper_index : s.index_return // !isConnected
       )}
     >
       <article
         onClick={(e) => e.stopPropagation()}
         className={clsx(
-          s.banner,
-          visibility && !isConnected && s.move_banner,
-          address && isConnected && s.claimBanner
+          s.banner
+          // visibility && !isConnected && s.move_banner,
+          // address && isConnected && s.claimBanner
         )}
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
@@ -323,7 +323,7 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
         >
           <span className={s.subtitle}>Blockchain gas fee may apply</span>
           <button className={s.connect_wallet_button} onClick={claimBonus}>
-            {isConnecting && startConnect ? (
+            {/* {isConnecting && startConnect ? (
               <LoadingDots className={s.dots_black} title="Connecting" />
             ) : address && isConnected ? (
               !chainState ? (
@@ -333,9 +333,10 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
               )
             ) : (
               "join game"
-            )}
+            )} */}
+            Claim
           </button>{" "}
-          {!address && !isConnected && (
+          {/* {!address && !isConnected && (
             <div
               className={`${s.header_avaibleWallet_wrap} ${
                 walletVisibility && s.avaibleWallet_visible
@@ -343,7 +344,7 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
             >
               <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
             </div>
-          )}
+          )} */}
         </div>
         <div className={s.checkbox} onClick={handleShowStateBtn}>
           <div className={`${s.checkbox_block} ${showState && s.checked}`}>

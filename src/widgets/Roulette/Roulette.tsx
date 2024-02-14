@@ -1,14 +1,14 @@
 import { FC, useEffect, useState } from "react";
 
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useFeeData,
-  useNetwork,
-  usePrepareContractWrite,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+// } from "wagmi";
 
 import { useUnit } from "effector-react";
 
@@ -51,7 +51,7 @@ interface IRoulette {
 }
 
 export const Roulette: FC<IRoulette> = ({ gameText }) => {
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
   const [
     lost,
@@ -119,17 +119,17 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
     GameModel.setWaitingResponse,
   ]);
 
-  const { data } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  // const { data } = useFeeData({
+  //   watch: isConnected,
+  //   cacheTime: 5000,
+  // });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
 
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
@@ -140,213 +140,213 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
     setCoefficient(Number(multiplier) / 10000);
   }, [multiplier]);
 
-  const { chain } = useNetwork();
+  // const { chain } = useNetwork();
 
   const [inGame, setInGame] = useState<boolean>(false);
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const bigNum = 100000000000;
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_Play",
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    args: [
-      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      multiplier,
-      pickedToken?.contract_address,
-      betsAmount,
-      useDebounce(stopGain)
-        ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-      useDebounce(stopLoss)
-        ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-    ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0)),
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RocketABI,
+  //   functionName: "Rocket_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   args: [
+  //     useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+  //     multiplier,
+  //     pickedToken?.contract_address,
+  //     betsAmount,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //     pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+  //         BigInt(100000000000)
+  //       : BigInt(0)),
+  // });
 
-  const { data: GameState } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "Rocket_GetState",
-    args: [address],
-    enabled: true,
-    blockTag: "latest",
-  });
+  // const { data: GameState } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RocketABI,
+  //   functionName: "Rocket_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   blockTag: "latest",
+  // });
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      gameAddress as `0x${string}`,
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     gameAddress as `0x${string}`,
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  // });
 
-  const { write: setAllowance } = useContractWrite(allowanceConfig);
+  // const { write: setAllowance } = useContractWrite(allowanceConfig);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected && !inGame,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RocketABI,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected && !inGame,
+  // });
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setActivePicker(false);
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setActivePicker(false);
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
 
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
-  useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: RocketABI,
-    eventName: "Rocket_Outcome_Event",
-    listener(log) {
-      if (
-        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-        address?.toLowerCase()
-      ) {
-        console.log("------", (log[0] as any).args, "-------");
+  // useContractEvent({
+  //   address: gameAddress as `0x${string}`,
+  //   abi: RocketABI,
+  //   eventName: "Rocket_Outcome_Event",
+  //   listener(log) {
+  //     if (
+  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //       address?.toLowerCase()
+  //     ) {
+  //       console.log("------", (log[0] as any).args, "-------");
 
-        setWaitingResponse(false);
-        const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
+  //       setWaitingResponse(false);
+  //       const wagered =
+  //         BigInt((log[0] as any).args.wager) *
+  //         BigInt((log[0] as any).args.numGames);
 
-        const handleCall = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
-              setCoefficientData((prev) => [outCome, ...prev]);
-              setLocalNumber(outCome);
-            }, 700 * (i + 1));
-          }
-        };
-        handleCall();
-        if ((log[0] as any).args.payout > wagered) {
-          const profit = (log[0] as any).args.payout;
-          const multiplier = Number(profit / wagered);
-          const wagered_token = (
-            (log[0] as any).args.tokenAddress as string
-          ).toLowerCase();
-          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  //       const handleCall = () => {
+  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+  //           setTimeout(() => {
+  //             const outCome =
+  //               Number((log[0] as any)?.args?.payouts[i]) / Number(wagered);
+  //             setCoefficientData((prev) => [outCome, ...prev]);
+  //             setLocalNumber(outCome);
+  //           }, 700 * (i + 1));
+  //         }
+  //       };
+  //       handleCall();
+  //       if ((log[0] as any).args.payout > wagered) {
+  //         const profit = (log[0] as any).args.payout;
+  //         const multiplier = Number(profit / wagered);
+  //         const wagered_token = (
+  //           (log[0] as any).args.tokenAddress as string
+  //         ).toLowerCase();
+  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
-        } else {
-          const wageredFloat =
-            Number(wagered / BigInt(10000000000000000)) / 100;
+  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+  //         setWonStatus({
+  //           profit: profitFloat,
+  //           multiplier,
+  //           token: token as string,
+  //         });
+  //         setGameStatus(GameModel.GameStatus.Won);
+  //       } else {
+  //         const wageredFloat =
+  //           Number(wagered / BigInt(10000000000000000)) / 100;
 
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
-        }
-      }
-    },
-  });
+  //         setLostStatus(wageredFloat);
+  //         setGameStatus(GameModel.GameStatus.Lost);
+  //       }
+  //     }
+  //   },
+  // });
 
-  useEffect(() => {
-    if (wagered) {
-      if (inGame) {
-      } else {
-        const total_value = cryptoValue * betsAmount;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            setAllowance?.();
-          } else {
-            startPlaying?.();
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
+  // useEffect(() => {
+  //   if (wagered) {
+  //     if (inGame) {
+  //     } else {
+  //       const total_value = cryptoValue * betsAmount;
+  //       if (
+  //         cryptoValue != 0 &&
+  //         currentBalance &&
+  //         total_value <= currentBalance
+  //       ) {
+  //         if (
+  //           (!allowance || (allowance && allowance <= cryptoValue)) &&
+  //           pickedToken?.contract_address !=
+  //             "0x0000000000000000000000000000000000000000"
+  //         ) {
+  //           setAllowance?.();
+  //         } else {
+  //           startPlaying?.();
+  //         }
+  //       }
+  //     }
+  //     setWagered(false);
+  //   }
+  // }, [wagered]);
 
-  useEffect(() => {
-    setActivePicker(true);
-    setInGame(false);
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide);
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1);
-    }
-  }, [gameStatus]);
+  // useEffect(() => {
+  //   setActivePicker(true);
+  //   setInGame(false);
+  //   if (gameStatus == GameModel.GameStatus.Won) {
+  //     pickSide(pickedSide);
+  //   } else if (gameStatus == GameModel.GameStatus.Lost) {
+  //     pickSide(pickedSide ^ 1);
+  //   }
+  // }, [gameStatus]);
 
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
@@ -465,12 +465,12 @@ export const Roulette: FC<IRoulette> = ({ gameText }) => {
 
   return (
     <>
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <section className={s.roulette_table_wrap}>
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock

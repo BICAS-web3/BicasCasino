@@ -10,15 +10,15 @@ import { Wager } from "@/widgets/Wager/Wager";
 import soundIco from "@/public/media/Wager_icons/active2.svg";
 import soundOffIco from "@/public/media/Wager_icons/disabled2.svg";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import {
-  usePrepareContractWrite,
-  useContractWrite,
-  useContractRead,
-  useWaitForTransaction,
-  useAccount,
-  useConnect,
-  useBalance,
-} from "wagmi";
+// import {
+//   usePrepareContractWrite,
+//   useContractWrite,
+//   useContractRead,
+//   useWaitForTransaction,
+//   useAccount,
+//   useConnect,
+//   useBalance,
+// } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -92,7 +92,7 @@ export const GamePage: FC<GamePageProps> = ({
   isMines,
   customHeight,
 }) => {
-  const { address, isConnected, isConnecting } = useAccount();
+  // const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
   const [currentToken, setCurrentToken] = useState<{
     token: api.T_Token;
@@ -103,21 +103,21 @@ export const GamePage: FC<GamePageProps> = ({
     RaceModel.setGameResult,
     RaceModel.setReset,
   ]);
-  const { connectors, connect } = useConnect();
+  // const { connectors, connect } = useConnect();
   const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
   const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
   const isMobile = useMediaQuery("(max-width: 996px)");
-  const {
-    data: balance,
-    error,
-    isError,
-    refetch: fetchBalance,
-  } = useContractRead({
-    address: currentToken?.token.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "balanceOf",
-    args: [address],
-  });
+  // const {
+  //   data: balance,
+  //   error,
+  //   isError,
+  //   refetch: fetchBalance,
+  // } = useContractRead({
+  //   address: currentToken?.token.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "balanceOf",
+  //   args: [address],
+  // });
   const [manualSetting, setManualSetting] = useUnit([
     MinesModel.$manualSetting,
     MinesModel.setManualSetting,
@@ -352,7 +352,7 @@ export const GamePage: FC<GamePageProps> = ({
                         s.connect_wallet_btn,
                         s.mobile,
                         isPlaying && "animation-leftRight",
-                        !isPlaying && cryptoValue == 0.0 && isConnected
+                        !isPlaying && cryptoValue == 0.0 // && isConnected
                           ? s.button_inactive
                           : s.button_active
                       )}
@@ -364,12 +364,13 @@ export const GamePage: FC<GamePageProps> = ({
                           setCarReset(true);
                         } else {
                           if (
-                            (cryptoValue > 0.0 ||
-                              (isPlaying && !waitingResponse)) &&
-                            isConnected
+                            cryptoValue > 0.0 ||
+                            (isPlaying && !waitingResponse)
+                            //&& isConnected
                           ) {
                             pressButton();
-                          } else if (cryptoValue <= 0.0 && isConnected) {
+                          } else if (cryptoValue <= 0.0) {
+                            //  && isConnected
                             setIsEmtyWager(true);
                           } else {
                             router.push("/RegistrManual");
@@ -382,7 +383,7 @@ export const GamePage: FC<GamePageProps> = ({
                         "Reset"
                       ) : waitingResponse ? (
                         <LoadingDots className={s.dots_black} title="Playing" />
-                      ) : isConnected ? (
+                      ) : true ? ( // isConnected
                         "Play"
                       ) : (
                         "Connect Wallet"
