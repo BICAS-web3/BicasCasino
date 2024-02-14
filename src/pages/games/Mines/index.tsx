@@ -11,7 +11,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { useUnit } from "effector-react";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import styles from "./styles.module.scss";
 import clsx from "clsx";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
@@ -51,8 +51,8 @@ const WagerContent = () => {
     GameModel.setRefund,
   ]);
 
-  const { isConnected, isConnecting } = useAccount();
-  const { connectors, connect } = useConnect();
+  // const { isConnected, isConnecting } = useAccount();
+  // const { connectors, connect } = useConnect();
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const [emptyClick, setEmptyClick] = useState(false);
@@ -96,7 +96,7 @@ const WagerContent = () => {
       )}
       <ProfitBlock />
       <StopWinning />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -131,7 +131,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
       {/* {isPlaying && (
         <RefundButton
           onClick={() => setRefund(true)}

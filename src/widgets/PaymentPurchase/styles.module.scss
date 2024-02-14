@@ -1,0 +1,17 @@
+.payment_purchase_block {
+  padding: 30px;
+}
+
+.payment_purchase_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #252525;
+  padding-bottom: 10px;
+}
+
+.payment_purchase_body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

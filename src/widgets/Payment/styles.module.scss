@@ -1,0 +1,361 @@
+.payment_wrap {
+  z-index: 110;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 90px 0;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  @media screen and (max-width: 650px) {
+    padding: 50px 0 120px 0;
+  }
+}
+
+.payment_body {
+  overflow: hidden;
+  margin: 0 20px;
+  width: 660px;
+  max-height: 850px;
+  background: #181818;
+  min-height: 300px;
+  border-radius: 12px;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  position: relative;
+
+  @media screen and (max-width: 650px) {
+    margin-top: 15px;
+  }
+}
+
+.tips_active {
+  @media screen and (max-height: 620px) {
+    height: 100% !important;
+    padding-bottom: 80px;
+  }
+}
+
+// .security_modal_active {
+//   position: relative;
+// }
+
+.redeem_active {
+  @media screen and (max-height: 900px) {
+    height: 100% !important;
+    padding-bottom: 80px;
+  }
+}
+
+.padding_bottom {
+  padding-bottom: 95px;
+  height: 100%;
+
+  .payment_content {
+    gap: 20px;
+  }
+}
+
+.payment_header {
+  padding: 20px 30px 20px 20px;
+  border-bottom: 1px solid #252525;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.store_title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-source-sans-3);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #979797;
+}
+
+.store_ico {
+  width: 18px;
+  height: 18px;
+}
+
+.payment_leftSide_header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment_transactions_btn {
+  font-family: var(--font-source-sans-3);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 15px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: #ffe09d;
+  cursor: pointer;
+  border-bottom: 1px solid #ffe09d;
+}
+
+.close_btn {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.payment_content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.store_type_block {
+  margin: 20px 30px 0 30px;
+  display: flex;
+  padding: 5px;
+  border: 1px solid #252525;
+  background: #121212;
+  border-radius: 50px;
+  gap: 5px;
+  box-sizing: border-box;
+}
+
+.store_type_btn {
+  width: 100%;
+  background: #121212;
+  transition: all 0.3s;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  color: #7e7e7e;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  border: none;
+  border-radius: 50px;
+
+  &:hover {
+    background: #181818;
+  }
+}
+
+.active_store_btn {
+  background: #202020 !important;
+  color: #fff !important;
+}
+
+.attention_coins_wrap {
+  position: relative;
+  overflow: hidden;
+  margin: 0 20px 0 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.attention_coins_shadow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffce6399;
+  width: 50px;
+  height: 40px;
+  mix-blend-mode: hard-light;
+  filter: blur(20px);
+  border-radius: 50%;
+}
+
+.payment_attention {
+  margin: 0 30px;
+  // padding: 10px 20px;
+  box-shadow: 0px 0px 14px 0px #9c740e inset;
+  border: 1px solid #ffe09d;
+  background: linear-gradient(0deg, #252019, #252019),
+    linear-gradient(0deg, #ffe09d, #ffe09d);
+  box-shadow: 0px 0px 14.800000190734863px 0px #9c740e;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.payment_attention_text {
+  margin: 10px 0 10px 20px;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #fff;
+
+  span {
+    font-weight: 800;
+    color: #ffe09d;
+    display: inline;
+  }
+
+  p {
+    color: #f7931a;
+    display: inline;
+  }
+}
+
+.attention_coins {
+  height: 50px;
+}
+
+.drax_list {
+  padding: 0 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden !important;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    margin-left: 4px;
+    border-radius: 3px;
+    scrollbar-arrow-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #363636;
+    border-radius: 4px;
+  }
+
+  scrollbar-width: thin;
+
+  scrollbar-color: #363636 transparent;
+
+  *::-ms-scrollbar {
+    width: 4px;
+    scrollbar-arrow-color: transparent;
+  }
+
+  *::-ms-scrollbar-thumb {
+    background-color: #363636;
+    border-radius: 4px;
+  }
+}
+
+.drax_list_item {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+
+  &_header {
+    background: #212121;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.drax_list_item_header_title {
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.drax_list_item_body {
+  background: #0f0f0f;
+  padding: 30px 20px 20px 20px;
+}
+
+.drax_icon_wrap {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.drax_icon_shadow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background: #ffb44340;
+  width: 50px;
+  height: 50px;
+  mix-blend-mode: hard-light;
+  filter: blur(27px);
+  border-radius: 50%;
+}
+
+.drax_icon {
+  z-index: 4;
+}
+
+.bonux_coins_amount_title {
+  margin-top: 10px;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.buy_btn {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ffe09d;
+  background: linear-gradient(0deg, #252019, #252019),
+    linear-gradient(0deg, #ffe09d, #ffe09d);
+  color: #ffe09d;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  height: 40px;
+  padding: 0 10px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.payout_attention_title {
+  color: #979797;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  grid-column: 1/3;
+}

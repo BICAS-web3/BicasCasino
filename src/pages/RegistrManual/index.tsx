@@ -6,7 +6,7 @@ import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import Metamask from "@/public/media/select_wallet/metamask.svg";
 import Coinbase from "@/public/media/select_wallet/Coinbase.svg";
 import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import infoIco from "@/public/media/registrManual_images/infoIco.svg";
 import { ManualNoWalletTab } from "@/widgets/ManualNoWalletTab/ManualNoWalletTab";
 import { ManualBonusReceiving } from "@/widgets/ManualBonusReceiving/ManualBonusReceiving";
@@ -29,24 +29,23 @@ interface HaveWalletConnectionProps {
 }
 
 const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
-  const { connect } = useConnect();
-  const { isConnected } = useAccount();
-  const { connectors, isError, error } = useConnect();
+  // const { connect } = useConnect();
+  // const { isConnected } = useAccount();
+  // const { connectors, isError, error } = useConnect();
   //const router = useRouter();
 
-  useEffect(() => {
-    if (isError && error) {
+  // useEffect(() => {
+  //   if (isError && error) {
+  //     Sentry.captureException(error);
+  //     console.log("Error connecting to the wallet");
+  //     Api.submitErrorFX({ data: error.message });
+  //     localStorage.clear();
+  //   }
+  // }, [isError]);
 
-      Sentry.captureException(error);
-      console.log("Error connecting to the wallet");
-      Api.submitErrorFX({ data: error.message });
-      localStorage.clear();
-    }
-  }, [isError]);
-
-  useEffect(() => {
-    isConnected && props.setTab(Tab.bonusReceiving);
-  }, [isConnected]);
+  // useEffect(() => {
+  //   isConnected && props.setTab(Tab.bonusReceiving);
+  // }, [isConnected]);
 
   // useEffect(() => {
   //   connectors[2];
@@ -61,7 +60,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
       <div className={s.have_wallet_header}>
         <h1 className={s.registr_manual_title}>Connect Wallet</h1>
         <div className={s.wallets_list}>
-          {connectors[0].ready && (
+          {/* {connectors[0].ready && (
             <div
               className={s.wallet_list_item}
               onClick={() => {
@@ -79,8 +78,8 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               </div>
               <BtnRightArrow />
             </div>
-          )}
-          {connectors[2].ready && (
+          )} */}
+          {/* {connectors[2].ready && (
             <div
               className={s.wallet_list_item}
               onClick={() => {
@@ -99,8 +98,8 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               </div>
               <BtnRightArrow />
             </div>
-          )}
-          {connectors[2].ready && (
+          )} */}
+          {/* {connectors[2].ready && (
             <div
               className={s.wallet_list_item}
               onClick={() => {
@@ -119,7 +118,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
               </div>
               <BtnRightArrow />
             </div>
-          )}
+          )} */}
           {/* {connectors[1].ready && (
             <div
               className={s.wallet_list_item}
@@ -159,7 +158,7 @@ const HaveWalletConnection: FC<HaveWalletConnectionProps> = (props) => {
   );
 };
 
-interface RegistrManualProps { }
+interface RegistrManualProps {}
 
 const RegistrManual: FC<RegistrManualProps> = () => {
   const router = useRouter();

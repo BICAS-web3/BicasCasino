@@ -5,7 +5,7 @@ import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 
 import s from "@/pages/games/CoinFlip/styles.module.scss";
@@ -24,7 +24,7 @@ import {
 import { WheelFortuneLevelsBlock } from "@/widgets/WheelFortuneLevelsBlock/WheelFortuneLevelsBlock";
 const WagerContent = () => {
   const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -53,7 +53,7 @@ const WagerContent = () => {
         max={100}
       />
       <WheelFortuneLevelsBlock />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -83,7 +83,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import Head from "next/head";
 
 import { Layout } from "@/widgets/Layout";
@@ -28,7 +28,7 @@ import clsx from "clsx";
 const WagerContent = () => {
   const isMobile = useMediaQuery("(max-width: 996px)");
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
 
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
@@ -41,9 +41,9 @@ const WagerContent = () => {
     CarModel.$gameResult,
     CarModel.setReset,
   ]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
   const queryParams = new URLSearchParams(window.location.search);
   const partner_address = queryParams.get("partner_address");
   const site_id = queryParams.get("site_id");
@@ -64,7 +64,7 @@ const WagerContent = () => {
       <WagerInputsBlock />
       <ProfitBlock />
       {!isMobile && <CarSelector className={s.selector} />}
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -100,7 +100,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
     </>
   );
 };

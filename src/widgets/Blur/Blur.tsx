@@ -4,10 +4,10 @@ import * as BlurModel from "./model";
 import { useEffect, useState } from "react";
 import * as SideBarModel from "@/widgets/SideBar/model";
 import { $isOpen } from "@/widgets/SideBar/model";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
 export const Blur = () => {
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
   const [setBlur, BlurActive, sideBarOpen] = useUnit([
     BlurModel.setBlur,
@@ -15,12 +15,12 @@ export const Blur = () => {
     SideBarModel.$isOpen,
   ]);
 
-  useEffect(() => {
-    if (isConnected && BlurActive) {
-      document.documentElement.style.overflow = "visible";
-      setBlur(false);
-    }
-  }, [isConnected]);
+  // useEffect(() => {
+  //   if (isConnected && BlurActive) {
+  //     document.documentElement.style.overflow = "visible";
+  //     setBlur(false);
+  //   }
+  // }, [isConnected]);
 
   return (
     <div
