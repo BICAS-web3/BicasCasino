@@ -1,0 +1,144 @@
+.signup_block {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.signup_block_content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input_item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input_item_title {
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #7e7e7e;
+}
+
+.eye {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 20px;
+  cursor: pointer;
+  height: 20px;
+}
+
+.input {
+  background: #121212;
+  border-radius: 8px;
+  padding: 15px 20px;
+  color: #fff;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  outline: none;
+  border: 1px solid #252525;
+}
+
+.checkbox {
+  min-height: 18px;
+  min-width: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e5c787;
+  border-radius: 2px;
+  background: inherit;
+  transition: all 0.3s;
+}
+
+.arr_checkbox {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.active_checkbox {
+  box-shadow: 0px 0px 4px 0px #d18b34;
+  background: #c4a562;
+
+  .arr_checkbox {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.age_block {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.checkbox_text {
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  color: #7e7e7e;
+
+  span {
+    color: #ffe09d;
+  }
+}
+
+.signup_btn {
+  border: 1px solid #ffe09d;
+  background: #252019;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ffe09d;
+  border-radius: 8px;
+  height: 50px;
+  width: 100%;
+  color: #ffe09d;
+  font-family: var(--font-nunito-sans);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.sign_in_block {
+  display: flex;
+  align-items: center;
+}
+
+.already_text {
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 400;
+  color: #7e7e7e;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+}
+
+.signin_text {
+  cursor: pointer;
+  color: #ffe09d;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+}

@@ -18,6 +18,7 @@ import * as BonusPopupM from "@/widgets/PopUpBonus/model";
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 import { useRouter } from "next/router";
+import { Registration } from "../Registration/Registration";
 
 interface LayoutProps {
   children?: any;
@@ -62,6 +63,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               props.gameName !== undefined && s.overlayed
             )}
           >
+            <Registration />
             <Header
               isGame={props.gameName != undefined}
               hideHeaderBtn={props.hideHeaderBtn}
