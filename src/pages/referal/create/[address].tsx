@@ -5,7 +5,7 @@ import MainPageBackground from "@/public/media/misc/MainPageBackground.webp";
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 
-import { useAccount, useSignMessage } from "wagmi";
+// import { useAccount, useSignMessage } from "wagmi";
 import { FC, useEffect } from "react";
 import { useRouter } from "next/router";
 import * as api from "@/shared/api/";
@@ -14,37 +14,37 @@ interface ReferalProps {
   referal_address: string;
 }
 const Referal: FC<ReferalProps> = (props) => {
-  const { address, isConnected } = useAccount();
-  const { signMessage, variables, data: signMessageData } = useSignMessage();
+  // const { address, isConnected } = useAccount();
+  // const { signMessage, variables, data: signMessageData } = useSignMessage();
 
-  useEffect(() => {
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    const run = async () => {
-      if (isConnected && address) {
-        await sleep(2000);
-        signMessage({
-          message: `${(
-            props.referal_address as string
-          ).toLowerCase()} ${address?.toLowerCase()}`,
-        });
-      }
-    };
-    run();
-  }, [isConnected]);
+  // useEffect(() => {
+  //   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  //   const run = async () => {
+  //     if (isConnected && address) {
+  //       await sleep(2000);
+  //       signMessage({
+  //         message: `${(
+  //           props.referal_address as string
+  //         ).toLowerCase()} ${address?.toLowerCase()}`,
+  //       });
+  //     }
+  //   };
+  //   run();
+  // }, [isConnected]);
 
-  useEffect(() => {
-    (async () => {
-      if (variables?.message && signMessageData && isConnected && address) {
-        await api.createReferealFx({
-          refer_to: (props.referal_address as string).toLowerCase(),
-          referal: address.toLowerCase(),
-          signature: signMessageData.slice(2),
-        });
+  // useEffect(() => {
+  //   (async () => {
+  //     if (variables?.message && signMessageData && isConnected && address) {
+  //       await api.createReferealFx({
+  //         refer_to: (props.referal_address as string).toLowerCase(),
+  //         referal: address.toLowerCase(),
+  //         signature: signMessageData.slice(2),
+  //       });
 
-        location.href = "/";
-      }
-    })();
-  }, [signMessageData, variables?.message]);
+  //       location.href = "/";
+  //     }
+  //   })();
+  // }, [signMessageData, variables?.message]);
   return <></>;
 };
 

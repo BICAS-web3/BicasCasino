@@ -17,7 +17,7 @@ import { WagerModel } from "@/widgets/Wager";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import * as RPSGM from "@/widgets/RockPaperScissors/model";
@@ -40,7 +40,7 @@ const WagerContent = () => {
     GameModel.$waitingResponse,
     GameModel.$isPlaying,
   ]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
   const [pressButton, setIsEmtyWager] = useUnit([
     WagerModel.pressButton,
     GameModel.setIsEmtyWager,
@@ -53,9 +53,9 @@ const WagerContent = () => {
   ]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
 
   const router = useRouter();
   const queryParams = new URLSearchParams(window.location.search);
@@ -75,7 +75,7 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <RpsPicker />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -105,7 +105,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>{" "}
+      </button>{" "} */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}

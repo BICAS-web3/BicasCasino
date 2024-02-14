@@ -102,7 +102,7 @@ import { Poker } from "@/widgets/Poker/Poker";
 import PokerGame from "./games/Poker";
 import CoinFlipGame from "./games/CoinFlip";
 import { settingsModel } from "@/entities/settings";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import Link from "next/link";
 import { Blur } from "@/widgets/Blur/Blur";
 import { useDeviceType } from "@/shared/tools";
@@ -410,7 +410,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
     BlurModel.setBlur,
   ]);
 
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
   const hideAvaibleWallet = () => {
     close();
@@ -431,13 +431,13 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
       document.documentElement.style.overflow = "visible";
     }
   };
-  const { isConnecting } = useAccount();
+  // const { isConnecting } = useAccount();
 
   return (
     <div className={s.banner_info}>
       <div className={s.header}>Top 1 Casino on the WEB3</div>
       <div className={s.connect_wallet_container}>
-        {!isConnected && (
+        {/* {!isConnected && (
           <>
             <div className={s.text}>Login via Web3 wallets</div>
             <div className={s.button} onClick={handleConnectWalletBtn}>
@@ -448,7 +448,7 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
               )}
             </div>
           </>
-        )}
+        )} */}
         <div
           className={`${s.banner_info_avaibleWallet_container} ${
             !isOpen && s.sidebarClosed
@@ -461,69 +461,6 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
   );
 };
 
-interface MainReplacementComponentProps {}
-const MainReplacementComponent: FC<MainReplacementComponentProps> = (props) => {
-  const { isConnected } = useAccount();
-  const device = useDeviceType();
-
-  const [sidebarOpened] = useUnit([SideBarModel.$isOpen]);
-  const [currentImage, setCurrentImage] = useState(mainBg);
-
-  useEffect(() => {
-    if (device === "laptop") {
-      setCurrentImage(laptopBg);
-    } else if (device === "tablet") {
-      setCurrentImage(tabletBg);
-    } else if (device === "phone") {
-      setCurrentImage(phoneBg);
-    } else if (device === "main") {
-      setCurrentImage(mainBg2);
-    }
-  }, [device]);
-
-  return (
-    <div>
-      {!isConnected ? (
-        <>
-          <div
-            className={`${s.background_container} ${
-              !sidebarOpened && s.background_sidebar_closed
-            }`}
-          >
-            <Image src={currentImage} alt={""} className={s.background} />
-            <div className={s.background_gradient}></div>
-          </div>
-          <BannerInfo />
-        </>
-      ) : (
-        <div className={s.main_advertaising_blocks}>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-          <div className={s.main_advertaising_blocks_item}>
-            <img src={advPoster.src} alt="banner-image" />
-            <div className={s.main_advertaising_blocks_item_body}>
-              <h3 className={s.main_advertaising_blocks_item_title}>
-                advertising poster
-              </h3>
-              {/* <p className={s.main_advertaising_blocks_item_text}>
-                Замена баннера после привязки кошелька.
-              </p> */}
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
 const preloadModel = async () => {
   await import("@/widgets/Dice/DiceModel");
 };

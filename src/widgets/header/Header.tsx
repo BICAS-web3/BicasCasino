@@ -44,7 +44,7 @@ import clsx from "clsx";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 
-interface EmblemProps { }
+interface EmblemProps {}
 const Emblem: FC<EmblemProps> = (props) => {
   return (
     <Link className={s.emblem} href="/">
@@ -54,7 +54,7 @@ const Emblem: FC<EmblemProps> = (props) => {
   );
 };
 
-interface LeftMenuProps { }
+interface LeftMenuProps {}
 const LeftMenu: FC<LeftMenuProps> = (props) => {
   return (
     <div className={s.left_menu}>
@@ -63,7 +63,7 @@ const LeftMenu: FC<LeftMenuProps> = (props) => {
   );
 };
 
-interface LinksProps { }
+interface LinksProps {}
 const Links: FC<LinksProps> = (props) => {
   return (
     <div className={s.links}>
@@ -75,7 +75,7 @@ const Links: FC<LinksProps> = (props) => {
   );
 };
 
-interface ConnectWalletButtonProps { }
+interface ConnectWalletButtonProps {}
 const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -148,8 +148,9 @@ const ConnectWalletButton: FC<ConnectWalletButtonProps> = (props) => {
         )}
       </div>
       <div
-        className={`${s.header_avaibleWallet_wrap} ${walletVisibility && s.avaibleWallet_visible
-          }`}
+        className={`${s.header_avaibleWallet_wrap} ${
+          walletVisibility && s.avaibleWallet_visible
+        }`}
       >
         <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
       </div>
@@ -274,7 +275,7 @@ const RightMenu: FC<RightMenuProps> = (props) => {
   );
 };
 
-interface BottomMenuProps { }
+interface BottomMenuProps {}
 const BottomMenu: FC<BottomMenuProps> = (props) => {
   const [openSidebar, closeSb, isOpen] = useUnit([
     SideBarModel.Open,

@@ -24,21 +24,21 @@ import { WagerModel } from "../WagerInputsBlock";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+// } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { ABI as IAppleAbi } from "@/shared/contracts/AppleABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { TOKENS } from "@/shared/tokens";
-import { useFeeData } from "wagmi";
+// import { useFeeData } from "wagmi";
 import * as ApplesModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
@@ -202,90 +202,90 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setCoefficient(1.98);
   }, []);
 
-  const { chain } = useNetwork();
-  const { address, isConnected } = useAccount();
-  const { data, isError } = useFeeData({ watch: true });
+  // const { chain } = useNetwork();
+  // const { address, isConnected } = useAccount();
+  // const { data, isError } = useFeeData({ watch: true });
 
   const [inGame, setInGame] = useState<boolean>(false);
 
-  const { data: GameState, refetch: fetchGameState } = useContractRead({
-    chainId: chain?.id,
-    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-    abi: IAppleAbi,
-    functionName: "Apples_GetState",
-    args: [address],
-    enabled: true,
-    //watch: isConnected && !inGame,
-    blockTag: "latest",
-  });
+  // const { data: GameState, refetch: fetchGameState } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+  //   abi: IAppleAbi,
+  //   functionName: "Apples_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   //watch: isConnected && !inGame,
+  //   blockTag: "latest",
+  // });
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      gameAddress,
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     gameAddress,
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  // });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  // const { write: setAllowance, isSuccess: allowanceIsSet } =
+  //   useContractWrite(allowanceConfig);
   // useEffect(() => alert(allowanceIsSet), [allowanceIsSet]);
   const [fees, setFees] = useState<bigint>(BigInt(0));
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-    abi: IAppleAbi,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected && !inGame,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+  //   abi: IAppleAbi,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected && !inGame,
+  // });
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
   const [value, setValue] = useState<bigint>(BigInt(0));
 
@@ -311,34 +311,34 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setBetValue(newValue + BigInt(400000) * prevGasPrice);
   }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    chainId: chain?.id,
-    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-    abi: IAppleAbi,
-    functionName: "Apples_Play",
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    args: [
-      useDebounce(
-        BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-      ),
-      pickedToken?.contract_address,
-      apples,
-    ],
-    value: value,
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+  //   abi: IAppleAbi,
+  //   functionName: "Apples_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   args: [
+  //     useDebounce(
+  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //     ),
+  //     pickedToken?.contract_address,
+  //     apples,
+  //   ],
+  //   value: value,
+  // });
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setActivePicker(false);
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setActivePicker(false);
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
 
   // const { config: refundConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
@@ -359,81 +359,81 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
   //   }
   // }, [refund]);
 
-  useContractEvent({
-    address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-    abi: IAppleAbi,
-    eventName: "Apples_Outcome_Event",
-    listener(log) {
-      if (
-        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-        address?.toLowerCase()
-      ) {
-        console.log("-------", (log[0] as any).args, "----");
-        const handlePayouts = async () => {
-          setCoefficientData((prev) => [
-            Number((log[0] as any)?.args?.payout) / Number(wagered),
-            ...prev,
-          ]);
-        };
-        handlePayouts();
+  // useContractEvent({
+  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+  //   abi: IAppleAbi,
+  //   eventName: "Apples_Outcome_Event",
+  //   listener(log) {
+  //     if (
+  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //       address?.toLowerCase()
+  //     ) {
+  //       console.log("-------", (log[0] as any).args, "----");
+  //       const handlePayouts = async () => {
+  //         setCoefficientData((prev) => [
+  //           Number((log[0] as any)?.args?.payout) / Number(wagered),
+  //           ...prev,
+  //         ]);
+  //       };
+  //       handlePayouts();
 
-        const getResult = () => {
-          setAppleGameResult((log[0] as any).args.mines);
-        };
-        getResult();
-        setWaitingResponse(false);
-        const wagered = BigInt((log[0] as any).args.wager);
+  //       const getResult = () => {
+  //         setAppleGameResult((log[0] as any).args.mines);
+  //       };
+  //       getResult();
+  //       setWaitingResponse(false);
+  //       const wagered = BigInt((log[0] as any).args.wager);
 
-        if ((log[0] as any).args.payout > wagered) {
-          const profit = (log[0] as any).args.payout;
-          const multiplier = Number(profit / wagered);
-          const wagered_token = (
-            (log[0] as any).args.tokenAddress as string
-          ).toLowerCase();
-          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  //       if ((log[0] as any).args.payout > wagered) {
+  //         const profit = (log[0] as any).args.payout;
+  //         const multiplier = Number(profit / wagered);
+  //         const wagered_token = (
+  //           (log[0] as any).args.tokenAddress as string
+  //         ).toLowerCase();
+  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
-        } else {
-          const wageredFloat =
-            Number(wagered / BigInt(10000000000000000)) / 100;
+  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+  //         setWonStatus({
+  //           profit: profitFloat,
+  //           multiplier,
+  //           token: token as string,
+  //         });
+  //         setGameStatus(GameModel.GameStatus.Won);
+  //       } else {
+  //         const wageredFloat =
+  //           Number(wagered / BigInt(10000000000000000)) / 100;
 
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
-        }
-      }
-    },
-  });
+  //         setLostStatus(wageredFloat);
+  //         setGameStatus(GameModel.GameStatus.Lost);
+  //       }
+  //     }
+  //   },
+  // });
 
-  useEffect(() => {
-    if (wagered) {
-      if (inGame) {
-      } else {
-        const total_value = cryptoValue * betsAmount;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            setAllowance?.();
-          } else {
-            startPlaying?.();
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
+  // useEffect(() => {
+  //   if (wagered) {
+  //     if (inGame) {
+  //     } else {
+  //       const total_value = cryptoValue * betsAmount;
+  //       if (
+  //         cryptoValue != 0 &&
+  //         currentBalance &&
+  //         total_value <= currentBalance
+  //       ) {
+  //         if (
+  //           (!allowance || (allowance && allowance <= cryptoValue)) &&
+  //           pickedToken?.contract_address !=
+  //             "0x0000000000000000000000000000000000000000"
+  //         ) {
+  //           setAllowance?.();
+  //         } else {
+  //           startPlaying?.();
+  //         }
+  //       }
+  //     }
+  //     setWagered(false);
+  //   }
+  // }, [wagered]);
   useEffect(() => {
     setActivePicker(true);
     setInGame(false);
@@ -482,12 +482,12 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
 
   return (
     <>
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <div className={s.apples_game_wrap}>
         <WagerLowerBtnsBlock game="apples" text={"apples"} />
         <div className={s.apples_table_background}>

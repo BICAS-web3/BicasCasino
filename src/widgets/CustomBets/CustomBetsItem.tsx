@@ -17,7 +17,7 @@ import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import carIcon from "@/public/media/cars/icon.jpg";
 import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 export interface CustomBetsItemProps {
@@ -41,7 +41,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
   const [gameImg, setGameImg] = useState(pokerIcon);
   const [avaSize, setAvaSize] = useState("30");
   const [screenWidth, setScreenWidth] = useState(0);
-  const { address } = useAccount();
+  // const { address } = useAccount();
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
@@ -85,7 +85,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
     <div
       className={s.customBets_list_item}
       data-bg={props.id % 2 === 0 && "true"}
-      data-playerBet={address?.toLowerCase() === props.player_address && "true"}
+      // data-playerBet={address?.toLowerCase() === props.player_address && "true"}
     >
       <div className={s.customBets_list_item_time_block}>
         <Link

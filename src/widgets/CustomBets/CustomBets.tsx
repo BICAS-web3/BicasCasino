@@ -6,7 +6,7 @@ import { useUnit } from "effector-react";
 import { settingsModel } from "@/entities/settings";
 import { T_BetInfo } from "@/shared/api";
 import { sessionModel } from "@/entities/session";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import * as api from "@/shared/api/";
 import { TOKENS } from "@/shared/tokens";
 
@@ -29,25 +29,25 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
     sessionModel.$newBet,
   ]);
 
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
 
   const [activePage, setActivePage] = useState<Page>(Page.AllBets);
   const [firstRun, setFirstRun] = useState<boolean>(false);
 
   const [betsToDisplay, setBetsToDisplay] = useState<api.T_BetInfo[]>([]);
 
-  useEffect(() => {
-    if (isConnected && activePage == Page.MyBets) {
-      if (newBet && newBet.player.toLowerCase() == address?.toLowerCase()) {
-        const bets = betsToDisplay;
-        bets.unshift(newBet);
-        if (bets.length > 10) {
-          bets.pop();
-        }
-        setBetsToDisplay(bets);
-      }
-    }
-  }, [newBet, activePage, isConnected]);
+  // useEffect(() => {
+  //   if (isConnected && activePage == Page.MyBets) {
+  //     if (newBet && newBet.player.toLowerCase() == address?.toLowerCase()) {
+  //       const bets = betsToDisplay;
+  //       bets.unshift(newBet);
+  //       if (bets.length > 10) {
+  //         bets.pop();
+  //       }
+  //       setBetsToDisplay(bets);
+  //     }
+  //   }
+  // }, [newBet, activePage, isConnected]);
 
   // const getMyBets = async (addr: string) => {
   //   var new_bets = (await api.getUserBets({

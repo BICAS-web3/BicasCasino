@@ -6,7 +6,7 @@ import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtn
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import {
   CustomWagerRangeInput,
@@ -35,7 +35,7 @@ const WagerContent = () => {
     GameModel.setIsEmtyWager,
     GameModel.setRefund,
   ]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -57,7 +57,7 @@ const WagerContent = () => {
       />
       <WagerGainLoss />
       <ProfitBlock />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -87,7 +87,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>{" "}
+      </button>{" "} */}
       {/* {isPlaying && (
         <RefundButton
           onClick={() => setRefund(true)}

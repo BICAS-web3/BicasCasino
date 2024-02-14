@@ -4,7 +4,7 @@ import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
@@ -36,8 +36,8 @@ const WagerContent = () => {
     ConnectModel.setConnect,
   ]);
   const isMobile = useMediaQuery("(max-width: 996px)");
-  const { isConnected, isConnecting } = useAccount();
-  const { connectors, connect } = useConnect();
+  // const { isConnected, isConnecting } = useAccount();
+  // const { connectors, connect } = useConnect();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { push, reload } = useRouter();
   const router = useRouter();
@@ -47,9 +47,9 @@ const WagerContent = () => {
     GameModel.setRefund,
   ]);
 
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const queryParams = new URLSearchParams(window.location.search);
@@ -68,7 +68,7 @@ const WagerContent = () => {
       />
       <WagerGainLoss />
       <ProfitBlock />
-      {!isMobile && (
+      {/* {!isMobile && (
         <button
           className={`${s.connect_wallet_btn} ${
             isPlaying && "animation-leftRight"
@@ -99,7 +99,7 @@ const WagerContent = () => {
             "Connect Wallet"
           )}
         </button>
-      )}{" "}
+      )} */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}

@@ -8,16 +8,16 @@ import {
   Suspense,
 } from "react";
 
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useFeeData,
-  useNetwork,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";
 
 import { useUnit } from "effector-react";
 
@@ -75,7 +75,7 @@ export interface DiceProps {
 
 const Dice: FC<DiceProps> = ({ gameText }) => {
   const [preloading, setPreloading] = useState(true);
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
   const [modelLoading, setModelLoading] = useState(true);
   const [imageLoading, setIMageLoading] = useState(true);
   useEffect(() => {
@@ -159,17 +159,17 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
     setRollValue(number_value);
   };
-  const { data, isError, isLoading } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  // const { data, isError, isLoading } = useFeeData({
+  //   watch: isConnected,
+  //   cacheTime: 5000,
+  // });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
 
   let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
 
@@ -188,7 +188,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     flipRollOver(RollValue);
   };
 
-  const { chain } = useNetwork();
+  // const { chain } = useNetwork();
   // const total = (win_chance / RollValue) * multiplier;
   //const total = Math.floor((win_chance / RollValue) * multiplier);
   //?-----------------------------------------------------------------
@@ -229,101 +229,101 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   //   enabled: true,
   // });
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: DiceAbi,
-    functionName: "Dice_Play",
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    args: [
-      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      multiplier,
-      pickedToken?.contract_address,
-      rollOver,
-      betsAmount,
-      useDebounce(stopGain)
-        ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-      useDebounce(stopLoss)
-        ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-    ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0)),
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: DiceAbi,
+  //   functionName: "Dice_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   args: [
+  //     useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+  //     multiplier,
+  //     pickedToken?.contract_address,
+  //     rollOver,
+  //     betsAmount,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //     pickedToken.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+  //         BigInt(100000000000)
+  //       : BigInt(0)),
+  // });
 
-  const { data: GameState, refetch: fetchGameState } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: DiceAbi,
-    functionName: "Dice_GetState",
-    args: [address],
-    enabled: true,
-    //watch: isConnected,
-    blockTag: "latest",
-  });
+  // const { data: GameState, refetch: fetchGameState } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: DiceAbi,
+  //   functionName: "Dice_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   //watch: isConnected,
+  //   blockTag: "latest",
+  // });
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      gameAddress,
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-    gasPrice: data?.gasPrice as any,
-    gas: BigInt(50000),
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     gameAddress,
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  //   gasPrice: data?.gasPrice as any,
+  //   gas: BigInt(50000),
+  // });
 
-  const {
-    write: setAllowance,
-    error: allowanceError,
-    status: allowanceStatus,
-    data: allowanceData,
-  } = useContractWrite(allowanceConfig);
+  // const {
+  //   write: setAllowance,
+  //   error: allowanceError,
+  //   status: allowanceStatus,
+  //   data: allowanceData,
+  // } = useContractWrite(allowanceConfig);
 
   // const { config: refundConfig } = usePrepareContractWrite({
   //   chainId: chain?.id,
@@ -345,110 +345,110 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
   const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (allowanceData) {
-      setWatchAllowance(true);
-    }
-  }, [allowanceData]);
+  // useEffect(() => {
+  //   if (allowanceData) {
+  //     setWatchAllowance(true);
+  //   }
+  // }, [allowanceData]);
 
-  const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-    hash: allowanceData?.hash,
-    enabled: watchAllowance,
-  });
+  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+  //   hash: allowanceData?.hash,
+  //   enabled: watchAllowance,
+  // });
 
-  useEffect(() => {
-    if (inGame && allowanceIsSet && watchAllowance) {
-      setWatchAllowance(false);
-      startPlaying();
-    } else if (allowanceError) {
-      setWatchAllowance(false);
-      setActivePicker(true);
-      setInGame(false);
-      setWaitingResponse(false);
-    }
-  }, [inGame, allowanceIsSet, allowanceError]);
+  // useEffect(() => {
+  //   if (inGame && allowanceIsSet && watchAllowance) {
+  //     setWatchAllowance(false);
+  //     startPlaying();
+  //   } else if (allowanceError) {
+  //     setWatchAllowance(false);
+  //     setActivePicker(true);
+  //     setInGame(false);
+  //     setWaitingResponse(false);
+  //   }
+  // }, [inGame, allowanceIsSet, allowanceError]);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: gameAddress as `0x${string}`,
-    abi: DiceAbi,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected && !inGame,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: gameAddress as `0x${string}`,
+  //   abi: DiceAbi,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected && !inGame,
+  // });
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
-  //!---
+  // //!---
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setActivePicker(false);
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setActivePicker(false);
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
 
-  const [coefficientData, setCoefficientData] = useState<number[]>([]);
-  useContractEvent({
-    address: gameAddress as `0x${string}`,
-    abi: DiceAbi,
-    eventName: "Dice_Outcome_Event",
-    listener(log) {
-      //handleLog(log)
-      if (
-        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-        address?.toLowerCase()
-      ) {
-        setWaitingResponse(false);
-        const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
-        const handlePayouts = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) /
-                Number(BigInt((log[0] as any).args.wager));
-              setCoefficientData((prev) => [outCome, ...prev]);
-            }, 700 * (i + 1));
-          }
-        };
-        handlePayouts();
-        if ((log[0] as any).args.payout > wagered) {
-          const profit = (log[0] as any).args.payout;
-          const multiplier = Number(profit / wagered);
-          const wagered_token = (
-            (log[0] as any).args.tokenAddress as string
-          ).toLowerCase();
-          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  // const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  // useContractEvent({
+  //   address: gameAddress as `0x${string}`,
+  //   abi: DiceAbi,
+  //   eventName: "Dice_Outcome_Event",
+  //   listener(log) {
+  //     //handleLog(log)
+  //     if (
+  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //       address?.toLowerCase()
+  //     ) {
+  //       setWaitingResponse(false);
+  //       const wagered =
+  //         BigInt((log[0] as any).args.wager) *
+  //         BigInt((log[0] as any).args.numGames);
+  //       const handlePayouts = () => {
+  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+  //           setTimeout(() => {
+  //             const outCome =
+  //               Number((log[0] as any)?.args?.payouts[i]) /
+  //               Number(BigInt((log[0] as any).args.wager));
+  //             setCoefficientData((prev) => [outCome, ...prev]);
+  //           }, 700 * (i + 1));
+  //         }
+  //       };
+  //       handlePayouts();
+  //       if ((log[0] as any).args.payout > wagered) {
+  //         const profit = (log[0] as any).args.payout;
+  //         const multiplier = Number(profit / wagered);
+  //         const wagered_token = (
+  //           (log[0] as any).args.tokenAddress as string
+  //         ).toLowerCase();
+  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
-          console.log("win");
-        } else {
-          const wageredFloat =
-            Number(wagered / BigInt(10000000000000000)) / 100;
+  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+  //         setWonStatus({
+  //           profit: profitFloat,
+  //           multiplier,
+  //           token: token as string,
+  //         });
+  //         setGameStatus(GameModel.GameStatus.Won);
+  //         console.log("win");
+  //       } else {
+  //         const wageredFloat =
+  //           Number(wagered / BigInt(10000000000000000)) / 100;
 
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
-          console.log("lost");
-        }
-      }
-    },
-  });
+  //         setLostStatus(wageredFloat);
+  //         setGameStatus(GameModel.GameStatus.Lost);
+  //         console.log("lost");
+  //       }
+  //     }
+  //   },
+  // });
 
   useEffect(() => {
     if (wagered) {
@@ -467,19 +467,18 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) {
-              setAllowance();
-              setActivePicker(false);
-              setInGame(true);
-              setWaitingResponse(true);
-            }
+            // if (setAllowance) {
+            //   // setAllowance();
+            //   setActivePicker(false);
+            //   setInGame(true);
+            //   setWaitingResponse(true);
+            // }
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
-
-            if (startPlaying) {
-              startPlaying();
-            }
+            // if (startPlaying) {
+            //   startPlaying();
+            // }
           }
         }
       }
@@ -568,12 +567,12 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   return (
     <>
       {" "}
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <div className={s.dice}>
         {" "}
         <WagerLowerBtnsBlock
@@ -619,7 +618,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             </div>
           </div>
           <div className={clsx(s.balls_arr)}>
-            {coefficientData.map((item, i) => (
+            {/* {coefficientData.map((item, i) => (
               <div
                 className={clsx(
                   s.multiplier_value,
@@ -629,7 +628,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
               >
                 {item?.toFixed(2)}x
               </div>
-            ))}
+            ))} */}
           </div>
           <div className={s.range_wrapper}>
             {" "}
