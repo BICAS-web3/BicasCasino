@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 
-import passwordEye from "@/public/media/registration/passwordEye.svg";
-
 import * as RegistrM from "@/widgets/Registration/model";
 
 import * as api from "@/shared/api";
@@ -10,6 +8,7 @@ import * as api from "@/shared/api";
 import s from "./styles.module.scss";
 
 import clsx from "clsx";
+import { EyeClose, EyeOpen } from "@/shared/SVGs";
 
 interface SigninProps {}
 
@@ -18,6 +17,15 @@ export const Signin: FC<SigninProps> = () => {
     RegistrM.$isSignup,
     RegistrM.setIsSignup,
   ]);
+
+  const [setAuth] = useUnit([RegistrM.setAuth]);
+
+  useEffect(() => {
+    const exist = localStorage.getItem("auth");
+    if (exist && exist === "ok") {
+      setAuth(true);
+    }
+  }, []);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -44,10 +52,17 @@ export const Signin: FC<SigninProps> = () => {
             login: name,
             password: password,
           });
-          console.log(data);
+          if (data.status === "OK") {
+            localStorage.setItem(`auth`, "ok");
+            setAuth(true);
+            setName("");
+            setPassword("");
+          }
         })();
       } else {
         setError(true);
+        setName("");
+        setPassword("");
       }
       setStartLogin(false);
     }
@@ -86,12 +101,23 @@ export const Signin: FC<SigninProps> = () => {
           type={showPassword ? "text" : "password"}
           className={s.input}
         />
-        <img
+        {/* <img
           onClick={() => setShowPassword((prev) => !prev)}
           src={passwordEye.src}
           className={s.eye}
           alt="eue"
-        />
+        /> */}
+        {showPassword ? (
+          <EyeOpen
+            onClick={() => setShowPassword((prev) => !prev)}
+            className={s.eye}
+          />
+        ) : (
+          <EyeClose
+            onClick={() => setShowPassword((prev) => !prev)}
+            className={s.eye}
+          />
+        )}
       </div>
       <button onClick={() => setStartLogin(true)} className={s.sign_btn}>
         Sign In

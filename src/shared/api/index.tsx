@@ -305,6 +305,11 @@ export type T_SubmitError = {
 };
 
 export type T_RegisterUser = {
+  username: string;
+  password: string;
+};
+
+export type T_LoginUser = {
   login: string;
   password: string;
 };
@@ -584,7 +589,7 @@ export const GetTokenPriceFx = createEffect<string, T_ApiResponse, string>(
   }
 );
 
-export const loginUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
+export const loginUser = createEffect<T_LoginUser, T_ApiResponse, string>(
   async (form) => {
     return fetch(`${BaseApiUrl}/user/login`, {
       method: "POST",

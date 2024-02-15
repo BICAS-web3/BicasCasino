@@ -1,21 +1,27 @@
 import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 
-import passwordEye from "@/public/media/registration/passwordEye.svg";
 import arr from "@/public/media/registration/arr.svg";
 
 import * as RegistrM from "@/widgets/Registration/model";
 
 import * as api from "@/shared/api";
+import { EyeClose, EyeOpen } from "@/shared/SVGs";
 
 import clsx from "clsx";
 import s from "./styles.module.scss";
-import { EyeClose, EyeOpen } from "@/shared/SVGs";
 
 interface SignupProps {}
 
 export const Signup: FC<SignupProps> = () => {
   const [setAuth] = useUnit([RegistrM.setAuth]);
+
+  useEffect(() => {
+    const exist = localStorage.getItem("auth");
+    if (exist && exist === "ok") {
+      setAuth(true);
+    }
+  }, []);
 
   const [ageCheckbox, setAgeCheckbox] = useState(true);
   const [policyCheckbox, setPolicyCheckbox] = useState(false);
@@ -47,16 +53,20 @@ export const Signup: FC<SignupProps> = () => {
       if (ageCheckbox && policyCheckbox && name && password) {
         (async () => {
           const data = await api.registerUser({
-            login: name,
+            username: name,
             password: password,
           });
-          console.log(data);
           if (data.status === "OK") {
+            localStorage.setItem(`auth`, "ok");
             setAuth(true);
+            setName("");
+            setPassword("");
           }
         })();
       } else {
         setError(true);
+        setName("");
+        setPassword("");
       }
       setStartRegister(false);
     }
@@ -96,12 +106,6 @@ export const Signup: FC<SignupProps> = () => {
             type={showPassword ? "text" : "password"}
             className={s.input}
           />
-          {/* <img
-            onClick={() => setShowPassword((prev) => !prev)}
-            src={passwordEye.src}
-            className={s.eye}
-            alt="eue"
-          /> */}
           {showPassword ? (
             <EyeOpen
               onClick={() => setShowPassword((prev) => !prev)}
