@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import * as PaymentM from "./model";
@@ -71,14 +71,21 @@ export const Payment: FC<PaymentProps> = () => {
     PaymentM.setPurcahseVisibility,
   ]);
 
+  const [purchaseValue, setPurchaseValue] = useState();
+
   const handlePurchaseBtn = (price: any) => {
     setPurchaseVisibility(true);
+    setPurchaseValue(price);
   };
+
+  useEffect(() => {
+    console.log(purchaseVisibility, paymentVisibility);
+  }, [purchaseVisibility]);
 
   return (
     <>
-      {paymentVisibility ? (
-        <div className={s.payment_wrap}>
+      <div className={s.payment_wrap}>
+        {paymentVisibility && !purchaseVisibility ? (
           <div
             className={clsx(
               s.payment_body,
@@ -141,11 +148,11 @@ export const Payment: FC<PaymentProps> = () => {
               {storeType === "buy" ? (
                 <>
                   <div className={s.payment_attention}>
-                    <p className={s.payment_attention_text}>
+                    <span className={s.payment_attention_text}>
                       <span>DRAX tokens</span> won through play can be <br />{" "}
                       redeemed for
                       <p> BTC, LTC</p> and more
-                    </p>
+                    </span>
                     <div className={s.attention_coins_wrap}>
                       <div className={s.attention_coins_shadow}></div>
                       <img
@@ -201,10 +208,10 @@ export const Payment: FC<PaymentProps> = () => {
               )}
             </div>
           </div>
-        </div>
-      ) : (
-        purchaseVisibility && paymentVisibility && <PaymentPurchase />
-      )}
+        ) : (
+          <PaymentPurchase purchasePrice={purchaseValue} />
+        )}
+      </div>
     </>
   );
 };

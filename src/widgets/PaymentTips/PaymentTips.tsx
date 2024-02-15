@@ -6,11 +6,11 @@ import { PaymentDropdown } from "../PaymentDropdown/PaymentDropdown";
 
 const tipsList = [
   {
-    img: dcCoinIco,
+    ico: dcCoinIco,
     title: "1.77 dc",
   },
   {
-    img: bcCoinIco,
+    ico: bcCoinIco,
     title: "170.000 bc",
   },
 ];
@@ -33,7 +33,7 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
         <span className={s.tips_input_title}>Tips amount</span>
         <input type="text" className={s.tips_input} />
         <img
-          src={activeCoin.img.src}
+          src={activeCoin.ico.src}
           className={s.active_tip_coin_ico}
           alt="tips-coin"
         />

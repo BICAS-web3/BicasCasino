@@ -1,6 +1,6 @@
 import { createEvent, createStore } from "effector";
 
-export const $paymentVisibility = createStore<boolean>(false);
+export const $paymentVisibility = createStore<boolean>(true);
 export const $purchaseVisibility = createStore<boolean>(false);
 export const $storeType = createStore<string>("buy");
 
