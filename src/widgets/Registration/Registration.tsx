@@ -71,15 +71,22 @@ export const Registration: FC<RegistrationProps> = () => {
               <PasswordRecovery />
             )}
           </div>
-          <div className={s.continue_with_block}>
-            <div className={s.continue_with_block_item}>
-              <img src={googleIco.src} alt="gg" />
+          <div className={s.continue_with_block_wrap}>
+            <div className={s.continue_with_title_block}>
+              <div className={s.border}></div>
+              <span className={s.continue_with_title}>Or continue with</span>
+              <div className={s.border}></div>
             </div>
-            <div className={s.continue_with_block_item}>
-              <img src={fbIco.src} alt="fb" />
-            </div>
-            <div className={s.continue_with_block_item}>
-              <img src={twitterIco.src} alt="tw" />
+            <div className={s.continue_with_block}>
+              <div className={s.continue_with_block_item}>
+                <img src={googleIco.src} alt="gg" />
+              </div>
+              <div className={s.continue_with_block_item}>
+                <img src={fbIco.src} alt="fb" />
+              </div>
+              <div className={s.continue_with_block_item}>
+                <img src={twitterIco.src} alt="tw" />
+              </div>
             </div>
           </div>
         </div>
