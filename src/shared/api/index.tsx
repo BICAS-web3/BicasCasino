@@ -304,6 +304,15 @@ export type T_SubmitError = {
   data: string;
 };
 
+export type T_RegisterUser = {
+  login: string;
+  password: string;
+};
+
+export type T_ChangeName = {
+  name: string;
+};
+
 export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
   async (form) => {
     return fetch(`${BaseApiUrl}/general/error`, {
@@ -574,3 +583,69 @@ export const GetTokenPriceFx = createEffect<string, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const loginUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/register`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/username`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const getUserInfo = createEffect<string | number, T_ApiResponse, string>(
+  async (userId) => {
+    return fetch(`${BaseApiUrl}/user/${userId}`, {
+      method: "GET",
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const getUserAmounts = createEffect<
+  string | number,
+  T_ApiResponse,
+  string
+>(async (userId) => {
+  return fetch(`${BaseApiUrl}/user/amounts/${userId}`, {
+    method: "GET",
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});

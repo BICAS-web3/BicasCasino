@@ -15,6 +15,7 @@ import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
 import * as BonusPopupM from "@/widgets/PopUpBonus/model";
+import * as RegistrM from "@/widgets/Registration/model";
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 import { useRouter } from "next/router";
@@ -33,6 +34,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
   const { pathname } = useRouter();
+
+  const [isAuth] = useUnit([RegistrM.$isAuth]);
 
   useEffect(() => {
     if (window.innerWidth <= 650 || props.gameName !== undefined) close();
@@ -63,7 +66,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               props.gameName !== undefined && s.overlayed
             )}
           >
-            <Registration />
+            {!isAuth && <Registration />}
             <Header
               isGame={props.gameName != undefined}
               hideHeaderBtn={props.hideHeaderBtn}
