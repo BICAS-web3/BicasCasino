@@ -14,11 +14,18 @@ import s from "./styles.module.scss";
 interface SignupProps {}
 
 export const Signup: FC<SignupProps> = () => {
-  const [setAuth] = useUnit([RegistrM.setAuth]);
+  const [inPorgress, setInProgress] = useState(false);
+
+  const [setIsSignup, setAuth, setAccessToken, setRefreshToken] = useUnit([
+    RegistrM.setIsSignup,
+    RegistrM.setAuth,
+    RegistrM.setAccessToken,
+    RegistrM.setRefreshToken,
+  ]);
 
   useEffect(() => {
     const exist = localStorage.getItem("auth");
-    if (exist && exist === "ok") {
+    if (exist) {
       setAuth(true);
     }
   }, []);
@@ -33,12 +40,15 @@ export const Signup: FC<SignupProps> = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isSignup, setIsSignup] = useUnit([
-    RegistrM.$isSignup,
-    RegistrM.setIsSignup,
-  ]);
-
   const [startRegister, setStartRegister] = useState(false);
+
+  const [userExist, setUserExist] = useState(false);
+
+  useEffect(() => {
+    if (userExist) {
+      setTimeout(() => setUserExist(false), 1000);
+    }
+  }, [userExist]);
 
   useEffect(() => {
     if (error) {
@@ -52,15 +62,36 @@ export const Signup: FC<SignupProps> = () => {
     if (startRegister) {
       if (ageCheckbox && policyCheckbox && name && password) {
         (async () => {
+          setInProgress(true);
           const data = await api.registerUser({
             username: name,
             password: password,
           });
           if (data.status === "OK") {
-            localStorage.setItem(`auth`, "ok");
-            setAuth(true);
-            setName("");
-            setPassword("");
+            const dataObj = await api.loginUser({
+              login: name,
+              password: password,
+            });
+            if (dataObj.status === "OK") {
+              console.log(dataObj);
+              localStorage.setItem("auth", (dataObj.body as any).access_token);
+              setAccessToken((dataObj.body as any).access_token);
+              setRefreshToken((dataObj.body as any).refresh_token);
+              setAuth(true);
+              setName("");
+              setPassword("");
+            } else if (data.status !== "OK") {
+              setInProgress(false);
+            }
+          }
+          if (data.status !== "OK") {
+            if (
+              (data.body as any).error ===
+              'Db Error: error returned from database: duplicate key value violates unique constraint "users_login_key"'
+            ) {
+              setUserExist(true);
+            }
+            setInProgress(false);
           }
         })();
       } else {
@@ -155,7 +186,7 @@ export const Signup: FC<SignupProps> = () => {
           </p>
         </div>
         <button onClick={() => setStartRegister(true)} className={s.signup_btn}>
-          Sign Up
+          {inPorgress ? "In process" : userExist ? "User exist" : "Sign Up"}
         </button>
         <div className={s.sign_in_block}>
           <span className={s.already_text}>Already have an account? </span>

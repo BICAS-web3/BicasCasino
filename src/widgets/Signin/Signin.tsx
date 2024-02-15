@@ -4,25 +4,28 @@ import { useUnit } from "effector-react";
 import * as RegistrM from "@/widgets/Registration/model";
 
 import * as api from "@/shared/api";
+import { EyeClose, EyeOpen } from "@/shared/SVGs";
 
 import s from "./styles.module.scss";
 
 import clsx from "clsx";
-import { EyeClose, EyeOpen } from "@/shared/SVGs";
 
 interface SigninProps {}
 
 export const Signin: FC<SigninProps> = () => {
-  const [isSignup, setIsSignup] = useUnit([
-    RegistrM.$isSignup,
-    RegistrM.setIsSignup,
-  ]);
+  const [inPorgress, setInProgress] = useState(false);
+  const [errorData, setErrorData] = useState(false);
 
-  const [setAuth] = useUnit([RegistrM.setAuth]);
+  const [setIsSignup, setAuth, setAccessToken, setRefreshToken] = useUnit([
+    RegistrM.setIsSignup,
+    RegistrM.setAuth,
+    RegistrM.setAccessToken,
+    RegistrM.setRefreshToken,
+  ]);
 
   useEffect(() => {
     const exist = localStorage.getItem("auth");
-    if (exist && exist === "ok") {
+    if (exist) {
       setAuth(true);
     }
   }, []);
@@ -37,6 +40,12 @@ export const Signin: FC<SigninProps> = () => {
   const [startLogin, setStartLogin] = useState(false);
 
   useEffect(() => {
+    if (errorData) {
+      setTimeout(() => setErrorData(false), 1000);
+    }
+  }, [errorData]);
+
+  useEffect(() => {
     if (error) {
       setTimeout(() => {
         setError(false);
@@ -48,15 +57,24 @@ export const Signin: FC<SigninProps> = () => {
     if (startLogin) {
       if (name && password) {
         (async () => {
+          setInProgress(true);
           const data = await api.loginUser({
             login: name,
             password: password,
           });
           if (data.status === "OK") {
-            localStorage.setItem(`auth`, "ok");
+            console.log(data.body);
+            setAccessToken((data.body as any).access_token);
+            setRefreshToken((data.body as any).refresh_token);
+            localStorage.setItem("auth", (data.body as any).access_token);
             setAuth(true);
             setName("");
             setPassword("");
+          } else if ((data.body as any).status !== "OK") {
+            if ((data.body as any).error === "Wrong login or password") {
+              setErrorData(true);
+            }
+            setInProgress(false);
           }
         })();
       } else {
@@ -101,12 +119,6 @@ export const Signin: FC<SigninProps> = () => {
           type={showPassword ? "text" : "password"}
           className={s.input}
         />
-        {/* <img
-          onClick={() => setShowPassword((prev) => !prev)}
-          src={passwordEye.src}
-          className={s.eye}
-          alt="eue"
-        /> */}
         {showPassword ? (
           <EyeOpen
             onClick={() => setShowPassword((prev) => !prev)}
@@ -120,7 +132,7 @@ export const Signin: FC<SigninProps> = () => {
         )}
       </div>
       <button onClick={() => setStartLogin(true)} className={s.sign_btn}>
-        Sign In
+        {inPorgress ? "In process" : errorData ? "Wrong data" : "Sign In"}
       </button>
       <span
         className={s.forgot_password_btn}

@@ -177,7 +177,15 @@ export type T_ApiResponse = {
     | T_LatestGames
     | T_PlayerTotals
     | T_TokenPrice
-    | T_NFTMarket;
+    | T_NFTMarket
+    | T_LoginReponse;
+};
+
+export type T_LoginReponse = {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  token_type: string;
 };
 
 export type T_GetUsername = {
