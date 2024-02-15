@@ -16,7 +16,7 @@ import { SwapToken } from "@/widgets/Swap/ui/SwapToken";
 import { Blur } from "@/widgets/Swap/ui/Blur";
 import * as SidebarM from "@/widgets/SideBar/model";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
 import { Swap } from "../Swap";
 import * as SwapModel from "@/widgets/Swap/model/index";
@@ -28,18 +28,18 @@ import { ArrowSwapIcon } from "@/shared/SVGs/ArrowSwapIcon";
 export interface FooterProps {}
 export const Footer: FC<FooterProps> = (props) => {
   const [sidebarState] = useUnit([SidebarM.$isOpen]);
-  const { address, isConnected } = useAccount();
+  // const { address, isConnected } = useAccount();
   const router = useRouter();
 
-  const profileRedirect = () => {
-    if (isConnected) {
-      router.push(`/account/${address?.toLocaleLowerCase}`);
-    } else if (!isConnected && window.innerWidth < 650) {
-      router.push(`/AccountFallback`);
-    } else {
-      return null;
-    }
-  };
+  // const profileRedirect = () => {
+  //   if (isConnected) {
+  //     router.push(`/account/${address?.toLocaleLowerCase}`);
+  //   } else if (!isConnected && window.innerWidth < 650) {
+  //     router.push(`/AccountFallback`);
+  //   } else {
+  //     return null;
+  //   }
+  // };
 
   const isMobile = useMediaQuery("(max-width: 650px)");
   const { toggle, close, dropdownRef, isOpen, open: setOpen } = useDropdown();
@@ -115,7 +115,7 @@ export const Footer: FC<FooterProps> = (props) => {
 
               <div className={s.games_list}>
                 <span
-                  onClick={() => profileRedirect()}
+                  // onClick={() => profileRedirect()}
                   className={s.footer_text}
                 >
                   PROFILE

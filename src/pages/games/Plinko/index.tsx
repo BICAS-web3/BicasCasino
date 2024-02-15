@@ -8,7 +8,7 @@ import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
 import { Plinko } from "@/widgets/Plinko/Plinko";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import {
   CustomWagerRangeInput,
@@ -37,8 +37,8 @@ const WagerContent = () => {
     GameModel.setIsEmtyWager,
     GameModel.setRefund,
   ]);
-  const { connectors, connect } = useConnect();
-  const { isConnected, isConnecting } = useAccount();
+  // const { connectors, connect } = useConnect();
+  // const { isConnected, isConnecting } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
   const { push, reload } = useRouter();
 
@@ -71,7 +71,7 @@ const WagerContent = () => {
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
       />
       <ProfitBlock />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -93,18 +93,18 @@ const WagerContent = () => {
             );
           }
         }}
-      >
-        {/* isConnecting && startConnect ? (
+      > */}
+      {/* isConnecting && startConnect ? (
         <LoadingDots className={s.dots_black} title="Connecting" />
       ) :  */}
-        {isPlaying ? (
+      {/* {isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
         ) : isConnected ? (
           "Play"
         ) : (
           "Connect Wallet"
-        )}
-      </button>{" "}
+        )} */}
+      {/* </button>{" "} */}
       {/* {isPlaying && (
         <RefundButton
           onClick={() => setRefund(true)}

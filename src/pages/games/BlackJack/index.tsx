@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { useUnit } from "effector-react";
 import * as ConnectModel from "@/widgets/Layout/model";
 import * as GameModel from "@/widgets/GamePage/model";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { WagerModel } from "@/widgets/Wager";
 import { useRouter } from "next/router";
 import {
@@ -25,7 +25,7 @@ import { BjPicker } from "@/widgets/BjPicker/BjPicker";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
 
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
@@ -49,14 +49,14 @@ const WagerContent = () => {
     GameModel.setRefund,
     AppleModel.$emptyField,
   ]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   const [title, setTitle] = useState(false);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock bjVariants={true} />
       <BjPicker />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -112,7 +112,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
     </>
   );
 };

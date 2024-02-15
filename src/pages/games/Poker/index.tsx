@@ -15,7 +15,7 @@ import { useUnit } from "effector-react";
 import { PokerModel } from "@/widgets/Poker/Poker";
 import { CustomWagerRangeInput } from "@/widgets/CustomWagerRangeInput";
 import Head from "next/head";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
@@ -39,15 +39,15 @@ const WagerContent = () => {
     WagerModel.pressButton,
     GameModel.setIsEmtyWager,
   ]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
 
   const [cardsNew] = useUnit([
     //PokerModel.$isPlaying,
     PokerModel.$watchState,
   ]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
 
@@ -62,7 +62,7 @@ const WagerContent = () => {
   return (
     <>
       <WagerInputsBlock />
-      <button
+      {/* <button
         className={clsx(
           s.poker_wager_drawing_cards_btn,
           s.mobile,
@@ -97,7 +97,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>{" "}
+      </button>{" "} */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}

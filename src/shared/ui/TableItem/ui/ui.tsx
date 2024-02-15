@@ -18,6 +18,7 @@ import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
 import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
+import carIcon from "@/public/media/cars/icon.jpg";
 export const TableItem: FC<IBetData> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
   const [gameImg, setGameImg] = useState(pokerIcon);
@@ -57,6 +58,8 @@ export const TableItem: FC<IBetData> = (props) => {
       setGameImg(wheelIcon);
     } else if (props.game_name === "Apples") {
       setGameImg(appleIcon);
+    } else if (props.game_name === "Cars") {
+      setGameImg(carIcon);
     }
   });
   return (

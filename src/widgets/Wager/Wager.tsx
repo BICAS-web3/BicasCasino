@@ -10,12 +10,14 @@ interface WagerProps {
   wagerContent: any;
   ButtonElement?: ReactElement;
   ManualElement?: any;
+  isFlex?: boolean;
 }
 
 export const Wager: FC<WagerProps> = ({
   wagerContent,
   ManualElement,
   ButtonElement,
+  isFlex = true,
 }) => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   return (
@@ -23,7 +25,10 @@ export const Wager: FC<WagerProps> = ({
       <div className={s.poker_wager_block}>
         {/* <ManualAutoWager /> */}
         {ManualElement}
-        <div className={clsx(isPlaying && s.flex)}> {ButtonElement}</div>
+        <div className={clsx(isPlaying && isFlex && s.flex)}>
+          {" "}
+          {ButtonElement}
+        </div>
         <h2 className={s.poker_wager_title}>Wager</h2>
         {wagerContent}
       </div>

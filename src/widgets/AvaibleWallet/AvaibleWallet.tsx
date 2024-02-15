@@ -9,7 +9,7 @@ import Trust_wallet from "@/public/media/select_wallet/Trust_wallet.svg";
 import WalletConnect from "@/public/media/select_wallet/WalletConnect.svg";
 import Close from "@/public/media/select_wallet/Close.svg";
 import { InfoIcon } from "@/shared/SVGs";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+// import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { SideBarModel } from "../SideBar";
 import * as MainWallet from "./model";
 import * as BlurModel from "@/widgets/Blur/model";
@@ -22,9 +22,9 @@ export interface WalletProps {
   connector: any;
 }
 const Wallet: FC<WalletProps> = (props) => {
-  const { connect } = useConnect();
+  // const { connect } = useConnect();
   // const { disconnect } = useDisconnect();
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
   const [isOpen, closeWallet, setBlur, isBlurActive, isMainWalletOpen] =
     useUnit([
@@ -42,7 +42,7 @@ const Wallet: FC<WalletProps> = (props) => {
         (window as any).fbq("track", "Lead");
         closeWallet();
         //setBlur(false);
-        connect({ connector: props.connector });
+        // connect({ connector: props.connector });
       }}
     >
       <Image src={props.icon} alt={""} width={20} height={20} />
@@ -55,9 +55,9 @@ export interface AvaibleWalletProps {
   hideAvaibleWallet: () => void;
 }
 export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
-  const { connectors } = useConnect();
+  // const { connectors } = useConnect();
   return (
     <div className={s.avaibleWallet_container}>
       <div className={s.avaibleWallet}>
@@ -74,7 +74,7 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
       </div>
       <div className={s.connect_text}>Connect Wallet</div>
       <div className={s.select_wallet}>
-        {connectors[0].ready && (
+        {/* {connectors[0].ready && (
           <Wallet name="Metamask" icon={Metamask} connector={connectors[0]} />
         )}
         {connectors[3].ready && (
@@ -93,7 +93,7 @@ export const AvaibleWallet: FC<AvaibleWalletProps> = (props) => {
         )}
         {connectors[1].ready && (
           <Wallet name="Coinbase" icon={Coinbase} connector={connectors[1]} />
-        )}
+        )} */}
       </div>
       <div className={s.info}>
         <Link

@@ -10,7 +10,7 @@ import { useUnit } from "effector-react";
 import { settingsModel } from "@/entities/settings";
 import { WagerModel } from ".";
 import * as api from "@/shared/api";
-import { useNetwork, useAccount, useContractRead, useBalance } from "wagmi";
+// import { useNetwork, useAccount, useContractRead, useBalance } from "wagmi";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { useDropdown } from "@/shared/tools";
 
@@ -97,13 +97,13 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     sessionModel.$gameAddress,
   ]);
 
-  const { chain } = useNetwork();
-  const { address, isConnected } = useAccount();
+  // const { chain } = useNetwork();
+  // const { address, isConnected } = useAccount();
 
-  const { data: ethBalance } = useBalance({
-    address: address,
-    watch: isConnected,
-  });
+  // const { data: ethBalance } = useBalance({
+  //   address: address,
+  //   watch: isConnected,
+  // });
 
   const [cryptoInputValue, setCryptoInputValue] = useState("");
   const [currencyInputValue, setCurrencyInputValue] = useState("");
@@ -141,30 +141,30 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     }
   }, [pickedToken]);
 
-  const {
-    data: allowance,
-    isError: allowanceError,
-    isLoading,
-    refetch: fetchAllowance,
-  } = useContractRead({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "allowance",
-    args: [address, GameAddress],
-    watch:
-      isConnected &&
-      pickedToken?.contract_address !=
-        "0x0000000000000000000000000000000000000000",
-  });
+  // const {
+  //   data: allowance,
+  //   isError: allowanceError,
+  //   isLoading,
+  //   refetch: fetchAllowance,
+  // } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "allowance",
+  //   args: [address, GameAddress],
+  //   watch:
+  //     isConnected &&
+  //     pickedToken?.contract_address !=
+  //       "0x0000000000000000000000000000000000000000",
+  // });
 
-  useEffect(() => {
-    if (allowance) {
-      const new_allowance =
-        Number((allowance as any) / BigInt(100000000000000)) / 10000;
-      setAllowance(new_allowance);
-    }
-  }, [allowance]);
+  // useEffect(() => {
+  //   if (allowance) {
+  //     const new_allowance =
+  //       Number((allowance as any) / BigInt(100000000000000)) / 10000;
+  //     setAllowance(new_allowance);
+  //   }
+  // }, [allowance]);
 
   // const { data: balance, error, isError: balanceError, refetch: fetchBalance } = useContractRead({
   //   address: (pickedToken?.contract_address as `0x${string}`),
@@ -174,36 +174,36 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
   //   watch: isConnected
   // });
 
-  const { data: balance } = useBalance({
-    address: address,
-    token:
-      pickedToken?.contract_address ==
-      "0x0000000000000000000000000000000000000000"
-        ? undefined
-        : (pickedToken?.contract_address as `0x${string}`),
-    watch: isConnected,
-  });
+  // const { data: balance } = useBalance({
+  //   address: address,
+  //   token:
+  //     pickedToken?.contract_address ==
+  //     "0x0000000000000000000000000000000000000000"
+  //       ? undefined
+  //       : (pickedToken?.contract_address as `0x${string}`),
+  //   watch: isConnected,
+  // });
 
-  useEffect(() => {
-    if (balance) {
-      const new_balance =
-        Number((balance.value as any) / BigInt(100000000000000)) / 10000;
-      setBalance(new_balance);
-    }
-  }, [balance]);
-  useEffect(() => {
-    if (pickedToken && balance) {
-      const new_balance =
-        Number((balance.value as any) / BigInt(100000000000000)) / 10000;
-      setBalance(new_balance);
-    }
-  }, [pickedToken]);
+  // useEffect(() => {
+  //   if (balance) {
+  //     const new_balance =
+  //       Number((balance.value as any) / BigInt(100000000000000)) / 10000;
+  //     setBalance(new_balance);
+  //   }
+  // }, [balance]);
+  // useEffect(() => {
+  //   if (pickedToken && balance) {
+  //     const new_balance =
+  //       Number((balance.value as any) / BigInt(100000000000000)) / 10000;
+  //     setBalance(new_balance);
+  //   }
+  // }, [pickedToken]);
 
-  useEffect(() => {
-    if (!chain || chain.unsupported) {
-      unpickToken();
-    }
-  }, [chain]);
+  // useEffect(() => {
+  //   if (!chain || chain.unsupported) {
+  //     unpickToken();
+  //   }
+  // }, [chain]);
 
   useEffect(() => {
     const num = Number(cryptoInputValue);
@@ -223,24 +223,24 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
   const [isLowBalance, setIsLowBalance] = useState(false);
   const [isFeeTooLarge, setIsFeeTooLarge] = useState(false);
 
-  useEffect(() => {
-    if (ethBalance?.value != undefined && Wagered) {
-      if (
-        !currentBalance ||
-        currentBalance == 0 ||
-        cryptoValue * betsAmount > currentBalance
-      ) {
-        setIsLowBalance(true);
-        setIsFeeTooLarge(false);
-      } else if (ethBalance?.value < betValue) {
-        setIsFeeTooLarge(true);
-        setIsLowBalance(false);
-      } else {
-        setIsLowBalance(false);
-        setIsFeeTooLarge(false);
-      }
-    }
-  }, [Wagered]);
+  // useEffect(() => {
+  //   if (ethBalance?.value != undefined && Wagered) {
+  //     if (
+  //       !currentBalance ||
+  //       currentBalance == 0 ||
+  //       cryptoValue * betsAmount > currentBalance
+  //     ) {
+  //       setIsLowBalance(true);
+  //       setIsFeeTooLarge(false);
+  //     } else if (ethBalance?.value < betValue) {
+  //       setIsFeeTooLarge(true);
+  //       setIsLowBalance(false);
+  //     } else {
+  //       setIsLowBalance(false);
+  //       setIsFeeTooLarge(false);
+  //     }
+  //   }
+  // }, [Wagered]);
   const wagerInputRef = useRef<HTMLInputElement>(null);
   const isEmtyWagerRef = useRef(isEmtyWager);
 

@@ -2,7 +2,7 @@ import s from "./styles.module.scss";
 import Image from "next/image";
 import { networksList } from "@/widgets/NetworkSelect/NetworkSelect";
 import { FC } from "react";
-import { useSwitchNetwork } from "wagmi";
+// import { useSwitchNetwork } from "wagmi";
 
 export interface NetworkSelectItemProps {
   title: string;
@@ -14,14 +14,14 @@ export interface NetworkSelectItemProps {
   close: () => void;
 }
 export const NetworkSelectItem: FC<NetworkSelectItemProps> = (props) => {
-  const { switchNetwork } = useSwitchNetwork();
+  // const { switchNetwork } = useSwitchNetwork();
 
   const handleActiveNetworkChange = () => {
     props.close();
     // props.setNetworkVisibility(false)
     //const activeNetwork = networksList.filter(item => item.id === props.id)[0]
     //props.setActiveNetwork(props.id)
-    switchNetwork?.(props.id);
+    // switchNetwork?.(props.id);
     //setNetworkList(networksList.filter(item => item.id !== activeNetwork.id))
 
     //export interface NetworkSelectItemProps {

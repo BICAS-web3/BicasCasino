@@ -17,13 +17,13 @@ import ExplorerIcon from "@/public/media/account_icons/ExplorerIcon.svg";
 import * as HeaderAccModel from "@/widgets/Account/model";
 import { useUnit } from "effector-react";
 import * as BlurModel from "@/widgets/Blur/model";
-import { useDisconnect } from "wagmi";
+// import { useDisconnect } from "wagmi";
 import { CopyToClipboardButton } from "@/shared/ui/CopyToClipboardButton";
 import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 import closeIco from "@/public/media/misc/closeAccIco.webp";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
 export enum Ewallet {
   Ledger = "Ledger",
@@ -66,8 +66,8 @@ export interface AccountProps {
   toggle?: any;
 }
 export const Account: FC<AccountProps> = (props) => {
-  const { address } = useAccount();
-  const { disconnect } = useDisconnect();
+  // const { address } = useAccount();
+  // const { disconnect } = useDisconnect();
   const truncatedAddress = `${props.address.slice(
     0,
     7
@@ -109,12 +109,12 @@ export const Account: FC<AccountProps> = (props) => {
       />
       <div className={s.profile}>
         <div className={s.profile_ava_wrap}>
-          <BlockiesAva size={avaSize} address={address} />
+          {/* <BlockiesAva size={avaSize} address={address} /> */}
         </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
             {props.nickname &&
-              props.nickname.toLowerCase() != props.address.toLowerCase()
+            props.nickname.toLowerCase() != props.address.toLowerCase()
               ? props.nickname
               : truncatedAddress}
           </div>
@@ -151,7 +151,7 @@ export const Account: FC<AccountProps> = (props) => {
         <AccountElement
           name="Disconnect"
           icon={ExitIcon}
-          onClick={() => disconnect()}
+          // onClick={() => disconnect()}
         />
         {/* <AccountElement name="Explorer" icon={Explorer}/>
         <AccountElement name="Disconnect" icon={Exit}/> */}

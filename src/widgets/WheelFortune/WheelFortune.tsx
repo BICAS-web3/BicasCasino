@@ -1,14 +1,14 @@
 import { FC, use, useEffect, useState } from "react";
 
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useFeeData,
-  useNetwork,
-  usePrepareContractWrite,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+// } from "wagmi";
 
 import * as LevelModel from "@/widgets/WheelFortuneLevelsBlock/model";
 
@@ -71,7 +71,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   const PURPLE_COLOR = "#FB2E90";
   const YELLOW_COLOR = "#FBC02E";
   const [level, setLevel] = useUnit([LevelModel.$level, LevelModel.setLevel]);
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
 
   const [
@@ -146,17 +146,17 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   const [playWheel] = useSound("/music/wheel.mp3", { volume: 1 });
 
-  const { data } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  // const { data } = useFeeData({
+  //   watch: isConnected,
+  //   cacheTime: 5000,
+  // });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
 
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
@@ -165,7 +165,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     setCoefficient(Number(multiplier) / 10000);
   }, [multiplier]);
 
-  const { chain } = useNetwork();
+  // const { chain } = useNetwork();
 
   const [inGame, setInGame] = useState<boolean>(false);
   const [fees, setFees] = useState<bigint>(BigInt(0));
@@ -199,204 +199,204 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     setNumSectors(pickedValue / 10);
   }, [pickedValue]);
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    chainId: chain?.id,
-    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
-    abi: FortuneWheelABI,
-    functionName: "Wheel_Play",
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    args: [
-      useDebounce(
-        BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-      ),
-      // multiplier,
-      pickedToken?.contract_address,
-      betsAmount,
-      level === "Easy" ? 0 : level === "Medium" ? 1 : 2,
-      numSectors - 1,
-      useDebounce(stopGain)
-        ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-      useDebounce(stopLoss)
-        ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-    ],
-    value: value,
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+  //   abi: FortuneWheelABI,
+  //   functionName: "Wheel_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   args: [
+  //     useDebounce(
+  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+  //     ),
+  //     // multiplier,
+  //     pickedToken?.contract_address,
+  //     betsAmount,
+  //     level === "Easy" ? 0 : level === "Medium" ? 1 : 2,
+  //     numSectors - 1,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //   ],
+  //   value: value,
+  // });
 
   // useEffect(() => console.log(error), [error]);
 
-  const { data: GameState } = useContractRead({
-    chainId: chain?.id,
-    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
-    abi: FortuneWheelABI,
-    functionName: "Wheel_GetState",
-    args: [address],
-    enabled: true,
-    blockTag: "latest",
-    watch: isConnected as any,
-  });
+  // const { data: GameState } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+  //   abi: FortuneWheelABI,
+  //   functionName: "Wheel_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   blockTag: "latest",
+  //   watch: isConnected as any,
+  // });
 
-  useEffect(() => {
-    console.log(111, (GameState as any)?.wager);
-    const wager = Number((GameState as any)?.wager);
-    if (wager > 0) {
-      setInGame(true);
-      const locaLevel = (GameState as any)?.risk;
-      const locaSegments = (GameState as any)?.numSectors + 1;
-      if (locaLevel === 0) {
-        setLevel("Easy");
-      } else if (locaLevel === 1) {
-        setLevel("Medium");
-      } else if (locaLevel === 2) {
-        setLevel("Hard");
-      }
-      const segments = locaSegments * 10;
-      setTimeout(() => {
-        setPickedValue(segments);
-      }, 0);
-    }
-  }, [(GameState as any)?.wager]);
+  // useEffect(() => {
+  //   console.log(111, (GameState as any)?.wager);
+  //   const wager = Number((GameState as any)?.wager);
+  //   if (wager > 0) {
+  //     setInGame(true);
+  //     const locaLevel = (GameState as any)?.risk;
+  //     const locaSegments = (GameState as any)?.numSectors + 1;
+  //     if (locaLevel === 0) {
+  //       setLevel("Easy");
+  //     } else if (locaLevel === 1) {
+  //       setLevel("Medium");
+  //     } else if (locaLevel === 2) {
+  //       setLevel("Hard");
+  //     }
+  //     const segments = locaSegments * 10;
+  //     setTimeout(() => {
+  //       setPickedValue(segments);
+  //     }, 0);
+  //   }
+  // }, [(GameState as any)?.wager]);
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      gameAddress,
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     gameAddress,
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  // });
 
-  const { write: setAllowance } = useContractWrite(allowanceConfig);
+  // const { write: setAllowance } = useContractWrite(allowanceConfig);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
-    abi: FortuneWheelABI,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected && !inGame,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+  //   abi: FortuneWheelABI,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected && !inGame,
+  // });
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setActivePicker(false);
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setActivePicker(false);
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
 
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
 
   const [outcomes, setOutcomes] = useState<number[]>([]);
 
-  useContractEvent({
-    address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
-    abi: FortuneWheelABI,
-    eventName: "Wheel_Outcome_Event",
-    listener(log) {
-      if (
-        ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-        address?.toLowerCase()
-      ) {
-        console.log("------", (log[0] as any).args, "-------");
+  // useContractEvent({
+  //   address: "0x5EC013956a7E51153d6DC2ebCe99a73Ad48949D0",
+  //   abi: FortuneWheelABI,
+  //   eventName: "Wheel_Outcome_Event",
+  //   listener(log) {
+  //     if (
+  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+  //       address?.toLowerCase()
+  //     ) {
+  //       console.log("------", (log[0] as any).args, "-------");
 
-        setWaitingResponse(false);
-        const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
+  //       setWaitingResponse(false);
+  //       const wagered =
+  //         BigInt((log[0] as any).args.wager) *
+  //         BigInt((log[0] as any).args.numGames);
 
-        const handleCall = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) /
-                Number(BigInt((log[0] as any).args.wager));
-              setCoefficientData((prev) => [outCome, ...prev]);
-              setLocalNumber(outCome);
-            }, 1500 * (i + 1));
-          }
-        };
-        handleCall();
+  //       const handleCall = () => {
+  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+  //           setTimeout(() => {
+  //             const outCome =
+  //               Number((log[0] as any)?.args?.payouts[i]) /
+  //               Number(BigInt((log[0] as any).args.wager));
+  //             setCoefficientData((prev) => [outCome, ...prev]);
+  //             setLocalNumber(outCome);
+  //           }, 1500 * (i + 1));
+  //         }
+  //       };
+  //       handleCall();
 
-        const handleOutcome = () => {
-          setOutcomes((log[0] as any)?.args?.outcomes);
-        };
-        handleOutcome();
+  //       const handleOutcome = () => {
+  //         setOutcomes((log[0] as any)?.args?.outcomes);
+  //       };
+  //       handleOutcome();
 
-        if ((log[0] as any).args.payout > wagered) {
-          const profit = (log[0] as any).args.payout;
-          const multiplier = Number(profit / wagered);
-          const wagered_token = (
-            (log[0] as any).args.tokenAddress as string
-          ).toLowerCase();
-          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  //       if ((log[0] as any).args.payout > wagered) {
+  //         const profit = (log[0] as any).args.payout;
+  //         const multiplier = Number(profit / wagered);
+  //         const wagered_token = (
+  //           (log[0] as any).args.tokenAddress as string
+  //         ).toLowerCase();
+  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
-        } else {
-          const wageredFloat =
-            Number(wagered / BigInt(10000000000000000)) / 100;
+  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+  //         setWonStatus({
+  //           profit: profitFloat,
+  //           multiplier,
+  //           token: token as string,
+  //         });
+  //         setGameStatus(GameModel.GameStatus.Won);
+  //       } else {
+  //         const wageredFloat =
+  //           Number(wagered / BigInt(10000000000000000)) / 100;
 
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
-        }
-      }
-    },
-  });
+  //         setLostStatus(wageredFloat);
+  //         setGameStatus(GameModel.GameStatus.Lost);
+  //       }
+  //     }
+  //   },
+  // });
 
   useEffect(() => {
     if (wagered) {
@@ -413,10 +413,10 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            setAllowance?.();
+            // setAllowance?.();
           } else {
             setOutcomes([]);
-            startPlaying?.();
+            // startPlaying?.();
           }
         }
       }
@@ -1208,12 +1208,12 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
 
   return (
     <>
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <section
         onClick={() => {
           setCount((prev) => prev + 2);
@@ -1559,38 +1559,85 @@ const WheelComponent = ({
     colors: IWheelColors[]
   ) => {
     const ctx = canvasContext;
-    ctx.save();
-    const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    const innerRadius = size;
-    const outerRadius = size;
-    ctx.beginPath();
-    const startX = centerX + innerRadius * Math.cos(lastAngle);
-    const startY = centerY + innerRadius * Math.sin(lastAngle);
-    ctx.moveTo(startX, startY);
-    ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
-    if (isMobile || count < 50) {
-      const endX = centerX + outerRadius * Math.cos(angle);
-      const endY = centerY + outerRadius * Math.sin(angle);
-      ctx.lineTo(endX, endY);
-    }
-    ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
-    ctx.closePath();
-    ctx.lineJoin = "bevel";
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15;
-    ctx.strokeStyle = colors[key + 1]?.border || "red";
-    ctx.stroke();
-    ctx.restore();
+    // ctx.save();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+    // const innerRadius = size;
+    // const outerRadius = size;
+    // ctx.beginPath();
+    // const startX = centerX + innerRadius * Math.cos(lastAngle);
+    // const startY = centerY + innerRadius * Math.sin(lastAngle);
+    // ctx.moveTo(startX, startY);
+    // ctx.arc(centerX, centerY, innerRadius, lastAngle, angle, false);
+    // if (isMobile || count < 50) {
+    //   const endX = centerX + outerRadius * Math.cos(angle);
+    //   const endY = centerY + outerRadius * Math.sin(angle);
+    //   ctx.lineTo(endX, endY);
+    // }
+    // ctx.arc(centerX, centerY, outerRadius, angle, lastAngle, true);
+    // ctx.closePath();
+    // ctx.lineJoin = "bevel";
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.lineWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+    // ctx.strokeStyle = colors[key + 1]?.border || "red";
+    // ctx.stroke();
+    // ctx.restore();
 
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, size - borderWidth / 2, lastAngle, angle, false);
-    ctx.lineTo(centerX, centerY);
-    ctx.closePath();
-    ctx.fillStyle = colors[key]?.segment;
-    ctx.fill();
-    ctx.restore();
+    // ctx.save();
+    // ctx.beginPath();
+    // ctx.arc(centerX, centerY, size - borderWidth / 2, lastAngle, angle, false);
+    // ctx.lineTo(centerX, centerY);
+    // ctx.closePath();
+    // ctx.fillStyle = colors[key]?.segment;
+    // ctx.fill();
+    // ctx.restore();
+    // const borderWidth = isMobile ? 10 : isDesktop ? 12 : 15;
+
+    function toRad(deg: number): number {
+      return deg * (Math.PI / 180.0);
+    }
+    const width = (document.getElementById("canvas") as HTMLCanvasElement)
+      .width;
+    const height = (document.getElementById("canvas") as HTMLCanvasElement)
+      .height;
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radius = width / 2 - (isMobile ? 14 : 5);
+    ctx!.beginPath();
+    ctx!.arc(centerX, centerY, radius, toRad(0), toRad(360));
+    ctx!.lineTo(centerX, centerY);
+    ctx!.fill();
+    let currentDeg = 0;
+    let step = 360 / count;
+    let startDeg = currentDeg;
+    for (let i = 0; i < count; i++, startDeg += step) {
+      let endDeg = startDeg + step;
+
+      let color = colors[i].segment;
+      let colorStyle = color;
+
+      ctx!.beginPath();
+      // Рисуем сегмент без обводки
+      ctx!.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg));
+      ctx!.lineTo(centerX, centerY);
+      let colorStyle2 = colors[i].border;
+      ctx!.fillStyle = colorStyle2;
+      ctx!.fill();
+      ctx!.beginPath();
+      // Рисуем сегмент с обводкой
+      ctx!.arc(
+        centerX,
+        centerY,
+        radius - (isMobile ? 12 : isDesktop ? 16 : 18),
+        toRad(startDeg - (isMobile ? 0.4 : 0.25)),
+        toRad(endDeg)
+      );
+      ctx!.fillStyle = colorStyle;
+      ctx!.lineTo(centerX, centerY);
+      ctx!.fill();
+    }
+    // ctx.restore();
   };
 
   const drawWheel = (colors: IWheelColors[]) => {

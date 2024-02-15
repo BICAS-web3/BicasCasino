@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "./ui.module.scss";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
 interface IUserAvatar {
   avatarUrl: string | StaticImport;

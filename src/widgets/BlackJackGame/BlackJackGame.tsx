@@ -1,14 +1,16 @@
-import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import bg from "@/public/media/blackjack/bg.png";
-import cardBack from "@/public/media/blackjack/backCardCopy.svg";
-import clsx from "clsx";
-import useSound from "use-sound";
-import * as GameModel from "@/widgets/GamePage/model";
 import { useUnit } from "effector-react";
 import ReactHowler from "react-howler";
-import * as BJModel from "./model";
+import useSound from "use-sound";
+
+import bg from "@/public/media/blackjack/bg.png";
+import cardBack from "@/public/media/blackjack/backCardCopy.svg";
+
+import * as GameModel from "@/widgets/GamePage/model";
 import * as WagerModel from "@/widgets/WagerInputsBlock/model";
+import * as BJModel from "./model";
+
+import s from "./styles.module.scss";
 import cn from "clsx";
 
 interface BlackJackGameProps {}
@@ -50,18 +52,18 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const [testCards, setTestCards] = useState<ICardType[]>([
     { id: "host", value: 2, suit: 0 }, // value это номинал карты 1 - туз, 2-двойка, 3- тройка и так далее.
     { id: "host", value: 3, suit: 1, hostIsFirst: true, hostIsFirst_2: true },
-    { id: "host", value: 10, suit: 2 },
+    { id: "host", value: 5, suit: 2 },
     { id: "player", value: 1, suit: 3 },
     { id: "player", value: 2, suit: 0 },
-    { id: "host", value: 13, suit: 1 },
+    { id: "host", value: 8, suit: 1 },
     { id: "host", value: 6, suit: 2 },
     { id: "host", value: 1, suit: 3 },
     { id: "host", value: 5, suit: 1 },
     { id: "host", value: 6, suit: 2 },
     { id: "host", value: 1, suit: 3 },
     { id: "player", value: 3, suit: 0 },
-    { id: "player", value: 4, suit: 1 },
-    { id: "player", value: 5, suit: 0 },
+    { id: "player", value: 3, suit: 1 },
+    { id: "player", value: 11, suit: 0 },
     { id: "player", value: 12, suit: 1 },
     { id: "player", value: 7, suit: 0 },
     { id: "player", value: 8, suit: 1 },
@@ -69,12 +71,12 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     { id: "player", value: 10, suit: 1 },
   ]);
 
+  // Переворот карты дилера
   useEffect(() => {
     if (resetCard) {
       const index = testCards.findIndex((el) => el.hostIsFirst);
-
+      // от этого состояния зависит сторона
       testCards[index].hostIsFirst = false;
-
       setTestCards(() => {
         return testCards;
       });
@@ -84,6 +86,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const [gameStatus, setGameStatus] = useState<gameStatus>(null);
   const [isSplit, setIsSplit] = useState(false);
 
+  // статус при обычном режиме игры
   useEffect(() => {
     if (userCount === 21) {
       setGameStatus("win");
@@ -108,8 +111,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const [is400, setIs400] = useState(false);
   const [cardsTopGap, setCardsTopGap] = useState(15); // отступ от карты до карты сверху-снизу
   const [cardsLeftGap, setCardsLeftGap] = useState(35); // отступ от карты до карты слева
-  const [leftCards, setLeftCards] = useState<ICardType[]>([]);
-  const [rightCards, setRightCards] = useState<ICardType[]>([]);
+  const [leftCards, setLeftCards] = useState<ICardType[]>([]); // левые карты при сплите
+  const [rightCards, setRightCards] = useState<ICardType[]>([]); // правые
 
   useEffect(() => {
     const handleResize = () => {
@@ -178,8 +181,9 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     }
   }, [is1280, is996, is650, is400]);
 
-  const [dillerCounts, setDilerCount_] = useState(0);
-  const [userCount_, setUserCoutn_] = useState(0);
+  const [dillerCounts, setDilerCount_] = useState(0); // сумма дилера
+  const [isStep, setIsStep] = useState(0); // каждый ход игрока в игре, вызывается при функцииtoPlay
+
   const toDealer = () => {
     setDilerCount_((prev) => prev + 1);
     musicType !== "off" && setPlaySoundHost(true);
@@ -198,6 +202,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     setTopOffsetDealer((prevOffset) => prevOffset + cardsTopGap);
   };
 
+  // эффект для определения статусы после хода дилера
   useEffect(() => {
     if (dillerCounts > 0) {
       const activeCard = testCards.filter((card) => card.id === "host");
@@ -205,25 +210,63 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
       const value = getValue?.value;
       if (value) {
         setDilerCount(dilerCount + value);
+        // зацикленность при начале зода дилера
         if (dilerCount + value < 17 && dillerCounts > 2) {
           setTimeout(() => toDealer(), 800);
           if (!resetCard) {
             setResetCard(true);
           }
         } else if (dilerCount + value >= 17) {
-          dilerCount + value > userCount
-            ? setGameStatus("lose")
-            : setGameStatus("win");
+          // статус при сплите
+          if (isSplit) {
+            const dilerValue = dilerCount + value;
+            if (gameRightStatus === null) {
+              if (dilerValue > 21 && userRightCount < 21) {
+                setGameRightStatus("win");
+              } else if (dilerValue < 21 && userRightCount > dilerValue) {
+                setGameRightStatus("win");
+              }
+              if (
+                dilerValue <= 21 &&
+                userRightCount <= 21 &&
+                userRightCount < dilerValue
+              ) {
+                setGameRightStatus("lose");
+              }
+            }
+
+            if (gameLeftStatus === null) {
+              if (dilerValue > 21 && userLeftCount < 21) {
+                setGameLeftStatus("win");
+              } else if (dilerValue < 21 && userLeftCount > dilerValue) {
+                setGameLeftStatus("win");
+              }
+              if (
+                dilerValue <= 21 &&
+                userLeftCount <= 21 &&
+                userLeftCount < dilerValue
+              ) {
+                setGameLeftStatus("lose");
+              }
+            }
+          } else {
+            dilerCount + value > userCount
+              ? setGameStatus("lose")
+              : setGameStatus("win");
+          }
         }
       }
     }
   }, [dillerCounts]);
 
-  const [isSecondCard, setIsSecondCard] = useState(false);
+  // статус каждой колоды при сплите
   const [gameRightStatus, setGameRightStatus] = useState<gameStatus>(null);
   const [gameLeftStatus, setGameLeftStatus] = useState<gameStatus>(null);
+
+  // состояние, сплит игра или нет
   const [splitGame, setSplitGame] = useState(0);
 
+  // общее значение правой и левой колоды
   const [userLeftCount, setUserLeftCount] = useState(0);
   const [userRightCount, setUserRightCount] = useState(0);
 
@@ -245,12 +288,37 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     if (isSplit) {
       setSplitGame((prev) => prev + 1);
       if (side === "left") {
-        setLeftCards((prev) => [...prev, players[splitGame]]);
         setUserLeftCount((prev) => prev + players[splitGame].value);
+        setLeftCards((prev) => [...prev, players[splitGame]]);
+        // если блекджек у одной колод, она сразу выиграла
+        if (
+          (leftCards[0].value === 1 && players[splitGame].value === 11) ||
+          (leftCards[0].value === 1 && players[splitGame].value === 12) ||
+          (leftCards[0].value === 1 && players[splitGame].value === 13) ||
+          (leftCards[0].value === 11 && players[splitGame].value === 1) ||
+          (leftCards[0].value === 12 && players[splitGame].value === 1) ||
+          (leftCards[0].value === 13 && players[splitGame].value === 1)
+        ) {
+          setUserLeftCount(21);
+        } else {
+          setUserLeftCount((prev) => prev + players[splitGame].value);
+        }
         cardToSend?.classList.add("card-on-table_left");
       } else {
-        setRightCards((prev) => [...prev, players[splitGame]]);
         setUserRightCount((prev) => prev + players[splitGame].value);
+        setRightCards((prev) => [...prev, players[splitGame]]);
+        if (
+          (rightCards[0].value === 1 && players[splitGame].value === 11) ||
+          (rightCards[0].value === 1 && players[splitGame].value === 12) ||
+          (rightCards[0].value === 1 && players[splitGame].value === 13) ||
+          (rightCards[0].value === 11 && players[splitGame].value === 1) ||
+          (rightCards[0].value === 12 && players[splitGame].value === 1) ||
+          (rightCards[0].value === 13 && players[splitGame].value === 1)
+        ) {
+          setUserRightCount(21);
+        } else {
+          setUserRightCount((prev) => prev + players[splitGame].value);
+        }
         cardToSend?.classList.add("card-on-table_right");
       }
       cardToSend?.setAttribute(
@@ -261,8 +329,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
             : is400
             ? "40%"
             : side === "left"
-            ? "33%"
-            : "58%" // разные значение left для нормального отображение на разных экранах
+            ? "33%" // разделение карт при сплите
+            : "58%"
         } + ${
           side === "left"
             ? leftOffsetPlayer + 35 // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
@@ -273,9 +341,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
             : bottomOffsetPlayer + 15 * (leftCards.length - 2) // - 15
         }px)`
       );
-      setIsSecondCard(false);
     } else {
-      setUserCoutn_((prev) => prev + 1);
+      setIsStep((prev) => prev + 1);
       cardToSend?.setAttribute(
         "style",
         `left: calc(${
@@ -293,40 +360,59 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     if (callback) {
       callback();
     }
-    // if (recall && isSplit) {
-    //   setTimeout(() => {
-    //     toPlayer(true, "right", () => {});
-    //     setRecall(false);
-    //     // alert(1111);
-    //   }, 700);
-    // }
   };
 
+  // победа для колоды, если сумма 21
   useEffect(() => {
-    if (userCount_ === 2) {
+    if (userRightCount === 21) {
+      setGameRightStatus("win");
+      setActiveStep("Stand");
+    } else if (userRightCount > 21) {
+      setGameRightStatus("lose");
+      setActiveStep("Stand");
+    }
+  }, [userRightCount]);
+
+  useEffect(() => {
+    if (userLeftCount === 21) {
+      setGameLeftStatus("win");
+      setFirstPlay(false);
+    } else if (userLeftCount > 21) {
+      setGameLeftStatus("lose");
+      setFirstPlay(false);
+    }
+  }, [userLeftCount]);
+
+  useEffect(() => {
+    if (isStep === 2) {
       const activeCard_1 = testCards.filter((card) => card.id === "player")[0];
       const activeCard_2 = testCards.filter((card) => card.id === "player")[1];
+      // конец игры в случае блек джека при обычном режиме
       if (
         (activeCard_1.value === 1 && activeCard_2.value === 11) ||
         (activeCard_1.value === 1 && activeCard_2.value === 12) ||
-        (activeCard_1.value === 1 && activeCard_2.value === 13)
+        (activeCard_1.value === 1 && activeCard_2.value === 13) ||
+        (activeCard_1.value === 11 && activeCard_2.value === 1) ||
+        (activeCard_1.value === 12 && activeCard_2.value === 1) ||
+        (activeCard_1.value === 13 && activeCard_2.value === 1)
       ) {
         setUserCount(21);
         setGameStatus("win");
       }
     }
-    if (userCount_ > 0) {
+    if (isStep > 0) {
       const activeCard = testCards.filter((card) => card.id === "player");
-      const getValue = activeCard.find((_, el) => el === userCount_ - 1);
+      const getValue = activeCard.find((_, el) => el === isStep - 1);
       const value = getValue?.value;
       if (value) {
         setUserCount(userCount + value);
       }
     }
-  }, [userCount_]);
+  }, [isStep]);
 
   //// Тут я начал делать сплит карт, но не успел. Сейчас эта ф-ция отслеживает есть ли у игрока одинаковые карты и выводит их в консоль
 
+  // переход в сплит режим
   const toSplit = () => {
     const firstCard = document.querySelectorAll(`.bj-card-player`)[0];
     const secondCard = document.querySelectorAll(`.bj-card-player`)[1];
@@ -342,9 +428,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
         is996 || is650 ? "45%" : is400 ? "40%" : "33%" // разные значение left для нормального отображение на разных экранах
       } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
-    setIsSecondCard(true);
-    // setLeftOffsetPlayer((prevOffset) => prevOffset + cardsLeftGap);
-    // setBottomOffsetPlayer((prevOffset) => prevOffset - cardsTopGap);
+
     const activeCard_1 = testCards.filter((card) => card.id === "player")[0];
     const activeCard_2 = testCards.filter((card) => card.id === "player")[1];
     if (activeCard_1 && activeCard_2) {
@@ -391,11 +475,6 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
               new Promise((resolve) => {
                 toPlayer(true, firstPlay ? "left" : "right", resolve);
               }),
-              // .then((resolve) => {
-              //   if (recall && resolve) {
-              //     setRecall(true);
-              //   }
-              // }),
             ]);
           } else {
             toPlayer();
@@ -460,7 +539,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
       <div className={s.bj_body}>
         <div className={s.active_cards_wrap}>
           <div
-            className={clsx(
+            className={cn(
               s.lose_notification,
               gameStatus === "lose" && s.lose_notification_show
             )}
@@ -482,11 +561,11 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userCount && !isSplit && (
             <div
               style={{
-                left: `calc(51% + ${userCount_ * 35}px)`,
-                bottom: `calc(34% - ${userCount_ * 10}px)`,
+                left: `calc(51% + ${isStep * 35}px)`,
+                bottom: `calc(34% - ${isStep * 10}px)`,
                 transform: "translate(-50%, -50%)",
               }}
-              className={clsx(
+              className={cn(
                 s.card_value,
                 gameStatus === "win" && s.card_count_win,
                 gameStatus === "lose" && s.card_count_lose
@@ -502,10 +581,10 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
                 bottom: `calc(31% - ${leftCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
-              className={clsx(
+              className={cn(
                 s.card_value,
-                gameStatus === "win" && s.card_count_win,
-                gameStatus === "lose" && s.card_count_lose
+                gameLeftStatus === "win" && s.card_count_win,
+                gameLeftStatus === "lose" && s.card_count_lose
               )}
             >
               {userLeftCount}
@@ -518,10 +597,10 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
                 bottom: `calc(31% - ${rightCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
-              className={clsx(
+              className={cn(
                 s.card_value,
-                gameStatus === "win" && s.card_count_win,
-                gameStatus === "lose" && s.card_count_lose
+                gameRightStatus === "win" && s.card_count_win,
+                gameRightStatus === "lose" && s.card_count_lose
               )}
             >
               {userRightCount}
@@ -529,21 +608,33 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           )}
           {testCards &&
             testCards.map((card, ind) => {
+              const isLeft = leftCards.find(
+                (el) =>
+                  el.value === card.value &&
+                  el.suit === card.suit &&
+                  card.id === "player"
+              );
+              const isRight = rightCards.find(
+                (el) =>
+                  el.value === card.value &&
+                  el.suit === card.suit &&
+                  card.id === "player"
+              );
               return (
                 <div
                   id={`bj-card-${card.id}-${ind + 1}`}
                   key={ind}
-                  className={clsx(
+                  className={cn(
                     s.card,
                     !card.hostIsFirst_2 && s.flipped,
                     `bj-card-${card.id}`
                   )}
                   data-value={card.value}
                 >
-                  <div className={clsx(s.card_front)}>
+                  <div className={cn(s.card_front)}>
                     <img
                       src={`/cards/${card.suit}/${card.value}.svg`}
-                      className={clsx(
+                      className={cn(
                         s.card_front_img,
                         card.id === "player" &&
                           gameStatus === "lose" &&
@@ -554,19 +645,17 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
                         card.id === "player" &&
                           isSplit &&
                           !firstPlay &&
-                          rightCards.find(
-                            (el) =>
-                              el.value === card.value && el.suit === card.suit
-                          ) &&
+                          isRight &&
                           s.active_step,
                         card.id === "player" &&
                           isSplit &&
                           firstPlay &&
-                          leftCards.find(
-                            (el) =>
-                              el.value === card.value && el.suit === card.suit
-                          ) &&
-                          s.active_step
+                          isLeft &&
+                          s.active_step,
+                        isLeft && gameLeftStatus === "lose" && s.card_lose,
+                        isRight && gameRightStatus === "lose" && s.card_lose,
+                        isLeft && gameLeftStatus === "win" && s.card_win,
+                        isRight && gameRightStatus === "win" && s.card_win
                         // card.id === "player" && exist && s.active_step
                       )}
                       alt="front_card_static"

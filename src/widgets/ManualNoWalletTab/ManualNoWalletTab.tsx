@@ -8,7 +8,7 @@ import Injected from "@/public/media/registrManual_images/injectedIco.svg";
 import { BtnRightArrow } from "@/shared/SVGs/BtnRightArrow";
 import { useRouter } from "next/router";
 import exampleImg from "@/public/media/registrManual_images/connectStepImg.webp";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import leftArr from "@/public/media/registrManual_images/leftArr.svg";
 import { Tab } from "@/pages/RegistrManual";
 
@@ -20,12 +20,12 @@ interface ConnectWalletTabProps {
 
 export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
   // const router = useRouter();
-  const { connect, connectors } = useConnect();
-  const { isConnected } = useAccount();
+  // const { connect, connectors } = useConnect();
+  // const { isConnected } = useAccount();
 
-  useEffect(() => {
-    isConnected && props.setTab(Tab.bonusReceiving);
-  }, [isConnected]);
+  // useEffect(() => {
+  //   isConnected && props.setTab(Tab.bonusReceiving);
+  // }, [isConnected]);
 
   return (
     <div className={s.connect_wallet_body}>
@@ -43,7 +43,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
             className={s.wallet_list_item}
             onClick={() => {
               // (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[0] });
+              // connect({ connector: connectors[0] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
@@ -60,7 +60,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
             className={s.wallet_list_item}
             onClick={() => {
               // (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[2] });
+              // connect({ connector: connectors[2] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
@@ -77,7 +77,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
             className={s.wallet_list_item}
             onClick={() => {
               // (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[2] });
+              // connect({ connector: connectors[2] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
@@ -94,7 +94,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
             className={s.wallet_list_item}
             onClick={() => {
               // (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[1] });
+              // connect({ connector: connectors[1] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>
@@ -111,7 +111,7 @@ export const ConnectWalletTab: FC<ConnectWalletTabProps> = (props) => {
             className={s.wallet_list_item}
             onClick={() => {
               // (window as any).fbq("track", "Lead");
-              connect({ connector: connectors[3] });
+              // connect({ connector: connectors[3] });
             }}
           >
             <div className={s.wallet_list_item_leftSide}>

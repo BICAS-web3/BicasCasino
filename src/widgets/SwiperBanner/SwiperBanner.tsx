@@ -32,7 +32,7 @@ import { AvaibleWallet } from "../AvaibleWallet";
 import clsx from "clsx";
 import { checkPageClicking } from "@/shared/tools";
 import { useRouter } from "next/router";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 ///
 
 const swiperSlides = [
@@ -142,10 +142,10 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
   ]);
 
   const router = useRouter();
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
   const handleConnectWalletBtn = () => {
-    !isConnected ? router.push("/RegistrManual") : null;
+    // !isConnected ? router.push("/RegistrManual") : null;
     // if (!walletVisibility) {
     //   router.push("/");
     //   setWalletVisibility(true);
@@ -209,7 +209,8 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
             key={ind}
             id="swiper-slide-banner"
             className={`${s.main_banner_swiper_slide} ${
-              isConnected && s.slide_connected
+              // isConnected && s.slide_connected'
+              ""
             } ${slide.subText && s.slide_connected} ${
               ind === 8 && s.slide_last
             }`}
@@ -245,7 +246,7 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
                 Without KYC <br /> just connect your wallet and play
               </div>
             )}
-            {!isConnected && slide.isBtn === true && (
+            {slide.isBtn === true && ( // !isConnected &&
               <button
                 onClick={() => handleConnectWalletBtn()}
                 className={s.join_wallet_btn}
