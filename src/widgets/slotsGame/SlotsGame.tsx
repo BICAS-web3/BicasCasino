@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from "react";
 
-import {
-  useAccount,
-  useContractEvent,
-  useContractRead,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-} from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+// } from "wagmi";
 
 import { useUnit } from "effector-react";
 
@@ -85,7 +85,7 @@ const rowItems_3 = [
 ];
 
 import clsx from "clsx";
-import { useFeeData } from "wagmi";
+// import { useFeeData } from "wagmi";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitLine } from "../ProfitLine";
 import { Preload } from "@/shared/ui/Preload";
@@ -122,7 +122,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  const { isConnected, address } = useAccount();
+  // const { isConnected, address } = useAccount();
 
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const [
@@ -196,17 +196,17 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     GameModel.setRefund,
     GameModel.$isPlaying,
   ]);
-  const { data } = useFeeData({
-    watch: isConnected,
-    cacheTime: 5000,
-  });
+  // const { data } = useFeeData({
+  //   watch: isConnected,
+  //   cacheTime: 5000,
+  // });
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  useEffect(() => {
-    if (data && data.gasPrice) {
-      setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.gasPrice) {
+  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+  //   }
+  // }, [data]);
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
@@ -214,127 +214,127 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     setCoefficient(100);
   }, []);
 
-  const { chain } = useNetwork();
+  // const { chain } = useNetwork();
   const [inGame, setInGame] = useState<boolean>(false);
   const [fees, setFees] = useState<bigint>(BigInt(0));
 
   const bigNum = 100000000000;
 
-  const {
-    write: startPlaying,
-    isSuccess: startedPlaying,
-    error,
-  } = useContractWrite({
-    chainId: chain?.id,
-    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
-    abi: SlotsABI,
-    functionName: "Slots_Play",
-    gasPrice: prevGasPrice,
-    gas: BigInt(400000),
-    args: [
-      useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-      pickedToken?.contract_address,
-      betsAmount,
-      useDebounce(stopGain)
-        ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-      useDebounce(stopLoss)
-        ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
-        : BigInt(Math.floor(cryptoValue * 10000000)) *
-          BigInt(bigNum) *
-          BigInt(200),
-    ],
-    value:
-      fees +
-      (pickedToken &&
-      pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0)),
-  });
+  // const {
+  //   write: startPlaying,
+  //   isSuccess: startedPlaying,
+  //   error,
+  // } = useContractWrite({
+  //   chainId: chain?.id,
+  //   address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
+  //   abi: SlotsABI,
+  //   functionName: "Slots_Play",
+  //   gasPrice: prevGasPrice,
+  //   gas: BigInt(400000),
+  //   args: [
+  //     useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+  //     pickedToken?.contract_address,
+  //     betsAmount,
+  //     useDebounce(stopGain)
+  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //     useDebounce(stopLoss)
+  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
+  //         BigInt(bigNum) *
+  //         BigInt(200),
+  //   ],
+  //   value:
+  //     fees +
+  //     (pickedToken &&
+  //     pickedToken?.contract_address ==
+  //       "0x0000000000000000000000000000000000000000"
+  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+  //         BigInt(100000000000)
+  //       : BigInt(0)),
+  // });
 
-  const { data: GameState, refetch: fetchGameState } = useContractRead({
-    chainId: chain?.id,
-    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
-    abi: SlotsABI,
-    functionName: "Slots_GetState",
-    args: [address],
-    enabled: true,
-    //watch: isConnected,
-    blockTag: "latest",
-  });
+  // const { data: GameState, refetch: fetchGameState } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
+  //   abi: SlotsABI,
+  //   functionName: "Slots_GetState",
+  //   args: [address],
+  //   enabled: true,
+  //   //watch: isConnected,
+  //   blockTag: "latest",
+  // });
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  const { config: allowanceConfig } = usePrepareContractWrite({
-    chainId: chain?.id,
-    address: pickedToken?.contract_address as `0x${string}`,
-    abi: IERC20,
-    functionName: "approve",
-    enabled:
-      pickedToken?.contract_address !=
-      "0x0000000000000000000000000000000000000000",
-    args: [
-      "0x35d710a268b3385283e607b5b0C78a73772A7715",
-      useDebounce(
-        currentBalance
-          ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-          : 0
-      ),
-    ],
-  });
+  // const { config: allowanceConfig } = usePrepareContractWrite({
+  //   chainId: chain?.id,
+  //   address: pickedToken?.contract_address as `0x${string}`,
+  //   abi: IERC20,
+  //   functionName: "approve",
+  //   enabled:
+  //     pickedToken?.contract_address !=
+  //     "0x0000000000000000000000000000000000000000",
+  //   args: [
+  //     "0x35d710a268b3385283e607b5b0C78a73772A7715",
+  //     useDebounce(
+  //       currentBalance
+  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+  //         : 0
+  //     ),
+  //   ],
+  // });
 
-  const { write: setAllowance, isSuccess: allowanceIsSet } =
-    useContractWrite(allowanceConfig);
+  // const { write: setAllowance, isSuccess: allowanceIsSet } =
+  //   useContractWrite(allowanceConfig);
 
-  const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-    chainId: chain?.id,
-    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
-    abi: SlotsABI,
-    functionName: "getVRFFee",
-    args: [0],
-    watch: isConnected && !inGame,
-  });
+  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+  //   chainId: chain?.id,
+  //   address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
+  //   abi: SlotsABI,
+  //   functionName: "getVRFFee",
+  //   args: [0],
+  //   watch: isConnected && !inGame,
+  // });
 
-  useEffect(() => {
-    if (VRFFees && data?.gasPrice) {
-      setFees(
-        BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-          BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
-      );
-    }
-  }, [VRFFees, data]);
+  // useEffect(() => {
+  //   if (VRFFees && data?.gasPrice) {
+  //     setFees(
+  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+  //         BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+  //     );
+  //   }
+  // }, [VRFFees, data]);
 
   //!---
 
-  useEffect(() => {
-    if (startedPlaying) {
-      setActivePicker(false);
-      setInGame(true);
-      setWaitingResponse(true);
-    }
-  }, [startedPlaying]);
+  // useEffect(() => {
+  //   if (startedPlaying) {
+  //     setActivePicker(false);
+  //     setInGame(true);
+  //     setWaitingResponse(true);
+  //   }
+  // }, [startedPlaying]);
   useEffect(() => {
     setActivePicker(true);
     setInGame(false);
@@ -345,74 +345,74 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
     }
   }, [gameStatus]);
 
-  useEffect(() => {
-    if (GameState && !inGame) {
-      if (
-        (GameState as any).requestID != BigInt(0) &&
-        (GameState as any).blockNumber != BigInt(0)
-      ) {
-        setWaitingResponse(true);
-        setInGame(true);
-        setActivePicker(false);
-        pickSide((GameState as any).isHeads as number);
-      } else {
-        setInGame(false);
-      }
-    }
-  }, [GameState]);
+  // useEffect(() => {
+  //   if (GameState && !inGame) {
+  //     if (
+  //       (GameState as any).requestID != BigInt(0) &&
+  //       (GameState as any).blockNumber != BigInt(0)
+  //     ) {
+  //       setWaitingResponse(true);
+  //       setInGame(true);
+  //       setActivePicker(false);
+  //       pickSide((GameState as any).isHeads as number);
+  //     } else {
+  //       setInGame(false);
+  //     }
+  //   }
+  // }, [GameState]);
 
-  useContractEvent({
-    address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
-    abi: SlotsABI,
-    eventName: "Slots_Outcome_Event",
-    listener(log) {
-      //handleLog(log)
-      if (
-        ((log[0] as any).args?.playerAddress as string).toLowerCase() ==
-        address?.toLowerCase()
-      ) {
-        console.log("11111,-", (log[0] as any)?.args);
-        setGetId(coefId[(log[0] as any).args?.slotIDs[0]]);
-        setWaitingResponse(false);
-        const wagered =
-          BigInt((log[0] as any).args.wager) *
-          BigInt((log[0] as any).args.numGames);
-        const handlePayouts = () => {
-          for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-            setTimeout(() => {
-              const outCome =
-                Number((log[0] as any)?.args?.payouts[i]) /
-                Number(BigInt((log[0] as any).args.wager));
-              setCoefficientData((prev) => [outCome, ...prev]);
-            }, 700 * (i + 1));
-          }
-        };
-        handlePayouts();
-        if ((log[0] as any).args.payout > wagered) {
-          const profit = (log[0] as any).args.payout;
-          const multiplier = Number(profit / wagered);
-          const wagered_token = (
-            (log[0] as any).args.tokenAddress as string
-          ).toLowerCase();
-          const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+  // useContractEvent({
+  //   address: "0x35d710a268b3385283e607b5b0C78a73772A7715",
+  //   abi: SlotsABI,
+  //   eventName: "Slots_Outcome_Event",
+  //   listener(log) {
+  //     //handleLog(log)
+  //     if (
+  //       ((log[0] as any).args?.playerAddress as string).toLowerCase() ==
+  //       address?.toLowerCase()
+  //     ) {
+  //       console.log("11111,-", (log[0] as any)?.args);
+  //       setGetId(coefId[(log[0] as any).args?.slotIDs[0]]);
+  //       setWaitingResponse(false);
+  //       const wagered =
+  //         BigInt((log[0] as any).args.wager) *
+  //         BigInt((log[0] as any).args.numGames);
+  //       const handlePayouts = () => {
+  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+  //           setTimeout(() => {
+  //             const outCome =
+  //               Number((log[0] as any)?.args?.payouts[i]) /
+  //               Number(BigInt((log[0] as any).args.wager));
+  //             setCoefficientData((prev) => [outCome, ...prev]);
+  //           }, 700 * (i + 1));
+  //         }
+  //       };
+  //       handlePayouts();
+  //       if ((log[0] as any).args.payout > wagered) {
+  //         const profit = (log[0] as any).args.payout;
+  //         const multiplier = Number(profit / wagered);
+  //         const wagered_token = (
+  //           (log[0] as any).args.tokenAddress as string
+  //         ).toLowerCase();
+  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
 
-          const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-          setWonStatus({
-            profit: profitFloat,
-            multiplier,
-            token: token as string,
-          });
-          setGameStatus(GameModel.GameStatus.Won);
-        } else {
-          const wageredFloat =
-            Number(wagered / BigInt(10000000000000000)) / 100;
+  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+  //         setWonStatus({
+  //           profit: profitFloat,
+  //           multiplier,
+  //           token: token as string,
+  //         });
+  //         setGameStatus(GameModel.GameStatus.Won);
+  //       } else {
+  //         const wageredFloat =
+  //           Number(wagered / BigInt(10000000000000000)) / 100;
 
-          setLostStatus(wageredFloat);
-          setGameStatus(GameModel.GameStatus.Lost);
-        }
-      }
-    },
-  });
+  //         setLostStatus(wageredFloat);
+  //         setGameStatus(GameModel.GameStatus.Lost);
+  //       }
+  //     }
+  //   },
+  // });
 
   useEffect(() => {
     if (wagered) {
@@ -431,14 +431,14 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             pickedToken?.contract_address !=
               "0x0000000000000000000000000000000000000000"
           ) {
-            if (setAllowance) setAllowance();
+            // if (setAllowance) setAllowance();
             //return;
           } else {
             //setActiveCards(initialArrayOfCards);
             // alert(1);
-            if (startPlaying) {
-              startPlaying();
-            }
+            // if (startPlaying) {
+            //   startPlaying();
+            // }
           }
         }
       }
@@ -617,12 +617,12 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
   }, [imageLoading_1, imageLoading_2, imageLoading_3, imageLoading_4]);
   return (
     <>
-      {error && (
+      {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
           btnTitle="Contact us"
         />
-      )}
+      )} */}
       <div
         onClick={() => setInGame((prev) => !prev)}
         className={s.slots_table_wrap}

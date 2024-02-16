@@ -1,0 +1,58 @@
+.bj_picker_wrap {
+  margin-top: 10px;
+}
+
+.bj_picker_block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.bj_picker_btn {
+  cursor: pointer;
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 19px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  transition: all 0.3s;
+  border: none;
+  background: #202020;
+
+  &:first-child {
+    border-radius: 12px 5px 5px 12px;
+  }
+
+  &:nth-child(2) {
+    border-radius: 5px 12px 12px 5px;
+  }
+
+  &:nth-child(3) {
+    border-radius: 12px 5px 5px 12px;
+  }
+
+  &:last-child {
+    border-radius: 5px 12px 12px 5px;
+  }
+
+  &:hover {
+    background: #2e2e2e;
+    color: #fff;
+  }
+}
+
+.btn_active {
+  background: rgba(46, 46, 46, 1);
+  color: #fff !important;
+}
+
+.btn_disabled {
+  color: #7e7e7e;
+}

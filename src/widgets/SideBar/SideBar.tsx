@@ -19,6 +19,7 @@ import {
   AppleBtnIco,
   RaceButton,
   CarBtn,
+  BJBtn,
   ThimblesButton,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
@@ -115,6 +116,11 @@ const gamesList = [
     link: "/games/Cars",
   },
   {
+    title: "Black Jack",
+    icon: "blackJack",
+    link: "/games/BlackJack",
+  },
+  {
     title: "Thimbles",
     icon: "thimbles",
     link: "/games/Thimbles",
@@ -189,6 +195,8 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <RaceButton />;
   } else if (iconId === "cars") {
     return <CarBtn />;
+  } else if (iconId === "blackJack") {
+    return <BJBtn />;
   } else if (iconId === "thimbles") {
     return <ThimblesButton />;
   } else {
@@ -260,6 +268,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Apples" && s.active_link,
             path === "/games/Race" && s.active_link,
             path === "/games/Cars" && s.active_link,
+            path === "/games/BlackJack" && s.active_link,
             path === "/games/Thimbles" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
@@ -475,6 +484,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Apples" && s.active_link,
                 path === "/games/Race" && s.active_link,
                 path === "/games/Cars" && s.active_link,
+                path === "/games/BlackJack" && s.active_link,
                 path === "/games/Thimbles" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
@@ -597,6 +607,15 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <CarBtn />
               Cars
+            </Link>
+            <Link
+              href={"/games/BlackJack"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/BlackJack" && s.game_active
+              }`}
+            >
+              <BJBtn />
+              Black Jack
             </Link>
             <Link
               href={"/games/Thimbles"}

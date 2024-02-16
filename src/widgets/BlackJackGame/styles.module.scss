@@ -1,0 +1,376 @@
+.bj_game_container {
+  position: relative;
+  height: 100%;
+}
+
+.bg_img_wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.bg_img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px 0 0 0;
+
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0;
+  }
+
+  @media screen and (max-width: 650px) {
+    border-radius: 0;
+  }
+}
+
+.bj_body {
+  width: calc(100% - 40px);
+  height: calc(100% - 140px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 70px 20px;
+}
+
+.deck {
+  position: absolute;
+  top: 50px;
+  left: 68%;
+
+  @media screen and (max-width: 1280px) {
+    left: 82%;
+  }
+
+  @media screen and (max-width: 1180px) {
+    left: 78%;
+  }
+
+  @media screen and (max-width: 996px) {
+    top: 30px;
+  }
+
+  @media screen and (max-width: 650px) {
+    top: 20px;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.current_cards {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 17;
+}
+
+.card {
+  box-shadow: 0px 4px 11.699999809265137px 0px rgba(0, 0, 0, 0.25);
+  transform: translateX(0%);
+  left: 68%;
+  position: absolute;
+  width: 114px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s;
+  top: 50px;
+
+  @media screen and (max-width: 1280px) {
+    left: 82%;
+  }
+
+  @media screen and (max-width: 1180px) {
+    left: 78%;
+  }
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 66.5px;
+    top: 30px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 56.5px;
+    top: 20px;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.card_front {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+  position: absolute;
+  width: 113px;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+  height: 160px;
+  transform: rotateY(0deg);
+  &_img {
+    width: 100%;
+    // height: 100%;
+    // box-sizing: border-box;
+    // border: 3px solid white;
+    border-radius: 6.6px;
+  }
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 65.5px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 55.5px;
+  }
+}
+
+.card.flipped {
+  opacity: 0;
+  visibility: hidden;
+  .card_front {
+    transform: rotateY(180deg);
+  }
+
+  .card_back {
+    transform: rotateY(0deg);
+  }
+}
+
+.card_back {
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+  height: 100%;
+  &_show {
+    backface-visibility: visible;
+  }
+  &_hide {
+    backface-visibility: hidden;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.simulated_cards {
+  position: relative;
+}
+
+.simulated_cards_item {
+  position: absolute;
+  width: 114px;
+  height: 160px;
+  top: 0;
+  left: 0;
+
+  @media screen and (max-width: 996px) {
+    height: 93.5px;
+    width: 66.5px;
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 78.5px;
+    width: 56.5px;
+  }
+
+  &:nth-child(1) {
+    z-index: 13;
+  }
+
+  &:nth-child(2) {
+    margin: 3px 0 0 3px;
+    z-index: 12;
+  }
+
+  &:nth-child(3) {
+    margin: 6px 0 0 6px;
+    z-index: 11;
+  }
+
+  &:nth-child(4) {
+    margin: 9px 0 0 9px;
+    z-index: 10;
+  }
+
+  &:nth-child(5) {
+    margin: 12px 0 0 12px;
+    z-index: 9;
+  }
+
+  &:nth-child(6) {
+    margin: 15px 0 0 15px;
+    z-index: 8;
+  }
+
+  &:nth-child(7) {
+    margin: 18px 0 0 18px;
+    z-index: 7;
+  }
+}
+
+.active_cards_wrap {
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+// .cardToHost {
+//   animation: cardToDealer 0.4s forwards ease;
+// }
+
+// @keyframes cardToDealer {
+//   0% {
+//     transform: translateX(0%);
+//     left: 68%;
+//   }
+
+//   100% {
+//     transform: translateX(-50%);
+//     left: 50%;
+//   }
+// }
+
+// .card {
+//   &_0 {
+//     background-color: red;
+//   }
+//   &_1 {
+//     background-color: rgb(9, 255, 0);
+//   }
+//   &_2 {
+//     background-color: rgb(38, 0, 255);
+//   }
+//   &_3 {
+//     background-color: rgb(140, 0, 255);
+//   }
+//   &_4 {
+//     background-color: rgb(255, 230, 0);
+//   }
+//   &_5 {
+//     background-color: rgb(5, 5, 5);
+//   }
+//   &_6 {
+//     background-color: rgb(0, 255, 221);
+//   }
+//   &_7 {
+//     background-color: rgb(103, 87, 161);
+//   }
+//   &_8 {
+//     background-color: rgb(230, 170, 170);
+//   }
+//   &_9 {
+//     background-color: rgb(255, 102, 0);
+//   }
+// }
+
+.card_value {
+  transition: all 0.5s;
+  position: absolute;
+  border: 1px solid rgba(130, 130, 130, 1);
+  // background: linear-gradient(0deg, #063739, #063739),
+  //   linear-gradient(0deg, #828282, #828282);
+  font-family: var(--font-nunito-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  width: 44px;
+  height: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  color: rgba(255, 255, 255, 1);
+  transition: all 0.5s 0.5s;
+  @media (max-width: 1200px) {
+    font-size: 7px;
+    line-height: 10px;
+    letter-spacing: 0.06em;
+    border-radius: 30px;
+    width: 25px;
+    height: 11px;
+  }
+  @media (max-width: 650px) {
+    width: 21px;
+    height: 9px;
+    font-size: 6px;
+    line-height: 8px;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+}
+
+.active_step {
+  border: 3px solid rgba(0, 142, 255, 1);
+}
+
+.card_win {
+  border: 3px solid rgba(62, 207, 142, 1);
+}
+
+.card_lose {
+  border: 3px solid rgba(224, 71, 73, 1);
+}
+
+.card_count_win {
+  border: 1px solid rgba(62, 207, 142, 1);
+}
+
+.card_count_lose {
+  border: 1px solid rgba(224, 71, 73, 1);
+}
+
+.lose_notification {
+  font-family: var(--font-nunito-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+  border: 2px solid rgba(224, 71, 73, 1);
+  width: 77px;
+  height: 29px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transition: all 0.5s;
+  transform: translateX(-50%) scaleY(0);
+  bottom: 255px;
+  opacity: 0;
+}
+
+.lose_notification_show {
+  transform: translateX(-50%) scaleY(1);
+  opacity: 1;
+}

@@ -4,7 +4,7 @@ import * as Api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
 import { sessionModel } from "@/entities/session";
 import { WagerModel } from "../WagerInputsBlock";
-import { useNetwork, useAccount, useContractRead, useSignMessage } from "wagmi";
+// import { useNetwork, useAccount, useContractRead, useSignMessage } from "wagmi";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { queryAvailableTokens } from "@/entities/settings/model";
 import { useSearchParams } from "next/navigation";
@@ -13,8 +13,8 @@ export interface SessionInitProps {
   game: string | undefined;
 }
 export const SessionInit: FC<SessionInitProps> = (props) => {
-  const { isConnected, address } = useAccount();
-  const { chain } = useNetwork();
+  // const { isConnected, address } = useAccount();
+  // const { chain } = useNetwork();
 
   const [
     setAvailableTokens,
@@ -33,63 +33,63 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
   ]);
 
   //if (props.game) {
-  useEffect(() => {
-    if (!chain || !props.game) {
-      return;
-    }
+  // useEffect(() => {
+  //   // if (!chain || !props.game) {
+  //   //   return;
+  //   // }
 
-    const run = async () => {
-      const game = (
-        await Api.getGame({
-          network_id: chain.id,
-          game_name: props.game as string,
-        })
-      ).body as Api.T_Game;
+  //   const run = async () => {
+  //     const game = (
+  //       await Api.getGame({
+  //         network_id: chain.id,
+  //         game_name: props.game as string,
+  //       })
+  //     ).body as Api.T_Game;
 
-      setGameAddress(game?.address);
-    };
+  //     setGameAddress(game?.address);
+  //   };
 
-    run();
-  }, [chain]);
+  //   run();
+  // }, [chain]);
 
-  const {
-    signMessage,
-    variables,
-    data: signMessageData,
-    isSuccess,
-  } = useSignMessage();
+  // const {
+  //   signMessage,
+  //   variables,
+  //   data: signMessageData,
+  //   isSuccess,
+  // } = useSignMessage();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const firstTime = localStorage.getItem("firstTime");
+  // useEffect(() => {
+  //   const firstTime = localStorage.getItem("firstTime");
 
-    if (isConnected) {
-      const partner_wallet = searchParams.get("partner_address");
-      const site_id = searchParams.get("site_id");
-      const sub_id = searchParams.get("sub_id");
-      if (partner_wallet && site_id && sub_id) {
-        const msg = `CONNECT WALLET ${partner_wallet} ${(
-          address as string
-        ).toLowerCase()} ${site_id} ${sub_id}`;
-        signMessage({ message: msg });
-      }
-    }
-  }, [isConnected, address]);
+  //   if (isConnected) {
+  //     const partner_wallet = searchParams.get("partner_address");
+  //     const site_id = searchParams.get("site_id");
+  //     const sub_id = searchParams.get("sub_id");
+  //     if (partner_wallet && site_id && sub_id) {
+  //       const msg = `CONNECT WALLET ${partner_wallet} ${(
+  //         address as string
+  //       ).toLowerCase()} ${site_id} ${sub_id}`;
+  //       signMessage({ message: msg });
+  //     }
+  //   }
+  // }, [isConnected, address]);
 
-  useEffect(() => {
-    (async () => {
-      if (variables?.message && signMessageData && isSuccess) {
-        await Api.connectWalletPartner({
-          user_wallet: (address as string).toLowerCase(),
-          partner_wallet: searchParams.get("partner_address") as string,
-          site_id: Number(searchParams.get("site_id")),
-          sub_id: Number(searchParams.get("sub_id")),
-          signature: signMessageData.slice(2),
-        });
-        localStorage.setItem("firstTime", "false");
-      }
-    })();
-  }, [signMessageData, variables?.message, isSuccess]);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (variables?.message && signMessageData && isSuccess) {
+  //       await Api.connectWalletPartner({
+  //         user_wallet: (address as string).toLowerCase(),
+  //         partner_wallet: searchParams.get("partner_address") as string,
+  //         site_id: Number(searchParams.get("site_id")),
+  //         sub_id: Number(searchParams.get("sub_id")),
+  //         signature: signMessageData.slice(2),
+  //       });
+  //       localStorage.setItem("firstTime", "false");
+  //     }
+  //   })();
+  // }, [signMessageData, variables?.message, isSuccess]);
 
   // const { data: allowance, isError: allowanceError, isLoading, refetch: fetchAllowance } = useContractRead({
   //     chainId: chain?.id,
@@ -121,23 +121,23 @@ export const SessionInit: FC<SessionInitProps> = (props) => {
   // }, [balance]);
   //}
 
-  useEffect(() => {
-    if (!isConnected && !chain) {
-      setAvailableTokens({ tokens: [] });
-      return;
-    }
-    const run = async () => {
-      const tokens = (
-        await Api.getTokens({
-          network_id: chain?.id as number,
-        })
-      ).body as Api.T_Tokens;
-      setAvailableTokens(tokens);
-    };
+  // useEffect(() => {
+  //   if (!isConnected && !chain) {
+  //     setAvailableTokens({ tokens: [] });
+  //     return;
+  //   }
+  //   const run = async () => {
+  //     const tokens = (
+  //       await Api.getTokens({
+  //         network_id: chain?.id as number,
+  //       })
+  //     ).body as Api.T_Tokens;
+  //     setAvailableTokens(tokens);
+  //   };
 
-    run();
-    //queryAvailableTokens({ network_id: (chain?.id) as number });
-  }, [chain, isConnected]);
+  //   run();
+  //   //queryAvailableTokens({ network_id: (chain?.id) as number });
+  // }, [chain, isConnected]);
 
   return <></>;
 };

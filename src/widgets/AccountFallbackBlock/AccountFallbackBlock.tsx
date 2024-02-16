@@ -1,9 +1,9 @@
 import s from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import arrowTop from "@/public/media/misc/toRegisterArrow.webp";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 
-interface AccountFallbackBlockProps { }
+interface AccountFallbackBlockProps {}
 
 export const AccountFallbackBlock: FC<AccountFallbackBlockProps> = () => {
   const blinkAnimation = (elements: any) => {

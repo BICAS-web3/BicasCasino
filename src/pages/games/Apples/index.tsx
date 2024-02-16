@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { useUnit } from "effector-react";
 import * as ConnectModel from "@/widgets/Layout/model";
 import * as GameModel from "@/widgets/GamePage/model";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { WagerModel } from "@/widgets/Wager";
 import { useRouter } from "next/router";
 import {
@@ -23,7 +23,7 @@ import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const { isConnected, isConnecting } = useAccount();
+  // const { isConnected, isConnecting } = useAccount();
 
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
@@ -47,9 +47,9 @@ const WagerContent = () => {
     GameModel.setRefund,
     AppleModel.$emptyField,
   ]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
   const queryParams = new URLSearchParams(window.location.search);
   const partner_address = queryParams.get("partner_address");
   const site_id = queryParams.get("site_id");
@@ -69,7 +69,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -110,7 +110,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}

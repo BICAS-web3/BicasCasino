@@ -9,7 +9,7 @@ import * as MainWallet from "@/widgets/AvaibleWallet/model";
 import { checkPageClicking } from "@/shared/tools";
 
 import s from "./styles.module.scss";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
@@ -70,7 +70,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     document.documentElement.style.overflow = "visible";
   };
 
-  const { isConnecting } = useAccount();
+  // const { isConnecting } = useAccount();
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -92,7 +92,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
           )
         }
       >
-        {isConnecting && startConnect ? (
+        {true && startConnect ? ( // isConnecting
           <LoadingDots className={s.join_dots} title="Joinning" />
         ) : (
           "Join Game"

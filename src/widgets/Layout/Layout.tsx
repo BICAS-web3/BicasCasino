@@ -15,9 +15,11 @@ import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
 import * as BonusPopupM from "@/widgets/PopUpBonus/model";
+import * as RegistrM from "@/widgets/Registration/model";
 import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 import { useRouter } from "next/router";
+import { Registration } from "../Registration/Registration";
 
 interface LayoutProps {
   children?: any;
@@ -26,12 +28,14 @@ interface LayoutProps {
   hideHeaderBtn?: boolean;
 }
 export const Layout = ({ children, ...props }: LayoutProps) => {
-  const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
+  // const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
   const isMobile = useMediaQuery("(max-width: 650px)");
   const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
   const { pathname } = useRouter();
+
+  const [isAuth] = useUnit([RegistrM.$isAuth]);
 
   useEffect(() => {
     if (window.innerWidth <= 650 || props.gameName !== undefined) close();
@@ -45,16 +49,16 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   return (
     <>
       <SettingsInit />
-      {wagmiConfig != null ? (
-        <WagmiConfig config={wagmiConfig}>
+      {true ? ( // wagmiConfig != null
+        // <WagmiConfig config={wagmiConfig}>
+        <>
+          {" "}
           <SessionInit game={props.gameName} />
-
           {popupBonusState === `"true"` ||
           pathname === "/RegistrManual" ||
           pathname === "/ExchangeManual" ? null : (
             <PopUpBonus />
           )}
-
           <div
             className={clsx(
               s.page_container,
@@ -62,6 +66,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               props.gameName !== undefined && s.overlayed
             )}
           >
+            {!isAuth && <Registration />}
             <Header
               isGame={props.gameName != undefined}
               hideHeaderBtn={props.hideHeaderBtn}
@@ -88,10 +93,12 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
             <main className={s.main_area}>{children}</main>
             <Footer />
           </div>
-        </WagmiConfig>
+        </>
       ) : (
         <></>
       )}
     </>
   );
 };
+
+// </WagmiConfig>

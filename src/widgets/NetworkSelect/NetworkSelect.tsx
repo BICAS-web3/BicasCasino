@@ -10,9 +10,9 @@ import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
 import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
 import errorInfoIco from "../../public/media/networkSelect_icons/errorInfoIco.svg";
-import { web3 } from "@/entities/web3";
+// import { web3 } from "@/entities/web3";
 import { useUnit } from "effector-react";
-import { useAccount, useBalance, useNetwork } from "wagmi";
+// import { useAccount, useBalance, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { useDropdown } from "@/shared/tools";
 import clsx from "clsx";
@@ -39,31 +39,32 @@ export interface NetworkSelectProps {
   isGame: boolean;
 }
 export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
-  const { chain } = useNetwork();
+  // const { chain } = useNetwork();
   const { isOpen, toggle, close, dropdownRef } = useDropdown();
-  const { data } = useBalance();
+  // const { data } = useBalance();
   const [activeNetwork, setActiveNetwork] = useState<number | undefined>(-1);
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
 
-  const [networkList, currentBalance] = useUnit([
-    web3.$Chains,
+  const [currentBalance] = useUnit([
+    // networkList
+    // web3.$Chains,
     sessionModel.$currentBalance,
   ]);
 
-  useEffect(() => {
-    if (chain == undefined || chain == null) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (chain == undefined || chain == null) {
+  //     return;
+  //   }
 
-    const network = networkList.chains.find(
-      (network: any) => network.id == chain.id
-    );
-    if (network == undefined) {
-      setActiveNetwork(undefined);
-      return;
-    }
-    setActiveNetwork(chain.id);
-  }, [chain]);
+  //   const network = networkList.chains.find(
+  //     (network: any) => network.id == chain.id
+  //   );
+  //   if (network == undefined) {
+  //     setActiveNetwork(undefined);
+  //     return;
+  //   }
+  //   setActiveNetwork(chain.id);
+  // }, [chain]);
 
   const [networkListVisibility, setNetworkListVisibility] =
     useState<boolean>(false);
@@ -77,7 +78,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
 
   return (
     <>
-      {isConnected ? (
+      {true ? ( // isConnected
         <div ref={dropdownRef} className={s.network_select_wrap}>
           {activeNetwork === undefined ? (
             <NetworkError networkChange={toggle} />
@@ -92,7 +93,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                 />
               </div>
               <span className={s.active_network_title}>
-                {currentBalance && props.isGame ? currentBalance : chain?.name}
+                {/* {currentBalance && props.isGame ? currentBalance : chain?.name} */}
               </span>
               <Image
                 className={clsx(
@@ -121,7 +122,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                 <h3 className={s.networks_list_title}>Select a network</h3>
               </div>
               <div className={s.networks_list}>
-                {networkList &&
+                {/* {networkList &&
                   networkList.chains.map((item: any, ind: number) => {
                     if (item.id == activeNetwork) {
                       return <></>;
@@ -137,7 +138,7 @@ export const NetworkSelect: FC<NetworkSelectProps> = (props) => {
                         close={close}
                       />
                     );
-                  })}
+                  })} */}
               </div>
             </>
           </div>

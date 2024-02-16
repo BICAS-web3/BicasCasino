@@ -2,6 +2,21 @@
   position: relative;
   height: 100%;
   --distance: 222px;
+  @media (max-width: 760px) {
+    --distance: 29vw;
+  }
+  @media (max-width: 650px) {
+    --distance: 33.5vw;
+  }
+  @media (max-width: 490px) {
+    --distance: 35.4vw;
+  }
+  @media (max-width: 400px) {
+    --distance: 32.4vw;
+  }
+  @media (max-width: 350px) {
+    --distance: 30.5vw;
+  }
   @keyframes ball_1 {
     0% {
       transform: translate(0, 0) scale(1);

@@ -26,4 +26,8 @@ export * from "./Wager10Icon";
 export * from "./RaceIcon";
 export * from "./CarBtn";
 export * from "./Thimbles";
+export * from "./EyeClose";
+export * from "./EyeOpen";
+export * from "./CardSelectIcon";
+export * from "./BJBtn";
 // export * from "./Wager1Icon";

@@ -13,7 +13,7 @@ import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
 import { WagerModel } from "@/widgets/Wager";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import Head from "next/head";
@@ -29,8 +29,8 @@ import { RefundButton } from "@/shared/ui/Refund";
 
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { isConnected, isConnecting } = useAccount();
-  const { connectors, connect } = useConnect();
+  // const { isConnected, isConnecting } = useAccount();
+  // const { connectors, connect } = useConnect();
   const { push, reload } = useRouter();
   const router = useRouter();
 
@@ -42,9 +42,9 @@ const WagerContent = () => {
     GameModel.setIsEmtyWager,
     GameModel.setRefund,
   ]);
-  useEffect(() => {
-    isConnecting && setStartConnect(false);
-  }, []);
+  // useEffect(() => {
+  //   isConnecting && setStartConnect(false);
+  // }, []);
   const queryParams = new URLSearchParams(window.location.search);
   const partner_address = queryParams.get("partner_address");
   const site_id = queryParams.get("site_id");
@@ -63,7 +63,7 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -93,7 +93,7 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}

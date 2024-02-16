@@ -5,7 +5,7 @@ import { WagerInputsBlock } from "@/widgets/WagerInputsBlock";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { WagerModel } from "@/widgets/Wager";
 import { useUnit } from "effector-react";
-import { useAccount } from "wagmi";
+// import { useAccount } from "wagmi";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 
 import s from "@/pages/games/CoinFlip/styles.module.scss";
@@ -30,7 +30,7 @@ const WagerContent = () => {
     RaceModel.setReset,
   ]);
   const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
-  const { isConnected } = useAccount();
+  // const { isConnected } = useAccount();
   const [pressButton] = useUnit([WagerModel.pressButton]);
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -50,15 +50,17 @@ const WagerContent = () => {
           s.connect_wallet_btn,
           styles.mobile,
           isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
+          cryptoValue == 0.0 && true // isConnected
             ? s.button_inactive
             : s.button_active
         )}
         onClick={() => {
           if (gameResult.length === 0) {
-            if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+            if (cryptoValue > 0.0 && !isPlaying && true) {
+              // isConnected
               pressButton();
-            } else if (cryptoValue <= 0.0 && isConnected) {
+            } else if (cryptoValue <= 0.0 && true) {
+              // isConnected
               setIsEmtyWager(true);
             } else {
               router.push(
@@ -77,7 +79,7 @@ const WagerContent = () => {
           "Reset"
         ) : isPlaying ? (
           <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
+        ) : true ? ( // isConnected
           "Play"
         ) : (
           "Connect Wallet"
