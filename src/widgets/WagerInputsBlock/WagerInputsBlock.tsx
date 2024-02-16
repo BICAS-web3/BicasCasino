@@ -19,6 +19,7 @@ import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
 import downArr from "@/public/media/misc/downArr.webp";
 import * as GameModel from "@/widgets/GamePage/model";
+import * as BJModel from "@/widgets/BlackJackGame/model";
 
 import { WagerModel as WagerM } from "@/widgets/Wager";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
@@ -75,6 +76,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     betValue,
     isEmtyWager,
     setIsEmtyWager,
+    activeStep,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -89,7 +91,14 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     GameModel.$betValue,
     GameModel.$isEmtyWager,
     GameModel.setIsEmtyWager,
+    BJModel.$activeStep,
   ]);
+
+  useEffect(() => {
+    if (activeStep === "Double" && Number(cryptoInputValue)) {
+      setCryptoInputValue((prev) => `${Number(prev) * 2}`);
+    }
+  }, [activeStep]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
     sessionModel.setBalance,

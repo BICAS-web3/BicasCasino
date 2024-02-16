@@ -10,8 +10,11 @@ import * as GameModel from "@/widgets/GamePage/model";
 import * as WagerModel from "@/widgets/WagerInputsBlock/model";
 import * as BJModel from "./model";
 
+import { BJWin } from "@/shared/ui/BJWin/ui/BJWin";
+
 import s from "./styles.module.scss";
 import cn from "clsx";
+import { useMediaQuery } from "@/shared/tools";
 
 interface BlackJackGameProps {}
 
@@ -26,6 +29,7 @@ interface ICardType {
 type gameStatus = null | "win" | "lose";
 
 export const BlackJackGame: FC<BlackJackGameProps> = () => {
+  const isDesktop = useMediaQuery("(max-width: 1600px)");
   const [
     activeStep,
     dilerCount,
@@ -329,7 +333,9 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
             : is400
             ? "40%"
             : side === "left"
-            ? "33%" // разделение карт при сплите
+            ? isDesktop
+              ? "28.5%"
+              : "33%" // разделение карт при сплите
             : "58%"
         } + ${
           side === "left"
@@ -425,7 +431,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     secondCard.setAttribute(
       "style",
       `left: calc(${
-        is996 || is650 ? "45%" : is400 ? "40%" : "33%" // разные значение left для нормального отображение на разных экранах
+        is996 || is650 ? "45%" : is400 ? "40%" : isDesktop ? "28.5%" : "33%" // разные значение left для нормального отображение на разных экранах
       } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
 
@@ -454,10 +460,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     }
   }, [firstStep]);
 
-  const [recall, setRecall] = useState(true);
-
   const [firstPlay, setFirstPlay] = useState(true);
-  const [firstFit, setFirstHit] = useState(true);
+
   useEffect(() => {
     if (gameStarted) {
       if (firstStep) {
@@ -505,11 +509,41 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
         }
       }
     }
+
     setActiveStep(null);
   }, [activeStep, gameStarted]);
 
+  const [showResult, setShowResult] = useState(false);
+  const [showBlock, setShowBlock] = useState(false);
+
+  useEffect(() => {
+    if (
+      gameRightStatus === "win" ||
+      gameLeftStatus === "win" ||
+      gameStatus === "win"
+    ) {
+      setShowBlock(true);
+      setTimeout(() => setShowResult(true), 100);
+    }
+  }, [gameRightStatus, gameLeftStatus, gameStatus]);
+
+  useEffect(() => {
+    if (showBlock && showResult) {
+      Promise.all([
+        new Promise((resolve) =>
+          resolve(setTimeout(() => setShowBlock(false), 2200))
+        ),
+        new Promise((resolve) =>
+          resolve(setTimeout(() => setShowResult(false), 1500))
+        ),
+      ]);
+    }
+  }, [showBlock, showResult]);
+
   return (
     <div className={s.bj_game_container}>
+      {showBlock && <BJWin show={showResult} />}
+
       <button
         style={{
           position: "fixed",
@@ -546,7 +580,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           >
             lose
           </div>
-          {dilerCount && (
+          {dilerCount > 0 && (
             <div
               style={{
                 left: `calc(51% + ${dillerCounts * 35}px)`,
@@ -558,7 +592,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
               {dilerCount}
             </div>
           )}
-          {userCount && !isSplit && (
+          {userCount > 0 && !isSplit && (
             <div
               style={{
                 left: `calc(51% + ${isStep * 35}px)`,
@@ -574,7 +608,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
               {userCount}
             </div>
           )}
-          {userLeftCount && isSplit && (
+          {userLeftCount > 0 && isSplit && (
             <div
               style={{
                 left: `calc(41% + ${leftCards.length * 35}px)`,
@@ -590,7 +624,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
               {userLeftCount}
             </div>
           )}
-          {userRightCount && isSplit && (
+          {userRightCount > 0 && isSplit && (
             <div
               style={{
                 left: `calc(66% + ${rightCards.length * 35}px)`,
