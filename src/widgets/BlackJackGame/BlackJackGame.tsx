@@ -425,13 +425,13 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     firstCard.setAttribute(
       "style",
       `left: calc(${
-        is996 || is650 ? "45%" : is400 ? "40%" : "58%" // разные значение left для нормального отображение на разных экранах
+        isDesktop ? "64%" : "58%" // разные значение left для нормального отображение на разных экранах
       } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
     secondCard.setAttribute(
       "style",
       `left: calc(${
-        is996 || is650 ? "45%" : is400 ? "40%" : isDesktop ? "28.5%" : "33%" // разные значение left для нормального отображение на разных экранах
+        isDesktop ? "28.5%" : "33%" // разные значение left для нормального отображение на разных экранах
       } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
 
