@@ -12,6 +12,7 @@ import { PaymentRedeem } from "../PaymentRedeem/PaymentRedeem";
 import { PaymentTips } from "../PaymentTips/PaymentTips";
 import * as PaymentRedeemM from "@/widgets/PaymentRedeem/model";
 import { PaymentPurchase } from "../PaymentPurchase/PaymentPurchase";
+import { PaymentStatus } from "../PaymentStatus/PaymentStatus";
 
 const draxTypesList = [
   {
