@@ -11,10 +11,14 @@ import { WaitIco } from "@/shared/SVGs/WaitIco";
 
 interface PaymentPurchaseProps {
   purchasePrice: any;
+  ref?: any;
+  close?: () => void;
 }
 
 export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   purchasePrice,
+  ref,
+  close,
 }) => {
   const [activeCoin, setActiveCoin] = useState(coinsList[0]);
 
@@ -34,13 +38,18 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   }, [activeCoin]);
 
   return (
-    <div className={s.payment_purchase_block}>
+    <div ref={ref} className={s.payment_purchase_block}>
       <div className={s.payment_purchase_header}>
         <div className={s.payment_purchase_header_title_group}>
           <img src={purchaseIco.src} alt="purcahse-ico" />
           Purchase
         </div>
-        <img src={closeIco.src} className={s.close_btn} alt="close-ico" />
+        <img
+          onClick={close}
+          src={closeIco.src}
+          className={s.close_btn}
+          alt="close-ico"
+        />
       </div>
       <div className={s.payment_purchase_body}>
         <div className={s.payment_purchase_estimate_receive_wrap}>

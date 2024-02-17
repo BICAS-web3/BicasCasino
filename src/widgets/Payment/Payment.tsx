@@ -13,6 +13,8 @@ import { PaymentTips } from "../PaymentTips/PaymentTips";
 import * as PaymentRedeemM from "@/widgets/PaymentRedeem/model";
 import { PaymentPurchase } from "../PaymentPurchase/PaymentPurchase";
 import { PaymentStatus } from "../PaymentStatus/PaymentStatus";
+import { useDropdown } from "@/shared/tools";
+import { WalletBtn } from "@/shared/SVGs";
 
 const draxTypesList = [
   {
@@ -52,6 +54,7 @@ const draxTypesList = [
 interface PaymentProps {}
 
 export const Payment: FC<PaymentProps> = () => {
+  const { toggle, open, close, isOpen, dropdownRef } = useDropdown();
   const [
     paymentVisibility,
     setPaymentVisibility,
@@ -85,9 +88,13 @@ export const Payment: FC<PaymentProps> = () => {
 
   return (
     <>
-      <div className={s.payment_wrap}>
+      <button onClick={open} className={s.wallet_btn}>
+        <span> Wallet</span> <WalletBtn />
+      </button>{" "}
+      <div className={clsx(s.payment_wrap, isOpen && s.payment_wrap_open)}>
         {paymentVisibility && !purchaseVisibility ? (
           <div
+            ref={dropdownRef}
             className={clsx(
               s.payment_body,
               storeType === "buy" && s.padding_bottom,
@@ -108,6 +115,7 @@ export const Payment: FC<PaymentProps> = () => {
               <div className={s.payment_leftSide_header}>
                 {/* <span className={s.payment_transactions_btn}>Transactions</span> */}
                 <img
+                  onClick={close}
                   src={closeIco.src}
                   className={s.close_btn}
                   alt="close-ico"
@@ -210,9 +218,14 @@ export const Payment: FC<PaymentProps> = () => {
             </div>
           </div>
         ) : (
-          <PaymentPurchase purchasePrice={purchaseValue} />
+          <PaymentPurchase
+            close={close}
+            ref={dropdownRef}
+            purchasePrice={purchaseValue}
+          />
         )}
       </div>
+      ;
     </>
   );
 };
