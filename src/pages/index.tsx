@@ -87,6 +87,8 @@ import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
 import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
 import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
 
+import bjBanner from "@/public/media/blackjack/banner.png";
+
 import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.jpg";
 
 import { Account } from "@/widgets/Account";
@@ -382,6 +384,17 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={carBanner}
           closedSidebarImage={carBanner}
           pcImageClosed={carBanner}
+        />
+        <Game
+          name={"BlackJack"}
+          description={""}
+          link={"/games/BlackJack"}
+          pcImage={bjBanner}
+          tabletImage={bjBanner}
+          laptopImage={bjBanner}
+          mobileImage={bjBanner}
+          closedSidebarImage={bjBanner}
+          pcImageClosed={bjBanner}
         />
       </div>
     </div>
