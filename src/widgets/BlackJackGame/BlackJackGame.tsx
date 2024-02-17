@@ -29,7 +29,6 @@ interface ICardType {
 type gameStatus = null | "win" | "lose";
 
 export const BlackJackGame: FC<BlackJackGameProps> = () => {
-  const isDesktop = useMediaQuery("(max-width: 1600px)");
   const [
     activeStep,
     dilerCount,
@@ -117,6 +116,26 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const [cardsLeftGap, setCardsLeftGap] = useState(35); // отступ от карты до карты слева
   const [leftCards, setLeftCards] = useState<ICardType[]>([]); // левые карты при сплите
   const [rightCards, setRightCards] = useState<ICardType[]>([]); // правые
+
+  const isDesktop = useMediaQuery("(max-width: 1600px)");
+  const isTablet = useMediaQuery("(max-width: 1320px)");
+  const isMobile = useMediaQuery("(max-width: 650px)");
+  const is500 = useMediaQuery("(max-width: 500px)");
+  const [leftPosition, setLeftPosition] = useState("33%");
+  const [rightPosition, setRightPosition] = useState("58%");
+
+  useEffect(() => {
+    if (is500) {
+      setLeftPosition("15.5%");
+      setRightPosition("74%");
+    } else if (isTablet) {
+      setLeftPosition("15.5%");
+      setRightPosition("64%");
+    } else if (isDesktop) {
+      setLeftPosition("28.5%");
+      setRightPosition("64%");
+    }
+  }, [isDesktop, isTablet]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -327,17 +346,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
       }
       cardToSend?.setAttribute(
         "style",
-        `left: calc(${
-          is996 || is650
-            ? "45%"
-            : is400
-            ? "40%"
-            : side === "left"
-            ? isDesktop
-              ? "28.5%"
-              : "33%" // разделение карт при сплите
-            : "58%"
-        } + ${
+        `left: calc(${side === "left" ? leftPosition : rightPosition} + ${
           side === "left"
             ? leftOffsetPlayer + 35 // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
             : leftOffsetPlayer - 35 * (leftCards.length - 2) // используйте положительное значение для правой карты
@@ -424,15 +433,11 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     const secondCard = document.querySelectorAll(`.bj-card-player`)[1];
     firstCard.setAttribute(
       "style",
-      `left: calc(${
-        isDesktop ? "64%" : "58%" // разные значение left для нормального отображение на разных экранах
-      } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
+      `left: calc(${rightPosition} + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
     secondCard.setAttribute(
       "style",
-      `left: calc(${
-        isDesktop ? "28.5%" : "33%" // разные значение left для нормального отображение на разных экранах
-      } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
+      `left: calc(${leftPosition} + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
     );
 
     const activeCard_1 = testCards.filter((card) => card.id === "player")[0];
@@ -583,8 +588,12 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {dilerCount > 0 && (
             <div
               style={{
-                left: `calc(51% + ${dillerCounts * 35}px)`,
-                top: `calc(20px + ${dillerCounts * 11}px)`,
+                left: `calc(${isMobile ? "37%" : "51%"} + ${
+                  dillerCounts * (isMobile ? 28 : 35)
+                }px)`,
+                top: `calc(${isMobile ? "-5px" : "20px"} + ${
+                  dillerCounts * 11
+                }px)`,
                 transform: "translateX(-50%)",
               }}
               className={s.card_value}
@@ -595,8 +604,10 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userCount > 0 && !isSplit && (
             <div
               style={{
-                left: `calc(51% + ${isStep * 35}px)`,
-                bottom: `calc(34% - ${isStep * 10}px)`,
+                left: `calc(${isMobile ? "35%" : "51%"} + ${
+                  isStep * (isMobile ? 28 : 35)
+                }px)`,
+                bottom: `calc(${isMobile ? "43%" : "34%"} - ${isStep * 10}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -611,7 +622,9 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userLeftCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(41% + ${leftCards.length * 35}px)`,
+                left: `calc(41% + ${
+                  leftCards.length * (isMobile ? 25 : 35)
+                }px)`,
                 bottom: `calc(31% - ${leftCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
