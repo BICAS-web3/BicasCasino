@@ -4,6 +4,13 @@
   width: 100%;
   max-width: 660px;
   border-radius: 12px;
+
+  @media screen and (max-width: 650px) {
+    border-radius: 0;
+    height: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 .payment_purchase_header {
@@ -12,6 +19,10 @@
   justify-content: space-between;
   border-bottom: 1px solid #252525;
   padding-bottom: 10px;
+
+  @media screen and (max-width: 650px) {
+    padding: 16px;
+  }
 }
 
 .payment_purchase_body {
@@ -19,6 +30,37 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media screen and (max-width: 650px) {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden !important;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      margin-left: 4px;
+      border-radius: 3px;
+      scrollbar-arrow-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #363636;
+      border-radius: 4px;
+    }
+
+    scrollbar-width: thin;
+
+    scrollbar-color: #363636 transparent;
+
+    *::-ms-scrollbar {
+      width: 4px;
+      scrollbar-arrow-color: transparent;
+    }
+
+    *::-ms-scrollbar-thumb {
+      background-color: #363636;
+      border-radius: 4px;
+    }
+  }
 }
 
 .payment_purchase_header_title_group {
@@ -37,6 +79,10 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  @media screen and (max-width: 650px) {
+    margin: 0 16px;
+  }
 }
 
 .payment_purchase_estimate_title {
@@ -47,6 +93,10 @@
   line-height: 27px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .payment_purchase_estimate_receive_block {
@@ -70,12 +120,20 @@
   line-height: 25px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .send_amount_block {
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  @media screen and (max-width: 650px) {
+    margin: 0 16px;
+  }
 }
 
 .send_amount_group {
@@ -92,6 +150,10 @@
   line-height: 27px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .send_amount_subTitle {
@@ -103,12 +165,20 @@
   letter-spacing: 0.04em;
   text-align: left;
   text-transform: uppercase;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .send_amount_input_block {
   display: flex;
   align-items: center;
   height: 50px;
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+  }
 }
 
 .send_amount_input {
@@ -130,6 +200,7 @@
 
 .send_amount_dropdown_wrap {
   width: 100%;
+  height: 100%;
   max-width: 155px;
 }
 
@@ -143,6 +214,33 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+
+  @media screen and (max-width: 650px) {
+    margin: 0 16px;
+  }
+}
+
+.paymnet_purchase_drax_amount_title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #eaeaea;
+  font-family: var(--font-nunito-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0.04em;
+  margin-top: 10px;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    margin-top: 6px;
+  }
 }
 
 .send_address_title {
@@ -156,6 +254,10 @@
 
   & > span {
     text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
   }
 }
 
@@ -176,6 +278,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+  }
 }
 
 .barcode_wrap {
@@ -183,6 +289,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 650px) {
+    margin: 0 16px;
+  }
 }
 
 .purchase_disclaimer {
@@ -197,6 +307,12 @@
   padding: 10px 20px;
   background: #212121;
   border-radius: 8px;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    padding: 10px;
+    margin: 0 16px;
+  }
 }
 
 .purchase_status_block {
@@ -204,6 +320,12 @@
   display: flex;
   gap: 10px;
   transition: all 0.15s;
+
+  @media screen and (max-width: 650px) {
+    padding-bottom: 100px;
+    margin: 0 16px;
+    width: calc(100% - 32px);
+  }
 }
 
 .hidden {
@@ -225,6 +347,14 @@
   line-height: 24px;
   letter-spacing: 0.04em;
   color: #fff;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    padding: 10px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
 }
 
 .purchase_waiting_anim_block {
