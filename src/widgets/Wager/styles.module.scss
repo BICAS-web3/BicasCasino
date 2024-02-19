@@ -15,7 +15,18 @@
   }
 }
 
+.custom_height {
+  @media screen and (max-width: 996px) {
+    bottom: 90px !important;
+  }
+
+  @media screen and (max-width: 650px) {
+    bottom: 145px !important;
+  }
+}
+
 .poker_wager_title {
+  user-select: none;
   font-family: var(--font-source-sans-3);
   color: #7e7e7e;
   font-size: 0.875rem;

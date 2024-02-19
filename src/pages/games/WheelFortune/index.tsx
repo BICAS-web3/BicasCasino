@@ -45,7 +45,7 @@ const WagerContent = () => {
         step={10}
         customArr={[10, 20, 40, 50]}
         inputType={CustomWagerRangeInputModel.RangeType.Rows}
-      />{" "}
+      />
       <CustomWagerRangeInput
         inputType={CustomWagerRangeInputModel.RangeType.Bets}
         inputTitle="Multiple Bets"

@@ -3,13 +3,21 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
+  left: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   padding: 90px 0;
   background-color: rgba(0, 0, 0, 0.7);
-
+  transform: scaleY(0);
+  opacity: 0;
+  transition: all 0.5s;
+  &_open {
+    transform: scaleY(1);
+    opacity: 1;
+  }
   @media screen and (max-width: 650px) {
     padding: 0;
     z-index: 170;
@@ -122,6 +130,13 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
+  svg,
+  img {
+    path {
+      fill: white !important;
+      stroke: white;
+    }
+  }
 }
 
 .payment_content {
@@ -438,4 +453,67 @@
   letter-spacing: 0.04em;
   text-align: center;
   grid-column: 1/3;
+}
+
+.wallet_btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 125px;
+  height: 50px;
+  border: 1px solid rgba(32, 32, 32, 1);
+  border-radius: 50px;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.5s;
+  @media (max-width: 914px) {
+    width: 50px;
+    height: 50px;
+  }
+  @media (max-width: 650px) {
+    // width: 40px;
+    // height: 40px;
+    min-width: 62px;
+    width: 62px;
+    height: 42px;
+    background: linear-gradient(0deg, #121212, #121212),
+      linear-gradient(0deg, #202020, #202020);
+    margin: auto;
+  }
+  span {
+    font-family: var(--font-nunito-sans);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: rgba(126, 126, 126, 1);
+    transition: all 0.5s;
+    @media (max-width: 914px) {
+      display: none;
+    }
+  }
+  svg {
+    @media (max-width: 650px) {
+      // transform: scale(0.7);
+      width: 26px;
+      height: 26px;
+    }
+    path {
+      transition: all 0.5s;
+    }
+  }
+  &:hover {
+    span {
+      color: white;
+    }
+    border: 1px solid white;
+    svg {
+      path {
+        fill: white;
+        // stroke: white;
+      }
+    }
+  }
 }
