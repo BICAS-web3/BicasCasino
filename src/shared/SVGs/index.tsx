@@ -31,4 +31,5 @@ export * from "./EyeClose";
 export * from "./EyeOpen";
 export * from "./CardSelectIcon";
 export * from "./BJBtn";
+export * from "./CrashBtn";
 // export * from "./Wager1Icon";

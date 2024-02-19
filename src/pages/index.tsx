@@ -79,6 +79,8 @@ import HorseBanner from "@/public/media/race_images/banner.jpg";
 
 import carBanner from "@/public/media/cars/banner.jpg";
 
+import CrashBanner from "@/public/media/crash/banner.png";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
 import thimblesBanner from "@/public/media/thimbles/banner.jpg";
@@ -407,6 +409,17 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={thimblesBanner}
           closedSidebarImage={thimblesBanner}
           pcImageClosed={thimblesBanner}
+        />
+        <Game
+          name={"Graph"}
+          description={""}
+          link={"/games/Graph"}
+          pcImage={CrashBanner}
+          tabletImage={CrashBanner}
+          laptopImage={CrashBanner}
+          mobileImage={CrashBanner}
+          closedSidebarImage={CrashBanner}
+          pcImageClosed={CrashBanner}
         />
       </div>
     </div>

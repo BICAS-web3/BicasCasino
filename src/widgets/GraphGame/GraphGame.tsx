@@ -219,7 +219,7 @@ export const GraphGame: FC<GraphGameProps> = () => {
     };
   }, [curvePoints, isCrashed, betAmount, balance, number, reachedPeak]);
   useEffect(() => {
-    let increaseCoeffssss = null;
+    let increaseCoeffssss: any = null;
 
     if (reachedPeak) {
       increaseCoeffssss = setInterval(
