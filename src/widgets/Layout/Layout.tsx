@@ -20,6 +20,7 @@ import clsx from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 import { useRouter } from "next/router";
 import { Registration } from "../Registration/Registration";
+import { Payment } from "../Payment/Payment";
 
 interface LayoutProps {
   children?: any;
@@ -52,7 +53,6 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       {true ? ( // wagmiConfig != null
         // <WagmiConfig config={wagmiConfig}>
         <>
-          {" "}
           <SessionInit game={props.gameName} />
           {popupBonusState === `"true"` ||
           pathname === "/RegistrManual" ||
@@ -66,7 +66,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               props.gameName !== undefined && s.overlayed
             )}
           >
-            {!isAuth && <Registration />}
+            <Registration />
             <Header
               isGame={props.gameName != undefined}
               hideHeaderBtn={props.hideHeaderBtn}

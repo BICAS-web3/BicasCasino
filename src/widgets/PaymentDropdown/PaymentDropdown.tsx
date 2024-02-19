@@ -36,7 +36,7 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
         onClick={() => setListVisibility(!listVisibility)}
       >
         <div className={s.dropdown_title_group}>
-          <img src={activeItem.img.src} alt="" />
+          <img src={activeItem.ico.src} alt="" />
           {activeItem.title}
         </div>
         <img src={upArr.src} className={s.active_arrow_ico} alt="arr-ico" />
@@ -47,7 +47,7 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
             className={s.dropdown_list_item}
             onClick={() => handleChangeActiveItem(item.title)}
           >
-            <img src={item.img.src} key={ind} alt="coin-ico" />
+            <img src={item.ico.src} key={ind} alt="coin-ico" />
             {item.title}
           </div>
         ))}

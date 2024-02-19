@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { useUnit } from "effector-react";
 import * as PaymentM from "./model";
@@ -12,6 +12,9 @@ import { PaymentRedeem } from "../PaymentRedeem/PaymentRedeem";
 import { PaymentTips } from "../PaymentTips/PaymentTips";
 import * as PaymentRedeemM from "@/widgets/PaymentRedeem/model";
 import { PaymentPurchase } from "../PaymentPurchase/PaymentPurchase";
+import { PaymentStatus } from "../PaymentStatus/PaymentStatus";
+import { useDropdown } from "@/shared/tools";
+import { WalletBtn } from "@/shared/SVGs";
 
 const draxTypesList = [
   {
@@ -51,6 +54,7 @@ const draxTypesList = [
 interface PaymentProps {}
 
 export const Payment: FC<PaymentProps> = () => {
+  const { toggle, open, close, isOpen, dropdownRef } = useDropdown();
   const [
     paymentVisibility,
     setPaymentVisibility,
@@ -71,15 +75,26 @@ export const Payment: FC<PaymentProps> = () => {
     PaymentM.setPurcahseVisibility,
   ]);
 
+  const [purchaseValue, setPurchaseValue] = useState();
+
   const handlePurchaseBtn = (price: any) => {
     setPurchaseVisibility(true);
+    setPurchaseValue(price);
   };
+
+  useEffect(() => {
+    console.log(purchaseVisibility, paymentVisibility);
+  }, [purchaseVisibility]);
 
   return (
     <>
-      {paymentVisibility ? (
-        <div className={s.payment_wrap}>
+      <button onClick={open} className={s.wallet_btn}>
+        <span> Wallet</span> <WalletBtn />
+      </button>{" "}
+      <div className={clsx(s.payment_wrap, isOpen && s.payment_wrap_open)}>
+        {paymentVisibility && !purchaseVisibility ? (
           <div
+            ref={dropdownRef}
             className={clsx(
               s.payment_body,
               storeType === "buy" && s.padding_bottom,
@@ -100,6 +115,7 @@ export const Payment: FC<PaymentProps> = () => {
               <div className={s.payment_leftSide_header}>
                 {/* <span className={s.payment_transactions_btn}>Transactions</span> */}
                 <img
+                  onClick={close}
                   src={closeIco.src}
                   className={s.close_btn}
                   alt="close-ico"
@@ -141,11 +157,11 @@ export const Payment: FC<PaymentProps> = () => {
               {storeType === "buy" ? (
                 <>
                   <div className={s.payment_attention}>
-                    <p className={s.payment_attention_text}>
+                    <span className={s.payment_attention_text}>
                       <span>DRAX tokens</span> won through play can be <br />{" "}
                       redeemed for
                       <p> BTC, LTC</p> and more
-                    </p>
+                    </span>
                     <div className={s.attention_coins_wrap}>
                       <div className={s.attention_coins_shadow}></div>
                       <img
@@ -201,10 +217,15 @@ export const Payment: FC<PaymentProps> = () => {
               )}
             </div>
           </div>
-        </div>
-      ) : (
-        purchaseVisibility && paymentVisibility && <PaymentPurchase />
-      )}
+        ) : (
+          <PaymentPurchase
+            close={close}
+            ref={dropdownRef}
+            purchasePrice={purchaseValue}
+          />
+        )}
+      </div>
+      ;
     </>
   );
 };
