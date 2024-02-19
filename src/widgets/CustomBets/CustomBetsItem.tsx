@@ -21,6 +21,8 @@ import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 import carIcon from "@/public/media/cars/icon.jpg";
 import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 import thimbleIcon from "@/public/media/thimbles/icon.jpg";
+import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
+
 export interface CustomBetsItemProps {
   trx_url: string;
   time: {
@@ -81,6 +83,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       setGameImg(carIcon);
     } else if (props.game_name === "Thimbles") {
       setGameImg(thimbleIcon);
+    } else if (props.game_name === "Roulette") {
+      setGameImg(rouletteIcon);
     }
   });
 

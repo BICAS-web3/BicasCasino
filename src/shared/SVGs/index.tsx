@@ -33,3 +33,4 @@ export * from "./CardSelectIcon";
 export * from "./BJBtn";
 export * from "./CrashBtn";
 // export * from "./Wager1Icon";
+export * from "./RouletteBtnIcon";
