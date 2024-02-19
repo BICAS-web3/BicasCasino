@@ -104,8 +104,17 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
   }, [handMultiplierBlockVisibility]);
 
   return (
-    <div className={clsx(s.poker_wager_lower_btns_block, className)}>
-      <button className={s.poker_wager_sound_btn} onClick={soundChange}>
+    <div
+      className={clsx(
+        s.poker_wager_lower_btns_block,
+        className,
+        game === "graph" && s.custom_height
+      )}
+    >
+      <button
+        className={clsx(s.poker_wager_sound_btn, game === "graph" && s.height)}
+        onClick={soundChange}
+      >
         {playSounds === "off" ? (
           <>
             <Image

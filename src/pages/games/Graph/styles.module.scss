@@ -1,0 +1,29 @@
+.graph_container {
+  width: calc(100% - 40px);
+  padding: 100px 20px 0 20px;
+  @media screen and (max-width: 1280px) {
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 76px;
+    padding-left: 20px;
+  }
+  @media screen and (max-width: 650px) {
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-top: 56px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.graph_game_page {
+  @media screen and (max-width: 996px) {
+    min-height: 520px !important;
+  }
+
+  @media screen and (max-width: 996px) {
+    min-height: 460px !important;
+  }
+}

@@ -859,7 +859,7 @@ $_50_steps: 50;
 
 .wheel_wrapp {
   &_10 {
-    transform: rotate(#{$step_10}deg);
+    transform: rotate(#{$step_10}deg); //
   }
   &_20 {
     transform: rotate(#{$step_20}deg);
