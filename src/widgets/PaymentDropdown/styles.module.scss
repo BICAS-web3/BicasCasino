@@ -14,6 +14,13 @@
   font-weight: 500;
   line-height: 25px;
   letter-spacing: 0.04em;
+
+  @media screen and (max-width: 650px) {
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
 }
 
 .active_arrow_ico {

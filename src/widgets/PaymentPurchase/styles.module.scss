@@ -353,6 +353,7 @@
     padding: 10px;
     display: flex;
     justify-content: start;
+    height: 45px;
     align-items: center;
   }
 }
@@ -379,6 +380,10 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  @media screen and (max-width: 650px) {
+    height: 45px;
   }
 }
 
