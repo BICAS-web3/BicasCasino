@@ -16,6 +16,7 @@ import { ProfileBtn } from "@/shared/SVGs/ProfileBtn";
 import { MessangerBtn } from "@/shared/SVGs/MessangerBtn";
 // import { useAccount } from "wagmi";
 import { useRouter } from "next/router";
+import { Payment } from "@/widgets/Payment/Payment";
 
 export interface BottomMenuProps {}
 
@@ -66,6 +67,7 @@ export const BottomMenu: FC<BottomMenuProps> = (props) => {
       >
         <FooterGamesBtn />
       </div>
+      <Payment />
       <div
         className={`${s.element}`}
         // onClick={handleAccountLink}

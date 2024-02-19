@@ -298,6 +298,7 @@ export const GraphGame: FC<GraphGameProps> = () => {
       className={s.graph_game_container}
     >
       <div className={s.graph_game_body}>
+        <div className={s.graph_coef}>2.43x</div>
         <div className={s.graph_table}>
           <div className={s.graph_table_ox_lines}>
             {/* <div className={s.s}></div> */}
