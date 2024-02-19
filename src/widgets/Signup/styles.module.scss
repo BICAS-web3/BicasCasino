@@ -25,6 +25,10 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #7e7e7e;
+  transition: all 0.3s;
+  &_err {
+    color: red;
+  }
 }
 
 .eye {
@@ -61,6 +65,9 @@
   border-radius: 2px;
   background: inherit;
   transition: all 0.3s;
+  &_err {
+    border: 1px solid red;
+  }
 }
 
 .arr_checkbox {
@@ -96,6 +103,11 @@
 
   span {
     color: #ffe09d;
+  }
+  &_err {
+    span {
+      color: red;
+    }
   }
 }
 

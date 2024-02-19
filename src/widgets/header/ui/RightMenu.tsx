@@ -22,6 +22,8 @@ import { useDropdown } from "@/shared/tools";
 import * as SwapModel from "@/widgets/Swap/model/index";
 import Blockies from "react-blockies";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
+import { WalletBtn } from "@/shared/SVGs";
+import { Payment } from "@/widgets/Payment/Payment";
 export interface RightMenuProps {
   isGame: boolean;
   hideHeaderBtn?: boolean | false;
@@ -102,15 +104,16 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
   return (
     <div className={`${s.right_menu} ${props.hideHeaderBtn && s.hidden_style}`}>
       <NetworkSelect isGame={props.isGame} />
-      {true && ( // isConnected
+      <Payment />
+      {/* {true && ( // isConnected
         <div className={s.button}>
           <Image src={BellIcon} alt={"notification"} className={s.icon} />
           {notification && <div className={s.new_notification}></div>}
         </div>
-      )}
-      <div className={`${s.button} ${s.chat}`}>
+      )} */}
+      {/* <div className={`${s.button} ${s.chat}`}>
         <Image src={ChatIcon} alt={""} className={s.icon} />
-      </div>
+      </div> */}
       {isSbOpen && screenWidth <= 650 ? (
         <button
           className={s.header_mobile_closeSidebar_btn}

@@ -19,6 +19,10 @@ import {
   AppleBtnIco,
   RaceButton,
   CarBtn,
+  BJBtn,
+  ThimblesButton,
+  CrashBtn,
+  RouletteBtnIconIcon,
 } from "@/shared/SVGs";
 import { MinesButton } from "@/shared/SVGs/MinesButton";
 import { LeaderboardIcon } from "@/shared/SVGs/LeaderboardIcon";
@@ -113,6 +117,31 @@ const gamesList = [
     icon: "cars",
     link: "/games/Cars",
   },
+  {
+    title: "Black Jack",
+    icon: "blackJack",
+    link: "/games/BlackJack",
+  },
+  {
+    title: "Thimbles",
+    icon: "thimbles",
+    link: "/games/Thimbles",
+  },
+  {
+    title: "Graph",
+    icon: "graph",
+    link: "/games/Graph",
+  },
+  {
+    title: "Slots",
+    icon: "slots",
+    link: "/games/Slots",
+  },
+  {
+    title: "Roulette",
+    icon: "roulette",
+    link: "/games/Roulette",
+  },
 ];
 
 const languagesList = [
@@ -183,6 +212,14 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <RaceButton />;
   } else if (iconId === "cars") {
     return <CarBtn />;
+  } else if (iconId === "blackJack") {
+    return <BJBtn />;
+  } else if (iconId === "thimbles") {
+    return <ThimblesButton />;
+  } else if (iconId === "graph") {
+    return <CrashBtn />;
+  } else if (iconId === "roulette") {
+    return <RouletteBtnIconIcon />;
   } else {
     return <h3>no games yet</h3>;
   }
@@ -252,6 +289,10 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Apples" && s.active_link,
             path === "/games/Race" && s.active_link,
             path === "/games/Cars" && s.active_link,
+            path === "/games/BlackJack" && s.active_link,
+            path === "/games/Thimbles" && s.active_link,
+            path === "/games/Graph" && s.active_link,
+            path === "/games/Roulette" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
         >
@@ -466,6 +507,10 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Apples" && s.active_link,
                 path === "/games/Race" && s.active_link,
                 path === "/games/Cars" && s.active_link,
+                path === "/games/BlackJack" && s.active_link,
+                path === "/games/Thimbles" && s.active_link,
+                path === "/games/Graph" && s.active_link,
+                path === "/games/Roulette" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
               )}
@@ -587,6 +632,42 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <CarBtn />
               Cars
+            </Link>
+            <Link
+              href={"/games/BlackJack"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/BlackJack" && s.game_active
+              }`}
+            >
+              <BJBtn />
+              Black Jack
+            </Link>
+            <Link
+              href={"/games/Graph"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Graph" && s.game_active
+              }`}
+            >
+              <CrashBtn />
+              Crash
+            </Link>
+            <Link
+              href={"/games/Thimbles"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Thimbles" && s.game_active
+              }`}
+            >
+              <ThimblesButton />
+              Thimbles
+            </Link>
+            <Link
+              href={"/games/Roulette"}
+              className={`${s.game_row} ${
+                props.activePage === "/games/Roulette" && s.game_active
+              }`}
+            >
+              <RouletteBtnIconIcon />
+              Roulette
             </Link>
             <Link
               href={"/leaderboard"}

@@ -19,6 +19,7 @@ import { checkPageClicking } from "@/shared/tools";
 import s from "../Wager/styles.module.scss";
 import downArr from "@/public/media/misc/downArr.webp";
 import * as GameModel from "@/widgets/GamePage/model";
+import * as BJModel from "@/widgets/BlackJackGame/model";
 
 import { WagerModel as WagerM } from "@/widgets/Wager";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
@@ -40,11 +41,27 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 //   },
 // ];
 
+const bjVariantsList = [
+  {
+    title: "Min",
+  },
+  {
+    title: "/2",
+  },
+  {
+    title: "x2",
+  },
+  {
+    title: "Max",
+  },
+];
+
 interface WagerInputsBlockProps {
   wagerVariants?: number[];
+  bjVariants?: boolean;
 }
 
-export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
+export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
   const [
     availableTokens,
     cryptoValue,
@@ -59,6 +76,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     betValue,
     isEmtyWager,
     setIsEmtyWager,
+    activeStep,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -73,7 +91,14 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
     GameModel.$betValue,
     GameModel.$isEmtyWager,
     GameModel.setIsEmtyWager,
+    BJModel.$activeStep,
   ]);
+
+  useEffect(() => {
+    if (activeStep === "Double" && Number(cryptoInputValue)) {
+      setCryptoInputValue((prev) => `${Number(prev) * 2}`);
+    }
+  }, [activeStep]);
 
   const [setBalance, setAllowance, GameAddress] = useUnit([
     sessionModel.setBalance,
@@ -411,24 +436,54 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({}) => {
           </div>
         </div>
         <div className={s.poker_wager_increase_block}>
-          {[5, 7.5, 10, 12.5, 15].map((cNumber) => (
-            <div
-              key={cNumber}
-              className={s.poker_wager_halve_block}
-              onClick={() => {
-                const currency = Number((cNumber * exchangeRate).toFixed(7));
-                setCurrencyInputValue(currency.toString());
-                setCryptoValue(cNumber);
-                setCryptoInputValue(Number(cNumber.toFixed(7)).toString());
-                const newCurrencyValue = cNumber * exchangeRate;
-                setCurrencyInputValue(
-                  Number(newCurrencyValue.toFixed(7)).toString()
-                );
-              }}
-            >
-              <span className={s.poker_wager_halve_title}>{cNumber}</span>
-            </div>
-          ))}
+          {!bjVariants
+            ? [5, 7.5, 10, 12.5, 15].map((cNumber) => (
+                <div
+                  key={cNumber}
+                  className={s.poker_wager_halve_block}
+                  onClick={() => {
+                    const currency = Number(
+                      (cNumber * exchangeRate).toFixed(7)
+                    );
+                    setCurrencyInputValue(currency.toString());
+                    setCryptoValue(cNumber);
+                    setCryptoInputValue(Number(cNumber.toFixed(7)).toString());
+                    const newCurrencyValue = cNumber * exchangeRate;
+                    setCurrencyInputValue(
+                      Number(newCurrencyValue.toFixed(7)).toString()
+                    );
+                  }}
+                >
+                  <span className={s.poker_wager_halve_title}>{cNumber}</span>
+                </div>
+              ))
+            : bjVariantsList.map((item, ind) => (
+                <div
+                  className={s.poker_wager_halve_block}
+                  key={ind}
+                  onClick={() => {
+                    const minVal = 1;
+                    const maxVal = 100;
+                    if (item.title === "Min") {
+                      setCryptoInputValue(minVal.toString());
+                    } else if (item.title === "Max") {
+                      setCryptoInputValue(maxVal.toString());
+                    } else if (cryptoInputValue.length && item.title === "/2") {
+                      setCryptoInputValue(
+                        (Number(cryptoInputValue) / 2).toString()
+                      );
+                    } else if (cryptoInputValue.length && item.title === "x2") {
+                      setCryptoInputValue(
+                        (Number(cryptoInputValue) * 2).toString()
+                      );
+                    }
+                  }}
+                >
+                  <span className={s.poker_wager_halve_title}>
+                    {item.title}
+                  </span>
+                </div>
+              ))}
         </div>
       </div>
     </>

@@ -101,7 +101,7 @@ export default function RouletteGame() {
   return (
     <>
       <Head>
-        <title>Games - Rock Paper Scissors</title>
+        <title>Games - Roulette</title>
       </Head>
       <Layout activePageLink="/games/Roulette" gameName={"Roulette"}>
         <LiveBetsWS
@@ -113,7 +113,7 @@ export default function RouletteGame() {
             roulette={true}
             isPoker={false}
             gameInfoText=""
-            gameTitle="roulette"
+            gameTitle="poker"
             wagerContent={<WagerContent />}
           >
             <Suspense fallback={<div>...</div>}>

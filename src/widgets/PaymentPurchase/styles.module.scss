@@ -486,3 +486,12 @@
   letter-spacing: 0.04em;
   text-align: center;
 }
+
+.close_btn {
+  cursor: pointer;
+  svg {
+    path {
+      fill: white !important;
+    }
+  }
+}

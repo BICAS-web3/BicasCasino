@@ -40,6 +40,8 @@ import pokerTabletBg from "@/public/media/games_assets/poker/poker.png";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.webp";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.webp";
 
+import rouletteBanner from "@/public/media/roulette_images/banner.jpg";
+
 import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.png";
 import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.webp";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
@@ -79,13 +81,18 @@ import HorseBanner from "@/public/media/race_images/banner.jpg";
 
 import carBanner from "@/public/media/cars/banner.jpg";
 
+import CrashBanner from "@/public/media/crash/banner.png";
+
 import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
 import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
+import thimblesBanner from "@/public/media/thimbles/banner.jpg";
 
 import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
 import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
 import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
 import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
+
+import bjBanner from "@/public/media/blackjack/banner.png";
 
 import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.jpg";
 
@@ -382,6 +389,50 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={carBanner}
           closedSidebarImage={carBanner}
           pcImageClosed={carBanner}
+        />
+        <Game
+          name={"BlackJack"}
+          description={""}
+          link={"/games/BlackJack"}
+          pcImage={bjBanner}
+          tabletImage={bjBanner}
+          laptopImage={bjBanner}
+          mobileImage={bjBanner}
+          closedSidebarImage={bjBanner}
+          pcImageClosed={bjBanner}
+        />
+        <Game
+          name={"Thimbles"}
+          description={""}
+          link={"/games/Thimbles"}
+          pcImage={thimblesBanner}
+          tabletImage={thimblesBanner}
+          laptopImage={thimblesBanner}
+          mobileImage={thimblesBanner}
+          closedSidebarImage={thimblesBanner}
+          pcImageClosed={thimblesBanner}
+        />
+        <Game
+          name={"Graph"}
+          description={""}
+          link={"/games/Graph"}
+          pcImage={CrashBanner}
+          tabletImage={CrashBanner}
+          laptopImage={CrashBanner}
+          mobileImage={CrashBanner}
+          closedSidebarImage={CrashBanner}
+          pcImageClosed={CrashBanner}
+        />
+        <Game
+          name={"Roulette"}
+          description={""}
+          link={"/games/Roulette"}
+          tabletImage={rouletteBanner}
+          laptopImage={rouletteBanner}
+          mobileImage={rouletteBanner}
+          pcImage={rouletteBanner}
+          closedSidebarImage={rouletteBanner}
+          pcImageClosed={rouletteBanner}
         />
       </div>
     </div>

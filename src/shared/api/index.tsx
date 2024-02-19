@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io/api";
-export const BaseStaticUrl = "https://game.greekkeepers.io/static";
+export const BaseApiUrl = "https://game.greekkeepers.io//api";
+export const BaseStaticUrl = "https://game.greekkeepers.io//static";
 
 export type T_ErrorText = {
   error: string;
@@ -177,7 +177,15 @@ export type T_ApiResponse = {
     | T_LatestGames
     | T_PlayerTotals
     | T_TokenPrice
-    | T_NFTMarket;
+    | T_NFTMarket
+    | T_LoginReponse;
+};
+
+export type T_LoginReponse = {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  token_type: string;
 };
 
 export type T_GetUsername = {
@@ -302,6 +310,20 @@ export const createReferealFx = createEffect<
 
 export type T_SubmitError = {
   data: string;
+};
+
+export type T_RegisterUser = {
+  username: string;
+  password: string;
+};
+
+export type T_LoginUser = {
+  login: string;
+  password: string;
+};
+
+export type T_ChangeName = {
+  name: string;
 };
 
 export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
@@ -574,3 +596,69 @@ export const GetTokenPriceFx = createEffect<string, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const loginUser = createEffect<T_LoginUser, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+export const registerUser = createEffect<T_RegisterUser, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/register`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/username`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const getUserInfo = createEffect<string | number, T_ApiResponse, string>(
+  async (userId) => {
+    return fetch(`${BaseApiUrl}/user/${userId}`, {
+      method: "GET",
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const getUserAmounts = createEffect<
+  string | number,
+  T_ApiResponse,
+  string
+>(async (userId) => {
+  return fetch(`${BaseApiUrl}/user/amounts/${userId}`, {
+    method: "GET",
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
