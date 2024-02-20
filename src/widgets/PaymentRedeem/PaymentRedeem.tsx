@@ -240,7 +240,7 @@ export const PaymentRedeem: FC<PaymentRedeemProps> = () => {
           <span>{activeCoin.title}</span> Address
         </span>
         <div className={s.input_common}>
-          23sad21sddqwerffs2dwWDfcadweQ23418TZ5d
+          <span>23sad21sddqwerffs2dwWDfcadweQ23418TZ5d</span>
           {/* temp */}
         </div>
       </div>

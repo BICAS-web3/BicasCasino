@@ -31,6 +31,10 @@
     background-color: #363636;
     border-radius: 4px;
   }
+
+  @media screen and (max-width: 650px) {
+    padding: 0 16px 90px 16px;
+  }
 }
 
 .payment_coins_list_wrap {
@@ -44,6 +48,11 @@
   height: 50px;
   border-radius: 8px;
   position: relative;
+
+  @media screen and (max-width: 650px) {
+    width: 100%;
+    height: 40px;
+  }
 }
 
 .payment_active_coin {
@@ -57,6 +66,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+  }
 }
 
 .current_coin_title {
@@ -73,6 +86,11 @@
 .coin_ico {
   width: 30px;
   height: 30px;
+
+  @media screen and (max-width: 650px) {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .current_coin_title_group {
@@ -160,6 +178,10 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #eaeaea;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .redeem_subTitle_block {
@@ -176,6 +198,10 @@
   letter-spacing: 0.04em;
   text-align: left;
   color: #979797;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
 }
 
 .redeem_user_balance_title {
@@ -188,6 +214,10 @@
   letter-spacing: 0.04em;
   text-align: left;
   text-decoration: underline;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
 }
 
 .redeem_user_usd_balance_title {
@@ -198,6 +228,10 @@
   line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
 }
 
 .input_common {
@@ -225,6 +259,20 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    text-overflow: ellipsis;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 10px;
+
+    span {
+      max-width: 234px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 }
 
 .transaction_fee_block {
@@ -245,6 +293,10 @@
   span {
     text-transform: uppercase;
   }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .transaction_fee_amount_title {
@@ -259,6 +311,10 @@
 
   span {
     color: #979797;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
   }
 }
 
@@ -277,6 +333,10 @@
   line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
 }
 
 .esitame_receive_icon_title {
@@ -288,6 +348,10 @@
   background: #212121;
   padding: 10px 20px;
   border-radius: 8px;
+
+  @media screen and (max-width: 650px) {
+    padding: 10px;
+  }
 }
 
 .redeem_disclaimer_text {
@@ -298,6 +362,11 @@
   line-height: 25px;
   letter-spacing: 0.04em;
   text-align: left;
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 
 .redeem_btn {
@@ -318,6 +387,11 @@
   color: #ffe09d;
   cursor: pointer;
   border-radius: 8px;
+
+  @media screen and (max-width: 650px) {
+    min-height: 40px;
+    font-size: 14px;
+  }
 }
 
 ////modal
@@ -355,6 +429,15 @@
   width: calc(100% - 14px);
   transform: translate(-50%, -50%);
 
+  @media screen and (max-width: 650px) {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    border-radius: 0;
+    flex-direction: column;
+    display: flex;
+  }
+
   &_header {
     display: flex;
     align-items: center;
@@ -371,6 +454,14 @@
     justify-content: space-between;
     gap: 15px;
 
+    @media screen and (max-width: 650px) {
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+      flex: 1;
+    }
+
     &_reset_btn {
       color: #979797;
       text-decoration: underline;
@@ -381,6 +472,10 @@
       letter-spacing: 0.04em;
       text-align: left;
       cursor: pointer;
+
+      @media screen and (max-width: 650px) {
+        font-size: 14px;
+      }
     }
   }
 
@@ -406,6 +501,10 @@
         line-height: 25px;
         letter-spacing: 0.04em;
         text-align: left;
+
+        @media screen and (max-width: 650px) {
+          font-size: 12px;
+        }
       }
     }
   }
@@ -436,11 +535,22 @@
   cursor: pointer;
   outline: none;
   border-radius: 8px;
+
+  @media screen and (max-width: 650px) {
+    height: 40px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
 }
 
 .footer_btns_block {
   display: flex;
   gap: 10px;
+
+  @media screen and (max-width: 650px) {
+    width: 100%;
+  }
 }
 
 .cancel_btn,
@@ -459,6 +569,10 @@
   border-radius: 8px;
   cursor: pointer;
   padding: 0 10px;
+
+  @media screen and (max-width: 650px) {
+    width: 100%;
+  }
 }
 
 .cancel_btn {

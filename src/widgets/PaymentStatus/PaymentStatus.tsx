@@ -58,17 +58,24 @@ export const PaymentStatus: FC<PaymentStatusProps> = () => {
           </div>
         ))}
       </div>
-      <div
-        className={clsx(s.pending_confirm_block, isSuccess && s.succes_pending)}
-      >
-        <div className={s.pending_confirmation_title}>Pending confirmation</div>
-        <div className={s.pending_confirmation_ico_wrap}>
-          {isSuccess ? <img src={allowArr.src} alt="" /> : <WaitIco />}
+      <div className={s.payment_status_footer}>
+        <div
+          className={clsx(
+            s.pending_confirm_block,
+            isSuccess && s.succes_pending
+          )}
+        >
+          <div className={s.pending_confirmation_title}>
+            Pending confirmation
+          </div>
+          <div className={s.pending_confirmation_ico_wrap}>
+            {isSuccess ? <img src={allowArr.src} alt="" /> : <WaitIco />}
+          </div>
         </div>
-      </div>
-      <div className={s.payment_status_text}>
-        The payment will be considered successful when transaction is confirmed
-        on the network
+        <div className={s.payment_status_text}>
+          The payment will be considered successful when transaction is
+          confirmed on the network
+        </div>
       </div>
     </div>
   );

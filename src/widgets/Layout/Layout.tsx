@@ -66,7 +66,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
               props.gameName !== undefined && s.overlayed
             )}
           >
-            {!isAuth && <Registration />}
+            {/* {!isAuth && <Registration />} */}
             <Header
               isGame={props.gameName != undefined}
               hideHeaderBtn={props.hideHeaderBtn}
