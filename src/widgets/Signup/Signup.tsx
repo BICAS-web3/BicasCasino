@@ -26,6 +26,7 @@ export const Signup: FC<SignupProps> = () => {
   useEffect(() => {
     const exist = localStorage.getItem("auth");
     if (exist) {
+      setAccessToken(exist);
       setAuth(true);
     }
   }, []);
@@ -43,12 +44,6 @@ export const Signup: FC<SignupProps> = () => {
   const [startRegister, setStartRegister] = useState(false);
 
   const [userExist, setUserExist] = useState(false);
-
-  useEffect(() => {
-    if (userExist) {
-      setTimeout(() => setUserExist(false), 1000);
-    }
-  }, [userExist]);
 
   useEffect(() => {
     if (error) {
@@ -85,19 +80,16 @@ export const Signup: FC<SignupProps> = () => {
             }
           }
           if (data.status !== "OK") {
-            if (
-              (data.body as any).error ===
-              'Db Error: error returned from database: duplicate key value violates unique constraint "users_login_key"'
-            ) {
-              setUserExist(true);
-            }
+            setName("");
+            setPassword("");
+            setUserExist(true);
             setInProgress(false);
           }
         })();
       } else {
         setError(true);
-        setName("");
-        setPassword("");
+        // setName("");
+        // setPassword("");
       }
       setStartRegister(false);
     }
@@ -113,11 +105,14 @@ export const Signup: FC<SignupProps> = () => {
               error && !name && s.input_item_title_err
             )}
           >
-            Username
+            Email
           </span>
           <input
             value={name}
-            onChange={(el) => setName(el.target.value)}
+            onChange={(el) => {
+              setName(el.target.value);
+              setUserExist(false);
+            }}
             type="text"
             className={s.input}
           />
@@ -135,7 +130,8 @@ export const Signup: FC<SignupProps> = () => {
             value={password}
             onChange={(el) => setPassword(el.target.value)}
             type={showPassword ? "text" : "password"}
-            className={s.input}
+            className={clsx(s.input)}
+            placeholder={userExist ? "User exist" : ""}
           />
           {showPassword ? (
             <EyeOpen
@@ -186,7 +182,7 @@ export const Signup: FC<SignupProps> = () => {
           </p>
         </div>
         <button onClick={() => setStartRegister(true)} className={s.signup_btn}>
-          {inPorgress ? "In process" : userExist ? "User exist" : "Sign Up"}
+          {inPorgress ? "In process" : "Sign Up"}
         </button>
         <div className={s.sign_in_block}>
           <span className={s.already_text}>Already have an account? </span>

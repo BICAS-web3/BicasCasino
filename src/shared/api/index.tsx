@@ -121,6 +121,11 @@ export type T_Card = {
   number: number;
   suit: number;
 };
+export type T_GetQr = {
+  bareer: string;
+  data: string;
+};
+
 export type T_BetInfo = {
   id: number;
   transaction_hash: string;
@@ -179,6 +184,12 @@ export type T_ApiResponse = {
     | T_TokenPrice
     | T_NFTMarket
     | T_LoginReponse;
+};
+
+export type T_InvoiceCreate = {
+  amount: number;
+  currency: string;
+  bareer: string;
 };
 
 export type T_LoginReponse = {
@@ -658,6 +669,40 @@ export const getUserAmounts = createEffect<
 >(async (userId) => {
   return fetch(`${BaseApiUrl}/user/amounts/${userId}`, {
     method: "GET",
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getInvoiceQr = createEffect<T_GetQr, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/invoice/qr`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+      // body: JSON.stringify(form.data),
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const invoiceCreate = createEffect<
+  T_InvoiceCreate,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/invoice/create`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+    body: JSON.stringify(form),
   })
     .then(async (res) => await res.json())
     .catch((e) => e);

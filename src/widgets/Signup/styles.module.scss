@@ -53,6 +53,12 @@
   text-align: left;
   outline: none;
   border: 1px solid #252525;
+  &::placeholder {
+    color: rgba(98, 98, 98, 1);
+  }
+  &_err {
+    border: 1px solid red;
+  }
 }
 
 .checkbox {

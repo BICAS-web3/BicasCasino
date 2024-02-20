@@ -34,6 +34,10 @@
   text-align: left;
   outline: none;
   border: 1px solid #252525;
+  transition: all 0.5s;
+  &_err {
+    border: 1px solid red;
+  }
 }
 
 .eye {

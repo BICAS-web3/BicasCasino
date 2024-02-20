@@ -15,6 +15,8 @@ import { PaymentPurchase } from "../PaymentPurchase/PaymentPurchase";
 import { PaymentStatus } from "../PaymentStatus/PaymentStatus";
 import { useDropdown } from "@/shared/tools";
 import { WalletBtn } from "@/shared/SVGs";
+import * as api from "@/shared/api";
+import * as RegistModel from "@/widgets/Registration/model";
 
 const draxTypesList = [
   {
@@ -64,6 +66,7 @@ export const Payment: FC<PaymentProps> = () => {
     setSecurityModal,
     purchaseVisibility,
     setPurchaseVisibility,
+    access_token,
   ] = useUnit([
     PaymentM.$paymentVisibility,
     PaymentM.setPaymentVisibility,
@@ -73,6 +76,7 @@ export const Payment: FC<PaymentProps> = () => {
     PaymentRedeemM.setSecurityModalVisibility,
     PaymentM.$purchaseVisibility,
     PaymentM.setPurcahseVisibility,
+    RegistModel.$access_token,
   ]);
 
   const [purchaseValue, setPurchaseValue] = useState();
@@ -82,13 +86,39 @@ export const Payment: FC<PaymentProps> = () => {
     setPurchaseValue(price);
   };
 
+  const [link, setLink] = useState(1);
+
   useEffect(() => {
-    console.log(purchaseVisibility, paymentVisibility);
-  }, [purchaseVisibility]);
+    console.log("-", link);
+    const exist = localStorage.getItem("auth");
+    (async () => {
+      if (access_token) {
+        const data = await api.getInvoiceQr({
+          data: "ewrret",
+          bareer: access_token,
+        });
+        console.log(link, access_token);
+        console.log(111111, data);
+        if (data.status === "OK") {
+          console.log(3334333, data);
+          // setLink(data.body as any);
+        } else {
+          console.log(5555, data);
+        }
+      }
+    })();
+  }, [access_token, link]);
 
   return (
     <>
-      <button onClick={open} className={s.wallet_btn}>
+      <button
+        onClick={() => {
+          console.log(2);
+          open();
+          setLink((prev) => prev + 1);
+        }}
+        className={s.wallet_btn}
+      >
         <span> Wallet</span> <WalletBtn />
       </button>{" "}
       <div className={clsx(s.payment_wrap, isOpen && s.payment_wrap_open)}>

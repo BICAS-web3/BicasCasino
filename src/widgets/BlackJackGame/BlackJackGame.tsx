@@ -123,11 +123,15 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const is500 = useMediaQuery("(max-width: 500px)");
   const [leftPosition, setLeftPosition] = useState("33%");
   const [rightPosition, setRightPosition] = useState("58%");
+  const [leftResultPosition, setLeftResultPosition] = useState("41%");
+  const [bottomResultPosition, setBottomResultPosition] = useState("31%");
 
   useEffect(() => {
     if (is500) {
       setLeftPosition("15.5%");
       setRightPosition("74%");
+      setLeftResultPosition("22%");
+      setBottomResultPosition("37%");
     } else if (isTablet) {
       setLeftPosition("15.5%");
       setRightPosition("64%");
@@ -622,10 +626,13 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userLeftCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(41% + ${
+                left: `calc(${leftResultPosition} + ${
+                  // 22-37
                   leftCards.length * (isMobile ? 25 : 35)
                 }px)`,
-                bottom: `calc(31% - ${leftCards.length * 15}px)`,
+                bottom: `calc(${bottomResultPosition} - ${
+                  leftCards.length * 15
+                }px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -641,7 +648,9 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
             <div
               style={{
                 left: `calc(66% + ${rightCards.length * 35}px)`,
-                bottom: `calc(31% - ${rightCards.length * 15}px)`,
+                bottom: `calc(${bottomResultPosition} - ${
+                  rightCards.length * 15
+                }px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(

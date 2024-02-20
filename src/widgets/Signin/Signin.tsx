@@ -26,6 +26,7 @@ export const Signin: FC<SigninProps> = () => {
   useEffect(() => {
     const exist = localStorage.getItem("auth");
     if (exist) {
+      setAccessToken(exist);
       setAuth(true);
     }
   }, []);
@@ -38,12 +39,6 @@ export const Signin: FC<SigninProps> = () => {
   const [password, setPassword] = useState("");
 
   const [startLogin, setStartLogin] = useState(false);
-
-  useEffect(() => {
-    if (errorData) {
-      setTimeout(() => setErrorData(false), 1000);
-    }
-  }, [errorData]);
 
   useEffect(() => {
     if (error) {
@@ -72,6 +67,8 @@ export const Signin: FC<SigninProps> = () => {
             setPassword("");
           } else if ((data.body as any).status !== "OK") {
             if ((data.body as any).error === "Wrong login or password") {
+              setName("");
+              setPassword("");
               setErrorData(true);
             }
             setInProgress(false);
@@ -89,35 +86,36 @@ export const Signin: FC<SigninProps> = () => {
   return (
     <div className={s.signin_block}>
       <div className={s.input_item}>
-        <span
-          className={clsx(
-            s.input_item_title,
-            error && !name && s.input_item_title_err
-          )}
-        >
-          Username
-        </span>
+        <span className={clsx(s.input_item_title)}>Username</span>
         <input
           value={name}
-          onChange={(el) => setName(el.target.value)}
+          onChange={(el) => {
+            setName(el.target.value);
+            setErrorData(false);
+          }}
           type="text"
-          className={s.input}
+          className={clsx(
+            s.input,
+            error && !name && s.input_err,
+            errorData && s.input_err
+          )}
+          placeholder={errorData ? "Wrong data" : ""}
         />
       </div>
       <div className={s.input_item} style={{ position: "relative" }}>
-        <span
-          className={clsx(
-            s.input_item_title,
-            error && !password && s.input_item_title_err
-          )}
-        >
-          Password
-        </span>
+        <span className={clsx(s.input_item_title)}>Password</span>
         <input
           value={password}
-          onChange={(el) => setPassword(el.target.value)}
+          onChange={(el) => {
+            setErrorData(false);
+            setPassword(el.target.value);
+          }}
           type={showPassword ? "text" : "password"}
-          className={s.input}
+          className={clsx(
+            s.input,
+            error && !password && s.input_err,
+            errorData && s.input_err
+          )}
         />
         {showPassword ? (
           <EyeOpen
@@ -132,7 +130,7 @@ export const Signin: FC<SigninProps> = () => {
         )}
       </div>
       <button onClick={() => setStartLogin(true)} className={s.sign_btn}>
-        {inPorgress ? "In process" : errorData ? "Wrong data" : "Sign In"}
+        {inPorgress ? "In process" : "Sign In"}
       </button>
       <span
         className={s.forgot_password_btn}

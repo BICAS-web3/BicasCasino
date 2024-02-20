@@ -233,7 +233,7 @@ const Game: FC<GameProps> = (props) => {
   }, [mobile, tablet, pc, laptop, sidebarOpened, miniLaptop, is996]);
 
   return (
-    <a
+    <Link
       className={`${s.game_link} ${!sidebarOpened && s.sidebar_game_closed}`}
       href={props.link}
       data-id={props.name}
@@ -245,7 +245,7 @@ const Game: FC<GameProps> = (props) => {
           <div className={s.game_description}>{props.description}</div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 
@@ -413,7 +413,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImageClosed={thimblesBanner}
         />
         <Game
-          name={"Graph"}
+          name={"Crash"}
           description={""}
           link={"/games/Graph"}
           pcImage={CrashBanner}
