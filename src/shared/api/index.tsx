@@ -683,7 +683,7 @@ export const getInvoiceQr = createEffect<T_GetQr, T_ApiResponse, string>(
         "Content-Type": "application/json",
         Authorization: `Bearer ${form.bareer}`,
       },
-      // body: JSON.stringify(form.data),
+      body: JSON.stringify(form.data),
     })
       .then(async (res) => await res.json())
       .catch((e) => e);
@@ -702,7 +702,10 @@ export const invoiceCreate = createEffect<
       "Content-Type": "application/json",
       Authorization: `Bearer ${form.bareer}`,
     },
-    body: JSON.stringify(form),
+    body: JSON.stringify({
+      amount: form.amount,
+      currency: form.currency,
+    }),
   })
     .then(async (res) => await res.json())
     .catch((e) => e);

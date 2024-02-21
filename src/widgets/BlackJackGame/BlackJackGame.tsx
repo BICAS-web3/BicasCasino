@@ -66,8 +66,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     { id: "host", value: 1, suit: 3 },
     { id: "player", value: 3, suit: 0 },
     { id: "player", value: 3, suit: 1 },
-    { id: "player", value: 11, suit: 0 },
-    { id: "player", value: 12, suit: 1 },
+    { id: "player", value: 5, suit: 0 },
+    { id: "player", value: 6, suit: 1 },
     { id: "player", value: 7, suit: 0 },
     { id: "player", value: 8, suit: 1 },
     { id: "player", value: 9, suit: 0 },
@@ -121,20 +121,19 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
   const isTablet = useMediaQuery("(max-width: 1320px)");
   const isMobile = useMediaQuery("(max-width: 650px)");
   const is500 = useMediaQuery("(max-width: 500px)");
+  const is998 = useMediaQuery("(max-width: 998px)");
   const [leftPosition, setLeftPosition] = useState("33%");
   const [rightPosition, setRightPosition] = useState("58%");
-  const [leftResultPosition, setLeftResultPosition] = useState("41%");
   const [bottomResultPosition, setBottomResultPosition] = useState("31%");
 
   useEffect(() => {
     if (is500) {
       setLeftPosition("15.5%");
-      setRightPosition("74%");
-      setLeftResultPosition("22%");
-      setBottomResultPosition("37%");
+      setRightPosition("63%");
+      setBottomResultPosition("35%");
     } else if (isTablet) {
-      setLeftPosition("15.5%");
-      setRightPosition("64%");
+      setLeftPosition("18%");
+      setRightPosition("64.5%");
     } else if (isDesktop) {
       setLeftPosition("28.5%");
       setRightPosition("64%");
@@ -192,7 +191,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     // setBottomOffsetPlayer(100);
     if (is996) {
       setBottomOffsetPlayer(110);
-      setTopOffsetDealer(25);
+      setTopOffsetDealer(45);
       setCardsLeftGap(13);
       setCardsTopGap(10);
     } else if (is650) {
@@ -352,12 +351,12 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
         "style",
         `left: calc(${side === "left" ? leftPosition : rightPosition} + ${
           side === "left"
-            ? leftOffsetPlayer + 35 // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
-            : leftOffsetPlayer - 35 * (leftCards.length - 2) // используйте положительное значение для правой карты
+            ? leftOffsetPlayer + cardsLeftGap // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
+            : leftOffsetPlayer - cardsLeftGap * (leftCards.length - 2) // используйте положительное значение для правой карты
         }px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${
           side === "left"
-            ? bottomOffsetPlayer - 15
-            : bottomOffsetPlayer + 15 * (leftCards.length - 2) // - 15
+            ? bottomOffsetPlayer - cardsTopGap
+            : bottomOffsetPlayer + cardsTopGap * (leftCards.length - 2) // - 15
         }px)`
       );
     } else {
@@ -592,8 +591,8 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {dilerCount > 0 && (
             <div
               style={{
-                left: `calc(${isMobile ? "37%" : "51%"} + ${
-                  dillerCounts * (isMobile ? 28 : 35)
+                left: `calc(${isMobile ? "37%" : is998 ? "47%" : "51%"} + ${
+                  dillerCounts * (isMobile ? 28 : is998 ? 20 : 35)
                 }px)`,
                 top: `calc(${isMobile ? "-5px" : "20px"} + ${
                   dillerCounts * 11
@@ -608,10 +607,18 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userCount > 0 && !isSplit && (
             <div
               style={{
-                left: `calc(${isMobile ? "35%" : "51%"} + ${
-                  isStep * (isMobile ? 28 : 35)
+                left: `calc(${isMobile ? "35%" : is998 ? "47%" : "51%"} + ${
+                  isStep * (isMobile ? 28 : is998 ? 20 : 35)
                 }px)`,
-                bottom: `calc(${isMobile ? "43%" : "34%"} - ${isStep * 10}px)`,
+                bottom: `calc(${
+                  isMobile
+                    ? "43%"
+                    : is998
+                    ? "40.5%"
+                    : isTablet
+                    ? "35.5%"
+                    : "35%"
+                } - ${isStep * 10}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -626,13 +633,21 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userLeftCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(${leftResultPosition} + ${
+                left: `calc(${
+                  isMobile ? "24%" : is998 ? "38.5%" : isTablet ? "29%" : "41%"
+                } + ${
                   // 22-37
-                  leftCards.length * (isMobile ? 25 : 35)
+                  leftCards.length * (isMobile ? 24 : is998 ? 20 : 35)
                 }px)`,
-                bottom: `calc(${bottomResultPosition} - ${
-                  leftCards.length * 15
-                }px)`,
+                bottom: `calc(${
+                  isMobile
+                    ? "37%"
+                    : is998
+                    ? "37.5%"
+                    : isTablet
+                    ? "32.5%"
+                    : "32%"
+                } - ${leftCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -647,10 +662,20 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userRightCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(66% + ${rightCards.length * 35}px)`,
-                bottom: `calc(${bottomResultPosition} - ${
-                  rightCards.length * 15
+                left: `calc(${
+                  isMobile ? "71%" : is998 ? "63%" : isTablet ? "75%" : "66%"
+                } + ${
+                  rightCards.length * (isMobile ? 24 : is998 ? 20 : 35)
                 }px)`,
+                bottom: `calc(${
+                  isMobile
+                    ? "37%"
+                    : is998
+                    ? "37.5%"
+                    : isTablet
+                    ? "32.5%"
+                    : "32%"
+                } - ${rightCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(

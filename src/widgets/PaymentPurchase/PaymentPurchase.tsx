@@ -8,7 +8,9 @@ import copyIco from "@/public/media/payment/copyIco.svg";
 import barcodeImg from "@/public/media/payment/tempBarcode.png";
 import clsx from "clsx";
 import { WaitIco } from "@/shared/SVGs/WaitIco";
-
+import * as api from "@/shared/api";
+import * as RegistrModel from "@/widgets/Registration/model";
+import { useUnit } from "effector-react";
 interface PaymentPurchaseProps {
   purchasePrice: any;
   ref?: any;
@@ -20,6 +22,8 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   ref,
   close,
 }) => {
+  const [access_token] = useUnit([RegistrModel.$access_token]);
+  const [amount, setAmount] = useState("");
   const [activeCoin, setActiveCoin] = useState(coinsList[0]);
 
   const [sendAddress, setSendAddress] = useState("address");
@@ -36,6 +40,27 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
       setMemoWarning(true);
     }
   }, [activeCoin]);
+
+  const [send, setSend] = useState(false);
+  const [response, setResponse] = useState<any>(null);
+  useEffect(() => {
+    if (access_token && send) {
+      (async () => {
+        const data = await api.invoiceCreate({
+          amount: purchasePrice,
+          currency: activeCoin.title,
+          bareer: access_token,
+        });
+        setResponse(data);
+      })();
+    }
+
+    setSend(false);
+  }, [send, access_token]);
+
+  useEffect(() => {
+    console.log(response);
+  }, [response]);
 
   return (
     <div ref={ref} className={s.payment_purchase_block}>
@@ -71,11 +96,18 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
         </div>
         <div className={s.send_amount_block}>
           <div className={s.send_amount_group}>
-            <span className={s.send_amount_title}>Send Amount</span>
+            <span onClick={() => setSend(true)} className={s.send_amount_title}>
+              Send Amount
+            </span>
             <span className={s.send_amount_subTitle}>≈{purchasePrice}usdt</span>
           </div>
           <div className={s.send_amount_input_block}>
-            <input type="text" className={s.send_amount_input} />
+            <input
+              value={purchasePrice && purchasePrice.toFixed(4)}
+              // onChange={(el) => setAmount(el.target.value)}
+              type="text"
+              className={s.send_amount_input}
+            />
             <div className={s.send_amount_dropdown_wrap}>
               <PaymentDropdown list={coinsList} setActive={setActiveCoin} />
             </div>

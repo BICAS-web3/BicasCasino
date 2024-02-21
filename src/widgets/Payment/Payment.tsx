@@ -25,16 +25,16 @@ const draxTypesList = [
   },
   {
     bonusCoins: "200,000",
-    usdPrice: 20,
-  },
-  {
-    bonusCoins: "500,000",
     usdPrice: 50,
   },
   {
-    bonusCoins: "1,000,000",
+    bonusCoins: "500,000",
     usdPrice: 100,
   },
+  // {
+  //   bonusCoins: "1,000,000",
+  //   usdPrice: 100,
+  // },
   {
     bonusCoins: "5,000,000",
     usdPrice: 500,
@@ -47,10 +47,10 @@ const draxTypesList = [
     bonusCoins: "20,000,000",
     usdPrice: 2000,
   },
-  {
-    bonusCoins: "50,000,000",
-    usdPrice: 5000,
-  },
+  // {
+  //   bonusCoins: "50,000,000",
+  //   usdPrice: 5000,
+  // },
 ];
 
 interface PaymentProps {}
