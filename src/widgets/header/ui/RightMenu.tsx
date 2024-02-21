@@ -24,6 +24,7 @@ import Blockies from "react-blockies";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 import { WalletBtn } from "@/shared/SVGs";
 import { Payment } from "@/widgets/Payment/Payment";
+import { BalanceSwitcher } from "@/widgets/BalanceSwitcher/BalanceSwitcher";
 export interface RightMenuProps {
   isGame: boolean;
   hideHeaderBtn?: boolean | false;
@@ -103,8 +104,9 @@ export const RightMenu: FC<RightMenuProps> = (props) => {
 
   return (
     <div className={`${s.right_menu} ${props.hideHeaderBtn && s.hidden_style}`}>
-      <NetworkSelect isGame={props.isGame} />
-      <Payment />
+      {/* <NetworkSelect isGame={props.isGame} /> */}
+      <BalanceSwitcher />
+      {screenWidth > 650 && <Payment />}
       {/* {true && ( // isConnected
         <div className={s.button}>
           <Image src={BellIcon} alt={"notification"} className={s.icon} />

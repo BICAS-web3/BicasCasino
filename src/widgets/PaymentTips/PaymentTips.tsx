@@ -38,13 +38,15 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
           alt="tips-coin"
         />
       </div>
-      <button className={s.send_tips_btn}>
-        Send {activeCoin.title}
-        <div className={s.send_btn_shadow}></div>
-      </button>
-      <span className={s.tips_balance_warning}>
-        Your remaining balance must be greater or equal to 20 DC
-      </span>
+      <div className={s.tips_footer_group}>
+        <button className={s.send_tips_btn}>
+          Send {activeCoin.title}
+          <div className={s.send_btn_shadow}></div>
+        </button>
+        <span className={s.tips_balance_warning}>
+          Your remaining balance must be greater or equal to 20 DC
+        </span>
+      </div>
     </div>
   );
 };

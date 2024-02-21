@@ -3,18 +3,27 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media (max-width: 650px) {
+    margin-top: 10px;
+  }
 }
 
 .signup_block_content {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  @media (max-width: 650px) {
+    gap: 10px;
+  }
 }
 
 .input_item {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  @media (max-width: 650px) {
+    gap: 4px;
+  }
 }
 
 .input_item_title {
@@ -29,6 +38,10 @@
   &_err {
     color: red;
   }
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+  }
 }
 
 .eye {
@@ -38,6 +51,11 @@
   width: 20px;
   cursor: pointer;
   height: 20px;
+  @media (max-width: 650px) {
+    bottom: 10px;
+    height: 18px;
+    width: 18px;
+  }
 }
 
 .input {
@@ -53,6 +71,12 @@
   text-align: left;
   outline: none;
   border: 1px solid #252525;
+
+  @media screen and (max-width: 650px) {
+    font-size: 14px;
+    // padding: 10px;
+    padding: 7.5px 10px;
+  }
   &::placeholder {
     color: rgba(98, 98, 98, 1);
   }
@@ -64,6 +88,8 @@
 .checkbox {
   min-height: 18px;
   min-width: 18px;
+  max-height: 18px;
+  max-width: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,6 +141,14 @@
       color: red;
     }
   }
+
+  @media screen and (max-width: 700px) {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 12px;
+  }
 }
 
 .signup_btn {
@@ -135,6 +169,15 @@
   line-height: 20px;
   letter-spacing: 0.04em;
   text-align: center;
+
+  @media screen and (max-width: 700px) {
+    font-size: 18px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 16px;
+    height: 40px;
+  }
 }
 
 .sign_in_block {

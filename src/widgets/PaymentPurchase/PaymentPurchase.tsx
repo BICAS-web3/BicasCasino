@@ -8,17 +8,21 @@ import copyIco from "@/public/media/payment/copyIco.svg";
 import barcodeImg from "@/public/media/payment/tempBarcode.png";
 import clsx from "clsx";
 import { WaitIco } from "@/shared/SVGs/WaitIco";
+import bonusCoinIco from "@/public/media/payment/bonusCoin.svg";
+import draxCoinIco from "@/public/media/payment/draxMiniIco.svg";
 import * as api from "@/shared/api";
 import * as RegistrModel from "@/widgets/Registration/model";
 import { useUnit } from "effector-react";
 interface PaymentPurchaseProps {
   purchasePrice: any;
+  bonusPrice: any;
   ref?: any;
   close?: () => void;
 }
 
 export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   purchasePrice,
+  bonusPrice,
   ref,
   close,
 }) => {
@@ -85,11 +89,19 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
             <div className={s.payment_purchase_estimate_drax_wrap}>
               <span className={s.payment_purchase_estimate_drax_title}>
                 DRAX Coin
+                <span className={s.paymnet_purchase_drax_amount_title}>
+                  <img src={draxCoinIco.src} alt="" />
+                  {purchasePrice}
+                </span>
               </span>
             </div>
             <div className={s.payment_purchase_estimate_bonus_wrap}>
               <span className={s.payment_purchase_estimate_bonus_title}>
                 Bonus Coin
+                <span className={s.paymnet_purchase_drax_amount_title}>
+                  <img src={bonusCoinIco.src} alt="" />
+                  {bonusPrice}
+                </span>
               </span>
             </div>
           </div>

@@ -80,10 +80,12 @@ export const Payment: FC<PaymentProps> = () => {
   ]);
 
   const [purchaseValue, setPurchaseValue] = useState();
+  const [bonusValue, setBonusValue] = useState();
 
-  const handlePurchaseBtn = (price: any) => {
+  const handlePurchaseBtn = (price: any, bonusPrice: any) => {
     setPurchaseVisibility(true);
     setPurchaseValue(price);
+    setBonusValue(bonusPrice);
   };
 
   const [link, setLink] = useState(1);
@@ -140,7 +142,7 @@ export const Payment: FC<PaymentProps> = () => {
                   className={s.store_ico}
                   alt="store-ico"
                 />
-                Store
+                Wallet
               </span>
               <div className={s.payment_leftSide_header}>
                 {/* <span className={s.payment_transactions_btn}>Transactions</span> */}
@@ -228,7 +230,9 @@ export const Payment: FC<PaymentProps> = () => {
                           </span>
                           <button
                             className={s.buy_btn}
-                            onClick={() => handlePurchaseBtn(item.usdPrice)}
+                            onClick={() =>
+                              handlePurchaseBtn(item.usdPrice, item.bonusCoins)
+                            }
                           >
                             ${item.usdPrice}
                           </button>
@@ -249,9 +253,10 @@ export const Payment: FC<PaymentProps> = () => {
           </div>
         ) : (
           <PaymentPurchase
+            purchasePrice={purchaseValue}
+            bonusPrice={bonusValue}
             close={close}
             ref={dropdownRef}
-            purchasePrice={purchaseValue}
           />
         )}
       </div>
