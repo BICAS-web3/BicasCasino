@@ -88,9 +88,12 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button>{" "} */}
-      {isPlaying && (
+      {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )}
+      )} */}{" "}
+      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+        Play
+      </button>
     </>
   );
 };

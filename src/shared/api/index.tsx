@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io//api";
-export const BaseStaticUrl = "https://game.greekkeepers.io//static";
+export const BaseApiUrl = "http://127.0.0.1:8585/api";
+export const BaseStaticUrl = "http://127.0.0.1:8585/static";
 
 export type T_ErrorText = {
   error: string;
@@ -126,6 +126,10 @@ export type T_GetQr = {
   data: string;
 };
 
+export type T_Header = {
+  bareer: string;
+};
+
 export type T_BetInfo = {
   id: number;
   transaction_hash: string;
@@ -162,6 +166,11 @@ export type T_Totals = {
 
 export type T_NFT_MarketResponse = {
   id: number;
+};
+
+export type T_GetUserAmount = {
+  bareer: string;
+  userId: string | number;
 };
 
 export type T_ApiResponse = {
@@ -335,6 +344,7 @@ export type T_LoginUser = {
 
 export type T_ChangeName = {
   name: string;
+  bareer: string;
 };
 
 export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
@@ -644,6 +654,7 @@ export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
       },
       body: JSON.stringify(form),
     })
@@ -652,10 +663,15 @@ export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
   }
 );
 
-export const getUserInfo = createEffect<string | number, T_ApiResponse, string>(
-  async (userId) => {
-    return fetch(`${BaseApiUrl}/user/${userId}`, {
+export const getUserInfo = createEffect<T_Header, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user`, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
     })
       .then(async (res) => await res.json())
       .catch((e) => e);
@@ -663,12 +679,17 @@ export const getUserInfo = createEffect<string | number, T_ApiResponse, string>(
 );
 
 export const getUserAmounts = createEffect<
-  string | number,
+  T_GetUserAmount,
   T_ApiResponse,
   string
->(async (userId) => {
-  return fetch(`${BaseApiUrl}/user/amounts/${userId}`, {
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/user/amounts/${form.userId}`, {
     method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
   })
     .then(async (res) => await res.json())
     .catch((e) => e);
@@ -710,3 +731,31 @@ export const invoiceCreate = createEffect<
     .then(async (res) => await res.json())
     .catch((e) => e);
 });
+export const getClientSeed = createEffect<T_Header, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/seed/client`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+export const getServerSeed = createEffect<T_Header, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/user/seed/server`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);

@@ -45,7 +45,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      <button
+      {/* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -84,6 +84,9 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
+      </button> */}
+      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+        Play
       </button>
     </>
   );

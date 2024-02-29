@@ -1,20 +1,99 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import * as GraphRangeSetting from "./model";
 import { useUnit } from "effector-react";
-
+import { io } from "socket.io-client";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 import closeIco from "@/public/media/dice_icons/dice_close.svg";
 import swapIco from "@/public/media/dice_icons/dice_swap.svg";
 
 import rangeStyles from "@/widgets/Dice/styles.module.scss";
+
+import * as RegistrModel from "@/widgets/Registration/model";
 
 import { useMediaQuery } from "@/shared/tools";
 
 import clsx from "clsx";
 import s from "./styles.module.scss";
 
-interface GraphGameProps {}
+interface CrashGameProps {}
 
-export const GraphGame: FC<GraphGameProps> = () => {
+export const CrashGame: FC<CrashGameProps> = () => {
+  const [access_token] = useUnit([RegistrModel.$access_token]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const socket = useRef<any>(null);
+  // const WS_URL = "ws://127.0.0.1:8585/api/updates";
+
+  // const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(WS_URL);
+
+  // useEffect(() => {
+  //   console.log("Connection state changed");
+  //   if (readyState === ReadyState.OPEN) {
+  //     sendJsonMessage({
+  //       type: "Auth",
+  //       token: access_token,
+  //     });
+  //     sendJsonMessage({ type: "SubscribeBets", payload: [0] });
+  //     sendJsonMessage({
+  //       type: "MakeBet",
+  //       game_id: 0,
+  //       amount: "10000000",
+  //       difficulty: 0,
+  //     });
+  //   }
+  // }, [readyState]);
+
+  // useEffect(() => {
+  //   console.log(`Got a new message: ${lastJsonMessage}`);
+  // }, [lastJsonMessage]);
+
+  // useEffect(() => {
+  //   if (access_token) {
+  //     socket.current = io(
+  //       "ws://127.0.0.1:8585/api/updates"
+  //       //  {
+  //       //   reconnectionDelayMax: 10000,
+  //       //   auth: {
+  //       //     token: access_token,
+  //       //   },
+  //       //   transports: ["websocket"],
+  //       // }
+
+  //       // {"type":"Auth", "token":access_token}{}
+  //       // {
+  //       //   query: {
+  //       //     token: access_token,
+  //       //   },
+  //       // }
+  //     );
+
+  //     socket.current.on("connect", () => {
+  //       console.log("Connected to websocket server");
+  //       setIsLoggedIn(true);
+
+  //       socket.current.emit("subscribe", { topic: "data_updates" });
+  //     });
+
+  //     // Обработка ошибок
+  //     socket.current.io.on("error", (error: any) => {
+  //       console.log("Socket error:", error);
+  //     });
+  //   }
+  // }, [access_token]);
+
+  // const handleBet = () => {
+  //   // Проверяем, что пользователь авторизован
+  //   if (!isLoggedIn) {
+  //     console.log("User is not logged in.");
+  //     return;
+  //   }
+
+  //   // Делаем ставку
+  //   if (socket.current) {
+  //     socket.current.emit("makeBet", { amount: 10000000, difficulty: 0 });
+  //   } else {
+  //     console.log("Socket connection is not established.");
+  //   }
+  // };
   const [coefficients, setCoefficients] = useState([
     1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4,
   ]);
@@ -31,24 +110,24 @@ export const GraphGame: FC<GraphGameProps> = () => {
   const [timeArr, setTimeArr] = useState([
     "00:01",
     "00:02",
-    "00:03",
-    "00:04",
-    "00:05",
-    "00:06",
-    "00:07",
-    "00:08",
-    "00:09",
-    "00:10",
-    "00:11",
-    "00:12",
-    "00:13",
-    "00:14",
-    "00:15",
-    "00:16",
-    "00:17",
-    "00:18",
-    "00:19",
-    "00:20",
+    // "00:03",
+    // "00:04",
+    // "00:05",
+    // "00:06",
+    // "00:07",
+    // "00:08",
+    // "00:09",
+    // "00:10",
+    // "00:11",
+    // "00:12",
+    // "00:13",
+    // "00:14",
+    // "00:15",
+    // "00:16",
+    // "00:17",
+    // "00:18",
+    // "00:19",
+    // "00:20",
   ]);
 
   useEffect(() => {
@@ -85,8 +164,6 @@ export const GraphGame: FC<GraphGameProps> = () => {
       `${rangeVal < 50 ? newTrackWidth + 1 : newTrackWidth}%`
     );
   }, [rangeVal]);
-
-  const hex = "#808080";
 
   const [number, setNumber] = useState(0);
   const [curvePoints, setCurvePoints] = useState([{ x: 0, y: 0 }]);
@@ -190,7 +267,7 @@ export const GraphGame: FC<GraphGameProps> = () => {
     const crashCurve = (betAmount: any) => {
       clearInterval(gameLoop as any);
       const crashValue = curvePoints.length / 100;
-      console.log(`Multiplier at crash: ${crashValue}`);
+      // console.log(`Multiplier at crash: ${crashValue}`);
       setCrashed(true);
     };
 
@@ -251,18 +328,18 @@ export const GraphGame: FC<GraphGameProps> = () => {
   const handleTakeProfits = () => {
     if (!crashed && !profitsTaken) {
       setProfitsTaken(true);
-      console.log(
-        `Took profits, multiplier: ${curvePoints.length / 100}, profit: ${
-          betAmount * (curvePoints.length / 100) - betAmount
-        }`
-      );
+      // console.log(
+      //   `Took profits, multiplier: ${curvePoints.length / 100}, profit: ${
+      //     betAmount * (curvePoints.length / 100) - betAmount
+      //   }`
+      // );
       setBalance(
         parseFloat(
           (betAmount * (curvePoints.length / 100) + balance).toFixed(2)
         )
       );
     } else if (profitsTaken) {
-      console.log("Profits already taken");
+      // console.log("Profits already taken");
     }
   };
   const canvasRef = useRef(null);
@@ -288,6 +365,37 @@ export const GraphGame: FC<GraphGameProps> = () => {
 
     return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
+
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    let timeArr: any;
+
+    if (true) {
+      timeArr = setInterval(() => {
+        setSeconds((prev) => prev + 1000);
+      }, 1000);
+    }
+    if (isCrashed) {
+      clearInterval(timeArr);
+    }
+    return () => {
+      clearInterval(timeArr);
+    };
+  }, [isCrashed]);
+
+  useEffect(() => {
+    if (seconds === 3000) {
+      setTimeArr((prev) => [...prev, "00:05"]);
+    }
+    if (seconds === 7000) {
+      setTimeArr((prev) => [...prev, "00:09"]);
+    }
+    if (seconds === 12000) {
+      setTimeArr((prev) => [...prev, "00:14"]);
+    }
+  }, [seconds]);
+
   return (
     <div
       onClick={() => {

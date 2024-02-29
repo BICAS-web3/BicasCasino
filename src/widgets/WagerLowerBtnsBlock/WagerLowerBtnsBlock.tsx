@@ -108,11 +108,11 @@ export const WagerLowerBtnsBlock: FC<WagerLowerBtnsBlockProps> = ({
       className={clsx(
         s.poker_wager_lower_btns_block,
         className,
-        game === "graph" && s.custom_height
+        game === "crash" && s.custom_height
       )}
     >
       <button
-        className={clsx(s.poker_wager_sound_btn, game === "graph" && s.height)}
+        className={clsx(s.poker_wager_sound_btn, game === "crash" && s.height)}
         onClick={soundChange}
       >
         {playSounds === "off" ? (

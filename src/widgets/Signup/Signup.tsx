@@ -62,12 +62,12 @@ export const Signup: FC<SignupProps> = () => {
             username: name,
             password: password,
           });
-          if (data.status === "OK") {
+          if (data?.status === "OK") {
             const dataObj = await api.loginUser({
               login: name,
               password: password,
             });
-            if (dataObj.status === "OK") {
+            if (dataObj?.status === "OK") {
               console.log(dataObj);
               localStorage.setItem("auth", (dataObj.body as any).access_token);
               setAccessToken((dataObj.body as any).access_token);
@@ -75,11 +75,11 @@ export const Signup: FC<SignupProps> = () => {
               setAuth(true);
               setName("");
               setPassword("");
-            } else if (data.status !== "OK") {
+            } else if (data?.status !== "OK") {
               setInProgress(false);
             }
           }
-          if (data.status !== "OK") {
+          if (data?.status !== "OK") {
             setName("");
             setPassword("");
             setUserExist(true);

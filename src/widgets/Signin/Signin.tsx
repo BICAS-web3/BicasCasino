@@ -57,7 +57,7 @@ export const Signin: FC<SigninProps> = () => {
             login: name,
             password: password,
           });
-          if (data.status === "OK") {
+          if (data?.status === "OK") {
             console.log(data.body);
             setAccessToken((data.body as any).access_token);
             setRefreshToken((data.body as any).refresh_token);
@@ -65,8 +65,9 @@ export const Signin: FC<SigninProps> = () => {
             setAuth(true);
             setName("");
             setPassword("");
-          } else if ((data.body as any).status !== "OK") {
-            if ((data.body as any).error === "Wrong login or password") {
+          } else if ((data.body as any)?.status !== "OK") {
+            console.log(data);
+            if ((data.body as any)?.error === "Wrong login or password") {
               setName("");
               setPassword("");
               setErrorData(true);

@@ -34,8 +34,14 @@ const WagerContent = () => {
   const { push, reload } = useRouter();
   const router = useRouter();
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  const [isPlaying, setIsPlaying] = useUnit([
+    GameModel.$isPlaying,
+    GameModel.setIsPlaying,
+  ]);
+  const [cryptoValue, setError] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+  ]);
   const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
     ConnectModel.$startConnect,
     ConnectModel.setConnect,
@@ -45,11 +51,11 @@ const WagerContent = () => {
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
   return (
     <>
@@ -63,40 +69,18 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <SidePicker />
-      {/* <button
-        className={clsx(
-          s.connect_wallet_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
-            ? s.button_inactive
-            : s.button_active
-        )}
+      <button
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
         onClick={() => {
-          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-            pressButton();
-          } else if (cryptoValue <= 0.0 && isConnected) {
-            setIsEmtyWager(true);
+          if (!cryptoValue) {
+            setError(true);
           } else {
-            router.push(
-              isPartner
-                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                : "/RegistrManual"
-            );
+            setIsPlaying(true);
           }
         }}
       >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button> */}
-      {/* {isPlaying && (
-        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )} */}
+        Play
+      </button>
     </>
   );
 };

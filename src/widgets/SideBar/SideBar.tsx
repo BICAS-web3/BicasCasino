@@ -128,9 +128,9 @@ const gamesList = [
     link: "/games/Thimbles",
   },
   {
-    title: "Graph",
-    icon: "graph",
-    link: "/games/Graph",
+    title: "Crash",
+    icon: "crash",
+    link: "/games/Crash",
   },
   {
     title: "Slots",
@@ -216,7 +216,7 @@ const GameIcon: FC<GameIconProps> = ({ iconId }) => {
     return <BJBtn />;
   } else if (iconId === "thimbles") {
     return <ThimblesButton />;
-  } else if (iconId === "graph") {
+  } else if (iconId === "crash") {
     return <CrashBtn />;
   } else if (iconId === "roulette") {
     return <RouletteBtnIconIcon />;
@@ -291,7 +291,7 @@ const ClosedSideBar: FC<ClosedSideBarProps> = (props) => {
             path === "/games/Cars" && s.active_link,
             path === "/games/BlackJack" && s.active_link,
             path === "/games/Thimbles" && s.active_link,
-            path === "/games/Graph" && s.active_link,
+            path === "/games/Crash" && s.active_link,
             path === "/games/Roulette" && s.active_link,
             path === "/leaderboard" && s.active_link
           )}`}
@@ -509,7 +509,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
                 path === "/games/Cars" && s.active_link,
                 path === "/games/BlackJack" && s.active_link,
                 path === "/games/Thimbles" && s.active_link,
-                path === "/games/Graph" && s.active_link,
+                path === "/games/Crash" && s.active_link,
                 path === "/games/Roulette" && s.active_link,
                 path === "/leaderboard" && s.active_link,
                 s.games
@@ -643,9 +643,9 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               Black Jack
             </Link>
             <Link
-              href={"/games/Graph"}
+              href={"/games/Crash"}
               className={`${s.game_row} ${
-                props.activePage === "/games/Graph" && s.game_active
+                props.activePage === "/games/Crash" && s.game_active
               }`}
             >
               <CrashBtn />

@@ -82,7 +82,10 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button> */}
+      </button> */}{" "}
+      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+        Play
+      </button>
     </>
   );
 };

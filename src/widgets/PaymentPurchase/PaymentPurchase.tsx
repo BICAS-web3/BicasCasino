@@ -56,6 +56,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           bareer: access_token,
         });
         setResponse(data);
+        console.log(data);
       })();
     }
 

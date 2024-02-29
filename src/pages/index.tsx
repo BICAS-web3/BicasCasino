@@ -415,7 +415,7 @@ const Games: FC<GamesProps> = (props) => {
         <Game
           name={"Crash"}
           description={""}
-          link={"/games/Graph"}
+          link={"/games/Crash"}
           pcImage={CrashBanner}
           tabletImage={CrashBanner}
           laptopImage={CrashBanner}

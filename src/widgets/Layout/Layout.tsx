@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 
 import { SideBar } from "@/widgets/SideBar";
@@ -21,6 +21,12 @@ import { useMediaQuery } from "@/shared/tools";
 import { useRouter } from "next/router";
 import { Registration } from "../Registration/Registration";
 import { Payment } from "../Payment/Payment";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+
+import * as LayoutModel from "./model";
+
+import * as api from "@/shared/api";
+import { SocketProvider } from "@/shared/context";
 
 interface LayoutProps {
   children?: any;
@@ -31,12 +37,19 @@ interface LayoutProps {
 export const Layout = ({ children, ...props }: LayoutProps) => {
   // const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
   const isMobile = useMediaQuery("(max-width: 650px)");
-  const [isOpen, close] = useUnit([SidebarM.$isOpen, SidebarM.Close]);
+  const [isOpen, close, setUserInfo] = useUnit([
+    SidebarM.$isOpen,
+    SidebarM.Close,
+    LayoutModel.setUserInfo,
+  ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
   const { pathname } = useRouter();
 
-  const [isAuth] = useUnit([RegistrM.$isAuth]);
+  const [isAuth, access_token] = useUnit([
+    RegistrM.$isAuth,
+    RegistrM.$access_token,
+  ]);
 
   useEffect(() => {
     if (window.innerWidth <= 650 || props.gameName !== undefined) close();
@@ -47,57 +60,72 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     setPopupBonusState(JSON.stringify(dontShowState));
   }, []);
 
+  useEffect(() => {
+    if (access_token) {
+      (async () => {
+        const response = await api.getUserInfo({ bareer: access_token });
+        if (response.status === "OK") {
+          setUserInfo((response as any).body);
+        } else {
+          console.log("err", response.body);
+        }
+      })();
+    }
+  }, [access_token]);
+
   return (
-    <>
-      <SettingsInit />
-      {true ? ( // wagmiConfig != null
-        // <WagmiConfig config={wagmiConfig}>
-        <>
-          <SessionInit game={props.gameName} />
-          {popupBonusState === `"true"` ||
-          pathname === "/RegistrManual" ||
-          pathname === "/ExchangeManual" ? null : (
-            <PopUpBonus />
-          )}
-          <div
-            className={clsx(
-              s.page_container,
-              !isOpen && s.side_bar_closed,
-              props.gameName !== undefined && s.overlayed
+    <SocketProvider>
+      <>
+        <SettingsInit />
+        {true ? ( // wagmiConfig != null
+          // <WagmiConfig config={wagmiConfig}>
+          <>
+            <SessionInit game={props.gameName} />
+            {popupBonusState === `"true"` ||
+            pathname === "/RegistrManual" ||
+            pathname === "/ExchangeManual" ? null : (
+              <PopUpBonus />
             )}
-          >
-            {!isAuth && <Registration />}
-            <Header
-              isGame={props.gameName != undefined}
-              hideHeaderBtn={props.hideHeaderBtn}
-            />
             <div
               className={clsx(
-                s.side_bar_wrapper,
-                isOpen && s.sideBar_opened,
-                swapOpen && s.swap_open
+                s.page_container,
+                !isOpen && s.side_bar_closed,
+                props.gameName !== undefined && s.overlayed
               )}
             >
-              {props.gameName !== undefined && (
-                <div
-                  className={clsx(
-                    s.sidebar_overlay,
-                    isOpen && s.overlay_active
-                  )}
-                ></div>
-              )}
-              <SideBar activePage={props.activePageLink} />
-            </div>
+              {!isAuth && <Registration />}
+              <Header
+                isGame={props.gameName != undefined}
+                hideHeaderBtn={props.hideHeaderBtn}
+              />
+              <div
+                className={clsx(
+                  s.side_bar_wrapper,
+                  isOpen && s.sideBar_opened,
+                  swapOpen && s.swap_open
+                )}
+              >
+                {props.gameName !== undefined && (
+                  <div
+                    className={clsx(
+                      s.sidebar_overlay,
+                      isOpen && s.overlay_active
+                    )}
+                  ></div>
+                )}
+                <SideBar activePage={props.activePageLink} />
+              </div>
 
-            {/* <Blur /> */}
-            <main className={s.main_area}>{children}</main>
-            <Footer />
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
-    </>
+              {/* <Blur /> */}
+              <main className={s.main_area}>{children}</main>
+              <Footer />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </>
+    </SocketProvider>
   );
 };
 

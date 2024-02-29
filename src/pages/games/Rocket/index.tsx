@@ -93,7 +93,10 @@ const WagerContent = () => {
           onClick={() => setRefund(true)}
           className={styles.mobile}
         />
-      )} */}
+      )} */}{" "}
+      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+        Play
+      </button>
     </>
   );
 };

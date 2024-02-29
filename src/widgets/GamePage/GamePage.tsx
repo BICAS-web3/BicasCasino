@@ -268,7 +268,7 @@ export const GamePage: FC<GamePageProps> = ({
                 className={clsx(
                   s.poker_wager_sound_btn,
                   soundClassName,
-                  gameTitle === "graph" && s.height
+                  gameTitle === "crash" && s.height
                 )}
                 onClick={soundChange}
                 data-id="2"

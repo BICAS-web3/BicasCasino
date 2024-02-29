@@ -2,14 +2,7 @@ import { FC, useEffect, useState, Suspense } from "react";
 import s from "./styles.module.scss";
 import tableBg from "@/public/media/coinflip_images/coinflipTableBg.webp";
 import Image from "next/image";
-import {
-  OrbitControls,
-  Stage,
-  useAnimations,
-  useGLTF,
-} from "@react-three/drei";
-// import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
-
+import { Stage, useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, act, useLoader } from "@react-three/fiber";
 import { AnimationAction } from "three";
 import { Environment } from "@react-three/drei";
@@ -19,16 +12,6 @@ import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import * as GameModel from "@/widgets/GamePage/model";
-import useSound from "use-sound";
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
 import { sessionModel } from "@/entities/session";
 import { ABI as ICoinFlip } from "@/shared/contracts/CoinFlipABI";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
@@ -46,6 +29,14 @@ import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Preload } from "@/shared/ui/Preload";
+import useWebSocket, { ReadyState } from "react-use-websocket";
+import * as RegistrM from "@/widgets/Registration/model";
+import { LiveBetsWS } from "../LiveBets";
+
+import * as api from "@/shared/api";
+
+import * as BetsModel from "@/widgets/LiveBets/model";
+import { useSocket } from "@/shared/context";
 interface CoinFlipProps {
   gameText: string;
 }
@@ -138,6 +129,8 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     betValue,
     refund,
     setRefund,
+    result,
+    setResult,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -167,7 +160,45 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.$betValue,
     GameModel.$refund,
     GameModel.setRefund,
+    BetsModel.$result,
+    BetsModel.setResult,
   ]);
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        setGameStatus(GameModel.GameStatus.Won);
+
+        const multiplier = Number(
+          Number(result.profit) / Number(result.amount)
+        );
+        pickSide(pickedSide);
+        setWonStatus({
+          profit: Number(result.profit),
+          multiplier,
+          token: "DRAX",
+        });
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("win");
+      } else if (Number(result.profit) < Number(result.amount)) {
+        setGameStatus(GameModel.GameStatus.Lost);
+        pickSide(pickedSide ^ 1);
+        setIsPlaying(false);
+        setInGame(false);
+        setLostStatus(Number(result.profit) - Number(result.amount));
+        // alert("lost");
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("draw");
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
@@ -182,134 +213,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
   const [inGame, setInGame] = useState<boolean>(false);
 
-  // const { data: GameState, refetch: fetchGameState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   functionName: "CoinFlip_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   //watch: isConnected && !inGame,
-  //   blockTag: "latest",
-  // });
-
-  // useEffect(() => {
-  //   if (GameState && !inGame) {
-  //     if (
-  //       (GameState as any).requestID != BigInt(0) &&
-  //       (GameState as any).blockNumber != BigInt(0)
-  //     ) {
-  //       setWaitingResponse(true);
-  //       setInGame(true);
-  //       setActivePicker(false);
-  //       pickSide((GameState as any).isHeads as number);
-  //     } else {
-  //       setInGame(false);
-  //     }
-  //   }
-  // }, [GameState]);
-
-  useEffect(() => {
-    setIsPlaying(inGame);
-  }, [inGame]);
-
   const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
 
-  // useEffect(() => {
-  //   if (data && data.gasPrice) {
-  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-  //   }
-  // }, [data]);
-
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     gameAddress,
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  //   gasPrice: data?.gasPrice as any,
-  //   gas: BigInt(50000),
-  // });
-
-  // const {
-  //   write: setAllowance,
-  //   error: allowanceError,
-  //   status: allowanceStatus,
-  //   data: allowanceData,
-  // } = useContractWrite(allowanceConfig);
-
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   functionName: "CoinFlip_Refund",
-  //   enabled: isPlaying,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
-  // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-  // useEffect(() => {
-  //   if (allowanceData) {
-  //     setWatchAllowance(true);
-  //   }
-  // }, [allowanceData]);
-
-  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-  //   hash: allowanceData?.hash,
-  //   enabled: watchAllowance,
-  // });
-
-  // useEffect(() => {
-  //   if (inGame && allowanceIsSet && watchAllowance) {
-  //     setWatchAllowance(false);
-  //     startPlaying();
-  //   } else if (allowanceError) {
-  //     setWatchAllowance(false);
-  //     setActivePicker(true);
-  //     setInGame(false);
-  //     setWaitingResponse(false);
-  //   }
-  // }, [inGame, allowanceIsSet, allowanceError]);
-
   const [fees, setFees] = useState<bigint>(BigInt(0));
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: isConnected && !inGame,
-  // });
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
 
   const [value, setValue] = useState<bigint>(BigInt(0));
 
@@ -334,130 +240,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 
     setBetValue(newValue + BigInt(400000) * prevGasPrice);
   }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
-
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error,
-  // } = useContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   functionName: "CoinFlip_Play",
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     pickedSide,
-  //     betsAmount,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //   ],
-  //   value: value,
-  // });
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setActivePicker(false);
-  //     setInGame(true);
-  //     setWaitingResponse(true);
-  //   }
-  // }, [startedPlaying]);
-
-  // useContractEvent({
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ICoinFlip,
-  //   eventName: "CoinFlip_Outcome_Event",
-  //   listener(log) {
-  //     if (
-  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //       address?.toLowerCase()
-  //     ) {
-  //       setWaitingResponse(false);
-  //       const wagered =
-  //         BigInt((log[0] as any).args.wager) *
-  //         BigInt((log[0] as any).args.numGames);
-  //       const handlePayouts = () => {
-  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-  //           setTimeout(() => {
-  //             const outCome =
-  //               Number((log[0] as any)?.args?.payouts[i]) /
-  //               Number(BigInt((log[0] as any).args.wager));
-  //             setCoefficientData((prev) => [outCome, ...prev]);
-  //           }, 700 * (i + 1));
-  //         }
-  //       };
-  //       handlePayouts();
-  //       if ((log[0] as any).args.payout > wagered) {
-  //         const profit = (log[0] as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-  //         const wagered_token = (
-  //           (log[0] as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-
-  //         setLostStatus(wageredFloat);
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //     }
-  //   },
-  // });
-
-  useEffect(() => {
-    if (wagered) {
-      if (inGame) {
-      } else {
-        const total_value = cryptoValue * betsAmount;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            // if (setAllowance) {
-            //   setAllowance();
-            //   setActivePicker(false);
-            //   setInGame(true);
-            //   setWaitingResponse(true);
-            // }
-          } else {
-            // if (startPlaying) {
-            //   startPlaying();
-            // }
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
 
   useEffect(() => {
     setActivePicker(true);
@@ -505,8 +287,90 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       setIsLoading?.(modelLoading);
     }
   }, [modelLoading, imageLoading]);
+
+  useEffect(() => setInGame(isPlaying), [isPlaying]);
+  const [access_token] = useUnit([RegistrM.$access_token]);
+
+  useEffect(() => {
+    if (access_token) {
+      (async () => {
+        const response = await api.getServerSeed({ bareer: access_token });
+        console.log("server seed", response);
+      })();
+      (async () => {
+        const response = await api.getClientSeed({ bareer: access_token });
+        console.log("client seed", response);
+      })();
+    }
+  }, [access_token]);
+
+  const server_seed = { type: "NewServerSeed" };
+  const data = { type: "Auth", token: access_token };
+  const subscribe = { type: "SubscribeBets", payload: [1] };
+  const seed_data = {
+    type: "NewClientSeed",
+    seed:
+      Math.random() +
+      Date.now() +
+      "Insane 1wereesawesewrsjvhgvhhvvhewrreewrdefwrefdsewrwsswqerewreesdfedr0wereewrwr0%rawefewerretwrreewrewrtedsf ewedswin seed",
+  };
+
+  const [betData, setBetData] = useState({});
+
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: 1,
+      coin_id: 1,
+      user_id: 0,
+      data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
+      amount: `${cryptoValue || 0}`,
+      difficulty: 0,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [stopGain, stopLoss, pickedSide, cryptoValue]);
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && access_token && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify(server_seed));
+      socket.send(JSON.stringify(seed_data));
+      socket.send(JSON.stringify(data));
+    }
+  }, [socket, access_token, socket?.readyState]);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify(subscribe));
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
   return (
     <>
+      {/* {access_token && isPlaying && (
+        <LiveBetsWS
+          subscription_type=""
+          subscriptions={[]}
+          isLiveBets={false}
+          data={[subscribe, data, server_seed, seed_data]}
+          addition={[betData]}
+        />
+      )}
+      {access_token && !isPlaying && (
+        <LiveBetsWS
+          subscription_type=""
+          subscriptions={[]}
+          isLiveBets={false}
+          data={[data, server_seed, seed_data]}
+        />
+      )} */}
       {/* {error && (
         <ErrorCheck
           text="Something went wrong, please contact customer support."
@@ -588,3 +452,259 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     </>
   );
 };
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";
+// useEffect(() => {
+//   if (wagered) {
+//     if (inGame) {
+//     } else {
+//       const total_value = cryptoValue * betsAmount;
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         total_value <= currentBalance
+//       ) {
+//         if (
+//           (!allowance || (allowance && allowance <= cryptoValue)) &&
+//           pickedToken?.contract_address !=
+//             "0x0000000000000000000000000000000000000000"
+//         ) {
+//           // if (setAllowance) {
+//           //   setAllowance();
+//           //   setActivePicker(false);
+//           //   setInGame(true);
+//           //   setWaitingResponse(true);
+//           // }
+//         } else {
+//           // if (startPlaying) {
+//           //   startPlaying();
+//           // }
+//         }
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [wagered]);
+
+// const { data: GameState, refetch: fetchGameState } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ICoinFlip,
+//   functionName: "CoinFlip_GetState",
+//   args: [address],
+//   enabled: true,
+//   //watch: isConnected && !inGame,
+//   blockTag: "latest",
+// });
+
+// useEffect(() => {
+//   if (GameState && !inGame) {
+//     if (
+//       (GameState as any).requestID != BigInt(0) &&
+//       (GameState as any).blockNumber != BigInt(0)
+//     ) {
+//       setWaitingResponse(true);
+//       setInGame(true);
+//       setActivePicker(false);
+//       pickSide((GameState as any).isHeads as number);
+//     } else {
+//       setInGame(false);
+//     }
+//   }
+// }, [GameState]);
+
+// useEffect(() => {
+//   setIsPlaying(inGame);
+// }, [inGame]);
+// useEffect(() => {
+//   if (data && data.gasPrice) {
+//     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+//   }
+// }, [data]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     gameAddress,
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+//   gasPrice: data?.gasPrice as any,
+//   gas: BigInt(50000),
+// });
+
+// const {
+//   write: setAllowance,
+//   error: allowanceError,
+//   status: allowanceStatus,
+//   data: allowanceData,
+// } = useContractWrite(allowanceConfig);
+
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ICoinFlip,
+//   functionName: "CoinFlip_Refund",
+//   enabled: isPlaying,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+
+// const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+// useEffect(() => {
+//   if (allowanceData) {
+//     setWatchAllowance(true);
+//   }
+// }, [allowanceData]);
+
+// const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+//   hash: allowanceData?.hash,
+//   enabled: watchAllowance,
+// });
+
+// useEffect(() => {
+//   if (inGame && allowanceIsSet && watchAllowance) {
+//     setWatchAllowance(false);
+//     startPlaying();
+//   } else if (allowanceError) {
+//     setWatchAllowance(false);
+//     setActivePicker(true);
+//     setInGame(false);
+//     setWaitingResponse(false);
+//   }
+// }, [inGame, allowanceIsSet, allowanceError]);
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ICoinFlip,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: isConnected && !inGame,
+// });
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error,
+// } = useContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ICoinFlip,
+//   functionName: "CoinFlip_Play",
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+//   args: [
+//     useDebounce(
+//       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//     ),
+//     pickedToken?.contract_address,
+//     pickedSide,
+//     betsAmount,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//   ],
+//   value: value,
+// });
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setActivePicker(false);
+//     setInGame(true);
+//     setWaitingResponse(true);
+//   }
+// }, [startedPlaying]);
+
+// useContractEvent({
+//   address: gameAddress as `0x${string}`,
+//   abi: ICoinFlip,
+//   eventName: "CoinFlip_Outcome_Event",
+//   listener(log) {
+//     if (
+//       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//       address?.toLowerCase()
+//     ) {
+//       setWaitingResponse(false);
+//       const wagered =
+//         BigInt((log[0] as any).args.wager) *
+//         BigInt((log[0] as any).args.numGames);
+//       const handlePayouts = () => {
+//         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+//           setTimeout(() => {
+//             const outCome =
+//               Number((log[0] as any)?.args?.payouts[i]) /
+//               Number(BigInt((log[0] as any).args.wager));
+//             setCoefficientData((prev) => [outCome, ...prev]);
+//           }, 700 * (i + 1));
+//         }
+//       };
+//       handlePayouts();
+//       if ((log[0] as any).args.payout > wagered) {
+//         const profit = (log[0] as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+//         const wagered_token = (
+//           (log[0] as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+
+//         setLostStatus(wageredFloat);
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//     }
+//   },
+// });

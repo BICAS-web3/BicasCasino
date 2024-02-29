@@ -20,7 +20,7 @@ import {
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import { RefundButton } from "@/shared/ui/Refund";
-import { GraphGame } from "@/widgets/GraphGame/GraphGame";
+import { CrashGame } from "@/widgets/CrashGame/CrashGame";
 import styles from "@/pages/games/CoinFlip/styles.module.scss";
 import {
   CustomWagerRangeInput,
@@ -45,6 +45,7 @@ const WagerContent = () => {
     reset,
     setRefund,
     emptyField,
+    setIsPlaying,
   ] = useUnit([
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
@@ -53,6 +54,7 @@ const WagerContent = () => {
     AppleModel.$reset,
     GameModel.setRefund,
     AppleModel.$emptyField,
+    GameModel.setIsPlaying,
   ]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
@@ -83,7 +85,7 @@ const WagerContent = () => {
       />
       <WagerGainLoss />
       <ProfitBlock />
-      <button
+      {/* <button
         className={clsx(
           styles.connect_wallet_btn,
           s.mobile,
@@ -121,10 +123,30 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>
+      </button> */}
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )} */}
+      )} */}{" "}
+      <button
+        className={clsx(
+          styles.connect_wallet_btn,
+          s.mobile,
+          styles.button_active
+        )}
+        onClick={() => {
+          if (emptyField) {
+            setTitle(true);
+          } else {
+            // if (gameResult?.length > 0) {
+            //   setReset(!reset);
+            // } else {
+            // }
+            setIsPlaying(true);
+          }
+        }}
+      >
+        Play
+      </button>
     </>
   );
 };
@@ -135,20 +157,20 @@ const Apples: FC<ApplesProps> = () => {
   return (
     <>
       <Head>
-        <title>Games - Graph</title>
+        <title>Games - Crash</title>
       </Head>
-      <Layout activePageLink="/games/Graph" gameName="Graph">
-        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Graph"]} />
-        <div className={s.graph_container}>
+      <Layout activePageLink="/games/Crash" gameName="Crash">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Crash"]} />
+        <div className={s.crash_container}>
           <GamePage
             isPoker={false}
             gameInfoText=""
-            gameTitle="graph"
+            gameTitle="Crash"
             wagerContent={<WagerContent />}
             // customHeight={true}
-            customCname={s.graph_game_page}
+            customCname={s.crash_game_page}
           >
-            <GraphGame />
+            <CrashGame />
           </GamePage>
         </div>
       </Layout>

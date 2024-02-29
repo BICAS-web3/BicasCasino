@@ -77,6 +77,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     isEmtyWager,
     setIsEmtyWager,
     activeStep,
+    error,
+    setError,
   ] = useUnit([
     settingsModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -92,6 +94,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     GameModel.$isEmtyWager,
     GameModel.setIsEmtyWager,
     BJModel.$activeStep,
+    WagerModel.$error,
+    WagerModel.setError,
   ]);
 
   useEffect(() => {
@@ -254,21 +258,21 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
   const isEmtyWagerRef = useRef(isEmtyWager);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      wagerInputRef.current &&
-      !wagerInputRef.current.contains(event.target as Node) &&
-      isEmtyWagerRef.current === true
-    ) {
-      wagerInputRef.current.focus();
-    }
+    // if (
+    //   wagerInputRef.current &&
+    //   !wagerInputRef.current.contains(event.target as Node) &&
+    //   isEmtyWagerRef.current === true
+    // ) {
+    //   wagerInputRef.current.focus();
+    // }
   };
 
-  document.addEventListener("click", handleClickOutside);
+  // document.addEventListener("click", handleClickOutside);
 
   useEffect(() => {
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    // return () => {
+    //   document.removeEventListener("click", handleClickOutside);
+    // };
   }, []);
 
   useEffect(() => {
@@ -307,7 +311,8 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
         <div
           className={clsx(
             s.poker_wager_input_kripto_block,
-            isEmtyWager && s.poker_wager_input_kripto_block_empty
+            isEmtyWager && s.poker_wager_input_kripto_block_empty,
+            error && s.poker_wager_input_kripto_block_empty
           )}
         >
           <input
@@ -315,6 +320,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
             placeholder="0.0"
             className={s.poker_wager_input_kripto}
             onChange={(e) => {
+              setError(false);
               setstartedTyping(true);
               const numb = e.target.value;
               setCryptoInputValue(numb);

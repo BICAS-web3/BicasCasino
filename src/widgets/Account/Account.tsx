@@ -23,6 +23,9 @@ import coinbaseIco from "@/public/media/networks/coinbaseIco.svg";
 import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 import closeIco from "@/public/media/misc/closeAccIco.webp";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
+
+import * as LayoutModel from "@/widgets/Layout/model";
+
 // import { useAccount } from "wagmi";
 
 export enum Ewallet {
@@ -68,6 +71,7 @@ export interface AccountProps {
 export const Account: FC<AccountProps> = (props) => {
   // const { address } = useAccount();
   // const { disconnect } = useDisconnect();
+
   const truncatedAddress = `${props.address.slice(
     0,
     7
@@ -88,10 +92,11 @@ export const Account: FC<AccountProps> = (props) => {
     }
   }, [screenWidth]);
 
-  const [closeHeaderAccount, setBlur, accVisibility] = useUnit([
+  const [closeHeaderAccount, setBlur, accVisibility, userInfo] = useUnit([
     HeaderAccModel.Close,
     BlurModel.setBlur,
     HeaderAccModel.$isHeaderAccountOpened,
+    LayoutModel.$userInfo,
   ]);
 
   const handleHeaderAccClose = () => {
@@ -113,17 +118,18 @@ export const Account: FC<AccountProps> = (props) => {
         </div>
         <div className={s.profile_info}>
           <div className={s.profile_nickname}>
-            {props.nickname &&
+            {/* {props.nickname &&
             props.nickname.toLowerCase() != props.address.toLowerCase()
               ? props.nickname
-              : truncatedAddress}
+              : truncatedAddress} */}
+            {userInfo?.username}
           </div>
-          <div className={s.profile_address}>
+          {/* <div className={s.profile_address}>
             <div className={s.profile_address}>{truncatedAddress}</div>
             <div className={s.btn_copy}>
               <CopyToClipboardButton textToCopy={props.address} />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className={s.account_item}>
@@ -151,6 +157,7 @@ export const Account: FC<AccountProps> = (props) => {
         <AccountElement
           name="Disconnect"
           icon={ExitIcon}
+          onClick={() => {}}
           // onClick={() => disconnect()}
         />
         {/* <AccountElement name="Explorer" icon={Explorer}/>
