@@ -20,43 +20,24 @@ const DiceComponent = lazy(() => import("@/widgets/Dice/Dice"));
 import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import clsx from "clsx";
 import Head from "next/head";
+import * as GameModel from "@/widgets/GamePage/model";
 // import { PlinkoLevelsBlock } from "@/widgets/PlinkoLevelsBlock/PlinkoLevelsBlock";
 import * as DGM from "@/widgets/Dice/model";
 import { useMediaQuery } from "@/shared/tools";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import * as GameModel from "@/widgets/GamePage/model";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-  ]);
-  const isMobile = useMediaQuery("(max-width: 996px)");
-  // const { isConnected, isConnecting } = useAccount();
-  // const { connectors, connect } = useConnect();
-  const [pressButton] = useUnit([WagerModel.pressButton]);
-  const { push, reload } = useRouter();
-  const router = useRouter();
-  const [isPlaying, setIsEmtyWager, setRefund] = useUnit([
-    GameModel.$isPlaying,
-    GameModel.setIsEmtyWager,
-    GameModel.setRefund,
+  const [cryptoValue, setError, setIsPlaying] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+    GameModel.setIsPlaying,
   ]);
 
-  // useEffect(() => {
-  //   isConnecting && setStartConnect(false);
-  // }, []);
-
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
       <WagerInputsBlock />
@@ -68,7 +49,78 @@ const WagerContent = () => {
       />
       <WagerGainLoss />
       <ProfitBlock />
-      {/* {!isMobile && (
+
+      <button
+        onClick={() => {
+          if (!cryptoValue) {
+            setError(true);
+          } else {
+            setIsPlaying(true);
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
+        Play
+      </button>
+    </>
+  );
+};
+
+export default function DiceGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [2] }));
+    }
+  }, [socket, socket?.readyState]);
+
+  return (
+    <>
+      <Head>
+        <title>Games - Dice</title>
+      </Head>
+      <Layout activePageLink="/games/Dice" gameName="Dice">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Dice"]} />
+        <div className={styles.dice_container}>
+          <GamePage
+            isPoker={false}
+            gameInfoText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years."
+            gameTitle="Dice"
+            wagerContent={<WagerContent />}
+            custom_height={styles.height}
+            soundClassName={styles.sound_btn}
+          >
+            <Suspense fallback={<div>....</div>}>
+              <DiceComponent gameText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years." />
+            </Suspense>
+          </GamePage>
+        </div>
+      </Layout>
+    </>
+  );
+}
+// const [startConnect, setStartConnect] = useUnit([
+//   ConnectModel.$startConnect,
+//   ConnectModel.setConnect,
+// ]);
+// const isMobile = useMediaQuery("(max-width: 996px)");
+// const { isConnected, isConnecting } = useAccount();
+// const { connectors, connect } = useConnect();
+// const [pressButton] = useUnit([WagerModel.pressButton]);
+// const { push, reload } = useRouter();
+// const router = useRouter();
+// const [isPlaying, setIsEmtyWager, setRefund] = useUnit([
+//   GameModel.$isPlaying,
+//   GameModel.setIsEmtyWager,
+//   GameModel.setRefund,
+// ]);
+
+// useEffect(() => {
+//   isConnecting && setStartConnect(false);
+// }, []);
+{
+  /* {!isMobile && (
         <button
           className={`${s.connect_wallet_btn} ${
             isPlaying && "animation-leftRight"
@@ -99,40 +151,15 @@ const WagerContent = () => {
             "Connect Wallet"
           )}
         </button>
-      )} */}
-      {/* {isPlaying && (
-        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
-        Play
-      </button>
-    </>
-  );
-};
-
-export default function DiceGame() {
-  return (
-    <>
-      <Head>
-        <title>Games - Dice</title>
-      </Head>
-      <Layout activePageLink="/games/Dice" gameName="Dice">
-        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Dice"]} />
-        <div className={styles.dice_container}>
-          <GamePage
-            isPoker={false}
-            gameInfoText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years."
-            gameTitle="Dice"
-            wagerContent={<WagerContent />}
-            custom_height={styles.height}
-            soundClassName={styles.sound_btn}
-          >
-            <Suspense fallback={<div>....</div>}>
-              <DiceComponent gameText="Dice is an exciting and flexible game of luck that combines simple rules with unique betting mechanics. Players can easily customize their chances of winning and potential rewards by moving the slider to the left or right. Moving to the left increases the winnings by decreasing the probability of winning, while moving to the right acts in the opposite way, increasing the chances of winning but decreasing the reward multiplier. Players also have the ability to fine-tune the desired multiplier and winning chance percentage by entering these values into a special field. This concept, simple yet profound, allows each player to develop their own individualized betting strategy. No wonder the game has maintained its popularity over the years." />
-            </Suspense>
-          </GamePage>
-        </div>
-      </Layout>
-    </>
-  );
+      )} */
 }
+{
+  /* {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )} */
+}
+
+// const queryParams = new URLSearchParams(window.location.search);
+// const partner_address = queryParams.get("partner_address");
+// const site_id = queryParams.get("site_id");
+// const sub_id = queryParams.get("sub_id");

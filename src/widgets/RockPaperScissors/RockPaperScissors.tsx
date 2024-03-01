@@ -2,17 +2,7 @@ import { FC, Suspense, useEffect, useState } from "react";
 
 import { useUnit } from "effector-react";
 
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useFeeData,
-//   useWaitForTransaction,
-// } from "wagmi";
-
+import * as RegistrM from "@/widgets/Registration/model";
 import Image from "next/image";
 
 import { Environment, Stage, useAnimations, useGLTF } from "@react-three/drei";
@@ -24,11 +14,9 @@ import { sessionModel } from "@/entities/session";
 
 import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.webp";
 
-import { ABI as RPSABI } from "@/shared/contracts/RPSABI";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { useDebounce } from "@/shared/tools";
-import { TOKENS } from "@/shared/tokens";
+//
 
+import * as BetsModel from "@/widgets/LiveBets/model";
 import s from "./styles.module.scss";
 
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
@@ -52,6 +40,7 @@ import { CanvasLoader } from "../CanvasLoader";
 import { ProfitLine } from "../ProfitLine";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Preload } from "@/shared/ui/Preload";
+import { useSocket } from "@/shared/context";
 interface ModelProps {
   side: string;
   left: boolean;
@@ -195,6 +184,8 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setWaitingResponse,
     refund,
     setRefund,
+    result,
+    setResult,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -223,7 +214,43 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.setWaitingResponse,
     GameModel.$refund,
     GameModel.setRefund,
+    BetsModel.$result,
+    BetsModel.setResult,
   ]);
+
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      if (Number(result.profit) > Number(result.amount)) {
+        setGameStatus(GameModel.GameStatus.Won);
+
+        const multiplier = Number(
+          Number(result.profit) / Number(result.amount)
+        );
+        // pickSide(pickedSide);
+        setWonStatus({
+          profit: Number(result.profit),
+          multiplier,
+          token: "DRAX",
+        });
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("win");
+      } else if (Number(result.profit) < Number(result.amount)) {
+        setGameStatus(GameModel.GameStatus.Lost);
+        // pickSide(pickedSide ^ 1);
+        setIsPlaying(false);
+        setInGame(false);
+        setLostStatus(Number(result.profit) - Number(result.amount));
+        // alert("lost");
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("draw");
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
 
   useEffect(() => {
     setCoefficient(1.98);
@@ -239,313 +266,14 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     }
   }, [pickedValue]);
 
-  // const { chain } = useNetwork();
-  // const { address, isConnected } = useAccount();
-  // const { data, isError, isLoading } = useFeeData({
-  //   watch: isConnected,
-  //   cacheTime: 5000,
-  // });
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
-
-  // useEffect(() => {
-  //   if (data && data.gasPrice) {
-  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-  //   }
-  // }, [data]);
-
   const [inGame, setInGame] = useState<boolean>(false);
 
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  // const { data: GameState, refetch: fetchGameState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   functionName: "RockPaperScissors_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   blockTag: "latest",
-  // });
-
-  // useEffect(() => {
-  //   if (GameState && !inGame) {
-  //     if ((GameState as any).ingame) {
-  //       if (
-  //         !(GameState as any).isFirstRequest &&
-  //         (GameState as any).requestID == 0
-  //       ) {
-  //         setInGame(true);
-  //         setActivePicker(false);
-  //         pickSide((GameState as any).action as number);
-  //       }
-  //     } else {
-  //       setInGame(false);
-  //     }
-  //   }
-  // }, [GameState]);
-
-  // useEffect(() => {
-  //   inGame ? setPlayingStatus(true) : setPlayingStatus(false);
-  // }, [inGame]);
-
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     gameAddress,
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  //   gasPrice: data?.gasPrice as any,
-  //   gas: BigInt(50000),
-  // });
-
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  // const {
-  //   write: setAllowance,
-  //   error: allowanceError,
-  //   status: allowanceStatus,
-  //   data: allowanceData,
-  // } = useContractWrite(allowanceConfig);
-
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   functionName: "RockPaperScissors_Refund",
-  //   enabled: isPlaying,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
-  // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (allowanceData) {
-  //     setWatchAllowance(true);
-  //   }
-  // }, [allowanceData]);
-
-  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-  //   hash: allowanceData?.hash,
-  //   enabled: watchAllowance,
-  // });
-
-  // useEffect(() => {
-  //   if (inGame && allowanceIsSet && watchAllowance) {
-  //     setWatchAllowance(false);
-  //     startPlaying();
-  //   } else if (allowanceError) {
-  //     setWatchAllowance(false);
-  //     setActivePicker(true);
-  //     setInGame(false);
-  //     setWaitingResponse(false);
-  //   }
-  // }, [inGame, allowanceIsSet, allowanceError]);
-
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: true,
-  // });
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
-
-  // const { config: startPlayingConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   functionName: "RockPaperScissors_Play",
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     pickedValue,
-  //     betsAmount,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //       pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-  //       BigInt(100000000000)
-  //       : BigInt(0)),
-  //   enabled: true,
-  // });
-
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error,
-  // } = useContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   functionName: "RockPaperScissors_Play",
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     pickedValue,
-  //     betsAmount,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-  //         BigInt(100000000000)
-  //       : BigInt(0)),
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  // });
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setWaitingResponse(true);
-  //     setActivePicker(false);
-  //     setInGame(true);
-  //   }
-  // }, [startedPlaying]);
-
-  // useContractEvent({
-  //   address: gameAddress as `0x${string}`,
-  //   abi: RPSABI,
-  //   eventName: "RockPaperScissors_Outcome_Event",
-  //   listener(log) {
-  //     if (
-  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //       address?.toLowerCase()
-  //     ) {
-  //       setWaitingResponse(false);
-  //       const wagered =
-  //         BigInt((log[0] as any).args.wager) *
-  //         BigInt((log[0] as any).args.numGames);
-  //       const handlePayouts = () => {
-  //         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-  //           setTimeout(() => {
-  //             const outCome =
-  //               Number((log[0] as any)?.args?.payouts[i]) /
-  //               Number(BigInt((log[0] as any).args.wager));
-  //             setCoefficientData((prev) => [outCome, ...prev]);
-  //           }, 700 * (i + 1));
-  //         }
-  //       };
-  //       handlePayouts();
-  //       if ((log[0] as any).args.payout > wagered) {
-  //         const profit = (log[0] as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-  //         const wagered_token = (
-  //           (log[0] as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-  //         setLostStatus(wageredFloat);
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //     }
-  //   },
-  // });
-
-  useEffect(() => {
-    if (wagered) {
-      if (inGame) {
-      } else {
-        const total_value = cryptoValue * betsAmount;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            // if (setAllowance) {
-            //   setAllowance();
-            //   setActivePicker(false);
-            //   setInGame(true);
-            //   setWaitingResponse(true);
-            // }
-          } else {
-            // if (startPlaying) {
-            //   startPlaying();
-            // }
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
 
   useEffect(() => {
     setActivePicker(true);
@@ -625,6 +353,43 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
       setIsLoading?.(modelLoading_1);
     }
   }, [modelLoading_1, modelLoading_2, imageLoading]);
+
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = { type: "SubscribeBets", payload: [3] };
+
+  const [betData, setBetData] = useState({});
+
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: 3,
+      coin_id: 1,
+      user_id: 0,
+      data: `{"action":${pickedValue}}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [stopGain, stopLoss, pickedValue, cryptoValue]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
 
   return (
     <div className={s.rps_table_container}>
@@ -828,3 +593,317 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     </div>
   );
 };
+
+// const { data: GameState, refetch: fetchGameState } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   functionName: "RockPaperScissors_GetState",
+//   args: [address],
+//   enabled: true,
+//   blockTag: "latest",
+// });
+
+// useEffect(() => {
+//   if (GameState && !inGame) {
+//     if ((GameState as any).ingame) {
+//       if (
+//         !(GameState as any).isFirstRequest &&
+//         (GameState as any).requestID == 0
+//       ) {
+//         setInGame(true);
+//         setActivePicker(false);
+//         pickSide((GameState as any).action as number);
+//       }
+//     } else {
+//       setInGame(false);
+//     }
+//   }
+// }, [GameState]);
+
+// useEffect(() => {
+//   inGame ? setPlayingStatus(true) : setPlayingStatus(false);
+// }, [inGame]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     gameAddress,
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+//   gasPrice: data?.gasPrice as any,
+//   gas: BigInt(50000),
+// });
+
+// const {
+//   write: setAllowance,
+//   error: allowanceError,
+//   status: allowanceStatus,
+//   data: allowanceData,
+// } = useContractWrite(allowanceConfig);
+
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   functionName: "RockPaperScissors_Refund",
+//   enabled: isPlaying,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+// const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+// useEffect(() => {
+//   if (allowanceData) {
+//     setWatchAllowance(true);
+//   }
+// }, [allowanceData]);
+
+// const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+//   hash: allowanceData?.hash,
+//   enabled: watchAllowance,
+// });
+
+// useEffect(() => {
+//   if (inGame && allowanceIsSet && watchAllowance) {
+//     setWatchAllowance(false);
+//     startPlaying();
+//   } else if (allowanceError) {
+//     setWatchAllowance(false);
+//     setActivePicker(true);
+//     setInGame(false);
+//     setWaitingResponse(false);
+//   }
+// }, [inGame, allowanceIsSet, allowanceError]);
+
+// const [fees, setFees] = useState<bigint>(BigInt(0));
+
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: true,
+// });
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(1100000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// const { config: startPlayingConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   functionName: "RockPaperScissors_Play",
+//   args: [
+//     useDebounce(
+//       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//     ),
+//     pickedToken?.contract_address,
+//     pickedValue,
+//     betsAmount,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+//       BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//       BigInt(100000000000) *
+//       BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+//       BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//       BigInt(100000000000) *
+//       BigInt(200),
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//       pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//       BigInt(100000000000)
+//       : BigInt(0)),
+//   enabled: true,
+// });
+
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error,
+// } = useContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   functionName: "RockPaperScissors_Play",
+//   args: [
+//     useDebounce(
+//       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//     ),
+//     pickedToken?.contract_address,
+//     pickedValue,
+//     betsAmount,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//     pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//         BigInt(100000000000)
+//       : BigInt(0)),
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+// });
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setWaitingResponse(true);
+//     setActivePicker(false);
+//     setInGame(true);
+//   }
+// }, [startedPlaying]);
+
+// useContractEvent({
+//   address: gameAddress as `0x${string}`,
+//   abi: RPSABI,
+//   eventName: "RockPaperScissors_Outcome_Event",
+//   listener(log) {
+//     if (
+//       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//       address?.toLowerCase()
+//     ) {
+//       setWaitingResponse(false);
+//       const wagered =
+//         BigInt((log[0] as any).args.wager) *
+//         BigInt((log[0] as any).args.numGames);
+//       const handlePayouts = () => {
+//         for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+//           setTimeout(() => {
+//             const outCome =
+//               Number((log[0] as any)?.args?.payouts[i]) /
+//               Number(BigInt((log[0] as any).args.wager));
+//             setCoefficientData((prev) => [outCome, ...prev]);
+//           }, 700 * (i + 1));
+//         }
+//       };
+//       handlePayouts();
+//       if ((log[0] as any).args.payout > wagered) {
+//         const profit = (log[0] as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+//         const wagered_token = (
+//           (log[0] as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+//         setLostStatus(wageredFloat);
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//     }
+//   },
+// });
+// useEffect(() => {
+//   if (wagered) {
+//     if (inGame) {
+//     } else {
+//       const total_value = cryptoValue * betsAmount;
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         total_value <= currentBalance
+//       ) {
+//         if (
+//           (!allowance || (allowance && allowance <= cryptoValue)) &&
+//           pickedToken?.contract_address !=
+//             "0x0000000000000000000000000000000000000000"
+//         ) {
+//           // if (setAllowance) {
+//           //   setAllowance();
+//           //   setActivePicker(false);
+//           //   setInGame(true);
+//           //   setWaitingResponse(true);
+//           // }
+//         } else {
+//           // if (startPlaying) {
+//           //   startPlaying();
+//           // }
+//         }
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [wagered]);
+
+// const { chain } = useNetwork();
+// const { address, isConnected } = useAccount();
+// const { data, isError, isLoading } = useFeeData({
+//   watch: isConnected,
+//   cacheTime: 5000,
+// });
+// const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   if (data && data.gasPrice) {
+//     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+//   }
+// }, [data]);
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useFeeData,
+//   useWaitForTransaction,
+// } from "wagmi";
+
+// import { ABI as RPSABI } from "@/shared/contracts/RPSABI";
+// import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+// import { useDebounce } from "@/shared/tools";
+// import { TOKENS } from "@/shared/tokens";

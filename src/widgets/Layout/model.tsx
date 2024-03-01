@@ -4,11 +4,15 @@ export const $startConnect = createStore<boolean>(false);
 
 export const setConnect = createEvent<boolean>();
 
+export const $socketAuth = createStore<boolean>(false);
+
 $startConnect.on(setConnect, (_, state) => state);
 
 export const $isPartner = createStore<boolean>(false);
 
 export const setIsPartner = createEvent<boolean>();
+
+export const setSocketAuth = createEvent<boolean>();
 
 export type UserType = {
   type: string;
@@ -24,3 +28,5 @@ export const setUserInfo = createEvent<UserType>();
 $isPartner.on(setIsPartner, (_, state) => state);
 
 $userInfo.on(setUserInfo, (_, state) => state);
+
+$socketAuth.on(setSocketAuth, (_, state) => state);

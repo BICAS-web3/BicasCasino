@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const [
@@ -146,6 +147,16 @@ const WagerContent = () => {
 };
 
 export default function MinesGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(
+        JSON.stringify({ type: "Subscribe", payload: ["Mines", "MinesStart"] })
+      );
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

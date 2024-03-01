@@ -31,6 +31,7 @@ import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { useUnit } from "effector-react";
 import * as SidebarModel from "@/widgets/SideBar/model";
 import { settingsModel } from "@/entities/settings";
+import { useSocket } from "@/shared/context";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -205,13 +206,17 @@ export default function Home() {
       setCurrentImage(mainBg);
     }
   }, [tablet, laptop]);
+
+  const socket = useSocket();
+
+  socket?.send(JSON.stringify({ type: "SubscribeAll" }));
+
   return (
     <>
       {" "}
       <Head>
         <title>Leaderboard</title>
       </Head>
-      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
       <Layout activePageLink="/leaderboard" gameName={undefined}>
         <div className={`${s.main_container}`}>
           <Total />

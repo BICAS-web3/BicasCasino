@@ -27,6 +27,7 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { Preload } from "@/shared/ui/Preload";
 import { useState, useEffect } from "react";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
@@ -102,6 +103,13 @@ const WagerContent = () => {
 };
 
 export default function RocketGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Rocket"] }));
+    }
+  }, [socket, socket?.readyState]);
   return (
     <>
       <Head>

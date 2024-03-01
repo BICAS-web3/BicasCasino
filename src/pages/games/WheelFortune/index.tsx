@@ -22,6 +22,8 @@ import {
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
 import { WheelFortuneLevelsBlock } from "@/widgets/WheelFortuneLevelsBlock/WheelFortuneLevelsBlock";
+import { useSocket } from "@/shared/context";
+import { useEffect } from "react";
 const WagerContent = () => {
   const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
   // const { isConnected } = useAccount();
@@ -92,6 +94,15 @@ const WagerContent = () => {
 };
 
 export default function WheelFortuneGame() {
+  const socket = useSocket();
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(
+        JSON.stringify({ type: "SubscribeAll", payload: ["Wheel Fortune"] })
+      );
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

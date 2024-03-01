@@ -24,6 +24,7 @@ import { useMediaQuery } from "@/shared/tools";
 
 import s from "./styles.module.scss";
 import clsx from "clsx";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const isMobile = useMediaQuery("(max-width: 996px)");
@@ -111,6 +112,13 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Cars"] }));
+    }
+  }, [socket, socket?.readyState]);
   return (
     <>
       <Head>

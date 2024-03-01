@@ -26,6 +26,7 @@ import * as ConnectModel from "@/widgets/Layout/model";
 import { useRouter } from "next/router";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 const WagerContent = () => {
   const [startConnect, setStartConnect, waitingResponse, isPlaying, setRefund] =
     useUnit([
@@ -114,6 +115,15 @@ export default function PokerGame() {
     PokerModel.flipShowFlipCards,
   ]);
 
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(
+        JSON.stringify({ type: "Subscribe", payload: ["Poker", "PokerStart"] })
+      );
+    }
+  }, [socket, socket?.readyState]);
   return (
     <>
       <Head>

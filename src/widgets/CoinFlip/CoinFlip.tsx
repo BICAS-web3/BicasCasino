@@ -291,29 +291,20 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   useEffect(() => setInGame(isPlaying), [isPlaying]);
   const [access_token] = useUnit([RegistrM.$access_token]);
 
-  useEffect(() => {
-    if (access_token) {
-      (async () => {
-        const response = await api.getServerSeed({ bareer: access_token });
-        console.log("server seed", response);
-      })();
-      (async () => {
-        const response = await api.getClientSeed({ bareer: access_token });
-        console.log("client seed", response);
-      })();
-    }
-  }, [access_token]);
+  // useEffect(() => {
+  //   if (access_token) {
+  //     (async () => {
+  //       const response = await api.getServerSeed({ bareer: access_token });
+  //       console.log("server seed", response);
+  //     })();
+  //     (async () => {
+  //       const response = await api.getClientSeed({ bareer: access_token });
+  //       console.log("client seed", response);
+  //     })();
+  //   }
+  // }, [access_token]);
 
-  const server_seed = { type: "NewServerSeed" };
-  const data = { type: "Auth", token: access_token };
   const subscribe = { type: "SubscribeBets", payload: [1] };
-  const seed_data = {
-    type: "NewClientSeed",
-    seed:
-      Math.random() +
-      Date.now() +
-      "Insane 1wereesawesewrsjvhgvhhvvhewrreewrdefwrefdsewrwsswqerewreesdfedr0wereewrwr0%rawefewerretwrreewrewrtedsf ewedswin seed",
-  };
 
   const [betData, setBetData] = useState({});
 
@@ -333,14 +324,15 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   }, [stopGain, stopLoss, pickedSide, cryptoValue]);
   const socket = useSocket();
 
-  useEffect(() => {
-    if (socket && access_token && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify(server_seed));
-      socket.send(JSON.stringify(seed_data));
-      socket.send(JSON.stringify(data));
-    }
-  }, [socket, access_token, socket?.readyState]);
+  // useEffect(() => {
+  //   if (socket && access_token && socket.readyState === WebSocket.OPEN) {
+  //     socket.send(JSON.stringify(server_seed));
+  //     socket.send(JSON.stringify(seed_data));
+  //     socket.send(JSON.stringify(data));
+  //   }
+  // }, [socket, access_token, socket?.readyState]);
 
+  const [subscribed, setCubscribed] = useState(false);
   useEffect(() => {
     if (
       socket &&
@@ -348,37 +340,16 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       access_token &&
       socket.readyState === WebSocket.OPEN
     ) {
-      socket.send(JSON.stringify(subscribe));
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
       socket.send(JSON.stringify(betData));
     }
   }, [socket, isPlaying, access_token]);
   return (
     <>
-      {/* {access_token && isPlaying && (
-        <LiveBetsWS
-          subscription_type=""
-          subscriptions={[]}
-          isLiveBets={false}
-          data={[subscribe, data, server_seed, seed_data]}
-          addition={[betData]}
-        />
-      )}
-      {access_token && !isPlaying && (
-        <LiveBetsWS
-          subscription_type=""
-          subscriptions={[]}
-          isLiveBets={false}
-          data={[data, server_seed, seed_data]}
-        />
-      )} */}
-      {/* {error && (
-        <ErrorCheck
-          text="Something went wrong, please contact customer support."
-          btnTitle="Contact us"
-        />
-      )} */}
       <div className={s.coinflip_table_wrap}>
-        {" "}
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock game="coinflip" text={gameText} />
         <div className={s.coinflip_table_background}>

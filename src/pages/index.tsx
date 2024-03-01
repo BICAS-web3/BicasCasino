@@ -118,6 +118,7 @@ import { LoadingDots } from "@/shared/ui/LoadingDots";
 import * as ConnectModel from "@/widgets/Layout/model";
 import { FeedbackSection } from "@/widgets/FeedbackSection/FeedbackSection";
 import { SwiperBanner } from "@/widgets/SwiperBanner/SwiperBanner";
+import { useSocket } from "@/shared/context";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -542,6 +543,14 @@ export default function Home() {
   useEffect(() => {
     preloadModel();
   }, []);
+
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "SubscribeAll" }));
+    }
+  }, [socket, socket?.readyState]);
 
   return (
     <>

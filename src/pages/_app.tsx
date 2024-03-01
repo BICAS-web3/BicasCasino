@@ -5,6 +5,7 @@ import "@/shared/styles/index.scss";
 import Script from "next/script";
 import * as fbq from "../shared/tools/index";
 import "@/shared/styles/global.scss";
+import { SocketProvider } from "@/shared/context";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -84,7 +85,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <EffectorNext values={pageProps?.values}>
         <Fonts />
-        <Component {...pageProps} />
+        <SocketProvider>
+          {" "}
+          <Component {...pageProps} />
+        </SocketProvider>
       </EffectorNext>
     </>
   );

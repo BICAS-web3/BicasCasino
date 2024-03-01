@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useUnit } from "effector-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +15,10 @@ import s from "./styles.module.scss";
 import { BottomMenu } from "./BottomMenu";
 import * as ManualModel from "@/widgets/Layout/model";
 
+import * as RegistrM from "@/widgets/Registration/model";
+import * as api from "@/shared/api";
+import { useSocket } from "@/shared/context";
+import { usePathname } from "next/navigation";
 export interface HeaderProps {
   isGame: boolean;
   hideHeaderBtn?: boolean;
@@ -22,16 +26,22 @@ export interface HeaderProps {
 
 export const Header: FC<HeaderProps> = (props) => {
   const [isOpen] = useUnit([SidebarM.$isOpen]);
-
+  const location = usePathname();
   const [setIsPartner] = useUnit([ManualModel.setIsPartner]);
 
   useEffect(() => {
-    const currentURL = window.location.href;
+    const currentURL = location;
 
     if (currentURL.includes("partner_address")) {
       setIsPartner(true);
     }
   }, []);
+  const [seeds, setSeed] = useState<any[]>([]);
+
+  const [isAuth, access_token] = useUnit([
+    RegistrM.$isAuth,
+    RegistrM.$access_token,
+  ]);
 
   return (
     <>

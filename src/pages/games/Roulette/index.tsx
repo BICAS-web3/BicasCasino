@@ -31,6 +31,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { Suspense, lazy } from "react";
 import Head from "next/head";
 import { Preload } from "@/shared/ui/Preload";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect] = useUnit([
@@ -101,6 +102,16 @@ const WagerContent = () => {
 };
 
 export default function RouletteGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(
+        JSON.stringify({ type: "Subscribe", payload: ["Roulette"] })
+      );
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

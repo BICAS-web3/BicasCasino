@@ -1,10 +1,6 @@
-import Image from "next/image";
-import { GameLayout } from "../../../widgets/GameLayout/layout";
-import { GameInfo } from "@/widgets/GameInfo";
 import s from "./styles.module.scss";
 import { Layout } from "@/widgets/Layout";
 import { GamePage } from "@/widgets/GamePage/GamePage";
-import { useRouter } from "next/router";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import { RockPaperScissors } from "@/widgets/RockPaperScissors/RockPaperScissors";
 
@@ -13,56 +9,26 @@ import {
   CustomWagerRangeInput,
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
-import { WagerModel } from "@/widgets/Wager";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { RpsPicker } from "@/widgets/RpsPicker/RpsPicker";
-// import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
-import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
-import * as RPSGM from "@/widgets/RockPaperScissors/model";
 import clsx from "clsx";
-import * as ConnectModel from "@/widgets/Layout/model";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import { useEffect, useState } from "react";
-import { LoadingDots } from "@/shared/ui/LoadingDots";
+import { useEffect } from "react";
 import * as GameModel from "@/widgets/GamePage/model";
 
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import Head from "next/head";
-import { Preload } from "@/shared/ui/Preload";
-import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.$waitingResponse,
-    GameModel.$isPlaying,
+  const [cryptoValue, setError, setIsPlaying] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+    GameModel.setIsPlaying,
   ]);
-  // const { isConnected, isConnecting } = useAccount();
-  const [pressButton, setIsEmtyWager] = useUnit([
-    WagerModel.pressButton,
-    GameModel.setIsEmtyWager,
-  ]);
-  const { push, reload } = useRouter();
 
-  const [isPlaying, setRefund] = useUnit([
-    RPSGM.$isPlaying,
-    GameModel.setRefund,
-  ]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-
-  // useEffect(() => {
-  //   isConnecting && setStartConnect(false);
-  // }, []);
-
-  const router = useRouter();
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
       <WagerInputsBlock wagerVariants={[5, 7.5, 10, 12.5, 15]} />
@@ -75,41 +41,17 @@ const WagerContent = () => {
       <WagerGainLoss />
       <ProfitBlock />
       <RpsPicker />
-      {/* <button
-        className={clsx(
-          s.connect_wallet_btn,
-          s.mobile,
-          isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
-            ? s.button_inactive
-            : s.button_active
-        )}
+
+      <button
         onClick={() => {
-          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-            pressButton();
-          } else if (cryptoValue <= 0.0 && isConnected) {
-            setIsEmtyWager(true);
+          if (!cryptoValue) {
+            setError(true);
           } else {
-            router.push(
-              isPartner
-                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                : "/RegistrManual"
-            );
+            setIsPlaying(true);
           }
         }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
       >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>{" "} */}
-      {/* {isPlaying && (
-        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
         Play
       </button>
     </>
@@ -117,6 +59,14 @@ const WagerContent = () => {
 };
 
 export default function RockPaperScissorsGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [3] }));
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       {" "}
@@ -147,4 +97,42 @@ export default function RockPaperScissorsGame() {
       </Layout>
     </>
   );
+}
+{
+  /* <button
+        className={clsx(
+          s.connect_wallet_btn,
+          s.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+            pressButton();
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            setIsEmtyWager(true);
+          } else {
+            router.push(
+              isPartner
+                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                : "/RegistrManual"
+            );
+          }
+        }}
+      >
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button>{" "} */
+}
+{
+  /* {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )} */
 }

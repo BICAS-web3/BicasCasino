@@ -57,27 +57,41 @@ export const DiceModel: FC<DiceModelProps> = ({
   const loop = actions[DiceActions.Loop] as AnimationAction;
 
   const [firstAnimation, setFirstAnimation] = useState(false);
+  const [game, setGame] = useState(false);
   useEffect(() => {
-    rotation.setLoop(LoopOnce, 1);
-    rotation.play();
-    rotation.clampWhenFinished = true;
-    return () => {
+    if (game) {
       rotation.stop();
-    };
-  }, [firstAnimation]);
-  useEffect(() => {
-    setFirstAnimation((prev) => !prev);
-  }, []);
-  useEffect(() => {
-    if (inGame) {
-      rotation.stop();
-      loop.setLoop(2201, 100);
+      loop.setLoop(LoopOnce, 1);
+      loop.setDuration(2);
       loop.play();
       loop.clampWhenFinished = false;
     } else {
+      rotation.setLoop(LoopOnce, 1);
+      rotation.play();
+      rotation.clampWhenFinished = true;
+    }
+    return () => {
+      rotation.stop();
       loop.stop();
+    };
+  }, [firstAnimation]);
+  useEffect(() => {
+    if (inGame) {
+      setGame(true);
+      setFirstAnimation((prev) => !prev);
     }
   }, [inGame]);
+  // useEffect(() => {
+  //   if (inGame) {
+  //     // rotation.stop();
+  //     // rotation.setrotation(2201, 100);
+  //     rotation.setLoop(LoopOnce, 1);
+  //     rotation.play();
+  //     rotation.clampWhenFinished = false;
+  //   } else {
+  //     // loop.stop();
+  //   }
+  // }, [inGame]);
 
   useEffect(() => {
     inGameRef.current = inGame;

@@ -27,6 +27,7 @@ import {
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -154,6 +155,14 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Crash"] }));
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

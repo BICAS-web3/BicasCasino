@@ -20,6 +20,7 @@ import {
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -136,6 +137,14 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Apples"] }));
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

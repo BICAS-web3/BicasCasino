@@ -23,6 +23,7 @@ import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
+import { useSocket } from "@/shared/context";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   // const { isConnected, isConnecting } = useAccount();
@@ -101,6 +102,14 @@ const WagerContent = () => {
 interface SlotsProps {}
 
 const Slots: FC<SlotsProps> = () => {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Slots"] }));
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>

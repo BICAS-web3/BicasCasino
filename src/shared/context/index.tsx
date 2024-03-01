@@ -17,10 +17,9 @@ export const useSocket = () => useContext(SocketContext);
 
 // Компонент-провайдер для предоставления сокетов через контекст
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [newBet, setNewBet, resilt, setResult] = useUnit([
+  const [newBet, setNewBet, setResult] = useUnit([
     Model.newBet,
     sessionModel.setNewBet,
-    Model.$result,
     Model.setResult,
   ]);
 
@@ -57,9 +56,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocket(newSocket);
 
     // Возвращаем функцию для очистки, которая закрывает сокет при размонтировании компонента
-    return () => {
-      newSocket.close();
-    };
+    // return () => {
+    //   newSocket.close();
+    // };
   }, []);
 
   return (

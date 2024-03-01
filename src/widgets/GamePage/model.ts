@@ -5,6 +5,12 @@ export enum GameStatus {
   Draw,
 }
 
+export type GamesList = {
+  name: string;
+  id: number;
+  parameters: string;
+};
+
 // variables
 export const $playSounds = createStore<string>("off");
 export const $gameStatus = createStore<GameStatus | null>(null);
@@ -17,7 +23,7 @@ export const $token = createStore<string>("");
 export const $betValue = createStore<bigint>(BigInt(0));
 export const $isEmtyWager = createStore<boolean>(false);
 export const $refund = createStore<boolean>(false);
-
+export const $gamesList = createStore<GamesList[]>([]);
 // events
 export const setIsPlaying = createEvent<boolean>();
 export const setWaitingResponse = createEvent<boolean>();
@@ -33,6 +39,7 @@ export const clearStatus = createEvent();
 export const setBetValue = createEvent<bigint>();
 export const setIsEmtyWager = createEvent<boolean>();
 export const setRefund = createEvent<boolean>();
+export const setGamesList = createEvent<GamesList[]>();
 
 // handlers
 $betValue.on(setBetValue, (_, state) => state);
@@ -50,3 +57,4 @@ $lost.on(setLostStatus, (_, data) => data).on(clearStatus, () => 0);
 $gameStatus.on(clearStatus, () => null);
 $isEmtyWager.on(setIsEmtyWager, (_, state) => state);
 $refund.on(setRefund, (_, state) => state);
+$gamesList.on(setGamesList, (_, state) => state);

@@ -9,53 +9,29 @@ import {
 import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { ProfitBlock } from "@/widgets/ProfitBlock";
 import { WagerLowerBtnsBlock } from "@/widgets/WagerLowerBtnsBlock/WagerLowerBtnsBlock";
+import { WagerModel } from "@/widgets/Wager";
 import { WagerInputsBlock } from "@/widgets/WagerInputsBlock/WagerInputsBlock";
 import { SidePicker } from "@/widgets/CoinFlipSidePicker";
-import { WagerModel } from "@/widgets/Wager";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 // import { useAccount, useConnect } from "wagmi";
 import { useUnit } from "effector-react";
 import { LiveBetsWS } from "@/widgets/LiveBets";
 import Head from "next/head";
-import clsx from "clsx";
-import * as CFM from "@/widgets/CoinFlip/model";
-import { LoadingDots } from "@/shared/ui/LoadingDots";
-import * as ConnectModel from "@/widgets/Layout/model";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import * as GameModel from "@/widgets/GamePage/model";
-import { Preload } from "@/shared/ui/Preload";
-import { RefundButton } from "@/shared/ui/Refund";
+import clsx from "clsx";
+import { useSocket } from "@/shared/context";
+import { useEffect } from "react";
 
 const WagerContent = () => {
-  const [pressButton] = useUnit([WagerModel.pressButton]);
-  // const { isConnected, isConnecting } = useAccount();
-  // const { connectors, connect } = useConnect();
-  const { push, reload } = useRouter();
-  const router = useRouter();
-
-  const [isPlaying, setIsPlaying] = useUnit([
+  const [isPlaying, setIsPlaying, gamesList] = useUnit([
     GameModel.$isPlaying,
     GameModel.setIsPlaying,
+    GameModel.$gamesList,
   ]);
   const [cryptoValue, setError] = useUnit([
     WagerAmountModel.$cryptoValue,
     WagerAmountModel.setError,
   ]);
-  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.setIsEmtyWager,
-    GameModel.setRefund,
-  ]);
-  // useEffect(() => {
-  //   isConnecting && setStartConnect(false);
-  // }, []);
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const partner_address = queryParams.get("partner_address");
-  // const site_id = queryParams.get("site_id");
-  // const sub_id = queryParams.get("sub_id");
-  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
   return (
     <>
@@ -86,6 +62,14 @@ const WagerContent = () => {
 };
 
 export default function CoinFlipGame() {
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [1] }));
+    }
+  }, [socket, socket?.readyState]);
+
   return (
     <>
       <Head>
@@ -110,3 +94,31 @@ export default function CoinFlipGame() {
     </>
   );
 }
+
+// import * as CFM from "@/widgets/CoinFlip/model";
+// import { LoadingDots } from "@/shared/ui/LoadingDots";
+// import * as ConnectModel from "@/widgets/Layout/model";
+// import { useEffect, useState } from "react";
+// import { useRouter } from "next/router";
+// import { Preload } from "@/shared/ui/Preload";
+// import { RefundButton } from "@/shared/ui/Refund";
+// const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
+//   ConnectModel.$startConnect,
+//   ConnectModel.setConnect,
+//   GameModel.setIsEmtyWager,
+//   GameModel.setRefund,
+// ]);
+// useEffect(() => {
+//   isConnecting && setStartConnect(false);
+// }, []);
+// const queryParams = new URLSearchParams(window.location.search);
+// const partner_address = queryParams.get("partner_address");
+// const site_id = queryParams.get("site_id");
+// const sub_id = queryParams.get("sub_id");
+// const [isPartner] = useUnit([ConnectModel.$isPartner]);
+
+// const [pressButton] = useUnit([WagerModel.pressButton]);
+// const { isConnected, isConnecting } = useAccount();
+// const { connectors, connect } = useConnect();
+// const { push, reload } = useRouter();
+// const router = useRouter();
