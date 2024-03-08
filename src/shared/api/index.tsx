@@ -123,11 +123,15 @@ export type T_Card = {
 };
 export type T_GetQr = {
   bareer: string;
-  data: string;
+  id: number;
 };
 
 export type T_Header = {
   bareer: string;
+};
+export type T_UserInfo = {
+  bareer: string;
+  id?: string | number;
 };
 
 export type T_BetInfo = {
@@ -146,6 +150,7 @@ export type T_BetInfo = {
   multiplier: number;
   profit: bigint;
   player_hand: T_Card[] | null;
+  user_id?: any;
 };
 
 export type T_Bets = {
@@ -663,16 +668,19 @@ export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
   }
 );
 
-export const getUserInfo = createEffect<T_Header, T_ApiResponse, string>(
+export const getUserInfo = createEffect<T_UserInfo, T_ApiResponse, string>(
   async (form) => {
-    return fetch(`${BaseApiUrl}/user`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${form.bareer}`,
-      },
-    })
+    return fetch(
+      form.id ? `${BaseApiUrl}/user/${form.id}` : `${BaseApiUrl}/user`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${form.bareer}`,
+        },
+      }
+    )
       .then(async (res) => await res.json())
       .catch((e) => e);
   }
@@ -697,14 +705,13 @@ export const getUserAmounts = createEffect<
 
 export const getInvoiceQr = createEffect<T_GetQr, T_ApiResponse, string>(
   async (form) => {
-    return fetch(`${BaseApiUrl}/invoice/qr`, {
+    return fetch(`${BaseApiUrl}/invoice/qr/${form.id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${form.bareer}`,
       },
-      body: JSON.stringify(form.data),
     })
       .then(async (res) => await res.json())
       .catch((e) => e);
@@ -763,6 +770,21 @@ export const getServerSeed = createEffect<T_Header, T_ApiResponse, string>(
 export const getGames = createEffect<T_Header, T_ApiResponse, string>(
   async (form) => {
     return fetch(`${BaseApiUrl}/game/list`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${form.bareer}`,
+      },
+    })
+      .then(async (res) => await res.json())
+      .catch((e) => e);
+  }
+);
+
+export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
+  async (form) => {
+    return fetch(`${BaseApiUrl}/invoice/prices`, {
       method: "GET",
       headers: {
         Accept: "application/json",

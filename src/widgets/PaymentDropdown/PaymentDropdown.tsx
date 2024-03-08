@@ -37,7 +37,7 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
       >
         <div className={s.dropdown_title_group}>
           <img src={activeItem.ico.src} alt="" />
-          {activeItem.title}
+          {activeItem.title.split("_")[0]}
         </div>
         <img src={upArr.src} className={s.active_arrow_ico} alt="arr-ico" />
       </div>
@@ -48,7 +48,7 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
             onClick={() => handleChangeActiveItem(item.title)}
           >
             <img src={item.ico.src} key={ind} alt="coin-ico" />
-            {item.title}
+            {item.title.split("_")[0]}
           </div>
         ))}
       </div>

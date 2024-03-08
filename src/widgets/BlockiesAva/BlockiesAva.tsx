@@ -4,8 +4,8 @@ import Blockies from "react-blockies";
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon";
 
 interface BlockiesAvaProps {
-  address: any;
-  size: string;
+  address?: any;
+  size?: string;
 }
 
 const colors = [
@@ -34,7 +34,10 @@ export const BlockiesAva: FC<BlockiesAvaProps> = ({ address, size }) => {
         seed={`${address.toLowerCase()}`}
         className={s.header_profile_ico_block}
       /> */}
-      <Jazzicon seed={jsNumberForAddress(address)} diameter={parseInt(size)} />
+      <Jazzicon
+        seed={jsNumberForAddress(address)}
+        diameter={parseInt(size || "")}
+      />
     </div>
   );
 };

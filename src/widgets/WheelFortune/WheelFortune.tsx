@@ -11,6 +11,8 @@ import { FC, use, useEffect, useState } from "react";
 // } from "wagmi";
 
 import * as LevelModel from "@/widgets/WheelFortuneLevelsBlock/model";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import { useUnit } from "effector-react";
 
@@ -33,6 +35,8 @@ import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
 import { SidePickerModel } from "../CoinFlipSidePicker";
 
+import * as RegistrM from "@/widgets/Registration/model";
+
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import s from "./styles.module.scss";
@@ -43,7 +47,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
-
+import * as BetsModel from "@/widgets/LiveBets/model";
 interface IWheelFortune {
   gameText: string;
 }
@@ -51,6 +55,7 @@ import * as CustomInputWagerModel from "@/widgets/CustomWagerRangeInput/model";
 import { BallIcon, WheelPick, WheelShowIcon } from "@/shared/SVGs";
 import useSound from "use-sound";
 import ReactHowler from "react-howler";
+import { useSocket } from "@/shared/context";
 
 interface IWheelColors {
   segment: "#100C1E" | "#1F1435";
@@ -108,6 +113,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     setWaitingResponse,
     pickedValue,
     setPickedValue,
+    result,
+    setResult,
+    isPlaying,
+    isDrax,
+    userInfo,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -142,6 +152,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     GameModel.setWaitingResponse,
     CustomInputWagerModel.$pickedRows,
     CustomInputWagerModel.pickRows,
+    BetsModel.$result,
+    BetsModel.setResult,
+    GameModel.$isPlaying,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
   ]);
 
   const [playWheel] = useSound("/music/wheel.mp3", { volume: 1 });
@@ -157,6 +172,59 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
   //   }
   // }, [data]);
+
+  useEffect(() => {
+    if (
+      (result !== null && result?.type === "Bet") ||
+      result?.type === "MakeBet"
+    ) {
+      const outcomesArray = JSON.parse((result as any).outcomes);
+      setOutcomes(outcomesArray);
+      // alert(outcomesArray[0]);
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        setTimeout(() => {
+          setGameStatus(GameModel.GameStatus.Won);
+
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          );
+          pickSide(pickedSide);
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: "DRAX",
+          });
+          setIsPlaying(false);
+          setInGame(false);
+        }, 2000);
+        // alert("win");
+      } else if (Number(result.profit) < Number(result.amount)) {
+        setTimeout(() => {
+          setGameStatus(GameModel.GameStatus.Lost);
+          pickSide(pickedSide ^ 1);
+          setIsPlaying(false);
+          setInGame(false);
+          setLostStatus(Number(result.profit) - Number(result.amount));
+        }, 2000);
+        // alert("lost");
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("draw");
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      setInGame(true);
+    }
+  }, [isPlaying]);
 
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
@@ -1206,6 +1274,49 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     }
   }, [outcomes?.length, currentIndex]);
 
+  const [betData, setBetData] = useState({});
+
+  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Wheel")?.id],
+  };
+
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: gamesList.find((item) => item.name === "Wheel")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"risk":${
+        level === "Easy" ? 0 : level === "Medium" ? 1 : 2
+      }, "num_sectors":${numSectors - 1}}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [stopGain, stopLoss, pickedSide, cryptoValue, betsAmount, isDrax]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
   return (
     <>
       {/* {error && (

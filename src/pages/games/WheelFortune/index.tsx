@@ -25,18 +25,11 @@ import { WheelFortuneLevelsBlock } from "@/widgets/WheelFortuneLevelsBlock/Wheel
 import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 const WagerContent = () => {
-  const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
-  // const { isConnected } = useAccount();
-  const [pressButton] = useUnit([WagerModel.pressButton]);
-
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const router = useRouter();
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  const [setIsPlaying] = useUnit([GameModel.setIsPlaying]);
+  const [cryptoValue, setError] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+  ]);
   return (
     <>
       <WagerInputsBlock />
@@ -55,38 +48,17 @@ const WagerContent = () => {
         max={100}
       />
       <WheelFortuneLevelsBlock />
-      {/* <button
-        className={clsx(
-          s.connect_wallet_btn,
-          styles.mobile,
-          isPlaying && "animation-leftRight",
-          cryptoValue == 0.0 && isConnected
-            ? s.button_inactive
-            : s.button_active
-        )}
+
+      <button
         onClick={() => {
-          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-            pressButton();
-          } else if (cryptoValue <= 0.0 && isConnected) {
-            setIsEmtyWager(true);
+          if (!cryptoValue) {
+            setError(true);
           } else {
-            router.push(
-              isPartner
-                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                : "/RegistrManual"
-            );
+            setIsPlaying(true);
           }
         }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
       >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          "Play"
-        ) : (
-          "Connect Wallet"
-        )}
-      </button> */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
         Play
       </button>
     </>
@@ -94,11 +66,15 @@ const WagerContent = () => {
 };
 
 export default function WheelFortuneGame() {
+  const [gamesList] = useUnit([GameModel.$gamesList]);
   const socket = useSocket();
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket?.send(
-        JSON.stringify({ type: "SubscribeAll", payload: ["Wheel Fortune"] })
+        JSON.stringify({
+          type: "SubscribeAll",
+          payload: [gamesList.find((item) => item.name === "Wheel")?.id],
+        })
       );
     }
   }, [socket, socket?.readyState]);
@@ -128,4 +104,37 @@ export default function WheelFortuneGame() {
       </Layout>
     </>
   );
+}
+{
+  /* <button
+        className={clsx(
+          s.connect_wallet_btn,
+          styles.mobile,
+          isPlaying && "animation-leftRight",
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
+        )}
+        onClick={() => {
+          if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+            pressButton();
+          } else if (cryptoValue <= 0.0 && isConnected) {
+            setIsEmtyWager(true);
+          } else {
+            router.push(
+              isPartner
+                ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                : "/RegistrManual"
+            );
+          }
+        }}
+      >
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          "Play"
+        ) : (
+          "Connect Wallet"
+        )}
+      </button> */
 }

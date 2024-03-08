@@ -15,6 +15,7 @@ interface IResult {
   userseed_id: number;
   serverseed_id: number;
   outcomes: number[];
+  uuid: string;
 }
 
 // variables

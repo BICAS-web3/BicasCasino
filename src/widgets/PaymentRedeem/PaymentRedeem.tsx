@@ -1,12 +1,12 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import btcIco from "@/public/media/payment/btcICo.svg";
+import btcIco from "@/public/media/payment/BTC_BITCOIN.svg";
 import bchIco from "@/public/media/payment/bchIco.svg";
-import ethIco from "@/public/media/payment/ethIco.svg";
+import ethIco from "@/public/media/payment/ETH_ETHEREUM.svg";
 import doceIco from "@/public/media/payment/dogeIco.svg";
-import ltcIco from "@/public/media/payment/ltcIco.svg";
-import usdtIco from "@/public/media/payment/usdtIco.svg";
-import trxIco from "@/public/media/payment/trxIco.svg";
+import ltcIco from "@/public/media/payment/LTC_LITECOIN.svg";
+import usdtIco from "@/public/media/payment/USDT_ETHEREUM.svg";
+import trxIco from "@/public/media/payment/TRX_TRON.svg";
 import xrpIco from "@/public/media/payment/xrpIco.svg";
 import xlmIco from "@/public/media/payment/xlmIco.svg";
 import { useDropdown } from "@/shared/tools";
@@ -16,43 +16,60 @@ import { useUnit } from "effector-react";
 import * as PaymentRedeemM from "./model";
 import closeIco from "@/public/media/payment/closeIco.svg";
 
+// export const coinsList = [
+//   {
+//     title: "btc",
+//     ico: btcIco,
+//   },
+//   {
+//     title: "eth",
+//     ico: ethIco,
+//   },
+//   {
+//     title: "doge",
+//     ico: doceIco,
+//   },
+//   {
+//     title: "ltc",
+//     ico: ltcIco,
+//   },
+//   {
+//     title: "bch",
+//     ico: bchIco,
+//   },
+//   {
+//     title: "usdt",
+//     ico: usdtIco,
+//   },
+//   {
+//     title: "trx",
+//     ico: trxIco,
+//   },
+//   {
+//     title: "xrp",
+//     ico: xrpIco,
+//   },
+//   {
+//     title: "xlm",
+//     ico: xlmIco,
+//   },
+// ];
+
 export const coinsList = [
-  {
-    title: "btc",
-    ico: btcIco,
-  },
-  {
-    title: "eth",
-    ico: ethIco,
-  },
-  {
-    title: "doge",
-    ico: doceIco,
-  },
-  {
-    title: "ltc",
-    ico: ltcIco,
-  },
-  {
-    title: "bch",
-    ico: bchIco,
-  },
-  {
-    title: "usdt",
-    ico: usdtIco,
-  },
-  {
-    title: "trx",
-    ico: trxIco,
-  },
-  {
-    title: "xrp",
-    ico: xrpIco,
-  },
-  {
-    title: "xlm",
-    ico: xlmIco,
-  },
+  { title: "BTC_BITCOIN", ico: btcIco },
+  { title: "ETH_ETHEREUM", ico: ethIco },
+  { title: "USDT_ETHEREUM", ico: usdtIco },
+  { title: "USDC_ETHEREUM", ico: btcIco },
+  { title: "TUSD_ETHEREUM", ico: btcIco },
+  { title: "DAI_ETHEREUM", ico: btcIco },
+  { title: "TRX_TRON", ico: trxIco },
+  { title: "USDT_TRON", ico: usdtIco },
+  { title: "USDC_TRON", ico: btcIco },
+  { title: "TUSD_TRON", ico: btcIco },
+  { title: "LTC_LITECOIN", ico: ltcIco },
+  { title: "BNB_BSC", ico: btcIco },
+  { title: "BUSD_BSC", ico: btcIco },
+  { title: "TON_TON", ico: btcIco },
 ];
 
 interface PaymentRedeemProps {}

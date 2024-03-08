@@ -8,27 +8,6 @@ import {
   Suspense,
 } from "react";
 
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useFeeData,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useFeeData,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
-
 import { useUnit } from "effector-react";
 
 import Image from "next/image";
@@ -70,6 +49,9 @@ import { Preload } from "@/shared/ui/Preload";
 import * as RegistrM from "@/widgets/Registration/model";
 import * as BetsModel from "@/widgets/LiveBets/model";
 import { useSocket } from "@/shared/context";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+
 export interface DiceProps {
   gameText: string;
 }
@@ -119,6 +101,9 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     setRefund,
     result,
     setResult,
+    isDrax,
+    userInfo,
+    gamesList,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -155,6 +140,9 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     GameModel.setRefund,
     BetsModel.$result,
     BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$gamesList,
   ]);
 
   useEffect(() => {
@@ -350,20 +338,34 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
   const [betData, setBetData] = useState({});
 
   const [access_token] = useUnit([RegistrM.$access_token]);
-  const subscribe = { type: "SubscribeBets", payload: [2] };
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Dice")?.id],
+  };
   useEffect(() => {
     setBetData({
       type: "MakeBet",
-      game_id: 2,
-      coin_id: 1,
-      user_id: 0,
-      data: '{"roll_over":true, "multiplier":"2.0204"}',
+      game_id: gamesList.find((item) => item.name === "Dice")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"roll_over":${rollOver}, "multiplier":"${
+        Number(multiplier) / 10000
+      }"}`,
       amount: `${cryptoValue || 0}`,
-      stop_loss: Number(stopLoss) || 0,
-      stop_win: Number(stopGain) || 0,
+      stop_loss: stopLoss ? String(stopLoss) : 0,
+      stop_win: stopGain ? String(stopGain) : 0,
       num_games: betsAmount,
     });
-  }, [stopGain, stopLoss, pickedSide, cryptoValue]);
+  }, [
+    stopGain,
+    multiplier,
+    stopLoss,
+    pickedSide,
+    cryptoValue,
+    betsAmount,
+    rollOver,
+    isDrax,
+  ]);
 
   const socket = useSocket();
 
@@ -936,3 +938,23 @@ export default Dice;
 //     }
 //   },
 // });
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";

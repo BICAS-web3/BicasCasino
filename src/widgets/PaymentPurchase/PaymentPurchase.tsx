@@ -13,11 +13,25 @@ import draxCoinIco from "@/public/media/payment/draxMiniIco.svg";
 import * as api from "@/shared/api";
 import * as RegistrModel from "@/widgets/Registration/model";
 import { useUnit } from "effector-react";
+import Image from "next/image";
 interface PaymentPurchaseProps {
   purchasePrice: any;
   bonusPrice: any;
   ref?: any;
   close?: () => void;
+}
+
+interface IInvoiceCreate {
+  type: string;
+  id: string;
+  merchant_id: string;
+  order_id: string;
+  create_date: number;
+  status: number;
+  pay_url: string;
+  user_id: number;
+  amount: string;
+  currency: string;
 }
 
 export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
@@ -28,6 +42,9 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
 }) => {
   const [access_token] = useUnit([RegistrModel.$access_token]);
   const [amount, setAmount] = useState("");
+  const [invoiceCreate, setInvoiceCreate] = useState<null | IInvoiceCreate>(
+    null
+  );
   const [activeCoin, setActiveCoin] = useState(coinsList[0]);
 
   const [sendAddress, setSendAddress] = useState("address");
@@ -45,27 +62,39 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
     }
   }, [activeCoin]);
 
-  const [send, setSend] = useState(false);
+  const [send, setSend] = useState(true);
   const [response, setResponse] = useState<any>(null);
   useEffect(() => {
-    if (access_token && send) {
+    if (access_token && purchasePrice) {
       (async () => {
         const data = await api.invoiceCreate({
           amount: purchasePrice,
           currency: activeCoin.title,
           bareer: access_token,
         });
-        setResponse(data);
+        if (data.status === "OK") {
+          setInvoiceCreate(data.body as any);
+        }
         console.log(data);
       })();
     }
 
     setSend(false);
-  }, [send, access_token]);
+  }, [send, access_token, purchasePrice, activeCoin]);
+
+  const [priceList, setPriceList] = useState([]);
 
   useEffect(() => {
-    console.log(response);
-  }, [response]);
+    if (access_token && priceList?.length === 0) {
+      (async () => {
+        const response = await api.getInvoicePrices({ bareer: access_token });
+        if (response.status === "OK") {
+          console.log("invoice prices", response.body);
+          setPriceList(response.body?.prices);
+        }
+      })();
+    }
+  }, [access_token]);
 
   return (
     <div ref={ref} className={s.payment_purchase_block}>
@@ -116,7 +145,13 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           </div>
           <div className={s.send_amount_input_block}>
             <input
-              value={purchasePrice && purchasePrice.toFixed(4)}
+              value={
+                purchasePrice &&
+                purchasePrice /
+                  priceList
+                    ?.find((item) => item?.monetary === activeCoin.title)
+                    ?.rates?.find((el: any) => el.fiatCurrency === "USD").rate
+              }
               // onChange={(el) => setAmount(el.target.value)}
               type="text"
               className={s.send_amount_input}
@@ -170,11 +205,11 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
             </div>
           ) : (
             <span className={clsx(s.send_address_title)}>
-              <span>{activeCoin.title}</span> Send Address
+              <span>{activeCoin.title?.split("_")[0]}</span> Send Address
             </span>
           )}
           <div className={s.send_address}>
-            {sendAddress}
+            {invoiceCreate?.pay_url}
             <img
               src={copyIco.src}
               onClick={addressToClipboard}
@@ -183,7 +218,14 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           </div>
         </div>
         <div className={clsx(s.barcode_wrap, memoWarning && s.hidden)}>
-          <img src={barcodeImg.src} className={s.barcode_img} alt="" />
+          <img
+            width={200}
+            height={200}
+            src={`http://127.0.0.1:8585/api/invoice/qr/${
+              invoiceCreate?.order_id || 1
+            }`}
+            alt="text"
+          />
         </div>
         <div className={s.purchase_disclaimer}>
           Disclaimer: <br /> The exact amount you receive is subject to

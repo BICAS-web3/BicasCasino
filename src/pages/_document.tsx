@@ -15,18 +15,6 @@ export default function Document() {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="preload" href="/dice/dice_animation.glb" as="script" />
-        {/* <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="/android-chrome-192.webp"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/android-chrome-512.webp"
-        /> */}
         <link
           rel="icon"
           type="image/png"

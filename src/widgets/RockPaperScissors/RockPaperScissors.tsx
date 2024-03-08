@@ -15,6 +15,8 @@ import { sessionModel } from "@/entities/session";
 import tableBg from "@/public/media/games_assets/rock_paper_scissors/rps_main_bg.webp";
 
 //
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import * as BetsModel from "@/widgets/LiveBets/model";
 import s from "./styles.module.scss";
@@ -186,6 +188,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     setRefund,
     result,
     setResult,
+    isDrax,
+    userInfo,
+    gamesList,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -216,6 +221,9 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
     GameModel.setRefund,
     BetsModel.$result,
     BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$gamesList,
   ]);
 
   useEffect(() => {
@@ -355,23 +363,26 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
   }, [modelLoading_1, modelLoading_2, imageLoading]);
 
   const [access_token] = useUnit([RegistrM.$access_token]);
-  const subscribe = { type: "SubscribeBets", payload: [3] };
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "RPS")?.id],
+  };
 
   const [betData, setBetData] = useState({});
 
   useEffect(() => {
     setBetData({
       type: "MakeBet",
-      game_id: 3,
-      coin_id: 1,
-      user_id: 0,
+      game_id: gamesList.find((item) => item.name === "RPS")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
       data: `{"action":${pickedValue}}`,
       amount: `${cryptoValue || 0}`,
       stop_loss: Number(stopLoss) || 0,
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount,
     });
-  }, [stopGain, stopLoss, pickedValue, cryptoValue]);
+  }, [stopGain, stopLoss, pickedValue, cryptoValue, isDrax, betsAmount]);
 
   const socket = useSocket();
 

@@ -21,17 +21,21 @@ import * as GameModel from "@/widgets/GamePage/model";
 import clsx from "clsx";
 import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
 
 const WagerContent = () => {
-  const [isPlaying, setIsPlaying, gamesList] = useUnit([
+  const [isPlaying, setIsPlaying, gamesList, balance] = useUnit([
     GameModel.$isPlaying,
     GameModel.setIsPlaying,
     GameModel.$gamesList,
+    BalanceModel.$balance,
   ]);
   const [cryptoValue, setError] = useUnit([
     WagerAmountModel.$cryptoValue,
     WagerAmountModel.setError,
   ]);
+
+  // useEffect(() => alert(`${cryptoValue} ${balance}`), [cryptoValue, balance]);
 
   return (
     <>
@@ -48,7 +52,7 @@ const WagerContent = () => {
       <button
         className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
         onClick={() => {
-          if (!cryptoValue) {
+          if (!cryptoValue || cryptoValue > balance) {
             setError(true);
           } else {
             setIsPlaying(true);

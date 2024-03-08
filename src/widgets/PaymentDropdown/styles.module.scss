@@ -39,6 +39,24 @@
   .dropdown_list {
     opacity: 1;
     visibility: visible;
+    max-height: 250px;
+    overflow-y: auto;
+    scrollbar-width: 6px;
+    scrollbar-color: #202020;
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      width: 6px;
+      background: var(--gray-436, #363636);
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--gray-436, #202020);
+    }
+
+    // -ms-overflow-style: -ms-autohiding-scrollbar;
   }
 }
 

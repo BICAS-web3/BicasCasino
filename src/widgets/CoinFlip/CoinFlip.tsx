@@ -41,6 +41,9 @@ interface CoinFlipProps {
   gameText: string;
 }
 
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+
 enum CoinAction {
   Rotation = "Rotation",
   HeadsHeads = "HeadsHeads",
@@ -131,6 +134,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setRefund,
     result,
     setResult,
+    isDrax,
+    userInfo,
+    gamesList,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -162,6 +168,9 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     GameModel.setRefund,
     BetsModel.$result,
     BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$gamesList,
   ]);
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
@@ -304,16 +313,19 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   //   }
   // }, [access_token]);
 
-  const subscribe = { type: "SubscribeBets", payload: [1] };
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "CoinFlip")?.id],
+  };
 
   const [betData, setBetData] = useState({});
 
   useEffect(() => {
     setBetData({
       type: "MakeBet",
-      game_id: 1,
-      coin_id: 1,
-      user_id: 0,
+      game_id: gamesList.find((item) => item.name === "CoinFlip")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
       data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
       amount: `${cryptoValue || 0}`,
       difficulty: 0,
@@ -321,7 +333,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount,
     });
-  }, [stopGain, stopLoss, pickedSide, cryptoValue]);
+  }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount]);
   const socket = useSocket();
 
   // useEffect(() => {

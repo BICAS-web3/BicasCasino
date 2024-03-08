@@ -1,18 +1,7 @@
 import { FC, useEffect, useRef, useState } from "react";
 
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useFeeData,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
-
 import { useUnit } from "effector-react";
-
+import * as BetsModel from "@/widgets/LiveBets/model";
 import Image from "next/image";
 
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
@@ -21,11 +10,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { sessionModel } from "@/entities/session";
 import * as SidebarModel from "@/widgets/SideBar/model";
 
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { ABI as RaceABI } from "@/shared/contracts/RaceABI";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
-import { TOKENS } from "@/shared/tokens";
-
 import { WagerModel as WagerButtonModel } from "../Wager";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerGainLossModel } from "../WagerGainLoss";
@@ -36,6 +21,7 @@ import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 
+import * as RegistrM from "@/widgets/Registration/model";
 import * as RaceModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
@@ -66,9 +52,6 @@ import shadow_3 from "@/public/media/race_icons/shadow_3.svg";
 import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
 import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
 
-import banner_1 from "@/public/media/race_images/race_banner_1.png";
-import banner_2 from "@/public/media/race_images/race_banner_2.png";
-import banner_3 from "@/public/media/race_images/race_banner_3.png";
 import banner_4 from "@/public/media/race_images/race_banner_4.png";
 import banner_5 from "@/public/media/race_images/race_banner_5.png";
 import banner_6 from "@/public/media/race_images/race_banner_6_.png";
@@ -77,6 +60,10 @@ import { WinMessage } from "../WinMessage";
 import { RaceWin } from "@/shared/ui/RaceWin";
 import useSound from "use-sound";
 import ReactHowler from "react-howler";
+import { useSocket } from "@/shared/context";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+
 interface IRace {
   gameText: string;
 }
@@ -127,6 +114,10 @@ export const Race: FC<IRace> = ({ gameText }) => {
     setReset,
     reset,
     setRaceNumber,
+    result,
+    setResult,
+    isDrax,
+    userInfo,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -168,10 +159,84 @@ export const Race: FC<IRace> = ({ gameText }) => {
     RaceModel.setReset,
     RaceModel.$reset,
     RaceModel.setRaceNumber,
+    BetsModel.$result,
+    BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
   ]);
+
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      const handleResult = () => {
+        const resultNumber = Number(result.outcomes[1]);
+        console.log(3333345, resultNumber);
+        function shuffleArray(array: number[]) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        }
+        let existingArray = [0, 1, 2, 3, 4];
+
+        if (existingArray.includes(resultNumber)) {
+          existingArray = existingArray.filter(
+            (digit) => digit !== resultNumber
+          );
+          existingArray = shuffleArray(existingArray);
+          existingArray.unshift(resultNumber);
+
+          console.log(existingArray, raceNumber);
+          setGameResult(existingArray);
+        }
+      };
+      handleResult();
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        setTimeout(() => {
+          setGameStatus(GameModel.GameStatus.Won);
+
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          );
+          pickSide(pickedSide);
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: "DRAX",
+          });
+          setIsPlaying(false);
+          setInGame(false);
+        }, 2000);
+        // alert("win");
+      } else if (Number(result.profit) < Number(result.amount)) {
+        setTimeout(() => {
+          setGameStatus(GameModel.GameStatus.Lost);
+          pickSide(pickedSide ^ 1);
+          setIsPlaying(false);
+          setInGame(false);
+          setLostStatus(Number(result.profit) - Number(result.amount));
+        }, 2000);
+        // alert("lost");
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+        // alert("draw");
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
+
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
   const [raceWin] = useSound("/music/race_win.mp3", { volume: 1 });
   const [raceLose] = useSound("/music/race_lose.mp3", { volume: 1 });
+
+  useEffect(() => {
+    setInGame(isPlaying);
+  }, [isPlaying]);
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won && playSounds !== "off") {
@@ -184,18 +249,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
     }
   }, [gameStatus]);
 
-  // const { data } = useFeeData({
-  //   watch: isConnected,
-  //   cacheTime: 5000,
-  // });
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
-
-  // useEffect(() => {
-  //   if (data && data.gasPrice) {
-  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-  //   }
-  // }, [data]);
-
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   const multiplier =
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
@@ -207,301 +260,22 @@ export const Race: FC<IRace> = ({ gameText }) => {
   // const { chain } = useNetwork();
 
   const [inGame, setInGame] = useState<boolean>(false);
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-  const bigNum = 100000000000;
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error,
-  // } = useContractWrite({
-  //   chainId: chain?.id,
-  //   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
-  //   abi: RaceABI,
-  //   functionName: "Race_Play",
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  //   args: [
-  //     useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
-  //     pickedToken?.contract_address,
-  //     raceNumber, // number of race
-  //     betsAmount,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(bigNum) *
-  //         BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(bigNum) *
-  //         BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken?.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-  //         BigInt(100000000000)
-  //       : BigInt(0)),
-  // });
-
-  // const { data: GameState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
-  //   abi: RaceABI,
-  //   functionName: "Race_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   blockTag: "latest",
-  // });
-
-  // useEffect(() => {
-  //   console.log(GameState);
-  //   if ((GameState as any)?.horseNum) {
-  //     setRaceNumber((GameState as any)?.horseNum);
-  //   }
-  //   if (GameState && !inGame) {
-  //     if (
-  //       (GameState as any).requestID != BigInt(0) &&
-  //       (GameState as any).blockNumber != BigInt(0)
-  //     ) {
-  //       setWaitingResponse(true);
-  //       setInGame(true);
-  //       setActivePicker(false);
-  //       pickSide((GameState as any).isHeads as number);
-  //     } else {
-  //       setInGame(false);
-  //     }
-  //   }
-  // }, [GameState]);
 
   useEffect(() => {
-    setIsPlaying(inGame);
+    if (isPlaying === true) {
+      setIsPlaying(inGame);
+    }
   }, [inGame]);
-
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  //   gasPrice: data?.gasPrice as any,
-  //   gas: BigInt(50000),
-  // });
-
-  // const {
-  //   write: setAllowance,
-  //   error: allowanceError,
-  //   status: allowanceStatus,
-  //   data: allowanceData,
-  // } = useContractWrite(allowanceConfig);
-
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: '0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d',
-  //   abi: RaceABI,
-  //   functionName: "Race_Refund",
-  //   enabled: isPlaying,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
-  // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-
   useEffect(() => {
     if (reset) {
       setTimeout(() => setReset(false), 2000);
     }
   }, [reset]);
 
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (allowanceData) {
-  //     setWatchAllowance(true);
-  //   }
-  // }, [allowanceData]);
-
-  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-  //   hash: allowanceData?.hash,
-  //   staleTime: Infinity,
-  //   enabled: watchAllowance,
-  // });
-
-  // useEffect(() => {
-  //   if (inGame && allowanceIsSet && watchAllowance) {
-  //     setWatchAllowance(false);
-  //     startPlaying();
-  //   } else if (allowanceError) {
-  //     setWatchAllowance(false);
-  //     setActivePicker(true);
-  //     setInGame(false);
-  //     setWaitingResponse(false);
-  //   }
-  // }, [inGame, allowanceIsSet, allowanceError]);
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
-  //   abi: RaceABI,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: isConnected && !inGame,
-  // });
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setActivePicker(false);
-  //     setInGame(true);
-  //     setWaitingResponse(true);
-  //   }
-  // }, [startedPlaying]);
-
   const [localNumber, setLocalNumber] = useState<number | null>(null);
   const [coefficientData, setCoefficientData] = useState<
     { value: number; status: "lose" | "win" }[]
   >([]);
-  // useContractEvent({
-  //   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
-  //   abi: RaceABI,
-  //   eventName: "Race_Outcome_Event",
-  //   listener(log) {
-  //     if (
-  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //       address?.toLowerCase()
-  //     ) {
-  //       console.log("------", (log[0] as any).args, "-------");
-
-  //       const handleResult = () => {
-  //         const resultNumber = (log[0] as any).args.raceOutcomes[0];
-  //         function shuffleArray(array: number[]) {
-  //           for (let i = array.length - 1; i > 0; i--) {
-  //             const j = Math.floor(Math.random() * (i + 1));
-  //             [array[i], array[j]] = [array[j], array[i]];
-  //           }
-  //           return array;
-  //         }
-  //         let existingArray = [0, 1, 2, 3, 4];
-
-  //         if (existingArray.includes(resultNumber)) {
-  //           existingArray = existingArray.filter(
-  //             (digit) => digit !== resultNumber
-  //           );
-  //           existingArray = shuffleArray(existingArray);
-  //           existingArray.unshift(resultNumber);
-
-  //           console.log(existingArray, raceNumber);
-  //           setGameResult(existingArray);
-  //         }
-  //       };
-
-  //       handleResult();
-
-  //       const getCoef = (status: "lose" | "win") => {
-  //         const num = (log[0] as any).args.raceOutcomes[0];
-  //         setCoefficientData((prev) => [...prev, { value: num, status }]);
-  //       };
-
-  //       setWaitingResponse(false);
-  //       const wagered =
-  //         BigInt((log[0] as any).args.wager) *
-  //         BigInt((log[0] as any).args.numGames);
-
-  //       // const handleCall = () => {
-  //       //   for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
-  //       //     setTimeout(() => {
-  //       //       const outCome =
-  //       //         Number((log[0] as any)?.args?.payouts[i]) /
-  //       //         Number(BigInt((log[0] as any).args.wager));
-  //       //       setCoefficientData((prev) => [outCome, ...prev]);
-  //       //       setLocalNumber(outCome);
-  //       //     }, 700 * (i + 1));
-  //       //   }
-  //       // };
-  //       // handleCall();
-  //       if ((log[0] as any).args.payout > wagered) {
-  //         const profit = (log[0] as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-  //         const wagered_token = (
-  //           (log[0] as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         getCoef("win");
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-
-  //         setLostStatus(wageredFloat);
-  //         getCoef("lose");
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //     }
-  //   },
-  // });
-
-  useEffect(() => {
-    if (wagered) {
-      if (inGame) {
-      } else {
-        const total_value = cryptoValue * betsAmount;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          // if (
-          //   (!allowance || (allowance && allowance <= cryptoValue)) &&
-          //    "0x0000000000000000000000000000000000000000" !=
-          //     "0x0000000000000000000000000000000000000000"
-          // ) {
-          //   if (setAllowance) {
-          //     setAllowance();
-          //     setInGame(true);
-          //     setWaitingResponse(true);
-          //   }
-          // } else {
-          //   startPlaying?.();
-          // }
-          // startPlaying?.();
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
 
   useEffect(() => {
     setActivePicker(true);
@@ -599,8 +373,8 @@ export const Race: FC<IRace> = ({ gameText }) => {
     if (gameResult.length === 0 && startGame) {
       setTimeout(() => {
         generateRandomNumber();
-        intervalId = setInterval(generateRandomNumber, 3000);
-      }, 3000);
+        intervalId = setInterval(generateRandomNumber, 1000);
+      }, 1000);
     } else {
       setRandomNumber(null);
     }
@@ -668,14 +442,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
       setStepValue(90);
     }
   }, [isDesktop]);
-
-  // useEffect(() => {
-  //   if (startGame) {
-  //     setTimeout(() => {
-  //       setGameResult([0, 3, 2, 1, 4]);
-  //     }, 10000);
-  //   }
-  // }, [startGame]);
 
   const callResult = (
     delay: number,
@@ -816,13 +582,13 @@ export const Race: FC<IRace> = ({ gameText }) => {
 
   const [makeCenter, setMakeCenter] = useState(false);
 
-  useEffect(() => {
-    if (startGame) {
-      setTimeout(() => setMakeCenter(true), 8000);
-    } else {
-      setMakeCenter(false);
-    }
-  }, [startGame]);
+  // useEffect(() => {
+  //   if (startGame) {
+  //     setTimeout(() => setMakeCenter(true), 1000);
+  //   } else {
+  //     setMakeCenter(false);
+  //   }
+  // }, [startGame]);
 
   const [raceSound, setRaceSound] = useState(false);
 
@@ -834,6 +600,47 @@ export const Race: FC<IRace> = ({ gameText }) => {
     }
   }, [inGame]);
 
+  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [betData, setBetData] = useState({});
+
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Race")?.id],
+  };
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: gamesList.find((item) => item.name === "Race")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"car":${raceNumber}}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [stopGain, stopLoss, pickedSide, cryptoValue, betsAmount, isDrax]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
+
   return (
     <>
       {/* {error && (
@@ -842,10 +649,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
           btnTitle="Contact us"
         />
       )} */}
-      <section
-        // onClick={() => setStartGame((prev) => !prev)}
-        className={s.race_table_wrap}
-      >
+      <section className={s.race_table_wrap}>
         {isLoading && <Preload />}
         <WagerLowerBtnsBlock
           className={s.race_btns}
@@ -957,14 +761,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
             makeCenter && s.race_1_run_center,
             reset && s.race_1_reset
           )}
-          style={{
-            transform:
-              startGame &&
-              randomNumber &&
-              (randomNumber === 1 || randomNumber === -1)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
         >
           {(startGame || gameResult.length > 0) && (
             <Image
@@ -989,17 +785,8 @@ export const Race: FC<IRace> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              startGame &&
-              randomNumber &&
-              (randomNumber === 2 || randomNumber === -2)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
           className={clsx(
             s.race,
-
             !sidebarOpened && s.race_expand,
             s.race_2,
             startGame && allLoaded && s.race_2_run,
@@ -1032,17 +819,8 @@ export const Race: FC<IRace> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              startGame &&
-              randomNumber &&
-              (randomNumber === 3 || randomNumber === -3)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
           className={clsx(
             s.race,
-
             !sidebarOpened && s.race_expand,
             s.race_3,
             startGame && allLoaded && s.race_3_run,
@@ -1075,14 +853,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              startGame &&
-              randomNumber &&
-              (randomNumber === 4 || randomNumber === -4)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
           className={clsx(
             s.race,
             !sidebarOpened && s.race_expand,
@@ -1117,14 +887,6 @@ export const Race: FC<IRace> = ({ gameText }) => {
           </video>
         </div>
         <div
-          style={{
-            transform:
-              startGame &&
-              randomNumber &&
-              (randomNumber === 5 || randomNumber === -5)
-                ? `translateX(${randomNumber > 0 ? stepValue : -stepValue}px)`
-                : "",
-          }}
           className={clsx(
             s.race,
             !sidebarOpened && s.race_expand,
@@ -1164,7 +926,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
             s.fence,
             s.fence_1,
             reset && s.fence_reset,
-            startGame && allLoaded && s.race_table_background_img_1_start
+            startGame && allLoaded && s.race_table_background_img_1_start_fence
           )}
           alt=""
         />
@@ -1174,7 +936,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
             s.fence,
             s.fence_2,
             reset && s.fence_reset,
-            startGame && allLoaded && s.race_table_background_img_1_start
+            startGame && allLoaded && s.race_table_background_img_1_start_fence
           )}
           alt=""
         />
@@ -1184,7 +946,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
             s.fence,
             s.fence_3,
             reset && s.fence_reset,
-            startGame && allLoaded && s.race_table_background_img_1_start
+            startGame && allLoaded && s.race_table_background_img_1_start_fence
           )}
           alt=""
         />
@@ -1194,7 +956,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
             s.fence,
             s.fence_4,
             reset && s.fence_reset,
-            startGame && allLoaded && s.race_table_background_img_1_start
+            startGame && allLoaded && s.race_table_background_img_1_start_fence
           )}
           alt=""
         />
@@ -1204,7 +966,7 @@ export const Race: FC<IRace> = ({ gameText }) => {
             s.fence,
             s.fence_5,
             reset && s.fence_reset,
-            startGame && allLoaded && s.race_table_background_img_1_start
+            startGame && allLoaded && s.race_table_background_img_1_start_fence
           )}
           alt=""
         />
@@ -1245,3 +1007,320 @@ export const Race: FC<IRace> = ({ gameText }) => {
     </>
   );
 };
+
+// const [fees, setFees] = useState<bigint>(BigInt(0));
+// const bigNum = 100000000000;
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error,
+// } = useContractWrite({
+//   chainId: chain?.id,
+//   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
+//   abi: RaceABI,
+//   functionName: "Race_Play",
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+//   args: [
+//     useDebounce(BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(bigNum)),
+//     pickedToken?.contract_address,
+//     raceNumber, // number of race
+//     betsAmount,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) * BigInt(bigNum)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(bigNum) *
+//         BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) * BigInt(bigNum)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(bigNum) *
+//         BigInt(200),
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//     pickedToken?.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//         BigInt(100000000000)
+//       : BigInt(0)),
+// });
+
+// const { data: GameState } = useContractRead({
+//   chainId: chain?.id,
+//   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
+//   abi: RaceABI,
+//   functionName: "Race_GetState",
+//   args: [address],
+//   enabled: true,
+//   blockTag: "latest",
+// });
+
+// useEffect(() => {
+//   console.log(GameState);
+//   if ((GameState as any)?.horseNum) {
+//     setRaceNumber((GameState as any)?.horseNum);
+//   }
+//   if (GameState && !inGame) {
+//     if (
+//       (GameState as any).requestID != BigInt(0) &&
+//       (GameState as any).blockNumber != BigInt(0)
+//     ) {
+//       setWaitingResponse(true);
+//       setInGame(true);
+//       setActivePicker(false);
+//       pickSide((GameState as any).isHeads as number);
+//     } else {
+//       setInGame(false);
+//     }
+//   }
+// }, [GameState]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+//   gasPrice: data?.gasPrice as any,
+//   gas: BigInt(50000),
+// });
+
+// const {
+//   write: setAllowance,
+//   error: allowanceError,
+//   status: allowanceStatus,
+//   data: allowanceData,
+// } = useContractWrite(allowanceConfig);
+
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: '0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d',
+//   abi: RaceABI,
+//   functionName: "Race_Refund",
+//   enabled: isPlaying,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+
+// const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+// useEffect(() => {
+//   if (allowanceData) {
+//     setWatchAllowance(true);
+//   }
+// }, [allowanceData]);
+
+// const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+//   hash: allowanceData?.hash,
+//   staleTime: Infinity,
+//   enabled: watchAllowance,
+// });
+
+// useEffect(() => {
+//   if (inGame && allowanceIsSet && watchAllowance) {
+//     setWatchAllowance(false);
+//     startPlaying();
+//   } else if (allowanceError) {
+//     setWatchAllowance(false);
+//     setActivePicker(true);
+//     setInGame(false);
+//     setWaitingResponse(false);
+//   }
+// }, [inGame, allowanceIsSet, allowanceError]);
+
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
+//   abi: RaceABI,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: isConnected && !inGame,
+// });
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setActivePicker(false);
+//     setInGame(true);
+//     setWaitingResponse(true);
+//   }
+// }, [startedPlaying]);
+// useContractEvent({
+//   address: "0x78ee63Ed97a182B437C3b22C3B3399f1b4dA317d",
+//   abi: RaceABI,
+//   eventName: "Race_Outcome_Event",
+//   listener(log) {
+//     if (
+//       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//       address?.toLowerCase()
+//     ) {
+//       console.log("------", (log[0] as any).args, "-------");
+
+//       const handleResult = () => {
+//         const resultNumber = (log[0] as any).args.raceOutcomes[0];
+//         function shuffleArray(array: number[]) {
+//           for (let i = array.length - 1; i > 0; i--) {
+//             const j = Math.floor(Math.random() * (i + 1));
+//             [array[i], array[j]] = [array[j], array[i]];
+//           }
+//           return array;
+//         }
+//         let existingArray = [0, 1, 2, 3, 4];
+
+//         if (existingArray.includes(resultNumber)) {
+//           existingArray = existingArray.filter(
+//             (digit) => digit !== resultNumber
+//           );
+//           existingArray = shuffleArray(existingArray);
+//           existingArray.unshift(resultNumber);
+
+//           console.log(existingArray, raceNumber);
+//           setGameResult(existingArray);
+//         }
+//       };
+
+//       handleResult();
+
+//       const getCoef = (status: "lose" | "win") => {
+//         const num = (log[0] as any).args.raceOutcomes[0];
+//         setCoefficientData((prev) => [...prev, { value: num, status }]);
+//       };
+
+//       setWaitingResponse(false);
+//       const wagered =
+//         BigInt((log[0] as any).args.wasetGameResultger) *
+//         BigInt((log[0] as any).args.numGames);
+
+//       // const handleCall = () => {
+//       //   for (let i = 0; i < (log[0] as any)?.args?.payouts?.length; i++) {
+//       //     setTimeout(() => {
+//       //       const outCome =
+//       //         Number((log[0] as any)?.args?.payouts[i]) /
+//       //         Number(BigInt((log[0] as any).args.wager));
+//       //       setCoefficientData((prev) => [outCome, ...prev]);
+//       //       setLocalNumber(outCome);
+//       //     }, 700 * (i + 1));
+//       //   }
+//       // };
+//       // handleCall();
+//       if ((log[0] as any).args.payout > wagered) {
+//         const profit = (log[0] as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+//         const wagered_token = (
+//           (log[0] as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+//         getCoef("win");
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+
+//         setLostStatus(wageredFloat);
+//         getCoef("lose");
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//     }
+//   },
+// });
+
+// useEffect(() => {
+//   if (wagered) {
+//     if (inGame) {
+//     } else {
+//       const total_value = cryptoValue * betsAmount;
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         total_value <= currentBalance
+//       ) {
+//         // if (
+//         //   (!allowance || (allowance && allowance <= cryptoValue)) &&
+//         //    "0x0000000000000000000000000000000000000000" !=
+//         //     "0x0000000000000000000000000000000000000000"
+//         // ) {
+//         //   if (setAllowance) {
+//         //     setAllowance();
+//         //     setInGame(true);
+//         //     setWaitingResponse(true);
+//         //   }
+//         // } else {
+//         //   startPlaying?.();
+//         // }
+//         // startPlaying?.();
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [wagered]);
+
+// useEffect(() => {
+//   if (startGame) {
+//     setTimeout(() => {
+//       setGameResult([0, 3, 2, 1, 4]);
+//     }, 10000);
+//   }
+// }, [startGame]);
+
+// const { data } = useFeeData({
+//   watch: isConnected,
+//   cacheTime: 5000,
+// });
+// const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   if (data && data.gasPrice) {
+//     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+//   }
+// }, [data]);
+// import banner_1 from "@/public/media/race_images/race_banner_1.png";
+// import banner_2 from "@/public/media/race_images/race_banner_2.png";
+// import banner_3 from "@/public/media/race_images/race_banner_3.png";
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useFeeData,
+//   useNetwork,
+//   usePrepareContractWrite,
+//   useWaitForTransaction,
+// } from "wagmi";
+// import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+// import { ABI as RaceABI } from "@/shared/contracts/RaceABI";
+// import { TOKENS } from "@/shared/tokens";

@@ -24,11 +24,11 @@ const draxTypesList = [
     usdPrice: 10,
   },
   {
-    bonusCoins: "200,000",
+    bonusCoins: "50,000",
     usdPrice: 50,
   },
   {
-    bonusCoins: "500,000",
+    bonusCoins: "100,000",
     usdPrice: 100,
   },
   // {
@@ -36,15 +36,15 @@ const draxTypesList = [
   //   usdPrice: 100,
   // },
   {
-    bonusCoins: "5,000,000",
+    bonusCoins: "500,000",
     usdPrice: 500,
   },
   {
-    bonusCoins: "10,000,000",
+    bonusCoins: "1,000,000",
     usdPrice: 1000,
   },
   {
-    bonusCoins: "20,000,000",
+    bonusCoins: "2,000,000",
     usdPrice: 2000,
   },
   // {
@@ -83,33 +83,12 @@ export const Payment: FC<PaymentProps> = () => {
   const [bonusValue, setBonusValue] = useState();
 
   const handlePurchaseBtn = (price: any, bonusPrice: any) => {
-    setPurchaseVisibility(true);
     setPurchaseValue(price);
     setBonusValue(bonusPrice);
+    setPurchaseVisibility(true);
   };
 
   const [link, setLink] = useState(1);
-
-  useEffect(() => {
-    console.log("-", link);
-    const exist = localStorage.getItem("auth");
-    (async () => {
-      if (access_token) {
-        const data = await api.getInvoiceQr({
-          data: "ewrret",
-          bareer: access_token,
-        });
-        console.log(link, access_token);
-        console.log(111111, data);
-        if (data.status === "OK") {
-          console.log(3334333, data);
-          // setLink(data.body as any);
-        } else {
-          console.log(5555, data);
-        }
-      }
-    })();
-  }, [access_token, link]);
 
   return (
     <>

@@ -72,6 +72,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         const response = await api.getUserInfo({ bareer: access_token });
         if (response.status === "OK") {
           setUserInfo((response as any).body);
+          console.log("user info", response.body);
         } else {
           console.log("err", response.body);
         }
