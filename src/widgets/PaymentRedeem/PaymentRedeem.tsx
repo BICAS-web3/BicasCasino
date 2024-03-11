@@ -1,20 +1,22 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
 import btcIco from "@/public/media/payment/BTC_BITCOIN.svg";
-import bchIco from "@/public/media/payment/bchIco.svg";
+import bnb from "@/public/media/payment/bnb.svg";
 import ethIco from "@/public/media/payment/ETH_ETHEREUM.svg";
-import doceIco from "@/public/media/payment/dogeIco.svg";
+import busd from "@/public/media/payment/busd.svg";
 import ltcIco from "@/public/media/payment/LTC_LITECOIN.svg";
 import usdtIco from "@/public/media/payment/USDT_ETHEREUM.svg";
 import trxIco from "@/public/media/payment/TRX_TRON.svg";
-import xrpIco from "@/public/media/payment/xrpIco.svg";
-import xlmIco from "@/public/media/payment/xlmIco.svg";
+import dai from "@/public/media/payment/dai-2.svg";
+import usdc from "@/public/media/payment/usdc.svg";
 import { useDropdown } from "@/shared/tools";
 import upArrow from "@/public/media/payment/upArrow.svg";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import * as PaymentRedeemM from "./model";
 import closeIco from "@/public/media/payment/closeIco.svg";
+import tusd from "@/public/media/payment/tusd.svg";
+import ton from "@/public/media/payment/ton.svg";
 
 // export const coinsList = [
 //   {
@@ -59,17 +61,17 @@ export const coinsList = [
   { title: "BTC_BITCOIN", ico: btcIco },
   { title: "ETH_ETHEREUM", ico: ethIco },
   { title: "USDT_ETHEREUM", ico: usdtIco },
-  { title: "USDC_ETHEREUM", ico: btcIco },
-  { title: "TUSD_ETHEREUM", ico: btcIco },
-  { title: "DAI_ETHEREUM", ico: btcIco },
+  { title: "USDC_ETHEREUM", ico: usdc },
+  { title: "TUSD_ETHEREUM", ico: tusd },
+  { title: "DAI_ETHEREUM", ico: dai },
   { title: "TRX_TRON", ico: trxIco },
   { title: "USDT_TRON", ico: usdtIco },
-  { title: "USDC_TRON", ico: btcIco },
-  { title: "TUSD_TRON", ico: btcIco },
+  { title: "USDC_TRON", ico: usdc },
+  { title: "TUSD_TRON", ico: tusd },
   { title: "LTC_LITECOIN", ico: ltcIco },
-  { title: "BNB_BSC", ico: btcIco },
-  { title: "BUSD_BSC", ico: btcIco },
-  { title: "TON_TON", ico: btcIco },
+  { title: "BNB_BSC", ico: bnb },
+  { title: "BUSD_BSC", ico: busd },
+  { title: "TON_TON", ico: ton },
 ];
 
 interface PaymentRedeemProps {}

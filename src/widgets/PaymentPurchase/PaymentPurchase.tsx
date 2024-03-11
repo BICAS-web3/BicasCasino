@@ -205,7 +205,16 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
             </div>
           ) : (
             <span className={clsx(s.send_address_title)}>
-              <span>{activeCoin.title?.split("_")[0]}</span> Send Address
+              <span>
+                {activeCoin.title?.split("_")[0]}{" "}
+                {activeCoin.title?.split("_")[1] &&
+                  (activeCoin.title?.split("_")[1] === "ETHEREUM" ||
+                    activeCoin.title?.split("_")[1] === "TRON") &&
+                  activeCoin.title?.split("_")[0] !== "ETH" &&
+                  activeCoin.title?.split("_")[0] !== "TRX" &&
+                  activeCoin.title?.split("_")[1]}
+              </span>{" "}
+              Send Address
             </span>
           )}
           <div className={s.send_address}>
