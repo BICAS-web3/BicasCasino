@@ -38,7 +38,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     newSocket.onmessage = (ev: MessageEvent<any>) => {
       console.log("Received message from server:", ev.data);
       const data = JSON.parse(ev.data);
-      if (data.type === "Bet" || data.type === "MakeBet") {
+      if (
+        data.type === "Bet" ||
+        data.type === "MakeBet" ||
+        data.type === "ContinueGame" ||
+        data.type === "State"
+      ) {
         setResult(data);
       }
       if (data.type == "Ping") {

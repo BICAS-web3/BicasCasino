@@ -57,17 +57,31 @@ import ton from "@/public/media/payment/ton.svg";
 //   },
 // ];
 
+// export const coinsList = [
+//   { title: "BTC_BITCOIN", ico: btcIco },
+//   { title: "ETH_ETHEREUM", ico: ethIco },
+//   { title: "USDT/_ETHEREUM", ico: usdtIco },
+//   { title: "USDC/_ETHEREUM", ico: usdc },
+//   { title: "TUSD/_ETHEREUM", ico: tusd },
+//   { title: "DAI_ETHEREUM", ico: dai },
+//   { title: "TRX_TRON", ico: trxIco },
+//   { title: "USDT/_TRON", ico: usdtIco },
+//   { title: "USDC/_TRON", ico: usdc },
+//   { title: "TUSD/_TRON", ico: tusd },
+//   { title: "LTC_LITECOIN", ico: ltcIco },
+//   { title: "BNB_BSC", ico: bnb },
+//   { title: "BUSD_BSC", ico: busd },
+//   { title: "TON_TON", ico: ton },
+// ];
+
 export const coinsList = [
   { title: "BTC_BITCOIN", ico: btcIco },
   { title: "ETH_ETHEREUM", ico: ethIco },
-  { title: "USDT_ETHEREUM", ico: usdtIco },
-  { title: "USDC_ETHEREUM", ico: usdc },
-  { title: "TUSD_ETHEREUM", ico: tusd },
+  { title: "USDT", ico: usdtIco },
+  { title: "USDC", ico: usdc },
+  { title: "TUSD", ico: tusd },
   { title: "DAI_ETHEREUM", ico: dai },
   { title: "TRX_TRON", ico: trxIco },
-  { title: "USDT_TRON", ico: usdtIco },
-  { title: "USDC_TRON", ico: usdc },
-  { title: "TUSD_TRON", ico: tusd },
   { title: "LTC_LITECOIN", ico: ltcIco },
   { title: "BNB_BSC", ico: bnb },
   { title: "BUSD_BSC", ico: busd },

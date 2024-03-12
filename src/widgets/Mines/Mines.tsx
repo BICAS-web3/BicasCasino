@@ -1,20 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUnit } from "effector-react";
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useFeeData,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
+
+import * as RegistrM from "@/widgets/Registration/model";
 import Image from "next/image";
-import { SwiperSlide, Swiper, SwiperRef } from "swiper/react";
+
 import clsx from "clsx";
 
 import background from "@/public/media/mines_images/mines_bg.webp";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import { sessionModel } from "@/entities/session";
 
@@ -22,12 +16,8 @@ import * as GameModel from "@/widgets/GamePage/model";
 
 import { MineIcon } from "@/shared/SVGs/MineIcon";
 import { MineGreenIcon } from "@/shared/SVGs/MineGreenIcon";
-import { ArrowIconSwap } from "@/shared/SVGs/ArrSwiperIcon";
-import { useDebounce } from "@/shared/tools";
-import { ABI as ABIMines } from "@/shared/contracts/MinesABI";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { TOKENS } from "@/shared/tokens";
 
+import { WagerGainLossModel } from "../WagerGainLoss";
 import { WagerModel } from "../WagerInputsBlock";
 import { WagerModel as WagerButtonModel } from "../Wager";
 import * as MinesModel from "./model";
@@ -40,13 +30,13 @@ import styles from "./styles.module.scss";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { MineBombIcon } from "@/shared/SVGs/MineBomb";
 import { MineMoneyIcon } from "@/shared/SVGs/MineMoneyIcon";
-import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
-import { Scrollbar } from "swiper/modules";
 import { ProfitModel } from "../ProfitBlock";
 import { FC } from "react";
 import useSound from "use-sound";
 import { Preload } from "@/shared/ui/Preload";
+import { useSocket } from "@/shared/context";
 
+import * as BetsModel from "@/widgets/LiveBets/model";
 enum Tile {
   Closed,
   Selected,
@@ -59,7 +49,38 @@ const maxReveal = [
   0, 24, 21, 17, 14, 12, 10, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1,
   1,
 ];
-
+const d = {
+  type: "State",
+  id: 0,
+  timestamp: 1710244954,
+  amount: "1000.0000",
+  bet_info:
+    '{"num_mines":1, "cashout":false, "tiles": [false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false]}',
+  state:
+    '{"state":[false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false],"mines":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"game_num":1,"current_multiplier":"1.076"}',
+  uuid: "3cd4d015-4cf0-4e9d-b16e-3b5aa4804baf",
+  game_id: 7,
+  user_id: 2,
+  coin_id: 1,
+  userseed_id: 5,
+  serverseed_id: 5,
+};
+const ddddd = {
+  type: "State",
+  id: 2,
+  timestamp: 1710244954,
+  amount: "2.0000",
+  bet_info:
+    '{"num_mines":1, "cashout":false, "tiles": [false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false]}',
+  state:
+    '{"state":[false,false,false,false,true,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false],"mines":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"game_num":1,"current_multiplier":"1.076"}',
+  uuid: "3cd4d015-4cf0-4e9d-b16e-3b5aa4804baf",
+  game_id: 7,
+  user_id: 2,
+  coin_id: 1,
+  userseed_id: 5,
+  serverseed_id: 5,
+};
 interface MinesProps {
   gameInfoText: string;
 }
@@ -140,16 +161,11 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
       volume: 1,
     }
   );
-
-  const [fees, setFees] = useState<bigint>(BigInt(0));
   const [inGame, setInGame] = useState<boolean>(false);
-  //const [waitingResponse, setWaitingResponse] = useState<boolean>(false);
+
+  const [keep, setKeep] = useState(false);
+
   const [redrawTrigger, triggerRedraw] = useState<boolean>(true);
-
-  // const { isConnected, address } = useAccount();
-
-  // const { data } = useFeeData({ watch: true, cacheTime: 5000 });
-  // const { chain } = useNetwork();
 
   const [setIsPlaying, setSelectedLength] = useUnit([
     GameModel.setIsPlaying,
@@ -179,6 +195,14 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     setWaitingResponse,
     refund,
     setRefund,
+    isDrax,
+    userInfo,
+    gamesList,
+    stopGain,
+    stopLoss,
+    result,
+    setResult,
+    socketLogged,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -202,21 +226,94 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     GameModel.setWaitingResponse,
     GameModel.$refund,
     GameModel.setRefund,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$gamesList,
+    WagerGainLossModel.$stopGain,
+    WagerGainLossModel.$stopLoss,
+    BetsModel.$result,
+    BetsModel.setResult,
+    LayoutModel.$socketLogged,
   ]);
 
-  // useEffect(() => {
-  //   setSelectedMine([]);
-  // }, [pickedValue]);
-  // const { data: minesState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_GetState",
-  //   args: [address?.toLowerCase()],
-  //   enabled: !inGame,
-  //   //watch: isConnected,
-  //   blockTag: "latest",
-  // });
+  useEffect(() => {
+    if (result) {
+      if (result.type === "State") {
+        const dataState = JSON.parse(result.state);
+        setKeep(true);
+        if (Number(result.amount) > 0) {
+          if (JSON.parse(result.bet_info).cashout === false) {
+          }
+          const newGameField = gameField.map((value, index) => {
+            if (dataState?.mines[index]) {
+              return Tile.Bomb;
+            } else if (dataState?.state[index]) {
+              return Tile.Coin;
+            } else {
+              return value;
+            }
+          });
+          setWaitingResponse(false);
+          setGameField(newGameField);
+          setTotalOpenedTiles(0);
+          setPickedTiles([...initialPickedTiles]);
+        }
+      } else if (result.type === "Bet") {
+        setTimeout(() => {
+          setInGame(false);
+          triggerRedraw(true);
+          setGameFields(initialPickedTiles, [...initialPickedTiles]);
+        }, 2000);
+        const data = JSON.parse(result!.state);
+        const newGameField = gameField.map((value, index) => {
+          if (data?.mines[index]) {
+            return Tile.Bomb;
+          } else if (data?.state[index]) {
+            return Tile.Coin;
+          } else {
+            return value;
+          }
+        });
+        setWaitingResponse(false);
+        setGameField(newGameField);
+        setTotalOpenedTiles(0);
+        setPickedTiles([...initialPickedTiles]);
+        if (
+          Number(result.profit) > Number(result.amount) ||
+          Number(result.profit) === Number(result.amount)
+        ) {
+          setGameStatus(GameModel.GameStatus.Won);
+
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          );
+          // pickSide(pickedSide);
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: "DRAX",
+          });
+          // setIsPlaying(false);
+          setInGame(false);
+          // alert("win");
+        } else if (Number(result.profit) < Number(result.amount)) {
+          setGameStatus(GameModel.GameStatus.Lost);
+          // pickSide(pickedSide ^ 1);
+          // setIsPlaying(false);
+          setInGame(false);
+          setLostStatus(Number(result.profit) - Number(result.amount));
+          // alert("lost");
+        } else {
+          setGameStatus(GameModel.GameStatus.Draw);
+          // setIsPlaying(false);
+          setInGame(false);
+          // alert("draw");
+        }
+        setKeep(false);
+      }
+    }
+    setResult(null);
+  }, [result]);
 
   useEffect(() => {
     setTotalOpenedTiles(0);
@@ -288,17 +385,17 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   //   }
   // }, [minesState as any]);
 
-  const swiperRef = useRef<SwiperRef>(null);
+  // const swiperRef = useRef<SwiperRef>(null);
 
-  const handlePrev = useCallback(() => {
-    if (!swiperRef.current) return;
-    swiperRef.current.swiper.slidePrev();
-  }, []);
+  // const handlePrev = useCallback(() => {
+  //   if (!swiperRef.current) return;
+  //   swiperRef.current.swiper.slidePrev();
+  // }, []);
 
-  const handleNext = useCallback(() => {
-    if (!swiperRef.current) return;
-    swiperRef.current.swiper.slideNext();
-  }, []);
+  // const handleNext = useCallback(() => {
+  //   if (!swiperRef.current) return;
+  //   swiperRef.current.swiper.slideNext();
+  // }, []);
 
   const [isCashout, setIsCashout] = useState(true);
 
@@ -444,9 +541,9 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   //   watch: isConnected,
   // });
 
-  useEffect(() => {
-    setIsPlaying(inGame);
-  }, [inGame]);
+  // useEffect(() => {
+  //   setIsPlaying(inGame);
+  // }, [inGame]);
 
   // useEffect(() => {
   //   if (startedPlaying) {
@@ -771,6 +868,8 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   //   }
   // }, [useDebounce(coefficient, 50)]);
 
+  useEffect(() => setInGame(isPlaying), [isPlaying]);
+  const [access_token] = useUnit([RegistrM.$access_token]);
   const [taken, setTaken] = useState(false);
   const [localAmount, setLocalAmount] = useState<any>(0);
   const [localCryptoValue, setLocalCryptoValue] = useState(0);
@@ -795,6 +894,110 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     }
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
+
+  //!----------
+  const socket = useSocket();
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Mines")?.id],
+  };
+
+  const [betData, setBetData] = useState({});
+
+  const [gameState, setGameState] = useState<any>(null);
+
+  useEffect(() => {
+    console.log(121212, pickedTiles);
+    if (keep) {
+      setBetData({
+        type: "ContinueGame",
+        game_id: gamesList.find((item) => item.name === "Mines")?.id,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: `{ "cashout":${isCashout}, "tiles":[${pickedTiles}]}`,
+      });
+      // if (!isCashout) {
+      //   setKeep(true);
+      // } else {
+      //   setKeep(false);
+      // }
+    } else {
+      setBetData({
+        type: "MakeBet",
+        game_id: gamesList.find((item) => item.name === "Mines")?.id,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: `{"num_mines":${pickedValue}, "cashout":${isCashout}, "tiles": [${pickedTiles}]}`,
+        amount: `${cryptoValue || 0}`,
+        stop_loss: Number(stopLoss) || 0,
+        stop_win: Number(stopGain) || 0,
+        num_games: betsAmount,
+      });
+      // if (!isCashout) {
+      //   setKeep(true);
+      // } else {
+      //   setKeep(false);
+      // }
+    }
+  }, [
+    stopGain,
+    stopLoss,
+    cryptoValue,
+    isDrax,
+    betsAmount,
+    isCashout,
+    pickedTiles,
+    totalOpenedTiles,
+  ]);
+
+  const [subscribed, setCubscribed] = useState(false);
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify(betData));
+      setIsPlaying(false);
+    }
+    if (
+      socket &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN &&
+      !subscribed &&
+      gamesList?.length > 0
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Mines")?.id],
+        })
+      );
+      setCubscribed(true);
+    }
+  }, [socket, isPlaying, access_token, gamesList, subscribed]);
+
+  useEffect(() => {
+    if (
+      access_token &&
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList?.length > 0 &&
+      socketLogged
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: "GetState",
+          game_id: gamesList.find((item) => item.name === "Mines")?.id,
+          coin_id: isDrax ? 2 : 1,
+        })
+      );
+    }
+  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged]);
+
+  // useEffect(() => alert(isCashout), [isCashout]);
+
   return (
     <>
       {/* {errorWrite && (

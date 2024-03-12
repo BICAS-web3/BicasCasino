@@ -27,37 +27,22 @@ import { ManualSetting } from "@/widgets/ManualSetting/ui/ManualSetting";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Preload } from "@/shared/ui/Preload";
-import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  const [
-    startConnect,
-    setStartConnect,
-    manualSetting,
-    setManualSetting,
-    selectedLength,
-    waitingResponse,
-    setIsEmtyWager,
-    setRefund,
-  ] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
+  const [manualSetting, waitingResponse, setIsEmtyWager] = useUnit([
     MinesModel.$manualSetting,
-    MinesModel.setManualSetting,
-    MinesModel.$selectedLength,
     GameModel.$waitingResponse,
     GameModel.setIsEmtyWager,
-    GameModel.setRefund,
   ]);
 
   // const { isConnected, isConnecting } = useAccount();
   // const { connectors, connect } = useConnect();
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  const [isPlaying, setIsPlaying] = useUnit([
+    GameModel.$isPlaying,
+    GameModel.setIsPlaying,
+  ]);
   const [emptyClick, setEmptyClick] = useState(false);
-  const { push, reload } = useRouter();
 
   useEffect(() => {
     if (emptyClick) {
@@ -70,10 +55,10 @@ const WagerContent = () => {
   const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
@@ -139,7 +124,23 @@ const WagerContent = () => {
           className={styles.mobile}
         />
       )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+      <button
+        onClick={() => {
+          if (cryptoValue > 0.0 || (isPlaying && !waitingResponse)) {
+            setIsPlaying(true);
+          } else if (cryptoValue <= 0.0) {
+            setIsEmtyWager(true);
+          }
+          // else {
+          //   router.push(
+          //     isPartner
+          //       ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+          //       : "/RegistrManual"
+          //   );
+          // }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
         Play
       </button>
     </>

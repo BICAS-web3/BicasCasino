@@ -47,6 +47,9 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   );
   const [activeCoin, setActiveCoin] = useState(coinsList[0]);
 
+  const [networkActive, setNetworkActive] = useState<"ETHEREUM" | "TRON">(
+    "ETHEREUM"
+  );
   const [sendAddress, setSendAddress] = useState("address");
 
   const addressToClipboard = () => {
@@ -69,7 +72,12 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
       (async () => {
         const data = await api.invoiceCreate({
           amount: purchasePrice,
-          currency: activeCoin.title,
+          currency:
+            activeCoin.title === "USDT" ||
+            activeCoin.title === "USDC" ||
+            activeCoin.title === "TUSD"
+              ? `${activeCoin.title}_${networkActive}`
+              : activeCoin.title,
           bareer: access_token,
         });
         if (data.status === "OK") {
@@ -80,7 +88,14 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
     }
 
     setSend(false);
-  }, [send, access_token, purchasePrice, activeCoin]);
+  }, [
+    send,
+    access_token,
+    purchasePrice,
+    activeCoin,
+    activeCoin.title,
+    networkActive,
+  ]);
 
   const [priceList, setPriceList] = useState([]);
 
@@ -95,6 +110,20 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
       })();
     }
   }, [access_token]);
+
+  const [showNetworks, setShowNetworks] = useState(false);
+
+  useEffect(() => {
+    if (
+      activeCoin.title === "USDT" ||
+      activeCoin.title === "USDC" ||
+      activeCoin.title === "TUSD"
+    ) {
+      setShowNetworks(true);
+    } else {
+      setShowNetworks(false);
+    }
+  }, [activeCoin.title]);
 
   return (
     <div ref={ref} className={s.payment_purchase_block}>
@@ -176,18 +205,17 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           </div>
         )}
         <div className={clsx(s.send_address_block, memoWarning && s.hidden)}>
-          {activeCoin.title == "eth" ? (
-            <span className={s.eth_title}>
-              <div className={s.eth_circle}></div> ERC20
-            </span>
-          ) : activeCoin.title === "usdt" ? (
+          {showNetworks && (
             <div className={s.usdt_network_wrap}>
               <div
                 className={clsx(
                   s.usdt_network_item,
                   ercActive && s.usdt_network_active
                 )}
-                onClick={() => setErcActive(true)}
+                onClick={() => {
+                  setNetworkActive("ETHEREUM");
+                  setErcActive(true);
+                }}
               >
                 <div className={s.usdt_network_circle}></div>
                 ERC20
@@ -197,26 +225,28 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
                   s.usdt_network_item,
                   !ercActive && s.usdt_network_active
                 )}
-                onClick={() => setErcActive(false)}
+                onClick={() => {
+                  setNetworkActive("TRON");
+                  setErcActive(false);
+                }}
               >
                 <div className={s.usdt_network_circle}></div>
                 TRC20
               </div>
             </div>
-          ) : (
-            <span className={clsx(s.send_address_title)}>
-              <span>
-                {activeCoin.title?.split("_")[0]}{" "}
-                {activeCoin.title?.split("_")[1] &&
-                  (activeCoin.title?.split("_")[1] === "ETHEREUM" ||
-                    activeCoin.title?.split("_")[1] === "TRON") &&
-                  activeCoin.title?.split("_")[0] !== "ETH" &&
-                  activeCoin.title?.split("_")[0] !== "TRX" &&
-                  activeCoin.title?.split("_")[1]}
-              </span>{" "}
-              Send Address
-            </span>
-          )}
+          )}{" "}
+          <span className={clsx(s.send_address_title)}>
+            <span>
+              {activeCoin.title?.split("_")[0]}{" "}
+              {activeCoin.title?.split("_")[1] &&
+                (activeCoin.title?.split("_")[1] === "ETHEREUM" ||
+                  activeCoin.title?.split("_")[1] === "TRON") &&
+                activeCoin.title?.split("_")[0] !== "ETH" &&
+                activeCoin.title?.split("_")[0] !== "TRX" &&
+                activeCoin.title?.split("_")[1]}
+            </span>{" "}
+            Send Address
+          </span>
           <div className={s.send_address}>
             {invoiceCreate?.pay_url}
             <img

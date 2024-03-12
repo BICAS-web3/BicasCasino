@@ -39,15 +39,23 @@ interface LayoutProps {
 export const Layout = ({ children, ...props }: LayoutProps) => {
   // const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
   const isMobile = useMediaQuery("(max-width: 650px)");
-  const [isOpen, close, setUserInfo, socketAuth, setSocketAuth, setGamesList] =
-    useUnit([
-      SidebarM.$isOpen,
-      SidebarM.Close,
-      LayoutModel.setUserInfo,
-      LayoutModel.$socketAuth,
-      LayoutModel.setSocketAuth,
-      GameModal.setGamesList,
-    ]);
+  const [
+    isOpen,
+    close,
+    setUserInfo,
+    socketAuth,
+    setSocketAuth,
+    setGamesList,
+    setSocketLogged,
+  ] = useUnit([
+    SidebarM.$isOpen,
+    SidebarM.Close,
+    LayoutModel.setUserInfo,
+    LayoutModel.$socketAuth,
+    LayoutModel.setSocketAuth,
+    GameModal.setGamesList,
+    LayoutModel.setSocketLogged,
+  ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
   const { pathname } = useRouter();
@@ -132,6 +140,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       socket.send(JSON.stringify(seed_data));
       setSocketAuth(true);
       setErrorSeed(false);
+      setSocketLogged(true);
     }
   }, [socket, access_token, socket?.readyState, seeds, errorSeed]);
 
