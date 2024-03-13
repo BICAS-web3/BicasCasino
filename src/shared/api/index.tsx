@@ -47,7 +47,6 @@ export type T_Rpcs = {
 
 export type T_NFTMarket = {
   prices: any;
-  prices: any;
   nfts: Array<T_NFT_MarketResponse>;
 };
 
