@@ -30,23 +30,23 @@ import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.setIsEmtyWager,
-    GameModel.setRefund,
-  ]);
+  // const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
+  //   ConnectModel.$startConnect,
+  //   ConnectModel.setConnect,
+  //   GameModel.setIsEmtyWager,
+  //   GameModel.setRefund,
+  // ]);
   // const { isConnected, isConnecting } = useAccount();
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  // const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const router = useRouter();
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  // const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  // const router = useRouter();
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
       <WagerInputsBlock />

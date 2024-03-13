@@ -73,10 +73,10 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
   // const { isConnecting } = useAccount();
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
   return (
     <div
       className={s.connect_wallet_button_wrap}
@@ -84,13 +84,13 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = () => {
     >
       <button
         className={s.connect_wallet_button}
-        onClick={() =>
-          router.push(
-            isPartner
-              ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-              : "/RegistrManual"
-          )
-        }
+        // onClick={() =>
+        //   router.push(
+        //     isPartner
+        //       ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+        //       : "/RegistrManual"
+        //   )
+        // }
       >
         {true && startConnect ? ( // isConnecting
           <LoadingDots className={s.join_dots} title="Joinning" />

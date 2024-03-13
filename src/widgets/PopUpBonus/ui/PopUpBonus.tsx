@@ -201,10 +201,10 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   };
 
   //? shorten call claim func
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
   const claimBonus = () => {
     // if (!isConnected) {
     //   router.push(

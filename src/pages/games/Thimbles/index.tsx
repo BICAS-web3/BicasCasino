@@ -26,23 +26,23 @@ import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 
 const WagerContent = () => {
-  const [gameResult, setGameResult, setReset] = useUnit([
-    RaceModel.$gameResult,
-    RaceModel.setGameResult,
-    RaceModel.setReset,
-  ]);
-  const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
+  // const [gameResult, setGameResult, setReset] = useUnit([
+  //   RaceModel.$gameResult,
+  //   RaceModel.setGameResult,
+  //   RaceModel.setReset,
+  // ]);
+  // const [setIsEmtyWager] = useUnit([GameModel.setIsEmtyWager]);
   // const { isConnected } = useAccount();
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  // const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const router = useRouter();
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  // const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  // const router = useRouter();
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
       <WagerInputsBlock />

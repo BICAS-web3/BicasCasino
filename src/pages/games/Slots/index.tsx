@@ -15,38 +15,38 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 // import { useAccount, useConnect } from "wagmi";
-import { useRouter } from "next/router";
-import * as ConnectModel from "@/widgets/Layout/model";
-import * as GameModel from "@/widgets/GamePage/model";
+// import { useRouter } from "next/router";
+// import * as ConnectModel from "@/widgets/Layout/model";
+// import * as GameModel from "@/widgets/GamePage/model";
 import { WagerModel } from "@/widgets/Wager";
-import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-import { LoadingDots } from "@/shared/ui/LoadingDots";
-import { Preload } from "@/shared/ui/Preload";
-import { RefundButton } from "@/shared/ui/Refund";
+// import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
+// import { LoadingDots } from "@/shared/ui/LoadingDots";
+// import { Preload } from "@/shared/ui/Preload";
+// import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 const WagerContent = () => {
   const [pressButton] = useUnit([WagerModel.pressButton]);
   // const { isConnected, isConnecting } = useAccount();
   // const { connectors, connect } = useConnect();
-  const { push, reload } = useRouter();
-  const router = useRouter();
+  // const { push, reload } = useRouter();
+  // const router = useRouter();
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
-    ConnectModel.$startConnect,
-    ConnectModel.setConnect,
-    GameModel.setIsEmtyWager,
-    GameModel.setRefund,
-  ]);
+  // const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  // const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  // const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
+  //   ConnectModel.$startConnect,
+  //   ConnectModel.setConnect,
+  //   GameModel.setIsEmtyWager,
+  //   GameModel.setRefund,
+  // ]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
 
   return (
     <>
