@@ -97,7 +97,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
     networkActive,
   ]);
 
-  const [priceList, setPriceList] = useState([]);
+  const [priceList, setPriceList] = useState<any>([]);
 
   useEffect(() => {
     if (access_token && priceList?.length === 0) {
@@ -178,7 +178,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
                 purchasePrice &&
                 purchasePrice /
                   priceList
-                    ?.find((item) => item?.monetary === activeCoin.title)
+                    ?.find((item: any) => item?.monetary === activeCoin.title)
                     ?.rates?.find((el: any) => el.fiatCurrency === "USD").rate
               }
               // onChange={(el) => setAmount(el.target.value)}

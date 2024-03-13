@@ -5,6 +5,7 @@ export const BaseStaticUrl = "https://game.greekkeeprs.io/static";
 
 export type T_ErrorText = {
   error: string;
+  prices: any;
 };
 
 export type T_InfoText = {
@@ -28,6 +29,7 @@ export type T_NetworkFullInfo = {
 
 export type T_Networks = {
   networks: Array<T_NetworkFullInfo>;
+  prices: any;
 };
 
 export type T_Localization = {};
@@ -40,9 +42,12 @@ export type T_RpcUrl = {
 
 export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>;
+  prices: any;
 };
 
 export type T_NFTMarket = {
+  prices: any;
+  prices: any;
   nfts: Array<T_NFT_MarketResponse>;
 };
 
@@ -58,10 +63,12 @@ export type T_BlockExplorerUrl = {
 
 export type T_BlockExplorers = {
   explorers: Array<T_BlockExplorerUrl>;
+  prices: any;
 };
 
 export type T_Token = {
   id: number;
+  prices: any;
   network_id: number;
   name: string;
   icon: string;
@@ -70,10 +77,12 @@ export type T_Token = {
 
 export type T_Tokens = {
   tokens: Array<T_Token>;
+  prices: any;
 };
 
 export type T_Game = {
   id: number;
+  prices: any;
   network_id: number;
   name: string;
   address: string;
@@ -82,6 +91,7 @@ export type T_Game = {
 
 export type T_Nickname = {
   id: number;
+  prices: any;
   address: string;
   nickname: string;
 };
@@ -94,6 +104,7 @@ export type T_LeaderBoardResponse = {
 
 export type T_Player = {
   id: number;
+  prices: any;
   address: string;
   wagered: number;
   bets: number;
@@ -155,17 +166,20 @@ export type T_BetInfo = {
 
 export type T_Bets = {
   bets: T_BetInfo[];
+  prices: any;
 };
 
 export type T_GameAbi = {
   signature: string;
   types: string;
+  prices: any;
   names: string;
 };
 
 export type T_Totals = {
   bets_amount: number;
   player_amount: number;
+  prices: any;
   sum: number;
 };
 
@@ -211,6 +225,7 @@ export type T_LoginReponse = {
   expires_in: number;
   refresh_token: string;
   token_type: string;
+  prices: any;
 };
 
 export type T_GetUsername = {
@@ -230,9 +245,11 @@ export type T_SetUsername = {
 
 export type T_LatestGames = {
   games: string[];
+  prices: any;
 };
 
 export type T_PlayerTotals = {
+  prices: any;
   bets_amount: number;
   total_wagered_sum: number | null;
   won_bets: number | null;
@@ -244,6 +261,7 @@ export type T_PlayerTotals = {
 
 export type T_TokenPrice = {
   token_price: number;
+  prices: any;
 };
 
 export type T_OpenseaData = {
