@@ -27,7 +27,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // Создаем новый сокет
-    const newSocket = new WebSocket("ws://127.0.0.1:8585/api/updates");
+    const newSocket = new WebSocket("wss://game.greekkeepers.io/api/updates");
 
     // Обработчик события открытия сокета
     newSocket.onopen = () => {
