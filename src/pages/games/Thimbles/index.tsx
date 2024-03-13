@@ -23,7 +23,7 @@ import { HorseSelecteor } from "@/shared/ui/HorseSelecteor";
 import * as RaceModel from "@/widgets/Race/model";
 import { ThimblesGame } from "@/widgets/Thimbles/ThimblesGame";
 import { useSocket } from "@/shared/context";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const WagerContent = () => {
   const [gameResult, setGameResult, setReset] = useUnit([
@@ -38,7 +38,12 @@ const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const router = useRouter();
-  const queryParams = new URLSearchParams(window.location.search);
+  const [queryParams, setQueryParams] = useState<any>();
+
+  useEffect(() => {
+    const params = new URLSearchParams((window as any)?.location?.search);
+    setQueryParams(params);
+  }, []);
   const partner_address = queryParams.get("partner_address");
   const site_id = queryParams.get("site_id");
   const sub_id = queryParams.get("sub_id");

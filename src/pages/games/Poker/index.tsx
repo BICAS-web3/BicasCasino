@@ -54,7 +54,12 @@ const WagerContent = () => {
 
   const router = useRouter();
 
-  const queryParams = new URLSearchParams(window.location.search);
+  const [queryParams, setQueryParams] = useState<any>();
+
+  useEffect(() => {
+    const params = new URLSearchParams((window as any)?.location?.search);
+    setQueryParams(params);
+  }, []);
   const partner_address = queryParams.get("partner_address");
   const site_id = queryParams.get("site_id");
   const sub_id = queryParams.get("sub_id");
