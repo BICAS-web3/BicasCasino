@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeeprs.io/";
-export const BaseStaticUrl = "https://game.greekkeeprs.io/static";
+export const BaseApiUrl = "/api";
+export const BaseStaticUrl = "/api/static";
 
 export type T_ErrorText = {
   error: string;
