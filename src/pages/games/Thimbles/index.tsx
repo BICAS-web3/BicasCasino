@@ -37,7 +37,7 @@ const WagerContent = () => {
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const router = useRouter();
+  // const router = useRouter();
   const [queryParams, setQueryParams] = useState<any>();
 
   useEffect(() => {
