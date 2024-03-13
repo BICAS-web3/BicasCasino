@@ -209,6 +209,13 @@ export const Race: FC<IRace> = ({ gameText }) => {
           });
           setIsPlaying(false);
           setInGame(false);
+          setCoefficientData((prev) => [
+            {
+              value: Number(result.profit) / Number(result.amount),
+              status: "win",
+            },
+            ...prev,
+          ]);
         }, 2000);
         // alert("win");
       } else if (Number(result.profit) < Number(result.amount)) {
@@ -218,6 +225,13 @@ export const Race: FC<IRace> = ({ gameText }) => {
           setIsPlaying(false);
           setInGame(false);
           setLostStatus(Number(result.profit) - Number(result.amount));
+          setCoefficientData((prev) => [
+            {
+              value: Number(result.profit) / Number(result.amount),
+              status: "lose",
+            },
+            ...prev,
+          ]);
         }, 2000);
         // alert("lost");
       } else {

@@ -228,6 +228,10 @@ export const RockPaperScissors: FC<RockPaperScissorsProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      setCoefficientData((prev) => [
+        Number(result.profit) / Number(result.amount),
+        ...prev,
+      ]);
       if (Number(result.profit) > Number(result.amount)) {
         setGameStatus(GameModel.GameStatus.Won);
 

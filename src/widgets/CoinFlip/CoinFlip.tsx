@@ -174,6 +174,10 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   ]);
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      setCoefficientData((prev) => [
+        Number(result.profit) / Number(result.amount),
+        ...prev,
+      ]);
       if (
         Number(result.profit) > Number(result.amount) ||
         Number(result.profit) === Number(result.amount)

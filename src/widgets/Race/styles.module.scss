@@ -834,10 +834,14 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(calc(var(--race-backstep) + var(--race-step)));
+      transform: translateX(
+        calc(var(--race-backstep) + (var(--race-step) / 2))
+      );
     }
     100% {
-      transform: translateX(var(--hourse-distnce));
+      transform: translateX(
+        calc(var(--hourse-distnce) + var(--hourse-distnce))
+      );
     }
   }
 }
@@ -858,10 +862,14 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(calc(var(--race-backstep) + var(--race-step)));
+      transform: translateX(
+        calc(var(--race-backstep) + (var(--race-step) / 2))
+      );
     }
     100% {
-      transform: translateX(var(--hourse-distnce));
+      transform: translateX(
+        calc(var(--hourse-distnce) + var(--hourse-distnce))
+      );
     }
   }
 }
@@ -882,10 +890,14 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(calc(var(--race-backstep) + var(--race-step)));
+      transform: translateX(
+        calc(var(--race-backstep) + (var(--race-step) / 2))
+      );
     }
     100% {
-      transform: translateX(var(--hourse-distnce));
+      transform: translateX(
+        calc(var(--hourse-distnce) + var(--hourse-distnce))
+      );
     }
   }
 }
@@ -906,10 +918,14 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(calc(var(--race-backstep) + var(--race-step)));
+      transform: translateX(
+        calc(var(--race-backstep) + (var(--race-step) / 2))
+      );
     }
     100% {
-      transform: translateX(var(--hourse-distnce));
+      transform: translateX(
+        calc(var(--hourse-distnce) + var(--hourse-distnce))
+      );
     }
   }
 }
@@ -930,10 +946,14 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(calc(var(--race-backstep) + var(--race-step)));
+      transform: translateX(
+        calc(var(--race-backstep) + (var(--race-step) / 2))
+      );
     }
     100% {
-      transform: translateX(var(--hourse-distnce));
+      transform: translateX(
+        calc(var(--hourse-distnce) + var(--hourse-distnce))
+      );
     }
   }
 }

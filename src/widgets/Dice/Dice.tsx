@@ -165,6 +165,10 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           });
           setIsPlaying(false);
           setInGame(false);
+          setCoefficientData((prev) => [
+            Number(result.profit) / Number(result.amount),
+            ...prev,
+          ]);
         }, 2000);
         // alert("win");
       } else if (Number(result.profit) < Number(result.amount)) {
@@ -174,12 +178,20 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           setIsPlaying(false);
           setInGame(false);
           setLostStatus(Number(result.profit) - Number(result.amount));
+          setCoefficientData((prev) => [
+            Number(result.profit) / Number(result.amount),
+            ...prev,
+          ]);
         }, 2000);
         // alert("lost");
       } else {
         setGameStatus(GameModel.GameStatus.Draw);
         setIsPlaying(false);
         setInGame(false);
+        setCoefficientData((prev) => [
+          Number(result.profit) / Number(result.amount),
+          ...prev,
+        ]);
         // alert("draw");
       }
       setResult(null);
@@ -439,7 +451,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
             </div>
           </div>
           <div className={clsx(s.balls_arr)}>
-            {/* {coefficientData.map((item, i) => (
+            {coefficientData.map((item, i) => (
               <div
                 className={clsx(
                   s.multiplier_value,
@@ -449,7 +461,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
               >
                 {item?.toFixed(2)}x
               </div>
-            ))} */}
+            ))}
           </div>
           <div className={s.range_wrapper}>
             <div className={s.range_container}>

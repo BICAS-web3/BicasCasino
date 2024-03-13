@@ -173,6 +173,28 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   //   }
   // }, [data]);
 
+  const [coeff, setCoeff] = useState<{
+    profit: string[];
+    amount: number;
+  } | null>(null);
+  useEffect(() => {
+    if (coeff !== null) {
+      const handlePayouts = (profits: any, amount: number) => {
+        const arr = JSON.parse(profits);
+
+        for (let i = 0; i < arr?.length; i++) {
+          setTimeout(() => {
+            const outCome = arr[i] / amount;
+            console.log("TTTTTTTT:", arr[i] / amount, arr[i], amount);
+
+            setCoefficientData((prev) => [outCome, ...prev]);
+          }, 2000 * (i + 1));
+        }
+      };
+      handlePayouts(coeff.profit, coeff.amount);
+      setCoeff(null);
+    }
+  }, [coeff]);
   useEffect(() => {
     if (
       (result !== null && result?.type === "Bet") ||
@@ -199,6 +221,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           });
           setIsPlaying(false);
           setInGame(false);
+          setCoeff({
+            profit: (result as any).profits,
+            amount: Number((result as any).amount),
+          });
+          // alert(1);
         }, 2000);
         // alert("win");
       } else if (Number(result.profit) < Number(result.amount)) {
@@ -208,6 +235,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           setIsPlaying(false);
           setInGame(false);
           setLostStatus(Number(result.profit) - Number(result.amount));
+          setCoeff({
+            profit: (result as any).profits,
+            amount: Number((result as any).amount),
+          });
+          // alert(1);
         }, 2000);
         // alert("lost");
       } else {
@@ -227,11 +259,11 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
   }, [isPlaying]);
 
   const win_chance = rollOver ? 100 - RollValue : RollValue;
-  const multiplier =
-    (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
-  useEffect(() => {
-    setCoefficient(Number(multiplier) / 10000);
-  }, [multiplier]);
+  // const multiplier =
+  //   (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100));
+  // useEffect(() => {
+  //   setCoefficient(Number(multiplier) / 10000);
+  // }, [multiplier]);
 
   // const { chain } = useNetwork();
 
