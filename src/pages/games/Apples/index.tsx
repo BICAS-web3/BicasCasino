@@ -26,9 +26,9 @@ const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
   // const { isConnected, isConnecting } = useAccount();
 
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  // const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const [

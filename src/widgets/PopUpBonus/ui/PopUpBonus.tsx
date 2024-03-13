@@ -57,17 +57,23 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   // const { chain } = useNetwork();
   // const { address, isConnected, isConnecting } = useAccount();
   // const { switchNetwork } = useSwitchNetwork();
-  const [showStateModal, setShowStateModal] = useState(false);
+  // const [showStateModal, setShowStateModal] = useState(false);
 
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
-  const router = useRouter();
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const router = useRouter();
 
   let bgImage;
-  const documentWidth = document.documentElement.clientWidth;
+  const [documentWidth, setDocumentWidth] = useState(0);
 
-  if (documentWidth > 1280) bgImage = banner_desktop;
-  if (documentWidth > 700 && documentWidth < 1280) bgImage = banner_medium;
-  if (documentWidth < 700) bgImage = banner_mobile;
+  useEffect(() => {
+    const documentWidth_2 = document.documentElement.clientWidth;
+
+    setDocumentWidth(documentWidth_2);
+
+    if (documentWidth > 1280) bgImage = banner_desktop;
+    if (documentWidth > 700 && documentWidth < 1280) bgImage = banner_medium;
+    if (documentWidth < 700) bgImage = banner_mobile;
+  }, []);
 
   //? Read func to check of claimed bonus
   // const {
@@ -156,12 +162,12 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
     }
   }, [walletVisibility, setBlur, setVisibility]);
 
-  const hideAvaibleWallet = () => {
-    setVisibility(false);
-    setWalletVisibility(false);
-    setBlur(false);
-    document.documentElement.style.overflow = "visible";
-  };
+  // const hideAvaibleWallet = () => {
+  //   setVisibility(false);
+  //   setWalletVisibility(false);
+  //   setBlur(false);
+  //   document.documentElement.style.overflow = "visible";
+  // };
 
   //? contract to add bonus
   // const { config: ClaimBonusConfig } = usePrepareContractWrite({
@@ -299,7 +305,7 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <img className={s.img} src={bgImage?.src} alt="100%" />
+          <img className={s.img} src={(bgImage as any)?.src} alt="100%" />
         </div>
         <Image src={logo} className={s.popup_logo} alt="logo" />
         <span className={s.title_default}>

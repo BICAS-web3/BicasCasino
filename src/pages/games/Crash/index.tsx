@@ -30,14 +30,14 @@ import { WagerGainLoss } from "@/widgets/WagerGainLoss";
 import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  // const [isPlaying] = useUnit([GameModel.$isPlaying]);
   // const { isConnected, isConnecting } = useAccount();
 
-  const [pressButton] = useUnit([WagerModel.pressButton]);
+  // const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  const router = useRouter();
+  // const router = useRouter();
 
-  const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  // const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const [
     setStartConnect,
     setIsEmtyWager,
@@ -60,11 +60,16 @@ const WagerContent = () => {
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const [queryParams, setQueryParams] = useState<any>();
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams((window as any)?.location?.search);
+  //   setQueryParams(params);
+  // }, []);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   const [title, setTitle] = useState(false);
 
   useEffect(() => {

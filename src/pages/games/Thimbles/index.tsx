@@ -23,7 +23,7 @@ import { HorseSelecteor } from "@/shared/ui/HorseSelecteor";
 import * as RaceModel from "@/widgets/Race/model";
 import { ThimblesGame } from "@/widgets/Thimbles/ThimblesGame";
 import { useSocket } from "@/shared/context";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const WagerContent = () => {
   // const [gameResult, setGameResult, setReset] = useUnit([

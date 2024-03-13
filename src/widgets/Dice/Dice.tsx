@@ -206,7 +206,15 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
     setRollValue(number_value);
   };
 
-  let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
+  // let bgImage = window.innerWidth > 650 ? dice_desktop : dice_medium;
+
+  const [bgImage, setBgImage] = useState<any>();
+
+  useEffect(() => {
+    window.innerWidth > 650
+      ? setBgImage(dice_desktop)
+      : setBgImage(dice_medium);
+  }, []);
 
   const win_chance = rollOver ? 100 - RollValue : RollValue;
   // const multiplier = 0.99 * (100 / win_chance);
