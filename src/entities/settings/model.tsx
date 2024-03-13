@@ -4,19 +4,31 @@ import { getLocalizationFx } from "@/shared/api";
 
 // variables
 export const $Localization = createStore<Api.T_Localization>({});
-export const $AvailableNetworks = createStore<Api.T_Networks>({ networks: [] });
-export const $AvailableRpcs = createStore<Api.T_Rpcs>({ rpcs: [] });
+export const $AvailableNetworks = createStore<Api.T_Networks>({
+  networks: [],
+  prices: undefined,
+});
+export const $AvailableRpcs = createStore<Api.T_Rpcs>({
+  rpcs: [],
+  prices: undefined,
+});
 
 export const $AvailableLeaderbord = createStore<Api.T_Lider>([]);
 
-export const $AvailableTokens = createStore<Api.T_Tokens>({ tokens: [] });
+export const $AvailableTokens = createStore<Api.T_Tokens>({
+  tokens: [],
+  prices: undefined,
+});
 
 export const $OpenseaData = createStore<Api.T_OpenseaData>({
   listings: [],
   next: "",
 });
 
-export const $AvilablesNftMarket = createStore<Api.T_NFTMarket>({ nfts: [] });
+export const $AvilablesNftMarket = createStore<Api.T_NFTMarket>({
+  nfts: [],
+  prices: undefined,
+});
 export const $AvailableBlocksExplorers = createStore<Map<
   number,
   string
