@@ -238,7 +238,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
 
   useEffect(() => {
     if (result) {
-      if (result.type === "State") {
+      if (result.type === "State" && result.state) {
         const dataState = JSON.parse(result.state);
         setKeep(true);
         if (Number(result.amount) > 0) {
@@ -258,7 +258,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           setTotalOpenedTiles(0);
           setPickedTiles([...initialPickedTiles]);
         }
-      } else if (result.type === "Bet") {
+      } else if (result.type === "Bet" && result.state) {
         setTimeout(() => {
           setInGame(false);
           triggerRedraw(true);

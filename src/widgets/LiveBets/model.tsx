@@ -16,7 +16,7 @@ interface IResult {
   serverseed_id: number;
   outcomes: number[];
   uuid: string;
-  state?: string;
+  state?: string | undefined;
 }
 
 // variables
