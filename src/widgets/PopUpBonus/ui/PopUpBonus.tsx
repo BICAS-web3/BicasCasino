@@ -62,7 +62,7 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   // const router = useRouter();
 
-  let bgImage;
+  const [bgImage, setImg] = useState(banner_desktop);
   const [documentWidth, setDocumentWidth] = useState(0);
 
   useEffect(() => {
@@ -70,9 +70,9 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
 
     setDocumentWidth(documentWidth_2);
 
-    if (documentWidth > 1280) bgImage = banner_desktop;
-    if (documentWidth > 700 && documentWidth < 1280) bgImage = banner_medium;
-    if (documentWidth < 700) bgImage = banner_mobile;
+    if (documentWidth_2 > 1280) setImg(banner_desktop);
+    if (documentWidth_2 > 700 && documentWidth_2 < 1280) setImg(banner_medium);
+    if (documentWidth_2 < 700) setImg(banner_mobile);
   }, []);
 
   //? Read func to check of claimed bonus

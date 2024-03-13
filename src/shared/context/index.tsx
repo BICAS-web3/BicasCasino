@@ -17,10 +17,11 @@ export const useSocket = () => useContext(SocketContext);
 
 // Компонент-провайдер для предоставления сокетов через контекст
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [newBet, setNewBet, setResult] = useUnit([
+  const [newBet, setNewBet, setResult, setTokenId] = useUnit([
     Model.newBet,
     sessionModel.setNewBet,
     Model.setResult,
+    Model.setTokenId,
   ]);
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -45,6 +46,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         data.type === "State"
       ) {
         setResult(data);
+        // if (data && (data?.coin_id || data?.coin_id === 0)) {
+        //   setTokenId(data.coin_id);
+        // }
       }
       if (data.type == "Ping") {
         return;
