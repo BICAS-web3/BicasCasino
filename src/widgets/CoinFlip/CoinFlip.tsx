@@ -363,6 +363,13 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
       socket.send(JSON.stringify(betData));
     }
   }, [socket, isPlaying, access_token]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(JSON.stringify({ type: "UnsubscribeBets", payload: [1] }));
+    };
+  }, []);
+
   return (
     <>
       <div className={s.coinflip_table_wrap}>

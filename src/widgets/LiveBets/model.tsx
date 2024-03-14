@@ -14,9 +14,11 @@ interface IResult {
   coin_id: number;
   userseed_id: number;
   serverseed_id: number;
-  outcomes: number[];
+  outcomes: string;
+  profits: string;
   uuid: string;
   state?: string | undefined;
+  payouts: string;
 }
 
 // variables

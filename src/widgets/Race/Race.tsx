@@ -655,6 +655,17 @@ export const Race: FC<IRace> = ({ gameText }) => {
     }
   }, [socket, isPlaying, access_token]);
 
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Race")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <>
       {/* {error && (
