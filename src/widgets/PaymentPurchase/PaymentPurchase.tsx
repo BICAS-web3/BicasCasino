@@ -82,6 +82,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
         });
         if (data.status === "OK") {
           setInvoiceCreate(data.body as any);
+          setSendAddress((data.body as any)?.pay_url);
         }
         console.log(data);
       })();
@@ -253,6 +254,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
               src={copyIco.src}
               onClick={addressToClipboard}
               alt="copy-ico"
+              style={{ cursor: "pointer" }}
             />
           </div>
         </div>
@@ -260,7 +262,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           <img
             width={200}
             height={200}
-            src={`http://127.0.0.1:8585/api/invoice/qr/${
+            src={`https://game.greekkeepers.io/api/invoice/qr/${
               invoiceCreate?.order_id || 1
             }`}
             alt="text"

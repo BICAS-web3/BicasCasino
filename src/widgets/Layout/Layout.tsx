@@ -95,17 +95,18 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       (async () => {
         const response = await api.getServerSeed({ bareer: access_token });
         console.log("server seed", response);
-        if (response.status === "OK") {
-          setSeed((prev) => [...prev, response]);
+        if (response.status === "OK" && (response.body as any)?.seed) {
+          setSeed(true);
         } else {
+          setSeed(false);
           setErrorSeed(true);
         }
       })();
       (async () => {
         const response = await api.getClientSeed({ bareer: access_token });
         console.log("client seed", response);
-        if (response.status === "OK") {
-          setSeed((prev) => [...prev, response]);
+        if (response.status === "OK" && (response.body as any)?.seed) {
+          // setSeed((prev) => [...prev, response]);
         } else {
           setErrorSeed(true);
         }
@@ -124,12 +125,13 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       "Insane 1wereesawesewrsjvhgvhhvvhewrreewrdefwrefdsewrwsswqerewreesdfedr0wereewrwr0%rawefewerretwrreewrewrtedsf ewedswin seed",
   };
 
-  const [seeds, setSeed] = useState<any[]>([]);
+  const [seeds, setSeed] = useState<boolean | null>(null);
   const socket = useSocket();
 
+  //?-----------------------------------------------------------------------------
   useEffect(() => {
     if (
-      (seeds.length > 1 || errorSeed) &&
+      // (!seeds || errorSeed) &&
       socket &&
       socket.readyState === WebSocket.OPEN &&
       !socketAuth
@@ -137,14 +139,38 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       socket.send(JSON.stringify({ type: "GetUuid" }));
       if (access_token) {
         socket.send(JSON.stringify(data));
-        socket.send(JSON.stringify(server_seed));
-        socket.send(JSON.stringify(seed_data));
         setSocketAuth(true);
         setErrorSeed(false);
         setSocketLogged(true);
+        socket.send(JSON.stringify(seed_data));
       }
+      // if (
+      //   seeds === false &&
+      //   seeds !== null &&
+      //   socket &&
+      //   socket.readyState === WebSocket.OPEN &&
+      //   !socketAuth
+      // ) {
+      //   alert(1);
+      //   socket.send(JSON.stringify(server_seed));
+      // }
     }
   }, [socket, access_token, socket?.readyState, seeds, errorSeed]);
+
+  //!-----------------------------------------------------------------------------
+
+  useEffect(() => {
+    if (
+      seeds === false &&
+      seeds !== null &&
+      socket &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify(server_seed));
+    }
+  }, [seeds, socket?.readyState]);
+
+  //?-----------------------------------------------------------------------------
 
   useEffect(() => {
     (async () => {
