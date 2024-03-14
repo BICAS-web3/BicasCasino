@@ -145,6 +145,7 @@ export const GamePage: FC<GamePageProps> = ({
     raceResult,
     setCarReset,
     result,
+    tokenId,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -163,6 +164,7 @@ export const GamePage: FC<GamePageProps> = ({
     RaceModel.$gameResult,
     CarModel.setReset,
     BetsModel.$result,
+    BetsModel.$tokenId,
   ]);
 
   //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
@@ -325,7 +327,12 @@ export const GamePage: FC<GamePageProps> = ({
                     <WinMessage
                       tokenImage={
                         <Image
-                          src={`static/media/tokens/${token}.svg`}
+                          src={
+                            tokenId !== null &&
+                            (tokenId === 1
+                              ? bonusTokenIco.src
+                              : draxTokenIco.src)
+                          }
                           alt={""}
                           width={30}
                           height={30}

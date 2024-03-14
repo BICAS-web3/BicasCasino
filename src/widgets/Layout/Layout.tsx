@@ -131,16 +131,18 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     if (
       (seeds.length > 1 || errorSeed) &&
       socket &&
-      access_token &&
       socket.readyState === WebSocket.OPEN &&
       !socketAuth
     ) {
-      socket.send(JSON.stringify(data));
-      socket.send(JSON.stringify(server_seed));
-      socket.send(JSON.stringify(seed_data));
-      setSocketAuth(true);
-      setErrorSeed(false);
-      setSocketLogged(true);
+      socket.send(JSON.stringify({ type: "GetUuid" }));
+      if (access_token) {
+        socket.send(JSON.stringify(data));
+        socket.send(JSON.stringify(server_seed));
+        socket.send(JSON.stringify(seed_data));
+        setSocketAuth(true);
+        setErrorSeed(false);
+        setSocketLogged(true);
+      }
     }
   }, [socket, access_token, socket?.readyState, seeds, errorSeed]);
 
