@@ -542,13 +542,13 @@ export const getGamesAllLastBets = createEffect<string, T_ApiResponse, string>(
 
 export type T_GetUserBets = {
   address: string;
-  starting_id: number | null;
+  starting_id?: number | null;
 };
 
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async (form) => {
     return fetch(
-      `${BaseApiUrl}/bets/player/${form.address}/${
+      `${BaseApiUrl}/bets/user/${form.address}/${
         form.starting_id != null ? form.starting_id : ""
       }`,
       {
@@ -566,7 +566,7 @@ export const getUserBetsInc = createEffect<
   string
 >(async (form) => {
   return fetch(
-    `${BaseApiUrl}/bets/player/inc/${form.address}/${
+    `${BaseApiUrl}/bets/user/inc/${form.address}/${
       form.starting_id != null ? form.starting_id : ""
     }`,
     {

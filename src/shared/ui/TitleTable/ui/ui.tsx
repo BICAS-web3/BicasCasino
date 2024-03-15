@@ -15,9 +15,9 @@ export const TitleTable: FC<{}> = () => {
         <th className={styles.th}>
           <span className={styles.titles_item}>Player</span>
         </th>
-        <th className={styles.th}>
+        {/* <th className={styles.th}>
           <span className={styles.titles_item}>Address</span>
-        </th>
+        </th> */}
         <th className={styles.th}>
           <span className={styles.titles_item}>Wager</span>
         </th>

@@ -13,41 +13,78 @@ import { BetsHistoryReDesign } from "@/widgets/BetsHistoryReDesign";
 import { useRouter } from "next/router";
 import * as api from "@/shared/api";
 import { Games } from "@/shared/Games";
+import * as GameModel from "@/widgets/GamePage/model";
+
+import * as BetModel from "@/widgets/LiveBets/model";
+import { useUnit } from "effector-react";
+import * as RegistrModel from "@/widgets/Registration/model";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+interface IUserData {
+  type: string;
+  id: number;
+  registration_time: 1709465625;
+  username: string;
+}
 
 export default function Profile() {
   const router = useRouter();
-
+  const [result, access_token, isDrax] = useUnit([
+    BetModel.$result,
+    RegistrModel.$access_token,
+    BalanceModel.$isDrax,
+  ]);
+  // const [gameImg, setGameImg] = useState(pokerIcon);
+  // const [avaSize, setAvaSize] = useState("30");
+  // const [screenWidth, setScreenWidth] = useState(0);
   const [latestGames, setLatestGames] = useState<IRecentlyGames[]>([]);
-
+  const [userData, setUserData] = useState<IUserData | null>(null);
   useEffect(() => {
-    if (router.query.address == undefined) {
-      return;
-    }
+    (async () => {
+      if (access_token) {
+        const data = await api.getUserInfo({
+          bareer: access_token,
+          id: Number(router.query.address),
+        });
 
-    const run = async () => {
-      const r = (
-        await api.GetLatestGamesFx(
-          (router.query.address as string).toLowerCase()
-        )
-      ).body as api.T_LatestGames;
-      const games = r.games;
-      if (games != undefined) {
-        setLatestGames(
-          games.map((game: string, ind) => {
-            const game_data = Games[game.toLowerCase() as any];
-            return {
-              id: ind,
-              title: game_data?.title || "",
-              text: game_data?.text || "",
-              imgBackground: game_data?.imgBackground || "",
-            };
-          })
-        );
+        if (data.status === "OK") {
+          setUserData((data as any).body);
+        } else {
+        }
       }
-    };
+    })();
+  }, [router.query.address, access_token]);
+  // useEffect(() => {
+  //   if (router.query.address == undefined) {
+  //     return;
+  //   }
 
-    run();
-  }, [router.query.address]);
+  //   const run = async () => {
+  //     const r = (
+  //       await api.GetLatestGamesFx(
+  //         (router.query.address as string).toLowerCase()
+  //       )
+  //     ).body as api.T_LatestGames;
+  //     const games = r.games;
+  //     if (games != undefined) {
+  //       setLatestGames(
+  //         games.map((game: string, ind) => {
+  //           const game_data = Games[game.toLowerCase() as any];
+  //           return {
+  //             id: ind,
+  //             title: game_data?.title || "",
+  //             text: game_data?.text || "",
+  //             imgBackground: game_data?.imgBackground || "",
+  //           };
+  //         })
+  //       );
+  //     }
+  //   };
+
+  //   run();
+  // }, [router.query.address]);
+  const [gamesList] = useUnit([GameModel.$gamesList]);
+
+  // useEffect(() => alert(userData?.username), [userData?.username]);
 
   return (
     <>
@@ -56,13 +93,12 @@ export default function Profile() {
       </Head>
       {router.query.address ? (
         <Layout gameName={undefined}>
-          <></>
           <section className={styles.container}>
             <div className={styles.grid_container}>
-              {/* <div className={styles.card_container}></div>{" "} */}
               <div className={styles.card_container_wrap}>
                 <ProfileCard
-                  address={(router.query.address as string).toLowerCase()}
+                  nickName={userData?.username}
+                  id={(router.query.address as string) || ""}
                 />
                 <div className={styles.profile_container}>
                   <ProfileBettingStatistics
@@ -71,15 +107,15 @@ export default function Profile() {
                 </div>
               </div>
               <div className={styles.recently_container}>
-                <RecentlyPlayedGames RecentlyGames={latestGames} />
+                {/* <RecentlyPlayedGames RecentlyGames={latestGames} /> */}
               </div>
             </div>
-            {/* <SwapTradeTokens /> */}
             <BetsHistoryReDesign
+              userId={userData?.id}
+              nickName={userData?.username}
               title={"Bet History"}
               address={(router.query.address as string).toLowerCase()}
             />
-            {/* <BetsHistoryReDesign title={"Pending Bets"} /> */}
           </section>
         </Layout>
       ) : (

@@ -63,7 +63,7 @@ export const UserName: FC<IUserName> = (props) => {
         <input
           type="text"
           placeholder="Enter your name"
-          value={newName?.length > 14 ? shortenAddress(newName) : newName}
+          value={newName?.length > 25 ? shortenAddress(newName) : newName}
           ref={inputRef}
           autoFocus
           onChange={handleInputChange}

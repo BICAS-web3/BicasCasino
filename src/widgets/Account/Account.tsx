@@ -145,7 +145,7 @@ export const Account: FC<AccountProps> = (props) => {
           name="Profile"
           icon={ProfileIcon}
           onClick={() => {
-            window.location.assign(`/account/${props.address.toLowerCase()}`);
+            window.location.assign(`/account/${userInfo?.username}`);
           }}
         />
         <div className={`${s.accountElement} ${s.network_elem}`}>

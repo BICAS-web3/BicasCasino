@@ -33,7 +33,7 @@ import * as RegistrModel from "@/widgets/Registration/model";
 import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
 
 import raceIson from "@/public/media/race_icons/bets_icon.jpg";
-
+import { sessionModel } from "@/entities/session";
 import * as GameModel from "@/widgets/GamePage/model";
 export interface CustomBetsItemProps {
   trx_url: string;
@@ -226,7 +226,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = (props) => {
       </div>
       <div className={s.customBets_list_item_player_block}>
         <Link
-          href={`/account/${props?.player_address}`}
+          href={`/account/${userData?.id}`}
           target="_blank"
           className={s.customBets_list_item_player_link_block}
         >
