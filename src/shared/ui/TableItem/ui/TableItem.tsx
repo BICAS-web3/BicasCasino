@@ -19,7 +19,9 @@ import carIcon from "@/public/media/cars/icon.jpg";
 import thimbleIcon from "@/public/media/thimbles/icon.jpg";
 import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
 import { CustomBetsItemProps } from "./ui";
+import raceIson from "@/public/media/race_icons/bets_icon.jpg";
 
+import * as GameModel from "@/widgets/GamePage/model";
 export const TableItem: FC<CustomBetsItemProps> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
   const [gameImg, setGameImg] = useState(pokerIcon);
@@ -38,62 +40,69 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
     }
   }, [screenWidth]);
 
-  const [gamesList] = useU.it([GameModel.$gamesList]);
+  const [gamesList] = useUint([GameModel.$gamesList]);
+
   useEffect(() => {
     if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "CoinFlip"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "CoinFlip"
     ) {
       setGameImg(coinFlipIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Dice"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Dice"
     ) {
       setGameImg(diceIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Mines"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Mines"
     ) {
       setGameImg(bombIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "RPS"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "RPS"
     ) {
       setGameImg(rpsIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Poker"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Poker"
     ) {
       setGameImg(pokerIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Plinko"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Plinko"
     ) {
       setGameImg(plincoIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Slots"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Slots"
     ) {
       setGameImg(slotsIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Rocket"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Rocket"
     ) {
       setGameImg(rocketIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Wheel"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Wheel"
     ) {
       setGameImg(wheelIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Apples"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Apples"
     ) {
       setGameImg(appleIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Cars"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Cars"
     ) {
       setGameImg(carIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Thimbles"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Thimbles"
     ) {
       setGameImg(thimbleIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Race"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Race"
     ) {
       setGameImg(raceIson);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Roulette"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Roulette"
     ) {
       setGameImg(rouletteIcon);
     }
@@ -201,3 +210,6 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
     </>
   );
 };
+function useUint(arg0: any[]): [any] {
+  throw new Error("Function not implemented.");
+}
