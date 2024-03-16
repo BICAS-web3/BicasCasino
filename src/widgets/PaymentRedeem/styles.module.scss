@@ -44,7 +44,7 @@
 }
 
 .payment_redeem_coins_list_block {
-  width: 155px;
+  width: 200px;
   height: 50px;
   border-radius: 8px;
   position: relative;
@@ -134,13 +134,11 @@
   text-align: left;
 }
 
-// .coins_list_coin_ico {
-//   width: 20px;
-//   height: 20px;
-//   max-width: 20px;
-//   max-height: 20px;
-//   border-radius: 100%;
-// }
+.coins_list_coin_ico {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
 
 .arr_ico {
   transition: all 0.4s;

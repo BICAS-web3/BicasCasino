@@ -114,7 +114,7 @@ export const Signup: FC<SignupProps> = () => {
               setUserExist(false);
             }}
             type="text"
-            className={s.input}
+            className={clsx(s.input, error && !name && s.input_err)}
           />
         </div>
         <div className={s.input_item} style={{ position: "relative" }}>
@@ -130,7 +130,7 @@ export const Signup: FC<SignupProps> = () => {
             value={password}
             onChange={(el) => setPassword(el.target.value)}
             type={showPassword ? "text" : "password"}
-            className={clsx(s.input)}
+            className={clsx(s.input, error && !password && s.input_err)}
             placeholder={userExist ? "User exist" : ""}
           />
           {showPassword ? (

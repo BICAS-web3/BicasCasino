@@ -12,7 +12,6 @@ import { WagmiConfig } from "wagmi";
 import { web3 } from "@/entities/web3";
 import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
-import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
 import * as BonusPopupM from "@/widgets/PopUpBonus/model";
 import * as RegistrM from "@/widgets/Registration/model";
@@ -22,9 +21,9 @@ import { useRouter } from "next/router";
 import { Registration } from "../Registration/Registration";
 import { Payment } from "../Payment/Payment";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-
+import * as BetsModel from "@/widgets/LiveBets/model";
 import * as GameModal from "@/widgets/GamePage/model";
-
+import * as BalanceSwitcherM from "@/widgets/BalanceSwitcher/model";
 import * as LayoutModel from "./model";
 
 import * as api from "@/shared/api";
@@ -43,18 +42,26 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     isOpen,
     close,
     setUserInfo,
+    userInfo,
+    result,
     socketAuth,
     setSocketAuth,
     setGamesList,
     setSocketLogged,
+    setBalanceTotal,
+    balanceTotal,
   ] = useUnit([
     SidebarM.$isOpen,
     SidebarM.Close,
     LayoutModel.setUserInfo,
+    LayoutModel.$userInfo,
+    BetsModel.$result,
     LayoutModel.$socketAuth,
     LayoutModel.setSocketAuth,
     GameModal.setGamesList,
     LayoutModel.setSocketLogged,
+    BalanceSwitcherM.setBalance,
+    BalanceSwitcherM.$balanceTotal,
   ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
@@ -158,6 +165,25 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     })();
   }, [access_token]);
 
+  // useEffect(() => {
+  //   if (access_token && userInfo) {
+  //     (async () => {
+  //       const data = await api.getUserAmounts({
+  //         bareer: access_token,
+  //         userId: userInfo?.id,
+  //       });
+  //       if (data.status === "OK") {
+  //         setBalanceTotal((data as any).body);
+  //       }
+  //     })();
+  //     console.log("STARTED");
+  //   }
+  // }, [access_token, userInfo?.id, result]);
+
+  // useEffect(() => {
+  //   console.log("BALANCE TOTAL", balanceTotal);
+  // }, [balanceTotal]);
+
   return (
     <>
       <SettingsInit />
@@ -165,11 +191,6 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         // <WagmiConfig config={wagmiConfig}>
         <>
           <SessionInit game={props.gameName} />
-          {popupBonusState === `"true"` ||
-          pathname === "/RegistrManual" ||
-          pathname === "/ExchangeManual" ? null : (
-            <PopUpBonus />
-          )}
           <div
             className={clsx(
               s.page_container,

@@ -22,15 +22,23 @@ interface IAmount {
 }
 
 export const BalanceSwitcher: FC<BalanceSwitcherProps> = () => {
-  const [isDrax, setDrax, access_token, userInfo, result, setBalanceValue] =
-    useUnit([
-      BalanceSwitcherM.$isDrax,
-      BalanceSwitcherM.setIsDrax,
-      RegistrModel.$access_token,
-      LayoutModel.$userInfo,
-      BetsModel.$result,
-      BalanceSwitcherM.setBalance,
-    ]);
+  const [
+    isDrax,
+    setDrax,
+    access_token,
+    userInfo,
+    result,
+    setBalanceValue,
+    setBalanceTotal,
+  ] = useUnit([
+    BalanceSwitcherM.$isDrax,
+    BalanceSwitcherM.setIsDrax,
+    RegistrModel.$access_token,
+    LayoutModel.$userInfo,
+    BetsModel.$result,
+    BalanceSwitcherM.setBalance,
+    BalanceSwitcherM.setBalanceTotal,
+  ]);
 
   const [balance, setBalance] = useState<null | IAmount>(null);
 
@@ -58,6 +66,8 @@ export const BalanceSwitcher: FC<BalanceSwitcherProps> = () => {
     }
   }, [access_token, userInfo?.id, result]);
 
+  const zero = 0;
+
   return (
     <div className={s.balance_switcher_wrap}>
       <div className={s.balance_switcher_block}>
@@ -81,7 +91,7 @@ export const BalanceSwitcher: FC<BalanceSwitcherProps> = () => {
                 balance.amounts.find((item) => item.name === "DraxBonus")
                   ?.amount
               )
-            : 0.0}
+            : zero.toFixed(3)}
           <span>&nbsp;bc</span>
         </div>
         <div
@@ -103,7 +113,7 @@ export const BalanceSwitcher: FC<BalanceSwitcherProps> = () => {
             ? Number(
                 balance.amounts.find((item) => item.name === "Drax")?.amount
               )
-            : 0.0}{" "}
+            : zero.toFixed(3)}{" "}
           <span>&nbsp;dc</span>
         </div>
       </div>

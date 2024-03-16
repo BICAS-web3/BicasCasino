@@ -181,6 +181,7 @@
 }
 
 .simulated_cards_item {
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
   position: absolute;
   width: 114px;
   height: 160px;
@@ -291,6 +292,7 @@
 // }
 
 .card_value {
+  background: #063739;
   transition: all 0.5s;
   position: absolute;
   border: 1px solid rgba(130, 130, 130, 1);

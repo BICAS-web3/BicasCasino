@@ -126,7 +126,10 @@ export const Payment: FC<PaymentProps> = () => {
               <div className={s.payment_leftSide_header}>
                 {/* <span className={s.payment_transactions_btn}>Transactions</span> */}
                 <img
-                  onClick={close}
+                  onClick={() => {
+                    close();
+                    setPurchaseVisibility(false);
+                  }}
                   src={closeIco.src}
                   className={s.close_btn}
                   alt="close-ico"

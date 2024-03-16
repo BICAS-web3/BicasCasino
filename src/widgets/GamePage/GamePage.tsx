@@ -268,7 +268,8 @@ export const GamePage: FC<GamePageProps> = ({
                 custom_height,
                 customHeight && s.minHeight,
                 customCname && customCname,
-                gameTitle === "carRace" && s.carRace_height
+                gameTitle === "carRace" && s.carRace_height,
+                roulette && s.roulette_styles
               )}
             >
               <button
