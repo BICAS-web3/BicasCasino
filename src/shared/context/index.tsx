@@ -4,47 +4,54 @@ import React, {
   useState,
   useEffect,
   ReactNode,
+  useRef,
 } from "react";
 import { useUnit } from "effector-react";
 import * as Model from "@/widgets/LiveBets/model";
 import { sessionModel } from "@/entities/session";
 
-// Создаем контекст для сокетов
 const SocketContext = createContext<WebSocket | null>(null);
 
-// Функция-обертка, чтобы предоставить удобный доступ к сокетам через useContext
 export const useSocket = () => useContext(SocketContext);
 
-// Компонент-провайдер для предоставления сокетов через контекст
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [newBet, setNewBet, setResult] = useUnit([
+  const [newBet, setNewBet, setResult, setTokenId, setUuid, uuid] = useUnit([
     Model.newBet,
     sessionModel.setNewBet,
     Model.setResult,
+    Model.setTokenId,
+    Model.setUuid,
+    Model.$uuid,
   ]);
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const uuidRef = useRef<string | null>(null);
 
   useEffect(() => {
-    // Создаем новый сокет
-    const newSocket = new WebSocket("ws://127.0.0.1:8585/api/updates");
+    const newSocket = new WebSocket("wss://game.greekkeepers.io/api/updates");
 
-    // Обработчик события открытия сокета
     newSocket.onopen = () => {
       console.log("WebSocket connected");
     };
 
-    // Обработчик события приема сообщения
     newSocket.onmessage = (ev: MessageEvent<any>) => {
-      console.log("Received message from server:", ev.data);
       const data = JSON.parse(ev.data);
+      console.log("Received message from server:", data.uuid, uuidRef.current);
+      if (data.type === "Uuid") {
+        setUuid(data.uuid);
+        uuidRef.current = data.uuid;
+      }
       if (
-        data.type === "Bet" ||
-        data.type === "MakeBet" ||
-        data.type === "ContinueGame" ||
-        data.type === "State"
+        (data.type === "Bet" ||
+          data.type === "MakeBet" ||
+          data.type === "ContinueGame" ||
+          data.type === "State") &&
+        data.uuid === uuidRef.current
       ) {
         setResult(data);
+        if (data && (data?.coin_id || data?.coin_id === 0)) {
+          setTokenId(data.coin_id);
+        }
       }
       if (data.type == "Ping") {
         return;
@@ -53,14 +60,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       if (data.game_name != "PokerStart") {
         newBet(data);
       }
-      // Ваша логика обработки приема сообщений здесь
-      // Например, установка результатов, новых ставок и т. д.
     };
-
-    // Устанавливаем сокет в состояние
     setSocket(newSocket);
 
-    // Возвращаем функцию для очистки, которая закрывает сокет при размонтировании компонента
     // return () => {
     //   newSocket.close();
     // };

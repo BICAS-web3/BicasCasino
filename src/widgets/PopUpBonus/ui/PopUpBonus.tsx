@@ -57,17 +57,23 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   // const { chain } = useNetwork();
   // const { address, isConnected, isConnecting } = useAccount();
   // const { switchNetwork } = useSwitchNetwork();
-  const [showStateModal, setShowStateModal] = useState(false);
+  // const [showStateModal, setShowStateModal] = useState(false);
 
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
-  const router = useRouter();
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const router = useRouter();
 
-  let bgImage;
-  const documentWidth = document.documentElement.clientWidth;
+  const [bgImage, setImg] = useState(banner_desktop);
+  const [documentWidth, setDocumentWidth] = useState(0);
 
-  if (documentWidth > 1280) bgImage = banner_desktop;
-  if (documentWidth > 700 && documentWidth < 1280) bgImage = banner_medium;
-  if (documentWidth < 700) bgImage = banner_mobile;
+  useEffect(() => {
+    const documentWidth_2 = document.documentElement.clientWidth;
+
+    setDocumentWidth(documentWidth_2);
+
+    if (documentWidth_2 > 1280) setImg(banner_desktop);
+    if (documentWidth_2 > 700 && documentWidth_2 < 1280) setImg(banner_medium);
+    if (documentWidth_2 < 700) setImg(banner_mobile);
+  }, []);
 
   //? Read func to check of claimed bonus
   // const {
@@ -156,12 +162,12 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
     }
   }, [walletVisibility, setBlur, setVisibility]);
 
-  const hideAvaibleWallet = () => {
-    setVisibility(false);
-    setWalletVisibility(false);
-    setBlur(false);
-    document.documentElement.style.overflow = "visible";
-  };
+  // const hideAvaibleWallet = () => {
+  //   setVisibility(false);
+  //   setWalletVisibility(false);
+  //   setBlur(false);
+  //   document.documentElement.style.overflow = "visible";
+  // };
 
   //? contract to add bonus
   // const { config: ClaimBonusConfig } = usePrepareContractWrite({
@@ -201,10 +207,10 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
   };
 
   //? shorten call claim func
-  const queryParams = new URLSearchParams(window.location.search);
-  const partner_address = queryParams.get("partner_address");
-  const site_id = queryParams.get("site_id");
-  const sub_id = queryParams.get("sub_id");
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const partner_address = queryParams.get("partner_address");
+  // const site_id = queryParams.get("site_id");
+  // const sub_id = queryParams.get("sub_id");
   const claimBonus = () => {
     // if (!isConnected) {
     //   router.push(
@@ -299,7 +305,7 @@ export const PopUpBonus: FC<IPopUpBonus> = ({
       >
         <CloseIcon onClick={closeModal} className={s.closeIcon} />
         <div className={s.img_wrapper}>
-          <img className={s.img} src={bgImage?.src} alt="100%" />
+          <img className={s.img} src={(bgImage as any)?.src} alt="100%" />
         </div>
         <Image src={logo} className={s.popup_logo} alt="logo" />
         <span className={s.title_default}>

@@ -42,6 +42,7 @@ import useSound from "use-sound";
 import ReactHowler from "react-howler";
 import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
+import * as BetsModel from "@/widgets/LiveBets/model";
 import { useRouter } from "next/router";
 import soundEffectsIco from "@/public/media/Wager_icons/effects2.svg";
 const musicsList = [
@@ -63,6 +64,8 @@ import disabledGroup from "@/public/media/Wager_icons/disabledGroup.svg";
 import { RefundButton } from "@/shared/ui/Refund";
 import * as RaceModel from "@/widgets/Race/model";
 import * as CarModel from "@/widgets/CarsRace/model";
+import draxTokenIco from "@/public/media/payment/draxMiniIco.svg";
+import bonusTokenIco from "@/public/media/payment/bonusCoin.svg";
 
 import { CarSelector } from "@/shared/ui/CarSelector";
 interface GamePageProps {
@@ -141,6 +144,8 @@ export const GamePage: FC<GamePageProps> = ({
     carResult,
     raceResult,
     setCarReset,
+    result,
+    tokenId,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -158,6 +163,8 @@ export const GamePage: FC<GamePageProps> = ({
     CarModel.$gameResult,
     RaceModel.$gameResult,
     CarModel.setReset,
+    BetsModel.$result,
+    BetsModel.$tokenId,
   ]);
 
   //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
@@ -320,7 +327,12 @@ export const GamePage: FC<GamePageProps> = ({
                     <WinMessage
                       tokenImage={
                         <Image
-                          src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
+                          src={
+                            tokenId !== null &&
+                            (tokenId === 1
+                              ? bonusTokenIco.src
+                              : draxTokenIco.src)
+                          }
                           alt={""}
                           width={30}
                           height={30}

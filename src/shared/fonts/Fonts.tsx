@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import { FC } from "react";
-import { Source_Sans_3, Nunito_Sans } from "next/font/google";
+import { Nunito_Sans, Source_Sans_3 } from "next/font/google";
 
 const source_sans_3 = Source_Sans_3({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
