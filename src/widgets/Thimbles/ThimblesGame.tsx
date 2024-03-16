@@ -75,12 +75,6 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     refund,
     setRefund,
     isPlaying,
-    // raceNumber,
-    // gameResult,
-    // setGameResult,
-    // setReset,
-    // reset,
-    // setRaceNumber,
     result,
     setResult,
     isDrax,
@@ -120,19 +114,15 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     GameModel.$refund,
     GameModel.setRefund,
     GameModel.$isPlaying,
-    // RaceModel.$raceNumber,
-    // RaceModel.$gameResult,
-    // RaceModel.setGameResult,
-    // RaceModel.setReset,
-    // RaceModel.$reset,
-    // RaceModel.setRaceNumber,
     BetsModel.$result,
     BetsModel.setResult,
     BalanceModel.$isDrax,
     LayoutModel.$userInfo,
   ]);
-  const [activeThimble, setActiveThimble] = useState(1); //0,1,2
+
+  const [activeThimble, setActiveThimble] = useState<number | null>(null); //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0]);
+  const [openGame, setOpenGame] = useState<number | null>(1);
   const [showBall, setShowBall] = useState(true);
 
   const [startGame, setStartGame] = useState(false);
@@ -140,96 +130,92 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const [selected, setSelected] = useState<null | number>(null);
 
   useEffect(() => {
+    if (isPlaying) {
+      setSelected(null);
+      setOpenGame(null);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
     if (startGame) {
+      setActiveThimble(null);
       setTimeout(() => setShowAnimation(true), 500);
       setShowBall(false);
     } else {
-      // setShowAnimation(false);
     }
   }, [startGame]);
-  const handleSectionClick = (e: any) => {
-    setTimeout(() => setActiveThimble(0), 1000);
-    const target = e.target as HTMLElement;
+  // const handleSectionClick = (e: any) => {
+  //   const target = e.target as HTMLElement;
 
-    if (target.tagName.toLowerCase() === "section") {
-      e.stopPropagation();
-      setSelected(null);
-      alert(1);
-    }
-  };
+  //   if (target.tagName.toLowerCase() === "section") {
+  //     e.stopPropagation();
+  //     setSelected(null);
+  //     // alert(1);
+  //   }
+  // };
 
-  useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      const thimbleBlock = document.querySelector(`.${s.thimbles_block}`);
-      if (thimbleBlock && !thimbleBlock.contains(event.target)) {
-        setSelected(null);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  // useEffect(() => alert(`selected: ${selected}`), [selected]);
+
+  // useEffect(() => alert(`openGame: ${openGame}`), [openGame]);
+
+  // useEffect(() => {
+  //   const handleClickOutside = (event: any) => {
+  //     const thimbleBlock = document.querySelector(`.${s.thimbles_block}`);
+  //     if (thimbleBlock && !thimbleBlock.contains(event.target)) {
+  //       setSelected(null);
+  //     }
+  //   };
+  //   document.addEventListener("click", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //   };
+  // }, []);
 
   const animatedRefs = useRef([
     createRef<HTMLDivElement>(),
     createRef<HTMLDivElement>(),
     createRef<HTMLDivElement>(),
   ]);
-  const handleThimbleClick = (ind: number) => {
-    console.log("fuck", animatedRefs);
-    animatedRefs.current.forEach((ref, index) => {
-      const element = ref.current;
-
-      if (element) {
-        const animationEndHandler = () => {
-          // alert(1);
-          element.style.animationPlayState = "paused";
-        };
-
-        element.addEventListener("animationiteration", animationEndHandler);
-      }
-    });
-  };
 
   useEffect(() => {
     setStartGame(isPlaying);
   }, [isPlaying]);
 
   const [gamesList] = useUnit([GameModel.$gamesList]);
-  const [betData, setBetData] = useState({});
+  const [ball, setBall] = useState(true);
 
   const [access_token] = useUnit([RegistrM.$access_token]);
   const subscribe = {
     type: "SubscribeBets",
     payload: [gamesList.find((item) => item.name === "Race")?.id],
   };
-  useEffect(() => {
-    setBetData({
-      type: "MakeBet",
-      game_id: gamesList.find((item) => item.name === "Race")?.id,
-      coin_id: isDrax ? 2 : 1,
-      user_id: userInfo?.id || 0,
-      data: `{"car":${selected}}`,
-      amount: `${cryptoValue || 0}`,
-      stop_loss: Number(stopLoss) || 0,
-      stop_win: Number(stopGain) || 0,
-      num_games: betsAmount,
-    });
-  }, [
-    stopGain,
-    stopLoss,
-    pickedSide,
-    cryptoValue,
-    betsAmount,
-    isDrax,
-    selected,
-  ]);
+  // useEffect(() => {
+  //   setBetData({
+  //     type: "MakeBet",
+  //     game_id: gamesList.find((item) => item.name === "Race")?.id,
+  //     coin_id: isDrax ? 2 : 1,
+  //     user_id: userInfo?.id || 0,
+  //     data: `{"car":${selected}}`,
+  //     amount: `${cryptoValue || 0}`,
+  //     stop_loss: Number(stopLoss) || 0,
+  //     stop_win: Number(stopGain) || 0,
+  //     num_games: betsAmount,
+  //   });
+  // }, [
+  //   stopGain,
+  //   stopLoss,
+  //   pickedSide,
+  //   cryptoValue,
+  //   betsAmount,
+  //   isDrax,
+  //   selected,
+  //   activeThimble,
+  // ]);
 
   const socket = useSocket();
 
   const [subscribed, setCubscribed] = useState(false);
-
+  // useEffect(() => alert(selected), [selected]);
   useEffect(() => {
     if (
       socket &&
@@ -242,9 +228,33 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         socket.send(JSON.stringify(subscribe));
         setCubscribed(true);
       }
-      socket.send(JSON.stringify(betData));
+      socket.send(
+        JSON.stringify({
+          type: "MakeBet",
+          game_id: gamesList.find((item) => item.name === "Race")?.id,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: `{"car":${selected}}`,
+          amount: `${cryptoValue || 0}`,
+          stop_loss: Number(stopLoss) || 0,
+          stop_win: Number(stopGain) || 0,
+          num_games: betsAmount,
+        })
+      );
+      setTimeout(() => setShowBall(false), 500);
     }
-  }, [socket, isPlaying, access_token, selected]);
+  }, [
+    socket,
+    isPlaying,
+    access_token,
+    selected,
+    stopGain,
+    stopLoss,
+    pickedSide,
+    cryptoValue,
+    betsAmount,
+    isDrax,
+  ]);
 
   useEffect(() => {
     return () => {
@@ -257,23 +267,115 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (startGame) {
+      setTimeout(() => {
+        setStartGame(false);
+        setShowAnimation(false);
+        setShowBall(false);
+      }, 4000);
+    }
+  }, [startGame]);
+
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      const numArr = JSON.parse(result.profits);
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        setActiveThimble(selected as number);
+        const multiplier = Number(
+          Number(result.profit) / Number(result.amount)
+        );
+        Promise.all([
+          new Promise((resolve) =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Won)),
+              300
+            )
+          ),
+          // new Promise((resolve) =>
+          //   setTimeout(
+          //     () =>
+          //       resolve(() => {
+
+          //       }),
+          //     0
+          //   )
+          // ),
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve(
+                  setWonStatus({
+                    profit: Number(result.profit),
+                    multiplier,
+                    token: "DRAX",
+                  })
+                ),
+              300
+            )
+          ),
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setIsPlaying(false)), 0)
+          ),
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setSelected(null)), 0)
+          ),
+        ]);
+      } else if (Number(result.profit) < Number(result.amount)) {
+        // setActiveThimble((selected as number) === 0 ? 1 : 0);
+        Promise.all([
+          new Promise((resolve) =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Lost)),
+              300
+            )
+          ),
+          // new Promise((resolve) =>
+          //   setTimeout(() => resolve(setActiveThimble(selected as number)), 0)
+          // ),
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setIsPlaying(false)), 300)
+          ),
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve(
+                  setLostStatus(Number(result.profit) - Number(result.amount))
+                ),
+              300
+            )
+          ),
+
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setSelected(null)), 0)
+          ),
+        ]);
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
+
+  const [selectedShow, setSelectedShow] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (selected !== null) {
+      setSelectedShow(selected);
+    } else
+      [
+        setTimeout(() => {
+          setSelectedShow(null);
+        }, 2000),
+      ];
+  }, [selected]);
+
   return (
-    <section onClick={handleSectionClick} className={s.thimbles_table_wrap}>
-      {/* <button
-        onClick={() => {
-          if (startGame) {
-            // setStopAnimation(true);
-            handleThimbleClick(0);
-            handleThimbleClick(1);
-            handleThimbleClick(2);
-          } else {
-            setStartGame(true);
-          }
-        }}
-        className={s.btn}
-      >
-        start
-      </button> */}
+    <section className={s.thimbles_table_wrap}>
       <WagerLowerBtnsBlock className={s.race_btns} game="thimbles" />
       <div className={s.thimbles_table_bg_wrap}>
         <img
@@ -291,28 +393,38 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
                 s.thimble_wrap,
                 showAnimation && s[`thimble_wrap_${ind + 1}`]
               )}
-              onClick={() => setSelected(ind)}
+              onClick={() => {
+                if (!showAnimation && !openGame && isPlaying) {
+                  setSelected(ind);
+                }
+              }}
               ref={animatedRefs.current[ind]}
             >
-              <img
-                src={thimbleImg.src}
-                className={clsx(
-                  s.thimble,
-                  (showBall || selected === ind) && s.default_thimble_up
-                )}
-                alt="thimble"
-              />
-              {activeThimble === ind && (
+              {activeThimble === ind || openGame == ind ? (
                 <img
                   src={activeThimbleImg.src}
                   className={clsx(
                     s.activeThimble_img,
-                    (showBall || selected === ind) && s.active_shadow
+                    s.active_shadow,
+                    selectedShow === ind && s.default_thimble_up
+                  )}
+                  alt="thimble"
+                />
+              ) : (
+                <img
+                  src={thimbleImg.src}
+                  className={clsx(
+                    s.thimble,
+                    selectedShow === ind && s.default_thimble_up
                   )}
                   alt="thimble"
                 />
               )}
-              {activeThimble === ind && (
+
+              {/* {activeThimble === ind && (
+               
+              )} */}
+              {(activeThimble === ind || openGame == ind) && (
                 <img
                   src={ballIco.src}
                   className={s.ball_img}

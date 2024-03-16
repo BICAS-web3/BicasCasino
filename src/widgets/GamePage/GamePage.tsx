@@ -146,6 +146,7 @@ export const GamePage: FC<GamePageProps> = ({
     setCarReset,
     result,
     tokenId,
+    setIsPlaying,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -165,6 +166,7 @@ export const GamePage: FC<GamePageProps> = ({
     CarModel.setReset,
     BetsModel.$result,
     BetsModel.$tokenId,
+    GameModel.setIsPlaying,
   ]);
 
   //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
@@ -387,7 +389,7 @@ export const GamePage: FC<GamePageProps> = ({
                             (isPlaying && !waitingResponse)
                             //&& isConnected
                           ) {
-                            pressButton();
+                            setIsPlaying(true);
                           } else if (cryptoValue <= 0.0) {
                             //  && isConnected
                             setIsEmtyWager(true);
