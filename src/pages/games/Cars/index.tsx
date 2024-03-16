@@ -36,12 +36,14 @@ const WagerContent = () => {
   const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
-  const [setStartConnect, setIsEmtyWager, gameResult, setReset] = useUnit([
-    ConnectModel.setConnect,
-    GameModel.setIsEmtyWager,
-    CarModel.$gameResult,
-    CarModel.setReset,
-  ]);
+  const [setStartConnect, setIsEmtyWager, gameResult, setReset, setIsPlaying] =
+    useUnit([
+      ConnectModel.setConnect,
+      GameModel.setIsEmtyWager,
+      CarModel.$gameResult,
+      CarModel.setReset,
+      GameModel.setIsPlaying,
+    ]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
@@ -102,8 +104,22 @@ const WagerContent = () => {
           "Connect Wallet"
         )}
       </button> */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
-        Play
+      <button
+        onClick={() => {
+          if (gameResult?.length !== 0) {
+            // setGameResult([]);
+            setReset(true);
+          } else {
+            if (!cryptoValue) {
+              setIsEmtyWager(true);
+            } else {
+              setIsPlaying(true);
+            }
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
+        {gameResult.length > 0 ? "Reset" : "Play"}
       </button>
     </>
   );
@@ -112,13 +128,19 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
+  const [gamesList] = useUnit([GameModel.$gamesList]);
   const socket = useSocket();
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Cars"] }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "CarRace")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
   return (
     <>
       <Head>

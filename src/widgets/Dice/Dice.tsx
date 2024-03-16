@@ -405,6 +405,18 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
       socket.send(JSON.stringify(betData));
     }
   }, [socket, isPlaying, access_token]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Dice")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <>
       {/* {error && (

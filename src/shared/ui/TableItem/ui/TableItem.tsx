@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./ui.module.scss";
-import gameIco from "@/public/media/live_bets/mainPageActsGameIco.svg";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
-import avatar from "@/public/media/player_icons/emptyAvatar.svg";
 import Link from "next/link";
 import * as api from "@/shared/api";
 import { useMediaQuery } from "@/shared/tools";
@@ -14,39 +12,15 @@ import pokerIcon from "@/public/media/live_bets/poker.svg";
 import rpsIcon from "@/public/media/live_bets/rps.svg";
 import bombIcon from "@/public/media/live_bets/bomb.svg";
 import plincoIcon from "@/public/media/live_bets/plinco.svg";
-import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
 import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
 import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
 import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
 import carIcon from "@/public/media/cars/icon.jpg";
 import thimbleIcon from "@/public/media/thimbles/icon.jpg";
 import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
-import { useUnit } from "effector-react";
-import draxTokenIco from "@/public/media/payment/draxMiniIco.svg";
-import bonusTokenIco from "@/public/media/payment/bonusCoin.svg";
-
-export interface CustomBetsItemProps {
-  trx_url: string;
-  time: {
-    date: string;
-    time: string;
-  };
-  //game_url: string,
-  game_name: string;
-  player_address?: string;
-  // player_name: string;setResult(null)
-  bets: number;
-  multiplier: number;
-  profit: number;
-  token: string;
-  id: number;
-  bet: any;
-  user_id: string | number;
-  game_id: number;
-  num_games?: number;
-  nickName?: string;
-}
+import { CustomBetsItemProps } from "./ui";
 import raceIson from "@/public/media/race_icons/bets_icon.jpg";
+
 import * as GameModel from "@/widgets/GamePage/model";
 export const TableItem: FC<CustomBetsItemProps> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");
@@ -66,62 +40,69 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
     }
   }, [screenWidth]);
 
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList] = useUint([GameModel.$gamesList]);
+
   useEffect(() => {
     if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "CoinFlip"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "CoinFlip"
     ) {
       setGameImg(coinFlipIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Dice"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Dice"
     ) {
       setGameImg(diceIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Mines"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Mines"
     ) {
       setGameImg(bombIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "RPS"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "RPS"
     ) {
       setGameImg(rpsIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Poker"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Poker"
     ) {
       setGameImg(pokerIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Plinko"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Plinko"
     ) {
       setGameImg(plincoIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Slots"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Slots"
     ) {
       setGameImg(slotsIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Rocket"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Rocket"
     ) {
       setGameImg(rocketIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Wheel"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Wheel"
     ) {
       setGameImg(wheelIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Apples"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Apples"
     ) {
       setGameImg(appleIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Cars"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Cars"
     ) {
       setGameImg(carIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Thimbles"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Thimbles"
     ) {
       setGameImg(thimbleIcon);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Race"
+      gamesList.find((item: any) => item.id === props.game_id)?.name === "Race"
     ) {
       setGameImg(raceIson);
     } else if (
-      gamesList.find((item) => item.id === props.game_id)?.name === "Roulette"
+      gamesList.find((item: any) => item.id === props.game_id)?.name ===
+      "Roulette"
     ) {
       setGameImg(rouletteIcon);
     }
@@ -135,8 +116,8 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
             target="_blank"
             className={styles.link_block}
           >
-            <span className={styles.date}>{props.time.date}</span>
-            <span className={styles.time}>{props.time.time}</span>
+            {/* <span className={styles.date}>{props.time.date}</span> */}
+            {/* <span className={styles.time}>{props.time.time}</span> */}
           </Link>
         </span>
       </td>
@@ -166,34 +147,34 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
           <span className={styles.player_name}>{props.nickName}</span>
         </Link>
       </td>
-      {/* <td className={styles.td}> */}
-      {/* <Link
-          href={`/account/${props.player_address}`}
-          target="_blank"
-          className={styles.link_block}
-        >
-          {isMedium ? (
-            <span className={styles.link_block}>
-              <img
-                src={linkIco.src}
-                width={22}
-                height={22}
-                className={styles.linkIco}
-              />
-            </span>
-          ) : (
-            <span className={styles.address}>{`${props.player_address.slice(
-              0,
-              5
-            )}...${props.player_address.slice(38, 42)}`}</span>
-          )} */}
-      {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
-      {/* </Link> */}
-      {/* </td> */}
+      <td className={styles.td}>
+        {/* <Link
+              href={`/account/${props.player_address}`}
+              target="_blank"
+              className={styles.link_block}
+            >
+              {isMedium ? (
+                <span className={styles.link_block}>
+                  <img
+                    src={linkIco.src}
+                    width={22}
+                    height={22}
+                    className={styles.linkIco}
+                  />
+                </span>
+              ) : (
+                <span className={styles.address}>{`${props.player_address.slice(
+                  0,
+                  5
+                )}...${props.player_address.slice(38, 42)}`}</span>
+              )} */}
+        {/* // TODO: Clear address explorer? @habdevs <img src={linkIco.src} width={22} height={22} />*/}
+        {/* </Link> */}
+      </td>
       <td className={styles.td}>
         <span className={styles.link_block}>
           <img
-            src={props.bet.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
+            src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`}
             alt="wager-ico"
             className={styles.wagerIco}
           />
@@ -210,7 +191,7 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
         <span className={clsx(styles.link_block, styles.link_block_profit)}>
           <span className={styles.profit}>{props.profit}</span>
           <img
-            src={props.bet.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
+            src={`${api.BaseStaticUrl}/media/tokens/${props.token}.svg`}
             alt="wager-ico"
             className={styles.wagerIco}
           />
@@ -229,3 +210,6 @@ export const TableItem: FC<CustomBetsItemProps> = (props) => {
     </>
   );
 };
+function useUint(arg0: any[]): [any] {
+  throw new Error("Function not implemented.");
+}

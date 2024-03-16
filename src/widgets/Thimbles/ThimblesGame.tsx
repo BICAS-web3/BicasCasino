@@ -8,11 +8,129 @@ import ballIco from "@/public/media/thimbles/ball.svg";
 import activeThimbleImg from "@/public/media/thimbles/activeThimble.png";
 import clsx from "clsx";
 
+import { useUnit } from "effector-react";
+import * as BetsModel from "@/widgets/LiveBets/model";
+import Image from "next/image";
+
+import { Model as RollSettingModel } from "@/widgets/RollSetting";
+import * as GameModel from "@/widgets/GamePage/model";
+
+import { sessionModel } from "@/entities/session";
+import * as SidebarModel from "@/widgets/SideBar/model";
+
+import { useDebounce, useMediaQuery } from "@/shared/tools";
+import { WagerModel as WagerButtonModel } from "../Wager";
+import { WagerModel } from "../WagerInputsBlock";
+import { WagerGainLossModel } from "../WagerGainLoss";
+import { SidePickerModel } from "../CoinFlipSidePicker";
+
+import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
+
+import * as RegistrM from "@/widgets/Registration/model";
+// import * as RaceModel from "./model";
+import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+import { ProfitModel } from "../ProfitBlock";
+
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+import { useSocket } from "@/shared/context";
+
 interface ThimblesGameProps {
   gameText?: string;
 }
 
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
+  const [
+    lost,
+    profit,
+    // setPlayingStatus,
+    wagered,
+    playSounds,
+    switchSounds,
+    setGameStatus,
+    setLostStatus,
+    setWonStatus,
+    gameAddress,
+    gameStatus,
+    betsAmount,
+    rollOver,
+    flipRollOver,
+    RollValue,
+    setRollValue,
+    currentNetwork,
+    pickedToken,
+    cryptoValue,
+    stopLoss,
+    stopGain,
+    pickedSide,
+    setActivePicker,
+    pickSide,
+    currentBalance,
+    setWagered,
+    allowance,
+    setCoefficient,
+    setIsPlaying,
+    waitingResponse,
+    setWaitingResponse,
+    refund,
+    setRefund,
+    isPlaying,
+    // raceNumber,
+    // gameResult,
+    // setGameResult,
+    // setReset,
+    // reset,
+    // setRaceNumber,
+    result,
+    setResult,
+    isDrax,
+    userInfo,
+  ] = useUnit([
+    GameModel.$lost,
+    GameModel.$profit,
+    // RaceModel.setPlayingStatus,
+    WagerButtonModel.$Wagered,
+    GameModel.$playSounds,
+    GameModel.switchSounds,
+    GameModel.setGameStatus,
+    GameModel.setLostStatus,
+    GameModel.setWonStatus,
+    sessionModel.$gameAddress,
+    GameModel.$gameStatus,
+    CustomWagerRangeInputModel.$pickedValue,
+    RollSettingModel.$RollOver,
+    RollSettingModel.flipRollOver,
+    RollSettingModel.$RollValue,
+    RollSettingModel.setRollValue,
+    sessionModel.$currentNetwork,
+    WagerModel.$pickedToken,
+    WagerModel.$cryptoValue,
+    WagerGainLossModel.$stopLoss,
+    WagerGainLossModel.$stopGain,
+    SidePickerModel.$pickedSide,
+    SidePickerModel.setActive,
+    SidePickerModel.pickSide,
+    sessionModel.$currentBalance,
+    WagerButtonModel.setWagered,
+    sessionModel.$currentAllowance,
+    ProfitModel.setCoefficient,
+    GameModel.setIsPlaying,
+    GameModel.$waitingResponse,
+    GameModel.setWaitingResponse,
+    GameModel.$refund,
+    GameModel.setRefund,
+    GameModel.$isPlaying,
+    // RaceModel.$raceNumber,
+    // RaceModel.$gameResult,
+    // RaceModel.setGameResult,
+    // RaceModel.setReset,
+    // RaceModel.$reset,
+    // RaceModel.setRaceNumber,
+    BetsModel.$result,
+    BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+  ]);
   const [activeThimble, setActiveThimble] = useState(1); //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0]);
   const [showBall, setShowBall] = useState(true);
@@ -74,9 +192,74 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     });
   };
 
+  useEffect(() => {
+    setStartGame(isPlaying);
+  }, [isPlaying]);
+
+  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [betData, setBetData] = useState({});
+
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Race")?.id],
+  };
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: gamesList.find((item) => item.name === "Race")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"car":${selected}}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [
+    stopGain,
+    stopLoss,
+    pickedSide,
+    cryptoValue,
+    betsAmount,
+    isDrax,
+    selected,
+  ]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN &&
+      selected !== null
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token, selected]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Race")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <section onClick={handleSectionClick} className={s.thimbles_table_wrap}>
-      <button
+      {/* <button
         onClick={() => {
           if (startGame) {
             // setStopAnimation(true);
@@ -90,7 +273,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         className={s.btn}
       >
         start
-      </button>
+      </button> */}
       <WagerLowerBtnsBlock className={s.race_btns} game="thimbles" />
       <div className={s.thimbles_table_bg_wrap}>
         <img

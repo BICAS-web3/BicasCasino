@@ -1,9 +1,6 @@
 interface IBetData {
   trx_url: string;
-  time: {
-    date: string;
-    time: string;
-  };
+  time: string | number;
   ava_address: any;
   //game_url: string,
   game_name: string;

@@ -15,16 +15,12 @@ import { WagerGainLossModel } from "../WagerGainLoss";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import { TOKENS } from "@/shared/tokens";
 import { useDebounce, useMediaQuery } from "@/shared/tools";
-// import {
-//   useNetwork,
-//   useAccount,
-//   useFeeData,
-//   useContractRead,
-//   usePrepareContractWrite,
-//   useContractWrite,
-//   useContractEvent,
-//   useWaitForTransaction,
-// } from "wagmi";
+import * as RegistrM from "@/widgets/Registration/model";
+import * as BetsModel from "@/widgets/LiveBets/model";
+import { useSocket } from "@/shared/context";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+
 import { pickSide } from "../CoinFlipSidePicker/model";
 import { ABI as IPlinko } from "@/shared/contracts/PlinkoABI";
 import * as levelModel from "@/widgets/PlinkoLevelsBlock/model";
@@ -1049,6 +1045,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     refund,
     setRefund,
     isPlaying,
+    result,
+    setResult,
+    isDrax,
+    userInfo,
+    gamesList,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -1075,7 +1076,69 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     GameModel.$refund,
     GameModel.setRefund,
     GameModel.$isPlaying,
+    BetsModel.$result,
+    BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$gamesList,
   ]);
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      const bet_info = JSON.parse(result.bet_info);
+      setPath(bet_info.paths);
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        setTimeout(() => {
+          setGameStatus(GameModel.GameStatus.Won);
+          playSounds !== "off" && playWon();
+
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          );
+          setWaitingResponse(false);
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: "DRAX",
+          });
+          setIsPlaying(false);
+          setInGame(false);
+          setCoefficientData((prev) => [
+            Number(result.profit) / Number(result.amount),
+            ...prev,
+          ]);
+        }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0));
+        // alert("win");
+      } else if (Number(result.profit) < Number(result.amount)) {
+        setTimeout(() => {
+          setWaitingResponse(false);
+          setGameStatus(GameModel.GameStatus.Lost);
+          setIsPlaying(false);
+          setInGame(false);
+          playSounds !== "off" && playLost();
+          setLostStatus(Number(result.profit) - Number(result.amount));
+          setCoefficientData((prev) => [
+            Number(result.profit) / Number(result.amount),
+            ...prev,
+          ]);
+        }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0));
+        // alert("lost");
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+        setCoefficientData((prev) => [
+          Number(result.profit) / Number(result.amount),
+          ...prev,
+        ]);
+        // alert("draw");
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
+
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -1106,315 +1169,11 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     setPath(undefined);
   }, [rowsAmount]);
 
-  // const { data: GameState, refetch: fetchGameState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   functionName: "Plinko_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   //watch: isConnected,
-  //   blockTag: "latest",
-  // });
-
-  // useEffect(() => {
-  //   if (GameState && !inGame) {
-  //     if (
-  //       (GameState as any).requestID != BigInt(0) &&
-  //       (GameState as any).blockNumber != BigInt(0)
-  //     ) {
-  //       setWaitingResponse(true);
-  //       setInGame(true);
-  //       //setActivePicker(false);
-  //       pickSide((GameState as any).isHeads as number);
-  //     } else {
-  //       setInGame(false);
-  //     }
-  //   }
-  // }, [GameState]);
-
   useEffect(() => {
     setIsPlaying(inGame);
   }, [inGame]);
 
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     gameAddress,
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  //   gasPrice: data?.gasPrice as any,
-  //   gas: BigInt(50000),
-  // });
-
-  // const {
-  //   write: setAllowance,
-  //   error: allowanceError,
-  //   status: allowanceStatus,
-  //   data: allowanceData,
-  // } = useContractWrite(allowanceConfig);
-
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   functionName: "Plinko_Refund",
-  //   enabled: isPlaying,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
   // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-  // useEffect(() => {
-  //   if (allowanceData) {
-  //     setWatchAllowance(true);
-  //   }
-  // }, [allowanceData]);
-
-  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-  //   hash: allowanceData?.hash,
-  //   enabled: watchAllowance,
-  // });
-
-  // useEffect(() => {
-  //   if (inGame && allowanceIsSet && watchAllowance) {
-  //     setWatchAllowance(false);
-  //     startPlaying();
-  //   } else if (allowanceError) {
-  //     setWatchAllowance(false);
-  //     setPath(undefined);
-  //     //setActivePicker(false);
-  //     setInGame(true);
-  //     setWaitingResponse(true);
-  //   }
-  // }, [inGame, allowanceIsSet, allowanceError]);
-
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
-
-  // useEffect(() => {
-  //   if (data && data.gasPrice) {
-  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-  //   }
-  // }, [data]);
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: isConnected && !inGame,
-  // });
-
-  // const [riskLevel, setRiskLevel] = useState(pickedLevel == 'easy' ? 0 : pickedLevel == 'normal' ? 1 : 2);
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
-
-  // const { config: startPlayingConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   functionName: "Plinko_Play",
-  //   args: [
-  //     BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-  //     pickedToken?.contract_address,
-  //     //pickedSide,
-  //     rowsAmount,
-  //     pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
-  //     pickedValue,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //       BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //       pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) *
-  //       BigInt(100000000000) *
-  //       BigInt(pickedValue)
-  //       : BigInt(0)),
-  //   enabled: true,
-  //   //gasPrice: data?.gasPrice
-  //   //gas: BigInt(3000000),
-  // });
-
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error,
-  // } = useContractWrite({
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(450000),
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   functionName: "Plinko_Play",
-  //   args: [
-  //     BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
-  //     pickedToken?.contract_address,
-  //     //pickedSide,
-  //     rowsAmount,
-  //     pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
-  //     pickedValue,
-  //     useDebounce(stopGain)
-  //       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //     useDebounce(stopLoss)
-  //       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
-  //         BigInt(100000000000)
-  //       : BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(200),
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) *
-  //         BigInt(100000000000) *
-  //         BigInt(pickedValue)
-  //       : BigInt(0)),
-  // });
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setPath(undefined);
-  //     //setActivePicker(false);
-  //     setInGame(true);
-  //     setWaitingResponse(true);
-  //   }
-  // }, [startedPlaying]);
-
-  // useContractEvent({
-  //   address: gameAddress as `0x${string}`,
-  //   abi: IPlinko,
-  //   eventName: "Plinko_Outcome_Event",
-  //   listener(log) {
-  //     //handleLog(log)
-
-  //     if (
-  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //       address?.toLowerCase()
-  //     ) {
-  //       setWaitingResponse(false);
-  //       const wagered =
-  //         BigInt((log[0] as any).args.wager) *
-  //         BigInt((log[0] as any).args.numGames);
-  //       setPath((log[0] as any).args.paths);
-  //       if ((log[0] as any).args.payout > wagered) {
-  //         playSounds !== "off" && playWon();
-  //         const profit = (log[0] as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-
-  //         const wagered_token = (
-  //           (log[0] as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         playSounds !== "off" && playLost();
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-
-  //         setLostStatus(wageredFloat);
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //       //setShowRedraw(false);
-  //     }
-  //   },
-  // });
-
-  useEffect(() => {
-    if (wagered) {
-      // if (path) {
-      //   setPath(undefined)
-      // } else {
-      //   setPath(testBallPath);
-      // }
-
-      if (inGame) {
-        // setShowFlipCards(false);
-        // if (finishPlaying) finishPlaying();
-      } else {
-        const total_value = cryptoValue * 1;
-        if (
-          cryptoValue != 0 &&
-          currentBalance &&
-          total_value <= currentBalance
-        ) {
-          if (
-            (!allowance || (allowance && allowance <= cryptoValue)) &&
-            pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
-          ) {
-            // if (setAllowance) {
-            //   console.log("Setting allowance");
-            //   setAllowance();
-            //   setPath(undefined);
-            //   setInGame(true);
-            //   setWaitingResponse(true);
-            // }
-            //return;
-          } else {
-            //setActiveCards(initialArrayOfCards);
-            // if (startPlaying) {
-            //   setPath(undefined);
-            //   startPlaying();
-            // }
-          }
-        }
-      }
-      setWagered(false);
-    }
-  }, [wagered]);
 
   useEffect(() => {
     //setActivePicker(true);
@@ -1470,6 +1229,72 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     }
   }, [imageLoading_1, imageLoading_2, imageLoading_3]);
 
+  useEffect(() => {
+    if (isPlaying) {
+      setInGame(true);
+    }
+  }, [isPlaying]);
+
+  const [betData, setBetData] = useState({});
+
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Plinko")?.id],
+  };
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: gamesList.find((item) => item.name === "Plinko")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"num_rows":${rowsAmount}, "risk":${
+        pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2
+      }}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: stopLoss ? String(stopLoss) : 0,
+      stop_win: stopGain ? String(stopGain) : 0,
+      num_games: pickedValue,
+    });
+  }, [
+    stopGain,
+    stopLoss,
+    cryptoValue,
+    isDrax,
+    rowsAmount,
+    pickedLevel,
+    pickedValue,
+  ]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Dice")?.id],
+        })
+      );
+    };
+  }, []);
   return (
     <>
       {/* {error && (
@@ -1578,3 +1403,319 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
     </>
   );
 };
+
+// const { data: GameState, refetch: fetchGameState } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   functionName: "Plinko_GetState",
+//   args: [address],
+//   enabled: true,
+//   //watch: isConnected,
+//   blockTag: "latest",
+// });
+
+// useEffect(() => {
+//   if (GameState && !inGame) {
+//     if (
+//       (GameState as any).requestID != BigInt(0) &&
+//       (GameState as any).blockNumber != BigInt(0)
+//     ) {
+//       setWaitingResponse(true);
+//       setInGame(true);
+//       //setActivePicker(false);
+//       pickSide((GameState as any).isHeads as number);
+//     } else {
+//       setInGame(false);
+//     }
+//   }
+// }, [GameState]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     gameAddress,
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+//   gasPrice: data?.gasPrice as any,
+//   gas: BigInt(50000),
+// });
+
+// const {
+//   write: setAllowance,
+//   error: allowanceError,
+//   status: allowanceStatus,
+//   data: allowanceData,
+// } = useContractWrite(allowanceConfig);
+
+// const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   functionName: "Plinko_Refund",
+//   enabled: isPlaying,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+// useEffect(() => {
+//   if (allowanceData) {
+//     setWatchAllowance(true);
+//   }
+// }, [allowanceData]);
+
+// const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+//   hash: allowanceData?.hash,
+//   enabled: watchAllowance,
+// });
+
+// useEffect(() => {
+//   if (inGame && allowanceIsSet && watchAllowance) {
+//     setWatchAllowance(false);
+//     startPlaying();
+//   } else if (allowanceError) {
+//     setWatchAllowance(false);
+//     setPath(undefined);
+//     //setActivePicker(false);
+//     setInGame(true);
+//     setWaitingResponse(true);
+//   }
+// }, [inGame, allowanceIsSet, allowanceError]);
+
+// const [fees, setFees] = useState<bigint>(BigInt(0));
+// const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   if (data && data.gasPrice) {
+//     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+//   }
+// }, [data]);
+
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: isConnected && !inGame,
+// });
+
+// const [riskLevel, setRiskLevel] = useState(pickedLevel == 'easy' ? 0 : pickedLevel == 'normal' ? 1 : 2);
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(2000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// const { config: startPlayingConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   functionName: "Plinko_Play",
+//   args: [
+//     BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+//     pickedToken?.contract_address,
+//     //pickedSide,
+//     rowsAmount,
+//     pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
+//     pickedValue,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+//       BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//       BigInt(100000000000) *
+//       BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+//       BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//       BigInt(100000000000) *
+//       BigInt(200),
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//       pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000)) *
+//       BigInt(100000000000) *
+//       BigInt(pickedValue)
+//       : BigInt(0)),
+//   enabled: true,
+//   //gasPrice: data?.gasPrice
+//   //gas: BigInt(3000000),
+// });
+
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error,
+// } = useContractWrite({
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(450000),
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   functionName: "Plinko_Play",
+//   args: [
+//     BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000),
+//     pickedToken?.contract_address,
+//     //pickedSide,
+//     rowsAmount,
+//     pickedLevel == "easy" ? 0 : pickedLevel == "normal" ? 1 : 2,
+//     pickedValue,
+//     useDebounce(stopGain)
+//       ? BigInt(Math.floor((stopGain as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//     useDebounce(stopLoss)
+//       ? BigInt(Math.floor((stopLoss as number) * 10000000)) *
+//         BigInt(100000000000)
+//       : BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(200),
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//     pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000)) *
+//         BigInt(100000000000) *
+//         BigInt(pickedValue)
+//       : BigInt(0)),
+// });
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setPath(undefined);
+//     //setActivePicker(false);
+//     setInGame(true);
+//     setWaitingResponse(true);
+//   }
+// }, [startedPlaying]);
+
+// useContractEvent({
+//   address: gameAddress as `0x${string}`,
+//   abi: IPlinko,
+//   eventName: "Plinko_Outcome_Event",
+//   listener(log) {
+//     //handleLog(log)
+
+//     if (
+//       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//       address?.toLowerCase()
+//     ) {
+//       setWaitingResponse(false);
+//       const wagered =
+//         BigInt((log[0] as any).args.wager) *
+//         BigInt((log[0] as any).args.numGames);
+//       setPath((log[0] as any).args.paths);
+//       if ((log[0] as any).args.payout > wagered) {
+//         playSounds !== "off" && playWon();
+//         const profit = (log[0] as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+
+//         const wagered_token = (
+//           (log[0] as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         playSounds !== "off" && playLost();
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+
+//         setLostStatus(wageredFloat);
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//       //setShowRedraw(false);
+//     }
+//   },
+// });
+
+//   if (wagered) {
+//     // if (path) {
+//     //   setPath(undefined)
+//     // } else {
+//     //   setPath(testBallPath);
+//     // }
+
+//     if (inGame) {
+//       // setShowFlipCards(false);
+//       // if (finishPlaying) finishPlaying();
+//     } else {
+//       const total_value = cryptoValue * 1;
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         total_value <= currentBalance
+//       ) {
+//         if (
+//           (!allowance || (allowance && allowance <= cryptoValue)) &&
+//           pickedToken?.contract_address !=
+//             "0x0000000000000000000000000000000000000000"
+//         ) {
+//           // if (setAllowance) {
+//           //   console.log("Setting allowance");
+//           //   setAllowance();
+//           //   setPath(undefined);
+//           //   setInGame(true);
+//           //   setWaitingResponse(true);
+//           // }
+//           //return;
+//         } else {
+//           //setActiveCards(initialArrayOfCards);
+//           // if (startPlaying) {
+//           //   setPath(undefined);
+//           //   startPlaying();
+//           // }
+//         }
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [wagered]);
+
+// import {
+//   useNetwork,
+//   useAccount,
+//   useFeeData,
+//   useContractRead,
+//   usePrepareContractWrite,
+//   useContractWrite,
+//   useContractEvent,
+//   useWaitForTransaction,
+// } from "wagmi";

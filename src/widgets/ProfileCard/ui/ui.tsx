@@ -11,38 +11,41 @@ import * as api from "@/shared/api";
 //  the store and see how it is used in the Profile component
 
 export interface ProfileCardProps {
-  address: string;
+  id?: string | number;
+  nickName?: string;
 }
 export const ProfileCard: FC<ProfileCardProps> = (props) => {
   // const { address, isConnecting, isDisconnected } = useAccount();
 
-  const [nickname, setNickname] = useState<string | null>(null);
+  // const [nickname, setNickname] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function run() {
-      const username = await api.getUsernameFx({
-        address: props.address as string,
-      });
-      setNickname((username.body as api.T_Nickname).nickname);
-    }
-    run();
-  }, []);
+  // useEffect(() => {
+  //   async function run() {
+  //     const username = await api.getUsernameFx({
+  //       address: props.address as string,
+  //     });
+  //     setNickname((username.body as api.T_Nickname).nickname);
+  //   }
+  //   run();
+  // }, []);
 
-  return (
-    <div className={styles.user_wrapper}>
-      <div className={styles.card}>
-        <UserAvatar avatarUrl={emptyAvatar} address={props.address} />
-        <div className={styles.user}>
-          <UserName
-            userName={nickname}
-            // editable={props.address.toLowerCase() == address?.toLowerCase()}
-            editable
-            address={props.address}
-          />
-          <UserAddress address={props.address} />
+  if (props.nickName) {
+    return (
+      <div className={styles.user_wrapper}>
+        <div className={styles.card}>
+          <UserAvatar avatarUrl={emptyAvatar} address={props.nickName} />
+          <div className={styles.user}>
+            <UserName
+              userName={props.nickName}
+              // editable={props.nickName.toLowerCase() == address?.toLowerCase()}
+              editable
+              address={props.nickName}
+            />
+            <UserAddress address={props.nickName} />
+          </div>
         </div>
+        <ImageLeague />
       </div>
-      <ImageLeague />
-    </div>
-  );
+    );
+  }
 };

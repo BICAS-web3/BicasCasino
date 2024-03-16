@@ -2,7 +2,7 @@ import { createEffect, createEvent, createStore, sample } from "effector";
 import * as Api from "@/shared/api";
 import { DLinkedList } from "@/shared/DS";
 
-interface IResult {
+export interface IResult {
   type: string;
   id: number;
   timestamp: number;
@@ -14,9 +14,11 @@ interface IResult {
   coin_id: number;
   userseed_id: number;
   serverseed_id: number;
-  outcomes: number[];
+  outcomes: string;
+  profits: string;
   uuid: string;
   state?: string | undefined;
+  payouts: string;
 }
 
 // variables

@@ -998,6 +998,17 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
 
   // useEffect(() => alert(isCashout), [isCashout]);
 
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Mines")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <>
       {/* {errorWrite && (

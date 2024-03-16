@@ -42,6 +42,11 @@ import * as CarModel from "./model";
 import { RaceWin } from "@/shared/ui/RaceWin";
 import ReactHowler from "react-howler";
 import { Preload } from "@/shared/ui/Preload";
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
+import * as BetsModel from "@/widgets/LiveBets/model";
+import { useSocket } from "@/shared/context";
+import * as RegistrM from "@/widgets/Registration/model";
 
 interface CarsRaceProps {
   gameText: string;
@@ -72,7 +77,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
 
   const [imageLoading, setIMageLoading] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [
     lost,
     profit,
@@ -107,6 +112,10 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     setGameResult,
     reset,
     setReset,
+    result,
+    setResult,
+    isDrax,
+    userInfo,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -141,7 +150,94 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     CarModel.setGameResult,
     CarModel.$reset,
     CarModel.setReset,
+    BetsModel.$result,
+    BetsModel.setResult,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
   ]);
+
+  useEffect(() => {
+    if (result !== null && result?.type === "Bet") {
+      const numArr = JSON.parse(result.profits);
+      const handlePayouts = () => {
+        for (let i = 0; i < numArr?.length; i++) {
+          setTimeout(() => {
+            const outCome = Number(numArr[i]) / Number(result.amount);
+            setCoefficientData((prev) => [outCome, ...prev]);
+          }, 700 * (i + 1));
+        }
+      };
+      Promise.all([
+        new Promise((resolve) =>
+          setTimeout(() => resolve(handlePayouts()), 6000)
+        ),
+      ]);
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        const multiplier = Number(
+          Number(result.profit) / Number(result.amount)
+        );
+        Promise.all([
+          new Promise((resolve) =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Won)),
+              6000
+            )
+          ),
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve(
+                  setWonStatus({
+                    profit: Number(result.profit),
+                    multiplier,
+                    token: "DRAX",
+                  })
+                ),
+              6000
+            )
+          ),
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setIsPlaying(false)), 6000)
+          ),
+          // new Promise((resolve) =>
+          //   setTimeout(() => resolve(setInGame(false)), 6000)
+          // ),
+        ]);
+      } else if (Number(result.profit) < Number(result.amount)) {
+        Promise.all([
+          new Promise((resolve) =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Lost)),
+              6000
+            )
+          ),
+          new Promise((resolve) =>
+            setTimeout(() => resolve(setIsPlaying(false)), 6000)
+          ),
+          // new Promise((resolve) =>
+          //   setTimeout(() => resolve(setInGame(false)), 6000)
+          // ),
+          new Promise((resolve) =>
+            setTimeout(
+              () =>
+                resolve(
+                  setLostStatus(Number(result.profit) - Number(result.amount))
+                ),
+              6000
+            )
+          ),
+        ]);
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw);
+        setIsPlaying(false);
+        setInGame(false);
+      }
+      setResult(null);
+    }
+  }, [result?.timestamp, result, gameStatus]);
 
   const [raceWin] = useSound("/music/race_win.mp3", { volume: 1 });
   const [raceLose] = useSound("/music/race_lose.mp3", { volume: 1 });
@@ -516,7 +612,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
 
   const [carInProgress, setCarInProgress] = useState(false);
   useEffect(() => {
-    if (inGame) {
+    if (isPlaying) {
       if (playSounds !== "off") {
         carStart();
       }
@@ -538,7 +634,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     } else {
       setTimeout(() => setRaceSound(false), 4500);
     }
-  }, [inGame]);
+  }, [isPlaying]);
 
   const [randomeMove, setRandomMove] = useState<number | null>(null);
 
@@ -604,6 +700,67 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   }, [isDesktop]);
 
   const [stopAnimation, setStopAnimation] = useState(false);
+
+  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [betData, setBetData] = useState({});
+
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Race")?.id],
+  };
+  useEffect(() => {
+    setBetData({
+      type: "MakeBet",
+      game_id: gamesList.find((item) => item.name === "Race")?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"car":${carNumber}}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount,
+    });
+  }, [stopGain, stopLoss, cryptoValue, betsAmount, isDrax]);
+
+  const socket = useSocket();
+
+  const [subscribed, setCubscribed] = useState(false);
+
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      if (!subscribed) {
+        socket.send(JSON.stringify(subscribe));
+        setCubscribed(true);
+      }
+      socket.send(JSON.stringify(betData));
+    }
+  }, [socket, isPlaying, access_token]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "CarRace")?.id],
+        })
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPlaying) {
+      setStartGame(true);
+      setWheelStart(true);
+    }
+  }, [isPlaying]);
+
+  // useEffect(() => alert(startGame), [startGame]);
 
   return (
     <section

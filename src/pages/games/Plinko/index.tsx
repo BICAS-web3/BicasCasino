@@ -47,7 +47,11 @@ const WagerContent = () => {
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
   // }, []);
-
+  const [cryptoValue, setError, setIsPlaying] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+    GameModel.setIsPlaying,
+  ]);
   return (
     <>
       {/* <SidePicker /> */}
@@ -106,7 +110,16 @@ const WagerContent = () => {
           className={styles.mobile}
         />
       )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+      <button
+        onClick={() => {
+          if (!cryptoValue) {
+            setError(true);
+          } else {
+            setIsPlaying(true);
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
         Play
       </button>
     </>
@@ -114,13 +127,23 @@ const WagerContent = () => {
 };
 
 export default function PlinkoGame() {
+  const [gamesList] = useUnit([GameModel.$gamesList]);
   const socket = useSocket();
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Plinko"] }));
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Plinko")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
   return (
     <>
       <Head>

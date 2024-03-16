@@ -24,6 +24,7 @@ import networkConnectIco from "@/public/media/networks/networkConnectIco.svg";
 import closeIco from "@/public/media/misc/closeAccIco.webp";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 
+import * as RegistrM from "@/widgets/Registration/model";
 import * as LayoutModel from "@/widgets/Layout/model";
 
 // import { useAccount } from "wagmi";
@@ -103,7 +104,12 @@ export const Account: FC<AccountProps> = (props) => {
     document.documentElement.style.overflow = "visible";
     closeHeaderAccount();
   };
-
+  const [setIsSignup, setAuth, setAccessToken, setRefreshToken] = useUnit([
+    RegistrM.setIsSignup,
+    RegistrM.setAuth,
+    RegistrM.setAccessToken,
+    RegistrM.setRefreshToken,
+  ]);
   return (
     <div className={s.account_container}>
       <Image
@@ -139,7 +145,7 @@ export const Account: FC<AccountProps> = (props) => {
           name="Profile"
           icon={ProfileIcon}
           onClick={() => {
-            window.location.assign(`/account/${props.address.toLowerCase()}`);
+            window.location.assign(`/account/${userInfo?.username}`);
           }}
         />
         <div className={`${s.accountElement} ${s.network_elem}`}>
@@ -157,7 +163,11 @@ export const Account: FC<AccountProps> = (props) => {
         <AccountElement
           name="Disconnect"
           icon={ExitIcon}
-          onClick={() => {}}
+          onClick={() => {
+            setAuth(false);
+            localStorage.removeItem("auth");
+            setAccessToken("");
+          }}
           // onClick={() => disconnect()}
         />
         {/* <AccountElement name="Explorer" icon={Explorer}/>

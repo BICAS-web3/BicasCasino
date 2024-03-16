@@ -39,8 +39,11 @@ const WagerContent = () => {
   // const { isConnected, isConnecting } = useAccount();
   // const [pressButton] = useUnit([WagerModel.pressButton]);
 
-  // const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  // const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
+  const [cryptoValue, setError, setIsPlaying] = useUnit([
+    WagerAmountModel.$cryptoValue,
+    WagerAmountModel.setError,
+    GameModel.setIsPlaying,
+  ]);
   // const router = useRouter();
   // const queryParams = new URLSearchParams(window.location.search);
   // const partner_address = queryParams.get("partner_address");
@@ -95,7 +98,16 @@ const WagerContent = () => {
           className={styles.mobile}
         />
       )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+      <button
+        onClick={() => {
+          if (!cryptoValue) {
+            setError(true);
+          } else {
+            setIsPlaying(true);
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
         Play
       </button>
     </>
@@ -107,7 +119,7 @@ export default function RocketGame() {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Rocket"] }));
+      socket?.send(JSON.stringify({ type: "Subscribe", payload: [2] }));
     }
   }, [socket, socket?.readyState]);
   return (

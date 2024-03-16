@@ -1349,6 +1349,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
       socket.send(JSON.stringify(betData));
     }
   }, [socket, isPlaying, access_token]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Wheel")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <>
       {/* {error && (
