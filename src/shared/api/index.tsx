@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeeprs.io/";
-export const BaseStaticUrl = "https://game.greekkeeprs.io/static";
+export const BaseApiUrl = "https://game.greekkeepers.io/api";
+export const BaseStaticUrl = "https://game.greekkeepers.io/api/static";
 
 export type T_ErrorText = {
   error: string;
@@ -144,6 +144,14 @@ export type T_UserInfo = {
   id?: string | number;
 };
 
+export type T_OneTimeToken = {
+  bareer: string;
+};
+
+export type T_Callbackurl = {
+  bareer: string;
+};
+
 export type T_BetInfo = {
   id: number;
   transaction_hash: string;
@@ -210,7 +218,9 @@ export type T_ApiResponse = {
     | T_PlayerTotals
     | T_TokenPrice
     | T_NFTMarket
-    | T_LoginReponse;
+    | T_LoginReponse
+    | T_OneTimeToken
+    | T_Callbackurl;
 };
 
 export type T_InvoiceCreate = {
@@ -702,6 +712,40 @@ export const getUserInfo = createEffect<T_UserInfo, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const getOneTimeToken = createEffect<
+  T_OneTimeToken,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/p2way/ott`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
+
+export const getCallbackUrl = createEffect<
+  T_Callbackurl,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/p2way/callback`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
 
 export const getUserAmounts = createEffect<
   T_GetUserAmount,

@@ -27,8 +27,8 @@
 .payment_body {
   overflow: hidden;
   margin: 0 20px;
-  width: 660px;
-  max-height: 850px;
+  width: 530px;
+  max-height: 730px;
   background: #181818;
   min-height: 300px;
   border-radius: 12px;
@@ -91,9 +91,9 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-source-sans-3);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 34px;
+  line-height: 28px;
   letter-spacing: 0.04em;
   text-align: center;
   color: #979797;
@@ -168,12 +168,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 40px;
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 25px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
   border: none;

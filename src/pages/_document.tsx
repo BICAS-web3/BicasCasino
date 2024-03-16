@@ -104,6 +104,10 @@ export default function Document() {
         />
         <Main />
         <NextScript />
+        <script
+          src="https://dev.p2way.fyi/widget/getWidgetFile?file=index.js"
+          defer
+        ></script>
       </body>
     </Html>
   );

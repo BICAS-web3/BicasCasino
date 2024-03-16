@@ -22,7 +22,6 @@ import { useRouter } from "next/router";
 import { Registration } from "../Registration/Registration";
 import { Payment } from "../Payment/Payment";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-
 import * as GameModal from "@/widgets/GamePage/model";
 
 import * as LayoutModel from "./model";
@@ -36,6 +35,9 @@ interface LayoutProps {
   activePageLink?: string;
   hideHeaderBtn?: boolean;
 }
+
+const P2P_API = "https://p2way.fyi";
+
 export const Layout = ({ children, ...props }: LayoutProps) => {
   // const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
   const isMobile = useMediaQuery("(max-width: 650px)");
@@ -47,6 +49,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     setSocketAuth,
     setGamesList,
     setSocketLogged,
+    userInfo,
   ] = useUnit([
     SidebarM.$isOpen,
     SidebarM.Close,
@@ -55,6 +58,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     LayoutModel.setSocketAuth,
     GameModal.setGamesList,
     LayoutModel.setSocketLogged,
+    LayoutModel.$userInfo,
   ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
@@ -156,6 +160,36 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     })();
   }, [access_token]);
 
+  const [otToken, setOtToken] = useState<any | undefined>();
+
+  useEffect(() => {
+    (async () => {
+      if (access_token) {
+        const response = await api.getOneTimeToken({ bareer: access_token });
+        if (response.status === "OK") {
+          setOtToken((response as any).body);
+          console.log("ONE TIME TOKEN---", response.body);
+        } else {
+          console.log("ONE TIME TOKEN ERROR", response.body);
+        }
+      }
+    })();
+  }, [access_token]);
+
+  const init = () => {
+    if (otToken?.token && userInfo) {
+      const userId = userInfo.id.toString();
+      const apiKey = "d0b51692-185e-49f9-a7c8-034d1e0bb1bf";
+      const callbackUrl = "https://game.greekkeepers.io/api/p2way/callback";
+      const token = otToken.token;
+
+      const params = { userId, apiKey, callbackUrl, token };
+
+      console.log("PARAMS", params);
+      window.initP2PWidget(params);
+    }
+  };
+
   return (
     <>
       <SettingsInit />
@@ -163,11 +197,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         // <WagmiConfig config={wagmiConfig}>
         <>
           <SessionInit game={props.gameName} />
-          {popupBonusState === `"true"` ||
-          pathname === "/RegistrManual" ||
-          pathname === "/ExchangeManual" ? null : (
-            <PopUpBonus />
-          )}
+          {/* <button onClick={() => init()}>click</button> */}
           <div
             className={clsx(
               s.page_container,
