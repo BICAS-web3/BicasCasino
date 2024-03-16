@@ -6,6 +6,7 @@ import allowArr from "@/public/media/payment/allowArr.svg";
 import copyIco from "@/public/media/payment/copyIco.svg";
 import clsx from "clsx";
 import { WaitIco } from "@/shared/SVGs/WaitIco";
+import { PaymentCopied } from "../PaymentCopied/PaymentCopied";
 
 const tableInfo = [
   {
@@ -32,8 +33,11 @@ export const PaymentStatus: FC<PaymentStatusProps> = () => {
   const [isSuccess, setIsSuccess] = useState(true);
   const [paymentInfo, setPaymentInfo] = useState(tableInfo);
 
+  const [activeCopied, setActiveCopied] = useState(false);
+
   return (
     <div className={s.payment_status_block}>
+      <PaymentCopied active={activeCopied} setDisable={setActiveCopied} />
       <img src={closeIco.src} className={s.close_btn} alt="close-ico" />
       <div className={s.payment_status_header}>
         <span className={clsx(s.payment_status_title, isSuccess && s.success)}>
@@ -47,7 +51,12 @@ export const PaymentStatus: FC<PaymentStatusProps> = () => {
       <div className={s.payment_status_id_wrap}>
         <span className={s.payment_status_id_title}>Payment ID:</span>
         <div className={s.payment_status_id}>
-          payment id <img src={copyIco.src} alt="copy-ico" />
+          payment id{" "}
+          <img
+            src={copyIco.src}
+            alt="copy-ico"
+            onClick={() => setActiveCopied(true)}
+          />
         </div>
       </div>
       <div className={s.payment_info}>

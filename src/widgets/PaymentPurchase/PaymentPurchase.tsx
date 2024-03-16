@@ -14,6 +14,7 @@ import * as api from "@/shared/api";
 import * as RegistrModel from "@/widgets/Registration/model";
 import { useUnit } from "effector-react";
 import Image from "next/image";
+import { PaymentCopied } from "../PaymentCopied/PaymentCopied";
 interface PaymentPurchaseProps {
   purchasePrice: any;
   bonusPrice: any;
@@ -52,8 +53,11 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   );
   const [sendAddress, setSendAddress] = useState("address");
 
+  const [activeCopied, setActiveCopied] = useState(false);
+
   const addressToClipboard = () => {
     navigator.clipboard.writeText(sendAddress);
+    setActiveCopied(true);
   };
 
   const [ercActive, setErcActive] = useState(true);
@@ -127,6 +131,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
 
   return (
     <div ref={ref} className={s.payment_purchase_block}>
+      <PaymentCopied active={activeCopied} setDisable={setActiveCopied} />
       <div className={s.payment_purchase_header}>
         <div className={s.payment_purchase_header_title_group}>
           <img src={purchaseIco.src} alt="purcahse-ico" />

@@ -1,0 +1,32 @@
+.payment_copied {
+  height: 40px;
+  width: 100%;
+  max-width: 200px;
+  border-radius: 8px;
+  background: #121212;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s;
+  position: absolute;
+
+  left: 50%;
+  transform: translateX(-50%);
+  top: 300%;
+}
+
+.active {
+  top: 16px;
+}
+
+.payment_title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-nunito-sans);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
