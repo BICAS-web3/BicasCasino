@@ -239,7 +239,6 @@ export const Payment: FC<PaymentProps> = () => {
           />
         )}
       </div>
-      ;
     </>
   );
 };
