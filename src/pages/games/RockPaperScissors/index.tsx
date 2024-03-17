@@ -68,7 +68,7 @@ export default function RockPaperScissorsGame() {
       socket.readyState === WebSocket.OPEN &&
       gamesList.length > 0
     ) {
-      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",

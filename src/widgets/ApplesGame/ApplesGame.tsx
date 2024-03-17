@@ -448,8 +448,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     isDrax,
     betsAmount,
     isCashout,
-    firstBet,
-    keep,
     isPlaying,
     apples,
   ]);
@@ -483,7 +481,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       );
       setCubscribed(true);
     }
-  }, [socket, isPlaying, access_token, gamesList, subscribed, coninue]);
+  }, [socket, isPlaying, access_token, gamesList, coninue]);
 
   useEffect(() => {
     if (

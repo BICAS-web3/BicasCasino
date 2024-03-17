@@ -25,6 +25,7 @@ import { StopWinning } from "@/shared/ui/StopWinning";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  // const [appleItems,setAppleItems] = useState<number[]>([])
   // const { isConnected, isConnecting } = useAccount();
 
   // const [pressButton] = useUnit([WagerModel.pressButton]);
@@ -149,7 +150,7 @@ const Apples: FC<ApplesProps> = () => {
       socket.readyState === WebSocket.OPEN &&
       gamesList.length > 0
     ) {
-      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(JSON.stringify({ type: "UnsubscribeBets" }));
       socket?.send(
         JSON.stringify({
           type: "Subscribe",
