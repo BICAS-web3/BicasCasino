@@ -96,8 +96,8 @@ export type T_Nickname = {
 };
 
 export type T_LeaderBoardResponse = {
-  nickname: string;
-  player: string;
+  user_id: string;
+  username: string;
   total: number;
 };
 

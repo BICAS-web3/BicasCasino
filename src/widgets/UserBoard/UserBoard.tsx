@@ -27,8 +27,8 @@ export const Total: FC<{}> = () => {
 
   const setDefaultValue = async () => {
     const data = (await Api.getLeaderboard({ time: "all", return: "volume" }))
-      .body as unknown as Api.T_Lider;
-    setLeaders(data);
+      .body as any;
+    setLeaders(data.leaderboard as Api.T_Lider);
   };
 
   useEffect(() => {
@@ -48,8 +48,8 @@ export const Total: FC<{}> = () => {
         time: toRequest.split("_")[0]?.toLowerCase(),
         return: toRequest.split("_")[1]?.toLowerCase(),
       })
-    ).body as unknown as Api.T_Lider;
-    setLeaders(data);
+    ).body as any;
+    setLeaders(data.leaderboard as Api.T_Lider);
   };
 
   // const truncatedAddress = props.address.slice(0,7)...props.address.slice(36, 42);
@@ -117,20 +117,20 @@ export const Total: FC<{}> = () => {
                   break;
               }
 
-              const truncatedAddress = `${item.player.slice(
+              const truncatedAddress = `${item.username.slice(
                 0,
                 7
-              )}...${item.player.slice(36, 42)}`;
+              )}...${item.username.slice(36, 42)}`;
 
               return (
                 <TotalItem
-                  description={item.nickname || truncatedAddress}
+                  description={item.username || truncatedAddress}
                   dunkin="Dunkin Caps"
                   image={image}
                   dollar
-                  statistics={item.total.toFixed(2)}
+                  statistics={Number(item.total).toFixed(4)}
                   id={i}
-                  address={item.player}
+                  address={item.user_id}
                 />
               );
             })}

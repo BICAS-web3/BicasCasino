@@ -149,7 +149,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -207,9 +207,9 @@ export default function Home() {
     }
   }, [tablet, laptop]);
 
-  const socket = useSocket();
+  //const socket = useSocket();
 
-  socket?.send(JSON.stringify({ type: "SubscribeAll" }));
+  //socket?.send(JSON.stringify({ type: "SubscribeAll" }));
 
   return (
     <>
