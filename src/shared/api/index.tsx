@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io/api";
-export const BaseStaticUrl = "https://game.greekkeepers.io/api/static";
+export const BaseApiUrl = "https://game.greekkeeprs.io/";
+export const BaseStaticUrl = "https://game.greekkeeprs.io/static";
 
 export type T_ErrorText = {
   error: string;
@@ -99,6 +99,10 @@ export type T_LeaderBoardResponse = {
   nickname: string;
   player: string;
   total: number;
+};
+
+export type T_OneTimeToken = {
+  bareer: string;
 };
 
 export type T_Player = {
@@ -559,6 +563,23 @@ export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
       .catch((e) => e);
   }
 );
+
+export const getOneTimeToken = createEffect<
+  T_OneTimeToken,
+  T_ApiResponse,
+  string
+>(async (form) => {
+  return fetch(`${BaseApiUrl}/p2way/ott`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${form.bareer}`,
+    },
+  })
+    .then(async (res) => await res.json())
+    .catch((e) => e);
+});
 
 export const getUserBetsInc = createEffect<
   T_GetUserBets,

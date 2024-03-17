@@ -4,6 +4,7 @@
   width: 100%;
   max-width: 660px;
   border-radius: 12px;
+  position: relative;
 
   @media screen and (max-width: 650px) {
     border-radius: 0;
@@ -86,11 +87,11 @@
 }
 
 .payment_purchase_estimate_title {
-  color: #eaeaea;
+  color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 27px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -102,12 +103,12 @@
 .payment_purchase_estimate_receive_block {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 10px 25px;
+  padding: 5px 25px;
   gap: 10px;
   background: #202020;
   border: 1px solid #252525;
   border-radius: 8px;
-  min-height: 70px;
+  min-height: 55px;
   box-sizing: border-box;
 }
 
@@ -115,9 +116,9 @@
 .payment_purchase_estimate_bonus_title {
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 300;
-  line-height: 25px;
+  line-height: 20px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -143,11 +144,11 @@
 }
 
 .send_amount_title {
-  color: #eaeaea;
+  color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 800;
-  line-height: 27px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -157,11 +158,11 @@
 }
 
 .send_amount_subTitle {
-  color: #eaeaea;
+  color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
-  line-height: 25px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
   text-transform: uppercase;
@@ -174,7 +175,7 @@
 .send_amount_input_block {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 40px;
 
   @media screen and (max-width: 650px) {
     height: 40px;
@@ -244,11 +245,11 @@
 }
 
 .send_address_title {
-  color: #eaeaea;
+  color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 800;
-  line-height: 27px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -267,13 +268,14 @@
   border-radius: 8px;
   background: #121212;
   border: 1px solid #252525;
-  padding: 15px 20px;
+  padding: 0px 20px;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
   font-size: 18px;
   font-weight: 400;
   line-height: 25px;
   letter-spacing: 0.04em;
+  height: 40px;
   text-align: left;
   display: flex;
   align-items: center;
@@ -298,9 +300,9 @@
 .purchase_disclaimer {
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 18px;
   letter-spacing: 0.04em;
   text-align: left;
   border-radius: 8px;
@@ -335,8 +337,8 @@
 }
 
 .purchase_status_text {
-  height: 50px;
-  padding: 15px 20px;
+  height: 40px;
+  padding: 0px 20px;
   background: #212121;
   border-radius: 8px;
   width: 100%;
@@ -347,6 +349,8 @@
   line-height: 24px;
   letter-spacing: 0.04em;
   color: #fff;
+  display: flex;
+  align-items: center;
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
@@ -359,7 +363,7 @@
 }
 
 .purchase_waiting_anim_block {
-  height: 50px;
+  height: 40px;
   box-sizing: border-box;
   display: flex;
   justify-content: center;

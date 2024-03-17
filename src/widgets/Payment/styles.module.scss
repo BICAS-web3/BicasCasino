@@ -27,8 +27,8 @@
 .payment_body {
   overflow: hidden;
   margin: 0 20px;
-  width: 660px;
-  max-height: 850px;
+  width: 630px;
+  max-height: 730px;
   background: #181818;
   min-height: 300px;
   border-radius: 12px;
@@ -59,10 +59,38 @@
 // }
 
 .redeem_active {
-  @media screen and (max-height: 900px) {
-    height: 100% !important;
-    padding-bottom: 80px;
-  }
+  // .payment_content {
+  //   overflow-y: scroll;
+  //   overflow-x: hidden !important;
+
+  //   &::-webkit-scrollbar {
+  //     width: 4px;
+  //     margin-left: 4px;
+  //     border-radius: 3px;
+  //     scrollbar-arrow-color: transparent;
+  //   }
+  //   &::-webkit-scrollbar-thumb {
+  //     background-color: #363636;
+  //     border-radius: 4px;
+  //   }
+
+  //   scrollbar-width: thin;
+
+  //   scrollbar-color: #363636 transparent;
+
+  //   *::-ms-scrollbar {
+  //     width: 4px;
+  //     scrollbar-arrow-color: transparent;
+  //   }
+
+  //   *::-ms-scrollbar-thumb {
+  //     background-color: #363636;
+  //     border-radius: 4px;
+  //   }
+  // }
+
+  height: 100% !important;
+  padding-bottom: 80px;
 }
 
 .padding_bottom {
@@ -91,9 +119,9 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-source-sans-3);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 34px;
+  line-height: 28px;
   letter-spacing: 0.04em;
   text-align: center;
   color: #979797;
@@ -168,12 +196,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 40px;
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 25px;
+  line-height: 21px;
   letter-spacing: 0.04em;
   text-align: left;
   border: none;
@@ -243,9 +271,9 @@
 .payment_attention_text {
   margin: 10px 0 10px 20px;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 25px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
   color: #fff;
@@ -364,8 +392,8 @@
 
 .drax_icon_wrap {
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
 
   @media screen and (max-width: 650px) {
     width: 50px;
@@ -399,6 +427,8 @@
 
 .drax_icon {
   z-index: 4;
+  width: 40px;
+  height: 40px;
 }
 
 .bonux_coins_amount_title {
