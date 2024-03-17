@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeeprs.io/";
-export const BaseStaticUrl = "https://game.greekkeeprs.io/static";
+export const BaseApiUrl = "https://game.greekkeepers.io/api";
+export const BaseStaticUrl = "https://game.greekkeepers.io/static";
 
 export type T_ErrorText = {
   error: string;
@@ -96,8 +96,8 @@ export type T_Nickname = {
 };
 
 export type T_LeaderBoardResponse = {
-  nickname: string;
-  player: string;
+  user_id: string;
+  username: string;
   total: number;
 };
 
