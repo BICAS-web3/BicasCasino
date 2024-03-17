@@ -42,11 +42,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         uuidRef.current = data.uuid;
       }
       if (
-        (data.type === "Bet" ||
+        ((data.type === "Bet" ||
           data.type === "MakeBet" ||
           data.type === "ContinueGame" ||
           data.type === "State") &&
-        data.uuid === uuidRef.current
+          data.uuid === uuidRef.current) ||
+        data.type === "State"
       ) {
         setResult(data);
         if (data && (data?.coin_id || data?.coin_id === 0)) {

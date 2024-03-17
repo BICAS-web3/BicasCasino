@@ -158,6 +158,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      const fullAmount = Number(result.amount) * result.num_games!;
       const numArr = JSON.parse(result.profits);
       const handlePayouts = () => {
         for (let i = 0; i < numArr?.length; i++) {

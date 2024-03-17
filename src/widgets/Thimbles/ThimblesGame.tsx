@@ -27,7 +27,7 @@ import { SidePickerModel } from "../CoinFlipSidePicker";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 
 import * as RegistrM from "@/widgets/Registration/model";
-// import * as RaceModel from "./model";
+// import * as ThimblesModel from "./model";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 
@@ -82,7 +82,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    // RaceModel.setPlayingStatus,
+    // ThimblesModel.setPlayingStatus,
     WagerButtonModel.$Wagered,
     GameModel.$playSounds,
     GameModel.switchSounds,
@@ -187,12 +187,12 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const [access_token] = useUnit([RegistrM.$access_token]);
   const subscribe = {
     type: "SubscribeBets",
-    payload: [gamesList.find((item) => item.name === "Race")?.id],
+    payload: [gamesList.find((item) => item.name === "Thimbles")?.id],
   };
   // useEffect(() => {
   //   setBetData({
   //     type: "MakeBet",
-  //     game_id: gamesList.find((item) => item.name === "Race")?.id,
+  //     game_id: gamesList.find((item) => item.name === "Thimbles")?.id,
   //     coin_id: isDrax ? 2 : 1,
   //     user_id: userInfo?.id || 0,
   //     data: `{"car":${selected}}`,
@@ -231,7 +231,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       socket.send(
         JSON.stringify({
           type: "MakeBet",
-          game_id: gamesList.find((item) => item.name === "Race")?.id,
+          game_id: gamesList.find((item) => item.name === "Thimbles")?.id,
           coin_id: isDrax ? 2 : 1,
           user_id: userInfo?.id || 0,
           data: `{"car":${selected}}`,
@@ -261,7 +261,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       socket?.send(
         JSON.stringify({
           type: "UnsubscribeBets",
-          payload: [gamesList.find((item) => item.name === "Race")?.id],
+          payload: [gamesList.find((item) => item.name === "Thimbles")?.id],
         })
       );
     };
@@ -370,13 +370,14 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       [
         setTimeout(() => {
           setSelectedShow(null);
+          setActiveThimble(null);
         }, 2000),
       ];
   }, [selected]);
 
   return (
     <section className={s.thimbles_table_wrap}>
-      <WagerLowerBtnsBlock className={s.race_btns} game="thimbles" />
+      <WagerLowerBtnsBlock className={s.Thimbles_btns} game="thimbles" />
       <div className={s.thimbles_table_bg_wrap}>
         <img
           src={gameBg.src}
@@ -415,7 +416,8 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
                   src={thimbleImg.src}
                   className={clsx(
                     s.thimble,
-                    selectedShow === ind && s.default_thimble_up
+                    selectedShow === ind && s.default_thimble_up,
+                    !showAnimation && !openGame && isPlaying && s.thimble_point
                   )}
                   alt="thimble"
                 />

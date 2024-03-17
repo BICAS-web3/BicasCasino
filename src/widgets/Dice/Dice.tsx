@@ -147,16 +147,15 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
 
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      const fullAmount = Number(result.amount) * result.num_games!;
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Won);
 
-          const multiplier = Number(
-            Number(result.profit) / Number(result.amount)
-          );
+          const multiplier = Number(Number(result.profit) / fullAmount);
           pickSide(pickedSide);
           setWonStatus({
             profit: Number(result.profit),
@@ -166,20 +165,20 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
           setIsPlaying(false);
           setInGame(false);
           setCoefficientData((prev) => [
-            Number(result.profit) / Number(result.amount),
+            Number(result.profit) / fullAmount,
             ...prev,
           ]);
         }, 2000);
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Lost);
           pickSide(pickedSide ^ 1);
           setIsPlaying(false);
           setInGame(false);
-          setLostStatus(Number(result.profit) - Number(result.amount));
+          setLostStatus(Number(result.profit) - fullAmount);
           setCoefficientData((prev) => [
-            Number(result.profit) / Number(result.amount),
+            Number(result.profit) / fullAmount,
             ...prev,
           ]);
         }, 2000);
@@ -189,7 +188,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
         setIsPlaying(false);
         setInGame(false);
         setCoefficientData((prev) => [
-          Number(result.profit) / Number(result.amount),
+          Number(result.profit) / fullAmount,
           ...prev,
         ]);
         // alert("draw");
@@ -475,7 +474,7 @@ const Dice: FC<DiceProps> = ({ gameText }) => {
               <div
                 className={clsx(
                   s.multiplier_value,
-                  item > 0 ? s.multiplier_positive : s.multiplier_negative
+                  item > 1 ? s.multiplier_positive : s.multiplier_negative
                 )}
                 key={i}
               >

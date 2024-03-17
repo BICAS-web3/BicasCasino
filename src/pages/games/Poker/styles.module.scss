@@ -101,14 +101,15 @@
   position: absolute;
   left: calc(50% - 191px);
   bottom: 215px;
-  z-index: 5;
+  z-index: 7;
+  min-width: max-content;
 }
 
 .poker_lost_wrapper {
   position: absolute;
   left: calc(50% - 90.405px);
   top: -1px;
-  z-index: 3;
+  z-index: 5;
 }
 
 @media screen and (max-width: 996px) {

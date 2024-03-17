@@ -233,7 +233,8 @@
   position: absolute;
   left: calc(50% - 90.405px);
   top: -1px;
-  z-index: 3;
+  z-index: 7;
+  min-width: max-content;
 }
 
 @media screen and (max-width: 996px) {

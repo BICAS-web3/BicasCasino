@@ -185,7 +185,6 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         for (let i = 0; i < arr?.length; i++) {
           setTimeout(() => {
             const outCome = arr[i] / amount;
-            console.log("TTTTTTTT:", arr[i] / amount, arr[i], amount);
 
             setCoefficientData((prev) => [outCome, ...prev]);
           }, 2000 * (i + 1));
@@ -200,19 +199,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
       (result !== null && result?.type === "Bet") ||
       result?.type === "MakeBet"
     ) {
+      const fullAmount = Number(result.amount) * result.num_games!;
       const outcomesArray = JSON.parse((result as any).outcomes);
       setOutcomes(outcomesArray);
       // alert(outcomesArray[0]);
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Won);
 
-          const multiplier = Number(
-            Number(result.profit) / Number(result.amount)
-          );
+          const multiplier = Number(Number(result.profit) / fullAmount);
           pickSide(pickedSide);
           setWonStatus({
             profit: Number(result.profit),
@@ -223,18 +221,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           setInGame(false);
           setCoeff({
             profit: (result as any).profits,
-            amount: Number((result as any).amount),
+            amount: fullAmount,
           });
           // alert(1);
         }, 2000);
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Lost);
           pickSide(pickedSide ^ 1);
           setIsPlaying(false);
           setInGame(false);
-          setLostStatus(Number(result.profit) - Number(result.amount));
+          setLostStatus(Number(result.profit) - fullAmount);
           setCoeff({
             profit: (result as any).profits,
             amount: Number((result as any).amount),

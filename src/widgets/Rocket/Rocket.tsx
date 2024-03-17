@@ -126,6 +126,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      const fullAmount = Number(result.amount) * result.num_games!;
       const parseArr = JSON.parse(result.profits);
       // alert(3);
       const handleCall = () => {
@@ -135,7 +136,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           // alert(i);
           setTimeout(() => {
             console.log(parseArr[i]);
-            const outCome = Number(parseArr[i]) / Number(result.amount);
+            const outCome = Number(parseArr[i]) / fullAmount;
             setCoefficientData((prev) => [outCome, ...prev]);
             setLocalNumber(outCome);
           }, 700 * (i + 1));
@@ -144,16 +145,14 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
       handleCall();
 
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         // setTimeout(() => {
         // }, 2000);
         setGameStatus(GameModel.GameStatus.Won);
 
-        const multiplier = Number(
-          Number(result.profit) / Number(result.amount)
-        );
+        const multiplier = Number(Number(result.profit) / fullAmount);
         pickSide(pickedSide);
         setWonStatus({
           profit: Number(result.profit),
@@ -163,11 +162,11 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
         setIsPlaying(false);
         setInGame(false);
         // setCoefficientData((prev) => [
-        //   Number(result.profit) / Number(result.amount),
+        //   Number(result.profit) /fullAmount,
         //   ...prev,
         // ]);
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         // setTimeout(() => {
 
         // }, 2000);
@@ -175,7 +174,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
         pickSide(pickedSide ^ 1);
         setIsPlaying(false);
         setInGame(false);
-        setLostStatus(Number(result.profit) - Number(result.amount));
+        setLostStatus(Number(result.profit) - fullAmount);
         // setCoefficientData((prev) => [
         //   Number(result.profit) / Number(result.amount),
         //   ...prev,
@@ -547,7 +546,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
                 <div
                   className={clsx(
                     s.multiplier_value,
-                    item > 0 ? s.multiplier_positive : s.multiplier_negative
+                    item > 1 ? s.multiplier_positive : s.multiplier_negative
                   )}
                   key={i}
                 >

@@ -191,11 +191,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         // <WagmiConfig config={wagmiConfig}>
         <>
           <SessionInit game={props.gameName} />
-          {popupBonusState === `"true"` ||
-          pathname === "/RegistrManual" ||
-          pathname === "/ExchangeManual" ? null : (
-            <PopUpBonus />
-          )}
+
           <div
             className={clsx(
               s.page_container,
@@ -239,3 +235,10 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 };
 
 // </WagmiConfig>
+//  {
+//    popupBonusState === `"true"` ||
+//    pathname === "/RegistrManual" ||
+//    pathname === "/ExchangeManual" ? null : (
+//      <PopUpBonus />
+//    );
+//  }

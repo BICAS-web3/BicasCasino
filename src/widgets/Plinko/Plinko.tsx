@@ -1084,19 +1084,18 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   ]);
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      const fullAmount = Number(result.amount) * result.num_games!;
       const bet_info = JSON.parse(result.bet_info);
       setPath(bet_info.paths);
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Won);
           playSounds !== "off" && playWon();
 
-          const multiplier = Number(
-            Number(result.profit) / Number(result.amount)
-          );
+          const multiplier = Number(Number(result.profit) / fullAmount);
           setWaitingResponse(false);
           setWonStatus({
             profit: Number(result.profit),
@@ -1106,21 +1105,21 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
           setIsPlaying(false);
           setInGame(false);
           setCoefficientData((prev) => [
-            Number(result.profit) / Number(result.amount),
+            Number(result.profit) / fullAmount,
             ...prev,
           ]);
         }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0));
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         setTimeout(() => {
           setWaitingResponse(false);
           setGameStatus(GameModel.GameStatus.Lost);
           setIsPlaying(false);
           setInGame(false);
           playSounds !== "off" && playLost();
-          setLostStatus(Number(result.profit) - Number(result.amount));
+          setLostStatus(Number(result.profit) - fullAmount);
           setCoefficientData((prev) => [
-            Number(result.profit) / Number(result.amount),
+            Number(result.profit) / fullAmount,
             ...prev,
           ]);
         }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0));
@@ -1130,7 +1129,7 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
         setIsPlaying(false);
         setInGame(false);
         setCoefficientData((prev) => [
-          Number(result.profit) / Number(result.amount),
+          Number(result.profit) / fullAmount,
           ...prev,
         ]);
         // alert("draw");

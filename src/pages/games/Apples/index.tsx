@@ -21,6 +21,7 @@ import { ProfitBlock } from "@/widgets/ProfitBlock";
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
+import { StopWinning } from "@/shared/ui/StopWinning";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
@@ -39,6 +40,8 @@ const WagerContent = () => {
     reset,
     setRefund,
     emptyField,
+    setIsPlaying,
+    setError,
   ] = useUnit([
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
@@ -47,6 +50,8 @@ const WagerContent = () => {
     AppleModel.$reset,
     GameModel.setRefund,
     AppleModel.$emptyField,
+    GameModel.setIsPlaying,
+    WagerAmountModel.setError,
   ]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
@@ -70,6 +75,7 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
+      <StopWinning />
       {/* <button
         className={clsx(
           s.connect_wallet_btn,
@@ -118,13 +124,10 @@ const WagerContent = () => {
       <button
         className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
         onClick={() => {
-          if (emptyField) {
-            setTitle(true);
+          if (!cryptoValue) {
+            setError(true);
           } else {
-            if (gameResult?.length > 0) {
-              setReset(!reset);
-            } else {
-            }
+            setIsPlaying(true);
           }
         }}
       >
