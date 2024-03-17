@@ -176,6 +176,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     isPlaying,
     stopWinning,
     setStopWinning,
+    multiplier,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -217,6 +218,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     GameModel.$isPlaying,
     MinesModel.$stopWinning,
     MinesModel.setStopWinning,
+    GameModel.$multiplier,
   ]);
 
   const [mines, setMines] = useState<boolean[][]>([]);
@@ -562,7 +564,11 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         <div className={s.apples_table_block}>
           <div className={s.apples_table_wrap}>
             {gameStatus === GameModel.GameStatus.Won && (
-              <ApplesWinBlock cf={100} profit={100} />
+              <ApplesWinBlock
+                multiplier={Number(multiplier.toFixed(2)).toString()}
+                cf={100}
+                profit={profit}
+              />
             )}
             <div className={s.apples_table}>
               {chunkedApplesArr &&

@@ -6,9 +6,14 @@ import tokenIco from "@/public/media/apples/tokenIco.svg";
 interface ApplesWinBlockProps {
   cf: number;
   profit: number;
+  multiplier?: number | string;
 }
 
-export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({ cf, profit }) => {
+export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({
+  cf,
+  profit,
+  multiplier,
+}) => {
   useEffect(() => {
     const winBlock = document.getElementById("apples_win_block");
 
@@ -34,12 +39,13 @@ export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({ cf, profit }) => {
         <div className={s.apples_win_info}>
           {/* <span className={s.cf_title}>x{cf.toFixed(2)}</span> */}
           <span className={s.win_quantity_title}>
-            {profit.toFixed(2)}{" "}
+            {profit}{" "}
             <img
               src={tokenIco.src}
               className={s.token_ico}
               alt="token-static"
             />
+            {/* <div className={s.multiplier}>{multiplier}x</div> */}
           </span>
         </div>
       </div>
