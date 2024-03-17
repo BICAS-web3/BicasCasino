@@ -133,6 +133,7 @@ const Apples: FC<ApplesProps> = () => {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",

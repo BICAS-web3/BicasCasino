@@ -60,12 +60,23 @@ const WagerContent = () => {
 
 export default function RockPaperScissorsGame() {
   const socket = useSocket();
+  const [gamesList] = useUnit([GameModel.$gamesList]);
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [3] }));
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "RPS")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
 
   return (
     <>

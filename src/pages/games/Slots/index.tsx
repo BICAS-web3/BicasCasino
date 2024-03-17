@@ -19,6 +19,8 @@ import { useUnit } from "effector-react";
 // import * as ConnectModel from "@/widgets/Layout/model";
 // import * as GameModel from "@/widgets/GamePage/model";
 import { WagerModel } from "@/widgets/Wager";
+import * as GameModel from "@/widgets/GamePage/model";
+
 // import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 // import { LoadingDots } from "@/shared/ui/LoadingDots";
 // import { Preload } from "@/shared/ui/Preload";
@@ -103,12 +105,23 @@ interface SlotsProps {}
 
 const Slots: FC<SlotsProps> = () => {
   const socket = useSocket();
+  const [gamesList] = useUnit([GameModel.$gamesList]);
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "Subscribe", payload: ["Slots"] }));
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Slots")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
 
   return (
     <>

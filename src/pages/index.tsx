@@ -548,7 +548,7 @@ export default function Home() {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeAll" }));
+      socket?.send(JSON.stringify({ type: "SubscribeAllBets" }));
     }
   }, [socket, socket?.readyState]);
 
@@ -559,7 +559,7 @@ export default function Home() {
         <link rel="preload" href="/dice/dice_animation.glb" as="script" />
       </Head>
 
-      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
+      <LiveBetsWS subscription_type={"SubscribeAllBets"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
         <div className={`${s.main_container}`}>
