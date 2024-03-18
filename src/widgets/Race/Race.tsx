@@ -28,23 +28,23 @@ import { ProfitModel } from "../ProfitBlock";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 
-import raceBg from "@/public/media/race_images/bg_.png";
-import raceBg_2 from "@/public/media/race_images/bg_2.png";
+import raceBg from "@/public/media/race_images/bg_.webp";
+import raceBg_2 from "@/public/media/race_images/bg_2.webp";
 import race_logo from "@/public/media/race_icons/logo.svg";
 
-import fence_1 from "@/public/media/race_images/fence_1.png";
-import fence_2 from "@/public/media/race_images/fence_2.png";
-import fence_3 from "@/public/media/race_images/fence_3.png";
-import fence_4 from "@/public/media/race_images/fence_4.png";
-import fence_5 from "@/public/media/race_images/fence_5.png";
+import fence_1 from "@/public/media/race_images/fence_1.webp";
+import fence_2 from "@/public/media/race_images/fence_2.webp";
+import fence_3 from "@/public/media/race_images/fence_3.webp";
+import fence_4 from "@/public/media/race_images/fence_4.webp";
+import fence_5 from "@/public/media/race_images/fence_5.webp";
 
-import fence_mobile_1 from "@/public/media/race_images/fence_mobile_1.png";
-import fence_mobile_2 from "@/public/media/race_images/fence_mobile_2.png";
-import fence_mobile_3 from "@/public/media/race_images/fence_mobile_3.png";
-import fence_mobile_4 from "@/public/media/race_images/fence_mobile_4.png";
-import fence_mobile_5 from "@/public/media/race_images/fence_mobile_5.png";
+import fence_mobile_1 from "@/public/media/race_images/fence_mobile_1.webp";
+import fence_mobile_2 from "@/public/media/race_images/fence_mobile_2.webp";
+import fence_mobile_3 from "@/public/media/race_images/fence_mobile_3.webp";
+import fence_mobile_4 from "@/public/media/race_images/fence_mobile_4.webp";
+import fence_mobile_5 from "@/public/media/race_images/fence_mobile_5.webp";
 
-import finish_line from "@/public/media/race_images/finishLine.png";
+import finish_line from "@/public/media/race_images/finishLine.webp";
 
 import shadow_5 from "@/public/media/race_icons/shadow_5.svg";
 import shadow_4 from "@/public/media/race_icons/shadow_4.svg";
@@ -52,9 +52,9 @@ import shadow_3 from "@/public/media/race_icons/shadow_3.svg";
 import shadow_2 from "@/public/media/race_icons/shadow_2.svg";
 import shadow_1 from "@/public/media/race_icons/shadow_1.svg";
 
-import banner_4 from "@/public/media/race_images/race_banner_4.png";
-import banner_5 from "@/public/media/race_images/race_banner_5.png";
-import banner_6 from "@/public/media/race_images/race_banner_6_.png";
+import banner_4 from "@/public/media/race_images/race_banner_4.webp";
+import banner_5 from "@/public/media/race_images/race_banner_5.webp";
+import banner_6 from "@/public/media/race_images/race_banner_6_.webp";
 
 import { WinMessage } from "../WinMessage";
 import { RaceWin } from "@/shared/ui/RaceWin";
@@ -714,9 +714,9 @@ export const Race: FC<IRace> = ({ gameText }) => {
               s.race_table_background_img,
               s.race_table_background_img_2,
               !showFinish &&
-                startGame &&
-                allLoaded &&
-                s.race_table_background_img_2_start,
+              startGame &&
+              allLoaded &&
+              s.race_table_background_img_2_start,
               showFinish && s.race_table_background_img_2_finish,
               reset && s.race_table_background_img_2_reset
             )}
@@ -1333,9 +1333,9 @@ export const Race: FC<IRace> = ({ gameText }) => {
 //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
 //   }
 // }, [data]);
-// import banner_1 from "@/public/media/race_images/race_banner_1.png";
-// import banner_2 from "@/public/media/race_images/race_banner_2.png";
-// import banner_3 from "@/public/media/race_images/race_banner_3.png";
+// import banner_1 from "@/public/media/race_images/race_banner_1.webp";
+// import banner_2 from "@/public/media/race_images/race_banner_2.webp";
+// import banner_3 from "@/public/media/race_images/race_banner_3.webp";
 // import {
 //   useAccount,
 //   useContractEvent,

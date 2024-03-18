@@ -12,7 +12,7 @@ import { FC, useEffect, useState } from "react";
 
 import { useUnit } from "effector-react";
 
-import bg from "@/public/media/roulette_images/bg.png";
+import bg from "@/public/media/roulette_images/bg.webp";
 
 import Image from "next/image";
 

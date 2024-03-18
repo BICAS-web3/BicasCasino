@@ -33,14 +33,14 @@ import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock"
 import { ProfitModel } from "../ProfitBlock";
 import s from "./styles.module.scss";
 
-import slotsBg from "@/public/media/slots_images/slotsMainBg.png";
-import slots1280Bg from "@/public/media/slots_images/slots1280Bg.png";
-import slotsImg1 from "@/public/media/slots_images/slots_items/img1.png";
-import slotsImg2 from "@/public/media/slots_images/slots_items/img2.png";
-import slotsImg4 from "@/public/media/slots_images/slots_items/img4.png";
-import slotsImg5 from "@/public/media/slots_images/slots_items/img5.png";
-import slotsImg6 from "@/public/media/slots_images/slots_items/img6.png";
-import slotsImg7 from "@/public/media/slots_images/slots_items/img7.png";
+import slotsBg from "@/public/media/slots_images/slotsMainBg.webp";
+import slots1280Bg from "@/public/media/slots_images/slots1280Bg.webp";
+import slotsImg1 from "@/public/media/slots_images/slots_items/img1.webp";
+import slotsImg2 from "@/public/media/slots_images/slots_items/img2.webp";
+import slotsImg4 from "@/public/media/slots_images/slots_items/img4.webp";
+import slotsImg5 from "@/public/media/slots_images/slots_items/img5.webp";
+import slotsImg6 from "@/public/media/slots_images/slots_items/img6.webp";
+import slotsImg7 from "@/public/media/slots_images/slots_items/img7.webp";
 
 const coefId = [
   5, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -90,7 +90,7 @@ import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitLine } from "../ProfitLine";
 import { Preload } from "@/shared/ui/Preload";
 
-interface SlotsGameProps {}
+interface SlotsGameProps { }
 
 export const SlotsGame: FC<SlotsGameProps> = () => {
   const [is1280, setIs1280] = useState(false);
@@ -429,7 +429,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             // if (setAllowance) setAllowance();
             //return;

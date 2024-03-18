@@ -3,7 +3,7 @@ import { useUnit } from "effector-react";
 import ReactHowler from "react-howler";
 import useSound from "use-sound";
 
-import bg from "@/public/media/blackjack/bg.png";
+import bg from "@/public/media/blackjack/bg.webp";
 import cardBack from "@/public/media/blackjack/backCardCopy.svg";
 
 import * as GameModel from "@/widgets/GamePage/model";
@@ -16,7 +16,7 @@ import s from "./styles.module.scss";
 import cn from "clsx";
 import { useMediaQuery } from "@/shared/tools";
 
-interface BlackJackGameProps {}
+interface BlackJackGameProps { }
 
 interface ICardType {
   id: string;
@@ -219,8 +219,7 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
     cardToSend?.classList.remove(s.flipped);
     cardToSend?.setAttribute(
       "style",
-      `left: calc(${
-        is996 || is650 ? "45%" : is400 ? "40%" : "48%"
+      `left: calc(${is996 || is650 ? "45%" : is400 ? "40%" : "48%"
       } + ${leftOffsetDealer}px); transform: translateX(-50%);  top: ${topOffsetDealer}px`
     );
     setDealerIndex((prevIndex) => prevIndex + 1);
@@ -349,22 +348,19 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
       }
       cardToSend?.setAttribute(
         "style",
-        `left: calc(${side === "left" ? leftPosition : rightPosition} + ${
-          side === "left"
-            ? leftOffsetPlayer + cardsLeftGap // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
-            : leftOffsetPlayer - cardsLeftGap * (leftCards.length - 2) // используйте положительное значение для правой карты
-        }px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${
-          side === "left"
-            ? bottomOffsetPlayer - cardsTopGap
-            : bottomOffsetPlayer + cardsTopGap * (leftCards.length - 2) // - 15
+        `left: calc(${side === "left" ? leftPosition : rightPosition} + ${side === "left"
+          ? leftOffsetPlayer + cardsLeftGap // -leftOffsetPlayer + 105  используйте отрицательное значение для левой карты
+          : leftOffsetPlayer - cardsLeftGap * (leftCards.length - 2) // используйте положительное значение для правой карты
+        }px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${side === "left"
+          ? bottomOffsetPlayer - cardsTopGap
+          : bottomOffsetPlayer + cardsTopGap * (leftCards.length - 2) // - 15
         }px)`
       );
     } else {
       setIsStep((prev) => prev + 1);
       cardToSend?.setAttribute(
         "style",
-        `left: calc(${
-          is996 || is650 ? "45%" : is400 ? "40%" : "48%" // разные значение left для нормального отображение на разных экранах
+        `left: calc(${is996 || is650 ? "45%" : is400 ? "40%" : "48%" // разные значение left для нормального отображение на разных экранах
         } + ${leftOffsetPlayer}px); transform: translateX(-50%) translateY(-50%); top: calc(100% - ${bottomOffsetPlayer}px)`
       );
     }
@@ -591,12 +587,10 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {dilerCount > 0 && (
             <div
               style={{
-                left: `calc(${isMobile ? "37%" : is998 ? "47%" : "51%"} + ${
-                  dillerCounts * (isMobile ? 28 : is998 ? 20 : 35)
-                }px)`,
-                top: `calc(${isMobile ? "-5px" : "20px"} + ${
-                  dillerCounts * 11
-                }px)`,
+                left: `calc(${isMobile ? "37%" : is998 ? "47%" : "51%"} + ${dillerCounts * (isMobile ? 28 : is998 ? 20 : 35)
+                  }px)`,
+                top: `calc(${isMobile ? "-5px" : "20px"} + ${dillerCounts * 11
+                  }px)`,
                 transform: "translateX(-50%)",
               }}
               className={s.card_value}
@@ -607,18 +601,16 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userCount > 0 && !isSplit && (
             <div
               style={{
-                left: `calc(${isMobile ? "35%" : is998 ? "47%" : "51%"} + ${
-                  isStep * (isMobile ? 28 : is998 ? 20 : 35)
-                }px)`,
-                bottom: `calc(${
-                  isMobile
+                left: `calc(${isMobile ? "35%" : is998 ? "47%" : "51%"} + ${isStep * (isMobile ? 28 : is998 ? 20 : 35)
+                  }px)`,
+                bottom: `calc(${isMobile
                     ? "43%"
                     : is998
-                    ? "40.5%"
-                    : isTablet
-                    ? "35.5%"
-                    : "35%"
-                } - ${isStep * 10}px)`,
+                      ? "40.5%"
+                      : isTablet
+                        ? "35.5%"
+                        : "35%"
+                  } - ${isStep * 10}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -633,21 +625,19 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userLeftCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(${
-                  isMobile ? "24%" : is998 ? "38.5%" : isTablet ? "29%" : "41%"
-                } + ${
+                left: `calc(${isMobile ? "24%" : is998 ? "38.5%" : isTablet ? "29%" : "41%"
+                  } + ${
                   // 22-37
                   leftCards.length * (isMobile ? 24 : is998 ? 20 : 35)
-                }px)`,
-                bottom: `calc(${
-                  isMobile
+                  }px)`,
+                bottom: `calc(${isMobile
                     ? "37%"
                     : is998
-                    ? "37.5%"
-                    : isTablet
-                    ? "32.5%"
-                    : "32%"
-                } - ${leftCards.length * 15}px)`,
+                      ? "37.5%"
+                      : isTablet
+                        ? "32.5%"
+                        : "32%"
+                  } - ${leftCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -662,20 +652,17 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
           {userRightCount > 0 && isSplit && (
             <div
               style={{
-                left: `calc(${
-                  isMobile ? "71%" : is998 ? "63%" : isTablet ? "75%" : "66%"
-                } + ${
-                  rightCards.length * (isMobile ? 24 : is998 ? 20 : 35)
-                }px)`,
-                bottom: `calc(${
-                  isMobile
+                left: `calc(${isMobile ? "71%" : is998 ? "63%" : isTablet ? "75%" : "66%"
+                  } + ${rightCards.length * (isMobile ? 24 : is998 ? 20 : 35)
+                  }px)`,
+                bottom: `calc(${isMobile
                     ? "37%"
                     : is998
-                    ? "37.5%"
-                    : isTablet
-                    ? "32.5%"
-                    : "32%"
-                } - ${rightCards.length * 15}px)`,
+                      ? "37.5%"
+                      : isTablet
+                        ? "32.5%"
+                        : "32%"
+                  } - ${rightCards.length * 15}px)`,
                 transform: "translate(-50%, -50%)",
               }}
               className={cn(
@@ -718,21 +705,21 @@ export const BlackJackGame: FC<BlackJackGameProps> = () => {
                       className={cn(
                         s.card_front_img,
                         card.id === "player" &&
-                          gameStatus === "lose" &&
-                          s.card_lose,
+                        gameStatus === "lose" &&
+                        s.card_lose,
                         card.id === "player" &&
-                          gameStatus === "win" &&
-                          s.card_win,
+                        gameStatus === "win" &&
+                        s.card_win,
                         card.id === "player" &&
-                          isSplit &&
-                          !firstPlay &&
-                          isRight &&
-                          s.active_step,
+                        isSplit &&
+                        !firstPlay &&
+                        isRight &&
+                        s.active_step,
                         card.id === "player" &&
-                          isSplit &&
-                          firstPlay &&
-                          isLeft &&
-                          s.active_step,
+                        isSplit &&
+                        firstPlay &&
+                        isLeft &&
+                        s.active_step,
                         isLeft && gameLeftStatus === "lose" && s.card_lose,
                         isRight && gameRightStatus === "lose" && s.card_lose,
                         isLeft && gameLeftStatus === "win" && s.card_win,

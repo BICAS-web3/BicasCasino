@@ -2,15 +2,15 @@ import { FC, useEffect, useState } from "react";
 import s from "./styles.module.scss";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import clsx from "clsx";
-import cityStartImg from "@/public/media/cars/bgStart.png";
-import cityFinishImg from "@/public/media/cars/cityMain.png";
-import cityMainImg from "@/public/media/cars/cityMain.png";
-import moonImg from "@/public/media/cars/moonBg.png";
-import staticBg from "@/public/media/cars/staticBg.png";
+import cityStartImg from "@/public/media/cars/bgStart.webp";
+import cityFinishImg from "@/public/media/cars/cityMain.webp";
+import cityMainImg from "@/public/media/cars/cityMain.webp";
+import moonImg from "@/public/media/cars/moonBg.webp";
+import staticBg from "@/public/media/cars/staticBg.webp";
 import { Car1 } from "@/shared/SVGs/Car1";
-import mountainsBg from "@/public/media/cars/mountainsBg.png";
+import mountainsBg from "@/public/media/cars/mountainsBg.webp";
 import { Car2 } from "@/shared/SVGs/Car2";
-import stopLine from "@/public/media/cars/stopLine.png";
+import stopLine from "@/public/media/cars/stopLine.webp";
 
 //?-------------------------------------
 import { SidePickerModel } from "../CoinFlipSidePicker";
@@ -392,19 +392,19 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     const newValue =
       fees +
       (pickedToken &&
-      pickedToken.contract_address ==
+        pickedToken.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0));
     setValue(
       fees +
-        (pickedToken &&
+      (pickedToken &&
         pickedToken.contract_address ==
-          "0x0000000000000000000000000000000000000000"
-          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-            BigInt(100000000000)
-          : BigInt(0))
+        "0x0000000000000000000000000000000000000000"
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+        BigInt(100000000000)
+        : BigInt(0))
     );
 
     setBetValue(newValue + BigInt(400000) * prevGasPrice);
@@ -543,7 +543,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             // if (setAllowance) {
             //   setAllowance();
@@ -766,9 +766,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   return (
     <section
       className={s.cars_table_wrap}
-      // onClick={() => {
-      //   setInGame(true);
-      // }}
+    // onClick={() => {
+    //   setInGame(true);
+    // }}
     >
       <WagerLowerBtnsBlock
         game="Cars"
@@ -865,13 +865,13 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           style={{
             left:
               startGame &&
-              gameResult.length === 0 &&
-              randomeMove !== 0 &&
-              (randomeMove === 1 || randomeMove === -1)
+                gameResult.length === 0 &&
+                randomeMove !== 0 &&
+                (randomeMove === 1 || randomeMove === -1)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
                 : isSmall
-                ? "15px"
-                : "50px",
+                  ? "15px"
+                  : "50px",
           }}
           className={clsx(
             s.car1_wrap,
@@ -886,13 +886,13 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           style={{
             left:
               startGame &&
-              gameResult.length === 0 &&
-              randomeMove !== 0 &&
-              (randomeMove === 2 || randomeMove === -2)
+                gameResult.length === 0 &&
+                randomeMove !== 0 &&
+                (randomeMove === 2 || randomeMove === -2)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
                 : isSmall
-                ? "30px"
-                : "70px",
+                  ? "30px"
+                  : "70px",
           }}
           className={clsx(
             s.car2_wrap,

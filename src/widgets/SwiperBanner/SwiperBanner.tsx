@@ -19,8 +19,8 @@ import swiperImg6 from "@/public/media/swiperBannerImgs/tokenImage.webp";
 import swiperImg6Mob from "@/public/media/swiperBannerImgs/tokenMobImg.webp";
 import swiperImg7 from "@/public/media/swiperBannerImgs/xbotImage.webp";
 import swiperImg5Mob from "@/public/media/swiperBannerImgs/slide5MobBg.webp";
-import swiperImg8 from "@/public/media/swiperBannerImgs/draxImg.png";
-import swiperImg9 from "@/public/media/swiperBannerImgs/chainlinkImg.png";
+import swiperImg8 from "@/public/media/swiperBannerImgs/draxImg.webp";
+import swiperImg9 from "@/public/media/swiperBannerImgs/chainlinkImg.webp";
 
 import tgIco from "@/public/media/swiperBannerImgs/tgIco.svg";
 import kycIco from "@/public/media/swiperBannerImgs/kycIco.svg";
@@ -104,7 +104,7 @@ const swiperSlides = [
   },
 ];
 
-interface SwiperBannerProps {}
+interface SwiperBannerProps { }
 
 export const SwiperBanner: FC<SwiperBannerProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -211,9 +211,8 @@ export const SwiperBanner: FC<SwiperBannerProps> = () => {
             className={`${s.main_banner_swiper_slide} ${
               // isConnected && s.slide_connected'
               ""
-            } ${slide.subText && s.slide_connected} ${
-              ind === 8 && s.slide_last
-            }`}
+              } ${slide.subText && s.slide_connected} ${ind === 8 && s.slide_last
+              }`}
             data-extra={slide.extraText && "true"}
           >
             <img

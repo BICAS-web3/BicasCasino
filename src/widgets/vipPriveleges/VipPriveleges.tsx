@@ -1,14 +1,14 @@
 import { FC } from "react";
 import s from "./styles.module.scss";
 
-import level from "@/public/media/vipPage/uroven.png";
-import vip from "@/public/media/vipPage/cartochka.png";
-import present from "@/public/media/vipPage/podarok.png";
-import diagram from "@/public/media/vipPage/diagrama.png";
-import coin from "@/public/media/vipPage/moneta.png";
-import medal from "@/public/media/vipPage/medal.png";
-import kubok from "@/public/media/vipPage/kubok.png";
-import korona from "@/public/media/vipPage/corona.png";
+import level from "@/public/media/vipPage/uroven.webp";
+import vip from "@/public/media/vipPage/cartochka.webp";
+import present from "@/public/media/vipPage/podarok.webp";
+import diagram from "@/public/media/vipPage/diagrama.webp";
+import coin from "@/public/media/vipPage/moneta.webp";
+import medal from "@/public/media/vipPage/medal.webp";
+import kubok from "@/public/media/vipPage/kubok.webp";
+import korona from "@/public/media/vipPage/corona.webp";
 
 const list = [
   {
@@ -53,7 +53,7 @@ const list = [
   },
 ];
 
-interface VipPrivelegesProps {}
+interface VipPrivelegesProps { }
 
 export const VipPriveleges: FC<VipPrivelegesProps> = () => {
   return (

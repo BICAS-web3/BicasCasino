@@ -8,8 +8,8 @@ import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
 import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBanner.webp";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
-import rocketbg from "@/public/media/games_assets/rocket/rocket_bg.png";
-import slotsbg from "@/public/media/games_assets/slots/slot_bg.png";
+import rocketbg from "@/public/media/games_assets/rocket/rocket_bg.webp";
+import slotsbg from "@/public/media/games_assets/slots/slot_bg.webp";
 
 export type T_GameData = {
   title: string;

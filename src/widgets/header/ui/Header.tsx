@@ -5,7 +5,7 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
-import HeaderLogo from "@/public/media/brand_images/HeaderLogo.png";
+import HeaderLogo from "@/public/media/brand_images/HeaderLogo.webp";
 
 import * as SidebarM from "@/widgets/SideBar/model";
 
