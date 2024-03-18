@@ -250,7 +250,7 @@ const Game: FC<GameProps> = (props) => {
   );
 };
 
-interface GamesProps {}
+interface GamesProps { }
 
 const Games: FC<GamesProps> = (props) => {
   const [sidebarOpened] = useUnit([SidebarModel.$isOpen]);
@@ -440,7 +440,7 @@ const Games: FC<GamesProps> = (props) => {
   );
 };
 
-interface GamesTitleProps {}
+interface GamesTitleProps { }
 const GamesTitle: FC<GamesTitleProps> = (props) => {
   return (
     <div className={s.games_title}>
@@ -448,7 +448,7 @@ const GamesTitle: FC<GamesTitleProps> = (props) => {
     </div>
   );
 };
-interface BannerInfoProps {}
+interface BannerInfoProps { }
 const BannerInfo: FC<BannerInfoProps> = (props) => {
   const [startConnect, setStartConnect] = useUnit([
     ConnectModel.$startConnect,
@@ -502,9 +502,8 @@ const BannerInfo: FC<BannerInfoProps> = (props) => {
           </>
         )} */}
         <div
-          className={`${s.banner_info_avaibleWallet_container} ${
-            !isOpen && s.sidebarClosed
-          } ${isMainWalletOpen && s.walletVisible}`}
+          className={`${s.banner_info_avaibleWallet_container} ${!isOpen && s.sidebarClosed
+            } ${isMainWalletOpen && s.walletVisible}`}
         >
           <AvaibleWallet hideAvaibleWallet={hideAvaibleWallet} />
         </div>
@@ -548,7 +547,7 @@ export default function Home() {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeBets" }));
+      socket?.send(JSON.stringify({ type: "SubscribeAllBets" }));
     }
   }, [socket, socket?.readyState]);
 
@@ -556,10 +555,9 @@ export default function Home() {
     <>
       <Head>
         <title>GreekKeepers: WEB 3.0 Crypto Games</title>
-        <link rel="preload" href="/dice/dice_animation.glb" as="script" />
       </Head>
 
-      <LiveBetsWS subscription_type={"SubscribeBets"} subscriptions={[]} />
+      <LiveBetsWS subscription_type={"SubscribeAllBets"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
         <div className={`${s.main_container}`}>
