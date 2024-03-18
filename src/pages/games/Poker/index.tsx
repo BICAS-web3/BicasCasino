@@ -119,7 +119,7 @@ export default function PokerGame() {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({ type: "Subscribe", payload: ["Poker", "PokerStart"] })
       );
