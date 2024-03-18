@@ -25,12 +25,6 @@ import { StopWinning } from "@/shared/ui/StopWinning";
 
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  // const [appleItems,setAppleItems] = useState<number[]>([])
-  // const { isConnected, isConnecting } = useAccount();
-
-  // const [pressButton] = useUnit([WagerModel.pressButton]);
-
-  // const router = useRouter();
 
   const [cryptoValue] = useUnit([WagerAmountModel.$cryptoValue]);
   const [
@@ -43,6 +37,9 @@ const WagerContent = () => {
     emptyField,
     setIsPlaying,
     setError,
+    setStop,
+    stop,
+    apples,
   ] = useUnit([
     ConnectModel.setConnect,
     GameModel.setIsEmtyWager,
@@ -53,14 +50,10 @@ const WagerContent = () => {
     AppleModel.$emptyField,
     GameModel.setIsPlaying,
     WagerAmountModel.setError,
+    AppleModel.setStop,
+    AppleModel.$stop,
+    AppleModel.$apples,
   ]);
-  // useEffect(() => {
-  //   isConnecting && setStartConnect(false);
-  // }, []);
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const partner_address = queryParams.get("partner_address");
-  // const site_id = queryParams.get("site_id");
-  // const sub_id = queryParams.get("sub_id");
   const [isPartner] = useUnit([ConnectModel.$isPartner]);
   const [title, setTitle] = useState(false);
 
@@ -76,63 +69,28 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      <StopWinning />
-      {/* <button
+      <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
-          cryptoValue == 0.0 && isConnected
-            ? s.button_inactive
-            : s.button_active
+          s.button_active,
+          apples.length === 0 && isPlaying && s.btn_step,
+          apples.length !== 0 && isPlaying && s.btn_refund
         )}
+        disabled={isPlaying && apples.length === 0}
         onClick={() => {
-          if (emptyField) {
-            setTitle(true);
+          if (isPlaying) {
+            apples.length > 0 && setStop(true);
           } else {
-            if (gameResult?.length > 0) {
-              setReset(!reset);
+            if (!cryptoValue) {
+              setError(true);
             } else {
-              if (cryptoValue > 0.0 && !isPlaying && isConnected) {
-                pressButton();
-              } else if (cryptoValue <= 0.0 && isConnected) {
-                setIsEmtyWager(true);
-              } else {
-                router.push(
-                  isPartner
-                    ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
-                    : "/RegistrManual"
-                );
-              }
+              setIsPlaying(true);
             }
           }
         }}
       >
-        {isPlaying ? (
-          <LoadingDots className={s.dots_black} title="Playing" />
-        ) : isConnected ? (
-          title ? (
-            "Select Fields"
-          ) : (
-            "Play"
-          )
-        ) : (
-          "Connect Wallet"
-        )}
-      </button> */}
-      {/* {isPlaying && (
-        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
-      )} */}
-      <button
-        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
-        onClick={() => {
-          if (!cryptoValue) {
-            setError(true);
-          } else {
-            setIsPlaying(true);
-          }
-        }}
-      >
-        Play
+        {isPlaying ? "Refund" : "Play"}
       </button>
     </>
   );
@@ -187,3 +145,70 @@ const Apples: FC<ApplesProps> = () => {
 };
 
 export default Apples;
+{
+  /* <StopWinning /> */
+}
+{
+  /* <button
+        className={clsx(
+          s.connect_wallet_btn,
+          s.mobile,
+          cryptoValue == 0.0 && isConnected
+            ? s.button_inactive
+            : s.button_active
+        )}
+        onClick={() => {
+          if (emptyField) {
+            setTitle(true);
+          } else {
+            if (gameResult?.length > 0) {
+              setReset(!reset);
+            } else {
+              if (cryptoValue > 0.0 && !isPlaying && isConnected) {
+                pressButton();
+              } else if (cryptoValue <= 0.0 && isConnected) {
+                setIsEmtyWager(true);
+              } else {
+                router.push(
+                  isPartner
+                    ? `/RegistrManual?partner_address=${partner_address}&site_id=${site_id}&sub_id=${sub_id}`
+                    : "/RegistrManual"
+                );
+              }
+            }
+          }
+        }}
+      >
+        {isPlaying ? (
+          <LoadingDots className={s.dots_black} title="Playing" />
+        ) : isConnected ? (
+          title ? (
+            "Select Fields"
+          ) : (
+            "Play"
+          )
+        ) : (
+          "Connect Wallet"
+        )}
+      </button> */
+}
+{
+  /* {isPlaying && (
+        <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
+      )} */
+}
+
+// const [appleItems,setAppleItems] = useState<number[]>([])
+// const { isConnected, isConnecting } = useAccount();
+
+// const [pressButton] = useUnit([WagerModel.pressButton]);
+
+// const router = useRouter();
+
+// useEffect(() => {
+//   isConnecting && setStartConnect(false);
+// }, []);
+// const queryParams = new URLSearchParams(window.location.search);
+// const partner_address = queryParams.get("partner_address");
+// const site_id = queryParams.get("site_id");
+// const sub_id = queryParams.get("sub_id");

@@ -28,14 +28,23 @@ import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 const WagerContent = () => {
-  const [startConnect, setStartConnect, waitingResponse, isPlaying, setRefund] =
-    useUnit([
-      ConnectModel.$startConnect,
-      ConnectModel.setConnect,
-      GameModel.$waitingResponse,
-      GameModel.$isPlaying,
-      GameModel.setRefund,
-    ]);
+  const [
+    startConnect,
+    setStartConnect,
+    waitingResponse,
+    isPlaying,
+    setRefund,
+    setIsPlaying,
+    setError,
+  ] = useUnit([
+    ConnectModel.$startConnect,
+    ConnectModel.setConnect,
+    GameModel.$waitingResponse,
+    GameModel.$isPlaying,
+    GameModel.setRefund,
+    GameModel.setIsPlaying,
+    WagerAmountModel.setError,
+  ]);
   const [pressButton, setIsEmtyWager] = useUnit([
     WagerModel.pressButton,
     GameModel.setIsEmtyWager,
@@ -102,7 +111,16 @@ const WagerContent = () => {
       {/* {isPlaying && (
         <RefundButton onClick={() => setRefund(true)} className={s.mobile} />
       )} */}{" "}
-      <button className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}>
+      <button
+        onClick={() => {
+          if (!cryptoValue) {
+            setError(true);
+          } else {
+            setIsPlaying(true);
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobrile, s.button_active)}
+      >
         Play
       </button>
     </>
@@ -116,15 +134,26 @@ export default function PokerGame() {
   ]);
 
   const socket = useSocket();
+  const [gamesList] = useUnit([GameModel.$gamesList]);
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
       socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
       socket?.send(
-        JSON.stringify({ type: "Subscribe", payload: ["Poker", "PokerStart"] })
+        JSON.stringify({
+          type: "Subscribe",
+          payload: [
+            gamesList.find((item) => item.name === "Poker")?.id,
+            "PokerStart",
+          ],
+        })
       );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
   return (
     <>
       <Head>

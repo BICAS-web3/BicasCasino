@@ -50,6 +50,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     setGamesList,
     setSocketLogged,
     userInfo,
+    setAccessToken,
+    setAuth,
   ] = useUnit([
     SidebarM.$isOpen,
     SidebarM.Close,
@@ -59,6 +61,8 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     GameModal.setGamesList,
     LayoutModel.setSocketLogged,
     LayoutModel.$userInfo,
+    RegistrM.setAccessToken,
+    RegistrM.setAuth,
   ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
@@ -68,6 +72,15 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     RegistrM.$isAuth,
     RegistrM.$access_token,
   ]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth");
+    if (token) {
+      setAccessToken(token);
+    } else {
+      setAuth(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 650 || props.gameName !== undefined) close();
@@ -159,7 +172,14 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
       //   socket.send(JSON.stringify(server_seed));
       // }
     }
-  }, [socket, access_token, socket?.readyState, seeds, errorSeed]);
+  }, [
+    socket,
+    access_token,
+    socket?.readyState,
+    seeds,
+    errorSeed,
+    socket?.OPEN,
+  ]);
 
   //!-----------------------------------------------------------------------------
 

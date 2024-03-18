@@ -78,8 +78,8 @@
   background: rgba(3, 33, 45, 0.82);
   margin-top: 30px;
   box-shadow: 0px 0px 24.6px 0px rgba(25, 102, 101, 0.89);
-  padding: 35px 24px 14px 24px;
-
+  padding: 31px 24px 20px 24px;
+  margin-top: 0;
   @media screen and (max-width: 650px) {
     padding: 19px 17px;
     margin-bottom: 40px;
@@ -588,4 +588,8 @@
   &_right {
     right: -11px;
   }
+}
+
+.btn_disactive {
+  cursor: auto;
 }

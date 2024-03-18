@@ -203,6 +203,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     result,
     setResult,
     socketLogged,
+    setCryptoValue,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -234,6 +235,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     BetsModel.$result,
     BetsModel.setResult,
     LayoutModel.$socketLogged,
+    WagerModel.setCryptoValue,
   ]);
 
   useEffect(() => {
@@ -242,6 +244,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         const dataState = JSON.parse(result.state);
         setKeep(true);
         if (Number(result.amount) > 0) {
+          setCryptoValue(Number(result.amount));
           if (JSON.parse(result.bet_info).cashout === false) {
           }
           const newGameField = gameField.map((value, index) => {

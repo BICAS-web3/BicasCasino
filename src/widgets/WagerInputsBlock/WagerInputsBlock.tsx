@@ -23,6 +23,7 @@ import * as BJModel from "@/widgets/BlackJackGame/model";
 
 import { WagerModel as WagerM } from "@/widgets/Wager";
 import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+
 // const tokensList = [
 //   {
 //     title: "token 1",
@@ -289,6 +290,11 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
       setIsEmtyWager(false);
     };
   }, []);
+
+  useEffect(() => {
+    setCryptoInputValue(String(cryptoValue));
+  }, [cryptoValue]);
+
   return (
     <>
       {isLowBalance && (
@@ -323,12 +329,15 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
               setError(false);
               setstartedTyping(true);
               const numb = e.target.value;
-              setCryptoInputValue(numb);
               const num = Number(numb);
               if (isNaN(num)) {
                 setCryptoValue(0);
                 return;
               }
+              if (num > 50) {
+                return;
+              }
+              setCryptoInputValue(numb);
               const currency = Number((num * exchangeRate).toFixed(7));
               setCurrencyInputValue(currency.toString());
               if (true) {
@@ -337,7 +346,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
                 setCryptoValue(0);
               }
             }}
-            value={cryptoInputValue}
+            value={`${cryptoInputValue}`}
           />
           <div className={s.poker_wager_input_kripto_ico_block}>
             {/* {startedTyping && (cryptoValue * exchangeRate * betsAmount) < 5 && <TransactionWarn amount={5} network="" />} */}

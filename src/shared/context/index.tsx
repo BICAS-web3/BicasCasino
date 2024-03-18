@@ -28,6 +28,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const uuidRef = useRef<string | null>(null);
 
   useEffect(() => {
+    if (socket) return;
+    let uid: null | string = null;
     const newSocket = new WebSocket("wss://game.greekkeepers.io/api/updates");
 
     newSocket.onopen = () => {
@@ -39,7 +41,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       console.log("Received message from server:", data.uuid, uuidRef.current);
       if (data.type === "Uuid") {
         setUuid(data.uuid);
+        uid = data.uuid;
         uuidRef.current = data.uuid;
+      }
+      if (data.type === "State" && uid !== null) {
+        setResult(data);
+        // uid = null;
       }
       if (
         (data.type === "Bet" ||
@@ -61,12 +68,16 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         newBet(data);
       }
     };
-    setSocket(newSocket);
 
-    // return () => {
-    //   newSocket.close();
-    // };
-  }, []);
+    newSocket.onclose = () => {
+      setSocket(null);
+    };
+    newSocket.onerror = () => {
+      setSocket(null);
+    };
+
+    setSocket(newSocket);
+  }, [socket]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
