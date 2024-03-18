@@ -1,7 +1,7 @@
 import { FC } from "react";
 import clsx from "clsx";
 import * as GameModel from "@/widgets/GamePage/model";
-import cross from "@/public/media/roulette_images/cross.png";
+import cross from "@/public/media/roulette_images/cross.webp";
 import s from "./styles.module.scss";
 import Image from "next/image";
 import { useMediaQuery } from "@/shared/tools";

@@ -1,11 +1,11 @@
 import { FC, createRef, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
-import gameBg from "@/public/media/thimbles/thimblesBg.png";
-import thimbleImg from "@/public/media/thimbles/thimble.png";
-import thimbleShadow from "@/public/media/thimbles/thimbleShadow.png";
+import gameBg from "@/public/media/thimbles/thimblesBg.webp";
+import thimbleImg from "@/public/media/thimbles/thimble.webp";
+import thimbleShadow from "@/public/media/thimbles/thimbleShadow.webp";
 import ballIco from "@/public/media/thimbles/ball.svg";
-import activeThimbleImg from "@/public/media/thimbles/activeThimble.png";
+import activeThimbleImg from "@/public/media/thimbles/activeThimble.webp";
 import clsx from "clsx";
 
 import { useUnit } from "effector-react";

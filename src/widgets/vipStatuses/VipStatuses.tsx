@@ -1,13 +1,13 @@
 import { FC, useRef } from "react";
 import s from "./styles.module.scss";
-import bronze from "@/public/media/vipPage/bronze.png";
-import silver from "@/public/media/vipPage/silver.png";
-import gold from "@/public/media/vipPage/gold.png";
+import bronze from "@/public/media/vipPage/bronze.webp";
+import silver from "@/public/media/vipPage/silver.webp";
+import gold from "@/public/media/vipPage/gold.webp";
 import clsx from "clsx";
 import "swiper/scss";
 import { SwiperRef } from "swiper/react";
-import checkboxDisabled from "@/public/media/vipPage/checkboxDisabled.png";
-import checkboxActive from "@/public/media/vipPage/checkboxActive.png";
+import checkboxDisabled from "@/public/media/vipPage/checkboxDisabled.webp";
+import checkboxActive from "@/public/media/vipPage/checkboxActive.webp";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const statuses = [
@@ -133,7 +133,7 @@ const statuses = [
   },
 ];
 
-interface VipStatusesProps {}
+interface VipStatusesProps { }
 
 export const VipStatuses: FC<VipStatusesProps> = () => {
   const swiperRef = useRef<SwiperRef>(null);

@@ -1,15 +1,15 @@
 import s from "./styles.module.scss";
 import { FC } from "react";
 
-import livechatIco from "@/public/media/support/liveChatIco.png";
-import tgIco from "@/public/media/support/tgIco.png";
-import twitterIco from "@/public/media/support/twitterIco.png";
-import mailIco from "@/public/media/support/mailIco.png";
+import livechatIco from "@/public/media/support/liveChatIco.webp";
+import tgIco from "@/public/media/support/tgIco.webp";
+import twitterIco from "@/public/media/support/twitterIco.webp";
+import mailIco from "@/public/media/support/mailIco.webp";
 
-import livechatBg from "@/public/media/support/first.png";
-import tgBg from "@/public/media/support/second.png";
-import twitterBg from "@/public/media/support/third.png";
-import mailBg from "@/public/media/support/fourth.png";
+import livechatBg from "@/public/media/support/first.webp";
+import tgBg from "@/public/media/support/second.webp";
+import twitterBg from "@/public/media/support/third.webp";
+import mailBg from "@/public/media/support/fourth.webp";
 import Link from "next/link";
 
 const supportList = [
@@ -39,7 +39,7 @@ const supportList = [
   },
 ];
 
-interface SupportBlockProps {}
+interface SupportBlockProps { }
 
 export const SupportBlock: FC<SupportBlockProps> = () => {
   return (

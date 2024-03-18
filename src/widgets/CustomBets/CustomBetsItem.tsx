@@ -9,10 +9,10 @@ import rpsIcon from "@/public/media/live_bets/rpsIco.webp";
 import rpsMobIco from "@/public/media/live_bets/rpsMobIco.webp";
 import bombIcon from "@/public/media/live_bets/bombIco.webp";
 import plincoIcon from "@/public/media/live_bets/plinkoIco.webp";
-import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
-import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
+import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.webp";
+import slotsIcon from "@/public/media/games_assets/slots/slots_icon.webp";
 import linkIco from "@/public/media/live_bets/linkIco.svg";
-import appleIcon from "@/public/media/apples_icon/apple_icon.jpg";
+import appleIcon from "@/public/media/apples_icon/apple_icon.webp";
 import wagerIco from "@/public/media/live_bets/wagerIco.svg";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -20,19 +20,19 @@ import Link from "next/link";
 import * as api from "@/shared/api";
 import { BlockiesAva } from "../BlockiesAva/BlockiesAva";
 // import { useAccount } from "wagmi";
-import carIcon from "@/public/media/cars/icon.jpg";
-import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
-import thimbleIcon from "@/public/media/thimbles/icon.jpg";
-import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
+import carIcon from "@/public/media/cars/icon.webp";
+import wheelIcon from "@/public/media/wheel_icons/wheel_icon.webp";
+import thimbleIcon from "@/public/media/thimbles/icon.webp";
+import rouletteIcon from "@/public/media/roulette_icons/roulette.webp";
 import clsx from "clsx";
 import * as BetModel from "@/widgets/LiveBets/model";
 import { useUnit } from "effector-react";
 import * as RegistrModel from "@/widgets/Registration/model";
-// import wheelIcon from '@/public/media/wheel_icons/wheel_icon.jpg'
+// import wheelIcon from '@/public/media/wheel_icons/wheel_icon.webp'
 
 import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
 
-import raceIson from "@/public/media/race_icons/bets_icon.jpg";
+import raceIson from "@/public/media/race_icons/bets_icon.webp";
 import { sessionModel } from "@/entities/session";
 import * as GameModel from "@/widgets/GamePage/model";
 export interface CustomBetsItemProps {

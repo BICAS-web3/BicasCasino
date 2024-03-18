@@ -25,7 +25,7 @@ import clsx from "clsx";
 
 import * as DiceM from "./model";
 import { ProfitModel } from "../ProfitBlock";
-import rocket from "@/public/media/rocket/rocket.png";
+import rocket from "@/public/media/rocket/rocket.webp";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import { Preload } from "@/shared/ui/Preload";
 import ReactHowler from "react-howler";
@@ -237,7 +237,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             // if (setAllowance) {
             //   setAllowance();
@@ -314,8 +314,7 @@ export const Rocket: FC<IRocket> = ({ gameText }) => {
 
     rangeElement?.style.setProperty(
       "--range-width",
-      `${
-        rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
+      `${rollOver ? (RollValue < 50 ? rangeWidth - 7 : rangeWidth) : rangeWidth
       }px`
     );
   }, [RollValue, rollOver]);

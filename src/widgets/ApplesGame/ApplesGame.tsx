@@ -1,6 +1,6 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import applesBg from "@/public/media/apples/applesBg.png";
+import applesBg from "@/public/media/apples/applesBg.webp";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import appleBg from "@/public/media/apples/appleItemBg.svg";
 import appleBgTrue from "@/public/media/apples/appleItemBgTrue.svg";
@@ -51,7 +51,7 @@ import { ApplesWinBlock } from "../ApplesWin/ApplesWinBlock";
 import { Preload } from "@/shared/ui/Preload";
 import { useSocket } from "@/shared/context";
 import * as MinesModel from "@/widgets/Mines/model";
-interface ApplesGameProps {}
+interface ApplesGameProps { }
 
 export const ApplesGame: FC<ApplesGameProps> = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([]);
@@ -608,29 +608,29 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                         ? currentIndex === appleData.length - 1
                         : currentIndex === appleData.length) ||
                         (9 === appleData.length && ind === 0)) && (
-                        <img
-                          src={cfBgActive.src}
-                          className={s.cf_bg_active}
-                          alt="cf-static-bg"
-                        />
-                      )}
+                          <img
+                            src={cfBgActive.src}
+                            className={s.cf_bg_active}
+                            alt="cf-static-bg"
+                          />
+                        )}
 
                       <div className={s.row_cf}>
                         {(currentIndex >= appleData.length ||
                           currentIndex === 8) && (
-                          <span className={s.cf_title}>
-                            {item.cf.toFixed(2)}
-                          </span>
-                        )}
+                            <span className={s.cf_title}>
+                              {item.cf.toFixed(2)}
+                            </span>
+                          )}
                         {(inGame || appleGameResult?.length > 0
                           ? currentIndex > appleData.length - 1
                           : currentIndex > appleData.length) && (
-                          <img
-                            src={cfBg.src}
-                            className={s.cf_bg}
-                            alt="cf-static-bg"
-                          />
-                        )}
+                            <img
+                              src={cfBg.src}
+                              className={s.cf_bg}
+                              alt="cf-static-bg"
+                            />
+                          )}
                       </div>
                       {item.apples.map((_: any, ind2: any) => {
                         const picked = appleData[currentIndex]?.value === ind2;
@@ -654,7 +654,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                                 if (
                                   appleData.length !== 0 &&
                                   appleData[appleData.length - 1].number ===
-                                    currentIndex
+                                  currentIndex
                                 ) {
                                   const poppedArr = appleData.slice(
                                     0,
@@ -698,19 +698,19 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                             className={clsx(
                               s.apples_row_item,
                               currentIndex <= appleData.length &&
-                                appleGameResult?.length === 0 &&
-                                isPlaying &&
-                                s.clicked,
+                              appleGameResult?.length === 0 &&
+                              isPlaying &&
+                              s.clicked,
                               picked && s.apple_picked,
                               falseResult && s.apple_picked_false,
                               // picked &&
                               !falseResult &&
-                                resultExist &&
-                                s.apple_picked_true,
+                              resultExist &&
+                              s.apple_picked_true,
                               currentIndex === appleData.length &&
-                                isPlaying &&
-                                appleGameResult?.length === 0 &&
-                                s.apple_pick
+                              isPlaying &&
+                              appleGameResult?.length === 0 &&
+                              s.apple_pick
                             )}
                           >
                             {resultExist && picked ? (
@@ -766,32 +766,32 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   Current Multiplier:{" "}
                   {inGame || appleGameResult?.length > 0
                     ? chunkedApplesArr[
-                        Math.abs(appleData.length - chunkedApplesArr?.length)
-                      ]?.cf?.toFixed(2)
+                      Math.abs(appleData.length - chunkedApplesArr?.length)
+                    ]?.cf?.toFixed(2)
                     : appleData.length < 9
-                    ? chunkedApplesArr[
+                      ? chunkedApplesArr[
                         Math.abs(
                           appleData.length -
-                            chunkedApplesArr?.length +
-                            1 +
-                            (appleData.length === 9 ? 0 : 0)
+                          chunkedApplesArr?.length +
+                          1 +
+                          (appleData.length === 9 ? 0 : 0)
                         )
                       ]?.cf?.toFixed(2)
-                    : chunkedApplesArr[0]?.cf?.toFixed(2)}
+                      : chunkedApplesArr[0]?.cf?.toFixed(2)}
                   x
                 </span>
                 <span className={s.multiplier_title}>
                   Max Payout:{" "}
                   {appleData.length !== 0
                     ? (
-                        chunkedApplesArr[
-                          Math.abs(
-                            appleData.length -
-                              chunkedApplesArr?.length +
-                              (appleData.length === 9 ? 0 : 0)
-                          )
-                        ]?.cf?.toFixed(2) * cryptoValue
-                      ).toFixed(3)
+                      chunkedApplesArr[
+                        Math.abs(
+                          appleData.length -
+                          chunkedApplesArr?.length +
+                          (appleData.length === 9 ? 0 : 0)
+                        )
+                      ]?.cf?.toFixed(2) * cryptoValue
+                    ).toFixed(3)
                     : 0}
                 </span>
               </div>
