@@ -74,9 +74,9 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
             Bets &&
             Bets.map((bet, ind) => {
               const time = new Date(bet?.timestamp * 1000);
-              const multiplier = parseFloat(
+              const multiplier = Number(parseFloat(
                 (Number(bet?.profit) / (Number(bet?.amount) * bet?.num_games)).toFixed(2)
-              );
+              ));
               return (
                 <CustomBetsItem
                   game_id={(bet as any).game_id}
@@ -94,18 +94,13 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
                   game_name={gamesList.find((item) => item.id === bet?.game_id)?.name as string}
                   // wager={Number((bet as any)?.amount).toFixed(2)}
                   bets={bet?.num_games}
-                  multiplier={(bet as any).bet_info &&
-                    JSON.parse((bet as any).bet_info)?.multiplier
-                    ? JSON.parse((bet as any).bet_info)?.multiplier
-                    : isNaN(multiplier)
-                      ? 0
-                      : multiplier}
-                  profit={(bet as any)?.profit ||
-                    Number((bet as any)?.profit).toFixed(2)}
+                  multiplier={multiplier}
+                  profit={
+                    Number(Number((bet)?.profit).toFixed(2))}
                   id={ind}
                   num_games={(bet as any)?.num_games}
                   username={bet?.username}
-                  amount={bet.amount}
+                  amount={Number(bet.amount).toString()}
                   coin_id={bet.coin_id} />
               );
             })
