@@ -14,9 +14,12 @@ def convert_to_webp(source):
     return destination
 
 
-
 def main():
     paths = Path("src/public/media").rglob("*.png")
+    for path in paths:
+        webp_path = convert_to_webp(path)
+        print(webp_path)
+    paths = Path("src/public/media").rglob("*.jpg")
     for path in paths:
         webp_path = convert_to_webp(path)
         print(webp_path)
