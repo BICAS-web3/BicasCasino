@@ -56,8 +56,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       if (data.type == "Ping") {
         return;
       }
-      setNewBet(data);
-      if (data.game_name != "PokerStart") {
+
+      if (data.type === "Bet") {
+        setNewBet(data);
         newBet(data);
       }
     };

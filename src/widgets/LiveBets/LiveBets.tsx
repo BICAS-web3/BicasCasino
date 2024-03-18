@@ -12,9 +12,8 @@ export interface LiveBetsWSProps {
   addition?: any;
 }
 export const LiveBetsWS: FC<LiveBetsWSProps> = ({ subscriptions }) => {
-  const [setBets, availableBlocksExplorers] = useUnit([
+  const [setBets] = useUnit([
     Model.setBets,
-    settingsModel.$AvailableBlocksExplorers,
   ]);
 
   const getBets = async () => {
@@ -22,16 +21,14 @@ export const LiveBetsWS: FC<LiveBetsWSProps> = ({ subscriptions }) => {
       subscriptions.length == 0
         ? ((await Api.getAllLastBets()).body as Api.T_Bets)
         : ((await Api.getGamesAllLastBets(subscriptions[0]))
-            .body as Api.T_Bets);
+          .body as Api.T_Bets);
     setBets(bets?.bets);
   };
 
   useEffect(() => {
-    const run = async () => {
-      await getBets();
-    };
-    run();
-  }, [availableBlocksExplorers]);
+    getBets();
+  }, []);
+
 
   return <></>;
 };
