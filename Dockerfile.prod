@@ -10,8 +10,8 @@ FROM node:19-alpine AS builder
 
 WORKDIR /app
 
-RUN npm install --save sharp
-RUN npm rebuild --arch=x64 --platform=linux --libc=musl sharp
+i#RUN npm install --save sharp
+#RUN npm rebuild --arch=x64 --platform=linux --libc=musl sharp
 #ENV NEXT_SHARP_PATH=/usr/local/lib/node_modules/sharp
 
 COPY --from=deps /app/node_modules ./node_modules
