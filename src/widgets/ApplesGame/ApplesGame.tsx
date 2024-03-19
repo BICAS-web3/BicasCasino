@@ -1,6 +1,6 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import applesBg from "@/public/media/apples/applesBg.png";
+import applesBg from "@/public/media/apples/applesBg.webp";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import appleBg from "@/public/media/apples/appleItemBg.svg";
 import appleBgTrue from "@/public/media/apples/appleItemBgTrue.svg";
@@ -153,6 +153,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     stop,
     setStop,
     setApples,
+    socketReset,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -197,6 +198,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     ApplesModel.$stop,
     ApplesModel.setStop,
     ApplesModel.setApples,
+    LayoutModel.$socketReset,
   ]);
 
   const [mines, setMines] = useState<boolean[][]>([]);
@@ -451,7 +453,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       );
       setCubscribed(true);
     }
-  }, [socket, isPlaying, access_token, gamesList, coninue]);
+  }, [socket, isPlaying, access_token, gamesList, coninue, socketReset]);
 
   useEffect(() => {
     if (
@@ -469,7 +471,15 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         })
       );
     }
-  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged]);
+  }, [
+    socket,
+    gamesList,
+    isDrax,
+    isPlaying,
+    access_token,
+    socketLogged,
+    socketReset,
+  ]);
 
   useEffect(() => {
     return () => {

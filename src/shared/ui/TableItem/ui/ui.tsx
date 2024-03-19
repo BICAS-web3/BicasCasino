@@ -7,7 +7,7 @@ import Link from "next/link";
 import * as api from "@/shared/api";
 import { useMediaQuery } from "@/shared/tools";
 import clsx from "clsx";
-import appleIcon from "@/public/media/apples_icon/apple_icon.jpg";
+import appleIcon from "@/public/media/apples_icon/apple_icon.webp";
 import diceIcon from "@/public/media/live_bets/dice.svg";
 import coinFlipIcon from "@/public/media/live_bets/coinFlip.svg";
 import pokerIcon from "@/public/media/live_bets/poker.svg";
@@ -15,12 +15,12 @@ import rpsIcon from "@/public/media/live_bets/rps.svg";
 import bombIcon from "@/public/media/live_bets/bomb.svg";
 import plincoIcon from "@/public/media/live_bets/plinco.svg";
 import { BlockiesAva } from "@/widgets/BlockiesAva/BlockiesAva";
-import wheelIcon from "@/public/media/wheel_icons/wheel_icon.jpg";
-import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.png";
-import slotsIcon from "@/public/media/games_assets/slots/slots_icon.png";
-import carIcon from "@/public/media/cars/icon.jpg";
-import thimbleIcon from "@/public/media/thimbles/icon.jpg";
-import rouletteIcon from "@/public/media/roulette_icons/roulette.jpg";
+import wheelIcon from "@/public/media/wheel_icons/wheel_icon.webp";
+import rocketIcon from "@/public/media/games_assets/rocket/rocket_icon.webp";
+import slotsIcon from "@/public/media/games_assets/slots/slots_icon.webp";
+import carIcon from "@/public/media/cars/icon.webp";
+import thimbleIcon from "@/public/media/thimbles/icon.webp";
+import rouletteIcon from "@/public/media/roulette_icons/roulette.webp";
 import { useUnit } from "effector-react";
 import draxTokenIco from "@/public/media/payment/draxMiniIco.svg";
 import bonusTokenIco from "@/public/media/payment/bonusCoin.svg";
@@ -46,7 +46,7 @@ export interface CustomBetsItemProps {
   num_games?: number;
   nickName?: string;
 }
-import raceIson from "@/public/media/race_icons/bets_icon.jpg";
+import raceIson from "@/public/media/race_icons/bets_icon.webp";
 import * as GameModel from "@/widgets/GamePage/model";
 export const TableItem: FC<CustomBetsItemProps> = (props) => {
   const isMedium = useMediaQuery("(max-width: 1280px)");

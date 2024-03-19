@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import s from "./styles.module.scss";
 import clsx from "clsx";
 import "swiper/scss";
-import downArr from "@/public/media/vipPage/downArrr.png";
+import downArr from "@/public/media/vipPage/downArrr.webp";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 
 const questions = {
@@ -54,7 +54,7 @@ const questions = {
   ],
 };
 
-interface VipFaqProps {}
+interface VipFaqProps { }
 
 export const VipFaq: FC<VipFaqProps> = () => {
   const [activeStatus, setActiveStatus] = useState<"general" | "vip">(
@@ -142,10 +142,9 @@ export const VipFaq: FC<VipFaqProps> = () => {
                   />
                 </div>
                 <div
-                  className={`${s.accordeon_body} ${
-                    activeAccordeon.find((val) => item.id == val) !=
-                      undefined && s.accordeon_active
-                  }`}
+                  className={`${s.accordeon_body} ${activeAccordeon.find((val) => item.id == val) !=
+                    undefined && s.accordeon_active
+                    }`}
                 >
                   <div className={s.accordeon_content}>
                     <p className={s.accordeon_text}>{item.text}</p>

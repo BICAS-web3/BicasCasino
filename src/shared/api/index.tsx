@@ -150,21 +150,21 @@ export type T_UserInfo = {
 
 export type T_BetInfo = {
   id: number;
-  transaction_hash: string;
-  player: string;
-  player_nickname: string;
   timestamp: number;
+  amount: string;
+  profit: string;
+  num_games: number;
+  outcomes: string;
+  profits: string;
+  bet_info: string;
+  state: string;
+  uuid: string;
   game_id: number;
-  game_name: string;
-  wager: bigint;
-  token_address: string;
-  token_name: string;
-  network_id: number;
-  bets: number;
-  multiplier: number;
-  profit: bigint;
-  player_hand: T_Card[] | null;
-  user_id?: any;
+  user_id: number;
+  username: string;
+  coin_id: number;
+  userseed_id: number;
+  serverseed_id: number;
 };
 
 export type T_Bets = {
@@ -198,23 +198,23 @@ export type T_GetUserAmount = {
 export type T_ApiResponse = {
   status: string;
   body:
-    | T_ErrorText
-    | T_Networks
-    | T_Rpcs
-    | T_Token
-    | T_Game
-    | T_Nickname
-    | T_Player
-    | T_Bets
-    | T_Tokens
-    | T_GameAbi
-    | T_BlockExplorers
-    | T_Totals
-    | T_LatestGames
-    | T_PlayerTotals
-    | T_TokenPrice
-    | T_NFTMarket
-    | T_LoginReponse;
+  | T_ErrorText
+  | T_Networks
+  | T_Rpcs
+  | T_Token
+  | T_Game
+  | T_Nickname
+  | T_Player
+  | T_Bets
+  | T_Tokens
+  | T_GameAbi
+  | T_BlockExplorers
+  | T_Totals
+  | T_LatestGames
+  | T_PlayerTotals
+  | T_TokenPrice
+  | T_NFTMarket
+  | T_LoginReponse;
 };
 
 export type T_InvoiceCreate = {
@@ -403,7 +403,7 @@ export const getDataFromOpensea = createEffect<string, any, string>(
       }
     )
       .then(async (res) => await res.json())
-      .catch((e) => {});
+      .catch((e) => { });
   }
 );
 
@@ -435,7 +435,7 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
       method: "GET",
     })
       .then(async (res) => await res.json())
-      .catch((e) => {});
+      .catch((e) => { });
   }
 );
 
@@ -451,7 +451,7 @@ export const getLeaderboard = createEffect<
     }
   )
     .then(async (res) => await res.json())
-    .catch((e) => {});
+    .catch((e) => { });
 });
 
 export type T_GetRpcs = {
@@ -552,8 +552,7 @@ export type T_GetUserBets = {
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async (form) => {
     return fetch(
-      `${BaseApiUrl}/bets/user/${form.address}/${
-        form.starting_id != null ? form.starting_id : ""
+      `${BaseApiUrl}/bets/user/${form.address}/${form.starting_id != null ? form.starting_id : ""
       }`,
       {
         method: "GET",
@@ -587,8 +586,7 @@ export const getUserBetsInc = createEffect<
   string
 >(async (form) => {
   return fetch(
-    `${BaseApiUrl}/bets/user/inc/${form.address}/${
-      form.starting_id != null ? form.starting_id : ""
+    `${BaseApiUrl}/bets/user/inc/${form.address}/${form.starting_id != null ? form.starting_id : ""
     }`,
     {
       method: "GET",

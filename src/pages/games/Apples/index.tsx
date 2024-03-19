@@ -23,6 +23,8 @@ import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 import { StopWinning } from "@/shared/ui/StopWinning";
 
+import * as LayoutModel from "@/widgets/Layout/model";
+
 const WagerContent = () => {
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
 
@@ -99,7 +101,10 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
 
   useEffect(() => {
@@ -116,7 +121,7 @@ const Apples: FC<ApplesProps> = () => {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

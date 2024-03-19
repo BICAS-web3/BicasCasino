@@ -63,7 +63,7 @@ export default function RaceGame() {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",

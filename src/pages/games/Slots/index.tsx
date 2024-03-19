@@ -101,7 +101,7 @@ const WagerContent = () => {
   );
 };
 
-interface SlotsProps {}
+interface SlotsProps { }
 
 const Slots: FC<SlotsProps> = () => {
   const socket = useSocket();
@@ -113,7 +113,7 @@ const Slots: FC<SlotsProps> = () => {
       socket.readyState === WebSocket.OPEN &&
       gamesList.length > 0
     ) {
-      socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",

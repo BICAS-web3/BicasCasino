@@ -8,6 +8,8 @@ export const $socketAuth = createStore<boolean>(false);
 
 export const $socketLogged = createStore<boolean>(false);
 
+export const $socketReset = createStore<number>(0);
+
 $startConnect.on(setConnect, (_, state) => state);
 
 export const $isPartner = createStore<boolean>(false);
@@ -17,6 +19,8 @@ export const setIsPartner = createEvent<boolean>();
 export const setSocketAuth = createEvent<boolean>();
 
 export const setSocketLogged = createEvent<boolean>();
+
+export const setSocketReset = createEvent();
 
 export type UserType = {
   type: string;
@@ -36,3 +40,5 @@ $userInfo.on(setUserInfo, (_, state) => state);
 $socketAuth.on(setSocketAuth, (_, state) => state);
 
 $socketLogged.on(setSocketLogged, (_, state) => state);
+
+$socketReset.on(setSocketReset, (state) => state + 1);

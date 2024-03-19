@@ -125,7 +125,7 @@ const WagerContent = () => {
   );
 };
 
-interface ApplesProps {}
+interface ApplesProps { }
 
 const Apples: FC<ApplesProps> = () => {
   const [gamesList] = useUnit([GameModel.$gamesList]);
@@ -133,7 +133,7 @@ const Apples: FC<ApplesProps> = () => {
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "UnSubscribeBets" }));
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",

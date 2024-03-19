@@ -9,6 +9,7 @@ import { sessionModel } from "@/entities/session";
 // import { useAccount } from "wagmi";
 import * as api from "@/shared/api/";
 import { TOKENS } from "@/shared/tokens";
+import * as GameModel from "@/widgets/GamePage/model";
 
 enum Page {
   AllBets = 0,
@@ -22,12 +23,12 @@ export interface CustomBetsProps {
   game: string | undefined;
 }
 export const CustomBets: FC<CustomBetsProps> = (props) => {
-  const [Bets, setBets, AvailableBlocksExplorers, newBet] = useUnit([
+  const [Bets, setBets, newBet] = useUnit([
     LiveBetsModel.$Bets,
     LiveBetsModel.setBets,
-    settingsModel.$AvailableBlocksExplorers,
     sessionModel.$newBet,
   ]);
+  const [gamesList] = useUnit([GameModel.$gamesList]);
 
   useEffect(() => console.log("bets: ", Bets), [Bets]);
 
@@ -71,54 +72,38 @@ export const CustomBets: FC<CustomBetsProps> = (props) => {
         <div className={s.customBets_list}>
           {
             Bets &&
-              Bets.map((bet, ind) => {
-                const time = new Date(bet?.timestamp * 1000);
-                const wager = parseFloat(
-                  (Number((bet as any)?.amount) / 10 ** 18).toFixed(2)
-                );
-                const profit = parseFloat(
-                  (Number(bet?.profit) / 10 ** 18).toFixed(2)
-                );
-                const multiplier = parseFloat(
-                  (profit / (wager * bet?.bets)).toFixed(2)
-                );
-                return (
-                  <CustomBetsItem
-                    game_id={(bet as any).game_id}
-                    user_id={(bet as any)?.user_id}
-                    bet={bet}
-                    trx_url=""
-                    key={ind}
-                    time={{
-                      date: `${time.getDate()}.${
-                        time.getMonth() + 1
-                      }.${time.getFullYear()}`,
-                      time: `${time.getHours()}:${(
-                        "0" + time.getMinutes()
-                      ).slice(-2)}`,
-                    }}
-                    //game_url={`/games/${bet?.game_name}`}
-                    game_name={bet?.game_name}
-                    // wager={Number((bet as any)?.amount).toFixed(2)}
-                    bets={bet?.bets}
-                    multiplier={
-                      (bet as any).bet_info &&
-                      JSON.parse((bet as any).bet_info)?.multiplier
-                        ? JSON.parse((bet as any).bet_info)?.multiplier
-                        : isNaN(multiplier)
-                        ? 0
-                        : multiplier
-                    }
-                    profit={
-                      (bet as any)?.profit ||
-                      Number((bet as any)?.profit).toFixed(2)
-                    }
-                    id={ind}
-                    token={bet?.token_name?.toUpperCase()}
-                    num_games={(bet as any)?.num_games}
-                  />
-                );
-              })
+            Bets.map((bet, ind) => {
+              const time = new Date(bet?.timestamp * 1000);
+              const multiplier = Number(parseFloat(
+                (Number(bet?.profit) / (Number(bet?.amount) * bet?.num_games)).toFixed(2)
+              ));
+              return (
+                <CustomBetsItem
+                  game_id={(bet as any).game_id}
+                  user_id={(bet as any)?.user_id}
+                  bet={bet}
+                  trx_url=""
+                  key={ind}
+                  time={{
+                    date: `${time.getDate()}.${time.getMonth() + 1}.${time.getFullYear()}`,
+                    time: `${time.getHours()}:${(
+                      "0" + time.getMinutes()
+                    ).slice(-2)}`,
+                  }}
+                  //game_url={`/games/${bet?.game_name}`}
+                  game_name={gamesList.find((item) => item.id === bet?.game_id)?.name as string}
+                  // wager={Number((bet as any)?.amount).toFixed(2)}
+                  bets={bet?.num_games}
+                  multiplier={multiplier}
+                  profit={
+                    Number(Number((bet)?.profit).toFixed(2))}
+                  id={ind}
+                  num_games={(bet as any)?.num_games}
+                  username={bet?.username}
+                  amount={Number(bet.amount).toString()}
+                  coin_id={bet.coin_id} />
+              );
+            })
             //)
           }
         </div>

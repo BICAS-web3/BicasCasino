@@ -10,19 +10,36 @@ import { useUnit } from "effector-react";
 import * as Model from "@/widgets/LiveBets/model";
 import { sessionModel } from "@/entities/session";
 
+import * as LModel from "@/widgets/Layout/model";
+
 const SocketContext = createContext<WebSocket | null>(null);
 
 export const useSocket = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [newBet, setNewBet, setResult, setTokenId, setUuid, uuid] = useUnit([
+  const [
+    newBet,
+    setNewBet,
+    setResult,
+    setTokenId,
+    setUuid,
+    uuid,
+    setSocketReset,
+    setSocketAuth,
+    setSocketLogged,
+  ] = useUnit([
     Model.newBet,
     sessionModel.setNewBet,
     Model.setResult,
     Model.setTokenId,
     Model.setUuid,
     Model.$uuid,
+    LModel.setSocketReset,
+    LModel.setSocketAuth,
+    LModel.setSocketLogged,
   ]);
+
+  const [reset, setReset] = useState(false);
 
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const uuidRef = useRef<string | null>(null);
@@ -34,6 +51,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.onopen = () => {
       console.log("WebSocket connected");
+      reset && setSocketReset();
     };
 
     newSocket.onmessage = (ev: MessageEvent<any>) => {
@@ -63,20 +81,32 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       if (data.type == "Ping") {
         return;
       }
-      setNewBet(data);
-      if (data.game_name != "PokerStart") {
+
+      if (data.type === "Bet") {
+        setNewBet(data);
         newBet(data);
       }
     };
 
     newSocket.onclose = () => {
+      console.log("websockets closed");
       setSocket(null);
+      // setSocketAuth(false);
+      // setSocketLogged(false);
+      setReset(true);
     };
     newSocket.onerror = () => {
+      console.log("websockets error");
       setSocket(null);
+      // setSocketAuth(false);
+      // setSocketLogged(false);
+      setReset(true);
     };
-
     setSocket(newSocket);
+
+    // return () => {
+    //   newSocket.close();
+    // };
   }, [socket]);
 
   return (

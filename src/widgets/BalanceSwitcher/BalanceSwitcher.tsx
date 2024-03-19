@@ -35,7 +35,7 @@ export const BalanceSwitcher: FC<BalanceSwitcherProps> = () => {
   const [balance, setBalance] = useState<null | IAmount>(null);
 
   useEffect(() => {
-    console.log("user info: ", userInfo);
+    console.log("1user info: ", userInfo);
     if (access_token && userInfo) {
       (async () => {
         const data = await api.getUserAmounts({

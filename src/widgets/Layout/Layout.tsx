@@ -52,6 +52,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     userInfo,
     setAccessToken,
     setAuth,
+    socketReset,
   ] = useUnit([
     SidebarM.$isOpen,
     SidebarM.Close,
@@ -63,6 +64,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     LayoutModel.$userInfo,
     RegistrM.setAccessToken,
     RegistrM.setAuth,
+    LayoutModel.$socketReset,
   ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
@@ -97,7 +99,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         const response = await api.getUserInfo({ bareer: access_token });
         if (response.status === "OK") {
           setUserInfo((response as any).body);
-          console.log("user info", response.body);
+          console.log("2user info", response.body);
         } else {
           console.log("err", response.body);
         }
@@ -175,11 +177,21 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
   }, [
     socket,
     access_token,
-    socket?.readyState,
+    // socket?.readyState,
     seeds,
     errorSeed,
     socket?.OPEN,
+    // socketAuth,
+    socketReset,
   ]);
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify(data));
+      socket.send(JSON.stringify(seed_data));
+    }
+  }, [socketReset]);
+  // useEffect(() => alert(socketReset), [socketReset]);
 
   //!-----------------------------------------------------------------------------
 
@@ -192,7 +204,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     ) {
       socket.send(JSON.stringify(server_seed));
     }
-  }, [seeds, socket?.readyState]);
+  }, [seeds, socket?.readyState, socketReset]);
 
   //?-----------------------------------------------------------------------------
 
