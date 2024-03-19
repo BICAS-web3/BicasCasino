@@ -188,7 +188,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
         >
           <input
             ref={wagerInputRef}
-            placeholder="0.0"
+            placeholder="0.0000"
             className={s.poker_wager_input_kripto}
             onChange={(e) => {
               setError(false);
@@ -284,7 +284,7 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
         </div>
         <div className={s.poker_wager_input_currency_block}>
           <input
-            placeholder="0.0"
+            placeholder="0.0000"
             className={s.poker_wager_input_currency}
             onChange={(e) => {
               setstartedTyping(true);

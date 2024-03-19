@@ -537,6 +537,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
           <div className={s.apples_table_wrap}>
             {gameStatus === GameModel.GameStatus.Won && (
               <ApplesWinBlock
+                resIco={result?.coin_id}
                 multiplier={Number(multiplier.toFixed(2)).toString()}
                 cf={100}
                 profit={profit}

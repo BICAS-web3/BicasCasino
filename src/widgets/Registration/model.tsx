@@ -1,6 +1,6 @@
 import { createEvent, createStore } from "effector";
 
-export const $isSignup = createStore<string>("in");
+export const $isSignup = createStore<string>("up");
 
 export const $access_token = createStore<string>("");
 export const $refresh_token = createStore<string>("");

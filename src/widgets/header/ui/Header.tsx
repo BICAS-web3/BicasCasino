@@ -47,14 +47,20 @@ export const Header: FC<HeaderProps> = (props) => {
     <>
       <div className={clsx(s.header, !isOpen && s.header_close)}>
         <Link className={s.emblem} href="/">
-          <Image
+          <img
             className={s.logo}
-            src={HeaderLogo}
+            src={HeaderLogo.src}
             alt={""}
             width={36}
             height={46.07}
           />
-          <Image src={HeaderBrandText} alt={""} width={54.71} height={23.71} />
+          <img
+            src={HeaderBrandText.src}
+            className={s.header_text}
+            alt={""}
+            width={54.71}
+            height={23.71}
+          />
         </Link>
         <RightMenu isGame={props.isGame} hideHeaderBtn={props.hideHeaderBtn} />
       </div>

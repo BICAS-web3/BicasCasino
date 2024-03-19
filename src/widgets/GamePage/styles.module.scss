@@ -21,6 +21,12 @@
   }
 }
 
+.roulette_styles {
+  @media screen and (max-width: 996px) {
+    height: auto !important;
+  }
+}
+
 .game {
   display: grid;
   grid-template-columns: 1fr 292px;

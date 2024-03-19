@@ -101,6 +101,41 @@
   letter-spacing: 0.04em;
   text-align: center;
 
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    content: "";
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffb800;
+    mix-blend-mode: hard-light;
+    border-radius: 100px;
+    filter: blur(50px);
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:active {
+    &::after {
+      filter: blur(45px);
+      width: 50px;
+      height: 50px;
+    }
+  }
+
   @media screen and (max-width: 700px) {
     font-size: 18px;
   }

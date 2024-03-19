@@ -490,13 +490,17 @@
 .tooltip_games_list {
   min-width: max-content;
   display: flex;
+  overflow-y: scroll;
+  overflow-x: hidden !important;
+  height: 565px;
+  // display: grid;
+  // grid-template-columns: 1fr 1fr;
   flex-direction: column;
   border-radius: 8px;
   background: #282828;
   margin-right: -20px;
   position: relative;
-  max-height: 615px;
-  overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 4px;
     margin-left: 4px;
@@ -519,6 +523,7 @@
     background-color: #3e3e3e;
     border-radius: 4px;
   }
+
   &_item {
     cursor: pointer;
     display: flex;
