@@ -47,7 +47,7 @@
     "react-use-websocket": "^4.7.0",
     "recharts": "^2.11.0",
     "sass": "^1.65.1",
-    "sharp": "^0.33.2",
+    "sharp": "0.32.6",
     "socket.io-client": "^4.7.4",
     "swiper": "^11.0.5",
     "swiper-react": "^1.0.0",
