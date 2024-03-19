@@ -1,7 +1,7 @@
 import { FC } from "react";
 import s from "./styles.module.scss";
 import Link from "next/link";
-import HeaderLogo from "@/public/media/brand_images/HeaderLogo.svg";
+import HeaderLogo from "@/public/media/brand_images/logoLeft.png";
 import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
 import Image from "next/image";
 import bg from "@/public/media/registration/formBg.webp";
@@ -29,9 +29,10 @@ export const Registration: FC<RegistrationProps> = () => {
         <div className={s.registration_left_block}>
           <img src={bg.src} className={s.reg_bg} alt="" />
           <Link className={s.emblem} href="/">
-            <Image src={HeaderLogo} alt={""} width={36} height={46.07} />
-            <Image
-              src={HeaderBrandText}
+            <img src={HeaderLogo.src} alt={""} width={51} height={40} />
+            <img
+              className={s.logo_text}
+              src={HeaderBrandText.src}
               alt={""}
               width={54.71}
               height={23.71}
@@ -48,21 +49,27 @@ export const Registration: FC<RegistrationProps> = () => {
         </div>
         <div className={s.registration_main_block}>
           <div className={s.registration_main_block_content}>
-            <div className={s.registration_title}>Registration</div>
-            <div className={s.registr_type_block}>
-              <div
-                className={clsx(s.signUp_btn, isSignup === "up" && s.active)}
-                onClick={() => setIsSignup("up")}
-              >
-                Sign Up
-              </div>
-              <div
-                className={clsx(s.signIn_btn, isSignup === "in" && s.active)}
-                onClick={() => setIsSignup("in")}
-              >
-                Sign In
-              </div>
+            <div className={s.registration_title}>
+              {isSignup !== "up" && isSignup !== "in"
+                ? "Password recovery"
+                : "Registration"}
             </div>
+            {isSignup !== "recovery" && (
+              <div className={s.registr_type_block}>
+                <div
+                  className={clsx(s.signUp_btn, isSignup === "up" && s.active)}
+                  onClick={() => setIsSignup("up")}
+                >
+                  Sign Up
+                </div>
+                <div
+                  className={clsx(s.signIn_btn, isSignup === "in" && s.active)}
+                  onClick={() => setIsSignup("in")}
+                >
+                  Sign In
+                </div>
+              </div>
+            )}
             {isSignup === "up" ? (
               <Signup />
             ) : isSignup === "in" ? (

@@ -11,12 +11,16 @@
   box-sizing: border-box;
   padding: 90px 0;
   background-color: rgba(0, 0, 0, 0.7);
-  transform: scaleY(0);
+  visibility: hidden;
   opacity: 0;
   transition: all 0.5s;
   &_open {
-    transform: scaleY(1);
+    visibility: visible;
     opacity: 1;
+
+    .payment_body {
+      transform: scale(1);
+    }
   }
   @media screen and (max-width: 650px) {
     padding: 0;
@@ -36,6 +40,8 @@
   height: auto;
   flex-direction: column;
   position: relative;
+  transition: all 0.5s;
+  transform: scale(0);
 
   @media screen and (max-width: 650px) {
     margin: 0 !important;

@@ -2,9 +2,11 @@ import s from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import explosionGif from "@/public/media/apples/explosion.gif";
 import tokenIco from "@/public/media/apples/tokenIco.svg";
+import draxIco from "@/public/media/apples/bCoin.svg";
 
 interface ApplesWinBlockProps {
   cf: number;
+  resIco: number | undefined;
   profit: number;
   multiplier?: number | string;
 }
@@ -12,11 +14,11 @@ interface ApplesWinBlockProps {
 export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({
   cf,
   profit,
+  resIco,
   multiplier,
 }) => {
   useEffect(() => {
     const winBlock = document.getElementById("apples_win_block");
-
     setTimeout(() => {
       winBlock?.classList.add(s.block_appearing);
 
@@ -41,7 +43,7 @@ export const ApplesWinBlock: FC<ApplesWinBlockProps> = ({
           <span className={s.win_quantity_title}>
             {profit}{" "}
             <img
-              src={tokenIco.src}
+              src={resIco === 0 ? tokenIco.src : draxIco.src}
               className={s.token_ico}
               alt="token-static"
             />

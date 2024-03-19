@@ -59,6 +59,11 @@
   height: 100%;
   top: 0;
   left: 0;
+  border-radius: 12px 0 0 12px;
+}
+
+.logo_text {
+  margin-left: 7px;
 }
 
 .emblem {
@@ -112,7 +117,7 @@
 }
 
 .registration_main_block {
-  padding: 30px;
+  padding: 24px;
 }
 
 .registration_title {
@@ -198,6 +203,7 @@
     rgba(255, 183, 0, 0.15) 100%
   );
   border-bottom: 1px solid #ffe09d;
+  color: #fff !important;
 }
 
 .signIn_btn {
@@ -205,7 +211,7 @@
 }
 
 .signUp_btn {
-  color: #fff;
+  color: #7e7e7e;
   text-align: left;
 }
 
@@ -231,6 +237,11 @@
   align-items: center;
   padding: 0 10px;
   height: 40px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #252525;
+  }
 
   img {
     width: 25px;
