@@ -19,7 +19,7 @@
 // import * as Api from "@/shared/api";
 // import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 // import { BetStatus, Model as BetStatusModel } from "@/widgets/BetStatus";
-// import { web3 } from "@/entities/web3";
+// 
 // import { Firework } from "../Firework";
 
 export * from "./Dice";

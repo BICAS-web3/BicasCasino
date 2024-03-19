@@ -8,7 +8,6 @@ import AcceptIcon from '@/public/media/misc/acceptIcon.svg';
 import { sessionModel } from '@/entities/session';
 import { useUnit } from 'effector-react';
 import * as Api from '@/shared/api';
-import { web3 } from '@/entities/web3';
 import { keccak256 } from 'ethers/lib/utils';
 import { toUtf8Bytes } from "@ethersproject/strings";
 

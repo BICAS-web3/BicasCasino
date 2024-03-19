@@ -9,7 +9,7 @@ import { useUnit } from "effector-react";
 import { Footer } from "@/widgets/Footer";
 import { SettingsInit } from "../SettingsInit";
 import { WagmiConfig } from "wagmi";
-import { web3 } from "@/entities/web3";
+
 import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
 import { PopUpBonus } from "../PopUpBonus";
