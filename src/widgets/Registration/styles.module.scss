@@ -117,7 +117,7 @@
 }
 
 .registration_main_block {
-  padding: 30px;
+  padding: 24px;
 }
 
 .registration_title {
@@ -237,6 +237,11 @@
   align-items: center;
   padding: 0 10px;
   height: 40px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #252525;
+  }
 
   img {
     width: 25px;
