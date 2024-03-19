@@ -495,6 +495,30 @@
   background: #282828;
   margin-right: -20px;
   position: relative;
+  max-height: 615px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+    margin-left: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #3e3e3e;
+    border-radius: 4px;
+  }
+  /* Firefox */
+
+  scrollbar-width: thin;
+  scrollbar-color: #3e3e3e transparent;
+
+  /* Microsoft Edge and IE */
+  *::-ms-scrollbar {
+    width: 4px;
+  }
+
+  *::-ms-scrollbar-thumb {
+    background-color: #3e3e3e;
+    border-radius: 4px;
+  }
   &_item {
     cursor: pointer;
     display: flex;

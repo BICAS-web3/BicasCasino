@@ -1141,13 +1141,6 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // const { chain } = useNetwork();
-  // const { address, isConnected } = useAccount();
-  // const { data } = useFeeData({
-  //   watch: isConnected,
-  //   cacheTime: 5000,
-  // });
-
   const [inGame, setInGame] = useState<boolean>(false);
   const [path, setPath] = useState<boolean[][] | undefined>(undefined);
 
@@ -1718,3 +1711,10 @@ export const Plinko: FC<IPlinko> = ({ gameText }) => {
 //   useContractEvent,
 //   useWaitForTransaction,
 // } from "wagmi";
+
+// const { chain } = useNetwork();
+// const { address, isConnected } = useAccount();
+// const { data } = useFeeData({
+//   watch: isConnected,
+//   cacheTime: 5000,
+// });

@@ -22,7 +22,10 @@ export const StopWinning: FC<StopWinningProps> = ({}) => {
       <span className={styles.title}>Stop when winning</span>
       <div className={styles.winning_btns}>
         <button
-          onClick={() => setStopWinning("YES")}
+          onClick={() => {
+            // alert(1);
+            setStopWinning("YES");
+          }}
           className={clsx(
             styles.winning_btn,
             stopWinning === "YES" && styles.winning_btn_active

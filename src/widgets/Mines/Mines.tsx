@@ -292,7 +292,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           Number(result.profit) === Number(result.amount)
         ) {
           setGameStatus(GameModel.GameStatus.Won);
-
+          setStopWinning("NO");
           const multiplier = Number(
             Number(result.profit) / Number(result.amount)
           );
@@ -307,6 +307,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           // alert("win");
         } else if (Number(result.profit) < Number(result.amount)) {
           setGameStatus(GameModel.GameStatus.Lost);
+          setStopWinning("NO");
           // pickSide(pickedSide ^ 1);
           // setIsPlaying(false);
           setInGame(false);
@@ -314,6 +315,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           // alert("lost");
         } else {
           setGameStatus(GameModel.GameStatus.Draw);
+          setStopWinning("NO");
           // setIsPlaying(false);
           setInGame(false);
           // alert("draw");
@@ -448,352 +450,10 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
   // }, [data]);
 
   const [isPlaying] = useUnit([GameModel.$isPlaying]);
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error: errorWrite,
-  // } = useContractWrite({
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_Start",
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     pickedValue,
-  //     pickedTiles,
-  //     isCashout,
-  //   ],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //       : BigInt(0)),
-  //   //enabled: !inGame,
-  // });
-
-  // const { config: startRevealingConfig } = usePrepareContractWrite({
-
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_Reveal",
-  //   args: [pickedTiles, isCashout],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //       pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //       : BigInt(0)),
-  //   enabled: inGame,
-  // });
-
-  // const {
-  //   write: startRevealing,
-  //   isSuccess: startedRevealing,
-  //   error: errorReveal,
-  // } = useContractWrite({
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_Reveal",
-  //   args: [pickedTiles, isCashout],
-  //   value:
-  //     fees +
-  //     (pickedToken &&
-  //     pickedToken.contract_address ==
-  //       "0x0000000000000000000000000000000000000000"
-  //       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //       : BigInt(0)),
-  // });
-
-  // const { config: finishGameConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_End",
-  //   args: [],
-  //   enabled: inGame,
-  // });
-
-  // const { write: finishPlaying, isSuccess: finishGameSuccess } =
-  //   useContractWrite({
-  //     chainId: chain?.id,
-  //     address: gameAddress as `0x${string}`,
-  //     abi: ABIMines,
-  //     functionName: "Mines_End",
-  //     args: [],
-  //     gas: BigInt(100000),
-  //     gasPrice: prevGasPrice,
-  //   });
-
-  // const {
-  //   data: GameState,
-  //   refetch: fetchGameState,
-  //   error: readErr,
-  // } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   watch: isConnected,
-  // });
-
-  // useEffect(() => {
-  //   setIsPlaying(inGame);
-  // }, [inGame]);
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setInGame(true);
-  //   }
-  // }, [startedPlaying]); // startedRevealing
-
-  // useEffect(() => {
-  //   if (startedPlaying || startedRevealing) {
-  //     setWaitingResponse(true);
-  //   }
-  // }, [startedPlaying, startedRevealing]);
-
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     gameAddress,
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  //   gasPrice: data?.gasPrice as any,
-  //   gas: BigInt(50000),
-  // });
-
-  // const {
-  //   write: setAllowance,
-  //   error: allowanceError,
-  //   status: allowanceStatus,
-  //   data: allowanceData,
-  // } = useContractWrite(allowanceConfig);
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "Mines_Refund",
-  //   enabled: isPlaying,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
-  // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (allowanceData) {
-  //     setWatchAllowance(true);
-  //   }
-  // }, [allowanceData]);
-
-  // const { isSuccess: allowanceIsSet } = useWaitForTransaction({
-  //   hash: allowanceData?.hash,
-  //   enabled: watchAllowance,
-  // });
-
-  // useEffect(() => {
-  //   if (inGame && allowanceIsSet && watchAllowance) {
-  //     setWatchAllowance(false);
-  //     // startPlaying();
-  //   }
-  //   // else if (allowanceError || (inGame && errorWrite)) {
-  //   //   setWatchAllowance(false);
-  //   //   setWaitingResponse(false);
-  //   //   setInGame(false);
-  //   //   setWaitingResponse(false);
-  //   // }
-  // }, [inGame, allowanceIsSet]); //  allowanceError, errorWrite
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: isConnected,
-  // });
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
-
-  // useEffect(() => {
-  //   if (Wagered) {
-  //     if (inGame) {
-  //       if (
-  //         !waitingResponse &&
-  //         pickedTiles.filter((value) => value).length > 0
-  //       ) {
-  //         startRevealing?.();
-  //         //alert(2);
-  //       } else {
-  //         finishPlaying?.();
-  //       }
-  //     } else {
-  //       if (
-  //         cryptoValue != 0 &&
-  //         currentBalance &&
-  //         cryptoValue <= currentBalance
-  //       ) {
-  //         if (
-  //           (!allowance || (allowance && allowance <= cryptoValue)) &&
-  //           pickedToken?.contract_address !=
-  //             "0x0000000000000000000000000000000000000000"
-  //         ) {
-  //           if (setAllowance) {
-  //             setAllowance();
-  //             setWaitingResponse(true);
-  //             setInGame(true);
-  //             setWaitingResponse(true);
-  //           }
-  //         } else {
-  //           if (pickedTiles.map((value) => value).length > 0) {
-  //             startPlaying?.();
-  //           }
-  //         }
-  //       }
-  //     }
-  //     setWagered(false);
-  //   }
-  // }, [Wagered]);
 
   const [finish, setFinish] = useState(false);
   const [lostArr, setLostArr] = useState<any[]>([]);
-
-  // useContractEvent({
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   eventName: "Mines_Reveal_Event",
-
-  //   listener(log) {
-  //     const receivedEndEvent = log.find(
-  //       (el) => (el as any).eventName === "Mines_End_Event"
-  //     );
-  //     // if (receivedEndEvent) {
-  //     //   return;
-  //     // }
-  //     if ((log[0] as any).eventName === "Mines_Reveal_Event") {
-  //       if (
-  //         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //         address?.toLowerCase()
-  //       ) {
-  //         const mines = (log[0] as any).args.minesTiles;
-  //         const revealed = (log[0] as any).args.revealedTiles;
-  //         const wagered = (receivedEndEvent as any).args.wager;
-  //         const handlePayouts = async () => {
-  //           setCoefficientData((prev) => [
-  //             Number((log[0] as any)?.args?.payout) / Number(wagered),
-  //             ...prev,
-  //           ]);
-  //         };
-  //         handlePayouts();
-  //         const newGameField = gameField.map((value, index) => {
-  //           if (mines[index]) {
-  //             return Tile.Bomb;
-  //           } else if (revealed[index]) {
-  //             return Tile.Coin;
-  //           } else {
-  //             return value;
-  //           }
-  //         });
-  //         setWaitingResponse(false);
-  //         setGameField(newGameField);
-  //         setTotalOpenedTiles(0);
-  //         setPickedTiles([...initialPickedTiles]);
-  //       }
-  //     }
-  //   },
-  // });
-
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
-  // useContractEvent({
-  //   address: gameAddress as `0x${string}`,
-  //   abi: ABIMines,
-  //   eventName: "Mines_End_Event",
-  //   listener(log) {
-  //     const receivedEndEvent = log.find(
-  //       (el) => (el as any).eventName === "Mines_End_Event"
-  //     );
-  //     if (
-  //       (
-  //         (receivedEndEvent as any).args.playerAddress as string
-  //       ).toLowerCase() == address?.toLowerCase()
-  //     ) {
-  //       setWaitingResponse(false);
-  //       setTimeout(() => {
-  //         setInGame(false);
-  //         triggerRedraw(true);
-  //         setGameFields(initialPickedTiles, [...initialPickedTiles]);
-  //       }, 2000);
-
-  //       const wagered = (receivedEndEvent as any).args.wager;
-  //       // const handlePayouts = async () => {
-  //       //   setCoefficientData((prev) => [
-  //       //     Number((log[0] as any)?.args?.payout) / Number(wagered),
-  //       //     ...prev,
-  //       //   ]);
-  //       // };
-  //       // handlePayouts();
-  //       if ((receivedEndEvent as any).args.payout > 0) {
-  //         const profit = (receivedEndEvent as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-  //         const wagered_token = (
-  //           (receivedEndEvent as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name;
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-  //         setLostStatus(wageredFloat);
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //     }
-  //   },
-  // });
-
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
@@ -948,6 +608,26 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     pickedTiles,
     totalOpenedTiles,
   ]);
+
+  // useEffect(() => alert(totalOpenedTiles), [totalOpenedTiles]);
+
+  useEffect(() => {
+    if (keep && stopWinning === "YES" && totalOpenedTiles === 0) {
+      // alert(2);
+      if (socket && access_token && socket.readyState === WebSocket.OPEN) {
+        socket.send(
+          JSON.stringify({
+            type: "ContinueGame",
+            game_id: gamesList.find((item) => item.name === "Mines")?.id,
+            coin_id: isDrax ? 2 : 1,
+            user_id: userInfo?.id || 0,
+            data: `{ "cashout":true}`,
+          })
+        );
+      }
+      // setStopWinning("NO");
+    }
+  }, [keep, stopWinning, isDrax, betsAmount, totalOpenedTiles, pickedTiles]);
 
   const [subscribed, setCubscribed] = useState(false);
   useEffect(() => {
@@ -1246,3 +926,344 @@ const SelectedMine = (props: ISelectedMine) => {
     );
   }
 };
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error: errorWrite,
+// } = useContractWrite({
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_Start",
+//   args: [
+//     useDebounce(
+//       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//     ),
+//     pickedToken?.contract_address,
+//     pickedValue,
+//     pickedTiles,
+//     isCashout,
+//   ],
+//   value:
+//     fees +
+//     (pickedToken &&
+//     pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//       : BigInt(0)),
+//   //enabled: !inGame,
+// });
+
+// const { config: startRevealingConfig } = usePrepareContractWrite({
+
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_Reveal",
+//   args: [pickedTiles, isCashout],
+//   value:
+//     fees +
+//     (pickedToken &&
+//       pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//       : BigInt(0)),
+//   enabled: inGame,
+// });
+
+// const {
+//   write: startRevealing,
+//   isSuccess: startedRevealing,
+//   error: errorReveal,
+// } = useContractWrite({
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_Reveal",
+//   args: [pickedTiles, isCashout],
+//   value:
+//     fees +
+//     (pickedToken &&
+//     pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//       : BigInt(0)),
+// });
+
+// const { config: finishGameConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_End",
+//   args: [],
+//   enabled: inGame,
+// });
+
+// const { write: finishPlaying, isSuccess: finishGameSuccess } =
+//   useContractWrite({
+//     chainId: chain?.id,
+//     address: gameAddress as `0x${string}`,
+//     abi: ABIMines,
+//     functionName: "Mines_End",
+//     args: [],
+//     gas: BigInt(100000),
+//     gasPrice: prevGasPrice,
+//   });
+
+// const {
+//   data: GameState,
+//   refetch: fetchGameState,
+//   error: readErr,
+// } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_GetState",
+//   args: [address],
+//   enabled: true,
+//   watch: isConnected,
+// });
+
+// useEffect(() => {
+//   setIsPlaying(inGame);
+// }, [inGame]);
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setInGame(true);
+//   }
+// }, [startedPlaying]); // startedRevealing
+
+// useEffect(() => {
+//   if (startedPlaying || startedRevealing) {
+//     setWaitingResponse(true);
+//   }
+// }, [startedPlaying, startedRevealing]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     gameAddress,
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+//   gasPrice: data?.gasPrice as any,
+//   gas: BigInt(50000),
+// });
+
+// const {
+//   write: setAllowance,
+//   error: allowanceError,
+//   status: allowanceStatus,
+//   data: allowanceData,
+// } = useContractWrite(allowanceConfig);
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "Mines_Refund",
+//   enabled: isPlaying,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+// const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+
+// useEffect(() => {
+//   if (allowanceData) {
+//     setWatchAllowance(true);
+//   }
+// }, [allowanceData]);
+
+// const { isSuccess: allowanceIsSet } = useWaitForTransaction({
+//   hash: allowanceData?.hash,
+//   enabled: watchAllowance,
+// });
+
+// useEffect(() => {
+//   if (inGame && allowanceIsSet && watchAllowance) {
+//     setWatchAllowance(false);
+//     // startPlaying();
+//   }
+//   // else if (allowanceError || (inGame && errorWrite)) {
+//   //   setWatchAllowance(false);
+//   //   setWaitingResponse(false);
+//   //   setInGame(false);
+//   //   setWaitingResponse(false);
+//   // }
+// }, [inGame, allowanceIsSet]); //  allowanceError, errorWrite
+
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: isConnected,
+// });
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// useEffect(() => {
+//   if (Wagered) {
+//     if (inGame) {
+//       if (
+//         !waitingResponse &&
+//         pickedTiles.filter((value) => value).length > 0
+//       ) {
+//         startRevealing?.();
+//         //alert(2);
+//       } else {
+//         finishPlaying?.();
+//       }
+//     } else {
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         cryptoValue <= currentBalance
+//       ) {
+//         if (
+//           (!allowance || (allowance && allowance <= cryptoValue)) &&
+//           pickedToken?.contract_address !=
+//             "0x0000000000000000000000000000000000000000"
+//         ) {
+//           if (setAllowance) {
+//             setAllowance();
+//             setWaitingResponse(true);
+//             setInGame(true);
+//             setWaitingResponse(true);
+//           }
+//         } else {
+//           if (pickedTiles.map((value) => value).length > 0) {
+//             startPlaying?.();
+//           }
+//         }
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [Wagered]);
+
+// useContractEvent({
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   eventName: "Mines_Reveal_Event",
+
+//   listener(log) {
+//     const receivedEndEvent = log.find(
+//       (el) => (el as any).eventName === "Mines_End_Event"
+//     );
+//     // if (receivedEndEvent) {
+//     //   return;
+//     // }
+//     if ((log[0] as any).eventName === "Mines_Reveal_Event") {
+//       if (
+//         ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//         address?.toLowerCase()
+//       ) {
+//         const mines = (log[0] as any).args.minesTiles;
+//         const revealed = (log[0] as any).args.revealedTiles;
+//         const wagered = (receivedEndEvent as any).args.wager;
+//         const handlePayouts = async () => {
+//           setCoefficientData((prev) => [
+//             Number((log[0] as any)?.args?.payout) / Number(wagered),
+//             ...prev,
+//           ]);
+//         };
+//         handlePayouts();
+//         const newGameField = gameField.map((value, index) => {
+//           if (mines[index]) {
+//             return Tile.Bomb;
+//           } else if (revealed[index]) {
+//             return Tile.Coin;
+//           } else {
+//             return value;
+//           }
+//         });
+//         setWaitingResponse(false);
+//         setGameField(newGameField);
+//         setTotalOpenedTiles(0);
+//         setPickedTiles([...initialPickedTiles]);
+//       }
+//     }
+//   },
+// });
+
+// useContractEvent({
+//   address: gameAddress as `0x${string}`,
+//   abi: ABIMines,
+//   eventName: "Mines_End_Event",
+//   listener(log) {
+//     const receivedEndEvent = log.find(
+//       (el) => (el as any).eventName === "Mines_End_Event"
+//     );
+//     if (
+//       (
+//         (receivedEndEvent as any).args.playerAddress as string
+//       ).toLowerCase() == address?.toLowerCase()
+//     ) {
+//       setWaitingResponse(false);
+//       setTimeout(() => {
+//         setInGame(false);
+//         triggerRedraw(true);
+//         setGameFields(initialPickedTiles, [...initialPickedTiles]);
+//       }, 2000);
+
+//       const wagered = (receivedEndEvent as any).args.wager;
+//       // const handlePayouts = async () => {
+//       //   setCoefficientData((prev) => [
+//       //     Number((log[0] as any)?.args?.payout) / Number(wagered),
+//       //     ...prev,
+//       //   ]);
+//       // };
+//       // handlePayouts();
+//       if ((receivedEndEvent as any).args.payout > 0) {
+//         const profit = (receivedEndEvent as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+//         const wagered_token = (
+//           (receivedEndEvent as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name;
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+//         setLostStatus(wageredFloat);
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//     }
+//   },
+// });

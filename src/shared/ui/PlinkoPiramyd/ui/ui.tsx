@@ -175,19 +175,23 @@ import { randInt } from "three/src/math/MathUtils.js";
 //   );
 // };
 
-
-
-function genParabolaMovements(path: boolean[], screen: string, startingTop: number) {
+function genParabolaMovements(
+  path: boolean[],
+  screen: string,
+  startingTop: number
+) {
   var x: number = 0;
   var y: number = 0;
 
-  const coefs = parabolaCoefs[screen] ? parabolaCoefs[screen] : parabolaCoefs['other'];
+  const coefs = parabolaCoefs[screen]
+    ? parabolaCoefs[screen]
+    : parabolaCoefs["other"];
   //console.log(screen, coefs);
 
   let yStep = Math.abs(coefs[16] - startingTop);
   let xStep = 0;
 
-  if (screen == 'main' || screen == "laptop") {
+  if (screen == "main" || screen == "laptop") {
     xStep = 1;
   } else if (screen == "bigTablet") {
     xStep = 0.764;
@@ -201,113 +205,113 @@ function genParabolaMovements(path: boolean[], screen: string, startingTop: numb
     if (p) {
       to_return.push([
         {
-          transform: `translate(${(xStep * 1) + x}px, ${coefs[0] + y}px)`
+          transform: `translate(${xStep * 1 + x}px, ${coefs[0] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 2) + x}px, ${coefs[1] + y}px)`
+          transform: `translate(${xStep * 2 + x}px, ${coefs[1] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 3) + x}px, ${coefs[2] + y}px)`
+          transform: `translate(${xStep * 3 + x}px, ${coefs[2] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 4) + x}px, ${coefs[3] + y}px)`
+          transform: `translate(${xStep * 4 + x}px, ${coefs[3] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 5) + x}px, ${coefs[4] + y}px)`
+          transform: `translate(${xStep * 5 + x}px, ${coefs[4] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 6) + x}px, ${coefs[5] + y}px)`
+          transform: `translate(${xStep * 6 + x}px, ${coefs[5] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 7) + x}px, ${coefs[6] + y}px)`
+          transform: `translate(${xStep * 7 + x}px, ${coefs[6] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 8) + x}px, ${coefs[7] + y}px)`
+          transform: `translate(${xStep * 8 + x}px, ${coefs[7] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 9) + x}px, ${coefs[8] + y}px)`
+          transform: `translate(${xStep * 9 + x}px, ${coefs[8] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 10) + x}px, ${coefs[9] + y}px)`
+          transform: `translate(${xStep * 10 + x}px, ${coefs[9] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 11) + x}px, ${coefs[10] + y}px)`
+          transform: `translate(${xStep * 11 + x}px, ${coefs[10] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 12) + x}px, ${coefs[11] + y}px)`
+          transform: `translate(${xStep * 12 + x}px, ${coefs[11] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 13) + x}px, ${coefs[12] + y}px)`
+          transform: `translate(${xStep * 13 + x}px, ${coefs[12] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 14) + x}px, ${coefs[13] + y}px)`
+          transform: `translate(${xStep * 14 + x}px, ${coefs[13] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 15) + x}px, ${coefs[14] + y}px)`
+          transform: `translate(${xStep * 15 + x}px, ${coefs[14] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 16) + x}px, ${coefs[15] + y}px)`
+          transform: `translate(${xStep * 16 + x}px, ${coefs[15] + y}px)`,
         },
         {
-          transform: `translate(${(xStep * 17) + x}px, ${coefs[16] + y}px)`
+          transform: `translate(${xStep * 17 + x}px, ${coefs[16] + y}px)`,
         },
       ]);
-      x += (xStep * 17);
+      x += xStep * 17;
     } else {
       to_return.push([
         {
-          transform: `translate(${x - (xStep * 1)}px, ${coefs[0] + y}px)`
+          transform: `translate(${x - xStep * 1}px, ${coefs[0] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 2)}px, ${coefs[1] + y}px)`
+          transform: `translate(${x - xStep * 2}px, ${coefs[1] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 3)}px, ${coefs[2] + y}px)`
+          transform: `translate(${x - xStep * 3}px, ${coefs[2] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 4)}px, ${coefs[3] + y}px)`
+          transform: `translate(${x - xStep * 4}px, ${coefs[3] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 5)}px, ${coefs[4] + y}px)`
+          transform: `translate(${x - xStep * 5}px, ${coefs[4] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 6)}px, ${coefs[5] + y}px)`
+          transform: `translate(${x - xStep * 6}px, ${coefs[5] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 7)}px, ${coefs[6] + y}px)`
+          transform: `translate(${x - xStep * 7}px, ${coefs[6] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 8)}px, ${coefs[7] + y}px)`
+          transform: `translate(${x - xStep * 8}px, ${coefs[7] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 9)}px, ${coefs[8] + y}px)`
+          transform: `translate(${x - xStep * 9}px, ${coefs[8] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 10)}px, ${coefs[9] + y}px)`
+          transform: `translate(${x - xStep * 10}px, ${coefs[9] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 11)}px, ${coefs[10] + y}px)`
+          transform: `translate(${x - xStep * 11}px, ${coefs[10] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 12)}px, ${coefs[11] + y}px)`
+          transform: `translate(${x - xStep * 12}px, ${coefs[11] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 13)}px, ${coefs[12] + y}px)`
+          transform: `translate(${x - xStep * 13}px, ${coefs[12] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 14)}px, ${coefs[13] + y}px)`
+          transform: `translate(${x - xStep * 14}px, ${coefs[13] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 15)}px, ${coefs[14] + y}px)`
+          transform: `translate(${x - xStep * 15}px, ${coefs[14] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 16)}px, ${coefs[15] + y}px)`
+          transform: `translate(${x - xStep * 16}px, ${coefs[15] + y}px)`,
         },
         {
-          transform: `translate(${x - (xStep * 17)}px, ${coefs[16] + y}px)`
+          transform: `translate(${x - xStep * 17}px, ${coefs[16] + y}px)`,
         },
       ]);
-      x -= (xStep * 17);
+      x -= xStep * 17;
     }
     y += yStep;
   }
@@ -360,22 +364,25 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
   useEffect(() => {
     if (ballLeft != 0) {
       console.log("balls", ballLeft);
-      setBalls(props.path?.map((val, index) => {
-        return <div
-          id={`ball${index}`}
-          className={styles.plinko_ball}
-          //ref={ballRef}
-          style={{
-            top: `${ballTop}px`,
-            left: `calc(50% + ${ballLeft}px)`,
-            //transition: ballLeft == 0 ? "" : "all 0.2s linear",
-          }}
-        >
-          <PlinkoBallIcon />
-        </div>
-      }) as any[]);
+      setBalls(
+        props.path?.map((val, index) => {
+          return (
+            <div
+              id={`ball${index}`}
+              className={styles.plinko_ball}
+              //ref={ballRef}
+              style={{
+                top: `${ballTop}px`,
+                left: `calc(50% + ${ballLeft}px)`,
+                //transition: ballLeft == 0 ? "" : "all 0.2s linear",
+              }}
+            >
+              <PlinkoBallIcon />
+            </div>
+          );
+        }) as any[]
+      );
     }
-
   }, [props.path, ballLeft, device]);
 
   useEffect(() => {
@@ -418,19 +425,19 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
         let animation = [];
 
         const ballTiming = {
-          duration: (400 * (props.path as any)[0].length) + 2,
+          duration: 400 * (props.path as any)[0].length + 2,
           iterations: 1,
           easing: "ease-in",
           fill: "forwards" as any,
-          delay: (400 + randInt(10, 50)) * index
+          delay: (400 + randInt(10, 50)) * index,
         };
 
         animation.push({
-          transform: `translate(0px, 0px)`
+          transform: `translate(0px, 0px)`,
         });
 
         animation.push({
-          transform: `translate(0px, ${firstMove}px)`
+          transform: `translate(0px, ${firstMove}px)`,
         });
 
         const anim = genParabolaMovements(val, device?.toString(), firstMove);
@@ -486,22 +493,22 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       const dotHeight =
         device === "main"
           ? "5px"
           : device === "bigTablet"
-            ? "3px"
-            : device === "tablet"
-              ? "3px"
-              : device === "phone"
-                ? "3px"
-                : "5px";
+          ? "3px"
+          : device === "tablet"
+          ? "3px"
+          : device === "phone"
+          ? "3px"
+          : "5px";
       document.documentElement.style.setProperty("--dot-width", dotWidth);
       document.documentElement.style.setProperty("--dot-height", dotHeight);
     };
@@ -639,13 +646,15 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
       if (i !== multipliersSteps) {
         if (i / (multipliersSteps / 2) < 2) {
           const formula: number = calcMultipliersColor.r * (i + 1);
-          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula
-            }, ${multipliersColorStart.b + formula})`;
+          return `rgb(${multipliersColorStart.r + formula}, ${
+            multipliersColorStart.g + formula
+          }, ${multipliersColorStart.b + formula})`;
         } else if (i / (multipliersSteps / 2) > 2) {
           const formula: number =
             calcMultipliersColor.r * (multipliersSteps * 2 + 1 - i);
-          return `rgb(${multipliersColorStart.r + formula}, ${multipliersColorStart.g + formula
-            }, ${multipliersColorStart.b + formula})`;
+          return `rgb(${multipliersColorStart.r + formula}, ${
+            multipliersColorStart.g + formula
+          }, ${multipliersColorStart.b + formula})`;
         }
       }
       return multipliersColorCenter;
@@ -663,12 +672,12 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
           className={clsx(
             styles.multipiler_cell,
             ball.value === i &&
+              !animationDelay &&
+              value > 1 &&
+              styles.multipiler_cell_animated_positive,
             !animationDelay &&
-            value > 1 &&
-            styles.multipiler_cell_animated_positive,
-            !animationDelay &&
-            value < 1 &&
-            styles.multipiler_cell_animated_negative
+              value < 1 &&
+              styles.multipiler_cell_animated_negative
           )}
           key={i}
         >
@@ -718,8 +727,8 @@ export const PlinkoPyramid: FC<IPlinkoPyramid> = (props) => {
             </svg>
           )}
           <span
-            className={clsx(matchToMiddle && styles.white_color)}
-          // style={{ color: "red" }}
+            className={clsx(value < 1 && styles.white_color)}
+            // style={{ color: "red" }}
           >
             {value}x
           </span>
