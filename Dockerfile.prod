@@ -3,17 +3,19 @@ RUN #apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 #RUN #yarn install --frozen-lockfile
-RUN npm install -g --arch=x64 --platform=linux --libc=glibc sharp@0.33.0-rc.2
+#RUN npm install -g --arch=x64 --platform=linux --libc=glibc sharp@0.33.0-rc.2
 RUN npm   install
 
 FROM node:19-alpine AS builder
 
 WORKDIR /app
 
-ENV NEXT_SHARP_PATH=/usr/local/lib/node_modules/sharp
+RUN npm install --save sharp
+RUN npm rebuild --arch=x64 --platform=linux --libc=musl sharp
+#ENV NEXT_SHARP_PATH=/usr/local/lib/node_modules/sharp
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
+#COPY --from=deps --chown=nextjs:nodejs /usr/local/lib/node_modules/sharp /usr/local/lib/node_modules/sharp
 
 COPY . .
 
