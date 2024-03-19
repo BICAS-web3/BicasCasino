@@ -30,6 +30,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
@@ -127,7 +128,10 @@ const WagerContent = () => {
 };
 
 export default function PlinkoGame() {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
 
   useEffect(() => {
@@ -136,6 +140,7 @@ export default function PlinkoGame() {
       socket.readyState === WebSocket.OPEN &&
       gamesList.length > 0
     ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",
@@ -143,7 +148,7 @@ export default function PlinkoGame() {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
   return (
     <>
       <Head>

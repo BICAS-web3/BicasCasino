@@ -17,14 +17,14 @@ interface LeaderBoardItemProps extends T_LeaderBoardResponse {
 }
 
 export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
-  nickname,
-  player,
+  username,
+  user_id,
   total,
   ind,
 }) => {
   const isMobile = useMediaQuery("(max-width: 1200px)");
   return (
-    <Link href={`/account/${player}`} className={s.leader_board_list_item}>
+    <Link href={`/account/${user_id}`} className={s.leader_board_list_item}>
       <div className={s.leader_board_list_item_rank_block}>
         <span
           className={clsx(
@@ -40,11 +40,11 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
       <div className={s.leader_board_list_item_player_block}>
         <div className={s.player_block_group}>
           <div className={s.leader_board_list_item_player_icon}>
-            <BlockiesAva address={player} size={"30"} />
+            <BlockiesAva address={username} size={"30"} />
           </div>
 
           <span className={s.leader_board_list_item_player_title}>
-            {nickname || shortenAddress(player)}
+            {username}
           </span>
         </div>
         <div className={s.leader_board_list_item_link}>
@@ -54,12 +54,12 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
 
       <div className={s.leader_board_list_item_address_block}>
         <span className={s.leader_board_list_item_address}>
-          {isMobile ? shortenAddress(player) : player}
+          {isMobile ? shortenAddress(username) : username}
         </span>
       </div>
       <div className={s.leader_board_list_item_volume_block}>
         <span className={s.leader_board_list_item_volume}>
-          {total.toFixed(2)}
+          {Number(total).toFixed(4)}
         </span>
       </div>
     </Link>

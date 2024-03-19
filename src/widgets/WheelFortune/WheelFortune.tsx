@@ -18,7 +18,7 @@ import { useUnit } from "effector-react";
 
 import Image from "next/image";
 
-import bg from "@/public/media/wheel_images/bg.png";
+import bg from "@/public/media/wheel_images/bg.webp";
 
 import { Model as RollSettingModel } from "@/widgets/RollSetting";
 import * as GameModel from "@/widgets/GamePage/model";
@@ -185,7 +185,6 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
         for (let i = 0; i < arr?.length; i++) {
           setTimeout(() => {
             const outCome = arr[i] / amount;
-            console.log("TTTTTTTT:", arr[i] / amount, arr[i], amount);
 
             setCoefficientData((prev) => [outCome, ...prev]);
           }, 2000 * (i + 1));
@@ -200,19 +199,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
       (result !== null && result?.type === "Bet") ||
       result?.type === "MakeBet"
     ) {
+      const fullAmount = Number(result.amount) * result.num_games!;
       const outcomesArray = JSON.parse((result as any).outcomes);
       setOutcomes(outcomesArray);
       // alert(outcomesArray[0]);
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Won);
 
-          const multiplier = Number(
-            Number(result.profit) / Number(result.amount)
-          );
+          const multiplier = Number(Number(result.profit) / fullAmount);
           pickSide(pickedSide);
           setWonStatus({
             profit: Number(result.profit),
@@ -223,18 +221,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           setInGame(false);
           setCoeff({
             profit: (result as any).profits,
-            amount: Number((result as any).amount),
+            amount: fullAmount,
           });
           // alert(1);
         }, 2000);
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Lost);
           pickSide(pickedSide ^ 1);
           setIsPlaying(false);
           setInGame(false);
-          setLostStatus(Number(result.profit) - Number(result.amount));
+          setLostStatus(Number(result.profit) - fullAmount);
           setCoeff({
             profit: (result as any).profits,
             amount: Number((result as any).amount),
@@ -278,18 +276,18 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
     const newValue =
       fees +
       (pickedToken &&
-      pickedToken?.contract_address ==
+        pickedToken?.contract_address ==
         "0x0000000000000000000000000000000000000000"
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
+        BigInt(100000000000)
         : BigInt(0));
     setValue(
       fees +
-        (pickedToken?.contract_address ==
+      (pickedToken?.contract_address ==
         "0x0000000000000000000000000000000000000000"
-          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-            BigInt(100000000000)
-          : BigInt(0))
+        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+        BigInt(100000000000)
+        : BigInt(0))
     );
 
     // setBetValue(newValue + BigInt(400000) * prevGasPrice);
@@ -511,7 +509,7 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-              "0x0000000000000000000000000000000000000000"
+            "0x0000000000000000000000000000000000000000"
           ) {
             // setAllowance?.();
           } else {
@@ -1321,9 +1319,8 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
       game_id: gamesList.find((item) => item.name === "Wheel")?.id,
       coin_id: isDrax ? 2 : 1,
       user_id: userInfo?.id || 0,
-      data: `{"risk":${
-        level === "Easy" ? 0 : level === "Medium" ? 1 : 2
-      }, "num_sectors":${numSectors - 1}}`,
+      data: `{"risk":${level === "Easy" ? 0 : level === "Medium" ? 1 : 2
+        }, "num_sectors":${numSectors - 1}}`,
       amount: `${cryptoValue || 0}`,
       stop_loss: Number(stopLoss) || 0,
       stop_win: Number(stopGain) || 0,
@@ -1438,9 +1435,9 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                   s.pick,
                   inGame && s.wheel_pick_animation,
                   outcomes.length > 0 &&
-                    lastNum !== null &&
-                    lastNum > -1 &&
-                    s.wheel_pick_animation_2
+                  lastNum !== null &&
+                  lastNum > -1 &&
+                  s.wheel_pick_animation_2
                 )}
                 width="10"
                 height="14"
@@ -1473,8 +1470,8 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                 s.wheel_wrapp,
                 s[`wheel_wrapp_${pickedValue}`],
                 lastNum !== null &&
-                  lastNum !== -1 &&
-                  s[`wheel_wrapp_${pickedValue}_${lastNum}`],
+                lastNum !== -1 &&
+                s[`wheel_wrapp_${pickedValue}_${lastNum}`],
                 inGame && s.wheel_underwrapp_animation
               )}
             >
@@ -1520,61 +1517,61 @@ export const WheelFortune: FC<IWheelFortune> = ({ gameText }) => {
                     s.multiplier_value,
 
                     level === "Hard" &&
-                      item > 0 &&
-                      item < 10 &&
-                      s.multiplier_value_blue,
+                    item > 0 &&
+                    item < 10 &&
+                    s.multiplier_value_blue,
                     level === "Hard" && item > 11 && s.multiplier_value_purple,
                     level === "Easy" && item > 1.3 && s.multiplier_value_green,
                     level === "Easy" &&
-                      item > 0 &&
-                      item < 1.3 &&
-                      s.multiplier_value_blue,
+                    item > 0 &&
+                    item < 1.3 &&
+                    s.multiplier_value_blue,
                     level === "Medium" &&
-                      item > 0 &&
-                      item < 1.6 &&
-                      s.multiplier_value_blue,
+                    item > 0 &&
+                    item < 1.6 &&
+                    s.multiplier_value_blue,
                     level === "Medium" &&
-                      item == 2 &&
-                      s.multiplier_value_yellow,
+                    item == 2 &&
+                    s.multiplier_value_yellow,
                     (pickedValue === 10 ||
                       pickedValue === 20 ||
                       pickedValue === 30) &&
-                      level === "Medium" &&
-                      item < 1.6 &&
-                      item > 0 &&
-                      s.multiplier_value_blue,
+                    level === "Medium" &&
+                    item < 1.6 &&
+                    item > 0 &&
+                    s.multiplier_value_blue,
                     (pickedValue === 10 ||
                       pickedValue === 20 ||
                       pickedValue === 30) &&
-                      level === "Medium" &&
-                      item < 2 &&
-                      item > 1.6 &&
-                      s.multiplier_value_purple,
+                    level === "Medium" &&
+                    item < 2 &&
+                    item > 1.6 &&
+                    s.multiplier_value_purple,
                     (pickedValue === 40 || pickedValue === 50) &&
-                      level === "Medium" &&
-                      item == 3 &&
-                      s.multiplier_value_purple,
+                    level === "Medium" &&
+                    item == 3 &&
+                    s.multiplier_value_purple,
                     (pickedValue === 10 ||
                       pickedValue === 20 ||
                       pickedValue === 30) &&
-                      level === "Medium" &&
-                      item == 3 &&
-                      s.multiplier_value_green,
                     level === "Medium" &&
-                      pickedValue === 30 &&
-                      item == 4 &&
-                      s.multiplier_value_red,
+                    item == 3 &&
+                    s.multiplier_value_green,
                     level === "Medium" &&
-                      pickedValue === 40 &&
-                      item == 1.6 &&
-                      s.multiplier_value_green,
+                    pickedValue === 30 &&
+                    item == 4 &&
+                    s.multiplier_value_red,
                     level === "Medium" &&
-                      pickedValue === 50 &&
-                      item == 5 &&
-                      s.multiplier_value_green,
+                    pickedValue === 40 &&
+                    item == 1.6 &&
+                    s.multiplier_value_green,
                     level === "Medium" &&
-                      item < 0.1 &&
-                      s.multiplier_value_white,
+                    pickedValue === 50 &&
+                    item == 5 &&
+                    s.multiplier_value_green,
+                    level === "Medium" &&
+                    item < 0.1 &&
+                    s.multiplier_value_white,
                     level === "Hard" && item < 0.1 && s.multiplier_value_white,
                     level === "Easy" && item < 0.1 && s.multiplier_value_white
                   )}

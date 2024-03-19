@@ -45,7 +45,7 @@
 
 .payment_redeem_coins_list_block {
   width: 200px;
-  height: 50px;
+  height: 40px;
   border-radius: 8px;
   position: relative;
 
@@ -56,6 +56,7 @@
 }
 
 .payment_active_coin {
+  height: 100%;
   transition: all 0.4s;
   background: #202020;
   border-radius: 8px;
@@ -178,12 +179,12 @@
 
 .redeem_title_block_subTitle {
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
-  color: #eaeaea;
+  color: #979797;
 
   @media screen and (max-width: 650px) {
     font-size: 14px;
@@ -242,7 +243,7 @@
 
 .input_common {
   outline: none;
-  margin-top: 3px;
+  margin-top: 7px;
   border: 1px solid #252525;
   padding: 15px 20px;
   background: linear-gradient(0deg, #121212, #121212),
@@ -251,9 +252,9 @@
   border-radius: 8px;
   color: #eaeaea;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
   display: flex;
@@ -288,11 +289,11 @@
 }
 
 .transaction_fee_title {
-  color: #fff;
+  color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 800;
-  line-height: 27px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -307,9 +308,9 @@
 
 .transaction_fee_amount_title {
   font-family: var(--font-nunito-sans);
-  font-size: 20px;
-  font-weight: 800;
-  line-height: 27px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: left;
   text-transform: uppercase;
@@ -363,9 +364,9 @@
 .redeem_disclaimer_text {
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 25px;
+  line-height: 18px;
   letter-spacing: 0.04em;
   text-align: left;
 
@@ -379,7 +380,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50px;
+  min-height: 45px;
   width: 100%;
   border: 1px solid #ffe09d;
   background: linear-gradient(0deg, #252019, #252019),

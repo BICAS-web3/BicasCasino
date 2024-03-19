@@ -219,6 +219,9 @@
   // bottom: 105px;
   bottom: 0;
   transition: all 0.4s;
+  &_point {
+    cursor: pointer;
+  }
 
   @media screen and (max-width: 760px) {
     width: 100%;

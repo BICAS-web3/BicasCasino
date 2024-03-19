@@ -33,68 +33,68 @@ import { Layout } from "@/widgets/Layout";
 import { LeaderBoard } from "@/widgets/LeaderBoard/LeaderBoard";
 import { Total } from "@/widgets/Total";
 
-import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBg_2.png";
+import pokerMainBg from "@/public/media/games_assets/poker/pokerMainBg_2.webp";
 import pokerMainBgClosed from "@/public/media/games_assets/poker/pokerMainBg2.webp";
 import pokerLaptopBg from "@/public/media/games_assets/poker/1280Img.webp";
-import pokerTabletBg from "@/public/media/games_assets/poker/poker.png";
+import pokerTabletBg from "@/public/media/games_assets/poker/poker.webp";
 import pokerMobileBg from "@/public/media/games_assets/poker/mobileImg.webp";
 import pokerClosedSidebarImg from "@/public/media/games_assets/poker/closedSidebarImg.webp";
 
-import rouletteBanner from "@/public/media/roulette_images/banner.jpg";
+import rouletteBanner from "@/public/media/roulette_images/banner.webp";
 
-import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.png";
+import coinflipMainBg from "@/public/media/games_assets/coinflip/coinflipMainBg.webp";
 import coinflipMainBgClosed from "@/public/media/games_assets/coinflip/coinflipMainBg2.webp";
 import coinflipLaptopBg from "@/public/media/games_assets/coinflip/1280Bg.webp";
-import coinflipTabletBg from "@/public/media/games_assets/coinflip/plinko.jpg";
+import coinflipTabletBg from "@/public/media/games_assets/coinflip/plinko.webp";
 import coinflipMobileBg from "@/public/media/games_assets/coinflip/mobileBg.webp";
 import coinflipClosedSidebarImg from "@/public/media/games_assets/coinflip/closedSidebarImg.webp";
 
-import diceMainBg from "@/public/media/games_assets/dice/diceMainBg_3.png";
+import diceMainBg from "@/public/media/games_assets/dice/diceMainBg_3.webp";
 import diceMainBgClosed from "@/public/media/games_assets/dice/diceMainBg2.webp";
 import diceLaptopBg from "@/public/media/games_assets/dice/laptopPcImg.webp";
-import diceTabletBg from "@/public/media/games_assets/dice/dice.png";
+import diceTabletBg from "@/public/media/games_assets/dice/dice.webp";
 import diceMobileBg from "@/public/media/games_assets/dice/mobileImg.webp";
 import diceClosedSidebarImg from "@/public/media/games_assets/dice/closedSideBarImg.webp";
 
-import minesMainBg from "@/public/media/games_assets/mines/minesMainBg_2.png";
+import minesMainBg from "@/public/media/games_assets/mines/minesMainBg_2.webp";
 import minesMainBgClosed from "@/public/media/games_assets/mines/minesMainBg2.webp";
 import minesLaptopBg from "@/public/media/games_assets/mines/1280Bg.webp";
 import minesTabletBg from "@/public/media/games_assets/mines/tabletBg.webp";
 import minesMobileBg from "@/public/media/games_assets/mines/mobileBg.webp";
 import minesClosedSidebarImg from "@/public/media/games_assets/mines/closedSidebarBg.webp";
 
-import plinkoMainBg from "@/public/media/games_assets/plinko/PlinkoMainBg.png";
+import plinkoMainBg from "@/public/media/games_assets/plinko/PlinkoMainBg.webp";
 import plinkoMainBgClosed from "@/public/media/games_assets/plinko/plinkoMainBg2.webp";
 import plinkoLaptopBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
-import plinkoTabletBg from "@/public/media/games_assets/plinko/plinko.png";
+import plinkoTabletBg from "@/public/media/games_assets/plinko/plinko.webp";
 import plinkoMobileBg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 import plinkoClosedSidebarImg from "@/public/media/games_assets/plinko/plinkoMainBanner.webp";
 
-import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg_2.png";
-import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.png";
+import rpsMainBg from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg_2.webp";
+import rpsTabletBg from "@/public/media/games_assets/rock_paper_scissors/rps.webp";
 import rpsMainBgClosed from "@/public/media/games_assets/rock_paper_scissors/rpsMainBg2.webp";
 import advPoster from "@/public/media/testAdvertsImgs/poster.webp";
 
-import appleBanner from "@/public/media/apples/banner.jpg";
+import appleBanner from "@/public/media/apples/banner.webp";
 
-import HorseBanner from "@/public/media/race_images/banner.jpg";
+import HorseBanner from "@/public/media/race_images/banner.webp";
 
-import carBanner from "@/public/media/cars/banner.jpg";
+import carBanner from "@/public/media/cars/banner.webp";
 
-import CrashBanner from "@/public/media/crash/banner.png";
+import CrashBanner from "@/public/media/crash/banner.webp";
 
-import slotsMain from "@/public/media/games_assets/slots/slotsMain.png";
-import slot_bg from "@/public/media/games_assets/slots/slot_bg.png";
-import thimblesBanner from "@/public/media/thimbles/banner.jpg";
+import slotsMain from "@/public/media/games_assets/slots/slotsMain.webp";
+import slot_bg from "@/public/media/games_assets/slots/slot_bg.webp";
+import thimblesBanner from "@/public/media/thimbles/banner.webp";
 
-import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.png";
-import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.png";
-import rocket_md from "@/public/media/games_assets/rocket/rocket_md.png";
-import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.png";
+import rocketMainBg from "@/public/media/games_assets/rocket/rocket_opened.webp";
+import rocket_bg from "@/public/media/games_assets/rocket/rocket_bg.webp";
+import rocket_md from "@/public/media/games_assets/rocket/rocket_md.webp";
+import rocket_tablet from "@/public/media/games_assets/rocket/rocket_tablet.webp";
 
-import bjBanner from "@/public/media/blackjack/banner.png";
+import bjBanner from "@/public/media/blackjack/banner.webp";
 
-import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.jpg";
+import wheelFortuneBanner from "@/public/media/wheel_images/banner_2.webp";
 
 import { Account } from "@/widgets/Account";
 import { GameLayout } from "@/widgets/GameLayout/layout";
@@ -119,6 +119,8 @@ import * as ConnectModel from "@/widgets/Layout/model";
 import { FeedbackSection } from "@/widgets/FeedbackSection/FeedbackSection";
 import { SwiperBanner } from "@/widgets/SwiperBanner/SwiperBanner";
 import { useSocket } from "@/shared/context";
+
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const mobileQuery = "(max-width: 650px)";
 
@@ -518,10 +520,18 @@ const preloadModel = async () => {
 };
 
 export default function Home() {
-  const [Bets, AvailableBlocksExplorers, sidebarOpened] = useUnit([
+  const [
+    Bets,
+    AvailableBlocksExplorers,
+    sidebarOpened,
+    socketReset,
+    socketAuth,
+  ] = useUnit([
     LiveBetsModel.$Bets,
     settingsModel.$AvailableBlocksExplorers,
     SideBarModel.$isOpen,
+    LayoutModel.$socketReset,
+    LayoutModel.$socketAuth,
   ]);
 
   const [currentImage, setCurrentImage] = useState(mainBg);
@@ -547,19 +557,19 @@ export default function Home() {
   const socket = useSocket();
 
   useEffect(() => {
+    // alert(socketAuth);
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeAll" }));
+      socket?.send(JSON.stringify({ type: "SubscribeAllBets" }));
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, socketAuth]);
 
   return (
     <>
       <Head>
         <title>GreekKeepers: WEB 3.0 Crypto Games</title>
-        <link rel="preload" href="/dice/dice_animation.glb" as="script" />
       </Head>
 
-      <LiveBetsWS subscription_type={"SubscribeAll"} subscriptions={[]} />
+      <LiveBetsWS subscription_type={"SubscribeAllBets"} subscriptions={[]} />
       <Layout gameName={undefined}>
         {/* <div> */}
         <div className={`${s.main_container}`}>

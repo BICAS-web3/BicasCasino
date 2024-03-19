@@ -18,6 +18,7 @@ import { HorseSelecteor } from "@/shared/ui/HorseSelecteor";
 import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 import * as RaceModel from "@/widgets/Race/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [setIsPlaying, gameResult, setGameResult, setReset] = useUnit([
@@ -58,11 +59,15 @@ const WagerContent = () => {
 };
 
 export default function RaceGame() {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
 
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
           type: "SubscribeBets",
@@ -70,7 +75,7 @@ export default function RaceGame() {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
   return (
     <>
       <Head>

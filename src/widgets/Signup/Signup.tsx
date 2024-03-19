@@ -28,6 +28,8 @@ export const Signup: FC<SignupProps> = () => {
     if (exist) {
       setAccessToken(exist);
       setAuth(true);
+    } else {
+      setAuth(false);
     }
   }, []);
 
@@ -77,6 +79,7 @@ export const Signup: FC<SignupProps> = () => {
               setPassword("");
             } else if (data?.status !== "OK") {
               setInProgress(false);
+              setAuth(false);
             }
           }
           if (data?.status !== "OK") {
@@ -105,7 +108,7 @@ export const Signup: FC<SignupProps> = () => {
               error && !name && s.input_item_title_err
             )}
           >
-            Email
+            Username
           </span>
           <input
             value={name}

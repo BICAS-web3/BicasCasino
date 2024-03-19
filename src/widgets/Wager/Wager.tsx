@@ -29,7 +29,7 @@ export const Wager: FC<WagerProps> = ({
           {" "}
           {ButtonElement}
         </div>
-        <h2 className={s.poker_wager_title}>Wager</h2>
+        <h2 className={s.poker_wager_title}>Wager (max 50)</h2>
         {wagerContent}
       </div>
     </div>

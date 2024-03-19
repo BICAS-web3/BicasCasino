@@ -19,6 +19,7 @@ export interface IResult {
   uuid: string;
   state?: string | undefined;
   payouts: string;
+  num_games?: number;
 }
 
 // variables

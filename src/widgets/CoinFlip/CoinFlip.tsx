@@ -174,19 +174,18 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   ]);
   useEffect(() => {
     if (result !== null && result?.type === "Bet") {
+      const fullAmount = Number(result.amount) * result.num_games!;
       setCoefficientData((prev) => [
-        Number(result.profit) / Number(result.amount),
+        Number(result.profit) / fullAmount,
         ...prev,
       ]);
       if (
-        Number(result.profit) > Number(result.amount) ||
-        Number(result.profit) === Number(result.amount)
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
       ) {
         setGameStatus(GameModel.GameStatus.Won);
 
-        const multiplier = Number(
-          Number(result.profit) / Number(result.amount)
-        );
+        const multiplier = Number(Number(result.profit) / fullAmount);
         pickSide(pickedSide);
         setWonStatus({
           profit: Number(result.profit),
@@ -196,12 +195,12 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
         setIsPlaying(false);
         setInGame(false);
         // alert("win");
-      } else if (Number(result.profit) < Number(result.amount)) {
+      } else if (Number(result.profit) < fullAmount) {
         setGameStatus(GameModel.GameStatus.Lost);
         pickSide(pickedSide ^ 1);
         setIsPlaying(false);
         setInGame(false);
-        setLostStatus(Number(result.profit) - Number(result.amount));
+        setLostStatus(Number(result.profit) - fullAmount);
         // alert("lost");
       } else {
         setGameStatus(GameModel.GameStatus.Draw);
@@ -220,39 +219,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     setCoefficient(1.98);
   }, []);
 
-  // const { chain } = useNetwork();
-  // const { address, isConnected } = useAccount();
-  // const { data, isError } = useFeeData({ watch: true });
-
   const [inGame, setInGame] = useState<boolean>(false);
-
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
-
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-
-  const [value, setValue] = useState<bigint>(BigInt(0));
-
-  useEffect(() => {
-    const newValue =
-      fees +
-      (pickedToken &&
-      pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0));
-    setValue(
-      fees +
-        (pickedToken &&
-        pickedToken.contract_address ==
-          "0x0000000000000000000000000000000000000000"
-          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-            BigInt(100000000000)
-          : BigInt(0))
-    );
-
-    setBetValue(newValue + BigInt(400000) * prevGasPrice);
-  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
 
   useEffect(() => {
     setActivePicker(true);
@@ -304,19 +271,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
   useEffect(() => setInGame(isPlaying), [isPlaying]);
   const [access_token] = useUnit([RegistrM.$access_token]);
 
-  // useEffect(() => {
-  //   if (access_token) {
-  //     (async () => {
-  //       const response = await api.getServerSeed({ bareer: access_token });
-  //       console.log("server seed", response);
-  //     })();
-  //     (async () => {
-  //       const response = await api.getClientSeed({ bareer: access_token });
-  //       console.log("client seed", response);
-  //     })();
-  //   }
-  // }, [access_token]);
-
   const subscribe = {
     type: "SubscribeBets",
     payload: [gamesList.find((item) => item.name === "CoinFlip")?.id],
@@ -339,14 +293,6 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
     });
   }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount]);
   const socket = useSocket();
-
-  // useEffect(() => {
-  //   if (socket && access_token && socket.readyState === WebSocket.OPEN) {
-  //     socket.send(JSON.stringify(server_seed));
-  //     socket.send(JSON.stringify(seed_data));
-  //     socket.send(JSON.stringify(data));
-  //   }
-  // }, [socket, access_token, socket?.readyState]);
 
   const [subscribed, setCubscribed] = useState(false);
   useEffect(() => {
@@ -403,7 +349,7 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
             <div
               className={clsx(
                 s.multiplier_value,
-                item > 0 ? s.multiplier_positive : s.multiplier_negative
+                item > 1 ? s.multiplier_positive : s.multiplier_negative
               )}
               key={i}
             >
@@ -702,3 +648,55 @@ export const CoinFlip: FC<CoinFlipProps> = ({ gameText }) => {
 //     }
 //   },
 // });
+
+// useEffect(() => {
+//   if (socket && access_token && socket.readyState === WebSocket.OPEN) {
+//     socket.send(JSON.stringify(server_seed));
+//     socket.send(JSON.stringify(seed_data));
+//     socket.send(JSON.stringify(data));
+//   }
+// }, [socket, access_token, socket?.readyState]);
+
+// useEffect(() => {
+//   if (access_token) {
+//     (async () => {
+//       const response = await api.getServerSeed({ bareer: access_token });
+//       console.log("server seed", response);
+//     })();
+//     (async () => {
+//       const response = await api.getClientSeed({ bareer: access_token });
+//       console.log("client seed", response);
+//     })();
+//   }
+// }, [access_token]);
+
+// const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+// const [fees, setFees] = useState<bigint>(BigInt(0));
+
+// const [value, setValue] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   const newValue =
+//     fees +
+//     (pickedToken &&
+//     pickedToken.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//         BigInt(100000000000)
+//       : BigInt(0));
+//   setValue(
+//     fees +
+//       (pickedToken &&
+//       pickedToken.contract_address ==
+//         "0x0000000000000000000000000000000000000000"
+//         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//           BigInt(100000000000)
+//         : BigInt(0))
+//   );
+
+//   setBetValue(newValue + BigInt(400000) * prevGasPrice);
+// }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
+// const { chain } = useNetwork();
+// const { address, isConnected } = useAccount();
+// const { data, isError } = useFeeData({ watch: true });

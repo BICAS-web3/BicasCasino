@@ -5,7 +5,7 @@ import closeIco from "@/public/media/payment/closeIco.svg";
 import { PaymentDropdown } from "../PaymentDropdown/PaymentDropdown";
 import { coinsList } from "../PaymentRedeem/PaymentRedeem";
 import copyIco from "@/public/media/payment/copyIco.svg";
-import barcodeImg from "@/public/media/payment/tempBarcode.png";
+import barcodeImg from "@/public/media/payment/tempBarcode.webp";
 import clsx from "clsx";
 import { WaitIco } from "@/shared/SVGs/WaitIco";
 import bonusCoinIco from "@/public/media/payment/bonusCoin.svg";
@@ -14,6 +14,7 @@ import * as api from "@/shared/api";
 import * as RegistrModel from "@/widgets/Registration/model";
 import { useUnit } from "effector-react";
 import Image from "next/image";
+import { PaymentCopied } from "../PaymentCopied/PaymentCopied";
 interface PaymentPurchaseProps {
   purchasePrice: any;
   bonusPrice: any;
@@ -52,8 +53,11 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   );
   const [sendAddress, setSendAddress] = useState("address");
 
+  const [activeCopied, setActiveCopied] = useState(false);
+
   const addressToClipboard = () => {
     navigator.clipboard.writeText(sendAddress);
+    setActiveCopied(true);
   };
 
   const [ercActive, setErcActive] = useState(true);
@@ -74,8 +78,8 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           amount: purchasePrice,
           currency:
             activeCoin.title === "USDT" ||
-            activeCoin.title === "USDC" ||
-            activeCoin.title === "TUSD"
+              activeCoin.title === "USDC" ||
+              activeCoin.title === "TUSD"
               ? `${activeCoin.title}_${networkActive}`
               : activeCoin.title,
           bareer: access_token,
@@ -128,6 +132,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
 
   return (
     <div ref={ref} className={s.payment_purchase_block}>
+      <PaymentCopied active={activeCopied} setDisable={setActiveCopied} />
       <div className={s.payment_purchase_header}>
         <div className={s.payment_purchase_header_title_group}>
           <img src={purchaseIco.src} alt="purcahse-ico" />
@@ -178,9 +183,9 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
               value={
                 purchasePrice &&
                 purchasePrice /
-                  priceList
-                    ?.find((item: any) => item?.monetary === activeCoin.title)
-                    ?.rates?.find((el: any) => el.fiatCurrency === "USD").rate
+                priceList
+                  ?.find((item: any) => item?.monetary === activeCoin.title)
+                  ?.rates?.find((el: any) => el.fiatCurrency === "USD").rate
               }
               // onChange={(el) => setAmount(el.target.value)}
               type="text"
@@ -262,9 +267,8 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
           <img
             width={200}
             height={200}
-            src={`https://game.greekkeepers.io/api/invoice/qr/${
-              invoiceCreate?.order_id || 1
-            }`}
+            src={`https://game.greekkeepers.io/api/invoice/qr/${invoiceCreate?.order_id || 1
+              }`}
             alt="text"
           />
         </div>

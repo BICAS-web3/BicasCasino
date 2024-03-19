@@ -14,14 +14,17 @@ import { ThimblesGame } from "@/widgets/Thimbles/ThimblesGame";
 import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 import { useUnit } from "effector-react";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
-  const [setIsPlaying, gameResult, setGameResult, setReset] = useUnit([
-    GameModel.setIsPlaying,
-    RaceModel.$gameResult,
-    RaceModel.setGameResult,
-    RaceModel.setReset,
-  ]);
+  const [setIsPlaying, gameResult, setGameResult, setReset, setIsEmtyWager] =
+    useUnit([
+      GameModel.setIsPlaying,
+      RaceModel.$gameResult,
+      RaceModel.setGameResult,
+      RaceModel.setReset,
+      GameModel.setIsEmtyWager,
+    ]);
   const [cryptoValue, setError] = useUnit([
     WagerAmountModel.$cryptoValue,
     WagerAmountModel.setError,
@@ -32,15 +35,10 @@ const WagerContent = () => {
       <ProfitBlock />
       <button
         onClick={() => {
-          if (gameResult?.length !== 0) {
-            setGameResult([]);
-            setReset(true);
+          if (!cryptoValue) {
+            setIsEmtyWager(true);
           } else {
-            if (!cryptoValue) {
-              setError(true);
-            } else {
-              setIsPlaying(true);
-            }
+            setIsPlaying(true);
           }
         }}
         className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
@@ -52,15 +50,27 @@ const WagerContent = () => {
 };
 
 const Thimbles = () => {
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
-        JSON.stringify({ type: "Subscribe", payload: ["Thimbles"] })
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Thimbles")?.id],
+        })
       );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

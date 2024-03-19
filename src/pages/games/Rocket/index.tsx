@@ -13,6 +13,7 @@ import {
   CustomWagerRangeInputModel,
 } from "@/widgets/CustomWagerRangeInput";
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import * as ConnectModel from "@/widgets/Layout/model";
 import Head from "next/head";
@@ -30,26 +31,11 @@ import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
 
 const WagerContent = () => {
-  // const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
-  //   ConnectModel.$startConnect,
-  //   ConnectModel.setConnect,
-  //   GameModel.setIsEmtyWager,
-  //   GameModel.setRefund,
-  // ]);
-  // const { isConnected, isConnecting } = useAccount();
-  // const [pressButton] = useUnit([WagerModel.pressButton]);
-
   const [cryptoValue, setError, setIsPlaying] = useUnit([
     WagerAmountModel.$cryptoValue,
     WagerAmountModel.setError,
     GameModel.setIsPlaying,
   ]);
-  // const router = useRouter();
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const partner_address = queryParams.get("partner_address");
-  // const site_id = queryParams.get("site_id");
-  // const sub_id = queryParams.get("sub_id");
-  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   return (
     <>
       <WagerInputsBlock />
@@ -60,8 +46,73 @@ const WagerContent = () => {
         max={100}
       />
       <WagerGainLoss />
-      <ProfitBlock />
-      {/* <button
+      <ProfitBlock />{" "}
+      <button
+        onClick={() => {
+          if (!cryptoValue) {
+            setError(true);
+          } else {
+            setIsPlaying(true);
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
+        Play
+      </button>
+    </>
+  );
+};
+
+export default function RocketGame() {
+  const socket = useSocket();
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
+
+  useEffect(() => {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Dice")?.id],
+        })
+      );
+    }
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
+  return (
+    <>
+      <Head>
+        <title>Games - Rocket</title>
+      </Head>
+      <Layout activePageLink="/games/Rocket" gameName="Rocket">
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["Rocket"]}
+        />
+        <div className={styles.rocket_container}>
+          <GamePage
+            isPoker={false}
+            gameInfoText=""
+            gameTitle="rocket"
+            wagerContent={<WagerContent />}
+            custom_height={styles.height}
+            soundClassName={styles.sound_btn}
+          >
+            <Rocket gameText="" />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
+  );
+}
+{
+  /* <button
         className={clsx(
           s.connect_wallet_btn,
           styles.mobile,
@@ -91,60 +142,28 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button>{" "} */}
-      {/* {isPlaying && (
+      </button>{" "} */
+}
+{
+  /* {isPlaying && (
         <RefundButton
           onClick={() => setRefund(true)}
           className={styles.mobile}
         />
-      )} */}{" "}
-      <button
-        onClick={() => {
-          if (!cryptoValue) {
-            setError(true);
-          } else {
-            setIsPlaying(true);
-          }
-        }}
-        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
-      >
-        Play
-      </button>
-    </>
-  );
-};
-
-export default function RocketGame() {
-  const socket = useSocket();
-
-  useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "Subscribe", payload: [2] }));
-    }
-  }, [socket, socket?.readyState]);
-  return (
-    <>
-      <Head>
-        <title>Games - Rocket</title>
-      </Head>
-      <Layout activePageLink="/games/Rocket" gameName="Rocket">
-        <LiveBetsWS
-          subscription_type={"Subscribe"}
-          subscriptions={["Rocket"]}
-        />
-        <div className={styles.rocket_container}>
-          <GamePage
-            isPoker={false}
-            gameInfoText=""
-            gameTitle="rocket"
-            wagerContent={<WagerContent />}
-            custom_height={styles.height}
-            soundClassName={styles.sound_btn}
-          >
-            <Rocket gameText="" />
-          </GamePage>
-        </div>
-      </Layout>
-    </>
-  );
+      )} */
 }
+
+// const router = useRouter();
+// const queryParams = new URLSearchParams(window.location.search);
+// const partner_address = queryParams.get("partner_address");
+// const site_id = queryParams.get("site_id");
+// const sub_id = queryParams.get("sub_id");
+// const [isPartner] = useUnit([ConnectModel.$isPartner]);
+// const [startConnect, setStartConnect, setIsEmtyWager, setRefund] = useUnit([
+//   ConnectModel.$startConnect,
+//   ConnectModel.setConnect,
+//   GameModel.setIsEmtyWager,
+//   GameModel.setRefund,
+// ]);
+// const { isConnected, isConnecting } = useAccount();
+// const [pressButton] = useUnit([WagerModel.pressButton]);

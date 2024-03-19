@@ -203,6 +203,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     result,
     setResult,
     socketLogged,
+    setCryptoValue,
   ] = useUnit([
     CustomWagerRangeInputModel.$pickedValue,
     GameModel.$lost,
@@ -234,6 +235,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
     BetsModel.$result,
     BetsModel.setResult,
     LayoutModel.$socketLogged,
+    WagerModel.setCryptoValue,
   ]);
 
   useEffect(() => {
@@ -242,6 +244,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         const dataState = JSON.parse(result.state);
         setKeep(true);
         if (Number(result.amount) > 0) {
+          setCryptoValue(Number(result.amount));
           if (JSON.parse(result.bet_info).cashout === false) {
           }
           const newGameField = gameField.map((value, index) => {
@@ -259,6 +262,12 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
           setPickedTiles([...initialPickedTiles]);
         }
       } else if (result.type === "Bet" && result.state) {
+        const fullAmount = Number(result.amount) * result.num_games!;
+        setCoefficientData((prev) => [
+          Number(result.profit) / fullAmount,
+          ...prev,
+        ]);
+        // handlePayouts();
         setTimeout(() => {
           setInGame(false);
           triggerRedraw(true);
@@ -916,11 +925,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         user_id: userInfo?.id || 0,
         data: `{ "cashout":${isCashout}, "tiles":[${pickedTiles}]}`,
       });
-      // if (!isCashout) {
-      //   setKeep(true);
-      // } else {
-      //   setKeep(false);
-      // }
     } else {
       setBetData({
         type: "MakeBet",
@@ -933,11 +937,6 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
         stop_win: Number(stopGain) || 0,
         num_games: betsAmount,
       });
-      // if (!isCashout) {
-      //   setKeep(true);
-      // } else {
-      //   setKeep(false);
-      // }
     }
   }, [
     stopGain,
@@ -1040,7 +1039,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
             <span className={styles.total_won}>{fullWon.toFixed(2)}</span>
             <span className={styles.total_lost}>{fullLost.toFixed(2)}</span>
             <div>
-              Total:{" "}
+              Total:
               <span
                 className={clsx(
                   totalValue > 0 && styles.total_won,
@@ -1056,7 +1055,7 @@ export const Mines: FC<MinesProps> = ({ gameInfoText }) => {
               <div
                 className={clsx(
                   styles.multiplier_value,
-                  item > 0
+                  item > 1
                     ? styles.multiplier_positive
                     : styles.multiplier_negative
                 )}

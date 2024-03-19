@@ -1,6 +1,6 @@
 import s from "./styles.module.scss";
 import { FC, useEffect, useState } from "react";
-import applesBg from "@/public/media/apples/applesBg.png";
+import applesBg from "@/public/media/apples/applesBg.webp";
 import { WagerLowerBtnsBlock } from "../WagerLowerBtnsBlock/WagerLowerBtnsBlock";
 import appleBg from "@/public/media/apples/appleItemBg.svg";
 import appleBgTrue from "@/public/media/apples/appleItemBgTrue.svg";
@@ -10,13 +10,9 @@ import appleCoefFalse from "@/public/media/apples/appleCoefBgFalse.svg";
 import cfBg from "@/public/media/apples/cfBg.svg";
 import cfBgActive from "@/public/media/apples/cfBgActive.svg";
 import { AppleIco } from "@/shared/SVGs/AppleIco";
-import backIco from "@/public/media/apples/backIco.svg";
 import clsx from "clsx";
-//?------------
-import Image from "next/image";
-import mobLine from "@/public/media/apples/mobLine.svg";
-// import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
-
+import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 import { SidePickerModel } from "../CoinFlipSidePicker";
 import { useUnit } from "effector-react";
 import { WagerModel as WagerButtonModel } from "../Wager";
@@ -24,33 +20,20 @@ import { WagerModel } from "../WagerInputsBlock";
 import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
 import * as GameModel from "@/widgets/GamePage/model";
 import useSound from "use-sound";
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useNetwork,
-//   usePrepareContractWrite,
-// } from "wagmi";
+import * as BetsModel from "@/widgets/LiveBets/model";
+import * as RegistrM from "@/widgets/Registration/model";
 import { sessionModel } from "@/entities/session";
-import { ABI as IAppleAbi } from "@/shared/contracts/AppleABI";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { useDebounce } from "@/shared/tools";
 import { WagerGainLossModel } from "../WagerGainLoss";
-import { TOKENS } from "@/shared/tokens";
-// import { useFeeData } from "wagmi";
 import * as ApplesModel from "./model";
-import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
 import { ProfitModel } from "../ProfitBlock";
 import { AppleFalseIco } from "@/shared/SVGs/AppleFalse";
 import { ApplesWinBlock } from "../ApplesWin/ApplesWinBlock";
 import { Preload } from "@/shared/ui/Preload";
-
+import { useSocket } from "@/shared/context";
 interface ApplesGameProps {}
 
 export const ApplesGame: FC<ApplesGameProps> = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([]);
-  // const [resultApples, setResultApples] = useState<number[]>([]);
 
   const [setEmpty] = useUnit([ApplesModel.setEmptyField]);
 
@@ -61,8 +44,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       setEmpty(false);
     }
   }, [appleData.length]);
-
-  const [apples, setApples] = useState<number[]>([]);
 
   useEffect(() => {
     const data = appleData.map((el) => el.value);
@@ -127,7 +108,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     number: number;
     value: number;
   }
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [
     lost,
     profit,
@@ -160,6 +141,20 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     reset,
     refund,
     setRefund,
+    gamesList,
+    result,
+    setResult,
+    socketLogged,
+    isDrax,
+    userInfo,
+    isPlaying,
+    multiplier,
+    setCryptoValue,
+    stop,
+    setStop,
+    setApples,
+    socketReset,
+    socketAuth,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -192,8 +187,127 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     ApplesModel.$reset,
     GameModel.$refund,
     GameModel.setRefund,
+    GameModel.$gamesList,
+    BetsModel.$result,
+    BetsModel.setResult,
+    LayoutModel.$socketLogged,
+    BalanceModel.$isDrax,
+    LayoutModel.$userInfo,
+    GameModel.$isPlaying,
+    GameModel.$multiplier,
+    WagerModel.setCryptoValue,
+    ApplesModel.$stop,
+    ApplesModel.setStop,
+    ApplesModel.setApples,
+    LayoutModel.$socketReset,
+    LayoutModel.$socketAuth,
   ]);
 
+  const [mines, setMines] = useState<boolean[][]>([]);
+
+  const [start, setStart] = useState(true);
+  const [appleItem, setAppleItem] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (result) {
+      if (result.type === "State" && result.state) {
+        const dataState = JSON.parse(result.state).state;
+        setCryptoValue(Number(result.amount));
+        if (result?.amount && start) {
+          setIsPlaying(true);
+          setApples(JSON.parse(result.state).picked_tiles);
+          setMines(dataState);
+          setStart(false);
+          setAppleData(
+            dataState.map((_: any, i: number) => {
+              return {
+                value: 5,
+                number: 1,
+              };
+            })
+          );
+        }
+        console.log("first level: ", dataState);
+
+        setMines(() => dataState);
+        setKeep(true);
+      } else if (result.type === "Bet" && result.state) {
+        const data = JSON.parse(result!.state);
+
+        setWaitingResponse(false);
+        if (
+          Number(result.profit) > Number(result.amount) ||
+          Number(result.profit) === Number(result.amount)
+        ) {
+          setGameStatus(GameModel.GameStatus.Won);
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          );
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: "DRAX",
+          });
+          setTimeout(() => {
+            setAppleGameResult([]);
+            setAppleData([]);
+            setApples([]);
+            setMines([]);
+            setInGame(false);
+            setIsPlaying(false);
+            setKeep(false);
+            setFirstBet(true);
+            handleReset();
+            setStop(false);
+            setAppleItem([]);
+          }, 200);
+        } else if (Number(result.profit) < Number(result.amount)) {
+          const dataState = JSON.parse(result.state).state;
+          setApples(JSON.parse(result.state).picked_tiles);
+          setMines(dataState);
+          setGameStatus(GameModel.GameStatus.Lost);
+          setLostStatus(Number(result.profit) - Number(result.amount));
+          setTimeout(() => {
+            setInGame(false);
+            setIsPlaying(false);
+            setKeep(false);
+            setFirstBet(true);
+            handleReset();
+            setAppleItem([]);
+            setTimeout(() => {
+              setAppleGameResult([]);
+              setAppleData([]);
+              setApples([]);
+              setMines([]);
+            }, 300);
+          }, 200);
+        } else {
+          setGameStatus(GameModel.GameStatus.Draw);
+          setTimeout(() => {
+            setAppleGameResult([]);
+            setAppleData([]);
+            setApples([]);
+            setMines([]);
+            setInGame(false);
+            setIsPlaying(false);
+            setKeep(false);
+            setFirstBet(true);
+            handleReset();
+            setAppleItem([]);
+          }, 200);
+        }
+        // setKeep(false);
+      }
+    }
+    setResult(null);
+  }, [result, result?.type]);
+
+  const [keep, setKeep] = useState(false);
+  useEffect(() => {
+    setIsCashout(stop);
+  }, [stop]);
+
+  const [isCashout, setIsCashout] = useState(true);
   const [playApple] = useSound("/music/apple_click.mp3", { volume: 1 });
 
   const [coefficientData, setCoefficientData] = useState<number[]>([]);
@@ -202,238 +316,8 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setCoefficient(1.98);
   }, []);
 
-  // const { chain } = useNetwork();
-  // const { address, isConnected } = useAccount();
-  // const { data, isError } = useFeeData({ watch: true });
-
   const [inGame, setInGame] = useState<boolean>(false);
 
-  // const { data: GameState, refetch: fetchGameState } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-  //   abi: IAppleAbi,
-  //   functionName: "Apples_GetState",
-  //   args: [address],
-  //   enabled: true,
-  //   //watch: isConnected && !inGame,
-  //   blockTag: "latest",
-  // });
-
-  // useEffect(() => {
-  //   if (GameState && !inGame) {
-  //     if (
-  //       (GameState as any).requestID != BigInt(0) &&
-  //       (GameState as any).blockNumber != BigInt(0)
-  //     ) {
-  //       setWaitingResponse(true);
-  //       setInGame(true);
-  //       setActivePicker(false);
-  //       pickSide((GameState as any).isHeads as number);
-  //     } else {
-  //       setInGame(false);
-  //     }
-  //   }
-  // }, [GameState]);
-
-  useEffect(() => {
-    setIsPlaying(inGame);
-  }, [inGame]);
-
-  // const { config: allowanceConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: pickedToken?.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "approve",
-  //   enabled:
-  //     pickedToken?.contract_address !=
-  //     "0x0000000000000000000000000000000000000000",
-  //   args: [
-  //     gameAddress,
-  //     useDebounce(
-  //       currentBalance
-  //         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
-  //         : 0
-  //     ),
-  //   ],
-  // });
-
-  // const { write: setAllowance, isSuccess: allowanceIsSet } =
-  //   useContractWrite(allowanceConfig);
-  // useEffect(() => alert(allowanceIsSet), [allowanceIsSet]);
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
-
-  // useEffect(() => {
-  //   if (data && data.gasPrice) {
-  //     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
-  //   }
-  // }, [data]);
-
-  // const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
-  //   chainId: chain?.id,
-  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-  //   abi: IAppleAbi,
-  //   functionName: "getVRFFee",
-  //   args: [0],
-  //   watch: isConnected && !inGame,
-  // });
-
-  // useEffect(() => {
-  //   if (VRFFees && data?.gasPrice) {
-  //     setFees(
-  //       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
-  //         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
-  //     );
-  //   }
-  // }, [VRFFees, data]);
-
-  const [value, setValue] = useState<bigint>(BigInt(0));
-
-  useEffect(() => {
-    const newValue =
-      fees +
-      (pickedToken &&
-      pickedToken?.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-          BigInt(100000000000)
-        : BigInt(0));
-    setValue(
-      fees +
-        (pickedToken &&
-        pickedToken?.contract_address ==
-          "0x0000000000000000000000000000000000000000"
-          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-            BigInt(100000000000)
-          : BigInt(0))
-    );
-
-    setBetValue(newValue + BigInt(400000) * prevGasPrice);
-  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
-
-  // const {
-  //   write: startPlaying,
-  //   isSuccess: startedPlaying,
-  //   error,
-  // } = useContractWrite({
-  //   chainId: chain?.id,
-  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-  //   abi: IAppleAbi,
-  //   functionName: "Apples_Play",
-  //   gasPrice: prevGasPrice,
-  //   gas: BigInt(400000),
-  //   args: [
-  //     useDebounce(
-  //       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
-  //     ),
-  //     pickedToken?.contract_address,
-  //     apples,
-  //   ],
-  //   value: value,
-  // });
-
-  // useEffect(() => {
-  //   if (startedPlaying) {
-  //     setActivePicker(false);
-  //     setInGame(true);
-  //     setWaitingResponse(true);
-  //   }
-  // }, [startedPlaying]);
-
-  // const { config: refundConfig } = usePrepareContractWrite({
-  //   chainId: chain?.id,
-  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-  //   abi: IAppleAbi,
-  //   functionName: "Apples_Refund",
-  //   enabled: false,
-  //   args: [],
-  //   gas: BigInt(100000),
-  // });
-
-  // const { write: callRefund } = useContractWrite(refundConfig);
-
-  // useEffect(() => {
-  //   if (refund) {
-  //     callRefund?.();
-  //     setRefund(false);
-  //   }
-  // }, [refund]);
-
-  // useContractEvent({
-  //   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
-  //   abi: IAppleAbi,
-  //   eventName: "Apples_Outcome_Event",
-  //   listener(log) {
-  //     if (
-  //       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
-  //       address?.toLowerCase()
-  //     ) {
-  //       console.log("-------", (log[0] as any).args, "----");
-  //       const handlePayouts = async () => {
-  //         setCoefficientData((prev) => [
-  //           Number((log[0] as any)?.args?.payout) / Number(wagered),
-  //           ...prev,
-  //         ]);
-  //       };
-  //       handlePayouts();
-
-  //       const getResult = () => {
-  //         setAppleGameResult((log[0] as any).args.mines);
-  //       };
-  //       getResult();
-  //       setWaitingResponse(false);
-  //       const wagered = BigInt((log[0] as any).args.wager);
-
-  //       if ((log[0] as any).args.payout > wagered) {
-  //         const profit = (log[0] as any).args.payout;
-  //         const multiplier = Number(profit / wagered);
-  //         const wagered_token = (
-  //           (log[0] as any).args.tokenAddress as string
-  //         ).toLowerCase();
-  //         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
-
-  //         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
-  //         setWonStatus({
-  //           profit: profitFloat,
-  //           multiplier,
-  //           token: token as string,
-  //         });
-  //         setGameStatus(GameModel.GameStatus.Won);
-  //       } else {
-  //         const wageredFloat =
-  //           Number(wagered / BigInt(10000000000000000)) / 100;
-
-  //         setLostStatus(wageredFloat);
-  //         setGameStatus(GameModel.GameStatus.Lost);
-  //       }
-  //     }
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   if (wagered) {
-  //     if (inGame) {
-  //     } else {
-  //       const total_value = cryptoValue * betsAmount;
-  //       if (
-  //         cryptoValue != 0 &&
-  //         currentBalance &&
-  //         total_value <= currentBalance
-  //       ) {
-  //         if (
-  //           (!allowance || (allowance && allowance <= cryptoValue)) &&
-  //           pickedToken?.contract_address !=
-  //             "0x0000000000000000000000000000000000000000"
-  //         ) {
-  //           setAllowance?.();
-  //         } else {
-  //           startPlaying?.();
-  //         }
-  //       }
-  //     }
-  //     setWagered(false);
-  //   }
-  // }, [wagered]);
   useEffect(() => {
     setActivePicker(true);
     setInGame(false);
@@ -443,7 +327,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       pickSide(pickedSide ^ 1);
     }
   }, [gameStatus]);
-  //!--------------------------------------------------
+
   const [fullWon, setFullWon] = useState(0);
   const [fullLost, setFullLost] = useState(0);
   const [totalValue, setTotalValue] = useState(0.1);
@@ -466,10 +350,9 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setTotalValue(fullWon - fullLost);
   }, [GameModel.GameStatus, profit, lost]);
 
-  // useEffect(() => {
-  //   setTimeout(() => setAppleGameResult([0, 0, 1, 2]), 3000);
-  // }, []);
-
+  useEffect(() => setInGame(isPlaying), [isPlaying]);
+  const [access_token] = useUnit([RegistrM.$access_token]);
+  const [taken, setTaken] = useState(false);
   const handleReset = () => {
     setAppleGameResult([]);
     setAppleData([]);
@@ -480,14 +363,131 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     handleReset();
   }, [reset]);
 
+  const socket = useSocket();
+  const subscribe = {
+    type: "SubscribeBets",
+    payload: [gamesList.find((item) => item.name === "Apples")?.id],
+  };
+
+  const [betData, setBetData] = useState({});
+
+  const [firstBet, setFirstBet] = useState(true);
+
+  const [coninue, setContinue] = useState(0);
+  useEffect(() => {
+    if (firstBet) {
+      setBetData({
+        type: "MakeBet",
+        game_id: gamesList.find((item) => item.name === "Apples")?.id,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: '{"difficulty":1}',
+        amount: `${cryptoValue || 0}`,
+        stop_loss: Number(stopLoss) || 0,
+        stop_win: Number(stopGain) || 0,
+        num_games: betsAmount,
+      });
+      if (isPlaying) {
+        setFirstBet(false);
+        setKeep(true);
+      }
+    } else {
+      if (keep) {
+        setBetData({
+          type: "ContinueGame",
+          game_id: gamesList.find((item) => item.name === "Apples")?.id,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: isCashout
+            ? `{"cashout":${isCashout}}`
+            : `{"tile":${
+                appleItem[appleItem?.length - 1]
+              }, "cashout":${isCashout}}`,
+        });
+        setContinue((prev) => prev + 1);
+      } else {
+        setBetData({
+          type: "MakeBet",
+          game_id: gamesList.find((item) => item.name === "Apples")?.id,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: '{"difficulty":1}',
+          amount: `${cryptoValue || 0}`,
+          stop_loss: Number(stopLoss) || 0,
+          stop_win: Number(stopGain) || 0,
+          num_games: betsAmount,
+        });
+      }
+    }
+  }, [
+    stopGain,
+    stopLoss,
+    cryptoValue,
+    isDrax,
+    betsAmount,
+    isCashout,
+    isPlaying,
+    appleItem,
+  ]);
+
+  const [subscribed, setCubscribed] = useState(false);
+  useEffect(() => {
+    if (
+      socket &&
+      isPlaying &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify(betData));
+    }
+    if (
+      socket &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN &&
+      !subscribed &&
+      gamesList?.length > 0
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Apples")?.id],
+        })
+      );
+      setCubscribed(true);
+    }
+  }, [socket, isPlaying, access_token, gamesList, coninue]);
+
+  useEffect(() => {
+    if (
+      access_token &&
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList?.length > 0 &&
+      socketLogged
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: "GetState",
+          game_id: gamesList.find((item) => item.name === "Apples")?.id,
+          coin_id: isDrax ? 2 : 1,
+        })
+      );
+    }
+  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged]);
+
+  useEffect(() => {
+    return () => {
+      socket?.send(
+        JSON.stringify({
+          type: "UnsubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Apples")?.id],
+        })
+      );
+    };
+  }, []);
+
   return (
     <>
-      {/* {error && (
-        <ErrorCheck
-          text="Something went wrong, please contact customer support."
-          btnTitle="Contact us"
-        />
-      )} */}
       <div className={s.apples_game_wrap}>
         <WagerLowerBtnsBlock game="apples" text={"apples"} />
         <div className={s.apples_table_background}>
@@ -536,7 +536,12 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         <div className={s.apples_table_block}>
           <div className={s.apples_table_wrap}>
             {gameStatus === GameModel.GameStatus.Won && (
-              <ApplesWinBlock cf={100} profit={100} />
+              <ApplesWinBlock
+                resIco={result?.coin_id}
+                multiplier={Number(multiplier.toFixed(2)).toString()}
+                cf={100}
+                profit={profit}
+              />
             )}
             <div className={s.apples_table}>
               {chunkedApplesArr &&
@@ -546,7 +551,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                     <div className={s.apples_row} key={ind}>
                       {ind === chunkedApplesArr.length - 1 && (
                         <>
-                          {" "}
                           <span
                             className={clsx(
                               s.apples_shadow,
@@ -603,10 +607,17 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                       </div>
                       {item.apples.map((_: any, ind2: any) => {
                         const picked = appleData[currentIndex]?.value === ind2;
-                        const resultExist = appleGameResult?.length > 0;
+                        const resultExist =
+                          mines &&
+                          mines[currentIndex] &&
+                          mines[currentIndex][ind2] === false;
                         const falseResult =
-                          appleGameResult[currentIndex] ===
-                          appleData[currentIndex]?.value;
+                          mines &&
+                          mines[currentIndex] &&
+                          mines[currentIndex][ind2];
+                        // falseResult && alert(falseResult);
+                        // appleGameResult[currentIndex] ===
+                        // appleData[currentIndex]?.value;
                         return (
                           <div
                             onContextMenu={(e) => {
@@ -627,31 +638,38 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               }
                             }}
                             onClick={(e) => {
-                              currentIndex <= appleData.length &&
-                                playSounds !== "off" &&
-                                !inGame &&
-                                appleGameResult?.length === 0 &&
-                                playApple();
-                              const indexToUpdate = currentIndex;
-                              if (
+                              if (isPlaying) {
+                                if (currentIndex < appleData.length) {
+                                  // alert(1);
+                                  return;
+                                }
                                 currentIndex <= appleData.length &&
-                                appleGameResult?.length === 0 &&
-                                !inGame
-                              ) {
-                                if (appleData[indexToUpdate] !== undefined) {
-                                  setAppleData((prev: IAppleData[]) => {
-                                    const updatedArray = [...prev];
-                                    updatedArray[indexToUpdate] = {
-                                      number: indexToUpdate,
-                                      value: ind2,
-                                    };
-                                    return updatedArray;
-                                  });
-                                } else {
-                                  setAppleData((prev: IAppleData[]) => [
-                                    ...prev,
-                                    { number: indexToUpdate, value: ind2 },
-                                  ]);
+                                  playSounds !== "off" &&
+                                  isPlaying &&
+                                  appleGameResult?.length === 0 &&
+                                  playApple();
+                                const indexToUpdate = currentIndex;
+                                if (
+                                  currentIndex <= appleData.length &&
+                                  appleGameResult?.length === 0 &&
+                                  isPlaying
+                                ) {
+                                  if (appleData[indexToUpdate] !== undefined) {
+                                    setAppleData((prev: IAppleData[]) => {
+                                      const updatedArray = [...prev];
+                                      updatedArray[indexToUpdate] = {
+                                        number: indexToUpdate,
+                                        value: ind2,
+                                      };
+                                      return updatedArray;
+                                    });
+                                  } else {
+                                    setAppleData((prev: IAppleData[]) => [
+                                      ...prev,
+                                      { number: indexToUpdate, value: ind2 },
+                                    ]);
+                                  }
+                                  setAppleItem((prev) => [...prev, ind2]);
                                 }
                               }
                             }}
@@ -659,18 +677,21 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                               s.apples_row_item,
                               currentIndex <= appleData.length &&
                                 appleGameResult?.length === 0 &&
-                                !inGame &&
+                                isPlaying &&
                                 s.clicked,
                               picked && s.apple_picked,
-                              picked && falseResult && s.apple_picked_false,
-                              picked &&
-                                !falseResult &&
+                              falseResult && s.apple_picked_false,
+                              // picked &&
+                              !falseResult &&
                                 resultExist &&
                                 s.apple_picked_true,
                               currentIndex === appleData.length &&
-                                !inGame &&
+                                isPlaying &&
                                 appleGameResult?.length === 0 &&
-                                s.apple_pick
+                                s.apple_pick,
+                              isPlaying &&
+                                currentIndex < appleData.length &&
+                                s.btn_disactive
                             )}
                           >
                             {resultExist && picked ? (
@@ -720,91 +741,6 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
                   );
                 })}
             </div>
-            <div className={s.game_info_wrap}>
-              <div className={s.game_info_block}>
-                <span className={s.multiplier_title}>
-                  Current Multiplier:{" "}
-                  {inGame || appleGameResult?.length > 0
-                    ? chunkedApplesArr[
-                        Math.abs(appleData.length - chunkedApplesArr?.length)
-                      ]?.cf?.toFixed(2)
-                    : appleData.length < 9
-                    ? chunkedApplesArr[
-                        Math.abs(
-                          appleData.length -
-                            chunkedApplesArr?.length +
-                            1 +
-                            (appleData.length === 9 ? 0 : 0)
-                        )
-                      ]?.cf?.toFixed(2)
-                    : chunkedApplesArr[0]?.cf?.toFixed(2)}
-                  x
-                </span>
-                <span className={s.multiplier_title}>
-                  Max Payout:{" "}
-                  {appleData.length !== 0
-                    ? (
-                        chunkedApplesArr[
-                          Math.abs(
-                            appleData.length -
-                              chunkedApplesArr?.length +
-                              (appleData.length === 9 ? 0 : 0)
-                          )
-                        ]?.cf?.toFixed(2) * cryptoValue
-                      ).toFixed(3)
-                    : 0}
-                </span>
-              </div>
-              <div className={s.btns_block}>
-                <button
-                  onClick={() => {
-                    if (!inGame) {
-                      handleReset();
-                    }
-                  }}
-                  className={clsx(
-                    s.clear_btn,
-                    appleGameResult?.length > 0 && s.clear_btn_active,
-                    appleData?.length <= 0 && s.clear_btn_disactive,
-                    inGame && s.clear_btn_disactive
-                  )}
-                >
-                  Clear
-                </button>
-                <button
-                  onClick={() => {
-                    if (
-                      appleData.length > 0 &&
-                      appleGameResult?.length === 0 &&
-                      !inGame
-                    ) {
-                      if (appleData?.length === 1) {
-                        setAppleData([]);
-                      } else {
-                        setAppleData((prev: IAppleData[]) => {
-                          const newData = prev.slice(0, -1);
-                          return newData;
-                        });
-                      }
-                    }
-                  }}
-                  className={clsx(
-                    s.back_btn,
-                    appleGameResult?.length > 0 && s.back_btn_disable,
-                    appleData?.length <= 0 && s.back_btn_disactive,
-                    inGame && s.back_btn_disactive
-                  )}
-                >
-                  <BackIcon
-                    className={clsx(
-                      s.back_icon,
-                      appleData?.length <= 0 && s.back_btn_disactive
-                    )}
-                  />
-                  {/* <img src={backIco.src} alt="back-static-ico" /> */}
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -829,3 +765,352 @@ export const BackIcon = ({ className }: { className?: string }) => {
     </svg>
   );
 };
+
+// const { chain } = useNetwork();
+// const { address, isConnected } = useAccount();
+// const { data, isError } = useFeeData({ watch: true });
+
+// const { data: GameState, refetch: fetchGameState } = useContractRead({
+//   chainId: chain?.id,
+//   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+//   abi: IAppleAbi,
+//   functionName: "Apples_GetState",
+//   args: [address],
+//   enabled: true,
+//   //watch: isConnected && !inGame,
+//   blockTag: "latest",
+// });
+
+// useEffect(() => {
+//   if (GameState && !inGame) {
+//     if (
+//       (GameState as any).requestID != BigInt(0) &&
+//       (GameState as any).blockNumber != BigInt(0)
+//     ) {
+//       setWaitingResponse(true);
+//       setInGame(true);
+//       setActivePicker(false);
+//       pickSide((GameState as any).isHeads as number);
+//     } else {
+//       setInGame(false);
+//     }
+//   }
+// }, [GameState]);
+
+// useEffect(() => {
+//   setIsPlaying(inGame);
+// }, [inGame]);
+
+// const { config: allowanceConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: pickedToken?.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "approve",
+//   enabled:
+//     pickedToken?.contract_address !=
+//     "0x0000000000000000000000000000000000000000",
+//   args: [
+//     gameAddress,
+//     useDebounce(
+//       currentBalance
+//         ? BigInt(Math.floor(currentBalance * 10000000)) * BigInt(100000000000)
+//         : 0
+//     ),
+//   ],
+// });
+
+// const { write: setAllowance, isSuccess: allowanceIsSet } =
+//   useContractWrite(allowanceConfig);
+// useEffect(() => alert(allowanceIsSet), [allowanceIsSet]);
+// const [fees, setFees] = useState<bigint>(BigInt(0));
+// const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   if (data && data.gasPrice) {
+//     setPrevGasPrice(data.gasPrice + data.gasPrice / BigInt(6));
+//   }
+// }, [data]);
+
+// const { data: VRFFees, refetch: fetchVRFFees } = useContractRead({
+//   chainId: chain?.id,
+//   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+//   abi: IAppleAbi,
+//   functionName: "getVRFFee",
+//   args: [0],
+//   watch: isConnected && !inGame,
+// });
+
+// useEffect(() => {
+//   if (VRFFees && data?.gasPrice) {
+//     setFees(
+//       BigInt(VRFFees ? (VRFFees as bigint) : 0) +
+//         BigInt(1000000) * (data.gasPrice + data.gasPrice / BigInt(4))
+//     );
+//   }
+// }, [VRFFees, data]);
+
+// const [value, setValue] = useState<bigint>(BigInt(0));
+
+// useEffect(() => {
+//   const newValue =
+//     fees +
+//     (pickedToken &&
+//     pickedToken?.contract_address ==
+//       "0x0000000000000000000000000000000000000000"
+//       ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//         BigInt(100000000000)
+//       : BigInt(0));
+//   setValue(
+//     fees +
+//       (pickedToken &&
+//       pickedToken?.contract_address ==
+//         "0x0000000000000000000000000000000000000000"
+//         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+//           BigInt(100000000000)
+//         : BigInt(0))
+//   );
+
+//   setBetValue(newValue + BigInt(400000) * prevGasPrice);
+// }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
+
+// const {
+//   write: startPlaying,
+//   isSuccess: startedPlaying,
+//   error,
+// } = useContractWrite({
+//   chainId: chain?.id,
+//   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+//   abi: IAppleAbi,
+//   functionName: "Apples_Play",
+//   gasPrice: prevGasPrice,
+//   gas: BigInt(400000),
+//   args: [
+//     useDebounce(
+//       BigInt(Math.floor(cryptoValue * 10000000)) * BigInt(100000000000)
+//     ),
+//     pickedToken?.contract_address,
+//     apples,
+//   ],
+//   value: value,
+// });
+
+// useEffect(() => {
+//   if (startedPlaying) {
+//     setActivePicker(false);
+//     setInGame(true);
+//     setWaitingResponse(true);
+//   }
+// }, [startedPlaying]);
+
+// const { config: refundConfig } = usePrepareContractWrite({
+//   chainId: chain?.id,
+//   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+//   abi: IAppleAbi,
+//   functionName: "Apples_Refund",
+//   enabled: false,
+//   args: [],
+//   gas: BigInt(100000),
+// });
+
+// const { write: callRefund } = useContractWrite(refundConfig);
+
+// useEffect(() => {
+//   if (refund) {
+//     callRefund?.();
+//     setRefund(false);
+//   }
+// }, [refund]);
+
+// useContractEvent({
+//   address: "0xEb04f371301462F8A28faA772ac36783a75F2E82",
+//   abi: IAppleAbi,
+//   eventName: "Apples_Outcome_Event",
+//   listener(log) {
+//     if (
+//       ((log[0] as any).args.playerAddress as string).toLowerCase() ==
+//       address?.toLowerCase()
+//     ) {
+//       console.log("-------", (log[0] as any).args, "----");
+//       const handlePayouts = async () => {
+//         setCoefficientData((prev) => [
+//           Number((log[0] as any)?.args?.payout) / Number(wagered),
+//           ...prev,
+//         ]);
+//       };
+//       handlePayouts();
+
+//       const getResult = () => {
+//         setAppleGameResult((log[0] as any).args.mines);
+//       };
+//       getResult();
+//       setWaitingResponse(false);
+//       const wagered = BigInt((log[0] as any).args.wager);
+
+//       if ((log[0] as any).args.payout > wagered) {
+//         const profit = (log[0] as any).args.payout;
+//         const multiplier = Number(profit / wagered);
+//         const wagered_token = (
+//           (log[0] as any).args.tokenAddress as string
+//         ).toLowerCase();
+//         const token = TOKENS.find((tk) => tk.address == wagered_token)?.name; //TOKENS[((log[0] as any).args.tokenAddress as string).toLowerCase()];
+
+//         const profitFloat = Number(profit / BigInt(10000000000000000)) / 100;
+//         setWonStatus({
+//           profit: profitFloat,
+//           multiplier,
+//           token: token as string,
+//         });
+//         setGameStatus(GameModel.GameStatus.Won);
+//       } else {
+//         const wageredFloat =
+//           Number(wagered / BigInt(10000000000000000)) / 100;
+
+//         setLostStatus(wageredFloat);
+//         setGameStatus(GameModel.GameStatus.Lost);
+//       }
+//     }
+//   },
+// });
+
+// useEffect(() => {
+//   if (wagered) {
+//     if (inGame) {
+//     } else {
+//       const total_value = cryptoValue * betsAmount;
+//       if (
+//         cryptoValue != 0 &&
+//         currentBalance &&
+//         total_value <= currentBalance
+//       ) {
+//         if (
+//           (!allowance || (allowance && allowance <= cryptoValue)) &&
+//           pickedToken?.contract_address !=
+//             "0x0000000000000000000000000000000000000000"
+//         ) {
+//           setAllowance?.();
+//         } else {
+//           startPlaying?.();
+//         }
+//       }
+//     }
+//     setWagered(false);
+//   }
+// }, [wagered]);
+// import {
+//   useAccount,
+//   useContractEvent,
+//   useContractRead,
+//   useContractWrite,
+//   useNetwork,
+//   usePrepareContractWrite,
+// } from "wagmi";
+// import Image from "next/image";
+// import mobLine from "@/public/media/apples/mobLine.svg";
+// import { GLTFLoader } from "three/addons/loaders/GLTFLoader";
+
+//  <div className={s.game_info_wrap}>
+//    <div className={s.game_info_block}>
+//      <span className={s.multiplier_title}>
+//        Current Multiplier:{" "}
+//        {inGame || appleGameResult?.length > 0
+//          ? chunkedApplesArr[
+//              Math.abs(appleData.length - chunkedApplesArr?.length)
+//            ]?.cf?.toFixed(2)
+//          : appleData.length < 9
+//          ? chunkedApplesArr[
+//              Math.abs(
+//                appleData.length -
+//                  chunkedApplesArr?.length +
+//                  1 +
+//                  (appleData.length === 9 ? 0 : 0)
+//              )
+//            ]?.cf?.toFixed(2)
+//          : chunkedApplesArr[0]?.cf?.toFixed(2)}
+//        x
+//      </span>
+//      <span className={s.multiplier_title}>
+//        Max Payout:{" "}
+//        {appleData.length !== 0
+//          ? (
+//              chunkedApplesArr[
+//                Math.abs(
+//                  appleData.length -
+//                    chunkedApplesArr?.length +
+//                    (appleData.length === 9 ? 0 : 0)
+//                )
+//              ]?.cf?.toFixed(2) * cryptoValue
+//            ).toFixed(3)
+//          : 0}
+//      </span>
+//    </div>
+//    <div className={s.btns_block}>
+//      <button
+//        onClick={() => {
+//          if (!inGame) {
+//            handleReset();
+//          }
+//        }}
+//        className={clsx(
+//          s.clear_btn,
+//          appleGameResult?.length > 0 && s.clear_btn_active,
+//          appleData?.length <= 0 && s.clear_btn_disactive,
+//          inGame && s.clear_btn_disactive
+//        )}
+//      >
+//        Clear
+//      </button>
+//      <button
+//        onClick={() => {
+//          if (appleData.length > 0 && appleGameResult?.length === 0 && !inGame) {
+//            if (appleData?.length === 1) {
+//              setAppleData([]);
+//            } else {
+//              setAppleData((prev: IAppleData[]) => {
+//                const newData = prev.slice(0, -1);
+//                return newData;
+//              });
+//            }
+//          }
+//        }}
+//        className={clsx(
+//          s.back_btn,
+//          appleGameResult?.length > 0 && s.back_btn_disable,
+//          appleData?.length <= 0 && s.back_btn_disactive,
+//          inGame && s.back_btn_disactive
+//        )}
+//      >
+//        <BackIcon
+//          className={clsx(
+//            s.back_icon,
+//            appleData?.length <= 0 && s.back_btn_disactive
+//          )}
+//        />
+//        {/* <img src={backIco.src} alt="back-static-ico" /> */}
+//      </button>
+//    </div>
+//  </div>;
+
+// import { ABI as IAppleAbi } from "@/shared/contracts/AppleABI";
+// import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+// import { useDebounce } from "@/shared/tools";
+// import backIco from "@/public/media/apples/backIco.svg";
+// import { TOKENS } from "@/shared/tokens";
+// import * as MinesModel from "@/widgets/Mines/model";
+// import { ErrorCheck } from "../ErrorCheck/ui/ErrorCheck";
+
+// const stateArray = JSON.parse(dataState.state);
+// alert();
+// const [apples, setApples] = useState<number[]>([]);
+// const [resultApples, setResultApples] = useState<number[]>([]);
+// useEffect(() => alert(`${mines}`), [mines.length]);
+// setTimeout(() => {
+//   setInGame(false);
+// }, 2000);
+// useEffect(() => {
+//   setTimeout(() => setAppleGameResult([0, 0, 1, 2]), 3000);
+// }, []);
+// useEffect(
+//   () => alert(`keep:${keep}, firstBet: ${firstBet}`),
+//   [keep, firstBet]
+// );
+// useEffect(() => setFirstBet(true), []);

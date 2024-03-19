@@ -14,17 +14,13 @@
     padding: 0;
     z-index: 170;
   }
-
-  @media screen and (max-height: 870px) {
-    padding: 45px 0;
-  }
 }
 
 .registration_block {
   margin: 0 20px;
   width: 100%;
-  max-width: 960px;
-  height: 850px;
+  max-width: 770px;
+  height: 670px;
   background: #181818;
   //   min-height: 300px;
   display: flex;
@@ -78,7 +74,7 @@
 }
 
 .registr_text_group {
-  margin-top: 200px;
+  margin-top: 150px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -91,9 +87,9 @@
 .welcome_text {
   color: #fff;
   font-family: var(--font-nunito-sans);
-  font-size: 31px;
+  font-size: 23px;
   font-weight: 800;
-  line-height: 42px;
+  line-height: 31px;
   letter-spacing: 0em;
   text-align: center;
 
@@ -113,9 +109,9 @@
 .registr_subTitle {
   color: #fff;
   font-family: var(--font-nunito-sans);
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 300;
-  line-height: 30px;
+  line-height: 22px;
   letter-spacing: 0.04em;
   text-align: center;
 }
@@ -128,9 +124,9 @@
   border-bottom: 1px solid #252525;
   color: #979797;
   font-family: var(--font-nunito-sans);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
-  line-height: 33px;
+  line-height: 25px;
   letter-spacing: 0.04em;
   text-align: left;
   padding-bottom: 10px;
@@ -157,11 +153,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
+  width: 80px;
   font-family: var(--font-nunito-sans);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 25px;
+  line-height: 19px;
   letter-spacing: 0.04em;
   border-bottom: 1px solid #252525;
 }
@@ -240,16 +236,16 @@
   justify-content: center;
   align-items: center;
   padding: 0 10px;
-  height: 50px;
+  height: 40px;
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 25px;
+    height: 25px;
   }
 }
 
 .continue_with_title_block {
-  margin-bottom: 15px;
+  margin-bottom: 7px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -259,9 +255,9 @@
 .continue_with_title {
   color: #7e7e7e;
   font-family: var(--font-nunito-sans);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 400;
-  line-height: 18px;
+  line-height: 14px;
   letter-spacing: 0px;
   text-wrap: nowrap;
   text-align: center;

@@ -103,14 +103,23 @@ const WagerContent = () => {
 
 export default function RouletteGame() {
   const socket = useSocket();
+  const [gamesList] = useUnit([GameModel.$gamesList]);
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
-        JSON.stringify({ type: "Subscribe", payload: ["Roulette"] })
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Roulette")?.id],
+        })
       );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length]);
 
   return (
     <>

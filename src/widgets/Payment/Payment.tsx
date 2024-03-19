@@ -205,7 +205,7 @@ export const Payment: FC<PaymentProps> = () => {
                               className={s.drax_icon}
                               alt="drax-coin-static"
                             />
-                            <div className={s.drax_icon_shadow}></div>
+                            {/* <div className={s.drax_icon_shadow}></div> */}
                           </div>
                           <span className={s.bonux_coins_amount_title}>
                             {item.bonusCoins} <br /> bonus coins
@@ -242,7 +242,6 @@ export const Payment: FC<PaymentProps> = () => {
           />
         )}
       </div>
-      ;
     </>
   );
 };

@@ -24,6 +24,8 @@ import { settingsModel } from "@/entities/settings";
 import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
 
+import * as AppleModel from "@/widgets/ApplesGame/model";
+import appleStyles from "@/widgets/ApplesGame/styles.module.scss";
 import * as GameModel from "./model";
 import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
@@ -146,6 +148,7 @@ export const GamePage: FC<GamePageProps> = ({
     setCarReset,
     result,
     tokenId,
+    setIsPlaying,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -165,6 +168,7 @@ export const GamePage: FC<GamePageProps> = ({
     CarModel.setReset,
     BetsModel.$result,
     BetsModel.$tokenId,
+    GameModel.setIsPlaying,
   ]);
 
   //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
@@ -246,6 +250,8 @@ export const GamePage: FC<GamePageProps> = ({
       switchSounds("off");
     }
   };
+
+  const [setStop, apples] = useUnit([AppleModel.setStop, AppleModel.$apples]);
 
   return (
     <div className={s.game_layout}>
@@ -374,10 +380,27 @@ export const GamePage: FC<GamePageProps> = ({
                         isPlaying && "animation-leftRight",
                         !isPlaying && cryptoValue == 0.0 // && isConnected
                           ? s.button_inactive
-                          : s.button_active
+                          : s.button_active,
+                        gameTitle === "apples" &&
+                          apples.length === 0 &&
+                          isPlaying &&
+                          s.btn_step,
+                        gameTitle === "apples" &&
+                          apples.length !== 0 &&
+                          isPlaying &&
+                          s.btn_refund
                       )}
                       onClick={() => {
-                        if (gameTitle === "race" && gameResult.length > 0) {
+                        if (
+                          gameTitle === "apples" &&
+                          isPlaying &&
+                          apples.length > 0
+                        ) {
+                          setStop(true);
+                        } else if (
+                          gameTitle === "race" &&
+                          gameResult.length > 0
+                        ) {
                           setGameResult([]);
                           setReset(true);
                         } else if (carResult.length > 0) {
@@ -388,7 +411,7 @@ export const GamePage: FC<GamePageProps> = ({
                             (isPlaying && !waitingResponse)
                             //&& isConnected
                           ) {
-                            pressButton();
+                            setIsPlaying(true);
                           } else if (cryptoValue <= 0.0) {
                             //  && isConnected
                             setIsEmtyWager(true);
@@ -401,6 +424,8 @@ export const GamePage: FC<GamePageProps> = ({
                       {(gameTitle === "race" && raceResult.length > 0) ||
                       (gameTitle === "cars" && carResult.length > 0) ? (
                         "Reset"
+                      ) : gameTitle === "apples" && isPlaying ? (
+                        "Refund"
                       ) : waitingResponse ? (
                         <LoadingDots className={s.dots_black} title="Playing" />
                       ) : true ? ( // isConnected

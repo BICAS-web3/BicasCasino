@@ -11,6 +11,16 @@
   z-index: -1;
 }
 
+.multiplier {
+  color: var(--Gray-5, #7e7e7e);
+  text-align: center;
+  font-family: --var(--font-nunito-sans);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 90%;
+  /* 14.4px */
+}
 .explosion_gif {
   position: absolute;
   width: 270px;

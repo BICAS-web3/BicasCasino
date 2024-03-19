@@ -5,7 +5,7 @@ export const $isSignup = createStore<string>("up");
 export const $access_token = createStore<string>("");
 export const $refresh_token = createStore<string>("");
 
-export const $isAuth = createStore<boolean>(false);
+export const $isAuth = createStore<boolean>(true);
 
 export const setIsSignup = createEvent<string>();
 export const setAccessToken = createEvent<string>();

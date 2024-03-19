@@ -23,6 +23,8 @@ import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
 
+import * as LayoutModel from "@/widgets/Layout/model";
+
 const WagerContent = () => {
   const [isPlaying, setIsPlaying, gamesList, balance] = useUnit([
     GameModel.$isPlaying,
@@ -67,12 +69,26 @@ const WagerContent = () => {
 
 export default function CoinFlipGame() {
   const socket = useSocket();
-
+  const [gamesList, socketAuth, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketAuth,
+    LayoutModel.$socketReset,
+  ]);
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [1] }));
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "CoinFlip")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

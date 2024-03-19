@@ -36,12 +36,12 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
   const [activeCoin, setActiveCoin] = useState(tipsList[0]);
   // const [balance, setBalance] = useState<null | IAmount>(null);
 
-  const [balance] = useUnit([
-    // RegistrModel.$access_token,
-    // LayoutModel.$userInfo,
-    // BetsModel.$result,
-    BalanceSwitcherM.$balanceTotal,
-  ]);
+  // const [balance] = useUnit([
+  //   // RegistrModel.$access_token,
+  //   // LayoutModel.$userInfo,
+  //   // BetsModel.$result,
+  //   BalanceSwitcherM.$balanceTotal,
+  // ]);
 
   // useEffect(() => {
   //   console.log("user info: ", userInfo);
@@ -71,24 +71,24 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
     },
   ]);
 
-  useEffect(() => {
-    console.log("BALANCE", balance);
-  }, [balance]);
+  // useEffect(() => {
+  //   console.log("BALANCE", balance);
+  // }, [balance]);
 
-  const changeToBalance = () => {
-    if (balance) {
-      setTList([
-        {
-          ico: dcCoinIco,
-          title: balance.amounts[0].amount,
-        },
-        {
-          ico: bcCoinIco,
-          title: balance.amounts[1].amount,
-        },
-      ]);
-    }
-  };
+  // const changeToBalance = () => {
+  //   if (balance) {
+  //     setTList([
+  //       {
+  //         ico: dcCoinIco,
+  //         title: balance.amounts[0].amount,
+  //       },
+  //       {
+  //         ico: bcCoinIco,
+  //         title: balance.amounts[1].amount,
+  //       },
+  //     ]);
+  //   }
+  // };
 
   return (
     <div className={s.payment_tips_block}>

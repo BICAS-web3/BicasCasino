@@ -4,7 +4,7 @@ import Link from "next/link";
 import HeaderLogo from "@/public/media/brand_images/logoLeft.png";
 import HeaderBrandText from "@/public/media/brand_images/HeaderBrandText.svg";
 import Image from "next/image";
-import bg from "@/public/media/registration/formBg.png";
+import bg from "@/public/media/registration/formBg.webp";
 import * as RegistrM from "./model";
 import { useUnit } from "effector-react";
 import { Signup } from "../Signup/Signup";
@@ -15,7 +15,7 @@ import fbIco from "@/public/media/registration/fbIco.svg";
 import twitterIco from "@/public/media/registration/twitterIco.svg";
 import { PasswordRecovery } from "../PasswordRecovery/PasswordRecovery";
 
-interface RegistrationProps {}
+interface RegistrationProps { }
 
 export const Registration: FC<RegistrationProps> = () => {
   const [isSignup, setIsSignup] = useUnit([

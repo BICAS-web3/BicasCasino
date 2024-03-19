@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [cryptoValue, setError, setIsPlaying] = useUnit([
@@ -68,12 +69,26 @@ const WagerContent = () => {
 
 export default function DiceGame() {
   const socket = useSocket();
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
 
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: "SubscribeBets", payload: [2] }));
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "Dice")?.id],
+        })
+      );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

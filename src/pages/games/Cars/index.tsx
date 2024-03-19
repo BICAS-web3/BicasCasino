@@ -3,6 +3,7 @@ import { useUnit } from "effector-react";
 import { useRouter } from "next/router";
 // import { useAccount } from "wagmi";
 import Head from "next/head";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import { Layout } from "@/widgets/Layout";
 import { LiveBetsWS } from "@/widgets/LiveBets";
@@ -66,8 +67,74 @@ const WagerContent = () => {
     <>
       <WagerInputsBlock />
       <ProfitBlock />
-      {!isMobile && <CarSelector className={s.selector} />}
-      {/* <button
+      {!isMobile && <CarSelector className={s.selector} />}{" "}
+      <button
+        onClick={() => {
+          if (gameResult?.length !== 0) {
+            // setGameResult([]);
+            setReset(true);
+          } else {
+            if (!cryptoValue) {
+              setIsEmtyWager(true);
+            } else {
+              setIsPlaying(true);
+            }
+          }
+        }}
+        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+      >
+        {gameResult.length > 0 ? "Reset" : "Play"}
+      </button>
+    </>
+  );
+};
+
+interface ApplesProps {}
+
+const Apples: FC<ApplesProps> = () => {
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
+  const socket = useSocket();
+
+  useEffect(() => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
+      socket?.send(
+        JSON.stringify({
+          type: "SubscribeBets",
+          payload: [gamesList.find((item) => item.name === "CarRace")?.id],
+        })
+      );
+    }
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
+  return (
+    <>
+      <Head>
+        <title>Games - Car Racing</title>
+      </Head>
+      <Layout activePageLink="/games/Cars" gameName="Cars">
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Cars"]} />
+        <div className={s.cars_container}>
+          <GamePage
+            isPoker={false}
+            gameInfoText=""
+            gameTitle="cars"
+            wagerContent={<WagerContent />}
+            soundClassName={s.car_sound}
+          >
+            <CarsRace gameText="" />
+          </GamePage>
+        </div>
+      </Layout>
+    </>
+  );
+};
+
+export default Apples;
+{
+  /* <button
         className={clsx(
           s.connect_wallet_btn,
           s.mobile,
@@ -103,65 +170,5 @@ const WagerContent = () => {
         ) : (
           "Connect Wallet"
         )}
-      </button> */}{" "}
-      <button
-        onClick={() => {
-          if (gameResult?.length !== 0) {
-            // setGameResult([]);
-            setReset(true);
-          } else {
-            if (!cryptoValue) {
-              setIsEmtyWager(true);
-            } else {
-              setIsPlaying(true);
-            }
-          }
-        }}
-        className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
-      >
-        {gameResult.length > 0 ? "Reset" : "Play"}
-      </button>
-    </>
-  );
-};
-
-interface ApplesProps {}
-
-const Apples: FC<ApplesProps> = () => {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
-  const socket = useSocket();
-
-  useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(
-        JSON.stringify({
-          type: "SubscribeBets",
-          payload: [gamesList.find((item) => item.name === "CarRace")?.id],
-        })
-      );
-    }
-  }, [socket, socket?.readyState, gamesList.length]);
-  return (
-    <>
-      <Head>
-        <title>Games - Car Racing</title>
-      </Head>
-      <Layout activePageLink="/games/Cars" gameName="Cars">
-        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Cars"]} />
-        <div className={s.cars_container}>
-          <GamePage
-            isPoker={false}
-            gameInfoText=""
-            gameTitle="cars"
-            wagerContent={<WagerContent />}
-            soundClassName={s.car_sound}
-          >
-            <CarsRace gameText="" />
-          </GamePage>
-        </div>
-      </Layout>
-    </>
-  );
-};
-
-export default Apples;
+      </button> */
+}

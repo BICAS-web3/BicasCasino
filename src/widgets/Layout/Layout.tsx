@@ -9,9 +9,10 @@ import { useUnit } from "effector-react";
 import { Footer } from "@/widgets/Footer";
 import { SettingsInit } from "../SettingsInit";
 import { WagmiConfig } from "wagmi";
-import { web3 } from "@/entities/web3";
+
 import * as SidebarM from "@/widgets/SideBar/model";
 import { SessionInit } from "../SessionSettings";
+import { PopUpBonus } from "../PopUpBonus";
 import * as SwapModel from "@/widgets/Swap/model/index";
 import * as BonusPopupM from "@/widgets/PopUpBonus/model";
 import * as RegistrM from "@/widgets/Registration/model";
@@ -21,9 +22,8 @@ import { useRouter } from "next/router";
 import { Registration } from "../Registration/Registration";
 import { Payment } from "../Payment/Payment";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import * as BetsModel from "@/widgets/LiveBets/model";
 import * as GameModal from "@/widgets/GamePage/model";
-import * as BalanceSwitcherM from "@/widgets/BalanceSwitcher/model";
+
 import * as LayoutModel from "./model";
 
 import * as api from "@/shared/api";
@@ -35,6 +35,9 @@ interface LayoutProps {
   activePageLink?: string;
   hideHeaderBtn?: boolean;
 }
+
+const P2P_API = "https://p2way.fyi";
+
 export const Layout = ({ children, ...props }: LayoutProps) => {
   // const [wagmiConfig] = useUnit([web3.$WagmiConfig]);
   const isMobile = useMediaQuery("(max-width: 650px)");
@@ -42,26 +45,26 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     isOpen,
     close,
     setUserInfo,
-    userInfo,
-    result,
     socketAuth,
     setSocketAuth,
     setGamesList,
     setSocketLogged,
-    setBalanceTotal,
-    balanceTotal,
+    userInfo,
+    setAccessToken,
+    setAuth,
+    socketReset,
   ] = useUnit([
     SidebarM.$isOpen,
     SidebarM.Close,
     LayoutModel.setUserInfo,
-    LayoutModel.$userInfo,
-    BetsModel.$result,
     LayoutModel.$socketAuth,
     LayoutModel.setSocketAuth,
     GameModal.setGamesList,
     LayoutModel.setSocketLogged,
-    BalanceSwitcherM.setBalance,
-    BalanceSwitcherM.$balanceTotal,
+    LayoutModel.$userInfo,
+    RegistrM.setAccessToken,
+    RegistrM.setAuth,
+    LayoutModel.$socketReset,
   ]);
   const [swapOpen] = useUnit([SwapModel.$isSwapOpen]);
   const [popupBonusState, setPopupBonusState] = useState<string>(`"true"`);
@@ -71,6 +74,15 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     RegistrM.$isAuth,
     RegistrM.$access_token,
   ]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("auth");
+    if (token) {
+      setAccessToken(token);
+    } else {
+      setAuth(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 650 || props.gameName !== undefined) close();
@@ -87,7 +99,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         const response = await api.getUserInfo({ bareer: access_token });
         if (response.status === "OK") {
           setUserInfo((response as any).body);
-          console.log("user info", response.body);
+          console.log("2user info", response.body);
         } else {
           console.log("err", response.body);
         }
@@ -151,18 +163,24 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         setSocketLogged(true);
         socket.send(JSON.stringify(seed_data));
       }
-      // if (
-      //   seeds === false &&
-      //   seeds !== null &&
-      //   socket &&
-      //   socket.readyState === WebSocket.OPEN &&
-      //   !socketAuth
-      // ) {
-      //   alert(1);
-      //   socket.send(JSON.stringify(server_seed));
-      // }
     }
-  }, [socket, access_token, socket?.readyState, seeds, errorSeed]);
+  }, [
+    socket,
+    access_token,
+    // socket?.readyState,
+    seeds,
+    errorSeed,
+    socket?.OPEN,
+    socketAuth,
+  ]);
+
+  // useEffect(() => {
+  //   if (socket && socket.readyState === WebSocket.OPEN) {
+  //     socket.send(JSON.stringify(data));
+  //     socket.send(JSON.stringify(seed_data));
+  //   }
+  // }, [socketReset]);
+  // useEffect(() => alert(socketReset), [socketReset]);
 
   //!-----------------------------------------------------------------------------
 
@@ -175,7 +193,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     ) {
       socket.send(JSON.stringify(server_seed));
     }
-  }, [seeds, socket?.readyState]);
+  }, [seeds, socket?.readyState, socketReset]);
 
   //?-----------------------------------------------------------------------------
 
@@ -191,24 +209,35 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     })();
   }, [access_token]);
 
-  // useEffect(() => {
-  //   if (access_token && userInfo) {
-  //     (async () => {
-  //       const data = await api.getUserAmounts({
-  //         bareer: access_token,
-  //         userId: userInfo?.id,
-  //       });
-  //       if (data.status === "OK") {
-  //         setBalanceTotal((data as any).body);
-  //       }
-  //     })();
-  //     console.log("STARTED");
-  //   }
-  // }, [access_token, userInfo?.id, result]);
+  const [otToken, setOtToken] = useState<any | undefined>();
 
-  // useEffect(() => {
-  //   console.log("BALANCE TOTAL", balanceTotal);
-  // }, [balanceTotal]);
+  useEffect(() => {
+    (async () => {
+      if (access_token) {
+        const response = await api.getOneTimeToken({ bareer: access_token });
+        if (response.status === "OK") {
+          setOtToken((response as any).body);
+          console.log("ONE TIME TOKEN---", response.body);
+        } else {
+          console.log("ONE TIME TOKEN ERROR", response.body);
+        }
+      }
+    })();
+  }, [access_token]);
+
+  const init = () => {
+    if (otToken?.token && userInfo) {
+      const userId = userInfo.id.toString();
+      const apiKey = "d0b51692-185e-49f9-a7c8-034d1e0bb1bf";
+      const callbackUrl = "https://game.greekkeepers.io/api/p2way/callback";
+      const token = otToken.token;
+
+      const params = { userId, apiKey, callbackUrl, token };
+
+      console.log("PARAMS", params);
+      window.initP2PWidget(params);
+    }
+  };
 
   return (
     <>
@@ -217,6 +246,7 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         // <WagmiConfig config={wagmiConfig}>
         <>
           <SessionInit game={props.gameName} />
+          {/* <button onClick={() => init()}>click</button> */}
           <div
             className={clsx(
               s.page_container,
@@ -260,3 +290,10 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
 };
 
 // </WagmiConfig>
+//  {
+//    popupBonusState === `"true"` ||
+//    pathname === "/RegistrManual" ||
+//    pathname === "/ExchangeManual" ? null : (
+//      <PopUpBonus />
+//    );
+//  }

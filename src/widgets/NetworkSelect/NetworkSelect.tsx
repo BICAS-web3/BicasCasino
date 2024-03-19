@@ -10,7 +10,7 @@ import { NetworkSelectItem } from "@/widgets/NetworkSelect/NetworkSelectItem";
 import { NetworkErrorText } from "@/widgets/NetworkSelect/NetworkErrorText";
 import { NetworkError } from "@/widgets/NetworkSelect/NetworkError";
 import errorInfoIco from "../../public/media/networkSelect_icons/errorInfoIco.svg";
-// import { web3 } from "@/entities/web3";
+// 
 import { useUnit } from "effector-react";
 // import { useAccount, useBalance, useNetwork } from "wagmi";
 import { sessionModel } from "@/entities/session";
