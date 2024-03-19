@@ -14,6 +14,7 @@ import { ThimblesGame } from "@/widgets/Thimbles/ThimblesGame";
 import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 import { useUnit } from "effector-react";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [setIsPlaying, gameResult, setGameResult, setReset, setIsEmtyWager] =
@@ -49,7 +50,10 @@ const WagerContent = () => {
 };
 
 const Thimbles = () => {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
 
   useEffect(() => {
@@ -66,7 +70,7 @@ const Thimbles = () => {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

@@ -9,6 +9,7 @@ import { useUnit } from "effector-react";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
 
 import s from "@/pages/games/CoinFlip/styles.module.scss";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 import * as ConnectModel from "@/widgets/Layout/model";
 import Head from "next/head";
@@ -66,19 +67,22 @@ const WagerContent = () => {
 };
 
 export default function WheelFortuneGame() {
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
   const socket = useSocket();
   useEffect(() => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket?.send(JSON.stringify({ type: "UnsubscribeAllBets" }));
       socket?.send(
         JSON.stringify({
-          type: "SubscribeAll",
+          type: "SubscribeBets",
           payload: [gamesList.find((item) => item.name === "Wheel")?.id],
         })
       );
     }
-  }, [socket, socket?.readyState]);
+  }, [socket, socket?.readyState, socketReset]);
 
   return (
     <>

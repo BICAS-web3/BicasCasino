@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from "effector";
 
-export const BaseApiUrl = "https://game.greekkeepers.io/api";
-export const BaseStaticUrl = "https://game.greekkeepers.io/static";
+export const BaseApiUrl = "https://game.greekkeepers.io//api";
+export const BaseStaticUrl = "https://game.greekkeepers.io//static";
 
 export type T_ErrorText = {
   error: string;
@@ -198,23 +198,23 @@ export type T_GetUserAmount = {
 export type T_ApiResponse = {
   status: string;
   body:
-  | T_ErrorText
-  | T_Networks
-  | T_Rpcs
-  | T_Token
-  | T_Game
-  | T_Nickname
-  | T_Player
-  | T_Bets
-  | T_Tokens
-  | T_GameAbi
-  | T_BlockExplorers
-  | T_Totals
-  | T_LatestGames
-  | T_PlayerTotals
-  | T_TokenPrice
-  | T_NFTMarket
-  | T_LoginReponse;
+    | T_ErrorText
+    | T_Networks
+    | T_Rpcs
+    | T_Token
+    | T_Game
+    | T_Nickname
+    | T_Player
+    | T_Bets
+    | T_Tokens
+    | T_GameAbi
+    | T_BlockExplorers
+    | T_Totals
+    | T_LatestGames
+    | T_PlayerTotals
+    | T_TokenPrice
+    | T_NFTMarket
+    | T_LoginReponse;
 };
 
 export type T_InvoiceCreate = {
@@ -403,7 +403,7 @@ export const getDataFromOpensea = createEffect<string, any, string>(
       }
     )
       .then(async (res) => await res.json())
-      .catch((e) => { });
+      .catch((e) => {});
   }
 );
 
@@ -435,7 +435,7 @@ export const getNetworksFx = createEffect<void, T_ApiResponse, string>(
       method: "GET",
     })
       .then(async (res) => await res.json())
-      .catch((e) => { });
+      .catch((e) => {});
   }
 );
 
@@ -451,7 +451,7 @@ export const getLeaderboard = createEffect<
     }
   )
     .then(async (res) => await res.json())
-    .catch((e) => { });
+    .catch((e) => {});
 });
 
 export type T_GetRpcs = {
@@ -552,7 +552,8 @@ export type T_GetUserBets = {
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async (form) => {
     return fetch(
-      `${BaseApiUrl}/bets/user/${form.address}/${form.starting_id != null ? form.starting_id : ""
+      `${BaseApiUrl}/bets/user/${form.address}/${
+        form.starting_id != null ? form.starting_id : ""
       }`,
       {
         method: "GET",
@@ -586,7 +587,8 @@ export const getUserBetsInc = createEffect<
   string
 >(async (form) => {
   return fetch(
-    `${BaseApiUrl}/bets/user/inc/${form.address}/${form.starting_id != null ? form.starting_id : ""
+    `${BaseApiUrl}/bets/user/inc/${form.address}/${
+      form.starting_id != null ? form.starting_id : ""
     }`,
     {
       method: "GET",

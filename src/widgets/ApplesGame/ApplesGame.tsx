@@ -154,6 +154,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     setStop,
     setApples,
     socketReset,
+    socketAuth,
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -199,6 +200,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
     ApplesModel.setStop,
     ApplesModel.setApples,
     LayoutModel.$socketReset,
+    LayoutModel.$socketAuth,
   ]);
 
   const [mines, setMines] = useState<boolean[][]>([]);
@@ -453,7 +455,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
       );
       setCubscribed(true);
     }
-  }, [socket, isPlaying, access_token, gamesList, coninue, socketReset]);
+  }, [socket, isPlaying, access_token, gamesList, coninue]);
 
   useEffect(() => {
     if (
@@ -471,15 +473,7 @@ export const ApplesGame: FC<ApplesGameProps> = () => {
         })
       );
     }
-  }, [
-    socket,
-    gamesList,
-    isDrax,
-    isPlaying,
-    access_token,
-    socketLogged,
-    socketReset,
-  ]);
+  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged]);
 
   useEffect(() => {
     return () => {

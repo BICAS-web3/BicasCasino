@@ -520,11 +520,18 @@ const preloadModel = async () => {
 };
 
 export default function Home() {
-  const [Bets, AvailableBlocksExplorers, sidebarOpened, socketReset] = useUnit([
+  const [
+    Bets,
+    AvailableBlocksExplorers,
+    sidebarOpened,
+    socketReset,
+    socketAuth,
+  ] = useUnit([
     LiveBetsModel.$Bets,
     settingsModel.$AvailableBlocksExplorers,
     SideBarModel.$isOpen,
     LayoutModel.$socketReset,
+    LayoutModel.$socketAuth,
   ]);
 
   const [currentImage, setCurrentImage] = useState(mainBg);
@@ -550,10 +557,11 @@ export default function Home() {
   const socket = useSocket();
 
   useEffect(() => {
+    // alert(socketAuth);
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket?.send(JSON.stringify({ type: "SubscribeAllBets" }));
     }
-  }, [socket, socket?.readyState, socketReset]);
+  }, [socket, socket?.readyState, socketAuth]);
 
   return (
     <>

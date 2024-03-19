@@ -101,9 +101,10 @@ const WagerContent = () => {
 interface ApplesProps {}
 
 const Apples: FC<ApplesProps> = () => {
-  const [gamesList, socketReset] = useUnit([
+  const [gamesList, socketReset, socketAuth] = useUnit([
     GameModel.$gamesList,
     LayoutModel.$socketReset,
+    LayoutModel.$socketAuth,
   ]);
   const socket = useSocket();
 
@@ -116,7 +117,7 @@ const Apples: FC<ApplesProps> = () => {
       socket?.send(JSON.stringify({ type: "UnsubscribeBets" }));
       socket?.send(
         JSON.stringify({
-          type: "Subscribe",
+          type: "SubscribeBets",
           payload: [gamesList.find((item) => item.name === "Apples")?.id],
         })
       );

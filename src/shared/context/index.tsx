@@ -52,6 +52,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     newSocket.onopen = () => {
       console.log("WebSocket connected");
       reset && setSocketReset();
+      reset && setSocketAuth(false);
+      reset && setSocketLogged(false);
     };
 
     newSocket.onmessage = (ev: MessageEvent<any>) => {
@@ -91,16 +93,16 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     newSocket.onclose = () => {
       console.log("websockets closed");
       setSocket(null);
-      setSocketAuth(false);
       // setSocketLogged(false);
       setReset(true);
+      uid = null;
     };
     newSocket.onerror = () => {
       console.log("websockets error");
       setSocket(null);
-      setSocketAuth(false);
       // setSocketLogged(false);
       setReset(true);
+      uid = null;
     };
     setSocket(newSocket);
 

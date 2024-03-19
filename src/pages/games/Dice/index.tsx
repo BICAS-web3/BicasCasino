@@ -30,6 +30,7 @@ import { useRouter } from "next/router";
 import { Preload } from "@/shared/ui/Preload";
 import { RefundButton } from "@/shared/ui/Refund";
 import { useSocket } from "@/shared/context";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [cryptoValue, setError, setIsPlaying] = useUnit([
@@ -68,7 +69,10 @@ const WagerContent = () => {
 
 export default function DiceGame() {
   const socket = useSocket();
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
 
   useEffect(() => {
     if (
@@ -84,7 +88,7 @@ export default function DiceGame() {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

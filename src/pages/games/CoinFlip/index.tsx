@@ -23,6 +23,8 @@ import { useSocket } from "@/shared/context";
 import { useEffect } from "react";
 import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
 
+import * as LayoutModel from "@/widgets/Layout/model";
+
 const WagerContent = () => {
   const [isPlaying, setIsPlaying, gamesList, balance] = useUnit([
     GameModel.$isPlaying,
@@ -67,7 +69,11 @@ const WagerContent = () => {
 
 export default function CoinFlipGame() {
   const socket = useSocket();
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketAuth, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketAuth,
+    LayoutModel.$socketReset,
+  ]);
   useEffect(() => {
     if (
       socket &&
@@ -82,7 +88,7 @@ export default function CoinFlipGame() {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>

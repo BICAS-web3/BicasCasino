@@ -163,16 +163,6 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
         setSocketLogged(true);
         socket.send(JSON.stringify(seed_data));
       }
-      // if (
-      //   seeds === false &&
-      //   seeds !== null &&
-      //   socket &&
-      //   socket.readyState === WebSocket.OPEN &&
-      //   !socketAuth
-      // ) {
-      //   alert(1);
-      //   socket.send(JSON.stringify(server_seed));
-      // }
     }
   }, [
     socket,
@@ -181,16 +171,15 @@ export const Layout = ({ children, ...props }: LayoutProps) => {
     seeds,
     errorSeed,
     socket?.OPEN,
-    // socketAuth,
-    socketReset,
+    socketAuth,
   ]);
 
-  useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify(data));
-      socket.send(JSON.stringify(seed_data));
-    }
-  }, [socketReset]);
+  // useEffect(() => {
+  //   if (socket && socket.readyState === WebSocket.OPEN) {
+  //     socket.send(JSON.stringify(data));
+  //     socket.send(JSON.stringify(seed_data));
+  //   }
+  // }, [socketReset]);
   // useEffect(() => alert(socketReset), [socketReset]);
 
   //!-----------------------------------------------------------------------------

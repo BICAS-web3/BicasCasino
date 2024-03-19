@@ -21,6 +21,7 @@ import * as GameModel from "@/widgets/GamePage/model";
 import { Suspense } from "react";
 import Head from "next/head";
 import { useSocket } from "@/shared/context";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
   const [cryptoValue, setError, setIsPlaying] = useUnit([
@@ -60,7 +61,10 @@ const WagerContent = () => {
 
 export default function RockPaperScissorsGame() {
   const socket = useSocket();
-  const [gamesList] = useUnit([GameModel.$gamesList]);
+  const [gamesList, socketReset] = useUnit([
+    GameModel.$gamesList,
+    LayoutModel.$socketReset,
+  ]);
 
   useEffect(() => {
     if (
@@ -76,7 +80,7 @@ export default function RockPaperScissorsGame() {
         })
       );
     }
-  }, [socket, socket?.readyState, gamesList.length]);
+  }, [socket, socket?.readyState, gamesList.length, socketReset]);
 
   return (
     <>
