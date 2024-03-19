@@ -91,14 +91,14 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     newSocket.onclose = () => {
       console.log("websockets closed");
       setSocket(null);
-      // setSocketAuth(false);
+      setSocketAuth(false);
       // setSocketLogged(false);
       setReset(true);
     };
     newSocket.onerror = () => {
       console.log("websockets error");
       setSocket(null);
-      // setSocketAuth(false);
+      setSocketAuth(false);
       // setSocketLogged(false);
       setReset(true);
     };
