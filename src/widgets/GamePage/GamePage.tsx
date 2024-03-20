@@ -10,24 +10,12 @@ import { Wager } from "@/widgets/Wager/Wager";
 import soundIco from "@/public/media/Wager_icons/active2.svg";
 import soundOffIco from "@/public/media/Wager_icons/disabled2.svg";
 import { WagerModel as WagerAmountModel } from "@/widgets/WagerInputsBlock";
-// import {
-//   usePrepareContractWrite,
-//   useContractWrite,
-//   useContractRead,
-//   useWaitForTransaction,
-//   useAccount,
-//   useConnect,
-//   useBalance,
-// } from "wagmi";
 import * as api from "@/shared/api";
 import { settingsModel } from "@/entities/settings";
-import { ABI as IERC20 } from "@/shared/contracts/ERC20";
-import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
 
 import * as AppleModel from "@/widgets/ApplesGame/model";
 import appleStyles from "@/widgets/ApplesGame/styles.module.scss";
 import * as GameModel from "./model";
-import { Notification } from "../Notification";
 import { WinMessage } from "@/widgets/WinMessage";
 import { LostMessage } from "@/widgets/LostMessage";
 import Image from "next/image";
@@ -36,13 +24,7 @@ import clsx from "clsx";
 import { WagerModel } from "@/widgets/Wager";
 import { useMediaQuery } from "@/shared/tools";
 import { LoadingDots } from "@/shared/ui/LoadingDots";
-import * as DGM from "@/widgets/Dice/model";
-import * as CFM from "@/widgets/CoinFlip/model";
-import * as PGM from "@/widgets/Plinko/model";
-import { PokerModel } from "@/widgets/Poker/Poker";
-import useSound from "use-sound";
 import ReactHowler from "react-howler";
-import { ManualSetting } from "../ManualSetting/ui/ManualSetting";
 import * as MinesModel from "@/widgets/Mines/model";
 import * as BetsModel from "@/widgets/LiveBets/model";
 import { useRouter } from "next/router";
@@ -101,30 +83,12 @@ export const GamePage: FC<GamePageProps> = ({
 }) => {
   // const { address, isConnected, isConnecting } = useAccount();
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [currentToken, setCurrentToken] = useState<{
-    token: api.T_Token;
-    price: number;
-  }>();
-  const [gameResult, setGameResult, setReset] = useUnit([
+  const [gameResult, setRaceGameResult, setReset] = useUnit([
     RaceModel.$gameResult,
     RaceModel.setGameResult,
     RaceModel.setReset,
   ]);
-  // const { connectors, connect } = useConnect();
-  const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
-  const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
   const isMobile = useMediaQuery("(max-width: 996px)");
-  // const {
-  //   data: balance,
-  //   error,
-  //   isError,
-  //   refetch: fetchBalance,
-  // } = useContractRead({
-  //   address: currentToken?.token.contract_address as `0x${string}`,
-  //   abi: IERC20,
-  //   functionName: "balanceOf",
-  //   args: [address],
-  // });
   const [manualSetting, setManualSetting] = useUnit([
     MinesModel.$manualSetting,
     MinesModel.setManualSetting,
@@ -149,6 +113,9 @@ export const GamePage: FC<GamePageProps> = ({
     result,
     tokenId,
     setIsPlaying,
+    reset,
+    setError,
+    setCarResult,
   ] = useUnit([
     GameModel.setRefund,
     settingsModel.$AvailableTokens,
@@ -169,25 +136,12 @@ export const GamePage: FC<GamePageProps> = ({
     BetsModel.$result,
     BetsModel.$tokenId,
     GameModel.setIsPlaying,
+    RaceModel.$reset,
+    WagerAmountModel.setError,
+    CarModel.setGameResult,
   ]);
 
-  //const [isDicePlaying] = useUnit([DGM.$isPlaying]);
-  //const [isCFPlaying] = useUnit([CFM.$isPlaying]);
-  //const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
-  //const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
   const [setBlur] = useUnit([BlurModel.setBlur]);
-  const { push } = useRouter();
-
-  // const handleModalVisibilityChange = () => {
-  //   !modalVisibility && setBlur(true);
-  //   setModalVisibility(!modalVisibility);
-  // };
-
-  // const [playBackground, { stop: stopBackground, duration: firstDuration }] =
-  //   useSound(sound, {
-  //     volume: 0.4,
-  //     loop: true,
-  //   });
 
   const [currentSoundIndex, setCurrentSoundIndex] = useState(0);
 
@@ -328,7 +282,7 @@ export const GamePage: FC<GamePageProps> = ({
               {gameStatus == GameModel.GameStatus.Won &&
                 gameTitle !== "poker" &&
                 gameTitle !== "race" &&
-                gameTitle !== "carRace" &&
+                gameTitle !== "cars" &&
                 gameTitle !== "apples" && (
                   <div className={s.win_wrapper} data-winlostid="win_message">
                     <WinMessage
@@ -358,18 +312,7 @@ export const GamePage: FC<GamePageProps> = ({
               )}
             </div>
             <Wager
-              isFlex={gameTitle === "carRace" ? false : true}
-              // ManualElement={
-              //   isMines ? (
-              //     <ManualSetting
-              //       className={s.manual_block}
-              //       setValue={setManualSetting}
-              //       value={manualSetting}
-              //     />
-              //   ) : (
-              //     <></>
-              //   )
-              // }
+              isFlex={gameTitle === "cars" ? false : true}
               ButtonElement={
                 isMobile ? (
                   <>
@@ -391,18 +334,39 @@ export const GamePage: FC<GamePageProps> = ({
                           s.btn_refund
                       )}
                       onClick={() => {
-                        if (
+                        if (gameTitle === "cars") {
+                          if (isPlaying === false) {
+                            if (carResult?.length !== 0) {
+                              setCarReset(true);
+                            } else {
+                              if (!cryptoValue) {
+                                setIsEmtyWager(true);
+                              } else {
+                                setIsPlaying(true);
+                              }
+                            }
+                          }
+                        } else if (
                           gameTitle === "apples" &&
                           isPlaying &&
                           apples.length > 0
                         ) {
                           setStop(true);
-                        } else if (
-                          gameTitle === "race" &&
-                          gameResult.length > 0
-                        ) {
-                          setGameResult([]);
-                          setReset(true);
+                        } else if (gameTitle === "race") {
+                          if (raceResult?.length !== 0) {
+                            if (isPlaying === false) {
+                              setRaceGameResult([]);
+                              setReset(true);
+                            }
+                          } else {
+                            if (!reset) {
+                              if (!cryptoValue) {
+                                setError(true);
+                              } else {
+                                setIsPlaying(true);
+                              }
+                            }
+                          }
                         } else if (carResult.length > 0) {
                           setCarReset(true);
                         } else {
@@ -422,7 +386,9 @@ export const GamePage: FC<GamePageProps> = ({
                       }}
                     >
                       {(gameTitle === "race" && raceResult.length > 0) ||
-                      (gameTitle === "cars" && carResult.length > 0) ? (
+                      (gameTitle === "cars" &&
+                        carResult.length > 0 &&
+                        !isPlaying) ? (
                         "Reset"
                       ) : gameTitle === "apples" && isPlaying ? (
                         "Refund"
@@ -459,3 +425,70 @@ export const GamePage: FC<GamePageProps> = ({
     </div>
   );
 };
+
+// import {
+//   usePrepareContractWrite,
+//   useContractWrite,
+//   useContractRead,
+//   useWaitForTransaction,
+//   useAccount,
+//   useConnect,
+//   useBalance,
+// } from "wagmi";
+
+//const [isDicePlaying] = useUnit([DGM.$isPlaying]);
+//const [isCFPlaying] = useUnit([CFM.$isPlaying]);
+//const [isPlinkoPlaying] = useUnit([PGM.$isPlaying]);
+//const [isPokerlaying] = useUnit([PokerModel.$isPlaying]);
+// const { push } = useRouter();
+
+// const handleModalVisibilityChange = () => {
+//   !modalVisibility && setBlur(true);
+//   setModalVisibility(!modalVisibility);
+// };
+
+// const [playBackground, { stop: stopBackground, duration: firstDuration }] =
+//   useSound(sound, {
+//     volume: 0.4,
+//     loop: true,
+//   });
+
+// ManualElement={
+//   isMines ? (
+//     <ManualSetting
+//       className={s.manual_block}
+//       setValue={setManualSetting}
+//       value={manualSetting}
+//     />
+//   ) : (
+//     <></>
+//   )
+// }
+
+// const [currentToken, setCurrentToken] = useState<{
+//   token: api.T_Token;
+//   price: number;
+// }>();
+// const { connectors, connect } = useConnect();
+// const [erc20balanceOfConf, seterc20balanceOfConf] = useState<any>();
+// const [erc20balanceofCall, seterc20balanceofCall] = useState<any>();
+// const {
+//   data: balance,
+//   error,
+//   isError,
+//   refetch: fetchBalance,
+// } = useContractRead({
+//   address: currentToken?.token.contract_address as `0x${string}`,
+//   abi: IERC20,
+//   functionName: "balanceOf",
+//   args: [address],
+// });
+// import { Notification } from "../Notification";
+// import { ABI as IERC20 } from "@/shared/contracts/ERC20";
+// import { PokerFlipCardsInfo } from "../PokerFlipCardsInfo";
+// import * as DGM from "@/widgets/Dice/model";
+// import * as CFM from "@/widgets/CoinFlip/model";
+// import * as PGM from "@/widgets/Plinko/model";
+// import { PokerModel } from "@/widgets/Poker/Poker";
+// import useSound from "use-sound";
+// import { ManualSetting } from "../ManualSetting/ui/ManualSetting";

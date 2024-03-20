@@ -21,12 +21,15 @@ import * as RaceModel from "@/widgets/Race/model";
 import * as LayoutModel from "@/widgets/Layout/model";
 
 const WagerContent = () => {
-  const [setIsPlaying, gameResult, setGameResult, setReset] = useUnit([
-    GameModel.setIsPlaying,
-    RaceModel.$gameResult,
-    RaceModel.setGameResult,
-    RaceModel.setReset,
-  ]);
+  const [setIsPlaying, gameResult, setGameResult, setReset, isPlaying, reset] =
+    useUnit([
+      GameModel.setIsPlaying,
+      RaceModel.$gameResult,
+      RaceModel.setGameResult,
+      RaceModel.setReset,
+      GameModel.$isPlaying,
+      RaceModel.$reset,
+    ]);
   const [cryptoValue, setError] = useUnit([
     WagerAmountModel.$cryptoValue,
     WagerAmountModel.setError,
@@ -41,13 +44,17 @@ const WagerContent = () => {
         className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
         onClick={() => {
           if (gameResult?.length !== 0) {
-            setGameResult([]);
-            setReset(true);
+            if (isPlaying === false) {
+              setGameResult([]);
+              setReset(true);
+            }
           } else {
-            if (!cryptoValue) {
-              setError(true);
-            } else {
-              setIsPlaying(true);
+            if (!reset) {
+              if (!cryptoValue) {
+                setError(true);
+              } else {
+                setIsPlaying(true);
+              }
             }
           }
         }}

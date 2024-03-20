@@ -492,7 +492,7 @@
   display: flex;
   overflow-y: scroll;
   overflow-x: hidden !important;
-  height: 565px;
+  max-height: 565px;
   // display: grid;
   // grid-template-columns: 1fr 1fr;
   flex-direction: column;
@@ -661,7 +661,7 @@
   flex-direction: column;
   position: relative;
   transition: all 1s;
-  min-height: 895px;
+  min-height: 645px; // 895
 }
 
 .buttons_menu_closed {

@@ -44,6 +44,7 @@ const WagerContent = () => {
       CarModel.$gameResult,
       CarModel.setReset,
       GameModel.setIsPlaying,
+      GameModel.$isPlaying,
     ]);
   // useEffect(() => {
   //   isConnecting && setStartConnect(false);
@@ -52,8 +53,10 @@ const WagerContent = () => {
   // const partner_address = queryParams.get("partner_address");
   // const site_id = queryParams.get("site_id");
   // const sub_id = queryParams.get("sub_id");
-  const [isPartner] = useUnit([ConnectModel.$isPartner]);
+  // const [isPartner] = useUnit([ConnectModel.$isPartner]);
   const [title, setTitle] = useState(false);
+
+  useEffect(() => console.log("isPlaying:::", isPlaying), [isPlaying]);
 
   useEffect(() => {
     if (title) {
@@ -70,20 +73,22 @@ const WagerContent = () => {
       {!isMobile && <CarSelector className={s.selector} />}{" "}
       <button
         onClick={() => {
-          if (gameResult?.length !== 0) {
-            // setGameResult([]);
-            setReset(true);
-          } else {
-            if (!cryptoValue) {
-              setIsEmtyWager(true);
+          if (isPlaying === false) {
+            if (gameResult?.length !== 0) {
+              setReset(true);
             } else {
-              setIsPlaying(true);
+              if (!cryptoValue) {
+                setIsEmtyWager(true);
+              } else {
+                setIsPlaying(true);
+              }
             }
           }
         }}
         className={clsx(s.connect_wallet_btn, s.mobile, s.button_active)}
+        // className="bg-red-500 text-white text-3xl bg-[#ffffff]"
       >
-        {gameResult.length > 0 ? "Reset" : "Play"}
+        {gameResult.length > 0 && isPlaying === false ? "Reset" : "Play"}
       </button>
     </>
   );

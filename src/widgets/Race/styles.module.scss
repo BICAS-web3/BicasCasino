@@ -43,6 +43,7 @@
     left: 0;
     @media (max-width: 650px) {
       width: 200%;
+      min-width: max-content;
       // min-width: auto;
     }
     position: absolute;

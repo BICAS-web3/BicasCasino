@@ -72,11 +72,11 @@ const gamesList = [
     icon: "rps",
     link: "/games/RockPaperScissors",
   },
-  {
-    title: "Poker",
-    icon: "poker",
-    link: "/games/Poker",
-  },
+  // {
+  //   title: "Poker",
+  //   icon: "poker",
+  //   link: "/games/Poker",
+  // },
   {
     title: "Mines",
     icon: "mines",
@@ -92,11 +92,11 @@ const gamesList = [
     icon: "rocket",
     link: "/games/Rocket",
   },
-  {
-    title: "Slots",
-    icon: "slots",
-    link: "/games/Slots",
-  },
+  // {
+  //   title: "Slots",
+  //   icon: "slots",
+  //   link: "/games/Slots",
+  // },
   {
     title: "Wheel of Fortune",
     icon: "wheelFortune",
@@ -117,31 +117,31 @@ const gamesList = [
     icon: "cars",
     link: "/games/Cars",
   },
-  {
-    title: "Black Jack",
-    icon: "blackJack",
-    link: "/games/BlackJack",
-  },
+  // {
+  //   title: "Black Jack",
+  //   icon: "blackJack",
+  //   link: "/games/BlackJack",
+  // },
   {
     title: "Thimbles",
     icon: "thimbles",
     link: "/games/Thimbles",
   },
-  {
-    title: "Crash",
-    icon: "crash",
-    link: "/games/Crash",
-  },
-  {
-    title: "Slots",
-    icon: "slots",
-    link: "/games/Slots",
-  },
-  {
-    title: "Roulette",
-    icon: "roulette",
-    link: "/games/Roulette",
-  },
+  // {
+  //   title: "Crash",
+  //   icon: "crash",
+  //   link: "/games/Crash",
+  // },
+  // {
+  //   title: "Slots",
+  //   icon: "slots",
+  //   link: "/games/Slots",
+  // },
+  // {
+  //   title: "Roulette",
+  //   icon: "roulette",
+  //   link: "/games/Roulette",
+  // },
 ];
 
 const languagesList = [
@@ -552,7 +552,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <RPCButton />
               Rock Paper Scissors
             </Link>
-            <Link
+            {/* <Link
               href={"/games/Poker"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Poker" && s.game_active
@@ -560,7 +560,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <PokerButton />
               Poker
-            </Link>
+            </Link> */}
             <Link
               href={"/games/Mines"}
               className={`${s.game_row} ${
@@ -588,7 +588,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <RocketIcon />
               Rocket
             </Link>
-            <Link
+            {/* <Link
               href={"/games/Slots"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Slots" && s.game_active
@@ -596,7 +596,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <SlotsIcon />
               Slots
-            </Link>
+            </Link> */}
             <Link
               href={"/games/WheelFortune"}
               className={`${s.game_row} ${
@@ -633,7 +633,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <CarBtn />
               Cars
             </Link>
-            <Link
+            {/* <Link
               href={"/games/BlackJack"}
               className={`${s.game_row} ${
                 props.activePage === "/games/BlackJack" && s.game_active
@@ -641,8 +641,8 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <BJBtn />
               Black Jack
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               href={"/games/Crash"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Crash" && s.game_active
@@ -650,7 +650,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <CrashBtn />
               Crash
-            </Link>
+            </Link> */}
             <Link
               href={"/games/Thimbles"}
               className={`${s.game_row} ${
@@ -660,7 +660,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
               <ThimblesButton />
               Thimbles
             </Link>
-            <Link
+            {/* <Link
               href={"/games/Roulette"}
               className={`${s.game_row} ${
                 props.activePage === "/games/Roulette" && s.game_active
@@ -668,7 +668,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = (props) => {
             >
               <RouletteBtnIconIcon />
               Roulette
-            </Link>
+            </Link> */}
             <Link
               href={"/leaderboard"}
               className={clsx(

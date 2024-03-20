@@ -412,40 +412,28 @@ export const Race: FC<IRace> = ({ gameText }) => {
   const [horseStay_5, setHorseStay_5] = useState(false);
 
   useEffect(() => {
-    if (!horseStay_1 && startGame) {
+    if (isPlaying) {
       race_1.current!.play();
-    } else {
-      race_1.current!.pause();
-    }
-  }, [racePlay, startGame, horseStay_1]);
-  useEffect(() => {
-    if (!horseStay_2 && startGame) {
+
       race_2.current!.play();
-    } else {
-      race_2.current!.pause();
-    }
-  }, [racePlay, startGame, horseStay_2]);
-  useEffect(() => {
-    if (!horseStay_3 && startGame) {
+
       race_3.current!.play();
-    } else {
-      race_3.current!.pause();
-    }
-  }, [racePlay, startGame, horseStay_3]);
-  useEffect(() => {
-    if (!horseStay_4 && startGame) {
+
       race_4.current!.play();
-    } else {
-      race_4.current!.pause();
-    }
-  }, [racePlay, startGame, horseStay_4]);
-  useEffect(() => {
-    if (!horseStay_5 && startGame) {
+
       race_5.current!.play();
     } else {
+      race_1.current!.pause();
+
+      race_2.current!.pause();
+
+      race_3.current!.pause();
+
+      race_4.current!.pause();
+
       race_5.current!.pause();
     }
-  }, [racePlay, startGame, horseStay_5]);
+  }, [isPlaying]);
 
   const [stepValue, setStepValue] = useState(90);
 
@@ -714,9 +702,9 @@ export const Race: FC<IRace> = ({ gameText }) => {
               s.race_table_background_img,
               s.race_table_background_img_2,
               !showFinish &&
-              startGame &&
-              allLoaded &&
-              s.race_table_background_img_2_start,
+                startGame &&
+                allLoaded &&
+                s.race_table_background_img_2_start,
               showFinish && s.race_table_background_img_2_finish,
               reset && s.race_table_background_img_2_reset
             )}
@@ -1349,3 +1337,28 @@ export const Race: FC<IRace> = ({ gameText }) => {
 // import { ABI as IERC20 } from "@/shared/contracts/ERC20";
 // import { ABI as RaceABI } from "@/shared/contracts/RaceABI";
 // import { TOKENS } from "@/shared/tokens";
+
+// useEffect(() => {
+//   if (!horseStay_1 && startGame) {
+//   } else {
+//   }
+// }, [racePlay, startGame, horseStay_1]);
+// useEffect(() => {
+//   if (!horseStay_2 && startGame) {
+//   } else {
+//   }
+// }, [racePlay, startGame, horseStay_2]);
+// useEffect(() => {
+//   if (!horseStay_3 && startGame) {
+//   } else {
+//   }
+// }, [racePlay, startGame, horseStay_3]);
+// useEffect(() => {
+//   if (!horseStay_4 && startGame) {
+//   } else {
+//   }
+// }, [racePlay, startGame, horseStay_4]);
+// useEffect(() => {
+//   if (!horseStay_5 && startGame) {
+//   } else {
+// }, [racePlay, startGame, horseStay_5]);

@@ -261,7 +261,7 @@ const Games: FC<GamesProps> = (props) => {
     <div className={s.games}>
       {/* <GamesTitle></GamesTitle> */}
       <div className={`${s.games_row} ${!sidebarOpened && s.sidebar_closed}`}>
-        <Game
+        {/* <Game
           name={"POKER"}
           description={""}
           link={"/games/Poker"}
@@ -271,7 +271,7 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={pokerMobileBg}
           closedSidebarImage={pokerClosedSidebarImg}
           pcImageClosed={pokerMainBgClosed}
-        />
+        /> */}
         <Game
           name={"DICE"}
           description={""}
@@ -338,7 +338,7 @@ const Games: FC<GamesProps> = (props) => {
           closedSidebarImage={rocket_bg}
           pcImageClosed={rocket_bg}
         />
-        <Game
+        {/* <Game
           name={"Slots"}
           description={""}
           link={"/games/Slots"}
@@ -348,7 +348,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={slotsMain}
           closedSidebarImage={slot_bg}
           pcImageClosed={slot_bg}
-        />{" "}
+        />{" "} */}
         <Game
           name={"Wheel of Fortune"}
           description={""}
@@ -393,7 +393,7 @@ const Games: FC<GamesProps> = (props) => {
           closedSidebarImage={carBanner}
           pcImageClosed={carBanner}
         />
-        <Game
+        {/* <Game
           name={"BlackJack"}
           description={""}
           link={"/games/BlackJack"}
@@ -403,7 +403,7 @@ const Games: FC<GamesProps> = (props) => {
           mobileImage={bjBanner}
           closedSidebarImage={bjBanner}
           pcImageClosed={bjBanner}
-        />
+        /> */}
         <Game
           name={"Thimbles"}
           description={""}
@@ -415,7 +415,7 @@ const Games: FC<GamesProps> = (props) => {
           closedSidebarImage={thimblesBanner}
           pcImageClosed={thimblesBanner}
         />
-        <Game
+        {/* <Game
           name={"Crash"}
           description={""}
           link={"/games/Crash"}
@@ -436,7 +436,7 @@ const Games: FC<GamesProps> = (props) => {
           pcImage={rouletteBanner}
           closedSidebarImage={rouletteBanner}
           pcImageClosed={rouletteBanner}
-        />
+        /> */}
       </div>
     </div>
   );
