@@ -150,6 +150,11 @@ export const WagerInputsBlock: FC<WagerInputsBlockProps> = ({ bjVariants }) => {
     } else {
     }
   }, [cryptoInputValue, cryptoValue]);
+
+  useEffect(() => {
+    setCryptoValue(Number(cryptoInputValue));
+  }, [cryptoInputValue]);
+
   useEffect(() => {
     return () => {
       setIsEmtyWager(false);

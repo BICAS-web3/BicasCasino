@@ -37,7 +37,7 @@ const WagerContent = () => {
     WagerAmountModel.setError,
   ]);
 
-  // useEffect(() => alert(`${cryptoValue} ${balance}`), [cryptoValue, balance]);
+  // useEffect(() => alert(`${cryptoValue} `), [cryptoValue, balance]);
 
   return (
     <>
