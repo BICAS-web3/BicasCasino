@@ -90,10 +90,7 @@ export default function WheelFortuneGame() {
         <title>Games - Wheel Fortune</title>
       </Head>
       <Layout activePageLink="/games/WheelFortune" gameName="Wheel Fortune">
-        <LiveBetsWS
-          subscription_type={"Subscribe"}
-          subscriptions={["Wheel Fortune"]}
-        />
+        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Wheel"]} />
         <div className={styles.wheel_fortune_container}>
           <GamePage
             isPoker={false}
