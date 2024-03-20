@@ -709,12 +709,12 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   const [access_token] = useUnit([RegistrM.$access_token]);
   const subscribe = {
     type: "SubscribeBets",
-    payload: [gamesList.find((item) => item.name === "Race")?.id],
+    payload: [gamesList.find((item) => item.name === "CarRace")?.id],
   };
   useEffect(() => {
     setBetData({
       type: "MakeBet",
-      game_id: gamesList.find((item) => item.name === "Race")?.id,
+      game_id: gamesList.find((item) => item.name === "CarRace")?.id,
       coin_id: isDrax ? 2 : 1,
       user_id: userInfo?.id || 0,
       data: `{"car":${carNumber}}`,

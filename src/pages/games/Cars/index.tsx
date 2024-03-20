@@ -120,7 +120,10 @@ const Apples: FC<ApplesProps> = () => {
         <title>Games - Car Racing</title>
       </Head>
       <Layout activePageLink="/games/Cars" gameName="Cars">
-        <LiveBetsWS subscription_type={"Subscribe"} subscriptions={["Cars"]} />
+        <LiveBetsWS
+          subscription_type={"Subscribe"}
+          subscriptions={["CarRace"]}
+        />
         <div className={s.cars_container}>
           <GamePage
             isPoker={false}
