@@ -4,10 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-
 # testing
 /coverage
-
+next-env.d.ts
 # next.js
 /.next/
 /out/
@@ -17,7 +16,10 @@
 
 # misc
 .DS_Store
+.vscode
 *.pem
+.env
+package-lock.json
 
 # debug
 npm-debug.log*
@@ -25,18 +27,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-yarn.lock
-/.idea
-/.idea
-#package-lock.json
-
-# Sentry Config File
-.sentryclirc

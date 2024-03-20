@@ -1,34 +1,48 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### A Next.js template
 
-## Getting Started
+A Next.js app that uses Shadcn, Prisma ORM, MongoDB and Next auth
 
-First, run the development server:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdanybeltran%2Fnextjs-typescript-and-mongodb)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+### Updating deps
+
+To update deps to their latest versions, run:
+
+```
+./scripts/update-deps.sh
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You need to pass an env. variable with the URI for the MongoDB connection, as well as `next-auth` env. variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+MONGO_URI=
+NEXTAUTH_SECRET=
+GOOGLE_APP_CLIENT_ID=
+GOOGLE_APP_CLIENT_SECRET=
+NEXTAUTH_URL=
+```
 
-## Learn More
+To create the `NEXTAUTH_SECRET` hash, run this in your terminal:
 
-To learn more about Next.js, take a look at the following resources:
+```
+openssl rand -base64 32
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+It will generate a 44-character random string
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+You can also place those variables inside a `.ENV` file (don't forget to add it to your `.gitignore` file)
 
-## Deploy on Vercel
+Related documentation:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [`nextjs`](https://nextjs.org/docs)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [`next-auth`](https://next-auth.js.org/getting-started/introduction)
+
+- [`http-react`](https://http-react.netlify.app/docs)
+
+
+
+
+[Live preview](https://nextjs-typescript-and-mongodb-psi.vercel.app)
