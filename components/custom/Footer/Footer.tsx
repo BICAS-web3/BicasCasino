@@ -78,7 +78,7 @@ export const Footer: FC<FooterProps> = () => {
       </div>
       <div
         //  className={s.footer_below}
-        className='mt-[7px] mb-[7px] footer-text-xs sm:footer-text-md sm:h-full text-footer-text border-border-def text-center h-[60px] items-center justify-center p-5 flex'
+        className='mt-[7px] mb-[7px] text-footer-text-xs sm:footer-text-md h-[60px] sm:h-full sm:text-footer-text-md  text-footer-text border-border-def text-center  items-center justify-center p-5 flex'
       >
         BSC METAVERSE LIMITED Suite 305,
         <br />
