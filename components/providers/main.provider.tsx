@@ -1,4 +1,6 @@
-import Navbar from '@/components/custom/Navbar'
+import Header from '@/components/custom/header'
+import Sidebar from '@/components/custom/Sidebar'
+import Footer from '@/components/custom/footer'
 import { ThemeProvider } from './theme.provider'
 
 type Props = {
@@ -8,9 +10,15 @@ type Props = {
 const MainProvider = ({ children }: Props) => {
   return (
     <ThemeProvider attribute='class' defaultTheme='system'>
-      <main className='min-h-screen'>
-        <Navbar />
-        <div className='max-w-7xl mx-auto p-4'>{children}</div>
+      <main>
+        <Header />
+        <div className='flex flex-nowrap'>
+          <Sidebar />
+          <div className='flex flex-col'>
+            {children}
+            <Footer />
+          </div>
+        </div>
       </main>
     </ThemeProvider>
   )
