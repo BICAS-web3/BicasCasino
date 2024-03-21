@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { useDropdown, useMediaQuery } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import { useUnit } from 'effector-react'
+import { CloseSwapIcon } from '@/src/shared/SVGs/CloseSwapIcon'
 
 interface FooterProps {}
 
@@ -37,7 +38,7 @@ export const Footer: FC<FooterProps> = () => {
 
   const toggleSw = () => {
     toggle()
-    swapToggle()
+    // swapToggle()
   }
 
   return (
@@ -49,20 +50,22 @@ export const Footer: FC<FooterProps> = () => {
         {/* <Blur isOpen={isOpen} /> */}
         <article
           ref={dropdownRef}
-          className={clsx(
-            swapS.swap_block,
-            isOpen && swapS.swap_block_open,
-            (isSidebarOpen || isMobile) && swapS.swap_sidebar_open
-          )}
+          //   className={clsx(
+          //     swapS.swap_block,
+          //     isOpen && swapS.swap_block_open,
+          //     (isSidebarOpen || isMobile) && swapS.swap_sidebar_open
+          //   )}
         >
-          <div className={swapS.swap_head}>
+          <div
+          // className={swapS.swap_head}
+          >
             <span></span> <h3>Swap</h3>
             <CloseSwapIcon
-              className={swapS.swap_close_icon}
+              //   className={swapS.swap_close_icon}
               onClick={() => {
                 close()
-                swapClose()
-                isMobile && setClose()
+                // swapClose()
+                // isMobile && setClose()
               }}
             />
           </div>
