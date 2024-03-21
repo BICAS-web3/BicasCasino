@@ -1,9 +1,8 @@
 import { FC } from 'react'
-import drax from '@/public/media/tokens/DRAX.svg'
-import bnb from '@/public/media/tokens/bnb.svg'
-import arb from '@/public/media/tokens/arb.svg'
-import usdt from '@/public/media/tokens/usdt.svg'
-import s from './styles.module.scss'
+import drax from '@/public/tokens/DRAX.svg'
+import bnb from '@/public/tokens/bnb.svg'
+import arb from '@/public/tokens/arb.svg'
+import usdt from '@/public/tokens/usdt.svg'
 import clsx from 'clsx'
 import {
   IToken,
@@ -26,7 +25,9 @@ export const SwapToken: FC<SwapTokenProps> = props => {
   const { className, token, setToken } = props
 
   return (
-    <form className={s.initial_exchange}>
+    <form
+    // className={s.initial_exchange}
+    >
       <TokenExchangeDropdown tokenList={tokenList} />
       <TokenExchangeInput />
     </form>

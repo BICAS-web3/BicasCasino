@@ -1,0 +1,35 @@
+.refund {
+  border-radius: 12px;
+  width: 100%;
+  border: none;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-nunito-sans);
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  min-height: 40px;
+  letter-spacing: 0.72px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #a41e1e;
+  color: white;
+
+  @media screen and (max-width: 996px) {
+    margin: 0 auto 14px auto;
+    width: 240px;
+    max-height: 50px;
+  }
+
+  @media screen and (max-width: 650px) {
+    font-size: 0.75rem;
+    width: 140px;
+    height: 40px;
+    max-height: 40px;
+    min-height: 40px;
+    border-radius: 5px;
+  }
+}

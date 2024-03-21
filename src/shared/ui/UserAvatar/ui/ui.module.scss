@@ -1,0 +1,10 @@
+.blockies_ava_wrap {
+  canvas {
+    height: 150px !important;
+    width: 150px !important;
+    @media screen and (max-width: 650px) {
+      width: 50px !important;
+      height: 50px !important;
+    }
+  }
+}

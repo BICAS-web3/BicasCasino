@@ -1,0 +1,30 @@
+.userAddress {
+  font-family: var(--font-source-sans-3);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #7e7e7e;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.truncatedAddress {
+  display: none;
+}
+
+.fullAddress {
+  display: block;
+}
+
+@media screen and (max-width: 768px) {
+  .truncatedAddress {
+    display: block;
+  }
+
+  .fullAddress {
+    display: none;
+  }
+}
