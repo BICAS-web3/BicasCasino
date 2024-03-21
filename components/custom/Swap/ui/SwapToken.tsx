@@ -8,8 +8,8 @@ import clsx from 'clsx'
 import {
   IToken,
   TokenExchangeDropdown
-} from '@/shared/ui/TokenExchangeDropdown'
-import { TokenExchangeInput } from '@/shared/ui/TokenExchangeInput'
+} from '@/src/shared/ui/TokenExchangeDropdown'
+import { TokenExchangeInput } from '@/src/shared/ui/TokenExchangeInput'
 const tokenList: IToken[] = [
   { id: 1, name: 'DRAX', iconToken: drax },
   { id: 2, name: 'BNB', iconToken: bnb },
