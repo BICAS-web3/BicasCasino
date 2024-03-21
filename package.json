@@ -5,15 +5,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write \"**/*.+(ts|tsx|css|sass)\"",
+    "lint": "eslint --fix \"**/*.+(ts|tsx)\""
   },
   "dependencies": {
+    "@effector/next": "^0.7.0",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
+    "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "autoprefixer": "^10.4.17",
     "bs-icon": "^0.0.7",
@@ -38,6 +42,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.17",

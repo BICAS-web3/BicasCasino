@@ -7,21 +7,16 @@ import { CloseSwapIcon } from '@/src/shared/SVGs/CloseSwapIcon'
 import { SwapToken } from '../Swap/ui/SwapToken'
 import { ArrowSwapIcon } from '@/src/shared/SVGs/ArrowSwapIcon'
 import Link from 'next/link'
-import tgIcon from '@/public/social_media/telegram.svg'
-import instIcon from '@/public/social_media/instagram.svg'
-import facebookIcon from '@/public/social_media/facebook.svg'
-import redditIcon from '@/public/social_media/reddit.svg'
-import discordIcon from '@/public/social_media/discord.svg'
-import mediumIcon from '@/public/social_media/medium.svg'
-import mainIcon from '@/public/social_media/main.svg'
-import twitterIcon from '@/public/social_media/twitter.svg'
+
 import Image from 'next/image'
+import { games, socials } from './data'
+
 interface FooterProps {}
 
 export const Footer: FC<FooterProps> = () => {
   //   const [sidebarState] = useUnit([SidebarM.$isOpen])
   // const { address, isConnected } = useAccount();
-  const router = useRouter()
+  // const router = useRouter()
 
   // const profileRedirect = () => {
   //   if (isConnected) {
@@ -33,243 +28,57 @@ export const Footer: FC<FooterProps> = () => {
   //   }
   // };
 
-  const isMobile = useMediaQuery('(max-width: 650px)')
-  const { toggle, close, dropdownRef, isOpen, open: setOpen } = useDropdown()
-  //   const [swapToggle, swapClose] = useUnit([
-  //     SwapModel.flipSwapOpen,
-  //     SwapModel.Close
-  //   ])
-  const [tokenFrom, setTokenFrom] = useState<any>()
-  const [tokenTo, setTokenTo] = useState<any>()
-
   //   const [isSidebarOpen, setClose] = useUnit([$isOpen, Close])
-
-  //   useEffect(() => {
-  //     !isOpen && swapClose()
-  //   }, [isOpen])
-
-  const toggleSw = () => {
-    toggle()
-    // swapToggle()
-  }
 
   return (
     <div
-    //   className={`${s.footer} ${!sidebarState && s.sidebar_closed}`}
-    //   className={`${s.footer} ${!sidebarState && s.sidebar_closed}`}
+      className='bg-black-def flex flex-col justify-center items-center w-full z-10 self-end mt-100'
+      //   className={`${s.footer} ${!sidebarState && s.sidebar_closed}`}
     >
-      <div
-      // className={s.footer_container}
-      >
-        {/* <Blur isOpen={isOpen} /> */}
-        <article
-          ref={dropdownRef}
-          //   className={clsx(
-          //     swapS.swap_block,
-          //     isOpen && swapS.swap_block_open,
-          //     (isSidebarOpen || isMobile) && swapS.swap_sidebar_open
-          //   )}
-        >
-          <div
-          // className={swapS.swap_head}
-          >
-            <span></span> <h3>Swap</h3>
-            <CloseSwapIcon
-              //   className={swapS.swap_close_icon}
-              onClick={() => {
-                close()
-                // swapClose()
-                // isMobile && setClose()
-              }}
-            />
+      <div className='w-full flex justify-center items-center sm:ml-[130px] sm:mr-auto sm:mt-0 sm:mb-0 sm:w-[calc(100%_-_160px)] md:w-[calc(100%_-_165px)] md:ml-[130px] '>
+        <div className='box-border p-[30px_0] flex items-center justify-center w-full gap-20 border-b-2 border-border-def sm:justify-between '>
+          <div className='hidden sm:flex sm:items-start sm:h-full sm:gap-[5vw]'>
+            {games.map((item, ind) => (
+              <div className='flex flex-col gap-[15px]'>
+                {item.list.map((link, ind) => (
+                  <Link
+                    className='uppercase text-footer-links'
+                    href={link.path}
+                  >
+                    {link.title}
+                  </Link>
+                ))}
+              </div>
+            ))}
           </div>
-          <div
-          // className={swapS.swap_body}
-          >
-            <p
-            // className={swapS.swap_under_title}
-            >
-              Trade tokens in an instant
-            </p>
-            <div
-            //  className={swapS.swap_main}
-            >
-              <SwapToken token={tokenFrom} setToken={setTokenFrom} />
-              <span
-              // className={swapS.swap_arr}
-              >
-                <ArrowSwapIcon
-                // className={s.swap_arr_icon}
-                />
-              </span>
-              <SwapToken token={tokenTo} setToken={setTokenTo} />
-            </div>
-            <button
-            // className={swapS.swap_button}
-            >
-              Exchange
-            </button>
-          </div>
-        </article>
-        <div
-        // className={s.footer_body}
-        >
-          <div
-          // className={s.footer_leftSide_block}
-          >
-            <div
-            // className={s.games_list}
-            >
-              <Link
-                href=''
-                // className={s.footer_text}
-              >
-                BONUS
-              </Link>
-              <Link
-                href='/games/GamesPage'
-                // className={s.footer_text}
-              >
-                GAMES
-              </Link>
-              <span
-                onClick={() => toggleSw()}
-                // className={s.footer_text}
-              >
-                SWAP
-              </span>
-            </div>
-
-            <div
-            // className={s.games_list}
-            >
-              <span
-              // onClick={() => profileRedirect()}
-              // className={s.footer_text}
-              >
-                PROFILE
-              </span>
-              <Link
-                href='/leaderboard'
-                // className={s.footer_text}
-              >
-                LEADER BOARD
-              </Link>
-              <Link
-                href=''
-                // className={s.footer_text}
-              >
-                AFFILIATE
-              </Link>
-            </div>
-
-            <div
-            // className={s.games_list}
-            >
-              <Link
-                href='/nftmarket'
-                // className={s.footer_text}
-              >
-                NFT MARKET
-              </Link>
-              <Link
-                href=''
-                // className={s.footer_text}
-              >
-                HOW TO PLAY
-              </Link>
-              <span
-                // className={s.footer_text}
-                onClick={() => {
-                  location.href = 'https://t.me/GKSupportt'
-                }}
-              >
-                SUPPORT
-              </span>
-            </div>
-          </div>
-
-          <div
-          // className={s.footer_rightSide_block}
-          >
-            <span
-            // className={s.footer_social_title}
-            >
+          <div>
+            <span className='block mb-[25px] text-white text-center text-footer-title font-normal'>
               Join our Community
             </span>
-            <div
-            // className={s.icons_list}
-            >
-              <Link
-                href='https://t.me/greekkeepers'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.tg_ico_wrap} ${s.ico_wrap}`}
-              >
-                <Image src={tgIcon} alt={'telegram'} />
-              </Link>
-              <Link
-                href='https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ=='
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.inst_wrap}`}
-              >
-                <Image src={instIcon} alt={'inst'} />
-              </Link>
-              <Link
-                href='https://twitter.com/GreekKeepers'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.twitter_wrap}`}
-              >
-                <Image src={twitterIcon} alt={'twitter'} />
-              </Link>
-              <Link
-                href='https://discord.gg/ReJVd2xJSk'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.discord_wrap}`}
-              >
-                <Image src={discordIcon} alt={'discord'} />
-              </Link>
-              <Link
-                href='https://www.facebook.com/profile.php?id=100092326343777'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.facebook_wrap}`}
-              >
-                <Image src={facebookIcon} alt={'facebook'} />
-              </Link>
-              <Link
-                href='https://www.reddit.com/user/GreekKeepers/?rdt=59831'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.reddit_wrap}`}
-              >
-                <Image src={redditIcon} alt={'reddit'} />
-              </Link>
-              <Link
-                href='https://medium.com/@greekkeepers'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.medium_wrap}`}
-              >
-                <Image src={mediumIcon} alt={'medium'} />
-              </Link>
-              <Link
-                href='https://www.greekkeepers.io/'
-                target='_blank'
-                rel='noopener noreferrer'
-                // className={`${s.ico_wrap} ${s.main_wrap}`}
-              >
-                <Image src={mainIcon} alt={'greekkeepres-main'} />
-              </Link>
+            <div className='grid w-auto justify-evenly gap-[14px] grid-cols-4'>
+              {socials.map((item, ind) => (
+                <Link
+                  href={item.href}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  style={{ backgroundColor: item.bg }}
+                  className={`rounded-full group transition-all hover:after:opacity-80 hover:after:shadow-sm hover:after:shadow-white ${
+                    ind === 0 && 'pr-[3px]'
+                  } box-border w-[32px] h-[32px] flex justify-center items-center ease-in duration-500 relative`}
+                >
+                  <div
+                    className={` group-hover:opacity-100 group-hover:shadow-white shadow-xl absolute w-[1px] h-[1px] top-[50%] left-[50%] rounded-full duration-500 transition-all`}
+                  ></div>
+                  <Image src={item.img} alt={item.title} />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
       </div>
       <div
-      //  className={s.footer_below}
+        //  className={s.footer_below}
+        className='mt-[7px] mb-[7px] footer-text-xs sm:footer-text-md sm:h-full text-footer-text border-border-def text-center h-[60px] items-center justify-center p-5 flex'
       >
         BSC METAVERSE LIMITED Suite 305,
         <br />

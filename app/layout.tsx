@@ -1,7 +1,10 @@
+'use client'
 import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { EffectorNext } from '@effector/next'
 import MainProvider from '@/components/providers/main.provider'
+import { Fonts } from '@/src/shared/fonts'
+import { SocketProvider } from '@/components/providers/socket.provider'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -13,10 +16,9 @@ function MainLayout({ children }) {
         suppressHydrationWarning
         suppressContentEditableWarning
       >
-        <EffectorNext values={pageProps?.values}>
+        <EffectorNext>
           <Fonts />
           <SocketProvider>
-            {' '}
             <MainProvider>{children}</MainProvider>
           </SocketProvider>
         </EffectorNext>
