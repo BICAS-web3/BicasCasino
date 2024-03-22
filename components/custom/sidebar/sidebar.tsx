@@ -180,22 +180,25 @@ const SideBar = () => {
       </div>
 
       <div
-        className={`min-h-[70px] border-t border-[#121212] w-full mt-5 flex px-5 justify-between items-center bg-[#121212] ${
+        className={cn(
+          `min-h-[70px] border-t border-[#121212] w-full mt-5 flex px-5 justify-between items-center bg-[#121212]`,
           !open && 'px-[30px] py-5 min-h-[170px] grid grid-cols-1 gap-[15px]'
-        }`}
+        )}
       >
         <div className='{s.themes_block} h-10 flex items-center rounded-[12px] border border-[#202020] '>
           <div
-            className={`flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212] ${
+            className={cn(
+              `flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212]`,
               activeTheme === 'dark' && 's.active bg-[#202020]'
-            }`}
+            )}
           >
             <MoonSVG />
           </div>
           <div
-            className={`flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212] ${
+            className={cn(
+              `flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212]`,
               activeTheme === 'light' && 'bg-[#202020]'
-            }`}
+            )}
           >
             <SunSVG
               className={activeTheme === 'light' ? 'fill-[#7e7e7e]' : ''}
