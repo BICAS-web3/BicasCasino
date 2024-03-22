@@ -13,7 +13,8 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px'
+        '2xl': '1400px',
+        xxs: '400px'
       }
     },
     extend: {
@@ -22,6 +23,9 @@ module.exports = {
         'border-def': '#2e2e2e',
         'footer-links': '#aaa',
         'footer-text': '#494949',
+        'text-w-def': '#eaeaea',
+        'bets-title-color': '#7e7e7e',
+        'bets-gr': '#29f061',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -58,7 +62,7 @@ module.exports = {
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
+        md: '20px',
         sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
