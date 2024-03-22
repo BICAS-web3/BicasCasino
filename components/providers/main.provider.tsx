@@ -5,9 +5,8 @@ import { ThemeProvider } from './theme.provider'
 import { SocketProvider } from '@/components/providers/socket.provider'
 
 import Header from '@/components/custom/header'
-// import Sidebar from '@/components/custom/sidebar'
-import Footer from '@/components/custom/footer'
 import Sidebar from '../custom/sidebar'
+import Footer from '@/components/custom/footer'
 
 type Props = {
   children: React.ReactNode
