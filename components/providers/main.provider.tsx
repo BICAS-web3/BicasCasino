@@ -20,7 +20,7 @@ const MainProvider = ({ children }: Props) => {
           <Header />
           <div className='flex'>
             <Sidebar />
-            <div className='w-full'>
+            <div className='w-full flex justify-between flex-col min-h-screen'>
               <div>{children}</div>
               <Footer />
             </div>

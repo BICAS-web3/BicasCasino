@@ -70,9 +70,14 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  font-family: "Nunito Sans";
 }
 
 body {

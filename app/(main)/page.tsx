@@ -5,11 +5,5 @@ export const metadata: Metadata = {
   description: 'Home page '
 }
 export default function Home() {
-  return (
-    <>
-      <section className='space-y-6 pb-8 py-8  md:py-16 lg:py-20 '>
-        Hey!
-      </section>
-    </>
-  )
+  return <>Hello there!</>
 }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { cn } from '@/lib/utils'
 import { BonusCoinSVG, DraxMiniSVG } from './icons'
+import { Button } from '@/components/ui/button'
 
 const switch_img = [
   {
@@ -31,7 +32,8 @@ const BalanceSwitcher = () => {
       )}
     >
       {switch_img.map(item => (
-        <div
+        <Button
+          variant='ghost'
           key={item.id}
           onClick={() => setIsDrax(item.isDrax)}
           className={cn(
@@ -47,7 +49,7 @@ const BalanceSwitcher = () => {
             </span>
             <span className='text-sm leading-4'>{item.token}</span>
           </div>
-        </div>
+        </Button>
       ))}
     </div>
   )

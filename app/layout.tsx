@@ -1,15 +1,15 @@
-import { Montserrat } from 'next/font/google'
+import '@fontsource/nunito-sans'
 import './globals.css'
 
 import MainProvider from '@/components/providers/main.provider'
 
-const montserrat = Montserrat({ subsets: ['latin'] })
+// const nunitoSans = NunitoSans({ subsets: ['latin'] })
 
 function MainLayout({ children }) {
   return (
     <html suppressHydrationWarning suppressContentEditableWarning lang='en'>
       <body
-        className={`${montserrat.className} dark:bg-primary-dark`}
+        className={`dark:bg-primary-dark`}
         suppressHydrationWarning
         suppressContentEditableWarning
       >
