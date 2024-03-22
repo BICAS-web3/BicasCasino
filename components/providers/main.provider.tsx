@@ -4,9 +4,10 @@ import { ThemeProvider } from './theme.provider'
 
 import { SocketProvider } from '@/components/providers/socket.provider'
 
-import Header from '@/components/custom/Header'
-import Sidebar from '@/components/custom/Sidebar'
-import Footer from '@/components/custom/Footer'
+import Header from '@/components/custom/header'
+// import Sidebar from '@/components/custom/sidebar'
+import Footer from '@/components/custom/footer'
+import Sidebar from '../custom/sidebar'
 
 type Props = {
   children: React.ReactNode
@@ -14,8 +15,8 @@ type Props = {
 
 const MainProvider = ({ children }: Props) => {
   return (
-    <SocketProvider>
-      <ThemeProvider attribute='class' defaultTheme='system'>
+    <ThemeProvider attribute='class' defaultTheme='system'>
+      <SocketProvider>
         <main className='min-h-screen'>
           <Header />
           <div className='flex'>
@@ -26,8 +27,8 @@ const MainProvider = ({ children }: Props) => {
             </div>
           </div>
         </main>
-      </ThemeProvider>
-    </SocketProvider>
+      </SocketProvider>
+    </ThemeProvider>
   )
 }
 
