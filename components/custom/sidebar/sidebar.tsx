@@ -164,15 +164,16 @@ const SideBar = () => {
   return (
     <div
       className={cn(
-        'h-full bg-[#181818] fixed justify-between min-h-screen duration-500 flex flex-col',
+        'h-full bg-[#181818] fixed justify-between min-h-screen duration-500 flex flex-col left-0 top-0',
         open ? 'w-[257px]' : 'w-[90px]'
       )}
       id='sidebar'
     >
       <div
-        className={
-          's.side_bar_upper overflow-auto bg-[#181818] w-full pt-[75px] pb-[30px] flex flex-col items-center overflow-y-scroll scroll overflow-x-hidden relative'
-        }
+        className={cn(
+          'w-full pt-[75px] pb-[30px] flex flex-col items-center',
+          'overflow-auto bg-[#181818] overflow-y-scroll scroll overflow-x-hidden relative'
+        )}
         id='sidebar_id'
         style={{ '--st': `${sidebarScroll}px` } as any}
       >

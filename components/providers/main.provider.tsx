@@ -18,7 +18,7 @@ const MainProvider = ({ children }: Props) => {
       <SocketProvider>
         <main className='min-h-screen'>
           <Header />
-          <div className='flex'>
+          <div className='w-full flex pl-[287px] pt-[100px] pr-[30px]'>
             <Sidebar />
             <div className='w-full'>
               <div>{children}</div>

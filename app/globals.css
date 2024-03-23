@@ -170,3 +170,25 @@ body::-webkit-scrollbar-thumb {
 .not_active {
   color: #979797 !important;
 }
+
+.swiper-slide-active {
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet {
+  background: #0f0f0f;
+  width: 30px;
+  height: 3px;
+  border-radius: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e5c787;
+}
+
+@media screen and (max-width: 650px) {
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 3px;
+  }
+}

@@ -1,15 +1,15 @@
 import { Metadata } from 'next'
-
+import Banner from '@/components/custom/banner'
+import GameBanners from '@/components/custom/gameBanners'
 export const metadata: Metadata = {
-  title: 'Home',
-  description: 'Home page '
+  title: 'GreekKeepers: WEB 3.0 Crypto Games',
+  description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 export default function Home() {
   return (
     <>
-      <section className='space-y-6 pb-8 py-8  md:py-16 lg:py-20 '>
-        Hey!
-      </section>
+      <Banner />
+      <GameBanners />
     </>
   )
 }
