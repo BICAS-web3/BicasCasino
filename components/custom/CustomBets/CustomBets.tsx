@@ -1,7 +1,6 @@
 'use client'
-import s from './styles.module.scss'
 import { CustomBetsItem } from './CustomBetsItem'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 // import { LiveBetsModel } from '../LiveBets'
 import { useUnit } from 'effector-react'
 // import { settingsModel } from "@/entities/settings";
@@ -18,6 +17,70 @@ enum Page {
 }
 
 const testBets: any = [
+  {
+    trx_url: 'string',
+    time: {
+      date: 'string',
+      time: '15:05'
+    },
+    game_name: 'string',
+    player_address: 'string',
+    player_name: 'GAMER',
+    wager: 2,
+    bets: 3,
+    multiplier: 2,
+    profit: 2,
+    token: '2',
+    id: 2
+  },
+  {
+    trx_url: 'string',
+    time: {
+      date: 'string',
+      time: '15:05'
+    },
+    game_name: 'string',
+    player_address: 'string',
+    player_name: 'GAMER',
+    wager: 2,
+    bets: 3,
+    multiplier: 2,
+    profit: 2,
+    token: '2',
+    id: 2
+  },
+  {
+    trx_url: 'string',
+    time: {
+      date: 'string',
+      time: '15:05'
+    },
+    game_name: 'string',
+    player_address: 'string',
+    player_name: 'GAMER',
+    wager: 2,
+    bets: 3,
+    multiplier: 2,
+    profit: 2,
+    token: '2',
+    id: 2
+  },
+  {
+    trx_url: 'string',
+    time: {
+      date: 'string',
+      time: '15:05'
+    },
+    game_name: 'string',
+    player_address: 'string',
+    player_name: 'GAMER',
+    wager: 2,
+    bets: 3,
+    multiplier: 2,
+    profit: 2,
+    token: '2',
+    id: 2
+  },
   {
     trx_url: 'string',
     time: {
@@ -51,7 +114,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
   // const [gamesList] = useUnit([GameModel.$gamesList])
 
   return (
-    <div className='w-full flex-col items-center sm:rounded-md flex bg-black-def py-[45px]'>
+    <div className='w-full flex-col items-center sm:rounded-md flex bg-black-def py-[45px] sm:mx-[20px] sm:w-[calc(100%_-_40px)]'>
       <div
         className={`flex justify-between items-center w-[calc(100%_-_60px)] px-[30px] ${
           props?.isMainPage && 'justify-center'
@@ -63,12 +126,16 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           )}
           {props?.title}
         </h2>
-        {props?.isGamePage && (
-          <div className={s.customBets_switch_bets_btns}></div>
-        )}
       </div>
       <div className='w-full mt-[35px]'>
-        <div className='px-[10px] sm:px-[15px] grid xs:grid-cols-[25px_80px_85px_100px_35px] grid-cols-[25px_65px_1fr_30px_35px] sm:sm:grid-cols-[40px_110px_110px_40px_1fr_40px] gap-x-[5px] content-between mb-[7px] '>
+        <div
+          className='px-[10px] 
+        sm:px-[15px] grid xs:grid-cols-[25px_80px_85px_100px] 
+        grid-cols-[25px_65px_1fr_30px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
+        md:grid-cols-[40px_110px_1fr_60px_70px_1fr] 
+        mmd:grid-cols-[160px_110px_1fr_100px_80px_70px_1fr] 
+        gap-x-[5px] content-between mb-[7px] '
+        >
           <span className='text-bets-title-color text-footer-text-xs'>
             Time
           </span>
@@ -79,7 +146,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             Player
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden'
+            className='text-bets-title-color text-footer-text-xs hidden mmd:block'
             data-id='address'
           >
             Number of games
@@ -91,7 +158,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             Wager
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden sm:block'
+            className='text-bets-title-color text-footer-text-xs hidden md:block '
             data-id='multiplier'
           >
             Multiplier
@@ -102,55 +169,46 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           >
             Profit
           </span>
-          <span
-            className='text-bets-title-color text-footer-text-xs flex justify-end sm:hidden'
-            data-id='explorer'
-          >
-            Explorer
-          </span>
         </div>
         <div className='flex flex-col border-t-[1px] border-b-[1px] border-[#252525] '>
-          {
-            testBets &&
-              testBets.map((bet, ind) => {
-                const time = new Date(bet?.timestamp * 1000)
-                const multiplier = Number(
-                  parseFloat(
-                    (
-                      Number(bet?.profit) /
-                      (Number(bet?.amount) * bet?.num_games)
-                    ).toFixed(2)
-                  )
+          {testBets &&
+            testBets.map((bet, ind) => {
+              const time = new Date(bet?.timestamp * 1000)
+              const multiplier = Number(
+                parseFloat(
+                  (
+                    Number(bet?.profit) /
+                    (Number(bet?.amount) * bet?.num_games)
+                  ).toFixed(2)
                 )
-                return (
-                  <CustomBetsItem
-                    game_id={(bet as any).game_id}
-                    user_id={(bet as any)?.user_id}
-                    bet={bet}
-                    trx_url=''
-                    key={ind}
-                    time={{
-                      date: `${time.getDate()}.${
-                        time.getMonth() + 1
-                      }.${time.getFullYear()}`,
-                      time: `${time.getHours()}:${(
-                        '0' + time.getMinutes()
-                      ).slice(-2)}`
-                    }}
-                    game_name='Dice'
-                    bets={bet?.num_games}
-                    multiplier={multiplier}
-                    profit={Number(Number(bet?.profit).toFixed(2))}
-                    id={ind}
-                    num_games={(bet as any)?.num_games}
-                    username={bet?.username}
-                    amount={Number(bet.amount).toString()}
-                    coin_id={bet.coin_id}
-                  />
-                )
-              })
-            //)
-          }
+              )
+              return (
+                <CustomBetsItem
+                  game_id={(bet as any).game_id}
+                  user_id={(bet as any)?.user_id}
+                  bet={bet}
+                  trx_url=''
+                  key={ind}
+                  time={{
+                    date: `${time.getDate()}.${
+                      time.getMonth() + 1
+                    }.${time.getFullYear()}`,
+                    time: `${time.getHours()}:${('0' + time.getMinutes()).slice(
+                      -2
+                    )}`
+                  }}
+                  game_name='Dice'
+                  bets={bet?.num_games}
+                  multiplier={multiplier}
+                  profit={Number(Number(bet?.profit).toFixed(2))}
+                  id={ind}
+                  num_games={(bet as any)?.num_games}
+                  username={bet?.username}
+                  amount={Number(bet.amount).toString()}
+                  coin_id={bet.coin_id}
+                />
+              )
+            })}
         </div>
       </div>
     </div>

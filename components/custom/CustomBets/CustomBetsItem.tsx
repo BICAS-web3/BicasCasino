@@ -1,6 +1,4 @@
 'use client'
-import s from './styles.module.scss'
-
 import draxTokenIco from '@/public/payment/draxCoin.webp'
 import bonusTokenIco from '@/public/payment/bonusCoin.webp'
 
@@ -140,46 +138,38 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
 
   return (
     <div
-      // className={clsx(s.customBets_list_item)}
-      // data-bg={props?.id % 2 === 0 && 'true'}
-      className='h-[50px] border-b-[1px] border-[#252525] px-[8.5px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px_35px] sm:grid-cols-[40px_110px_1fr_40px_70px_40px]'
+      className={`${
+        props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
+      } h-[50px] border-b-[1px] border-[#252525] px-[8.5px] sm:px-[15px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_70px_1fr] mmd:grid-cols-[160px_110px_1fr_100px_80px_70px_1fr]`}
     >
-      <div
-        //  className={s.customBets_list_item_time_block}
-        className='flex items-center '
-      >
+      <div className='flex items-center '>
         <Link
           href={props?.trx_url}
           target='_blank'
-          className={s.customBets_list_item_time_link_block}
+          className='flex items-center justify-center no-underline gap-x-[5px]'
         >
-          <span className={s.customBets_list_item_date}>
-            {props?.time.date}
+          <span className='hidden mmd:block text-text-w-def text-[0.875rem] font-bold tracking-[0.56px] '>
+            {/* {props?.time.date} */}
+            23.03.2024
           </span>
-          <span className={s.customBets_list_item_time}>
+          <span className='text-[8px] text-[#7e7e7e] sm:text-text-w-def sm:text-[0.875rem] font-bold tracking-[0.56px]'>
             {/* {props?.time.time} */}
             15:05
           </span>
         </Link>
       </div>
-      <div
-        className='flex items-center'
-        // className={s.customBets_list_item_game_block}
-      >
+      <div className='flex items-center'>
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
-          className={s.customBets_list_item_game_link_block}
+          className='flex items-center justify-center'
         >
           <img
             src={gameImg.src}
             className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
             alt='game-ico-preview'
           />
-          <span
-            className='text-[10px]'
-            // className={s.customBets_list_item_game}
-          >
+          <span className='text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
             {props?.game_name}
           </span>
         </Link>
@@ -193,68 +183,42 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           <div className='mt-[6px]'>
             <BlockiesAva address={props?.username || 'retryu'} size={avaSize} />
           </div>
-          <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium'>
+          <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem] '>
             {/* {props?.player_name} */}
-            {/* {props?.username} */}
-            gamer
+            {props?.username}
           </span>
         </Link>
       </div>
-      <div
-        // className={s.customBets_list_item_address_block}
-        className='hidden sm:block'
-      >
-        <span className={s.customBets_list_item_address}>
-          {/* {`${props?.player_address?.slice(
-          0,
-          5
-        )}...${props?.player_address?.slice(38, 42)}`} */}
-          {props.num_games}
-        </span>
+      <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] tracking-[0.56px] font-medium'>
+        22
       </div>
-      <div className={s.customBets_list_item_transaction_block}>
-        <Link href={props?.trx_url} target='_blank'>
-          {/* <img src={linkIco.src} width={22} height={22} alt='' /> */}
-        </Link>
-      </div>
-      <div
-        className='hidden sm:block'
-        // className={s.customBets_list_item_wager_block}
-      >
+      <div className='hidden sm:flex items-center gap-x-[5px]'>
         <img
           src={props.bet.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
           alt='wager-ico'
-          className={s.icon}
+          className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px]'
         />
-        <span className={s.customBets_list_item_wager}>x{props?.amount}</span>
+        <span className='text-text-w-def text-[0.875rem] tracking-[0.56px] font-medium'>
+          x{props?.amount}
+        </span>
       </div>
-      <div
-        className='hidden sm:block'
-        // className={s.customBets_list_item_multiplier_block}
-      >
-        <span className={s.customBets_list_item_multiplier}>
+      <div className='hidden md:flex items-center '>
+        <span className='text-[0.875rem] tracking-[0.56px] text-text-w-def font-medium'>
           {props?.multiplier}x
         </span>
       </div>
-      <div
-        className='flex items-center justify-end  '
-        // className={s.customBets_list_item_profit_block}
-      >
+      <div className='flex items-center justify-end'>
         <span
-          className={`text-[10px] font-bold tracking-[0.56px] ${
+          className={`text-[10px] mmd:text-[0.875rem] ml-[8px] font-bold tracking-[0.56px] ${
             props?.multiplier < 1 && 'text-[#f57731]'
-          } text-bets-gr `}
-          // className={`${s.customBets_list_item_profit} ${
-          //   props?.multiplier < 1 && s.lose_profit
-          // }`}
+          } text-bets-gr`}
         >
           {props?.profit}
         </span>
         <img
           src={props.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
           alt='wager-ico'
-          className='w-[20px] h-[20px] ml-[5px]'
-          // className={s.icon}
+          className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] ml-[5px]'
         />
       </div>
     </div>
