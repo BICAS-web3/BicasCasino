@@ -22,11 +22,11 @@ const testBets: any = [
     trx_url: 'string',
     time: {
       date: 'string',
-      time: 'string'
+      time: '15:05'
     },
     game_name: 'string',
     player_address: 'string',
-    player_name: 'string',
+    player_name: 'GAMER',
     wager: 2,
     bets: 3,
     multiplier: 2,
@@ -68,7 +68,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         )}
       </div>
       <div className='w-full mt-[35px]'>
-        <div className='px-[10px] sm:px-[15px] grid xs:grid-cols-[25px_80px_85px_100px_35px] grid-cols-[25px_65px_1fr_30px_35px] gap-x-[5px] content-between mb-[7px] '>
+        <div className='px-[10px] sm:px-[15px] grid xs:grid-cols-[25px_80px_85px_100px_35px] grid-cols-[25px_65px_1fr_30px_35px] sm:sm:grid-cols-[40px_110px_110px_40px_1fr_40px] gap-x-[5px] content-between mb-[7px] '>
           <span className='text-bets-title-color text-footer-text-xs'>
             Time
           </span>
@@ -79,7 +79,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             Player
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden sm:block '
+            className='text-bets-title-color text-footer-text-xs hidden'
             data-id='address'
           >
             Number of games
@@ -103,7 +103,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             Profit
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs flex justify-end'
+            className='text-bets-title-color text-footer-text-xs flex justify-end sm:hidden'
             data-id='explorer'
           >
             Explorer

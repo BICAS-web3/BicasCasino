@@ -1,7 +1,8 @@
 'use client'
 import s from './styles.module.scss'
-import draxTokenIco from '@/public/payment/draxCoin.svg'
-import bonusTokenIco from '@/public/payment/bonusCoin.svg'
+
+import draxTokenIco from '@/public/payment/draxCoin.webp'
+import bonusTokenIco from '@/public/payment/bonusCoin.webp'
 
 import diceIcon from '@/public/live_bets/diceIco.webp'
 import coinFlipIcon from '@/public/live_bets/coinflipIco.webp'
@@ -141,9 +142,12 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       // className={clsx(s.customBets_list_item)}
       // data-bg={props?.id % 2 === 0 && 'true'}
-      className='h-[50px] border-b-[1px] border-[#252525] px-[30px]'
+      className='h-[50px] border-b-[1px] border-[#252525] px-[8.5px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px_35px] sm:grid-cols-[40px_110px_1fr_40px_70px_40px]'
     >
-      <div className={s.customBets_list_item_time_block}>
+      <div
+        //  className={s.customBets_list_item_time_block}
+        className='flex items-center '
+      >
         <Link
           href={props?.trx_url}
           target='_blank'
@@ -153,11 +157,15 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
             {props?.time.date}
           </span>
           <span className={s.customBets_list_item_time}>
-            {props?.time.time}
+            {/* {props?.time.time} */}
+            15:05
           </span>
         </Link>
       </div>
-      <div className={s.customBets_list_item_game_block}>
+      <div
+        className='flex items-center'
+        // className={s.customBets_list_item_game_block}
+      >
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
@@ -165,30 +173,37 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         >
           <img
             src={gameImg.src}
-            className={s.customBets_list_item_game_ico}
+            className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
             alt='game-ico-preview'
           />
-          <span className={s.customBets_list_item_game}>
+          <span
+            className='text-[10px]'
+            // className={s.customBets_list_item_game}
+          >
             {props?.game_name}
           </span>
         </Link>
       </div>
-      <div className={s.customBets_list_item_player_block}>
+      <div className='flex items-center '>
         <Link
           href={`/account/${props?.user_id}`}
           target='_blank'
-          className={s.customBets_list_item_player_link_block}
+          className='flex justify-center items-center no-underline'
         >
-          <div className={s.customBets_list_item_player_ico}>
+          <div className='mt-[6px]'>
             <BlockiesAva address={props?.username || 'retryu'} size={avaSize} />
           </div>
-          <span className={s.customBets_list_item_player}>
+          <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium'>
             {/* {props?.player_name} */}
-            {props?.username}
+            {/* {props?.username} */}
+            gamer
           </span>
         </Link>
       </div>
-      <div className={s.customBets_list_item_address_block}>
+      <div
+        // className={s.customBets_list_item_address_block}
+        className='hidden sm:block'
+      >
         <span className={s.customBets_list_item_address}>
           {/* {`${props?.player_address?.slice(
           0,
@@ -202,7 +217,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           {/* <img src={linkIco.src} width={22} height={22} alt='' /> */}
         </Link>
       </div>
-      <div className={s.customBets_list_item_wager_block}>
+      <div
+        className='hidden sm:block'
+        // className={s.customBets_list_item_wager_block}
+      >
         <img
           src={props.bet.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
           alt='wager-ico'
@@ -210,23 +228,33 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         />
         <span className={s.customBets_list_item_wager}>x{props?.amount}</span>
       </div>
-      <div className={s.customBets_list_item_multiplier_block}>
+      <div
+        className='hidden sm:block'
+        // className={s.customBets_list_item_multiplier_block}
+      >
         <span className={s.customBets_list_item_multiplier}>
           {props?.multiplier}x
         </span>
       </div>
-      <div className={s.customBets_list_item_profit_block}>
+      <div
+        className='flex items-center justify-end  '
+        // className={s.customBets_list_item_profit_block}
+      >
         <span
-          className={`${s.customBets_list_item_profit} ${
-            props?.multiplier < 1 && s.lose_profit
-          }`}
+          className={`text-[10px] font-bold tracking-[0.56px] ${
+            props?.multiplier < 1 && 'text-[#f57731]'
+          } text-bets-gr `}
+          // className={`${s.customBets_list_item_profit} ${
+          //   props?.multiplier < 1 && s.lose_profit
+          // }`}
         >
           {props?.profit}
         </span>
         <img
           src={props.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
           alt='wager-ico'
-          className={s.icon}
+          className='w-[20px] h-[20px] ml-[5px]'
+          // className={s.icon}
         />
       </div>
     </div>

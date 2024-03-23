@@ -96,3 +96,77 @@ body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 2px;
 }
+
+.scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3e3e3e transparent;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 4px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 4px;
+}
+/* Firefox */
+
+/* Microsoft Edge and IE */
+.scroll::-ms-scrollbar {
+  width: 4px;
+}
+
+.scroll::-ms-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 4px;
+}
+.game_active {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #181818 !important;
+
+  color: #ffe09d !important;
+}
+
+.game_active::after {
+  content: '';
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  display: block;
+  background: rgba(198, 149, 81, 0.9);
+  position: absolute;
+  left: -5px;
+  filter: blur(4px);
+}
+
+.game_active::before {
+  content: '';
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background: rgba(198, 149, 81, 0.9);
+  position: absolute;
+  left: -12px;
+  filter: blur(20px);
+}
+
+.game_active svg path {
+  fill: #ffe09d;
+}
+.active_link svg path {
+  fill: white !important;
+  color: white !important;
+}
+.active_link {
+  color: white !important;
+}
+
+.not_active svg path {
+  fill: #979797 !important;
+}
+.not_active {
+  color: #979797 !important;
+}
