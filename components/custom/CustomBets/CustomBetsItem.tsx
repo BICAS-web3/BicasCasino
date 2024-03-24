@@ -6,15 +6,11 @@ import diceIcon from '@/public/live_bets/diceIco.webp'
 import coinFlipIcon from '@/public/live_bets/coinflipIco.webp'
 import pokerIcon from '@/public/live_bets/pokerIco.webp'
 import rpsIcon from '@/public/live_bets/rpsIco.webp'
-import rpsMobIco from '@/public/live_bets/rpsMobIco.webp'
 import bombIcon from '@/public/live_bets/bombIco.webp'
 import plincoIcon from '@/public/live_bets/plinkoIco.webp'
 import rocketIcon from '@/public/games_assets/rocket/rocket_icon.webp'
 import slotsIcon from '@/public/games_assets/slots/slots_icon.webp'
-import linkIco from '@/public/media/live_bets/linkIco.svg'
 import appleIcon from '@/public/apples_icon/apple_icon.webp'
-import wagerIco from '@/public/media/live_bets/wagerIco.svg'
-import Image from 'next/image'
 import { FC, useEffect, useState } from 'react'
 import Link from 'next/link'
 // import * as api from "@/shared/api";
@@ -24,7 +20,6 @@ import carIcon from '@/public/cars/icon.webp'
 import wheelIcon from '@/public/wheel_icons/wheel_icon.webp'
 import thimbleIcon from '@/public/thimbles/icon.webp'
 import rouletteIcon from '@/public/roulette_icons/roulette.webp'
-import clsx from 'clsx'
 // import * as BetModel from '@/widgets/LiveBets/model'
 import { useUnit } from 'effector-react'
 // import * as RegistrModel from '@/widgets/Registration/model'
@@ -186,6 +181,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem] '>
             {/* {props?.player_name} */}
             {props?.username}
+            testName
           </span>
         </Link>
       </div>

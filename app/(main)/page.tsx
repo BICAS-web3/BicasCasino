@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
-import Card from '@/app/(main)/(components)/Card'
 import { Footer } from '@/components/custom/Footer/Footer'
 import { CustomBets } from '@/components/custom/CustomBets/CustomBets'
+import { FeedbackSection } from '@/components/custom/feedbackSection/FeedbackSection'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -17,6 +17,7 @@ export default function Home() {
           isGamePage={false}
           game={undefined}
         />
+        <FeedbackSection />
       </section>
     </>
   )

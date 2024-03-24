@@ -4,7 +4,6 @@ import { useDropdown, useMediaQuery } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import { useUnit } from 'effector-react'
 import { CloseSwapIcon } from '@/src/shared/SVGs/CloseSwapIcon'
-import { SwapToken } from '../Swap/ui/SwapToken'
 import { ArrowSwapIcon } from '@/src/shared/SVGs/ArrowSwapIcon'
 import Link from 'next/link'
 
