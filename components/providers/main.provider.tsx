@@ -6,7 +6,7 @@ import { SocketProvider } from '@/components/providers/socket.provider'
 
 import Header from '@/components/custom/header'
 import Sidebar from '@/components/custom/Sidebar'
-import { Footer } from '@/components/custom/Footer/Footer'
+import { Footer } from '@/components/custom/footer/Footer'
 
 type Props = {
   children: React.ReactNode

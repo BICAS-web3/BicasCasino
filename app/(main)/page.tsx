@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
-import { Footer } from '@/components/custom/Footer/Footer'
-import { CustomBets } from '@/components/custom/CustomBets/CustomBets'
+import { Footer } from '@/components/custom/footer/Footer'
+import { CustomBets } from '@/components/custom/customBets/CustomBets'
 import { FeedbackSection } from '@/components/custom/feedbackSection/FeedbackSection'
+import { Total } from '@/components/custom/total/Total'
 
 export const metadata: Metadata = {
   title: 'Home',
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <section className='space-y-6 pb-8 py-8  md:py-16 lg:py-20 '>
+        <Total />
         <CustomBets
           title='Live bets'
           isMainPage={true}
