@@ -1,15 +1,17 @@
 'use client'
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
-import BannerItem from './banner.item'
 import { useRef } from 'react'
 
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules'
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
+import 'swiper/css/effect-fade'
+import 'swiper/scss'
+
 import banner_1 from '@/public/main_banner/banner_1.png'
 import banner_2 from '@/public/main_banner/banner_2.png'
 import banner_3 from '@/public/main_banner/banner_3.png'
 
-import 'swiper/scss'
-import 'swiper/css/effect-fade'
+import BannerItem from './banner.item'
+
 import { cn } from '@/lib/utils'
 
 const banners = [
@@ -44,7 +46,7 @@ export const Banner = () => {
   return (
     <Swiper
       ref={swiperRef}
-      slidesPerView={'auto'}
+      slidesPerView={3}
       className='w-full'
       autoplay={{
         delay: 4500,
@@ -62,7 +64,7 @@ export const Banner = () => {
     >
       {banners.map((item, i) => (
         <SwiperSlide
-          className={cn('w-[507px] max-w-[507px] h-[240px] min-h-[240px]')}
+          className={cn('max-w-[507px] h-[240px] min-h-[240px]')}
           key={item.title}
         >
           <BannerItem

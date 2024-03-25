@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 export default function Home() {
   return (
-    <div className='flex flex-col max-w-[1562px] mx-auto overflow-hidden'>
+    <div className='flex flex-col max-w-[1562px] mx-auto'>
       <MainBanner />
       <GameBanners className='mt-[15px]' />
     </div>
