@@ -25,10 +25,13 @@ import banner_16 from '@/public/new_banners/16.png'
 
 import GameBanner from './components/game.banner'
 import GameNavigation from './components/game.navigation'
+import { cn } from '@/lib/utils'
 
-interface IGameBanners {}
+interface IGameBanners {
+  className?: string
+}
 
-const GameBanners: FC<IGameBanners> = props => {
+const GameBanners: FC<IGameBanners> = ({ className }) => {
   const banners = [
     {
       bg: banner_1,
@@ -97,7 +100,7 @@ const GameBanners: FC<IGameBanners> = props => {
   ]
   const swiperRef = useRef<SwiperRef>(null)
   return (
-    <div className='flex flex-col gap-[10px]'>
+    <div className={cn('flex flex-col gap-[10px]', className)}>
       <GameNavigation />
       <Swiper
         ref={swiperRef}

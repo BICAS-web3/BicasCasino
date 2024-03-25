@@ -176,14 +176,16 @@ body::-webkit-scrollbar-thumb {
 }
 
 .swiper-pagination-bullet {
-  background: #0f0f0f;
-  width: 30px;
+  background: #282828;
+  width: 23px;
   height: 3px;
   border-radius: 10px;
+  transition: all 0.5s;
 }
 
 .swiper-pagination-bullet-active {
   background: #e5c787;
+  width: 50px;
 }
 
 @media screen and (max-width: 650px) {

@@ -1,15 +1,17 @@
 import { Metadata } from 'next'
-import Banner from '@/components/custom/banner'
+
 import GameBanners from '@/components/custom/gameBanners'
+import MainBanner from '@/components/custom/mainBanner'
+
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 export default function Home() {
   return (
-    <>
-      <Banner />
-      <GameBanners />
-    </>
+    <div className='flex flex-col max-w-[1562px] mx-auto overflow-hidden'>
+      <MainBanner />
+      <GameBanners className='mt-[15px]' />
+    </div>
   )
 }
