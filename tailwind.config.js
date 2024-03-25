@@ -19,8 +19,12 @@ module.exports = {
       }
     },
     extend: {
+      flex: {
+        1: '1'
+      },
       colors: {
         'black-def': '#181818',
+        'inp-col': '#979797',
         'border-def': '#2e2e2e',
         'footer-links': '#aaa',
         'footer-text': '#494949',

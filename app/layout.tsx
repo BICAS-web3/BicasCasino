@@ -5,6 +5,7 @@ import { EffectorNext } from '@effector/next'
 import MainProvider from '@/components/providers/main.provider'
 import { Fonts } from '@/src/shared/fonts'
 import { SocketProvider } from '@/components/providers/socket.provider'
+import { Payment } from '@/components/custom/Payment/Payment'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -16,6 +17,7 @@ function MainLayout({ children }) {
         suppressHydrationWarning
         suppressContentEditableWarning
       >
+        <Payment />
         <EffectorNext>
           <Fonts />
           <SocketProvider>

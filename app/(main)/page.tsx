@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Footer } from '@/components/custom/footer/Footer'
-import { CustomBets } from '@/components/custom/customBets/CustomBets'
+import { CustomBets } from '@/components/custom/CustomBets/CustomBets'
 import { FeedbackSection } from '@/components/custom/feedbackSection/FeedbackSection'
 import { Total } from '@/components/custom/total/Total'
 
