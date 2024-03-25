@@ -4,7 +4,7 @@ import { useRef } from 'react'
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import 'swiper/css/effect-fade'
-import 'swiper/scss'
+import 'swiper/css'
 
 import banner_1 from '@/public/main_banner/banner_1.png'
 import banner_2 from '@/public/main_banner/banner_2.png'

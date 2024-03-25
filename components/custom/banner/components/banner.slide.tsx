@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import 'swiper/css/effect-fade'
-import 'swiper/scss'
+import 'swiper/css'
 
 import { cn } from '@/lib/utils'
 
