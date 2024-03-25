@@ -1,0 +1,6 @@
+export { default as ArrSVG } from './arr.svg'
+export { default as CrossSVG } from './cross.svg'
+export { default as RedSquereSVG } from './red.squere.svg'
+export { default as SquereSVG } from './squere.svg'
+export { default as TitleSVG } from './title.svg'
+export { default as TrangleSVG } from './trangle.svg'

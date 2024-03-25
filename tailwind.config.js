@@ -8,6 +8,7 @@ module.exports = {
     './src/**/*.{ts,tsx}'
   ],
   prefix: '',
+  // important: true,
   theme: {
     container: {
       center: true,
@@ -31,6 +32,7 @@ module.exports = {
         'text-w-def': '#eaeaea',
         'bets-title-color': '#7e7e7e',
         'bets-gr': '#29f061',
+        orange: '#ffe09d',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -83,6 +85,9 @@ module.exports = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      letterSpacing: {
+        def: '0.04em'
       },
       spacing: {
         '20px': '20px'

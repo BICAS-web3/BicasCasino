@@ -16,9 +16,9 @@ const MainProvider = ({ children }: Props) => {
   return (
     <ThemeProvider attribute='class' defaultTheme='system'>
       <SocketProvider>
-        <main className='min-h-screen flex flex-col '>
-          {/* <Header /> */}
-          <div className='flex flex-1'>
+        <main className='min-h-screen'>
+          <Header />
+          <div className='w-full flex px-4 sm:pl-[287px] pt-[100px] sm:pr-[30px]'>
             <Sidebar />
             <div className=' w-full'>
               <div>{children}</div>

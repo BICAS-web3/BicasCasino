@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.disable-arrs::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.disable-arrs::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -169,4 +179,28 @@ body::-webkit-scrollbar-thumb {
 }
 .not_active {
   color: #979797 !important;
+}
+
+.swiper-slide-active {
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet {
+  background: #282828;
+  width: 23px;
+  height: 3px;
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e5c787;
+  width: 50px;
+}
+
+@media screen and (max-width: 650px) {
+  .swiper-pagination-bullet {
+    width: 16px;
+    height: 3px;
+  }
 }

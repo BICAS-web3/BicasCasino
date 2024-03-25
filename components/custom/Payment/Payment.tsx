@@ -319,8 +319,7 @@ export const Payment: FC<PaymentProps> = () => {
                   </div>
                 </>
               ) : storeType === 'redeem' ? (
-                // <PaymentRedeem />
-                123
+                <PaymentRedeem />
               ) : (
                 <PaymentTips />
               )}
