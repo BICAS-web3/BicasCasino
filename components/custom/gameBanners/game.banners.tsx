@@ -100,7 +100,12 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
   ]
   const swiperRef = useRef<SwiperRef>(null)
   return (
-    <div className={cn('flex flex-col gap-[10px]', className)}>
+    <div
+      className={cn(
+        'flex flex-col gap-[10px]  max-w-[1562px] overflow-hidden',
+        className
+      )}
+    >
       <GameNavigation />
       <Swiper
         ref={swiperRef}

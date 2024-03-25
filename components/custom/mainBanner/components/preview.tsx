@@ -22,7 +22,7 @@ export const Preview: FC<IPreview> = ({ className }) => {
   return (
     <article
       className={cn(
-        'relative w-full h-[383px] pt-10 pb-[25px] overflow-hidden',
+        'relative w-full h-[383px] pt-10 pb-[25px] overflow-hidden flex items-center flex-col lg:block',
         className
       )}
     >
@@ -53,23 +53,23 @@ export const Preview: FC<IPreview> = ({ className }) => {
       <Image
         src={rocket}
         alt='rocket'
-        className='absolute w-[195px] h-[195px] top-[99px] left-[550px] z-[1]'
+        className='absolute w-[195px] h-[195px] top-[99px] left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px] z-[1]'
       />
       <Image
         src={token}
         alt='token'
-        className='absolute w-[213px] h-[182px] top-[91px] right-[430px] z-[1]'
+        className='absolute w-[213px] h-[182px] top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px] z-[1]'
       />
       <Image
-        className='absolute w-full h-full top-0 left-0'
+        className='absolute object-cover h-full top-0 right-0'
         src={layout}
         alt='layout'
       />
-      <TitleSVG className='absolute top-[285px] right-[379px] z-[1]' />
-      <CrossSVG className='absolute top-[203px] right-[702px] z-[1]' />
-      <TrangleSVG className='absolute top-[43px] right-[621px] z-[1]' />
-      <RedSquereSVG className='absolute top-[47px] right-[246px] z-[1]' />
-      <SquereSVG className='absolute right-[221px] -bottom-[17px] z-[1]' />
+      <TitleSVG className='absolute top-[285px] right-7 xl:right-[79px] 2xl:right-[179px] 3xl:right-[379px] z-[1]' />
+      <CrossSVG className='absolute top-[203px] right-[358px] xl:right-[402px] 2xl:right-[702px] z-[1]' />
+      <TrangleSVG className='absolute top-[43px] right-[277px] xl:right-[321px] 2xl:right-[621px] z-[1]' />
+      <RedSquereSVG className='absolute top-[47px] -right-[53px] 2xl:right-[146px] 3xl:right-[246px] z-[1]' />
+      <SquereSVG className='absolute -right-[78px] 2xl:right-[21px] 3xl:right-[221px] -bottom-[17px] z-[1]' />
     </article>
   )
 }

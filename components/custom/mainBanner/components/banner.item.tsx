@@ -25,7 +25,7 @@ const BannerItem: FC<IBannerItem> = props => {
         src={img}
         alt='img'
       />
-      <h3
+      {/* <h3
         className={cn(
           'max-w-[245px] relative z-[1]',
           'text-[#E9E9F5] font-bold uppercase',
@@ -41,7 +41,7 @@ const BannerItem: FC<IBannerItem> = props => {
         )}
       >
         {btnTitle}
-      </button>
+      </button> */}
     </div>
   )
 }
