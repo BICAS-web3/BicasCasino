@@ -77,7 +77,11 @@
 }
 
 * {
-  font-family: "Nunito Sans";
+  font-family: 'Nunito Sans';
+  outline: none;
+  /* border: none; */
+  padding: 0;
+  margin: 0;
 }
 
 body {
@@ -189,7 +193,7 @@ body::-webkit-scrollbar-thumb {
   aspect-ratio: 1/1;
   position: absolute;
   left: 50%;
-  background: #C69551E5;
+  background: #c69551e5;
   border-radius: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -202,7 +206,7 @@ body::-webkit-scrollbar-thumb {
   aspect-ratio: 1/1;
   position: absolute;
   left: -8px;
-  background: #C69551E5;
+  background: #c69551e5;
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);
@@ -215,7 +219,7 @@ body::-webkit-scrollbar-thumb {
   aspect-ratio: 1/1;
   position: absolute;
   left: -5px;
-  background: #C69551E5;
+  background: #c69551e5;
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);

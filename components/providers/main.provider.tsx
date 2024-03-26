@@ -24,17 +24,17 @@ const MainProvider = ({ children }: Props) => {
       <SocketProvider>
         <main className='min-h-screen flex flex-col relative '>
           <Header />
-          <div className='flex flex-nowrap w-screen overflow-hidden relative'>
+          <div className='flex flex-nowrap w-screen overflow-hidden relative '>
             <Sidebar />
             <div
               className={cn(
                 'flex justify-between flex-col',
-                'min-h-screen pt-5 w-full'
+                'min-h-screen pt-5 w-full '
               )}
             >
               <div
                 className={cn(
-                  'flex flex-col max-w-[1562px] overflow-hidden mx-auto',
+                  'flex flex-col max-w-[1562px] overflow-hidden mx-auto flex-[1_1_auto]',
                   open
                     ? 'w-[calc(100vw-330px)] xl:w-[calc(100vw-370px)]'
                     : 'w-[calc(100vw-163px)] xl:w-[calc(100vw-203px)]'
