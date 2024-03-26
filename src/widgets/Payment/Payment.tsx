@@ -17,6 +17,7 @@ import { useDropdown } from "@/shared/tools";
 import { WalletBtn } from "@/shared/SVGs";
 import * as api from "@/shared/api";
 import * as RegistModel from "@/widgets/Registration/model";
+import * as LayoutModel from "@/widgets/Layout/model";
 
 const draxTypesList = [
   {
@@ -53,7 +54,7 @@ const draxTypesList = [
   // },
 ];
 
-interface PaymentProps {}
+interface PaymentProps { }
 
 export const Payment: FC<PaymentProps> = () => {
   const { toggle, open, close, isOpen, dropdownRef } = useDropdown();
@@ -67,6 +68,7 @@ export const Payment: FC<PaymentProps> = () => {
     purchaseVisibility,
     setPurchaseVisibility,
     access_token,
+    userInfo
   ] = useUnit([
     PaymentM.$paymentVisibility,
     PaymentM.setPaymentVisibility,
@@ -77,6 +79,7 @@ export const Payment: FC<PaymentProps> = () => {
     PaymentM.$purchaseVisibility,
     PaymentM.setPurcahseVisibility,
     RegistModel.$access_token,
+    LayoutModel.$userInfo,
   ]);
 
   const [purchaseValue, setPurchaseValue] = useState();
@@ -90,6 +93,44 @@ export const Payment: FC<PaymentProps> = () => {
 
   const [link, setLink] = useState(1);
 
+  // TODO: turn into a separate widget
+  const [otToken, setOtToken] = useState<any | undefined>();
+  useEffect(() => {
+    (async () => {
+      if (access_token && !otToken) {
+        const response = await api.getOneTimeToken({ bareer: access_token });
+        if (response.status === "OK") {
+          setOtToken((response as any).body);
+          console.log("ONE TIME TOKEN---", response.body);
+        } else {
+          console.log("ONE TIME TOKEN ERROR", response.body);
+        }
+      }
+    })();
+  }, [access_token, otToken]);
+
+  const init = () => {
+    if (otToken?.token && userInfo) {
+      const userId = userInfo.id.toString();
+      const apiKey = "d0b51692-185e-49f9-a7c8-034d1e0bb1bf";
+      const callbackUrl = "https://game.greekkeepers.io/api/p2way/callback";
+      const token = otToken.token;
+
+      const params = { userId, apiKey, callbackUrl, token };
+
+      console.log("PARAMS", params);
+      window.initP2PWidget(params);
+    }
+  };
+
+  // TODO: remove this effect
+  useEffect(() => {
+    if (!isOpen) {
+      setOtToken(undefined);// TODO: remove
+    }
+
+  }, [isOpen]);
+
   return (
     <>
       <button
@@ -97,6 +138,8 @@ export const Payment: FC<PaymentProps> = () => {
           console.log(2);
           open();
           setLink((prev) => prev + 1);
+
+          init() // TODO: add a proper button, remove this line
         }}
         className={s.wallet_btn}
       >
@@ -129,6 +172,7 @@ export const Payment: FC<PaymentProps> = () => {
                   onClick={() => {
                     close();
                     setPurchaseVisibility(false);
+
                   }}
                   src={closeIco.src}
                   className={s.close_btn}
