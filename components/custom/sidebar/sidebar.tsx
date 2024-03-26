@@ -12,9 +12,6 @@ import SidebarSettings from './components/Settings'
 
 const Sidebar = () => {
   const [open, setOpen] = useState<boolean>(true)
-  const params = usePathname()
-  const handleOpen = () => setOpen(!open)
-
   return (
     <div
       id='sidebar'
@@ -53,7 +50,6 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
-
       <div className='flex-1' />
       <SidebarSettings open={open} handleAction={() => setOpen(!open)} />
     </div>
