@@ -1,6 +1,5 @@
 'use client'
 import { FC, useEffect, useState } from 'react'
-import s from './styles.module.scss'
 import upArr from '@/public/payment/upArrow.webp'
 
 interface PaymentDropdownProps {
@@ -48,7 +47,11 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
 
           '
         >
-          <img className='w-[24px] h-[24px]' src={activeItem.ico.src} alt='' />
+          <img
+            className='w-[24px] h-[24px] rounded-[100%]'
+            src={activeItem.ico.src}
+            alt=''
+          />
           {activeItem.title.split('_')[0]}
         </div>
         <img

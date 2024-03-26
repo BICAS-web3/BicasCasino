@@ -1,4 +1,4 @@
-import s from './styles.module.scss'
+// import s from './styles.module.scss'
 import { FC, useEffect, useState } from 'react'
 import btcIco from '@/public/payment/BTC_BITCOIN.webp'
 import bnb from '@/public/payment/bnb.webp'
@@ -126,7 +126,7 @@ export const PaymentRedeem: FC<PaymentRedeemProps> = () => {
 
   return (
     <div
-      className='flex mt-[20px] flex-col gap-[20px] sm:p-[0_30px_90px_30px] p-[0_16px_90px_16px]
+      className='flex mt-[20px] flex-col gap-[20px] sm:p-[0_30px_30px_30px] p-[0_16px_90px_16px]
       overflow-y-scroll overflow-x-hidden scroll -webkit-scrollbar:w-[4px] -webkit-scrollbar:ml-[4px] -webkit-scrollbar:rounded-[3px]
 
       '
@@ -401,11 +401,27 @@ export const PaymentRedeem: FC<PaymentRedeemProps> = () => {
           />
         </div>
       </div>
-      <div className={s.redeem_coin_wallet_address_block}>
-        <span className={s.transaction_fee_title}>
+      <div
+        className='
+        
+        '
+      >
+        <span
+          className='
+              text-inp-col text-[14px] sm:text-[16px] font-extrabold leading-[22px] tracking-[0.04em] text-left
+          '
+        >
           <span>{activeCoin.title}</span> Address
         </span>
-        <div className={s.input_common}>
+        <div
+          className='
+          outline-0 outline-none text-text-w-def mt-[7px] border border-[#252525]
+          bg-[linear-gradient(0deg,_#121212,_#121212),_linear-gradient(0deg,_#252525,_#252525)]
+          rounded-[8px] text-[14px] sm:text-[16px] leading-[22px] tracking-def font-normal
+          text-left flex items-center justify-between sm:text-clip text-ellipsis h-[40px] sm:h-auto
+          p-[10px] sm:py-[15px] sm:px-[20px] box-border disable-arrs
+          '
+        >
           <span
             className='max-w-[234px] sm:max-w-[auto] text-clip sm:text-ellipsis sm:overflow-visible overflow-hidden
           '
