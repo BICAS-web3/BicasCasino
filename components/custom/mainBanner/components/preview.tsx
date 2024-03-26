@@ -44,8 +44,8 @@ export const Preview: FC<IPreview> = ({ className }) => {
           Deposit and play
         </button>
         <Button
-          variant={'gray'}
-          className='w-[182px] flex items-center justify-center box-border h-9'
+          variant={'secondary'}
+          className='w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] border border-[#363636]'
         >
           Free Play
         </Button>

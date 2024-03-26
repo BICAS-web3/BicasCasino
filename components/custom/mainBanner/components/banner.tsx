@@ -10,11 +10,12 @@ import banner_1 from '@/public/main_banner/banner_1.png'
 import banner_2 from '@/public/main_banner/banner_2.png'
 import banner_3 from '@/public/main_banner/banner_3.png'
 
-import BannerItem from './banner.item'
+// import BannerItem from './banner.item'
 
 import { cn } from '@/lib/utils'
-import { useMediaQuery } from '@/lib/getMediaQuery'
+// import { useMediaQuery } from '@/lib/getMediaQuery'
 import Slide from '@/components/ui/slider'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const banners = [
   {

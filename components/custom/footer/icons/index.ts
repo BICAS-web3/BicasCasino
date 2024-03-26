@@ -1,0 +1,8 @@
+export { default as Twitter } from './twitter.svg'
+export { default as Facebook } from './facebook.svg'
+export { default as Reddit } from './reddit.svg'
+export { default as Instagram } from './instagram.svg'
+export { default as Medium } from './medium.svg'
+export { default as Main } from './main.svg'
+export { default as Telegram } from './telegram.svg'
+export { default as Discord } from './discord.svg'
