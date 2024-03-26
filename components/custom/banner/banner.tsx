@@ -19,8 +19,6 @@ import swiperImg5Mob from '@/public/swiperBannerImgs/slide5MobBg.webp'
 import swiperImg8 from '@/public/swiperBannerImgs/draxImg.webp'
 import swiperImg9 from '@/public/swiperBannerImgs/chainlinkImg.webp'
 
-// import * as BlurModel from '@/widgets/Blur/model'
-// import { checkPageClicking } from '@/shared/tools'
 import { cn } from '@/lib/utils'
 import BannerSlide from './components/banner.slide'
 
@@ -95,56 +93,51 @@ const swiperSlides = [
 const Banner = () => {
   const swiperRef = useRef<SwiperRef>(null)
 
-  // const [setBlur] = useUnit([BlurModel.setBlur])
-
   return (
-    <>
-      {' '}
-      <Swiper
-        data-id={'connect-wallet-banner-block'}
-        ref={swiperRef}
-        slidesPerView={1}
-        fadeEffect={{ crossFade: true }}
-        autoplay={{
-          delay: 4500,
-          disableOnInteraction: false
-        }}
-        speed={1000}
-        effect='fade'
-        modules={[Autoplay, Pagination, Navigation, EffectFade]}
-        className={
-          'w-full h-[180px] mb-2 sm:h-[300px] md:h-[250px] xl:h-[350px] sm:mb-5 grid'
-        }
-        pagination={{
-          el: '#custom_swiper_banner_pagination',
-          clickable: true
-        }}
-      >
-        {swiperSlides.map((slide, ind) => (
-          <SwiperSlide
-            key={ind}
-            id='swiper-slide-banner'
-            className={cn(
-              's.main_banner_swiper_slide',
-              'py-[25px] px-[10px] rounded-[12px] sm:px-[46px] sm:py-[51px] md:py-[33px] xl:py-[70px] xl:px-[105px]',
-              'relative sm:rounded-[20px] justify-between flex flex-col cursor-pointer',
-              (slide.subText || ind == 3) && 'justify-start',
-              ind === 8 && 'items-end sm:items-center justify-center'
-            )}
-            style={{ display: 'flex !important' }}
-          >
-            <BannerSlide key={ind} ind={ind} slide={slide} />
-          </SwiperSlide>
-        ))}
-        <div
+    <Swiper
+      data-id={'connect-wallet-banner-block'}
+      ref={swiperRef}
+      slidesPerView={1}
+      fadeEffect={{ crossFade: true }}
+      autoplay={{
+        delay: 4500,
+        disableOnInteraction: false
+      }}
+      speed={1000}
+      effect='fade'
+      modules={[Autoplay, Pagination, Navigation, EffectFade]}
+      className={
+        'w-full h-[180px] mb-2 sm:h-[300px] md:h-[250px] xl:h-[350px] sm:mb-5 grid'
+      }
+      pagination={{
+        el: '#custom_swiper_banner_pagination',
+        clickable: true
+      }}
+    >
+      {swiperSlides.map((slide, ind) => (
+        <SwiperSlide
+          key={ind}
+          id='swiper-slide-banner'
           className={cn(
-            'gap-1 xl:gap-2 duration-200 flex z-10',
-            '-translate-x-1/2 left-1/2 absolute bottom-1 sm:bottom-[10px] xl:bottom-4'
+            's.main_banner_swiper_slide',
+            'py-[25px] px-[10px] rounded-[12px] sm:px-[46px] sm:py-[51px] md:py-[33px] xl:py-[70px] xl:px-[105px]',
+            'relative sm:rounded-[20px] justify-between flex flex-col cursor-pointer',
+            (slide.subText || ind == 3) && 'justify-start',
+            ind === 8 && 'items-end sm:items-center justify-center'
           )}
-          id='custom_swiper_banner_pagination'
-        ></div>
-      </Swiper>
-    </>
+          style={{ display: 'flex !important' }}
+        >
+          <BannerSlide key={ind} ind={ind} slide={slide} />
+        </SwiperSlide>
+      ))}
+      <div
+        className={cn(
+          'gap-1 xl:gap-2 duration-200 flex z-10',
+          '-translate-x-1/2 left-1/2 absolute bottom-1 sm:bottom-[10px] xl:bottom-4'
+        )}
+        id='custom_swiper_banner_pagination'
+      ></div>
+    </Swiper>
   )
 }
 

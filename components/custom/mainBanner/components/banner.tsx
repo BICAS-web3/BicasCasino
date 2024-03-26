@@ -13,6 +13,8 @@ import banner_3 from '@/public/main_banner/banner_3.png'
 import BannerItem from './banner.item'
 
 import { cn } from '@/lib/utils'
+import { useMediaQuery } from '@/lib/getMediaQuery'
+import Slide from '@/components/ui/slider'
 
 const banners = [
   {
@@ -42,11 +44,13 @@ const banners = [
   }
 ]
 export const Banner = () => {
+  const isLeptop = useMediaQuery('(max-width:1024px)')
+  const isMedium = useMediaQuery('(max-width:768px)')
   const swiperRef = useRef<SwiperRef>(null)
   return (
     <Swiper
       ref={swiperRef}
-      slidesPerView={3}
+      slidesPerView={isMedium ? 'auto' : isLeptop ? 2 : 3}
       className='w-full'
       autoplay={{
         delay: 4500,
@@ -64,17 +68,17 @@ export const Banner = () => {
     >
       {banners.map((item, i) => (
         <SwiperSlide
-          className={cn('max-w-[507px] h-[240px] min-h-[240px]')}
+          className={cn(
+            'min-w-[288px] md:min-w-[341px] max-w-[507px] h-[136px] md:h-[194px] lg:h-[174px] 2xl:h-[240px] min-h-[136px] md:min-h-[194px] lg:min-h-[174px] 2xl:min-h-[240px]'
+          )}
           key={item.title}
         >
-          <BannerItem
-            ind={i}
+          <Slide
+            className='h-[136px] md:h-[194px] lg:h-[174px] 2xl:h-[240px]'
             img={item.img}
-            title={item.title}
-            btnTitle={item.btn}
           />
         </SwiperSlide>
-      ))}{' '}
+      ))}
       <div
         className={cn(
           'gap-1 xl:gap-2 duration-200 flex z-10',

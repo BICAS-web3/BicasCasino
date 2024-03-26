@@ -20,7 +20,7 @@ const GameBanner: FC<IGameBanner> = props => {
     >
       <div
         className={cn(
-          'relative w-[206px] h-[206px] p-[10px] pl-[15px]',
+          'relative w-[100px] md:w-[183px] lg:w-[192px] xl:w-[176px] 2xl:w-[206px] h-[100px] md:h-[183px] lg:h-[192px] xl:h-[176px] 2xl:h-[206px] p-[10px] pl-[15px]',
           'flex flex-col justify-between'
         )}
       >
@@ -40,14 +40,16 @@ const GameBanner: FC<IGameBanner> = props => {
       </div>
       <div
         className={cn(
-          'w-full items-center flex justify-between',
-          'px-[10px] py-4 bg-[#181818]'
+          'w-full items-center flex justify-center md:justify-between',
+          'md:px-[10px] md:py-4 bg-[#181818]'
         )}
       >
-        <span className='text-[#7E7E7E]'>GK Originals</span>{' '}
+        <span className='text-[10px] md:text-[15px] xl:text-base text-grey-acc leading-6'>
+          GK Originals
+        </span>{' '}
         <span
           className={cn(
-            'flex w-5 h-5 border border-[#3E3E3E] justify-center items-center',
+            'hidden md:flex w-5 h-5 border border-[#3E3E3E] justify-center items-center',
             'text-[#979797] text-sm rounded-full'
           )}
         >

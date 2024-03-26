@@ -26,11 +26,11 @@ export const Preview: FC<IPreview> = ({ className }) => {
         className
       )}
     >
-      <h2 className='font-bold text-[34px] leading-[46px] relative z-[1]'>
+      <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative z-[1]'>
         Hello Markus666 <br />
         Bonus on the first deposit
       </h2>
-      <h1 className='text-[78px] font-black leading-[100%] relative z-[1] text-[#B4E915]'>
+      <h1 className='text-center lg:text-left text-[50px] sm:text-[78px] font-black leading-[100%] relative z-[1] text-[#B4E915]'>
         +$100
         <br /> Reward
       </h1>
@@ -53,23 +53,23 @@ export const Preview: FC<IPreview> = ({ className }) => {
       <Image
         src={rocket}
         alt='rocket'
-        className='absolute w-[195px] h-[195px] top-[99px] left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px] z-[1]'
+        className='absolute w-[195px] h-[195px] top-[84px] lg:top-[99px] -right-[38px] lg:right-auto lg:left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px] z-[1]'
       />
       <Image
         src={token}
         alt='token'
-        className='absolute w-[213px] h-[182px] top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px] z-[1]'
+        className='hidden lg:block absolute w-[213px] h-[182px] top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px] z-[1]'
       />
       <Image
         className='absolute object-cover h-full top-0 right-0'
         src={layout}
         alt='layout'
       />
-      <TitleSVG className='absolute top-[285px] right-7 xl:right-[79px] 2xl:right-[179px] 3xl:right-[379px] z-[1]' />
-      <CrossSVG className='absolute top-[203px] right-[358px] xl:right-[402px] 2xl:right-[702px] z-[1]' />
-      <TrangleSVG className='absolute top-[43px] right-[277px] xl:right-[321px] 2xl:right-[621px] z-[1]' />
-      <RedSquereSVG className='absolute top-[47px] -right-[53px] 2xl:right-[146px] 3xl:right-[246px] z-[1]' />
-      <SquereSVG className='absolute -right-[78px] 2xl:right-[21px] 3xl:right-[221px] -bottom-[17px] z-[1]' />
+      <TitleSVG className='hidden lg:block absolute top-[285px] right-7 xl:right-[79px] 2xl:right-[179px] 3xl:right-[379px] z-[1]' />
+      <CrossSVG className='absolute top-[203px] -left-12 lg:left-auto lg:right-[358px] xl:right-[402px] 2xl:right-[702px] z-[1]' />
+      <TrangleSVG className='absolute top-[0px] lg:top-[43px] -left-[41px] lg:left-auto lg:right-[277px] xl:right-[321px] 2xl:right-[621px] z-[1]' />
+      <RedSquereSVG className='absolute top-[7px] lg:top-[47px] -right-10 lg:-right-[53px] 2xl:right-[146px] 3xl:right-[246px] z-[1]' />
+      <SquereSVG className='absolute -right-10 lg:-right-[78px] 2xl:right-[21px] 3xl:right-[221px] -bottom-[17px] z-[1]' />
     </article>
   )
 }

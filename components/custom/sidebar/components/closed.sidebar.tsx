@@ -116,7 +116,7 @@ const ClosedSideBar = () => {
           >
             <div
               className={cn(
-                'z-[2] whitespace-nowrap ml-[25px] text-[#7e7e7e] font-semibold font-[sourse-sans-3] rounded-[8px] bg-[#282828] justify-center items-center',
+                'z-[2] whitespace-nowrap ml-[25px] text-grey-acc font-semibold font-[sourse-sans-3] rounded-[8px] bg-[#282828] justify-center items-center',
                 'before:content-[""] before:absolute before:top-[22px] before:right-[88%] -mt-[7px] bordr-[7px] border-transparent rounded-[2px]'
               )}
             >
@@ -125,7 +125,7 @@ const ClosedSideBar = () => {
                   <Link
                     href={item.link}
                     className={cn(
-                      ' cursor-pointer flex items-center p-[15px] duration-500 hover:bg-[#202020]',
+                      ' cursor-pointer flex items-center p-[15px] duration-500 hover:bg-black-acc',
                       path === item.link ? 'active_link' : 'not_active'
                     )}
                   >
@@ -151,7 +151,7 @@ const ClosedSideBar = () => {
           <div
             className={cn(
               'fixed l-20 w-auto bg-[#282828] hidden justify-center items-center h-9 px-20',
-              'text-[#7e7e7e] text-base whitespace-nowrap font-semibold leading-[90%]',
+              'text-grey-acc text-base whitespace-nowrap font-semibold leading-[90%]',
               'before:content-[""] before:absolute top-[18px] right-full -mt-[7px] border-[7px] rounded-[2px] border-transparent'
             )}
             data-id='htp-tooltip'
@@ -172,7 +172,7 @@ const ClosedSideBar = () => {
           <div
             className={cn(
               'fixed l-20 w-auto bg-[#282828] hidden justify-center items-center h-9 px-20',
-              'text-[#7e7e7e] text-base whitespace-nowrap font-semibold leading-[90%]',
+              'text-grey-acc text-base whitespace-nowrap font-semibold leading-[90%]',
               'before:content-[""] before:absolute top-[18px] right-full -mt-[7px] border-[7px] rounded-[2px] border-transparent'
             )}
             data-id='nft-tooltip'
@@ -194,7 +194,7 @@ const ClosedSideBar = () => {
           <div
             className={cn(
               'fixed l-20 w-auto bg-[#282828] hidden justify-center items-center h-9 px-20',
-              'text-[#7e7e7e] text-base whitespace-nowrap font-semibold leading-[90%]',
+              'text-grey-acc text-base whitespace-nowrap font-semibold leading-[90%]',
               'before:content-[""] before:absolute top-[18px] right-full -mt-[7px] border-[7px] rounded-[2px] border-transparent'
             )}
             data-id='affilate-tooltip'
@@ -208,7 +208,7 @@ const ClosedSideBar = () => {
           <div
             className={cn(
               'fixed l-20 w-auto bg-[#282828] hidden justify-center items-center h-9 px-20',
-              'text-[#7e7e7e] text-base whitespace-nowrap font-semibold leading-[90%]',
+              'text-grey-acc text-base whitespace-nowrap font-semibold leading-[90%]',
               'before:content-[""] before:absolute top-[18px] right-full -mt-[7px] border-[7px] rounded-[2px] border-transparent'
             )}
             data-id='swap-tooltip'
@@ -229,7 +229,7 @@ const ClosedSideBar = () => {
           <div
             className={cn(
               'fixed l-20 w-auto bg-[#282828] hidden justify-center items-center h-9 px-20',
-              'text-[#7e7e7e] text-base whitespace-nowrap font-semibold leading-[90%]',
+              'text-grey-acc text-base whitespace-nowrap font-semibold leading-[90%]',
               'before:content-[""] before:absolute top-[18px] right-full -mt-[7px] border-[7px] rounded-[2px] border-transparent'
             )}
             data-id='support-tooltip'

@@ -7,11 +7,11 @@ const GameNavigation = () => {
     <div
       className={cn(
         'flex items-center gap-[10px] ml-auto',
-        'text-[#7E7E7E] font-bold'
+        'text-grey-acc font-bold'
       )}
     >
       Show all
-      <div className='flex gap-[5px]'>
+      <div className='hidden sm:flex gap-[5px]'>
         <div
           className={cn(
             'flex items-center justify-center w-[26px] h-[26px] duration-500 group',

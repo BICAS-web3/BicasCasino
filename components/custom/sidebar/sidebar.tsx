@@ -186,11 +186,11 @@ const SideBar = () => {
           !open && 'px-[30px] py-5 min-h-[170px] grid grid-cols-1 gap-[15px]'
         )}
       >
-        <div className='{s.themes_block} h-10 flex items-center rounded-[12px] border border-[#202020] '>
+        <div className='{s.themes_block} h-10 flex items-center rounded-[12px] border border-black-acc '>
           <div
             className={cn(
               `flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212]`,
-              activeTheme === 'dark' && 's.active bg-[#202020]'
+              activeTheme === 'dark' && 's.active bg-black-acc'
             )}
           >
             <MoonSVG />
@@ -198,7 +198,7 @@ const SideBar = () => {
           <div
             className={cn(
               `flex sm:hidden h-[50px] px-4 rounded-[5px] py-5 w-full items-center justify-between bg-[#121212]`,
-              activeTheme === 'light' && 'bg-[#202020]'
+              activeTheme === 'light' && 'bg-black-acc'
             )}
           >
             <SunSVG

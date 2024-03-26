@@ -16,12 +16,12 @@ const MainProvider = ({ children }: Props) => {
   return (
     <ThemeProvider attribute='class' defaultTheme='system'>
       <SocketProvider>
-        <main className='min-h-screen'>
+        <main className='min-h-screen flex flex-col'>
           <Header />
-          <div className='w-full flex px-4 sm:pl-[287px] pt-[100px] sm:pr-[30px]'>
+          <div className='w-full flex px-4 sm:pl-[287px] pt-[100px] sm:pr-[30px] h-full flex-[1_1_auto]'>
             <Sidebar />
-            <div className='w-full'>
-              <div>{children}</div>
+            <div className='w-full flex-[1_1_auto]'>
+              {children}
               <Footer />
             </div>
           </div>

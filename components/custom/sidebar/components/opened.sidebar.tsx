@@ -156,7 +156,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = () => {
             <div className='px-4 flex items-center justify-between'>
               <div
                 className={
-                  'flex items-center gap-[15px] text-[#7e7e7e] text-xs font-medium leading-[17px]'
+                  'flex items-center gap-[15px] text-grey-acc text-xs font-medium leading-[17px]'
                 }
                 // onClick={() => setActiveLanguagesBlock(false)}
               >
@@ -167,7 +167,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = () => {
                 />
                 Back
               </div>
-              <span className='text-[#eaeaea] text-center font-[nunit-sans] text-xs font-bold leading-5'>
+              <span className='text-white-acc text-center font-[nunit-sans] text-xs font-bold leading-5'>
                 Language
               </span>
             </div>
@@ -277,7 +277,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = () => {
                 key={item.title}
                 href={item.link}
                 className={cn(
-                  `w-full h-[50px] pl-4 gap-[11px] items-center text-[#7e7e7e] font-[nunito-sans] font-bold text-sm leading-[17px] bg-[#121212] cursor-pointer duration-200 grid grid-cols-[19px_auto] ease-in-out hover:text-[#ffe09d]`,
+                  `w-full h-[50px] pl-4 gap-[11px] items-center text-grey-acc font-[nunito-sans] font-bold text-sm leading-[17px] bg-[#121212] cursor-pointer duration-200 grid grid-cols-[19px_auto] ease-in-out hover:text-[#ffe09d]`,
                   path === item.link && 'game_active'
                 )}
               >
@@ -288,7 +288,7 @@ const OpenedSideBar: FC<OpenedSideBarProps> = () => {
             <Link
               href={'/leaderboard'}
               className={cn(
-                'w-full sm:w-auto h-[50px] pl-4 flex gap-[11px] items-center text-[#7e7e7e] font-[nunito-sans] font-bold text-sm leading-[17px] bg-[#121212] cursor-pointer duration-200 ease-in-out rounded-[0_0_20px_20px] border-t border-[#1d1d1d] relative hover:text-[#e5c787]',
+                'w-full sm:w-auto h-[50px] pl-4 flex gap-[11px] items-center text-grey-acc font-[nunito-sans] font-bold text-sm leading-[17px] bg-[#121212] cursor-pointer duration-200 ease-in-out rounded-[0_0_20px_20px] border-t border-[#1d1d1d] relative hover:text-[#e5c787]',
                 path === '/leaderboard' && 'game_active'
               )}
             >

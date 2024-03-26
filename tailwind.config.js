@@ -53,12 +53,17 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
-        }
+        },
+        'grey-acc': '#7E7E7E',
+        'black-acc': '#202020',
+        'white-acc': '#eaeaea'
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
+        sm: 'calc(var(--radius) - 4px)',
+        mb: '5px',
+        lp: '12px'
       },
       keyframes: {
         'accordion-down': {
@@ -76,5 +81,6 @@ module.exports = {
       }
     }
   },
+
   plugins: [require('tailwindcss-animate')]
 }
