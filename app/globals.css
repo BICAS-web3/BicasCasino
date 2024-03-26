@@ -101,3 +101,128 @@ body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 2px;
 }
+
+#sidebar {
+  scrollbar-width: none;
+  scrollbar-color: #3e3e3e transparent;
+}
+
+#sidebar::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 4px;
+}
+
+/* Firefox */
+
+/* Microsoft Edge and IE */
+#sidebar::-ms-scrollbar {
+  width: 4px;
+}
+
+#sidebar::-ms-scrollbar-thumb {
+  background-color: #3e3e3e;
+  border-radius: 4px;
+}
+
+.game_active {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #181818 !important;
+
+  color: #ffe09d !important;
+}
+
+.game_active::after {
+  content: '';
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+  display: block;
+  background: rgba(198, 149, 81, 0.9);
+  position: absolute;
+  left: -5px;
+  filter: blur(4px);
+}
+
+.game_active::before {
+  content: '';
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: block;
+  background: rgba(198, 149, 81, 0.9);
+  position: absolute;
+  left: -12px;
+  filter: blur(20px);
+}
+
+#sidebar {
+  overflow-x: hidden;
+  overflow-y: overlay;
+}
+
+.active_link svg path {
+  fill: white !important;
+  color: white !important;
+}
+
+.active_link {
+  color: white !important;
+}
+
+.not_active svg path {
+  fill: #979797 !important;
+}
+
+.not_active {
+  color: #979797 !important;
+}
+
+.close.sidebar-item--active::after {
+  content: '';
+  width: 12px;
+  aspect-ratio: 1/1;
+  position: absolute;
+  left: 50%;
+  background: #C69551E5;
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(8px);
+}
+
+.open.sidebar-item--active::after {
+  content: '';
+  width: 16px;
+  aspect-ratio: 1/1;
+  position: absolute;
+  left: -8px;
+  background: #C69551E5;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: blur(30px);
+}
+
+.open.sidebar-item--active::before {
+  content: '';
+  width: 10px;
+  aspect-ratio: 1/1;
+  position: absolute;
+  left: -5px;
+  background: #C69551E5;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: blur(10px);
+}
+
+#sidebar-games div {
+  width: 100%;
+  max-width: 100%;
+}

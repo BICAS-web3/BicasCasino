@@ -1,14 +1,14 @@
-import Logo from './components/logo'
-import BalanceSwitcher from './components/balance.switch'
-import Wallet from './components/wallet'
 import { Separator } from '@/components/ui/separator'
+import BalanceSwitcher from './components/balance.switch'
+import Logo from './components/logo'
 import User from './components/user'
+import Wallet from './components/wallet'
 
 type Props = {}
 
 const Header = (props: Props) => {
   return (
-    <header className='flex justify-between items-center px-5 py-3 border-b border-[#252525] box-border'>
+    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[2] w-full bg-black'>
       <Logo />
       <div className='flex items-center gap-4'>
         <BalanceSwitcher />

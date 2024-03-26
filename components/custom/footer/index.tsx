@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { footer_text, games, socials } from './data'
-import Social from './components/Social'
 import { Separator } from '@/components/ui/separator'
+import Link from 'next/link'
+import Social from './components/Social'
+import { footer_text, games } from './data'
 
 const Footer = () => (
   <div className='bg-[#181818] flex flex-col justify-center items-center w-full p-10 gap-y-6'>
@@ -24,7 +24,7 @@ const Footer = () => (
       <Social />
     </div>
     <Separator />
-    <div className='my-2 h-max flex-col  items-center justify-center p-5 flex gap-y-1'>
+    <div className='my-2 h-max flex-col items-center justify-center p-5 flex gap-y-1'>
       {footer_text.map((text, id) => (
         <div
           key={`footer-text--${id}`}
