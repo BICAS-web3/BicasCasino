@@ -70,7 +70,8 @@ export const Banner = () => {
       {banners.map((item, i) => (
         <SwiperSlide
           className={cn(
-            'min-w-[288px] md:min-w-[341px] max-w-[507px] h-[136px] md:h-[194px] lg:h-[174px] 2xl:h-[240px] min-h-[136px] md:min-h-[194px] lg:min-h-[174px] 2xl:min-h-[240px]'
+            'min-w-[288px] md:min-w-[341px] max-w-[507px] h-[136px] md:h-[194px]',
+            'lg:h-[174px] 2xl:h-[240px] min-h-[136px] md:min-h-[194px] lg:min-h-[174px] 2xl:min-h-[240px]'
           )}
           key={item.title}
         >

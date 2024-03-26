@@ -11,12 +11,12 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-        '3xl': '1800px',
-        emd: '998px'
-      }
+      padding: '2rem'
+      // screens: {
+      //   '2xl': '1400px',
+      //   '3xl': '1800px',
+      //   emd: '998px'
+      // }
     },
 
     extend: {
@@ -57,6 +57,12 @@ module.exports = {
         'grey-acc': '#7E7E7E',
         'black-acc': '#202020',
         'white-acc': '#eaeaea'
+      },
+
+      screens: {
+        '2xl': '1400px',
+        '3xl': '1800px',
+        emd: '998px'
       },
       borderRadius: {
         lg: 'var(--radius)',

@@ -132,7 +132,7 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
         spaceBetween={20}
         grid={{ rows: isMobile ? 1 : 2 }}
         className={cn(
-          'w-[calc(100vw-324px)] mb-2 sm:mb-5 gap-5',
+          'max-w-full mb-2 sm:mb-5 gap-5',
           'h-[124px] md:h-[500px] lg:h-[520px] xl:h-[484px] 2xl:h-[554px]'
         )}
         navigation={{
