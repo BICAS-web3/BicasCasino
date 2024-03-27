@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { cn } from '@/lib/utils'
 import { BonusCoinSVG, DraxMiniSVG } from './icons'
+import { Button } from '@/components/ui/button'
 
 const switch_img = [
   {
@@ -31,13 +32,14 @@ const BalanceSwitcher = () => {
       )}
     >
       {switch_img.map(item => (
-        <div
+        <Button
+          variant='ghost'
           key={item.id}
           onClick={() => setIsDrax(item.isDrax)}
           className={cn(
             'w-full h-full flex items-center pl-2 pr-1 cursor-pointer rounded-[50px] gap-2',
-            'text-[#7e7e7e] text-sm font-medium leading-6 text-left uppercase duration-500',
-            isDrax === item.isDrax && 'bg-[#202020] text-white'
+            'text-grey-acc text-sm font-medium leading-6 text-left uppercase duration-500',
+            isDrax === item.isDrax && 'bg-black-acc text-white'
           )}
         >
           {item.icon}
@@ -47,7 +49,7 @@ const BalanceSwitcher = () => {
             </span>
             <span className='text-sm leading-4'>{item.token}</span>
           </div>
-        </div>
+        </Button>
       ))}
     </div>
   )

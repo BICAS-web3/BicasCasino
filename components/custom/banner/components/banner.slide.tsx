@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import 'swiper/css/effect-fade'
-import 'swiper/scss'
+import 'swiper/css'
 
 import { cn } from '@/lib/utils'
 
@@ -58,7 +58,7 @@ const BannerSlide: FC<IBannerSlide> = ({ ind, slide }) => {
       <img
         className={cn(
           'absolute w-full left-0 top-0 right-0 bottom-0 h-full',
-          'rounded-[0] sm:rounded-[20px] border border-[#202020] object-cover',
+          'rounded-[0] sm:rounded-[20px] border border-black-acc object-cover',
           ind === 8 && 'w-auto -l-[120px] sm:-l-[280px] md:w-full',
           'first:right-[-100px] sm:first:right-0'
         )}
@@ -89,7 +89,7 @@ const BannerSlide: FC<IBannerSlide> = ({ ind, slide }) => {
         <div
           className={cn(
             'mb-[10px] sm:mb-6 z-10 relative flex items-center',
-            'text-[0.625rem] sm:text-base md:text-xl text-[#eaeaea] font-bold',
+            'text-[0.625rem] sm:text-base md:text-xl text-white-acc font-bold',
             ind === 0 && 'mt-3'
           )}
         >

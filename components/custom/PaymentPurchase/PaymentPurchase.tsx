@@ -11,7 +11,7 @@ import draxCoinIco from '@/public/payment/draxMiniIco.webp'
 // import * as api from '@/shared/api'
 // import * as RegistrModel from '@/widgets/Registration/model'
 import { useUnit } from 'effector-react'
-import * as PaymentM from '../Payment/model'
+import { PaymentModel } from '@/states'
 import Image from 'next/image'
 import { memoryUsage } from 'process'
 import s from './styles.module.scss'
@@ -104,7 +104,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   //   networkActive
   // ])
 
-  const [setPurchaseVisibility] = useUnit([PaymentM.setPurcahseVisibility])
+  const [setPurchaseVisibility] = useUnit([PaymentModel.setPurcahseVisibility])
 
   const [priceList, setPriceList] = useState<any>([])
 
@@ -167,7 +167,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
             setPurchaseVisibility(false)
           }}
           src={closeIco.src}
-          className='w-[16px] h-[16px]'
+          className='w-[16px] h-[16px] cursor-pointer'
           alt='close-ico'
         />
       </div>

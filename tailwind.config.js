@@ -8,7 +8,6 @@ module.exports = {
     './src/**/*.{ts,tsx}'
   ],
   prefix: '',
-  // important: true,
   theme: {
     container: {
       center: true,
@@ -19,12 +18,14 @@ module.exports = {
         md: '996px'
       }
     },
+
     extend: {
       flex: {
         1: '1'
       },
       colors: {
         'black-def': '#181818',
+        'border-black': '#252525',
         'inp-col': '#979797',
         'border-def': '#2e2e2e',
         'footer-links': '#aaa',
@@ -65,12 +66,26 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
-        }
+        },
+        'grey-acc': '#7E7E7E',
+        'black-acc': '#202020',
+        'white-acc': '#eaeaea'
+      },
+
+      screens: {
+        '2xl': '1400px',
+        '3xl': '1800px',
+        emd: '998px',
+        sm: '650px',
+        md: '996px',
+        mmd: '1280px'
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: '20px',
-        sm: 'calc(var(--radius) - 4px)'
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+        mb: '5px',
+        lp: '12px'
       },
       keyframes: {
         'accordion-down': {
@@ -96,13 +111,9 @@ module.exports = {
         'footer-title': '1.0625rem',
         'footer-text-xs': '0.5rem',
         'footer-text-md': '0.75rem'
-      },
-      screens: {
-        sm: '650px',
-        md: '996px',
-        mmd: '1280px'
       }
     }
   },
+
   plugins: [require('tailwindcss-animate')]
 }

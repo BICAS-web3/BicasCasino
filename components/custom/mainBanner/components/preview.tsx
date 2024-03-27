@@ -1,10 +1,14 @@
+import { FC } from 'react'
 import Image from 'next/image'
 
 import layout from '@/public/main_banner/layout.png'
 import token from '@/public/main_banner/token.png'
 import rocket from '@/public/main_banner/rocket.png'
+
 import { cn } from '@/lib/utils'
+
 import { Button } from '@/components/ui/button'
+
 import {
   CrossSVG,
   RedSquereSVG,
@@ -12,7 +16,6 @@ import {
   TitleSVG,
   TrangleSVG
 } from './icons'
-import { FC } from 'react'
 
 interface IPreview {
   className?: string
@@ -22,15 +25,21 @@ export const Preview: FC<IPreview> = ({ className }) => {
   return (
     <article
       className={cn(
-        'relative w-full h-[383px] pt-10 pb-[25px] overflow-hidden',
+        'flex items-center flex-col lg:block w-full h-[383px]',
+        'relative pt-10 pb-[25px] overflow-hidden',
         className
       )}
     >
-      <h2 className='font-bold text-[34px] leading-[46px] relative z-[1]'>
+      <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative z-[1]'>
         Hello Markus666 <br />
         Bonus on the first deposit
       </h2>
-      <h1 className='text-[78px] font-black leading-[100%] relative z-[1] text-[#B4E915]'>
+      <h1
+        className={cn(
+          'text-center lg:text-left text-[50px] sm:text-[78px]',
+          ' font-black leading-[100%] relative z-[1] text-[#B4E915]'
+        )}
+      >
         +$100
         <br /> Reward
       </h1>
@@ -44,8 +53,8 @@ export const Preview: FC<IPreview> = ({ className }) => {
           Deposit and play
         </button>
         <Button
-          variant={'gray'}
-          className='w-[182px] flex items-center justify-center box-border h-9'
+          variant={'secondary'}
+          className='w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] border border-[#363636]'
         >
           Free Play
         </Button>
@@ -53,23 +62,29 @@ export const Preview: FC<IPreview> = ({ className }) => {
       <Image
         src={rocket}
         alt='rocket'
-        className='absolute w-[195px] h-[195px] top-[99px] left-[550px] z-[1]'
+        className={cn(
+          'absolute w-[195px] h-[195px] z-[1]',
+          'top-[84px] lg:top-[99px] -right-[38px] lg:right-auto lg:left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px]'
+        )}
       />
       <Image
         src={token}
         alt='token'
-        className='absolute w-[213px] h-[182px] top-[91px] right-[430px] z-[1]'
+        className={cn(
+          'hidden lg:block absolute w-[213px] h-[182px] z-[1]',
+          'top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px]'
+        )}
       />
       <Image
-        className='absolute w-full h-full top-0 left-0'
+        className='absolute object-cover h-full top-0 right-0'
         src={layout}
         alt='layout'
       />
-      <TitleSVG className='absolute top-[285px] right-[379px] z-[1]' />
-      <CrossSVG className='absolute top-[203px] right-[702px] z-[1]' />
-      <TrangleSVG className='absolute top-[43px] right-[621px] z-[1]' />
-      <RedSquereSVG className='absolute top-[47px] right-[246px] z-[1]' />
-      <SquereSVG className='absolute right-[221px] -bottom-[17px] z-[1]' />
+      <TitleSVG className='hidden lg:block absolute top-[285px] right-7 xl:right-[79px] 2xl:right-[179px] 3xl:right-[379px] z-[1]' />
+      <CrossSVG className='absolute top-[203px] -left-12 lg:left-auto lg:right-[358px] xl:right-[402px] 2xl:right-[702px] z-[1]' />
+      <TrangleSVG className='absolute top-[0px] lg:top-[43px] -left-[41px] lg:left-auto lg:right-[277px] xl:right-[321px] 2xl:right-[621px] z-[1]' />
+      <RedSquereSVG className='absolute top-[7px] lg:top-[47px] -right-10 lg:-right-[53px] 2xl:right-[146px] 3xl:right-[246px] z-[1]' />
+      <SquereSVG className='absolute -right-10 lg:-right-[78px] 2xl:right-[21px] 3xl:right-[221px] -bottom-[17px] z-[1]' />
     </article>
   )
 }

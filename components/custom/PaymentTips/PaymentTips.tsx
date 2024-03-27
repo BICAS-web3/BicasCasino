@@ -92,9 +92,9 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
   return (
     <div
       className='
-        flex flex-col sm:px-[30px] flex-1 gap-[20px] px-[16px] pb-[80px] overflow-auto
+        flex flex-col sm:px-[30px] flex-1 gap-[20px] px-[16px] pb-[30px] overflow-auto
         scroll -webkit-scrollbar:w-[4px] -webkit-scrollbar:ml-[4px] -webkit-scrollbar:rounded-[3px] 
-
+        
       '
     >
       <div

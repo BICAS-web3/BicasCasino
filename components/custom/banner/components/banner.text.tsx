@@ -27,7 +27,7 @@ const Text: FC<IText> = props => {
             )
           : type === 'subText'
           ? cn(
-              'text-[0.625rem] sm:text-base md:text-lg xl:text-xl mt-[3px] z-10 font-bold text-[#eaeaea] relative',
+              'text-[0.625rem] sm:text-base md:text-lg xl:text-xl mt-[3px] z-10 font-bold text-white-acc relative',
               ind === 5 &&
                 'max-w-[calc(100vw-270px)] sm:max-w-[380px] xl:max-w-[545px]',
               ind === 7 &&

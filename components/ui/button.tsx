@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import Link from 'next/link'
 
 import { cn } from 'lib/utils'
 
@@ -19,13 +20,15 @@ const buttonVariants = cva(
                     'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
-                gray: 'bg-[#20202080] border border-[#363636]'
+                gray: 'bg-[#20202080] border border-[#363636]',
+                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]'
             },
             size: {
                 default: 'h-10 px-4 py-2',
                 sm: 'h-9 rounded-md px-3',
                 lg: 'h-11 rounded-md px-8',
-                icon: 'h-10 w-10'
+                icon: 'h-10 w-10',
+                play: 'w-full h-10 rounded-[12px]'
             }
         },
         defaultVariants: {
@@ -39,17 +42,34 @@ export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
         VariantProps<typeof buttonVariants> {
     asChild?: boolean
+    href?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, variant, size, asChild = false, href, ...props }, ref) => {
         const Comp = asChild ? Slot : 'button'
         return (
-            <Comp
-                className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref}
-                {...props}
-            />
+            <>
+                {href ? (
+                    <Link href={href} className='w-full max-w-full relative'>
+                        <Comp
+                            className={cn(
+                                buttonVariants({ variant, size, className })
+                            )}
+                            ref={ref}
+                            {...props}
+                        />
+                    </Link>
+                ) : (
+                    <Comp
+                        className={cn(
+                            buttonVariants({ variant, size, className })
+                        )}
+                        ref={ref}
+                        {...props}
+                    />
+                )}
+            </>
         )
     }
 )
