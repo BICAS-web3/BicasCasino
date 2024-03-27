@@ -10,12 +10,12 @@ import banner_1 from '@/public/main_banner/banner_1.png'
 import banner_2 from '@/public/main_banner/banner_2.png'
 import banner_3 from '@/public/main_banner/banner_3.png'
 
-// import BannerItem from './banner.item'
-
 import { cn } from '@/lib/utils'
-// import { useMediaQuery } from '@/lib/getMediaQuery'
+
 import Slide from '@/components/ui/slider'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { SidebarModel } from '@/states'
+import { useUnit } from 'effector-react'
 
 const banners = [
   {
@@ -48,6 +48,9 @@ export const Banner = () => {
   const isLeptop = useMediaQuery('(max-width:1024px)')
   const isMedium = useMediaQuery('(max-width:768px)')
   const swiperRef = useRef<SwiperRef>(null)
+
+  const [open] = useUnit([SidebarModel.$open])
+
   return (
     <Swiper
       ref={swiperRef}
@@ -57,7 +60,6 @@ export const Banner = () => {
         delay: 4500,
         disableOnInteraction: false
       }}
-      wrapperClass='pb-[17px]'
       speed={1000}
       modules={[Autoplay, Pagination, Navigation, EffectFade]}
       spaceBetween={20}
@@ -70,13 +72,19 @@ export const Banner = () => {
       {banners.map((item, i) => (
         <SwiperSlide
           className={cn(
-            'min-w-[288px] md:min-w-[341px] max-w-[507px] h-[136px] md:h-[194px]',
-            'lg:h-[174px] 2xl:h-[240px] min-h-[136px] md:min-h-[194px] lg:min-h-[174px] 2xl:min-h-[240px]'
+            'min-w-[288px] h-[136px] pb-[17px]',
+            '2xl:h-[240px] min-h-[136px] md:h-[194px] md:min-h-[194px] 2xl:min-h-[240px]',
+            open
+              ? 'max-w-[520px] md:min-w-[314px] lg:h-[174px] lg:min-h-[174px]'
+              : 'max-w-[507px] md:min-w-[370px] lg:h-[148px] lg:min-h-[148px]'
           )}
           key={item.title}
         >
           <Slide
-            className='h-[136px] md:h-[194px] lg:h-[174px] 2xl:h-[240px]'
+            className={cn(
+              'h-[136px] md:h-[194px] 2xl:h-[240px]',
+              open ? 'lg:h-[174px]' : 'lg:h-[148px]'
+            )}
             img={item.img}
           />
         </SwiperSlide>

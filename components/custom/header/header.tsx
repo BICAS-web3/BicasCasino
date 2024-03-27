@@ -1,5 +1,4 @@
 import { Separator } from '@/components/ui/separator'
-
 import BalanceSwitcher from './components/balance.switch'
 import Logo from './components/logo'
 import User from './components/user'

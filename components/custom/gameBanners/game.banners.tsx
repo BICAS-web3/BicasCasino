@@ -28,6 +28,8 @@ import GameNavigation from './components/game.navigation'
 
 import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { SidebarModel } from '@/states'
+import { useUnit } from 'effector-react'
 
 interface IGameBanners {
   className?: string
@@ -107,6 +109,8 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
   const isMedium = useMediaQuery('(max-width:1280px)')
   const isMobile = useMediaQuery('(max-width:768px)')
 
+  const [open] = useUnit([SidebarModel.$open])
+
   return (
     <div
       className={cn(
@@ -122,7 +126,9 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
       </div>
       <Swiper
         ref={swiperRef}
-        slidesPerView={isMedium ? 'auto' : isDesktop ? 5 : isLeptop ? 6 : 7}
+        slidesPerView={
+          isMedium ? 'auto' : isDesktop ? (open ? 5 : 6) : isLeptop ? 6 : 7
+        }
         autoplay={{
           delay: 4500,
           disableOnInteraction: false
@@ -144,8 +150,11 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
           <SwiperSlide
             key={item.link}
             className={cn(
-              '2xl:w-[206px] w-[100px] md:w-[183px] lg:w-[192px] xl:w-[176px]',
-              '2xl:max-w-[206px] max-w-[100px] md:max-w-[183px] lg:max-w-[192px] xl:max-w-[176px]'
+              '2xl:w-[206px] w-[100px] md:w-[183px] ', // lg:w-[192px]
+              '2xl:max-w-[206px] max-w-[100px] md:max-w-[183px] lg:max-w-[192px]',
+              open
+                ? 'xl:max-w-[171px] xl:w-[171px]'
+                : 'xl:max-w-[176px] xl:w-[176px]'
             )}
           >
             <GameBanner img={item.bg} link={item.link} />
