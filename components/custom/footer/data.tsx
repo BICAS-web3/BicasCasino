@@ -1,13 +1,11 @@
-import {
-  Discord,
-  Facebook,
-  Instagram,
-  Main,
-  Medium,
-  Reddit,
-  Telegram,
-  Twitter
-} from './icons'
+import tgIcon from '@/public/social_media/tgIco.webp'
+import instIcon from '@/public/social_media/instIco.webp'
+import facebookIcon from '@/public/social_media/facebookIco.webp'
+import redditIcon from '@/public/social_media/redditIco.webp'
+import discordIcon from '@/public/social_media/discordIco.webp'
+import mediumIcon from '@/public/social_media/mediumIco.webp'
+import mainIcon from '@/public/social_media/mainIco.webp'
+import twitterIcon from '@/public/social_media/twitterIco.webp'
 
 export const games = [
   {
@@ -59,49 +57,50 @@ export const games = [
 export const socials = [
   {
     href: 'https://t.me/greekkeepers',
-    title: 'telegram',
-    icon: <Telegram className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: tgIcon,
+    bg: '#172f39'
   },
   {
     href: 'https://instagram.com/greekkeepers?igshid=NTc4MTIwNjQ2YQ==',
-    title: 'instagram',
-    icon: <Instagram className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: instIcon,
+    bg: '#391627'
   },
   {
     href: 'https://twitter.com/GreekKeepers',
-    title: 'twitter',
-    icon: <Twitter className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: twitterIcon,
+    bg: '#121f24'
   },
   {
     href: 'https://discord.gg/ReJVd2xJSk',
-    title: 'discord',
-    icon: <Discord className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: discordIcon,
+    bg: '#25263f'
   },
   {
     href: 'https://www.facebook.com/profile.php?id=100092326343777',
-    title: 'facebook',
-    icon: <Facebook className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: facebookIcon,
+    bg: '#102c3e'
   },
   {
     href: 'https://www.reddit.com/user/GreekKeepers/?rdt=59831',
-    title: 'reddit',
-    icon: <Reddit className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: redditIcon,
+    bg: '#3f1a0c'
   },
   {
     href: 'https://medium.com/@greekkeepers',
-    title: 'medium',
-    icon: <Medium className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: mediumIcon,
+    bg: '#0c2e22'
   },
   {
     href: 'https://www.greekkeepers.io/',
-    title: 'main-logo',
-    icon: <Main className='w-8 h-8 aspect-square object-contain' />
+    title: 'tg',
+    img: mainIcon,
+    bg: '#3a3026'
   }
-]
-
-export const footer_text = [
-  'BSC METAVERSE LIMITED Suite 305,',
-  'Griffith Corporate Centre',
-  'P.O. Box 1510, Beachmont Kingstown St. Vincent and the Grenadines',
-  '6818 BC 2023'
 ]
