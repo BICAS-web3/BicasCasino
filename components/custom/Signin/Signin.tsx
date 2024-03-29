@@ -3,10 +3,8 @@ import { useUnit } from 'effector-react'
 
 import { RegistrM } from '@/states'
 
-// import * as api from "@/shared/api";
+import * as api from '@/api'
 import { EyeClose, EyeOpen } from '@/src/shared/SVGs'
-
-import clsx from 'clsx'
 
 interface SigninProps {}
 
@@ -48,42 +46,42 @@ export const Signin: FC<SigninProps> = () => {
     }
   }, [error])
 
-  // useEffect(() => {
-  //   if (startLogin) {
-  //     if (name && password) {
-  //       ;(async () => {
-  //         setInProgress(true)
-  //         const data = await api.loginUser({
-  //           login: name,
-  //           password: password
-  //         })
-  //         if (data?.status === 'OK') {
-  //           console.log(data.body)
-  //           setAccessToken((data.body as any).access_token)
-  //           setRefreshToken((data.body as any).refresh_token)
-  //           localStorage.setItem('auth', (data.body as any).access_token)
-  //           setAuth(true)
-  //           setName('')
-  //           setPassword('')
-  //         } else if ((data.body as any)?.status !== 'OK') {
-  //           setAuth(false)
-  //           console.log(data)
-  //           if ((data.body as any)?.error === 'Wrong login or password') {
-  //             setName('')
-  //             setPassword('')
-  //             setErrorData(true)
-  //           }
-  //           setInProgress(false)
-  //         }
-  //       })()
-  //     } else {
-  //       setError(true)
-  //       setName('')
-  //       setPassword('')
-  //     }
-  //     setStartLogin(false)
-  //   }
-  // }, [startLogin])
+  useEffect(() => {
+    if (startLogin) {
+      if (name && password) {
+        ;(async () => {
+          setInProgress(true)
+          const data = await api.loginUser({
+            login: name,
+            password: password
+          })
+          if (data?.status === 'OK') {
+            console.log(data.body)
+            setAccessToken((data.body as any).access_token)
+            setRefreshToken((data.body as any).refresh_token)
+            localStorage.setItem('auth', (data.body as any).access_token)
+            setAuth(true)
+            setName('')
+            setPassword('')
+          } else if ((data.body as any)?.status !== 'OK') {
+            setAuth(false)
+            console.log(data)
+            if ((data.body as any)?.error === 'Wrong login or password') {
+              setName('')
+              setPassword('')
+              setErrorData(true)
+            }
+            setInProgress(false)
+          }
+        })()
+      } else {
+        setError(true)
+        setName('')
+        setPassword('')
+      }
+      setStartLogin(false)
+    }
+  }, [startLogin])
 
   return (
     <div

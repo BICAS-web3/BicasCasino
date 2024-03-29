@@ -5,7 +5,7 @@ import arr from '@/public/registration/arr.png'
 
 import { RegistrM } from '@/states'
 
-// import * as api from '@/shared/api'
+import * as api from '@/api'
 import { EyeClose, EyeOpen } from '@/src/shared/SVGs'
 
 import clsx from 'clsx'
@@ -54,48 +54,48 @@ export const Signup: FC<SignupProps> = () => {
     }
   }, [error])
 
-  // useEffect(() => {
-  //   if (startRegister) {
-  //     if (ageCheckbox && policyCheckbox && name && password) {
-  //       ;(async () => {
-  //         setInProgress(true)
-  //         const data = await api.registerUser({
-  //           username: name,
-  //           password: password
-  //         })
-  //         if (data?.status === 'OK') {
-  //           const dataObj = await api.loginUser({
-  //             login: name,
-  //             password: password
-  //           })
-  //           if (dataObj?.status === 'OK') {
-  //             console.log(dataObj)
-  //             localStorage.setItem('auth', (dataObj.body as any).access_token)
-  //             setAccessToken((dataObj.body as any).access_token)
-  //             setRefreshToken((dataObj.body as any).refresh_token)
-  //             setAuth(true)
-  //             setName('')
-  //             setPassword('')
-  //           } else if (data?.status !== 'OK') {
-  //             setInProgress(false)
-  //             setAuth(false)
-  //           }
-  //         }
-  //         if (data?.status !== 'OK') {
-  //           setName('')
-  //           setPassword('')
-  //           setUserExist(true)
-  //           setInProgress(false)
-  //         }
-  //       })()
-  //     } else {
-  //       setError(true)
-  //       // setName("");
-  //       // setPassword("");
-  //     }
-  //     setStartRegister(false)
-  //   }
-  // }, [startRegister])
+  useEffect(() => {
+    if (startRegister) {
+      if (ageCheckbox && policyCheckbox && name && password) {
+        ;(async () => {
+          setInProgress(true)
+          const data = await api.registerUser({
+            username: name,
+            password: password
+          })
+          if (data?.status === 'OK') {
+            const dataObj = await api.loginUser({
+              login: name,
+              password: password
+            })
+            if (dataObj?.status === 'OK') {
+              console.log(dataObj)
+              localStorage.setItem('auth', (dataObj.body as any).access_token)
+              setAccessToken((dataObj.body as any).access_token)
+              setRefreshToken((dataObj.body as any).refresh_token)
+              setAuth(true)
+              setName('')
+              setPassword('')
+            } else if (data?.status !== 'OK') {
+              setInProgress(false)
+              setAuth(false)
+            }
+          }
+          if (data?.status !== 'OK') {
+            setName('')
+            setPassword('')
+            setUserExist(true)
+            setInProgress(false)
+          }
+        })()
+      } else {
+        setError(true)
+        // setName("");
+        // setPassword("");
+      }
+      setStartRegister(false)
+    }
+  }, [startRegister])
 
   return (
     <div
@@ -197,7 +197,7 @@ export const Signup: FC<SignupProps> = () => {
               ${error && !ageCheckbox ? '!border-[red]' : ''}
               ${
                 ageCheckbox
-                  ? 'shadow-[0px_0px_4px_0px_#d18b34] bg-[#c4a562]'
+                  ? 'shadow-[0px_0px_4px_0px_#d18b34] !bg-[#c4a562]'
                   : ''
               }
             `}
@@ -240,7 +240,7 @@ export const Signup: FC<SignupProps> = () => {
             ${error && !policyCheckbox ? '!border-[red]' : ''}
             ${
               policyCheckbox
-                ? 'shadow-[0px_0px_4px_0px_#d18b34] bg-[#c4a562]'
+                ? 'shadow-[0px_0px_4px_0px_#d18b34] !bg-[#c4a562]'
                 : ''
             }
           `}

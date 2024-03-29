@@ -33,7 +33,7 @@ export const Registration: FC<RegistrationProps> = () => {
       <div
         className='
         m-0 sm:m-[0_20px] rounded-0 sm:rounded-[12px] w-full max-w-[770px]
-          h-full sm:h-[670px] bg-black-def relative grid grid-cols-2 registr-main-block
+          h-full sm:h-[670px] bg-black-def relative grid grid-cols-1 sm:grid-cols-2 registr-main-block
         '
       >
         <div
