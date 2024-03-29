@@ -139,7 +139,7 @@ export const Payment: FC<PaymentProps> = () => {
           open();
           setLink((prev) => prev + 1);
 
-          init() // TODO: add a proper button, remove this line
+          //init() // TODO: add a proper button, remove this line
         }}
         className={s.wallet_btn}
       >
