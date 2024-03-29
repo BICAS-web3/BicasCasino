@@ -4,6 +4,8 @@ import { FC } from 'react'
 import { cn } from '@/lib/utils'
 import { UsersSVG } from './icons'
 import Link from 'next/link'
+import { useUnit } from 'effector-react'
+import { SidebarModel } from '@/states'
 
 interface IGameBanner {
   img: StaticImageData
@@ -13,6 +15,8 @@ interface IGameBanner {
 const GameBanner: FC<IGameBanner> = props => {
   const { img, link } = props
 
+  const [open] = useUnit([SidebarModel.$open])
+
   return (
     <Link
       href={link}
@@ -20,8 +24,9 @@ const GameBanner: FC<IGameBanner> = props => {
     >
       <div
         className={cn(
-          'relative w-[100px] md:w-[183px] lg:w-[192px] xl:w-[176px] 2xl:w-[206px] h-[100px] md:h-[183px] lg:h-[192px] xl:h-[176px] 2xl:h-[206px] p-[10px] pl-[15px]',
-          'flex flex-col justify-between'
+          'relative w-[100px] md:w-[183px] lg:max-w-[192px] 2xl:w-[206px] h-[100px] md:h-[183px] lg:max-h-[192px] 2xl:h-[206px] p-[10px] pl-[15px]',
+          'flex flex-col justify-between',
+          open ? 'xl:w-[171px] xl:h-[171px]' : 'xl:w-[176px] xl:h-[176px]'
         )}
       >
         <Image
