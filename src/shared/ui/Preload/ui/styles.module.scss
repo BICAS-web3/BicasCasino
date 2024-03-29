@@ -1,0 +1,71 @@
+.preload,
+.preload:before,
+.preload:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  animation-fill-mode: both;
+  animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+.preload {
+  color: #fff;
+  font-size: 0.438rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+  z-index: 99;
+}
+.preload:before,
+.preload:after {
+  content: "";
+  position: absolute;
+  top: 0;
+}
+.preload:before {
+  left: -3.5em;
+  animation-delay: -0.32s;
+}
+.preload:after {
+  left: 3.5em;
+}
+
+@keyframes bblFadInOut {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+
+.blur {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(10px);
+  transform: scaleY(0);
+  opacity: 0;
+  transition: all 0.5s;
+  border-radius: 20px 0 0 0;
+  @media screen and (max-width: 996px) {
+    border-radius: 20px 20px 0 0 !important;
+  }
+  @media screen and (max-width: 650px) {
+    border-radius: 0 !important;
+  }
+}
+
+.blur_open {
+  transform: scaleY(1);
+  opacity: 1;
+}
