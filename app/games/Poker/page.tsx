@@ -1,3 +1,4 @@
+import { GamePage } from '@/components/custom/gameLayout/GamePage/GamePage'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,16 @@ export const metadata: Metadata = {
 }
 
 const Poker = () => {
-  return <div>Poker</div>
+  return (
+    <GamePage
+      isPoker={true}
+      wagerContent={<h1>h</h1>}
+      gameInfoText='s'
+      gameTitle='s'
+    >
+      poker
+    </GamePage>
+  )
 }
 
 export default Poker
