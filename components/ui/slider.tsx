@@ -1,68 +1,28 @@
-import { FC } from 'react'
-import Image, { StaticImageData } from 'next/image'
+"use client"
 
-import { cn } from '@/lib/utils'
+import * as React from "react"
+import * as SliderPrimitive from "@radix-ui/react-slider"
 
-interface ISlider {
-    img: StaticImageData
-    title?: string
-    btn?: any
-    className?: string
-    titleClassName?: string
-    btnClassName?: string
-    imgClassName?: string
-}
+import { cn } from "lib/utils"
 
-const Slider: FC<ISlider> = props => {
-    const {
-        img,
-        btn,
-        title,
-        className,
-        btnClassName,
-        imgClassName,
-        titleClassName
-    } = props
+const Slider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Root
+    ref={ref}
+    className={cn(
+      "relative flex w-full touch-none select-none items-center",
+      className
+    )}
+    {...props}
+  >
+    <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+      <SliderPrimitive.Range className="absolute h-full bg-primary" />
+    </SliderPrimitive.Track>
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+  </SliderPrimitive.Root>
+))
+Slider.displayName = SliderPrimitive.Root.displayName
 
-    return (
-        <div
-            className={cn(
-                'flex flex-col justify-between min-h-full min-w-full',
-                'relative rounded-[12px] p-[30px] overflow-hidden',
-                className
-            )}
-        >
-            <Image
-                className={cn(
-                    'absolute w-full h-full top-0 left-0',
-                    imgClassName
-                )}
-                src={img}
-                alt='img'
-            />
-            {title && (
-                <h3
-                    className={cn(
-                        'text-[#E9E9F5] font-bold uppercase',
-                        titleClassName
-                    )}
-                >
-                    {title}
-                </h3>
-            )}
-            {btn && (
-                <button
-                    className={cn(
-                        'min-w-[182px] h-9 flex items-center justify-center px-5 mt-auto w-fit',
-                        'text-sm sm:text-base relative z-[1] bg-transparent',
-                        btnClassName
-                    )}
-                >
-                    {btn}
-                </button>
-            )}
-        </div>
-    )
-}
-
-export default Slider
+export { Slider }

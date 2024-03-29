@@ -5,7 +5,7 @@ import { FC } from 'react'
 
 import * as api from '@/api'
 
-import downArr from '@/public/misc/downArr.webp'
+import downArr from '@/public/images/misc/downArr.webp'
 
 import { DollarSVG } from './icons'
 

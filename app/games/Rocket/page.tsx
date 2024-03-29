@@ -1,3 +1,4 @@
+import RocketGame from '@/components/custom/rocketGame'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Rocket = () => {
-  return <div>Rocket</div>
+  return <RocketGame />
 }
 
 export default Rocket

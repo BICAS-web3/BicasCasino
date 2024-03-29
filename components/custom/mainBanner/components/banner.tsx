@@ -6,13 +6,13 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import 'swiper/css/effect-fade'
 import 'swiper/css'
 
-import banner_1 from '@/public/main_banner/banner_1.png'
-import banner_2 from '@/public/main_banner/banner_2.png'
-import banner_3 from '@/public/main_banner/banner_3.png'
+import banner_1 from '@/public/images/main_banner/banner_1.png'
+import banner_2 from '@/public/images/main_banner/banner_2.png'
+import banner_3 from '@/public/images/main_banner/banner_3.png'
 
 import { cn } from '@/lib/utils'
 
-import Slide from '@/components/ui/slider'
+import Slide from '@/components/ui/slider.custom'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { SidebarModel } from '@/states'
 import { useUnit } from 'effector-react'

@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import CoinFlipGame from '@/components/custom/coinflipGame'
 
 export const metadata: Metadata = {
   title: 'Games - CoinFlip',
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const CoinFlip = () => {
-  return <div>CoinFlip</div>
+  return <CoinFlipGame />
 }
 
 export default CoinFlip

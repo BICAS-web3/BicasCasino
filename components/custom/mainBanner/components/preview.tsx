@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import Image from 'next/image'
 
-import layout from '@/public/main_banner/layout.png'
-import token from '@/public/main_banner/token.png'
-import rocket from '@/public/main_banner/rocket.png'
+import layout from '@/public/images/main_banner/layout.png'
+import token from '@/public/images/main_banner/token.png'
+import rocket from '@/public/images/main_banner/rocket.png'
 
 import { cn } from '@/lib/utils'
 

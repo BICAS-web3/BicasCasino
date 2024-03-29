@@ -42,14 +42,14 @@ import Link from 'next/link'
 
 import { FC, useState } from 'react'
 import Image from 'next/image'
-import rightArr from '@/public/sidebar_icons/rightArrIco.webp'
+import rightArr from '@/public/images/sidebar_icons/rightArrIco.webp'
 
-import usaIco from '@/public/countries_images/usaIco.svg'
-import uaIco from '@/public/countries_images/uaIco.svg'
-import indIco from '@/public/countries_images/indiaIco.svg'
-import chinaIco from '@/public/countries_images/chinaIco.svg'
-import portugalIco from '@/public/countries_images/portugalIco.svg'
-import spainIco from '@/public/countries_images/spainIco.svg'
+import usaIco from '@/public/images/countries_images/usaIco.svg'
+import uaIco from '@/public/images/countries_images/uaIco.svg'
+import indIco from '@/public/images/countries_images/indiaIco.svg'
+import chinaIco from '@/public/images/countries_images/chinaIco.svg'
+import portugalIco from '@/public/images/countries_images/portugalIco.svg'
+import spainIco from '@/public/images/countries_images/spainIco.svg'
 import {
   AffilateSVG,
   AppleBtnSVG,
