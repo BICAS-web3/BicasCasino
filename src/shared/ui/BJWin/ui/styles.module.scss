@@ -1,0 +1,66 @@
+.win_container {
+  border-radius: 20px;
+  width: 300px;
+  height: 105px;
+  border: 5px solid rgba(62, 207, 142, 1);
+  background: rgba(40, 87, 88, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  padding: 20px 0 30px 0;
+  align-items: center;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 240px;
+    height: 2px;
+    background: rgba(62, 207, 142, 1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  transition: all 0.5s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  &_show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  z-index: 10;
+}
+
+.win_coeff {
+  font-family: var(--font-nunito-sans);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 55px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+}
+
+.win_icon {
+  width: 24px;
+  height: 24px;
+}
+
+.win_profit_block {
+  display: flex;
+  gap: 10px;
+  margin-left: -34px;
+  align-items: center;
+}
+
+.win_profit {
+  font-family: var(--font-nunito-sans);
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 31px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
+}

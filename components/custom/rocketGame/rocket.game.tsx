@@ -448,25 +448,21 @@ const RocketGame = () => {
             totalValue={totalValue}
           />
           {rocketStar && localNumber !== null && localNumber <= 0 && (
-            <>
-              <img
-                className={cn(
-                  'block z-[1] absolute mx-auto w-[200px] sm:w-[250px] h-[180px] sm:h-[190px] left-1/2 -translate-x-1/2 -scale-[1] top-0 sm:top-[75px]'
-                )}
-                src={`/videos/rocket/bomb_2.gif?${restartGif}`}
-                alt='wewsfdesd'
-                width={200}
-                height={200}
-              />
-            </>
+            <Image
+              className={cn(
+                'block z-[1] absolute mx-auto w-[200px] sm:w-[250px] h-[180px] sm:h-[190px] left-1/2 -translate-x-1/2 -scale-[1] top-0 sm:top-[75px]'
+              )}
+              src={`/videos/rocket/bomb_2.gif?${restartGif}`}
+              alt='wewsfdesd'
+              width={200}
+              height={200}
+            />
           )}
           {localNumber !== null && (
             <div
-              className={cn(
-                'text-[#eaeaea] text-xs sm:text-sm xl:text-lg font-extrabold rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex justify-center items-center',
-                'absolute left-1/2 -translate-x-1/2 top-[75px] sm:top-[115px] text-[2.8125] sm:text-[4.375rem] text-white z-[5]',
+              className={`text-xs sm:text-sm xl:text-lg font-extrabold rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex justify-center items-center absolute left-1/2 -translate-x-1/2 top-[75px] sm:top-[115px] text-[2.8125rem] sm:text-[4.375rem] z-[5] ${
                 localNumber > 0 ? 'text-[#34b113]' : 'text-[#e15f02]'
-              )}
+              }`}
             >
               {localNumber?.toFixed(2)}x
             </div>

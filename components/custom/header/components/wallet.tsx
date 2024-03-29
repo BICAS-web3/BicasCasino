@@ -2,9 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import { WalletSVG } from './icons'
+import { PaymentModel } from '@/states'
+import { useUnit } from 'effector-react'
 
 const Wallet = () => {
-  const handleAction = () => {}
+  const [setVisibility, visibility] = useUnit([
+    PaymentModel.setTotalVisibility,
+    PaymentModel.$totalVisibility
+  ])
+
+  const handleAction = () => {
+    setVisibility(!visibility)
+  }
   return (
     <Button
       onClick={handleAction}

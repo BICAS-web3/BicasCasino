@@ -2,6 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+.disable-arrs::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.disable-arrs::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+body,
+html {
+  overflow-x: hidden !important;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  margin-left: 4px;
+  border-radius: 3px;
+  scrollbar-arrow-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #363636;
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #363636 transparent;
+}
+
+*::-ms-scrollbar {
+  width: 4px;
+  scrollbar-arrow-color: transparent;
+}
+
+*::-ms-scrollbar-thumb {
+  background-color: #363636;
+  border-radius: 4px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -628,4 +670,10 @@ body::-webkit-scrollbar-thumb {
 }
 .dice_under ::before {
   background-color: #202020;
+}
+
+@media screen and (max-height: 870px) {
+  .registr-main-block {
+    height: 100% !important;
+  }
 }

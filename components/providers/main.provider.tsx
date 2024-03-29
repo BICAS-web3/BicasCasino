@@ -5,13 +5,16 @@ import { ThemeProvider } from './theme.provider'
 import { SocketProvider } from '@/components/providers/socket.provider'
 
 import Header from '@/components/custom/header'
-import Footer from '@/components/custom/footer'
+// import Footer from '@/components/custom/Footer'
 
-import Sidebar from '../custom/sidebar'
+import Sidebar from '@/components/custom/sidebar/index'
 
 import { cn } from '@/lib/utils'
 import { SidebarModel } from '@/states'
 import { useUnit } from 'effector-react'
+import { Payment } from '../custom/Payment/Payment'
+import { Registration } from '../custom/Registration/Registration'
+import Footer from '../custom/footer'
 
 type Props = {
   children: React.ReactNode
@@ -23,6 +26,8 @@ const MainProvider = ({ children }: Props) => {
     <ThemeProvider attribute='class' defaultTheme='system'>
       <SocketProvider>
         <main className='min-h-screen flex flex-col relative '>
+          <Payment />
+          {/* <Registration /> */}
           <Header />
           <div className='flex flex-nowrap w-screen overflow-hidden relative '>
             <Sidebar />
