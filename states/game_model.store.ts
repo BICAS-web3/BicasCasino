@@ -1,4 +1,7 @@
 import { createEffect, createEvent, createStore, sample } from 'effector'
+
+import * as api from '@/api'
+
 export enum GameStatus {
   Won,
   Lost,
@@ -58,6 +61,54 @@ $gameStatus.on(clearStatus, () => null)
 $isEmtyWager.on(setIsEmtyWager, (_, state) => state)
 $refund.on(setRefund, (_, state) => state)
 $gamesList.on(setGamesList, (_, state) => state)
+
+export interface IResult {
+  type: string
+  id: number
+  timestamp: number
+  amount: string
+  profit: string
+  bet_info: string
+  game_id: number
+  user_id: number
+  coin_id: number
+  userseed_id: number
+  serverseed_id: number
+  outcomes: string
+  profits: string
+  uuid: string
+  state?: string | undefined
+  payouts: string
+  num_games?: number
+}
+
+// variables
+export const $Bets = createStore<api.T_BetInfo[]>([])
+
+export const $tokenId = createStore<null | number>(null)
+export const $result = createStore<IResult | null>(null)
+export const $uuid = createStore<string | null>(null)
+
+// events
+export const newBet = createEvent<api.T_BetInfo>()
+export const setBets = createEvent<api.T_BetInfo[]>()
+export const setResult = createEvent<IResult | null>()
+export const setTokenId = createEvent<number>()
+export const setUuid = createEvent<string>()
+
+// handlers
+$Bets
+  .on(setBets, (_, new_bets) => new_bets)
+  .on(newBet, (list, new_bet) => {
+    list.unshift(new_bet)
+    if (list.length > 10) {
+      list.pop()
+    }
+  })
+
+$result.on(setResult, (_, state) => state)
+$tokenId.on(setTokenId, (_, state) => state)
+$uuid.on(setUuid, (_, state) => state)
 
 //! PLINKO
 
@@ -150,3 +201,20 @@ $reset.on(setReset, (_, state) => state)
 $emptyField.on(setEmptyField, (_, state) => state)
 $stop.on(setStop, (_, state) => state)
 $apples.on(setApples, (_, state) => state)
+
+//! Mines
+
+export type ManualType = 'MANUAL' | 'AUTO'
+export type WinningType = 'YES' | 'NO' | 'X5'
+
+export const $manualSetting = createStore<ManualType>('MANUAL')
+export const $stopWinning = createStore<WinningType>('NO')
+export const $selectedLength = createStore<number>(0)
+
+export const setManualSetting = createEvent<ManualType>()
+export const setStopWinning = createEvent<WinningType>()
+export const setSelectedLength = createEvent<number>()
+
+$manualSetting.on(setManualSetting, (_, state) => state)
+$stopWinning.on(setStopWinning, (_, state) => state)
+$selectedLength.on(setSelectedLength, (_, state) => state)

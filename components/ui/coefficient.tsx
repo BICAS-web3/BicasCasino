@@ -7,7 +7,7 @@ interface IBall {
 
 interface ICoefficient {
     ballsArr: IBall[] | any[]
-    multipliers: any
+    multipliers?: any
 }
 
 const Coefficient: FC<ICoefficient> = props => {
