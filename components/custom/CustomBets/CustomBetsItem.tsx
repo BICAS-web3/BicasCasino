@@ -28,6 +28,7 @@ import { useUnit } from 'effector-react'
 // import * as BalanceModel from '@/widgets/BalanceSwitcher/model'
 
 import raceIson from '@/public/race_icons/bets_icon.webp'
+import Image from 'next/image'
 // import { sessionModel } from '@/entities/session'
 // import * as GameModel from '@/widgets/GamePage/model'
 export interface CustomBetsItemProps {
@@ -159,8 +160,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           target='_blank'
           className='flex items-center justify-center'
         >
-          <img
-            src={gameImg.src}
+          <Image
+            src={gameImg}
             className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
             alt='game-ico-preview'
           />
@@ -189,8 +190,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         22
       </div>
       <div className='hidden sm:flex items-center gap-x-[5px]'>
-        <img
-          src={props.bet.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
+        <Image
+          src={props.bet.coin_id === 1 ? bonusTokenIco : draxTokenIco}
           alt='wager-ico'
           className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px]'
         />
@@ -211,8 +212,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         >
           {props?.profit}
         </span>
-        <img
-          src={props.coin_id === 1 ? bonusTokenIco.src : draxTokenIco.src}
+        <Image
+          src={props.coin_id === 1 ? bonusTokenIco : draxTokenIco}
           alt='wager-ico'
           className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] ml-[5px]'
         />

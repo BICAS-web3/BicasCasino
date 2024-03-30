@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import Button from './banner.button'
 import { KycSVG, TgSVG } from './icons'
 import Text from './banner.text'
+import Image from 'next/image'
 
 interface ISlide {
   text?: string
@@ -55,7 +56,7 @@ const BannerSlide: FC<IBannerSlide> = ({ ind, slide }) => {
 
   return (
     <>
-      <img
+      <Image
         className={cn(
           'absolute w-full left-0 top-0 right-0 bottom-0 h-full',
           'rounded-[0] sm:rounded-[20px] border border-black-acc object-cover',
@@ -64,8 +65,8 @@ const BannerSlide: FC<IBannerSlide> = ({ ind, slide }) => {
         )}
         src={
           (slide.imgMob && is700) || (slide.imgMob && is650)
-            ? slide.imgMob.src
-            : slide.img.src
+            ? slide.imgMob
+            : slide.img
         }
         alt='slide-imd'
         data-id={ind + 1}

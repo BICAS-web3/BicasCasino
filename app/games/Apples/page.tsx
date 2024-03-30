@@ -1,3 +1,4 @@
+import AppleGame from '@/components/custom/appleGame'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Apples = () => {
-  return <div>Apples</div>
+  return <AppleGame />
 }
 
 export default Apples

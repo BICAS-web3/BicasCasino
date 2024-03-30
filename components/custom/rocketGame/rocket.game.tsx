@@ -5,8 +5,6 @@ import ReactHowler from 'react-howler'
 import useSound from 'use-sound'
 import Image from 'next/image'
 
-import { cn } from '@/lib/utils'
-
 import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
 
 import rocket from '@/public/images/rocket/rocket.webp'
@@ -449,9 +447,7 @@ const RocketGame = () => {
           />
           {rocketStar && localNumber !== null && localNumber <= 0 && (
             <Image
-              className={cn(
-                'block z-[1] absolute mx-auto w-[200px] sm:w-[250px] h-[180px] sm:h-[190px] left-1/2 -translate-x-1/2 -scale-[1] top-0 sm:top-[75px]'
-              )}
+              className='block z-[1] absolute mx-auto w-[200px] sm:w-[250px] h-[180px] sm:h-[190px] left-1/2 -translate-x-1/2 -scale-[1] top-0 sm:top-[75px]'
               src={`/videos/rocket/bomb_2.gif?${restartGif}`}
               alt='wewsfdesd'
               width={200}
@@ -476,11 +472,9 @@ const RocketGame = () => {
               setImageLoading_1(false)
             }}
             ref={rocketRef}
-            className={cn(
-              'absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto]',
-              'object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0]',
+            className={`object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0] absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto] ${
               !inGame && 'hidden'
-            )}
+            }`}
             autoPlay
             loop
             muted
@@ -496,11 +490,9 @@ const RocketGame = () => {
               setImageLoading_1(false)
             }}
             ref={bgRef}
-            className={cn(
-              'absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto]',
-              'object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0]',
+            className={`object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0] absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto] ${
               inGame && 'hidden'
-            )}
+            }`}
             autoPlay
             loop
             muted
@@ -513,52 +505,41 @@ const RocketGame = () => {
               setRestartGif(prev => prev + 1)
               // setLocalC((prev) => [...prev, 1]);
             }}
-            className={cn(
-              'bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[130px]',
-              'sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3]',
+            className={`bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[130px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
               rocketStar && ' animate-[rocket-box_0.44s]'
-            )}
+            }`}
           >
             <Image
               onLoad={() => setImageLoading_2(false)}
-              className={cn(
-                'absolute w-[97px] sm:w-[133px] h-[132px] sm:h-[203px] z-[21] left-0 top-0',
+              className={`absolute w-[97px] sm:w-[133px] h-[132px] sm:h-[203px] z-[21] left-0 top-0 ${
                 inGame && 'animate-[rocket-animations_1s_2.9s_infinite]'
-              )}
+              }`}
               src={rocket}
               alt='rocket'
             />{' '}
             <div
-              className={cn(
-                'absolute mx-auto w-[5.0625rem] h-[7rem] rocket_fire animate-[fire-img_0.7s_steps(1)_infinite]',
-                'left-1/2 -translate-x-[45%] top-[calc(100%-52px)] sm:top-[calc(100%-70px)]',
+              className={`absolute mx-auto w-[5.0625rem] h-[7rem] rocket_fire animate-[fire-img_0.7s_steps(1)_infinite] left-1/2 -translate-x-[45%] top-[calc(100%-52px)] sm:top-[calc(100%-70px)] ${
                 inGame && 'animate-[fire_img_0.35s_steps(1)_infinite]'
-              )}
+              }`}
             ></div>
           </div>
           <div className='w-full flex justify-center items-center sm:block sm:w-fit mx-auto mt-auto px-5 z-[3] relative mb-5 bg-[rgba(15,15,15,0.2)] p-[20px_0_0_0]'>
             <div className='mt-auto relative z-[1] flex items-center gap-[10px] mb-3 md:mb-[15px]'>
               <span
-                className={cn(
-                  'absolute left-1/2 -translate-x-1/2 -top-5',
-                  'text-[#eaeaea] text-center text-sm font-black uppercase'
-                )}
+                className={
+                  'absolute left-1/2 -translate-x-1/2 -top-5 text-[#eaeaea] text-center text-sm font-black uppercase'
+                }
               >
                 {RollValue}
               </span>
-              <span
-                className={cn(
-                  'text-[#eaeaea] text-center text-sm font-black uppercase'
-                )}
-              >
+              <span className='text-[#eaeaea] text-center text-sm font-black uppercase'>
                 {rollOver ? 5 : 0.1}
               </span>
               {/* <div className={s.custom_range_input_body}></div> */}
               <input
-                className={cn(
-                  'dice_range',
+                className={`dice_range ${
                   rollOver ? 'dice_over' : 'dice_under'
-                )}
+                }`}
                 type='range'
                 min={rollOver ? 5 : 0.1}
                 max={rollOver ? 99.9 : 95}
@@ -567,11 +548,7 @@ const RocketGame = () => {
                 ref={rangeRef}
                 step={0.1}
               />
-              <span
-                className={cn(
-                  'text-[#eaeaea] text-center text-sm font-black uppercase'
-                )}
-              >
+              <span className='text-[#eaeaea] text-center text-sm font-black uppercase'>
                 {rollOver ? 99.9 : 95}
               </span>
             </div>

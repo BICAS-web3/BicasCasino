@@ -5,8 +5,6 @@ import layout from '@/public/images/main_banner/layout.png'
 import token from '@/public/images/main_banner/token.png'
 import rocket from '@/public/images/main_banner/rocket.png'
 
-import { cn } from '@/lib/utils'
-
 import { Button } from '@/components/ui/button'
 
 import {
@@ -24,32 +22,18 @@ interface IPreview {
 export const Preview: FC<IPreview> = ({ className }) => {
   return (
     <article
-      className={cn(
-        'flex items-center flex-col lg:block w-full h-[383px]',
-        'relative pt-10 pb-[25px] overflow-hidden',
-        className
-      )}
+      className={`flex items-center flex-col lg:block w-full h-[383px] relative pt-10 pb-[25px] overflow-hidden ${className}`}
     >
       <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative z-[1]'>
         Hello Markus666 <br />
         Bonus on the first deposit
       </h2>
-      <h1
-        className={cn(
-          'text-center lg:text-left text-[50px] sm:text-[78px]',
-          ' font-black leading-[100%] relative z-[1] text-[#B4E915]'
-        )}
-      >
+      <h1 className='text-center lg:text-left text-[50px] sm:text-[78px] font-black leading-[100%] relative z-[1] text-[#B4E915]'>
         +$100
         <br /> Reward
       </h1>
       <div className='mt-3 relative z-[1] flex gap-[10px]'>
-        <button
-          className={cn(
-            'flex items-center justify-center rounded-[5px] w-[182px] h-9 text-[13px] font-semibold box-border',
-            'border border-[#FFEF29] shadow-[0px_0px_10px_0px_#EC8125_inset,0px_0px_10px_0px_#EC8125E5]'
-          )}
-        >
+        <button className='flex items-center justify-center rounded-[5px] w-[182px] h-9 text-[13px] font-semibold box-border border border-[#FFEF29] shadow-[0px_0px_10px_0px_#EC8125_inset,0px_0px_10px_0px_#EC8125E5]'>
           Deposit and play
         </button>
         <Button
@@ -62,18 +46,12 @@ export const Preview: FC<IPreview> = ({ className }) => {
       <Image
         src={rocket}
         alt='rocket'
-        className={cn(
-          'absolute w-[195px] h-[195px] z-[1]',
-          'top-[84px] lg:top-[99px] -right-[38px] lg:right-auto lg:left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px]'
-        )}
+        className='absolute w-[195px] h-[195px] z-[1] top-[84px] lg:top-[99px] -right-[38px] lg:right-auto lg:left-[86px] xl:left-[152px] 2xl:left-[450px] 3xl:left-[550px]'
       />
       <Image
         src={token}
         alt='token'
-        className={cn(
-          'hidden lg:block absolute w-[213px] h-[182px] z-[1]',
-          'top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px]'
-        )}
+        className='hidden lg:block absolute w-[213px] h-[182px] z-[1] top-[91px] right-[50px] xl:right-[130px] 2xl:right-[230px] 3xl:right-[430px]'
       />
       <Image
         className='absolute object-cover h-full top-0 right-0'

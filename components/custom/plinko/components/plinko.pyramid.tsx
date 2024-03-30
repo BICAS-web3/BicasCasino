@@ -4,7 +4,6 @@ import { useStore, useUnit } from 'effector-react'
 
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { useDeviceType } from '@/lib/hooks/useDeviceType'
-import { cn } from '@/lib/utils'
 
 import { BallSVG } from '../icons'
 import { genParabolaMovements, newMultipliers } from '../plinko.tools'
@@ -247,14 +246,11 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       for (let j = 0; j < i + 3; j++) {
         dots.push(
           <span
-            className={cn(
-              'flex justify-center items-center duration-500 mx-[7.5px] sm:mx-[11.5px] lg:mx-[15px] my-1 sm:my-1.5 lg:my-[11px]',
-              'rounded-[50%]',
-              `w-[var(--dot-width)] h-[var(--dot-height)]`,
+            className={`flex justify-center items-center duration-500 mx-[7.5px] sm:mx-[11.5px] lg:mx-[15px] my-1 sm:my-1.5 lg:my-[11px] rounded-[50%] w-[var(--dot-width)] h-[var(--dot-height)] ${
               blueColor[i]?.value
                 ? 'bg-[#3dadff]'
                 : ' bg-[linear-gradient(to_bottom,#ffffff,#ececec,#d9d9d9,#bebebe,#cdcdcd)]'
-            )}
+            }`}
             key={j}
           ></span>
         )

@@ -9,7 +9,6 @@ import tableBg from '@/public/images/games_assets/plinko/plinkoBgImage3.webp'
 import helmet from '@/public/images/plinko_images/helmet.webp'
 import statue from '@/public/images/plinko_images/statue.webp'
 
-import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 import PlinkoPyramid from './components/plinko.pyramid'
@@ -330,12 +329,7 @@ const PlinkoGame = () => {
         fullWon={fullWon}
         totalValue={totalValue}
       />
-      <div
-        className={cn(
-          'flex items-end justify-center gap-[1.5vw] p-0 sm:p-5',
-          'w-full sm:w-[calc(100%-40px)] h-[calc(100%-40px)] relative'
-        )}
-      >
+      <div className='flex items-end justify-center gap-[1.5vw] p-0 sm:p-5 w-full sm:w-[calc(100%-40px)] h-[calc(100%-40px)] relative'>
         <Coefficient ballsArr={ballsArr} multipliers={multipliers} />
         {path ? (
           <PlinkoPyramid

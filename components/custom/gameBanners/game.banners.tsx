@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, useRef } from 'react'
-
+import { useUnit } from 'effector-react'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import { Grid, Navigation } from 'swiper/modules'
 import 'swiper/css/grid'
@@ -26,10 +26,8 @@ import banner_16 from '@/public/images/new_banners/16.png'
 import GameBanner from './components/game.banner'
 import GameNavigation from './components/game.navigation'
 
-import { cn } from '@/lib/utils'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { SidebarModel } from '@/states'
-import { useUnit } from 'effector-react'
 
 interface IGameBanners {
   className?: string
@@ -113,10 +111,7 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
 
   return (
     <div
-      className={cn(
-        'flex flex-col gap-[10px]  max-w-[1562px] overflow-hidden',
-        className
-      )}
+      className={`flex flex-col gap-[10px]  max-w-[1562px] overflow-hidden ${className}`}
     >
       <div className='flex justify-between items-center'>
         <span className='font-bold text-base md:text-xl'>
@@ -137,10 +132,7 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
         modules={[Navigation, Grid]}
         spaceBetween={20}
         grid={{ rows: isMobile ? 1 : 2 }}
-        className={cn(
-          'max-w-full mb-2 sm:mb-5 gap-5',
-          'h-[124px] md:h-[500px] lg:h-[520px] xl:h-[484px] 2xl:h-[554px]'
-        )}
+        className='max-w-full mb-2 sm:mb-5 gap-5 h-[124px] md:h-[500px] lg:h-[520px] xl:h-[484px] 2xl:h-[554px]'
         navigation={{
           nextEl: '.next',
           prevEl: '.prev'
@@ -149,13 +141,11 @@ const GameBanners: FC<IGameBanners> = ({ className }) => {
         {banners.map(item => (
           <SwiperSlide
             key={item.link}
-            className={cn(
-              '2xl:w-[206px] w-[100px] md:w-[183px] ', // lg:w-[192px]
-              '2xl:max-w-[206px] max-w-[100px] md:max-w-[183px] lg:max-w-[192px]',
+            className={`2xl:w-[206px] w-[100px] md:w-[183px] 2xl:max-w-[206px] max-w-[100px] md:max-w-[183px] lg:max-w-[192px] ${
               open
                 ? 'xl:max-w-[171px] xl:w-[171px]'
                 : 'xl:max-w-[176px] xl:w-[176px]'
-            )}
+            }`}
           >
             <GameBanner img={item.bg} link={item.link} />
           </SwiperSlide>
