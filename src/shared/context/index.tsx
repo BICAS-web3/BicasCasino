@@ -4,17 +4,17 @@ import React, {
   useState,
   useEffect,
   ReactNode,
-  useRef,
-} from "react";
-import { useUnit } from "effector-react";
-import * as Model from "@/widgets/LiveBets/model";
-import { sessionModel } from "@/entities/session";
+  useRef
+} from 'react'
+import { useUnit } from 'effector-react'
+// import * as Model from "@/widgets/LiveBets/model";
+// import { sessionModel } from "@/entities/session";
 
-import * as LModel from "@/widgets/Layout/model";
+// import * as LModel from "@/widgets/Layout/model";
 
-const SocketContext = createContext<WebSocket | null>(null);
+const SocketContext = createContext<WebSocket | null>(null)
 
-export const useSocket = () => useContext(SocketContext);
+export const useSocket = () => useContext(SocketContext)
 
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [
@@ -26,7 +26,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     uuid,
     setSocketReset,
     setSocketAuth,
-    setSocketLogged,
+    setSocketLogged
   ] = useUnit([
     Model.newBet,
     sessionModel.setNewBet,
@@ -36,82 +36,82 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     Model.$uuid,
     LModel.setSocketReset,
     LModel.setSocketAuth,
-    LModel.setSocketLogged,
-  ]);
+    LModel.setSocketLogged
+  ])
 
-  const [reset, setReset] = useState(false);
+  const [reset, setReset] = useState(false)
 
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const uuidRef = useRef<string | null>(null);
+  const [socket, setSocket] = useState<WebSocket | null>(null)
+  const uuidRef = useRef<string | null>(null)
 
   useEffect(() => {
-    if (socket) return;
-    let uid: null | string = null;
-    const newSocket = new WebSocket("wss://game.greekkeepers.io/api/updates");
+    if (socket) return
+    let uid: null | string = null
+    const newSocket = new WebSocket('wss://game.greekkeepers.io/api/updates')
 
     newSocket.onopen = () => {
-      console.log("WebSocket connected");
-      reset && setSocketReset();
-      reset && setSocketAuth(false);
-      reset && setSocketLogged(false);
-    };
+      console.log('WebSocket connected')
+      reset && setSocketReset()
+      reset && setSocketAuth(false)
+      reset && setSocketLogged(false)
+    }
 
     newSocket.onmessage = (ev: MessageEvent<any>) => {
-      const data = JSON.parse(ev.data);
-      console.log("Received message from server:", data.uuid, uuidRef.current);
-      if (data.type === "Uuid") {
-        setUuid(data.uuid);
-        uid = data.uuid;
-        uuidRef.current = data.uuid;
+      const data = JSON.parse(ev.data)
+      console.log('Received message from server:', data.uuid, uuidRef.current)
+      if (data.type === 'Uuid') {
+        setUuid(data.uuid)
+        uid = data.uuid
+        uuidRef.current = data.uuid
       }
-      if (data.type === "State" && uid !== null) {
-        setResult(data);
+      if (data.type === 'State' && uid !== null) {
+        setResult(data)
         // uid = null;
       }
       if (
-        (data.type === "Bet" ||
-          data.type === "MakeBet" ||
-          data.type === "ContinueGame" ||
-          data.type === "State") &&
+        (data.type === 'Bet' ||
+          data.type === 'MakeBet' ||
+          data.type === 'ContinueGame' ||
+          data.type === 'State') &&
         data.uuid === uuidRef.current
       ) {
-        setResult(data);
+        setResult(data)
         if (data && (data?.coin_id || data?.coin_id === 0)) {
-          setTokenId(data.coin_id);
+          setTokenId(data.coin_id)
         }
       }
-      if (data.type == "Ping") {
-        return;
+      if (data.type == 'Ping') {
+        return
       }
 
-      if (data.type === "Bet") {
-        setNewBet(data);
-        newBet(data);
+      if (data.type === 'Bet') {
+        setNewBet(data)
+        newBet(data)
       }
-    };
+    }
 
     newSocket.onclose = () => {
-      console.log("websockets closed");
-      setSocket(null);
+      console.log('websockets closed')
+      setSocket(null)
       // setSocketLogged(false);
-      setReset(true);
-      uid = null;
-    };
+      setReset(true)
+      uid = null
+    }
     newSocket.onerror = () => {
-      console.log("websockets error");
-      setSocket(null);
+      console.log('websockets error')
+      setSocket(null)
       // setSocketLogged(false);
-      setReset(true);
-      uid = null;
-    };
-    setSocket(newSocket);
+      setReset(true)
+      uid = null
+    }
+    setSocket(newSocket)
 
     // return () => {
     //   newSocket.close();
     // };
-  }, [socket]);
+  }, [socket])
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
-  );
-};
+  )
+}

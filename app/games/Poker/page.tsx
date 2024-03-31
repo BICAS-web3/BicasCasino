@@ -1,4 +1,4 @@
-import { GamePage } from '@/components/custom/gameLayout/GamePage/GamePage'
+import { Poker as PokerGame } from '@/components/custom/poker/Poker'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,16 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Poker = () => {
-  return (
-    <GamePage
-      isPoker={true}
-      wagerContent={<h1>h</h1>}
-      gameInfoText='s'
-      gameTitle='s'
-    >
-      poker
-    </GamePage>
-  )
+  return <PokerGame gameText='test' />
 }
 
 export default Poker
