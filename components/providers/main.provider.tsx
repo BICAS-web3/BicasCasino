@@ -5,8 +5,13 @@ import { ThemeProvider } from './theme.provider'
 import { SocketProvider } from '@/components/providers/socket.provider'
 
 import Header from '@/components/custom/header'
-import Sidebar from '../custom/sidebar'
-import Footer from '@/components/custom/footer'
+// import Footer from '@/components/custom/Footer'
+
+import Sidebar from '@/components/custom/sidebar/index'
+
+import Footer from '../custom/footer'
+import ModalProvider from './modal.provider'
+import StoreProvider from './store.provider'
 
 type Props = {
   children: React.ReactNode
@@ -14,20 +19,23 @@ type Props = {
 
 const MainProvider = ({ children }: Props) => {
   return (
-    <ThemeProvider attribute='class' defaultTheme='system'>
-      <SocketProvider>
-        <main className='min-h-screen flex flex-col relative'>
-          <Header />
-          <div className='flex flex-nowrap'>
-            <Sidebar />
-            <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
-              {children}
-              <Footer />
+    <StoreProvider>
+      <ThemeProvider attribute='class' defaultTheme='system'>
+        <SocketProvider>
+          <main className='min-h-screen flex flex-col relative '>
+            <Header />
+            <div className='flex flex-nowrap relative'>
+              <Sidebar />
+              <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                {children}
+                <Footer />
+              </div>
             </div>
-          </div>
-        </main>
-      </SocketProvider>
-    </ThemeProvider>
+          </main>
+          <ModalProvider />
+        </SocketProvider>
+      </ThemeProvider>
+    </StoreProvider>
   )
 }
 

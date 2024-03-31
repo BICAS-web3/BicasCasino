@@ -1,29 +1,29 @@
-import Image from 'next/image'
-
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-interface IPreview {
-  className?: string
-}
-
-const Preview = ({ className }: IPreview) => {
+const Preview = ({ className }: { className?: string }) => {
   return (
     <article
       className={cn(
-        'relative w-full h-[383px] pt-10 pb-[25px] overflow-hidden',
+        'flex items-center flex-col lg:block w-full h-[383px]',
+        'relative pt-10 pb-[25px] overflow-hidden',
         className
       )}
       style={{
-        background: `url('/main_banner/layout.png') center center no-repeat`,
+        background: `url('/images/main_banner/layout.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <h2 className='font-bold text-[34px] leading-[46px] relative z-[1]'>
+      <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative z-[1]'>
         Hello Markus666 <br />
         Bonus on the first deposit
       </h2>
-      <h1 className='text-[78px] font-black leading-[100%] relative z-[1] text-[#B4E915]'>
+      <h1
+        className={cn(
+          'text-center lg:text-left text-[50px] sm:text-[78px]',
+          ' font-black leading-[100%] relative z-[1] text-[#B4E915]'
+        )}
+      >
         +$100
         <br /> Reward
       </h1>
@@ -43,12 +43,6 @@ const Preview = ({ className }: IPreview) => {
           Free Play
         </Button>
       </div>
-      {/* <Image
-        className='absolute w-full h-full top-0 left-0'
-        src='/main_banner/layout.png'
-        fill
-        alt='layout'
-      /> */}
     </article>
   )
 }

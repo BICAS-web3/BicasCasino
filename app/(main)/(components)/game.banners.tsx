@@ -12,6 +12,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),
@@ -39,6 +40,8 @@ const Carousel = dynamic(
 const GameBanners = ({ className }: { className?: string }) => {
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
+
+  const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
     <div className={`flex flex-col gap-[10px] overflow-hidden ${className}`}>
@@ -70,7 +73,7 @@ const GameBanners = ({ className }: { className?: string }) => {
         containerClassName='w-full mb-2 h-[554px] sm:mb-5 gap-5'
         loop
         grid={{
-          rows: 2
+          rows: isMobile ? 1 : 2
         }}
         navigation={{
           prevEl: navigationPrevRef.current,

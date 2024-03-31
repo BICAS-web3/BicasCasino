@@ -4,7 +4,19 @@ import Marquee from 'react-fast-marquee'
 import { stringRemoveSpacing } from '@/lib/string'
 import { ChevronsUp } from 'lucide-react'
 import { marquee_data } from './data'
-import MarqueeItem from './marquee.item'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const MarqueeItem = dynamic(() => import('./marquee.item'), {
+  loading: () => (
+    <div className='flex'>
+      <Skeleton className='w-6 h-6 aspect-square object-contain' />
+      <Skeleton className='w-6 h-12' />
+    </div>
+  ),
+  ssr: false
+})
+
 export const MarqueeLine = () => {
   return (
     <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-[2px] sm:pl-[2px] -ml-4 sm:ml-0'>

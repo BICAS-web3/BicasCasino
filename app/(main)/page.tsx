@@ -44,5 +44,4 @@ const Home = () => (
     <GameBanners className='mt-[15px]' />
   </div>
 )
-
 export default Home

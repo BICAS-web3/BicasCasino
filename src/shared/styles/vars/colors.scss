@@ -1,0 +1,22 @@
+:root {
+  --color-background-dark: #060605;
+  --gradient-game: linear-gradient(
+    79.62deg,
+    rgba(213, 167, 93, 0.1) 16.11%,
+    rgba(254, 249, 227, 0.1) 47.79%,
+    rgba(201, 155, 85, 0.1) 78.18%
+  );
+  --gradient-total: linear-gradient(45deg, #d5a74d 20%, #fef9e3 60%, #c99b55);
+  --gradient-table-odd-row: linear-gradient(
+    90deg,
+    rgba(213, 167, 93, 0.07) 30%,
+    rgba(213, 167, 93, 0) 100%
+  );
+  --color-bets-slider-background: #84756b26;
+  --color-bets-slider-thumb: #ffffff;
+  --color-bets-slider-thumb-border: #232220;
+  --color-bets-slider-fill-track: #dcb86e;
+  --color-profit-on-win: #0de0ae;
+  --border-gold: #d5a75d52;
+  --Gray-4: #363636;
+}

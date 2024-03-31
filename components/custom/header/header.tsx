@@ -4,6 +4,8 @@ import Logo from './components/logo'
 import User from './components/user'
 import Wallet from './components/wallet'
 
+import { cn } from '@/lib/utils'
+
 type Props = {}
 
 const Header = (props: Props) => {

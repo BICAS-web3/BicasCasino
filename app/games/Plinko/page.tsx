@@ -1,3 +1,4 @@
+import PlinkoGame from '@/components/custom/plinko'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Plinko = () => {
-  return <div>Plinko</div>
+  return <PlinkoGame />
 }
 
 export default Plinko

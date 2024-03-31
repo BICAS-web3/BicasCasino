@@ -21,11 +21,25 @@ module.exports = {
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: ['@svgr/webpack']
+      },
+      // Handle GLTF imports
+      {
+        test: /\.(gltf|glb)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              publicPath: '/_next/static/models',
+              outputPath: 'static/models',
+              name: '[name].[hash].[ext]'
+            }
+          }
+        ]
       }
     )
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i
+    fileLoaderRule.exclude = /\.(svg|gltf|glb)$/i
 
     return config
   },

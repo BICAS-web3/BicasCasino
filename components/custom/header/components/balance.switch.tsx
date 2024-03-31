@@ -38,12 +38,12 @@ const BalanceSwitcher = () => {
           onClick={() => setIsDrax(item.isDrax)}
           className={cn(
             'w-full h-full flex items-center pl-2 pr-1 cursor-pointer rounded-[50px] gap-2',
-            'text-[#7e7e7e] text-sm font-medium leading-6 text-left uppercase duration-500',
-            isDrax === item.isDrax && 'bg-[#202020] text-white'
+            'text-grey-acc text-sm font-medium leading-6 text-left uppercase duration-500',
+            isDrax === item.isDrax && 'bg-black-acc text-white'
           )}
         >
           {item.icon}
-          <div className='flex items-center gap-1'>
+          <div className='flex items-center gap-1 pr-2'>
             <span className='text-sm leading-4 truncate w-max max-w-12'>
               995.53
             </span>
