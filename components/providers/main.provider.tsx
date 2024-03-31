@@ -9,43 +9,33 @@ import Header from '@/components/custom/header'
 
 import Sidebar from '@/components/custom/sidebar/index'
 
-import { SidebarModel } from '@/states'
-import { useUnit } from 'effector-react'
-import { Payment } from '../custom/Payment/Payment'
-import { Registration } from '../custom/Registration/Registration'
 import Footer from '../custom/footer'
+import ModalProvider from './modal.provider'
+import StoreProvider from './store.provider'
 
 type Props = {
   children: React.ReactNode
 }
 
 const MainProvider = ({ children }: Props) => {
-  const [open] = useUnit([SidebarModel.$open])
   return (
-    <ThemeProvider attribute='class' defaultTheme='system'>
-      <SocketProvider>
-        <main className='min-h-screen flex flex-col relative '>
-          <Payment />
-          {/* <Registration /> */}
-          <Header />
-          <div className='flex flex-nowrap w-screen overflow-hidden relative '>
-            <Sidebar />
-            <div className='flex justify-between flex-col min-h-screen pt-5 w-full'>
-              <div
-                className={`flex flex-col max-w-[1562px] overflow-hidden mx-auto flex-[1_1_auto] ${
-                  open
-                    ? 'w-[calc(100vw-330px)] xl:w-[calc(100vw-370px)]'
-                    : 'w-[calc(100vw-163px)] xl:w-[calc(100vw-203px)]'
-                }`}
-              >
+    <StoreProvider>
+      <ThemeProvider attribute='class' defaultTheme='system'>
+        <SocketProvider>
+          <main className='min-h-screen flex flex-col relative '>
+            <Header />
+            <div className='flex flex-nowrap relative'>
+              <Sidebar />
+              <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
                 {children}
+                <Footer />
               </div>
-              <Footer />
             </div>
-          </div>
-        </main>
-      </SocketProvider>
-    </ThemeProvider>
+          </main>
+          <ModalProvider />
+        </SocketProvider>
+      </ThemeProvider>
+    </StoreProvider>
   )
 }
 

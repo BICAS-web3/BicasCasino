@@ -1,3 +1,5 @@
+'use client'
+
 import { useSocket } from '@/components/providers/socket.provider'
 import Preload from '@/components/ui/preload'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
@@ -9,6 +11,8 @@ import { useEffect, useState } from 'react'
 import ReactHowler from 'react-howler'
 import Wheel from './components/Wheel'
 import TotalCoeff from '@/components/ui/total.coeff'
+import bg from '@/public/images/wheel_images/bg.webp'
+import './styles.scss'
 
 interface IWheelColors {
   segment: '#100C1E' | '#1F1435'
@@ -1025,7 +1029,7 @@ const WheelGame = () => {
           quality={100}
         />
       </div>
-      <div className={s.wheel_container}>
+      <div className='flex flex-col items-center w-full h-full justify-center'>
         {/* <div className={s.total_container}>
           <span className={s.total_won}>{fullWon.toFixed(2)}</span>
           <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
@@ -1046,10 +1050,10 @@ const WheelGame = () => {
           fullWon={fullWon}
           totalValue={totalValue}
         />
-        <div className={cn(s.wheel_underwrapp)}>
-          <div className={cn(s.wheel_pick)}>
+        <div className='w-[280.959px] h-[280.959px] sm:w-[360px] sm:h-[360px] xl:w-[495px] xl:h-[495px] relative'>
+          <div className='top-[3px] h-[23.209px] w-[15.473px] sm:top-2 sm:w-[18.928px] sm:h-[28.392px] z-[2] xl:w-[26px] xl:h-[39px] xl:top-1.5 -translate-x-1/2 left-1/2 absolute'>
             <svg
-              className={s.circle}
+              className='w-[15.473px] h-[23.209px] sm:w-[18.928px] sm:h-[18.392px] xl:w-[26px] xl:h-[26px]'
               width='26'
               height='26'
               viewBox='0 0 26 26'
@@ -1061,12 +1065,13 @@ const WheelGame = () => {
             </svg>
             <svg
               className={cn(
-                s.pick,
-                inGame && s.wheel_pick_animation,
+                'relative left-1/2 -translate-x-1/2 -translate-y-[9px] -top-[7px] w-[5px] sm:w-[7px] sm:top-0 xl:w-auto',
+                inGame &&
+                  'animate-[pick-animation_0.15s_infinite_steps(2)] top-[5px] -translate-x-1/2 -rotate-[40deg]',
                 outcomes.length > 0 &&
                   lastNum !== null &&
                   lastNum > -1 &&
-                  s.wheel_pick_animation_2
+                  'animate-[pick-animation 0.15s 0.3s infinite steps(2)] top-[5px] -translate-x-1/2 -rotate-[40deg]'
               )}
               width='10'
               height='14'
@@ -1082,26 +1087,27 @@ const WheelGame = () => {
               />
             </svg>
           </div>
-          <div className={s.wheel_coef_cricle}>
+          <div className='w-[107.195px] h-[107.195px] text-xl sm:h-[131.132px] sm:w-[131.132px] sm:text-2xl xl:w-[180.126px] xl:h-[180.126px] xl:text-3xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#181724] border-[2px] border-[#2c2a45] flex justify-center items-center text-[#d7e8f1] shadow-[0px_0px_15px_rgba(255,255,255,0.4)] font-extrabold rounded-[50%] z-[2]'>
             {localNumber?.toFixed(2) || (0.0).toFixed(2)}x
           </div>
-          {Array.from({ length: 24 }).map((_, i) => (
+          {/* {Array.from({ length: 24 }).map((_, i) => (
             <BallIcon
               className={cn(
                 s.wheel_ball,
                 s[`wheel_ball_${i + 1}`],
-                highlightIndex.find(el => el === i + 1) && s.shadow
+                highlightIndex.find(el => el === i + 1) &&
+                  'drop-shadow-[(0px_0px_11px_#e9e9e9)]'
               )}
             />
-          ))}
+          ))} */}
           <div
             className={cn(
-              s.wheel_wrapp,
-              s[`wheel_wrapp_${pickedValue}`],
+              'wheel_wrapp',
+              `wheel_wrapp_${pickedValue}`,
               lastNum !== null &&
                 lastNum !== -1 &&
-                s[`wheel_wrapp_${pickedValue}_${lastNum}`],
-              inGame && s.wheel_underwrapp_animation
+                `wheel_wrapp_${pickedValue}_${lastNum}`,
+              inGame && 'animate-[rotate-2_2s_ease-in,rotate_7000s_2s_linear]'
             )}
           >
             <Wheel
@@ -1124,81 +1130,95 @@ const WheelGame = () => {
             />
           </div>
         </div>
-        <div className={cn(s.wheel_coeffs, true && s.wheel_coeffs_show)}>
+        <div
+          className={cn(
+            ' -bottom-[70px] w-[calc(100vw-20px)] sm:w-[calc(100vw-370px)] lg:w-[calc(100vw-750px)] gap-[5p] xl:gap-2.5 xl:w-[calc(100vw-885px)] duration-500 absolute flex left-1/2 -translate-x-1/2 scale-y-0 sm:-bottom-[50px] justify-center',
+            true && 'scale-y-[1] sm:bottom-2.5'
+          )}
+        >
           {levelCoef.map((el, i) => (
             <div
-              className={cn(
-                s.wheel_coeff,
-                s[`wheel_coeff_${el.color.slice(1)}`]
-              )}
+              className={cn('wheel_coeff', `wheel_coeff_${el.color.slice(1)}`)}
               key={i}
             >
               <span> {el.value.toFixed(2)}x</span>
             </div>
           ))}
         </div>
-        <div className={s.balls_arr}>
+        <div className='w-[calc(100%-20px)] top-2.5 sm:w-[calc(100%-262px)] xl:w-[calc(100%-358px)] 3xl:w-[calc(100%-398px)] gap-2.5 overflow-x-scroll flex flex-row-reverse -translate-x-1/2 absolute t-5 left-1/2'>
           {coefficientData
             // .sort((a, b) => b - a)
             .map((item, i) => (
               <div
                 className={cn(
-                  s.multiplier_value,
+                  'font-extrabold text-[0.9375rem] h-[30px] w-20 xl:h-10 xl:w-[70px] rounded-[5px] flex justify-center items-center px-2.5 xl:text-lg bg-[rgba(60,56,74,0.49)]',
 
                   level === 'Hard' &&
                     item > 0 &&
                     item < 10 &&
-                    s.multiplier_value_blue,
-                  level === 'Hard' && item > 11 && s.multiplier_value_purple,
-                  level === 'Easy' && item > 1.3 && s.multiplier_value_green,
+                    'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+                  level === 'Hard' &&
+                    item > 11 &&
+                    'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
+                  level === 'Easy' &&
+                    item > 1.3 &&
+                    'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
                   level === 'Easy' &&
                     item > 0 &&
                     item < 1.3 &&
-                    s.multiplier_value_blue,
+                    'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
                   level === 'Medium' &&
                     item > 0 &&
                     item < 1.6 &&
-                    s.multiplier_value_blue,
-                  level === 'Medium' && item == 2 && s.multiplier_value_yellow,
+                    'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+                  level === 'Medium' &&
+                    item == 2 &&
+                    'text-[#fbc02e] shadow-[0px_0px_10px_rgba(251,192,46,0.3)]',
                   (pickedValue === 10 ||
                     pickedValue === 20 ||
                     pickedValue === 30) &&
                     level === 'Medium' &&
                     item < 1.6 &&
                     item > 0 &&
-                    s.multiplier_value_blue,
+                    'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
                   (pickedValue === 10 ||
                     pickedValue === 20 ||
                     pickedValue === 30) &&
                     level === 'Medium' &&
                     item < 2 &&
                     item > 1.6 &&
-                    s.multiplier_value_purple,
+                    'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
                   (pickedValue === 40 || pickedValue === 50) &&
                     level === 'Medium' &&
                     item == 3 &&
-                    s.multiplier_value_purple,
+                    'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
                   (pickedValue === 10 ||
                     pickedValue === 20 ||
                     pickedValue === 30) &&
                     level === 'Medium' &&
                     item == 3 &&
-                    s.multiplier_value_green,
+                    'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
                   level === 'Medium' &&
                     pickedValue === 30 &&
                     item == 4 &&
-                    s.multiplier_value_red,
+                    'text-[red]',
                   level === 'Medium' &&
                     pickedValue === 40 &&
                     item == 1.6 &&
-                    s.multiplier_value_green,
+                    'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
                   level === 'Medium' &&
                     pickedValue === 50 &&
                     item == 5 &&
-                    s.multiplier_value_green,
-                  level === 'Medium' && item < 0.1 && s.multiplier_value_white,
-                  level === 'Hard' && item < 0.1 && s.multiplier_value_white,
-                  level === 'Easy' && item < 0.1 && s.multiplier_value_white
+                    'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
+                  level === 'Medium' &&
+                    item < 0.1 &&
+                    'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+                  level === 'Hard' &&
+                    item < 0.1 &&
+                    'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+                  level === 'Easy' &&
+                    item < 0.1 &&
+                    'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]'
                 )}
                 key={i}
               >

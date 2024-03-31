@@ -657,21 +657,21 @@
     transform: translate(-50%, -50%);
     background-color: #181724;
     border: solid 2px#2c2a45;
-    width: 180.126px;
-    height: 180.126px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #d7e8f1;
     text-shadow: 0px 0px 15px rgba(255, 255, 255, 0.4);
     font-family: var(--font-nunito-sans);
-    font-size: 1.8125rem;
     font-style: normal;
     font-weight: 800;
     line-height: normal;
     letter-spacing: 1.16px;
     border-radius: 50%;
     z-index: 2;
+    font-size: 1.8125rem;
+    width: 180.126px;
+    height: 180.126px;
     @media (max-width: 1280px) {
         width: 131.132px;
         height: 131.132px;
@@ -701,12 +701,12 @@
 .wheel_pick_animation {
     transform: translateX(-50%) rotate(-40deg);
     top: 5px;
-    animation: pick_animation 0.15s infinite steps(2);
+    animation: pick-animation 0.15s infinite steps(2);
 }
 .wheel_pick_animation_2 {
     transform: translateX(-50%) rotate(-40deg);
     top: 5px;
-    animation: pick_animation 0.15s 0.3s infinite steps(2);
+    animation: pick-animation 0.15s 0.3s infinite steps(2);
 }
 
 .pick {
@@ -724,7 +724,7 @@
     }
 }
 
-@keyframes pick_animation {
+@keyframes pick-animation {
     0% {
         transform: translateX(10%) translateY(-14px) rotate(-20deg);
     }
@@ -734,7 +734,7 @@
 }
 
 @media (max-width: 1280px) {
-    @keyframes pick_animation {
+    @keyframes pick-animation {
         0% {
             transform: translateX(10%) translateY(-9px) rotate(-20deg);
         }
@@ -745,7 +745,7 @@
 }
 
 @media (max-width: 650px) {
-    @keyframes pick_animation {
+    @keyframes pick-animation {
         0% {
             transform: translateX(10%) translateY(-10px) rotate(-20deg);
         }
@@ -1040,7 +1040,7 @@ $_50_steps: 50;
     color: red;
 }
 .wheel_underwrapp_animation {
-    animation: rotate_2 2s ease-in, rotate 7000s 2s linear;
+    animation: rotate-2 2s ease-in, rotate 7000s 2s linear;
 }
 @keyframes rotate {
     0% {
@@ -1051,7 +1051,7 @@ $_50_steps: 50;
     }
 }
 
-@keyframes rotate_2 {
+@keyframes rotate-2 {
     0% {
         transform: rotate(251deg);
     }

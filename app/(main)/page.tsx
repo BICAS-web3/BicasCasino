@@ -1,20 +1,47 @@
 import { Metadata } from 'next'
-import 'swiper/css/effect-fade'
-import 'swiper/css'
-import GameBanners from '@/components/custom/gameBanners'
-import MainBanner from '@/components/custom/mainBanner'
+
+const Banner = dynamic(() => import('./(components)/main.banner'), {
+  loading: () => (
+    <div className='flex flex-nowrap gap-x-5 gap-y-4 h-[240px] w-full'>
+      {[...Array(3)].map((_, index) => (
+        <div
+          className='w-[507px] h-[240px]'
+          key={`main-banner-skeleton--${index}`}
+        >
+          <Skeleton className='h-full w-full rounded-xl' key={index} />
+        </div>
+      ))}
+    </div>
+  ),
+  ssr: false
+})
+
+import GameBanners from './(components)/game.banners'
+
+const MarqueeLine = dynamic(() => import('./(components)/marquee'), {
+  loading: () => (
+    <div className='flex justify-between items-center flex-nowrap gap-x-2 gap-y-4 h-[50px] w-full'>
+      <Skeleton className='h-full flex-1 rounded-xl' />
+      <Skeleton className='h-full w-40 rounded-xl' />
+      <Skeleton className='h-full w-40 rounded-xl' />
+    </div>
+  ),
+  ssr: false
+})
+import Preview from './(components)/preview'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
-const Home = () => {
-  return (
-    <>
-      <MainBanner />
-      <GameBanners className='mt-[15px]' />
-    </>
-  )
-}
-
+const Home = () => (
+  <div className='flex flex-col px-10 py-5 mx-auto max-w-screen-2xl overflow-hidden w-full h-full'>
+    <MarqueeLine />
+    <Preview className='mt-[15px]' />
+    <Banner />
+    <GameBanners className='mt-[15px]' />
+  </div>
+)
 export default Home

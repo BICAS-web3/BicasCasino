@@ -12,11 +12,6 @@
   margin: 0;
 }
 
-body,
-html {
-  overflow-x: hidden !important;
-}
-
 *::-webkit-scrollbar {
   width: 4px;
   margin-left: 4px;

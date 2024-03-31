@@ -8,13 +8,14 @@ import { useSocket } from '@/components/providers/socket.provider'
 import Coefficient from '@/components/ui/coefficient'
 import TotalCoeff from '@/components/ui/total.coeff'
 
-import { Preload } from '@/src/shared/ui/Preload'
+// import { Preload } from '@/shared/ui/Preload'
 
 import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
 
 import applesBg from '@/public/images/apples/applesBg.webp'
 
 import AppleTable from './components/appleTable'
+import Preload from '@/components/ui/preload'
 
 const AppleGame = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([])
