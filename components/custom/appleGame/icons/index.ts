@@ -1,0 +1,8 @@
+export { default as AppleFalseIcoSVG } from './appleFalseIco.svg'
+export { default as AppleIcoSVG } from './appleIco.svg'
+export { default as BackSVG } from './back.svg'
+export { default as AppleBgTrueSVG } from './appleBgTrue.svg'
+export { default as AppleBgFalseSVG } from './appleBgFalse.svg'
+export { default as AppleBgSVG } from './appleBg.svg'
+export { default as CfBgSVG } from './cfBg.svg'
+export { default as CfBgActiveSVG } from './cfBgActive.svg'

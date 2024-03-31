@@ -5,7 +5,7 @@ import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
 import { PokerCard } from './PokerCard'
 import { useUnit } from 'effector-react'
 // import { CustomWagerRangeInputModel } from '../CustomWagerRangeInput'
-import { T_Card } from '@/src/shared/api'
+import { T_Card } from '@/api'
 //import BackgroundMusic from '../../public/media/games_assets/music/background1.wav';
 import useSound from 'use-sound'
 import { GameModel } from '@/states'
@@ -14,13 +14,13 @@ import { SettingModel } from '@/states'
 import { SessionModel } from '@/states'
 import { WagerModel } from '@/states'
 // import { WagerModel as WagerButtonModel } from '../Wager'
-import * as api from '@/src/shared/api'
-import { useMediaQuery } from '@/src/shared/tools'
+import * as api from '@/api'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { PokerCombination } from './PokerCombination'
 // import { WagerLowerBtnsBlock } from '../WagerLowerBtnsBlock/WagerLowerBtnsBlock'
 import clsx from 'clsx'
 // import { ProfitLine } from '../ProfitLine'
-import { Preload } from '@/src/shared/ui/Preload'
+// import { Preload } from '@/src/shared/ui/Preload'
 // import * as BetsModel from '@/widgets/LiveBets/model'
 import { RegistrModel } from '@/states'
 // import * as BalanceModel from '@/widgets/BalanceSwitcher/model'
@@ -548,11 +548,11 @@ export const Poker: FC<PokerProps> = props => {
 
       <div
         className='
-          w-full h-full relative min-h-[100vh]
+          w-full h-full relative 
         '
       >
         {/* <WagerLowerBtnsBlock game='poker' text={props.gameText} /> */}
-        {preloading && <Preload />}{' '}
+        {/* {preloading && <Preload />}{' '} */}
         <div
           className='
             w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]

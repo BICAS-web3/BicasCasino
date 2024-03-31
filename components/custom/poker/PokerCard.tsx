@@ -2,7 +2,7 @@ import { FC, RefObject, useEffect, useRef, useState } from 'react'
 import Image, { StaticImageData } from 'next/image'
 import backCard from '@/public/images/poker_images/backCard.svg'
 import useSound from 'use-sound'
-import * as api from '@/src/shared/api'
+import * as api from '@/api'
 // import * as GameModel from '@/widgets/GamePage/model'
 import { useUnit } from 'effector-react'
 interface itemProps {

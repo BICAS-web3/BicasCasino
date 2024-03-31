@@ -1,14 +1,12 @@
-import { FC, useEffect, useState } from 'react'
 import { useUnit } from 'effector-react'
+import { FC, useEffect, useState } from 'react'
 
-import arr from '@/public/registration/arr.png'
+import arr from '@/public/images/registration/arr.png'
 
 import { RegistrModel } from '@/states'
 
 import * as api from '@/api'
-import { EyeClose, EyeOpen } from '@/src/shared/SVGs'
-
-import clsx from 'clsx'
+// import { EyeClose, EyeOpen } from '@/shared/SVGs'
 
 interface SignupProps {}
 
@@ -162,7 +160,7 @@ export const Signup: FC<SignupProps> = () => {
             `}
             placeholder={userExist ? 'User exist' : ''}
           />
-          {showPassword ? (
+          {/* {showPassword ? (
             <EyeOpen
               onClick={() => setShowPassword(prev => !prev)}
               className='
@@ -176,7 +174,7 @@ export const Signup: FC<SignupProps> = () => {
                 absolute bottom-[10px] sm:bottom-[15px] sm:right-[15px] w-[18px] sm:w-[20px] cursor-pointer h-[18px] sm:h-[20px]
               '
             />
-          )}
+          )} */}
         </div>
         <div
           className='

@@ -2,9 +2,8 @@ import { FC, useEffect, useState } from 'react'
 
 import { useUnit } from 'effector-react'
 
-import * as api from '@/src/shared/api'
+import * as api from '@/api'
 
-import s from './styles.module.scss'
 import clsx from 'clsx'
 
 interface PokerCombinationProps {

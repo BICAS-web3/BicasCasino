@@ -4,7 +4,7 @@ import linkIco from '@/public/payment/linkIco.png'
 import allowArr from '@/public/payment/allowIco.png'
 import copyIco from '@/public/payment/copyIco.png'
 import clsx from 'clsx'
-import { WaitIco } from '@/src/shared/SVGs/WaitIco'
+// import { WaitIco } from '@/shared/SVGs/WaitIco'
 // import { PaymentCopied } from '../PaymentCopied/PaymentCopied'
 
 const tableInfo = [
@@ -162,11 +162,11 @@ export const PaymentStatus: FC<PaymentStatusProps> = () => {
               
             '
           >
-            {isSuccess ? (
+            {/* {isSuccess ? (
               <img src={allowArr.src} alt='' />
             ) : (
               <WaitIco orange={true} />
-            )}
+            )} */}
           </div>
         </div>
         <div

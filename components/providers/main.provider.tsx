@@ -9,48 +9,33 @@ import Header from '@/components/custom/header'
 
 import Sidebar from '@/components/custom/sidebar/index'
 
-import { cn } from '@/lib/utils'
-import { SidebarModel } from '@/states'
-import { useUnit } from 'effector-react'
-import { Payment } from '../custom/Payment/Payment'
-import { Registration } from '../custom/Registration/Registration'
-import Footer from '@/components/custom/Footer/index'
+import Footer from '../custom/Footer'
+import ModalProvider from './modal.provider'
+import StoreProvider from './store.provider'
 
 type Props = {
   children: React.ReactNode
 }
 
 const MainProvider = ({ children }: Props) => {
-  const [open] = useUnit([SidebarModel.$open])
   return (
-    <ThemeProvider attribute='class' defaultTheme='system'>
-      <main className='min-h-screen flex flex-col relative '>
-        <Payment />
-        {/* <Registration /> */}
-        <Header />
-        <div className='flex flex-nowrap w-screen overflow-hidden relative '>
-          <Sidebar />
-          <div
-            className={cn(
-              'flex justify-between flex-col',
-              'min-h-screen pt-5 w-full '
-            )}
-          >
-            <div
-              className={cn(
-                'flex flex-col max-w-[1562px] overflow-hidden mx-auto flex-[1_1_auto]',
-                open
-                  ? 'w-[calc(100vw-330px)] xl:w-[calc(100vw-370px)]'
-                  : 'w-[calc(100vw-163px)] xl:w-[calc(100vw-203px)]'
-              )}
-            >
-              {children}
+    <StoreProvider>
+      <ThemeProvider attribute='class' defaultTheme='system'>
+        <SocketProvider>
+          <main className='min-h-screen flex flex-col relative '>
+            <Header />
+            <div className='flex flex-nowrap relative'>
+              <Sidebar />
+              <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                {children}
+                <Footer />
+              </div>
             </div>
-            <Footer />
-          </div>
-        </div>
-      </main>
-    </ThemeProvider>
+          </main>
+          <ModalProvider />
+        </SocketProvider>
+      </ThemeProvider>
+    </StoreProvider>
   )
 }
 
