@@ -8,7 +8,7 @@ type Props = {}
 
 const Header = (props: Props) => {
   return (
-    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[2] w-full bg-black'>
+    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
       <Logo />
       <div className='flex items-center gap-4'>
         <BalanceSwitcher />

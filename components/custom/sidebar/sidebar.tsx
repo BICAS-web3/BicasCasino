@@ -17,7 +17,7 @@ const Sidebar = () => {
       id='sidebar'
       className={cn(
         'h-[calc(100vh_-_64px)] bg-[#181818] sticky left-0 top-16 flex flex-col',
-        open ? 'w-[257px]' : 'w-[90px]'
+        open ? 'w-[257px] min-w-[257px] max-w-max' : 'w-[90px]'
       )}
     >
       <div className={cn('flex flex-col py-4 px-5', open ? 'gap-1' : '')}>

@@ -1,30 +1,23 @@
 import Image from 'next/image'
 
-import layout from '@/public/main_banner/layout.png'
-import token from '@/public/main_banner/token.png'
-import rocket from '@/public/main_banner/rocket.png'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import {
-  CrossSVG,
-  RedSquereSVG,
-  SquereSVG,
-  TitleSVG,
-  TrangleSVG
-} from './icons'
-import { FC } from 'react'
+import { cn } from '@/lib/utils'
 
 interface IPreview {
   className?: string
 }
 
-export const Preview: FC<IPreview> = ({ className }) => {
+const Preview = ({ className }: IPreview) => {
   return (
     <article
       className={cn(
         'relative w-full h-[383px] pt-10 pb-[25px] overflow-hidden',
         className
       )}
+      style={{
+        background: `url('/main_banner/layout.png') center center no-repeat`,
+        backgroundSize: 'cover'
+      }}
     >
       <h2 className='font-bold text-[34px] leading-[46px] relative z-[1]'>
         Hello Markus666 <br />
@@ -50,26 +43,12 @@ export const Preview: FC<IPreview> = ({ className }) => {
           Free Play
         </Button>
       </div>
-      <Image
-        src={rocket}
-        alt='rocket'
-        className='absolute w-[195px] h-[195px] top-[99px] left-[550px] z-[1]'
-      />
-      <Image
-        src={token}
-        alt='token'
-        className='absolute w-[213px] h-[182px] top-[91px] right-[430px] z-[1]'
-      />
-      <Image
+      {/* <Image
         className='absolute w-full h-full top-0 left-0'
-        src={layout}
+        src='/main_banner/layout.png'
+        fill
         alt='layout'
-      />
-      <TitleSVG className='absolute top-[285px] right-[379px] z-[1]' />
-      <CrossSVG className='absolute top-[203px] right-[702px] z-[1]' />
-      <TrangleSVG className='absolute top-[43px] right-[621px] z-[1]' />
-      <RedSquereSVG className='absolute top-[47px] right-[246px] z-[1]' />
-      <SquereSVG className='absolute right-[221px] -bottom-[17px] z-[1]' />
+      /> */}
     </article>
   )
 }
