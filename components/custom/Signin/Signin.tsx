@@ -4,7 +4,7 @@ import { useUnit } from 'effector-react'
 import { RegistrModel } from '@/states'
 
 import * as api from '@/api'
-import { EyeClose, EyeOpen } from '@/src/shared/SVGs'
+// import { EyeClose, EyeOpen } from '@/shared/SVGs'
 
 interface SigninProps {}
 
@@ -133,7 +133,7 @@ export const Signin: FC<SigninProps> = () => {
           ${errorData ? 'border border-[red]' : ''}
         `}
         />
-        {showPassword ? (
+        {/* {showPassword ? (
           <EyeOpen
             onClick={() => setShowPassword(prev => !prev)}
             className='
@@ -147,7 +147,7 @@ export const Signin: FC<SigninProps> = () => {
             absolute bottom-[10px] sm:bottom-[15px] sm:right-[15px] w-[18px] sm:w-[20px] cursor-pointer h-[18px] sm:h-[20px]
           '
           />
-        )}
+        )} */}
       </div>
       <button
         onClick={() => setStartLogin(true)}

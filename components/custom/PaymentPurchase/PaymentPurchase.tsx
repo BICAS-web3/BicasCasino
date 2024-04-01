@@ -5,7 +5,7 @@ import { PaymentDropdown } from '../PaymentDropdown/PaymentDropdown'
 import { coinsList } from '../PaymentRedeem/PaymentRedeem'
 import copyIco from '@/public/payment/copyIco.png'
 import clsx from 'clsx'
-import { WaitIco } from '@/src/shared/SVGs/WaitIco'
+// import { WaitIco } from '@/shared/SVGs/WaitIco'
 import bonusCoinIco from '@/public/payment/bonusCoin.webp'
 import draxCoinIco from '@/public/payment/draxMiniIco.webp'
 // import * as api from '@/shared/api'
@@ -473,7 +473,7 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
               bg-[#212121] rounded-[8px] w-[150px]
             '
           >
-            <WaitIco />
+            {/* <WaitIco /> */}
           </div>
         </div>
       </div>

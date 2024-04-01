@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils'
 import { FC } from 'react'
 
 interface ISelector {
@@ -24,11 +23,7 @@ const Selector: FC<ISelector> = props => {
           <h3 className={'text-[#7e7e7e] text-sm font-semibold'}>
             {dice.title === 'Roll' ? 'Height' : dice.title}
           </h3>
-          <div
-            className={cn(
-              'flex justify-between items-center pl-4 bg-[#0f0f0f] rounded-mb sm:rounded-lp overflow-hidden mt-1.5'
-            )}
-          >
+          <div className='flex justify-between items-center pl-4 bg-[#0f0f0f] rounded-mb sm:rounded-lp overflow-hidden mt-1.5'>
             <span
               className={
                 'text-[#eaeaea] text-center text-sm font-bold uppercase'
@@ -36,11 +31,7 @@ const Selector: FC<ISelector> = props => {
             >
               {dice.value}
             </span>
-            <div
-              className={cn(
-                'cursor-pointer h-10 w-10 flex items-center justify-center'
-              )}
-            >
+            <div className='cursor-pointer h-10 w-10 flex items-center justify-center'>
               {dice.title !== 'Roll' && (
                 <dice.img_src
                   onClick={() => {

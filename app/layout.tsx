@@ -1,18 +1,22 @@
-import '@fontsource/nunito-sans'
-import './globals.css'
-import { EffectorNext } from '@effector/next'
 import MainProvider from '@/components/providers/main.provider'
-import { Fonts } from '@/src/shared/fonts'
-import { SocketProvider } from '@/components/providers/socket.provider'
-import { Payment } from '@/components/custom/Payment/Payment'
+import './globals.css'
 
-// const nunitoSans = NunitoSans({ subsets: ['latin'] })
+import { Nunito_Sans, Source_Sans_3 } from 'next/font/google'
+import localFont from 'next/font/local'
+
+const source_sans_3 = Source_Sans_3({
+  subsets: ['cyrillic']
+})
+
+const nunito_sans = Nunito_Sans({
+  subsets: ['cyrillic']
+})
 
 function MainLayout({ children }) {
   return (
     <html suppressHydrationWarning suppressContentEditableWarning lang='en'>
       <body
-        className={`dark:bg-primary-dark`}
+        className={`${nunito_sans.className} ${source_sans_3.className} dark:bg-primary-dark`}
         suppressHydrationWarning
         suppressContentEditableWarning
       >

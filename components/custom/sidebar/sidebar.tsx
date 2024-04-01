@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 import { SBottomMenu, SGames, STopMenu } from './data'
 
 import { stringRemoveSpacing } from '@/lib/string'
+import { SidebarModel } from '@/states'
+import { useUnit } from 'effector-react'
 import Menu from './components/DropdownMenu'
 import MenuItem from './components/MenuItem'
 import SidebarSettings from './components/Settings'
-import { useUnit } from 'effector-react'
-import { SidebarModel } from '@/states'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])

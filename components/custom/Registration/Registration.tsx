@@ -1,18 +1,34 @@
 import { FC } from 'react'
+<<<<<<< HEAD
 import s from './styles.module.scss'
 import Link from 'next/link'
 import HeaderLogo from '@/public/brand_images/logoLeft.png'
 import HeaderBrandText from '@/public/brand_images/HeaderBrandText.png'
 import Image from 'next/image'
 import bg from '@/public/registration/formBg.webp'
+=======
+// import s from './styles.module.scss'
+import Link from 'next/link'
+// import HeaderLogo from '@/public/images/brand_images/logoLeft.png'
+import HeaderBrandText from '@/public/images/brand_images/HeaderBrandText.png'
+// import Image from 'next/image'
+// import bg from '@/public/images/registration/formBg.webp'
+>>>>>>> 04489ef76750b6adeef3be66d4b6be781993238f
 import { RegistrModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { Signup } from '../Signup/Signup'
 import { Signin } from '../Signin/Signin'
+<<<<<<< HEAD
 import clsx from 'clsx'
 import googleIco from '@/public/registration/googleIco.png'
 import fbIco from '@/public/registration/fbIco.png'
 import twitterIco from '@/public/registration/twitterIco.png'
+=======
+// import clsx from 'clsx'
+import googleIco from '@/public/images/registration/googleIco.png'
+import fbIco from '@/public/images/registration/fbIco.png'
+import twitterIco from '@/public/images/registration/twitterIco.png'
+>>>>>>> 04489ef76750b6adeef3be66d4b6be781993238f
 import { PasswordRecovery } from '../PasswordRecovery/PasswordRecovery'
 
 interface RegistrationProps {}
@@ -41,21 +57,33 @@ export const Registration: FC<RegistrationProps> = () => {
             relative p-[30px] hidden sm:block
           '
         >
+<<<<<<< HEAD
           <img
+=======
+          {/* <img
+>>>>>>> 04489ef76750b6adeef3be66d4b6be781993238f
             src={bg.src}
             className='
               absolute object-cover w-full h-full top-0 left-0
               rounded-[12px_0_0_12px]
             '
             alt=''
+<<<<<<< HEAD
           />
+=======
+          /> */}
+>>>>>>> 04489ef76750b6adeef3be66d4b6be781993238f
           <Link
             className='
             relative z-[5] flex items-center 
           '
             href='/'
           >
+<<<<<<< HEAD
             <img src={HeaderLogo.src} alt={''} width={51} height={40} />
+=======
+            {/* <img src={HeaderLogo.src} alt={''} width={51} height={40} /> */}
+>>>>>>> 04489ef76750b6adeef3be66d4b6be781993238f
             <img
               className='
                 ml-[7px]

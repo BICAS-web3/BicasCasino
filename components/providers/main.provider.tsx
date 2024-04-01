@@ -4,19 +4,16 @@ import { ThemeProvider } from './theme.provider'
 
 import { SocketProvider } from '@/components/providers/socket.provider'
 
+import Footer from '@/components/custom/footer'
 import Header from '@/components/custom/header'
-// import Footer from '@/components/custom/Footer'
 
 import Sidebar from '@/components/custom/sidebar/index'
-
-import Footer from '../custom/footer'
 import ModalProvider from './modal.provider'
 import StoreProvider from './store.provider'
 
 type Props = {
   children: React.ReactNode
 }
-
 const MainProvider = ({ children }: Props) => {
   return (
     <StoreProvider>

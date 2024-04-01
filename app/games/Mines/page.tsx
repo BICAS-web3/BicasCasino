@@ -1,3 +1,4 @@
+import MinesGame from '@/components/custom/minesGame/MinesGame'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Wheel = () => {
-  return <div>Wheel</div>
+  return <MinesGame />
 }
 
 export default Wheel

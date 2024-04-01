@@ -1,7 +1,6 @@
 'use client'
 import { FC, useEffect, useState } from 'react'
 import upArr from '@/public/payment/upArrow.webp'
-import Image from 'next/image'
 
 interface PaymentDropdownProps {
   list: any[]
@@ -48,11 +47,9 @@ export const PaymentDropdown: FC<PaymentDropdownProps> = ({
 
           '
         >
-          <Image
-            className='rounded-full'
+          <img
+            className='w-[24px] h-[24px] rounded-[100%]'
             src={activeItem.ico.src}
-            width={24}
-            height={24}
             alt=''
           />
           {activeItem.title.split('_')[0]}
