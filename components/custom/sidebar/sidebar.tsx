@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 import { SBottomMenu, SGames, STopMenu } from './data'
 
 import { stringRemoveSpacing } from '@/lib/string'
+import { SidebarModel } from '@/states'
+import { useUnit } from 'effector-react'
 import Menu from './components/DropdownMenu'
 import MenuItem from './components/MenuItem'
 import SidebarSettings from './components/Settings'
-import { useUnit } from 'effector-react'
-import { SidebarModel } from '@/states'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -16,8 +16,8 @@ const Sidebar = () => {
     <div
       id='sidebar'
       className={cn(
-        'h-[calc(100vh_-_64px)] bg-[#181818] sticky left-0 flex flex-col min-w-max', // top-16
-        open ? 'w-[257px]' : 'w-[90px]'
+        'h-[calc(100vh_-_64px)] bg-[#181818] sticky left-0 top-16 flex flex-col',
+        open ? 'w-[257px] min-w-[257px] max-w-max' : 'w-[90px]'
       )}
     >
       <div className={cn('flex flex-col py-4 px-5', open ? 'gap-1' : '')}>

@@ -12,8 +12,6 @@ import TotalCoeff from '@/components/ui/total.coeff'
 
 import Model from './models/coin'
 
-import tableBg from '@/public/images/coinflip_images/coinflipTableBg.webp'
-
 import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
 
 enum CoinAction {
@@ -248,8 +246,9 @@ const CoinFlipGame = () => {
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 overflow-hidden z-[-1]'>
           <Image
             onLoad={() => setIMageLoading(false)}
-            src={tableBg}
+            src='/images/coinflip_images/coinflipTableBg.webp'
             className='w-full object-cover h-full'
+            fill
             alt='table-bg'
           />
         </div>

@@ -43,7 +43,7 @@ const BalanceSwitcher = () => {
           )}
         >
           {item.icon}
-          <div className='flex items-center gap-1'>
+          <div className='flex items-center gap-1 pr-2'>
             <span className='text-sm leading-4 truncate w-max max-w-12'>
               995.53
             </span>

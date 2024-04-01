@@ -18,7 +18,9 @@ module.exports = {
         md: '996px'
       }
     },
-
+    fontFamily: {
+      'nunito_sans': ['"Nunito Sans"'],
+    },
     extend: {
       flex: {
         1: '1'

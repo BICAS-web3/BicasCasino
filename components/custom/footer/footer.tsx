@@ -5,8 +5,8 @@ import { footer_text, games } from './data'
 
 const Footer = () => (
   <div className='bg-[#181818] flex flex-col justify-center items-center w-full p-10 gap-y-6'>
-    <div className='flex justify-between items-center flex-nowrap w-full h-max'>
-      <div className='flex-1 hidden sm:flex sm:items-start sm:h-full sm:gap-[5vw]'>
+    <div className='flex justify-between items-center flex-wrap w-full h-max'>
+      <div className='flex-1 hidden sm:flex flex-wrap pr-16 sm:h-full sm:gap-[5vw]'>
         {games.map((item, ind) => (
           <div className='flex flex-col gap-[15px]' key={`games-${ind}_column`}>
             {item.list.map((link, index) => (

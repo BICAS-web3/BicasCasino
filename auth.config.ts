@@ -1,7 +1,7 @@
 import Credentials from 'next-auth/providers/credentials'
 
 import type { NextAuthConfig } from 'next-auth'
-import { loginSchema, registrSchema } from './schemas'
+import { registrSchema } from './schemas'
 
 export default {
   providers: [
@@ -11,9 +11,9 @@ export default {
         const validateFields = registrSchema.safeParse(credentials)
         if (validateFields.success) {
           console.log(1)
-          const { password, email } = validateFields.data
+          const { password, username } = validateFields.data
 
-          if (!email || !password) {
+          if (!username || !password) {
             return null
           } else {
             return credentials
