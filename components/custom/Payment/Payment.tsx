@@ -1,16 +1,15 @@
 'use client'
-import { FC, useEffect, useState } from 'react'
-import { useUnit } from 'effector-react'
-import { PaymentModel } from '@/states'
-import storeIco from '@/public/payment/storeIco.webp'
 import closeIco from '@/public/payment/closeIco.webp'
+import storeIco from '@/public/payment/storeIco.webp'
+import { PaymentModel } from '@/states'
+import { useUnit } from 'effector-react'
+import { FC, useEffect, useState } from 'react'
 import { PaymentRedeem } from '../PaymentRedeem/PaymentRedeem'
 import { PaymentTips } from '../PaymentTips/PaymentTips'
 // import * as PaymentRedeemM from "@/widgets/PaymentRedeem/model";
 import { PaymentPurchase } from '../PaymentPurchase/PaymentPurchase'
-import { PaymentStatus } from '../PaymentStatus/PaymentStatus'
-import { PaymentNav } from './components/PaymentNav'
 import { PaymentBuyList } from './components/PaymentBuyList'
+import { PaymentNav } from './components/PaymentNav'
 // import { useDropdown } from "@/shared/tools";
 // import { WalletBtn } from "@/shared/SVGs";
 // import * as api from "@/shared/api";

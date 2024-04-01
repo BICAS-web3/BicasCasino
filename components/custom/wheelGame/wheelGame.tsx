@@ -1,7 +1,7 @@
 'use client'
 
 import { useSocket } from '@/components/providers/socket.provider'
-import Preload from '@/components/ui/preload'
+import Preload from '@/components/preload'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'

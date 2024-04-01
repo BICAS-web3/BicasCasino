@@ -21,7 +21,15 @@ const buttonVariants = cva(
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 gray: 'bg-[#20202080] border border-[#363636]',
-                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]'
+                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]',
+                auth: `text-[16px] h-[40px] border border-orange cursor-pointer flex
+            justify-center items-center rounded-[8px] w-full text-orange
+            font-bold leading-[16px] tracking-def text-center transition-all duration-300
+            relative overflow-hidden after:transition-all after:opacity-0 after:duration-300
+            after:invisible after:w-[40px] after:h-[40px] after:absolute after:bottom-[-20px]
+            after:left-[50%] after:translate-x-[-50%] after:bg-[#ffb800] after:mix-blend-hard-light
+            after:rounded-[100px] after:blur-[50px] hover:after:opacity-100 hover:after:visible
+            active:after:blur-[45px] active:after:w-[50px] active:after:h-[50px]`
             },
             size: {
                 default: 'h-10 px-4 py-2',

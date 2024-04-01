@@ -7,7 +7,7 @@ import { Canvas } from '@react-three/fiber'
 import Image from 'next/image'
 
 import { useSocket } from '@/components/providers/socket.provider'
-import Preload from '@/components/ui/preload'
+import Preload from '@/components/preload'
 import TotalCoeff from '@/components/ui/total.coeff'
 
 import Model from './models/coin'

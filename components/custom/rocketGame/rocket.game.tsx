@@ -14,7 +14,7 @@ import { DiceCloseSVG, DicePrecentageSVG, DiceSwapSVG } from './icons'
 import { useSocket } from '@/components/providers/socket.provider'
 import Coefficient from '@/components/ui/coefficient'
 import TotalCoeff from '@/components/ui/total.coeff'
-import Preload from '@/components/ui/preload'
+import Preload from '@/components/preload'
 import Selector from './components/selector'
 
 const RocketGame = () => {

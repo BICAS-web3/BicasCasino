@@ -16,7 +16,7 @@ import { useSocket } from '@/components/providers/socket.provider'
 
 import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
 import Coefficient from '@/components/ui/coefficient'
-import Preload from '@/components/ui/preload'
+import Preload from '@/components/preload'
 import TotalCoeff from '@/components/ui/total.coeff'
 
 const PlinkoGame = () => {

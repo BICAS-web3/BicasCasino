@@ -1,3 +1,5 @@
+'use client'
+
 import { useUnit } from 'effector-react'
 import { FC, useEffect, useState, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,9 +21,7 @@ import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 interface SigninProps {}
 
-export const Signin: FC<SigninProps> = () => {
-  const [errorData, setErrorData] = useState(false)
-
+const Signin: FC<SigninProps> = () => {
   const [isPending, setrtTransition] = useTransition()
 
   const [setAuth, setAccessToken, setRefreshToken] = useUnit([
@@ -50,7 +50,6 @@ export const Signin: FC<SigninProps> = () => {
       password: ''
     }
   })
-  const [startLogin, setStartLogin] = useState(false)
 
   useEffect(() => {
     if (error) {
@@ -74,9 +73,6 @@ export const Signin: FC<SigninProps> = () => {
         setAuth(true)
       } else if ((data.body as any)?.status !== 'OK') {
         setAuth(false)
-        if ((data.body as any)?.error === 'Wrong login or password') {
-          setErrorData(true)
-        }
       }
     })
   }
@@ -129,12 +125,7 @@ export const Signin: FC<SigninProps> = () => {
               </FormItem>
             )}
           />{' '}
-          <Button
-            disabled={isPending}
-            type='submit'
-            onClick={() => setStartLogin(true)}
-            variant='auth'
-          >
+          <Button disabled={isPending} type='submit' variant='auth'>
             {isPending ? 'In process' : 'Sign In'}
           </Button>
         </form>
@@ -152,3 +143,4 @@ export const Signin: FC<SigninProps> = () => {
     </div>
   )
 }
+export default Signin

@@ -12,10 +12,10 @@ import { FC, useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import SelectedMine from './components/selected.mine'
 
+import Preload from '@/components/preload'
+import { useSocket } from '@/components/providers/socket.provider'
 import background from '@/public/images/mines_images/mines_bg.webp'
 import { MineSVG } from './icons'
-import { useSocket } from '@/components/providers/socket.provider'
-import Preload from '@/components/ui/preload'
 
 export enum Tile {
   Closed,

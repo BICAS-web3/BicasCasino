@@ -8,14 +8,10 @@ import { useSocket } from '@/components/providers/socket.provider'
 import Coefficient from '@/components/ui/coefficient'
 import TotalCoeff from '@/components/ui/total.coeff'
 
-// import { Preload } from '@/shared/ui/Preload'
-
 import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
 
-import applesBg from '@/public/images/apples/applesBg.webp'
-
 import AppleTable from './components/appleTable'
-import Preload from '@/components/ui/preload'
+import Preload from '@/components/preload'
 
 const AppleGame = () => {
   const [appleData, setAppleData] = useState<IAppleData[]>([])
@@ -475,7 +471,7 @@ const AppleGame = () => {
         <div className='absolute top-0 right-0 w-full h-full overflow-hidden rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0]'>
           <Image
             onLoad={() => setIsLoading(false)}
-            src={applesBg}
+            src='/images/apples/applesBg.webp'
             className='absolute right-0 bottom-0 h-full overflow-hidden object-cover z-[-1] w-full 2xl:w-[1438px] 3xl:w-full'
             alt='apples-static-bg'
           />

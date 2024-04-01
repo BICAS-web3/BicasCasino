@@ -2,8 +2,6 @@ import MainProvider from '@/components/providers/main.provider'
 import '@fontsource/nunito-sans'
 import './globals.css'
 
-// const nunitoSans = NunitoSans({ subsets: ['latin'] })
-
 function MainLayout({ children }) {
   return (
     <html suppressHydrationWarning suppressContentEditableWarning lang='en'>

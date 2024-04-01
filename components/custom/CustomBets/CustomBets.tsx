@@ -1,8 +1,7 @@
 'use client'
-import { CustomBetsItem } from './CustomBetsItem'
 import { FC } from 'react'
+import { CustomBetsItem } from './CustomBetsItem'
 // import { LiveBetsModel } from '../LiveBets'
-import { useUnit } from 'effector-react'
 // import { settingsModel } from "@/entities/settings";
 // import { T_BetInfo } from "@/shared/api";
 // import { sessionModel } from "@/entities/session";
