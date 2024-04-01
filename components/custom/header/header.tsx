@@ -13,7 +13,7 @@ const Header = (props: Props) => {
     <header
       className={cn(
         'flex justify-between items-center px-5 py-3',
-        'box-border sticky min-h-max top-0 z-[5] w-full bg-black'
+        'box-border sticky min-h-max top-0 z-[15] w-full bg-black'
       )}
     >
       <Logo />

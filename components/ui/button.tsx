@@ -21,7 +21,9 @@ const buttonVariants = cva(
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 gray: 'bg-[#20202080] border border-[#363636]',
-                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]'
+                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]',
+                supportLink:
+                    'cursor-pointer rounded-[12px] border border-[#2e2e2e] bg-[rgba(24,_24,_24,_0.6)] flex items-center justify-center w-[160px] sm:w-[200px] text-[0.875rem] sm:text-[1rem] leading-[19.6px] sm:leading-[22.4px] h-[40px] font-bold tracking-[0.64px]'
             },
             size: {
                 default: 'h-10 px-4 py-2',

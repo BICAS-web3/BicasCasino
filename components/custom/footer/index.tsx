@@ -4,7 +4,7 @@ import Social from './components/Social'
 import { footer_text, games } from './data'
 
 const Footer = () => (
-  <div className='bg-[#181818] flex flex-col justify-center items-center w-full p-10 gap-y-6'>
+  <div className='bg-[#181818] mt-[70px] flex flex-col justify-center items-center w-full p-10 gap-y-6'>
     <div className='flex justify-between items-center flex-nowrap w-full h-max'>
       <div className='flex-1 hidden sm:flex sm:items-start sm:h-full sm:gap-[5vw]'>
         {games.map((item, ind) => (
