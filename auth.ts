@@ -15,7 +15,8 @@ export const {
       }
       return session
     },
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      console.log('user::::', user)
       if (!token.sub) return token
       console.log(3, token)
       return token

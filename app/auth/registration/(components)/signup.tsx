@@ -20,6 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signUp } from '@/app/auth/(actions)/signUp'
 import Checkbox from './checkbox'
 import LoginLink from './login.link'
+import { signIn } from 'next-auth/react'
+import { BaseApiUrl } from '@/api'
 
 interface SignupProps {}
 
@@ -67,7 +69,54 @@ const SignUp: FC<SignupProps> = () => {
 
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
-      signUp(values)
+      // signUp(values)
+      // signIn('credentials', {
+      //   username: values.username,
+      //   password: values.password,
+      //   callbackUrl: '/'
+      // })
+      const { username, password } = values
+      const data = await fetch(`${BaseApiUrl}/user/register`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      })
+        .then(async res => await res.json())
+        .catch(e => e)
+
+      if (data.status === 'OK') {
+        const userData = await fetch(`${BaseApiUrl}/user/login`, {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            login: username,
+            password
+          })
+        })
+          .then(async res => await res.json())
+          .catch(e => e)
+        console.log('data: ', JSON.stringify(userData))
+        if (userData.status === 'OK') {
+          setAccessToken((userData.body as any).access_token)
+          setRefreshToken((userData.body as any).refresh_token)
+          localStorage.setItem('auth', (userData.body as any).access_token)
+          console.log(data)
+          await signIn('credentials', {
+            username: values.username,
+            password: values.password,
+            redirectTo: '/'
+          })
+        }
+      }
     })
   }
   return (

@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'

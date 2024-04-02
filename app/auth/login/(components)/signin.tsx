@@ -125,7 +125,12 @@ const Signin: FC<SigninProps> = () => {
               </FormItem>
             )}
           />{' '}
-          <Button disabled={isPending} type='submit' variant='auth'>
+          <Button
+            className='mt-2.5 sm:mt-5'
+            disabled={isPending}
+            type='submit'
+            variant='auth'
+          >
             {isPending ? 'In process' : 'Sign In'}
           </Button>
         </form>

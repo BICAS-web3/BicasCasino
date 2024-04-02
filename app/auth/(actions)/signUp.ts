@@ -27,17 +27,33 @@ export const signUp = async (values: z.infer<typeof registrSchema>) => {
   })
     .then(async res => await res.json())
     .catch(e => e)
-  try {
-    console.log(data)
-    if (data.status === 'OK') {
-      await signIn('credentials', {
-        username: values.username,
-        password: values.password,
-        redirectTo: '/'
+
+  if (data.status === 'OK') {
+    const userData = await fetch(`${BaseApiUrl}/user/login`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        login: username,
+        password
       })
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+    console.log('data: ', JSON.stringify(userData))
+    try {
+      if (userData.status === 'OK') {
+        await signIn('credentials', {
+          username: values.username,
+          password: values.password,
+          redirectTo: '/'
+        })
+      }
+      console.log('done')
+    } catch (e) {
+      console.log(e)
     }
-    console.log('done')
-  } catch (e) {
-    console.log(e)
   }
 }
