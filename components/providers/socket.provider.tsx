@@ -48,7 +48,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (socket) return
     let uid: null | string = null
-    const newSocket = new WebSocket('wss://game.greekkeepers.io/api/updates')
+    const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
 
     newSocket.onopen = () => {
       console.log('WebSocket connected')
@@ -108,8 +108,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocket(newSocket)
 
     // return () => {
-    //   newSocket.close();
-    // };
+    //   newSocket.close()
+    // }
   }, [socket])
 
   return (

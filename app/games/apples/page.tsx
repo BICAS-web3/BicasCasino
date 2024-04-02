@@ -1,5 +1,5 @@
-import AppleGame from '@/components/custom/appleGame'
 import { Metadata } from 'next'
+import AppleGame from './(components)/wrapper'
 
 export const metadata: Metadata = {
   title: 'Games - Apples',

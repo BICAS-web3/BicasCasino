@@ -8,12 +8,20 @@ import { useSocket } from '@/components/providers/socket.provider'
 import Coefficient from '@/components/ui/coefficient'
 import TotalCoeff from '@/components/ui/total.coeff'
 
-import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
+import {
+  GameModel,
+  RegistrModel,
+  SessionModel,
+  UserModel,
+  WagerModel
+} from '@/states'
 
-import AppleTable from './components/appleTable'
+import AppleTable from './appleTable'
 import Preload from '@/components/preload'
 
 const AppleGame = () => {
+  const [start, setStart] = useState(true)
+  const [keep, setKeep] = useState(false)
   const [appleData, setAppleData] = useState<IAppleData[]>([])
 
   const [setEmpty] = useUnit([GameModel.setEmptyField])
@@ -123,19 +131,19 @@ const AppleGame = () => {
     refund,
     setRefund,
     gamesList,
-    // result,
-    // setResult,
-    // socketLogged,
-    // isDrax,
-    // userInfo,
+    result,
+    setResult,
+    socketLogged,
+    isDrax,
+    userInfo,
     isPlaying,
     multiplier,
     setCryptoValue,
     stop,
     setStop,
-    setApples
-    // socketReset,
-    // socketAuth
+    setApples,
+    socketReset,
+    socketAuth
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -169,118 +177,118 @@ const AppleGame = () => {
     GameModel.$refund,
     GameModel.setRefund,
     GameModel.$gamesList,
-    // BetsModel.$result,
-    // BetsModel.setResult,
-    // LayoutModel.$socketLogged,
-    // BalanceModel.$isDrax,
-    // LayoutModel.$userInfo,
+    GameModel.$result,
+    GameModel.setResult,
+    UserModel.$socketLogged,
+    UserModel.$isDrax,
+    UserModel.$userInfo,
     GameModel.$isPlaying,
     GameModel.$multiplier,
     WagerModel.setCryptoValue,
     GameModel.$stop,
     GameModel.setStop,
-    GameModel.setApples
-    // LayoutModel.$socketReset,
-    // LayoutModel.$socketAuth
+    GameModel.setApples,
+    UserModel.$socketReset,
+    UserModel.$socketAuth
   ])
 
+  const [firstBet, setFirstBet] = useState(true)
   const [mines, setMines] = useState<boolean[][]>([])
-
   const [appleItem, setAppleItem] = useState<number[]>([])
 
-  //   useEffect(() => {
-  //     if (result) {
-  //       if (result.type === 'State' && result.state) {
-  //         const dataState = JSON.parse(result.state).state
-  //         setCryptoValue(Number(result.amount))
-  //         if (result?.amount && start) {
-  //           setIsPlaying(true)
-  //           setApples(JSON.parse(result.state).picked_tiles)
-  //           setMines(dataState)
-  //           setStart(false)
-  //           setAppleData(
-  //             dataState.map((_: any, i: number) => {
-  //               return {
-  //                 value: 5,
-  //                 number: 1
-  //               }
-  //             })
-  //           )
-  //         }
-  //         console.log('first level: ', dataState)
+  useEffect(() => {
+    if (result) {
+      if (result.type === 'State' && result.state) {
+        const dataState = JSON.parse(result.state).state
+        setCryptoValue(Number(result.amount))
+        if (result?.amount && start) {
+          setIsPlaying(true)
+          setApples(JSON.parse(result.state).picked_tiles)
+          setMines(dataState)
+          setStart(false)
+          setAppleData(
+            dataState.map((_: any, i: number) => {
+              return {
+                value: 5,
+                number: 1
+              }
+            })
+          )
+        }
+        console.log('first level: ', dataState)
 
-  //         setMines(() => dataState)
-  //         setKeep(true)
-  //       } else if (result.type === 'Bet' && result.state) {
-  //         const data = JSON.parse(result!.state)
+        setMines(() => dataState)
+        setKeep(true)
+      } else if (result.type === 'Bet' && result.state) {
+        const data = JSON.parse(result!.state)
 
-  //         setWaitingResponse(false)
-  //         if (
-  //           Number(result.profit) > Number(result.amount) ||
-  //           Number(result.profit) === Number(result.amount)
-  //         ) {
-  //           setGameStatus(GameModel.GameStatus.Won)
-  //           const multiplier = Number(
-  //             Number(result.profit) / Number(result.amount)
-  //           )
-  //           setWonStatus({
-  //             profit: Number(result.profit),
-  //             multiplier,
-  //             token: 'DRAX'
-  //           })
-  //           setTimeout(() => {
-  //             setAppleGameResult([])
-  //             setAppleData([])
-  //             setApples([])
-  //             setMines([])
-  //             setInGame(false)
-  //             setIsPlaying(false)
-  //             setKeep(false)
-  //             setFirstBet(true)
-  //             handleReset()
-  //             setStop(false)
-  //             setAppleItem([])
-  //           }, 200)
-  //         } else if (Number(result.profit) < Number(result.amount)) {
-  //           const dataState = JSON.parse(result.state).state
-  //           setApples(JSON.parse(result.state).picked_tiles)
-  //           setMines(dataState)
-  //           setGameStatus(GameModel.GameStatus.Lost)
-  //           setLostStatus(Number(result.profit) - Number(result.amount))
-  //           setTimeout(() => {
-  //             setInGame(false)
-  //             setIsPlaying(false)
-  //             setKeep(false)
-  //             setFirstBet(true)
-  //             handleReset()
-  //             setAppleItem([])
-  //             setTimeout(() => {
-  //               setAppleGameResult([])
-  //               setAppleData([])
-  //               setApples([])
-  //               setMines([])
-  //             }, 300)
-  //           }, 200)
-  //         } else {
-  //           setGameStatus(GameModel.GameStatus.Draw)
-  //           setTimeout(() => {
-  //             setAppleGameResult([])
-  //             setAppleData([])
-  //             setApples([])
-  //             setMines([])
-  //             setInGame(false)
-  //             setIsPlaying(false)
-  //             setKeep(false)
-  //             setFirstBet(true)
-  //             handleReset()
-  //             setAppleItem([])
-  //           }, 200)
-  //         }
-  //         // setKeep(false);
-  //       }
-  //     }
-  //     setResult(null)
-  //   }, [result, result?.type])
+        setWaitingResponse(false)
+        if (
+          Number(result.profit) > Number(result.amount) ||
+          Number(result.profit) === Number(result.amount)
+        ) {
+          setGameStatus(GameModel.GameStatus.Won)
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          )
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: 'DRAX'
+          })
+          setTimeout(() => {
+            setAppleGameResult([])
+            setAppleData([])
+            setApples([])
+            setMines([])
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+            handleReset()
+            setStop(false)
+            setAppleItem([])
+          }, 200)
+        } else if (Number(result.profit) < Number(result.amount)) {
+          const dataState = JSON.parse(result.state).state
+          setApples(JSON.parse(result.state).picked_tiles)
+          setMines(dataState)
+          setGameStatus(GameModel.GameStatus.Lost)
+          setLostStatus(Number(result.profit) - Number(result.amount))
+          setTimeout(() => {
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+            handleReset()
+            setAppleItem([])
+            setTimeout(() => {
+              setAppleGameResult([])
+              setAppleData([])
+              setApples([])
+              setMines([])
+            }, 300)
+          }, 200)
+        } else {
+          setGameStatus(GameModel.GameStatus.Draw)
+          setTimeout(() => {
+            setAppleGameResult([])
+            setAppleData([])
+            setApples([])
+            setMines([])
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+            handleReset()
+            setAppleItem([])
+          }, 200)
+        }
+        // setKeep(false);
+      }
+    }
+    setResult(null)
+  }, [result, result?.type])
 
   useEffect(() => {
     setIsCashout(stop)
@@ -352,61 +360,61 @@ const AppleGame = () => {
   const [betData, setBetData] = useState({})
 
   const [coninue, setContinue] = useState(0)
-  //   useEffect(() => {
-  //     if (firstBet) {
-  //       setBetData({
-  //         type: 'MakeBet',
-  //         game_id: gamesList.find(item => item.name === 'Apples')?.id,
-  //         coin_id: isDrax ? 2 : 1,
-  //         user_id: userInfo?.id || 0,
-  //         data: '{"difficulty":1}',
-  //         amount: `${cryptoValue || 0}`,
-  //         stop_loss: Number(stopLoss) || 0,
-  //         stop_win: Number(stopGain) || 0,
-  //         num_games: betsAmount
-  //       })
-  //       if (isPlaying) {
-  //         setFirstBet(false)
-  //         setKeep(true)
-  //       }
-  //     } else {
-  //       if (keep) {
-  //         setBetData({
-  //           type: 'ContinueGame',
-  //           game_id: gamesList.find(item => item.name === 'Apples')?.id,
-  //           coin_id: isDrax ? 2 : 1,
-  //           user_id: userInfo?.id || 0,
-  //           data: isCashout
-  //             ? `{"cashout":${isCashout}}`
-  //             : `{"tile":${
-  //                 appleItem[appleItem?.length - 1]
-  //               }, "cashout":${isCashout}}`
-  //         })
-  //         setContinue(prev => prev + 1)
-  //       } else {
-  //         setBetData({
-  //           type: 'MakeBet',
-  //           game_id: gamesList.find(item => item.name === 'Apples')?.id,
-  //           coin_id: isDrax ? 2 : 1,
-  //           user_id: userInfo?.id || 0,
-  //           data: '{"difficulty":1}',
-  //           amount: `${cryptoValue || 0}`,
-  //           stop_loss: Number(stopLoss) || 0,
-  //           stop_win: Number(stopGain) || 0,
-  //           num_games: betsAmount
-  //         })
-  //       }
-  //     }
-  //   }, [
-  //     stopGain,
-  //     stopLoss,
-  //     cryptoValue,
-  //     isDrax,
-  //     betsAmount,
-  //     isCashout,
-  //     isPlaying,
-  //     appleItem
-  //   ])
+  useEffect(() => {
+    if (firstBet) {
+      setBetData({
+        type: 'MakeBet',
+        game_id: gamesList.find(item => item.name === 'Apples')?.id,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: '{"difficulty":1}',
+        amount: `${cryptoValue || 0}`,
+        stop_loss: Number(stopLoss) || 0,
+        stop_win: Number(stopGain) || 0,
+        num_games: betsAmount
+      })
+      if (isPlaying) {
+        setFirstBet(false)
+        setKeep(true)
+      }
+    } else {
+      if (keep) {
+        setBetData({
+          type: 'ContinueGame',
+          game_id: gamesList.find(item => item.name === 'Apples')?.id,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: isCashout
+            ? `{"cashout":${isCashout}}`
+            : `{"tile":${
+                appleItem[appleItem?.length - 1]
+              }, "cashout":${isCashout}}`
+        })
+        setContinue(prev => prev + 1)
+      } else {
+        setBetData({
+          type: 'MakeBet',
+          game_id: gamesList.find(item => item.name === 'Apples')?.id,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: '{"difficulty":1}',
+          amount: `${cryptoValue || 0}`,
+          stop_loss: Number(stopLoss) || 0,
+          stop_win: Number(stopGain) || 0,
+          num_games: betsAmount
+        })
+      }
+    }
+  }, [
+    stopGain,
+    stopLoss,
+    cryptoValue,
+    isDrax,
+    betsAmount,
+    isCashout,
+    isPlaying,
+    appleItem
+  ])
 
   const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
@@ -435,23 +443,23 @@ const AppleGame = () => {
     }
   }, [socket, isPlaying, access_token, gamesList, coninue])
 
-  //   useEffect(() => {
-  //     if (
-  //       access_token &&
-  //       socket &&
-  //       socket.readyState === WebSocket.OPEN &&
-  //       gamesList?.length > 0 &&
-  //       socketLogged
-  //     ) {
-  //       socket.send(
-  //         JSON.stringify({
-  //           type: 'GetState',
-  //           game_id: gamesList.find(item => item.name === 'Apples')?.id,
-  //           coin_id: isDrax ? 2 : 1
-  //         })
-  //       )
-  //     }
-  //   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
+  useEffect(() => {
+    if (
+      access_token &&
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList?.length > 0 &&
+      socketLogged
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: 'GetState',
+          game_id: gamesList.find(item => item.name === 'Apples')?.id,
+          coin_id: isDrax ? 2 : 1
+        })
+      )
+    }
+  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
 
   useEffect(() => {
     return () => {
@@ -470,6 +478,8 @@ const AppleGame = () => {
         {/* <WagerLowerBtnsBlock game='apples' text={'apples'} /> */}
         <div className='absolute top-0 right-0 w-full h-full overflow-hidden rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0]'>
           <Image
+            width={1438}
+            height={680}
             onLoad={() => setIsLoading(false)}
             src='/images/apples/applesBg.webp'
             className='absolute right-0 bottom-0 h-full overflow-hidden object-cover z-[-1] w-full 2xl:w-[1438px] 3xl:w-full'

@@ -8,7 +8,13 @@ import { Button } from '@/components/ui/button'
 
 import { useDropdown } from '@/lib/hooks/useDropDown'
 
-import { GameModel, SettingModel, WagerModel } from '@/states'
+import {
+  GameModel,
+  RegistrModel,
+  SettingModel,
+  UserModel,
+  WagerModel
+} from '@/states'
 import Balance from './components/balance'
 import Toggle from './components/toggle'
 
@@ -42,7 +48,10 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
     betsAmount,
     isEmtyWager,
     setIsEmtyWager,
-    setError
+    setError,
+    setIsPlaying,
+    access_token,
+    setAccessToken
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -52,8 +61,19 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
     WagerModel.$pickedValue,
     GameModel.$isEmtyWager,
     GameModel.setIsEmtyWager,
-    WagerModel.setError
+    WagerModel.setError,
+    GameModel.setIsPlaying,
+    RegistrModel.$access_token,
+    RegistrModel.setAccessToken
   ])
+
+  useEffect(() => {
+    alert(access_token)
+    if (!access_token) {
+      const isToken = localStorage.getItem('auth')
+      isToken && setAccessToken(isToken)
+    }
+  }, [access_token])
 
   const [cryptoInputValue, setCryptoInputValue] = useState('')
   const [currencyInputValue, setCurrencyInputValue] = useState('')
@@ -154,7 +174,11 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
           />
         </div>
       </div>
-      <Button variant='gold' className='text-black text-base'>
+      <Button
+        onClick={() => setIsPlaying(true)}
+        variant='gold'
+        className='text-black text-base'
+      >
         Play
       </Button>
     </div>

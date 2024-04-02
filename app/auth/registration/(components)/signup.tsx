@@ -91,6 +91,7 @@ const SignUp: FC<SignupProps> = () => {
         .catch(e => e)
 
       if (data.status === 'OK') {
+        alert(6)
         const userData = await fetch(`${BaseApiUrl}/user/login`, {
           method: 'POST',
           headers: {
@@ -106,6 +107,7 @@ const SignUp: FC<SignupProps> = () => {
           .catch(e => e)
         console.log('data: ', JSON.stringify(userData))
         if (userData.status === 'OK') {
+          alert(5)
           setAccessToken((userData.body as any).access_token)
           setRefreshToken((userData.body as any).refresh_token)
           localStorage.setItem('auth', (userData.body as any).access_token)

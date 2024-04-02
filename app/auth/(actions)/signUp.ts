@@ -43,17 +43,12 @@ export const signUp = async (values: z.infer<typeof registrSchema>) => {
       .then(async res => await res.json())
       .catch(e => e)
     console.log('data: ', JSON.stringify(userData))
-    try {
-      if (userData.status === 'OK') {
-        await signIn('credentials', {
-          username: values.username,
-          password: values.password,
-          redirectTo: '/'
-        })
-      }
-      console.log('done')
-    } catch (e) {
-      console.log(e)
+    if (userData.status === 'OK') {
+      await signIn('credentials', {
+        username: values.username,
+        password: values.password,
+        redirectTo: '/'
+      })
     }
   }
 }

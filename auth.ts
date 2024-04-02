@@ -6,7 +6,7 @@ export const {
   signIn,
   signOut
 } = NextAuth({
-  secret: 'secret',
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async session({ token, session }) {
       console.log(session, token)

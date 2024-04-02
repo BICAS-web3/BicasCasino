@@ -10,7 +10,7 @@ import {
   AppleIcoSVG,
   CfBgActiveSVG,
   CfBgSVG
-} from '../icons'
+} from '../(icons)'
 
 import { cn } from '@/lib/utils'
 
@@ -109,9 +109,6 @@ const AppleTable: FC<IAppleTable> = props => {
                   mines[currentIndex][ind2] === false
                 const falseResult =
                   mines && mines[currentIndex] && mines[currentIndex][ind2]
-                // falseResult && alert(falseResult);
-                // appleGameResult[currentIndex] ===
-                // appleData[currentIndex]?.value;
                 return (
                   <div
                     onContextMenu={e => {
@@ -130,10 +127,7 @@ const AppleTable: FC<IAppleTable> = props => {
                     }}
                     onClick={e => {
                       if (isPlaying) {
-                        if (currentIndex < appleData.length) {
-                          // alert(1);
-                          return
-                        }
+                        if (currentIndex < appleData.length) return
                         currentIndex <= appleData.length &&
                           playSounds !== 'off' &&
                           isPlaying &&
@@ -174,7 +168,6 @@ const AppleTable: FC<IAppleTable> = props => {
                         'bg-[#293e3e] cursor-default shadow-[0px_0px_6px_0px_#4fca88_inset]',
                       falseResult &&
                         'bg-[#b44646] shadow-none hover:shadow-[0px_0px_4px_0px_#b44646]',
-                      // picked &&
                       !falseResult &&
                         resultExist &&
                         'bg-[#4e9f31] shadow-none hover:shadow-[0px_0px_4px_0px_#4e9f31]',

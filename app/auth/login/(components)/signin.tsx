@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 interface SigninProps {}
 
 const Signin: FC<SigninProps> = () => {
@@ -66,9 +67,15 @@ const Signin: FC<SigninProps> = () => {
         password: values.password
       })
       if (data?.status === 'OK') {
-        console.log(data.body)
         setAccessToken((data.body as any).access_token)
         setRefreshToken((data.body as any).refresh_token)
+        await signIn('credentials', {
+          username: values.username,
+          password: values.password,
+          redirectTo: '/'
+        })
+        console.log(data.body)
+
         localStorage.setItem('auth', (data.body as any).access_token)
         setAuth(true)
       } else if ((data.body as any)?.status !== 'OK') {
