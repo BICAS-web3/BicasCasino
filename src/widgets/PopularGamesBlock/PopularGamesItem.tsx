@@ -13,7 +13,7 @@ export const PopularGamesItem: FC<PopularGamesItemProps> = props => {
   return (
     <Card
       className='
-        overflow-hidden cursor-pointer tb:p-[20px] p-[12px] box-border relative rounded-[20px]
+        overflow-hidden relative cursor-pointer tb:p-[20px] p-[12px] box-border relative rounded-[20px]
         border border-[#202020] tb:h-[180px] h-[120px]  group
       '
       onClick={() => {
@@ -29,6 +29,14 @@ export const PopularGamesItem: FC<PopularGamesItemProps> = props => {
         '
           src={props.image}
         />
+        <span
+          className='
+          text-[#e9e9f5] text-[1.1875rem] tbs:text-[1.5625rem] font-extrabold leading-[30px] tracking-[1.5px] z-10 uppercase absolute
+          left-[10px] tbs:left-[10px] sm:text-[1.0125rem]
+          '
+        >
+          {props.title}
+        </span>
       </CardContent>
     </Card>
   )
