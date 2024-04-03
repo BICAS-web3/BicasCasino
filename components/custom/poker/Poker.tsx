@@ -562,7 +562,7 @@ export const Poker: FC<PokerProps> = props => {
             onLoad={() => setImageLoading_1(false)}
             src={tableBg}
             className='
-              rounded-[20px_0_0_0]
+              rounded-[20px_0_0_0] object-cover w-full h-full
             '
             alt='table-bg'
           />

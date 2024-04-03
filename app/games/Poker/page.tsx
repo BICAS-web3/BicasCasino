@@ -1,5 +1,6 @@
-import { Poker as PokerGame } from '@/components/custom/poker/Poker'
+import { Poker as GamePoker } from '@/components/custom/poker/Poker'
 import { Metadata } from 'next'
+import GameLayout from '../layout'
 
 export const metadata: Metadata = {
   title: 'Games - Poker',
@@ -7,7 +8,11 @@ export const metadata: Metadata = {
 }
 
 const Poker = () => {
-  return <PokerGame gameText='test' />
+  return (
+    <GameLayout>
+      <GamePoker gameText='text' />
+    </GameLayout>
+  )
 }
 
 export default Poker
