@@ -21,7 +21,10 @@ const buttonVariants = cva(
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 gray: 'bg-[#20202080] border border-[#363636]',
-                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]'
+                gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]',
+                wager: 'bg-[#20202066]  rounded-none box-border w-full max-w-[43px] uppercase h-[36px] border-r border-r-[#363636] text-[#979797] leading-[14px] tracking-[4%] text-[10px] font-semibold',
+                wagerPlay:
+                    'w-[145px] h-[40px] border-[2px] rounded-[30px] border-[#FFE7B4] text-[#FFE7B4] text-[14px] font-medium leading-[19px] tracking-[4%]'
             },
             size: {
                 default: 'h-10 px-4 py-2',

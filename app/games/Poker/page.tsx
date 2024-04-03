@@ -8,11 +8,7 @@ export const metadata: Metadata = {
 }
 
 const Poker = () => {
-  return (
-    <GameLayout>
-      <GamePoker gameText='text' />
-    </GameLayout>
-  )
+  return <GamePoker gameText='text' />
 }
 
 export default Poker
