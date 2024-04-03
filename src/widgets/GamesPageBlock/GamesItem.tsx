@@ -73,7 +73,14 @@ export const GamesItem: FC<GamesItemProps> = props => {
           src={props.image}
         />
       </CardContent>
-      {/* <span className={s.popular_games_list_item_title}>{props.title}</span> */}
+      <span
+        className='
+        z-10 relative leading-[40px] font-extrabold tracking-[1.8px] uppercase text-[#e9e9f5]
+        text-[1.1rem] tbs:text-[1.5rem] mmd:text-[1.875rem]
+      '
+      >
+        {props.title}
+      </span>
     </Card>
   )
 }

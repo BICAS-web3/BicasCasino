@@ -1,5 +1,4 @@
 import { games_banner } from '@/app/(main)/(components)/data'
-import s from './styles.module.scss'
 import { FC } from 'react'
 import { GamesItem } from './GamesItem'
 
