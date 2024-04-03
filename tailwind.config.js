@@ -19,7 +19,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      'nunito_sans': ['"Nunito Sans"'],
+      nunito_sans: ['"Nunito Sans"']
     },
     extend: {
       flex: {
@@ -80,6 +80,7 @@ module.exports = {
         emd: '998px',
         sm: '650px',
         md: '996px',
+        tb: '700px',
         mmd: '1280px'
       },
       borderRadius: {
