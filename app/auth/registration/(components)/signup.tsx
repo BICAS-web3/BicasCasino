@@ -100,12 +100,11 @@ const SignUp: FC<SignupProps> = () => {
         })
           .then(async res => await res.json())
           .catch(e => e)
-        console.log('data: ', JSON.stringify(userData))
         if (userData.status === 'OK') {
           setAccessToken((userData.body as any).access_token)
           setRefreshToken((userData.body as any).refresh_token)
           localStorage.setItem('auth', (userData.body as any).access_token)
-          console.log(data)
+          console.log(2, data)
           await signIn('credentials', {
             username: values.username,
             password: values.password,
@@ -143,6 +142,7 @@ const SignUp: FC<SignupProps> = () => {
               name='username'
               render={({ field }) => (
                 <FormItem className='relative'>
+<<<<<<< HEAD
                   <FormLabel
                     className={`text-sm sm:text-[13px] font-normal px-1 leading-[22px] tracking-def
           after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
@@ -154,8 +154,11 @@ const SignUp: FC<SignupProps> = () => {
                       {errorData ? 'User exist' : 'Username'}
                     </span>
                   </FormLabel>
+=======
+>>>>>>> 21de7c98ca3435060ed4b17b6ba39e7ee142ee7a
                   <FormControl>
                     <Input
+                      placeholder={errorData ? 'User exist' : 'Username'}
                       onFocus={() => {
                         setErrorData(false)
                         setNameEffect(true)
@@ -182,20 +185,9 @@ const SignUp: FC<SignupProps> = () => {
               name='password'
               render={({ field }) => (
                 <FormItem className='relative'>
-                  <FormLabel
-                    className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
-            passwordEffect &&
-            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
-          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
-                  >
-                    <span className='z-[1] relative'>
-                      {' '}
-                      {errorData ? 'User exist' : 'Password'}
-                    </span>
-                  </FormLabel>
                   <FormControl>
                     <Input
+                      placeholder={errorData ? 'User exist' : 'Password'}
                       onFocus={() => {
                         setErrorData(false)
                         setPasswordEffect(true)
