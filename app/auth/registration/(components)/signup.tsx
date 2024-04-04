@@ -144,7 +144,7 @@ const SignUp: FC<SignupProps> = () => {
               render={({ field }) => (
                 <FormItem className='relative'>
                   <FormLabel
-                    className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
+                    className={`text-sm sm:text-[13px] font-normal px-1 leading-[22px] tracking-def
           after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
             nameEffect &&
             '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'

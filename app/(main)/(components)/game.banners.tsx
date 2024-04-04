@@ -2,17 +2,17 @@
 
 import { useRef } from 'react'
 
-import { Autoplay, EffectFade, Grid, Navigation } from 'swiper/modules'
+import { Autoplay, Grid, Navigation } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
 import { Button } from '@/components/ui/button'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),

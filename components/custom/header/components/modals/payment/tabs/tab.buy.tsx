@@ -16,7 +16,7 @@ const TabBuy = () => {
   }, [])
 
   return (
-    <div className='flex flex-col gap-5 py-5'>
+    <div className='flex flex-col gap-5'>
       <div className='tab-buy--info flex border border-[#ffe09d] rounded-lg relative py-3 px-5'>
         <span className='w-2/3'>
           <span className='font-extrabold text-[#ffe09d]'>DRAX tokens </span>

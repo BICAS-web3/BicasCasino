@@ -80,6 +80,7 @@ const Payment = () => {
                 tabItem.toLocaleLowerCase()
               )}-${index}`}
               value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
+              className='pt-5'
             >
               {tabContent[index]}
             </TabsContent>

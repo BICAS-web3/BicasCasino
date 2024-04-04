@@ -1,7 +1,7 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import React, { useEffect, useRef } from 'react'
 import getConfig from 'next/config'
-import { showNotification } from '@mantine/notifications'
+// import { showNotification } from '@mantine/notifications'
 
 export interface CaptchaProps {
   show: boolean
@@ -37,10 +37,10 @@ export const Captcha: React.FunctionComponent<CaptchaProps> = ({
         onExpire={() => onToken('')}
         onError={err => {
           onToken('')
-          showNotification({
-            title: 'Error',
-            message: 'Cannot verify captcha'
-          })
+          // showNotification({
+          //   title: 'Error',
+          //   message: 'Cannot verify captcha'
+          // })
           console.error(err)
         }}
       />
