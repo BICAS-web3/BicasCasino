@@ -63,26 +63,27 @@ const Signin: FC<SigninProps> = () => {
 
   const handleSubmitIn = (values: z.infer<typeof loginSchema>) => {
     setrtTransition(async () => {
-      const data = await api.loginUser({
-        login: values.username,
-        password: values.password
-      })
-      if (data?.status === 'OK') {
-        setAccessToken((data.body as any).access_token)
-        setRefreshToken((data.body as any).refresh_token)
-        await signIn('credentials', {
-          username: values.username,
-          password: values.password,
-          redirectTo: '/'
-        })
-        console.log(data.body)
+      const { username, password } = values
+      // alert(JSON.stringify(values))
+      // console.log('454544545!!', values)
+      // const data = await api.loginUser({
+      //   login: values.username,
+      //   password: values.password
+      // })
+      // if (data?.status === 'OK') {
+      //   setAccessToken((data.body as any).access_token)
+      //   setRefreshToken((data.body as any).refresh_token)
 
-        localStorage.setItem('auth', (data.body as any).access_token)
-        setAuth(true)
-      } else if ((data.body as any)?.status !== 'OK') {
-        setAuth(false)
-        setErrorData(true)
-      }
+      //   setAuth(true)
+      // } else if ((data.body as any)?.status !== 'OK') {
+      //   setAuth(false)
+      //   setErrorData(true)
+      // }
+      await signIn('credentials', {
+        username,
+        password,
+        redirectTo: '/'
+      })
     })
   }
   const [nameEffect, setNameEffect] = useState(false)
@@ -100,23 +101,13 @@ const Signin: FC<SigninProps> = () => {
             name='username'
             render={({ field }) => (
               <FormItem className='relative'>
-                <FormLabel
-                  className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
-            nameEffect &&
-            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
-          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
-                >
-                  <span className='z-[2] relative'>
-                    {errorData ? 'Wrong data' : 'Username'}
-                  </span>
-                </FormLabel>
                 <FormControl>
                   <Input
                     onFocus={() => {
                       setErrorData(false)
                       setNameEffect(true)
                     }}
+                    placeholder={errorData ? 'Wrong data' : 'Username'}
                     className={`border duration-200 z-[1] relative' ${
                       nameEffect ? 'border-[#7E7E7E]' : 'border-transparent'
                     }`}
@@ -139,19 +130,9 @@ const Signin: FC<SigninProps> = () => {
             name='password'
             render={({ field }) => (
               <FormItem className='relative'>
-                <FormLabel
-                  className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
-            passwordEffect &&
-            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
-          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
-                >
-                  <span className='z-[2] relative'>
-                    {errorData ? 'Wrong data' : 'Password'}
-                  </span>
-                </FormLabel>
                 <FormControl>
                   <Input
+                    placeholder={errorData ? 'Wrong data' : 'Password'}
                     onFocus={() => {
                       setErrorData(false)
                       setPasswordEffect(true)

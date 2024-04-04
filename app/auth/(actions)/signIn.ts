@@ -29,7 +29,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
     .catch(e => e)
 
   try {
-    console.log(data)
+    console.log(2, data)
     if (data.status === 'OK') {
       await signIn('credentials', {
         username: values.username,
@@ -38,6 +38,6 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
       })
     }
   } catch (e) {
-    console.log(e)
+    console.log(1, e)
   }
 }
