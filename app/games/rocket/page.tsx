@@ -1,5 +1,5 @@
-import RocketGame from '@/components/custom/rocketGame'
 import { Metadata } from 'next'
+import RocketGame from './(components)/rocket.game'
 
 export const metadata: Metadata = {
   title: 'Games - Rocket',

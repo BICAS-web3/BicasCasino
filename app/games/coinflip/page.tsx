@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import CoinFlipGame from '@/components/custom/coinflipGame'
+import CoinFlipGame from './(components)/coinflip'
 
 export const metadata: Metadata = {
   title: 'Games - CoinFlip',

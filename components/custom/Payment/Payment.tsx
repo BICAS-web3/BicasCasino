@@ -4,10 +4,10 @@ import storeIco from '@/public/payment/storeIco.webp'
 import { PaymentModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { FC, useEffect, useState } from 'react'
-import { PaymentRedeem } from '../PaymentRedeem/PaymentRedeem'
-import { PaymentTips } from '../PaymentTips/PaymentTips'
+import { PaymentRedeem } from './components/PaymentRedeem'
+import { PaymentTips } from './components/PaymentTips'
 // import * as PaymentRedeemM from "@/widgets/PaymentRedeem/model";
-import { PaymentPurchase } from '../PaymentPurchase/PaymentPurchase'
+import { PaymentPurchase } from './components/PaymentPurchase'
 import { PaymentBuyList } from './components/PaymentBuyList'
 import { PaymentNav } from './components/PaymentNav'
 // import { useDropdown } from "@/shared/tools";
@@ -16,8 +16,7 @@ import { PaymentNav } from './components/PaymentNav'
 // import * as RegistModel from "@/widgets/Registration/model";
 
 interface PaymentProps {}
-
-export const Payment: FC<PaymentProps> = () => {
+const Payment: FC<PaymentProps> = () => {
   const [
     totalVisibility,
     setTotalVisibility,
@@ -142,3 +141,5 @@ export const Payment: FC<PaymentProps> = () => {
     </>
   )
 }
+
+export default Payment

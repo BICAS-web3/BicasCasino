@@ -1,5 +1,5 @@
-import PlinkoGame from '@/components/custom/plinko'
 import { Metadata } from 'next'
+import PlinkoGame from './(components)/plinko'
 
 export const metadata: Metadata = {
   title: 'Games - Plinko',

@@ -5,7 +5,7 @@ import { useUnit } from 'effector-react'
 import { Slider } from '@/components/ui/slider'
 
 import { WagerModel } from '@/states'
-import BottomSelector from '@/components/ui/bottom.selector'
+import BottomSelector from '../bottomSelector'
 
 interface MultibetsProps {
   inputTitle?: string

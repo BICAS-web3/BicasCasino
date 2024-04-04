@@ -1,4 +1,4 @@
-import Registration from '@/components/custom/Registration'
+import Registration from '@/components/custom/registration'
 import PasswordRecovery from './(components)/password.recovery'
 
 const RecoveryPage = () => {

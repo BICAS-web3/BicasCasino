@@ -17,3 +17,8 @@ $totalVisibility.on(setTotalVisibility, (_, state) => state)
 $purchaseVisibility.on(setPurcahseVisibility, (_, state) => state)
 $copied.on(setCopied, (_, state) => state)
 $storeType.on(setStoreType, (_, state) => state)
+export const $securityModalVisibility = createStore<boolean>(false)
+
+export const setSecurityModalVisibility = createEvent<boolean>()
+
+$securityModalVisibility.on(setSecurityModalVisibility, (_, state) => state)

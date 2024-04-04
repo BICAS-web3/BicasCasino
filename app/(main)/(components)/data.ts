@@ -35,97 +35,97 @@ export const games_banner = [
   {
     image: '/images/new_banners/1.png',
     id: '1',
-    link: '/games/Rocket',
+    link: '/games/rocket',
     title: 'Rocket'
   },
   {
     image: '/images/new_banners/2.png',
     id: '2',
-    link: '/games/Dice',
+    link: '/games/dice',
     title: 'Dice'
   },
   {
     image: '/images/new_banners/3.png',
     id: '3',
-    link: '/games/Crash',
+    link: '/games/crash',
     title: 'Crash'
   },
   {
     image: '/images/new_banners/4.png',
     id: '4',
-    link: '/games/Plinko',
+    link: '/games/plinko',
     title: 'Plinko'
   },
   {
     image: '/images/new_banners/5.png',
     id: '5',
-    link: '/games/CoinFlip',
+    link: '/games/coinflip',
     title: 'Coinflip'
   },
   {
     image: '/images/new_banners/6.png',
     id: '6',
-    link: '/games/Mines',
+    link: '/games/mines',
     title: 'Mines'
   },
   {
     image: '/images/new_banners/7.png',
     id: '7',
-    link: '/games/Roulette',
+    link: '/games/roulette',
     title: 'Roulette'
   },
   {
     image: '/images/new_banners/8.png',
     id: '8',
-    link: '/games/Wheel',
+    link: '/games/wheel_of_fortune',
     title: 'Wheel'
   },
   {
     image: '/images/new_banners/9.png',
     id: '9',
-    link: '/games/RPS',
+    link: '/games/rock_paper_scissors',
     title: 'RPS'
   },
   {
     image: '/images/new_banners/10.png',
     id: '10',
-    link: '/games/Apples',
+    link: '/games/apples',
     title: 'Apples'
   },
   {
     image: '/images/new_banners/11.png',
     id: '11',
-    link: '/games/Slots',
+    link: '/games/slots',
     title: 'Slots'
   },
   {
     image: '/images/new_banners/12.png',
     id: '12',
-    link: '/games/Poker',
+    link: '/games/poker',
     title: 'Poker'
   },
   {
     image: '/images/new_banners/13.png',
     id: '13',
-    link: '/games/Horses',
+    link: '/games/race_1',
     title: 'Horses'
   },
   {
     image: '/images/new_banners/14.png',
     id: '14',
-    link: '/games/BlackJack',
+    link: '/games/black_jack',
     title: 'BlackJack'
   },
   {
     image: '/images/new_banners/15.png',
     id: '15',
-    link: '/games/Thimbles',
+    link: '/games/thimbles',
     title: 'Thimbles'
   },
   {
     image: '/images/new_banners/16.png',
     id: '16',
-    link: '/games/Cars',
+    link: '/games/cars_2',
     title: 'Cars'
   }
 ]
