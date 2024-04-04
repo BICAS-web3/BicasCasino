@@ -292,7 +292,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes bblFadInOut {
-
   0%,
   80%,
   100% {
@@ -683,7 +682,6 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-
 .tab-buy--info::before {
   content: '';
   position: absolute;
@@ -693,8 +691,7 @@ body::-webkit-scrollbar-thumb {
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 8px;
-  box-shadow: 0px 0px 14px 0px #9C740EBF inset;
-
+  box-shadow: 0px 0px 14px 0px #9c740ebf inset;
 }
 
 .tab-buy--info::after {
@@ -706,6 +703,5 @@ body::-webkit-scrollbar-thumb {
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 8px;
-  box-shadow: 0px 0px 14.800000190734863px 0px #9C740EBF;
-
+  box-shadow: 0px 0px 14.800000190734863px 0px #9c740ebf;
 }

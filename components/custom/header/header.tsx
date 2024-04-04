@@ -3,8 +3,11 @@ import BalanceSwitcher from './components/balance.switch'
 import Logo from './components/logo'
 import User from './components/user'
 import Wallet from './components/wallet'
+import { useSession } from 'next-auth/react'
 
 const Header = () => {
+  const { data } = useSession()
+  console.log('session data: ', data)
   return (
     <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
       <Logo />

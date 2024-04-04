@@ -17,11 +17,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { signUp } from '@/app/auth/(actions)/signUp'
 import Checkbox from './checkbox'
 import LoginLink from './login.link'
 import { signIn } from 'next-auth/react'
 import { BaseApiUrl } from '@/api'
+import Captcha from '@/components/custom/captcha'
 
 interface SignupProps {}
 
@@ -58,6 +58,7 @@ const SignUp: FC<SignupProps> = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const [error, setError] = useState(false)
+  const [errorData, setErrorData] = useState(false)
 
   useEffect(() => {
     if (error) {
@@ -69,12 +70,6 @@ const SignUp: FC<SignupProps> = () => {
 
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
-      // signUp(values)
-      // signIn('credentials', {
-      //   username: values.username,
-      //   password: values.password,
-      //   callbackUrl: '/'
-      // })
       const { username, password } = values
       const data = await fetch(`${BaseApiUrl}/user/register`, {
         method: 'POST',
@@ -84,14 +79,14 @@ const SignUp: FC<SignupProps> = () => {
         },
         body: JSON.stringify({
           username,
-          password
+          password,
+          h_captcha_response: token
         })
       })
         .then(async res => await res.json())
         .catch(e => e)
 
       if (data.status === 'OK') {
-        alert(6)
         const userData = await fetch(`${BaseApiUrl}/user/login`, {
           method: 'POST',
           headers: {
@@ -107,7 +102,6 @@ const SignUp: FC<SignupProps> = () => {
           .catch(e => e)
         console.log('data: ', JSON.stringify(userData))
         if (userData.status === 'OK') {
-          alert(5)
           setAccessToken((userData.body as any).access_token)
           setRefreshToken((userData.body as any).refresh_token)
           localStorage.setItem('auth', (userData.body as any).access_token)
@@ -118,30 +112,66 @@ const SignUp: FC<SignupProps> = () => {
             redirectTo: '/'
           })
         }
+      } else {
+        setErrorData(true)
       }
     })
   }
+  const [token, setToken] = useState('')
+  const [show, setSHow] = useState(false)
+  const [nameEffect, setNameEffect] = useState(false)
+  const [passwordEffect, setPasswordEffect] = useState(false)
   return (
     <Form {...form}>
       <div className='sm:mt-[20px] mt-[10px] flex flex-col justify-between'>
         <form
-          onSubmit={form.handleSubmit(handleSubmitUp)}
+          onSubmit={e => {
+            if (!policyCheckbox || !ageCheckbox) {
+              setError(true)
+            } else if (token.length > 0) {
+              form.handleSubmit(handleSubmitUp)(e)
+            } else {
+              e.preventDefault()
+              setSHow(true)
+            }
+          }}
           className='flex flex-col gap-[10px] sm:gap[20px]'
         >
-          <div className='flex flex-col gap-[4px] sm:gap-[5px] relative'>
+          <div className='flex flex-col  relative gap-[19px]'>
             <FormField
               control={form.control}
               name='username'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='relative'>
                   <FormLabel
-                    className='text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          text-left text-bets-title-color'
+                    className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
+          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
+            nameEffect &&
+            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
+          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
                   >
-                    Username
+                    <span className='z-[1] relative'>
+                      {errorData ? 'User exist' : 'Username'}
+                    </span>
                   </FormLabel>
                   <FormControl>
-                    <Input disabled={isPending} variant='registr' {...field} />
+                    <Input
+                      onFocus={() => {
+                        setErrorData(false)
+                        setNameEffect(true)
+                      }}
+                      className={`border duration-200 ${
+                        nameEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                      }`}
+                      // disabled={isPending}
+                      variant='registr'
+                      {...field}
+                      onBlur={el => {
+                        if (!el.target.value) {
+                          setNameEffect(false)
+                        }
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,19 +181,39 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='relative'>
                   <FormLabel
-                    className='text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          text-left text-bets-title-color'
+                    className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
+          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
+            passwordEffect &&
+            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
+          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
                   >
-                    Password
+                    <span className='z-[1] relative'>
+                      {' '}
+                      {errorData ? 'User exist' : 'Password'}
+                    </span>
                   </FormLabel>
                   <FormControl>
                     <Input
-                      disabled={isPending}
+                      onFocus={() => {
+                        setErrorData(false)
+                        setPasswordEffect(true)
+                      }}
+                      className={`border duration-200 ${
+                        passwordEffect
+                          ? 'border-[#7E7E7E]'
+                          : 'border-transparent'
+                      }`}
+                      // disabled={isPending}
                       variant='registr'
                       type={showPassword ? 'text' : 'password'}
                       {...field}
+                      onBlur={el => {
+                        if (!el.target.value) {
+                          setPasswordEffect(false)
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -188,14 +238,31 @@ const SignUp: FC<SignupProps> = () => {
               </>
             }
           />
-
-          <Button disabled={isPending} type='submit' variant='auth'>
+          <Button
+            disabled={
+              isPending ||
+              !form.getValues().password ||
+              !form.getValues().username
+            }
+            type='submit'
+            variant='auth'
+          >
             {isPending ? 'In process' : 'Sign Up'}
           </Button>
           <LoginLink setIsSignup={setIsSignup} />
         </form>
+
+        <div className='mt-2 w-0 h-0 overflow-hidden fixed -left-1/2 -top-1/2 -translate-x-1/2 -translate-x-1/2'>
+          <Captcha startCaptcha={show} onToken={setToken} show />
+        </div>
       </div>
     </Form>
   )
 }
 export default SignUp
+// signUp(values)
+// signIn('credentials', {
+//   username: values.username,
+//   password: values.password,
+//   callbackUrl: '/'
+// })

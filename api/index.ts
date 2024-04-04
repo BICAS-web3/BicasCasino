@@ -1,7 +1,7 @@
 import { createEffect, createEvent } from 'effector'
 
-export const BaseApiUrl = 'https:/game.greekkeepers.io/api'
-export const BaseStaticUrl = 'https:/game.greekkeepers.io/static'
+export const BaseApiUrl = 'https:/rew.greekkeepers.io/api'
+export const BaseStaticUrl = 'https:/rew.greekkeepers.io/static'
 
 export type T_ErrorText = {
   error: string
@@ -223,6 +223,11 @@ export type T_InvoiceCreate = {
   bareer: string
 }
 
+export type T_RefreshToken = {
+  refresh_token: string
+  bareer: string
+}
+
 export type T_LoginReponse = {
   access_token: string
   expires_in: number
@@ -361,6 +366,7 @@ export type T_SubmitError = {
 export type T_RegisterUser = {
   username: string
   password: string
+  h_captcha_response: string
 }
 
 export type T_LoginUser = {
@@ -829,6 +835,24 @@ export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${form.bareer}`
       }
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/invoice/create`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
+      },
+      body: JSON.stringify({
+        refresh_token: form.refresh_token
+      })
     })
       .then(async res => await res.json())
       .catch(e => e)

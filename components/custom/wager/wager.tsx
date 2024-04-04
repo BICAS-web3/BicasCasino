@@ -68,7 +68,6 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
   ])
 
   useEffect(() => {
-    alert(access_token)
     if (!access_token) {
       const isToken = localStorage.getItem('auth')
       isToken && setAccessToken(isToken)

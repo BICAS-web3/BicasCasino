@@ -19,6 +19,7 @@ import * as api from '@/api'
 import { useSocket } from '@/components/providers/socket.provider'
 import { useUnit } from 'effector-react'
 import { GameModel, RegistrModel, UserModel } from '@/states'
+import { SessionProvider } from 'next-auth/react'
 
 type Props = {
   children: React.ReactNode
@@ -182,19 +183,21 @@ const MainProvider = ({ children }: Props) => {
   return (
     <StoreProvider>
       <ThemeProvider attribute='class' defaultTheme='system'>
-        <SocketProvider>
-          <main className='min-h-screen flex flex-col relative '>
-            <Header />
-            <div className='flex flex-nowrap relative'>
-              <Sidebar />
-              <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
-                {children}
-                <Footer />
+        <SessionProvider>
+          <SocketProvider>
+            <main className='min-h-screen flex flex-col relative '>
+              <Header />
+              <div className='flex flex-nowrap relative'>
+                <Sidebar />
+                <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                  {children}
+                  <Footer />
+                </div>
               </div>
-            </div>
-          </main>
-          <ModalProvider />
-        </SocketProvider>
+            </main>
+            <ModalProvider />
+          </SocketProvider>
+        </SessionProvider>
       </ThemeProvider>
     </StoreProvider>
   )

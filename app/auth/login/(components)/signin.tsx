@@ -43,6 +43,7 @@ const Signin: FC<SigninProps> = () => {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  const [errorData, setErrorData] = useState(false)
   const [error, setError] = useState(false)
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -80,30 +81,54 @@ const Signin: FC<SigninProps> = () => {
         setAuth(true)
       } else if ((data.body as any)?.status !== 'OK') {
         setAuth(false)
+        setErrorData(true)
       }
     })
   }
+  const [nameEffect, setNameEffect] = useState(false)
+  const [passwordEffect, setPasswordEffect] = useState(false)
 
   return (
     <div className='flex flex-col gap-[10px] sm:gap-[20px] mt-[10px] sm:mt-[20px]'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitIn)}
-          className='flex flex-col gap-[4px] sm:gap-[5px] relative'
+          className='flex flex-col gap-[4px] sm:gap-[19px] relative'
         >
           <FormField
             control={form.control}
             name='username'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='relative'>
                 <FormLabel
-                  className='text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          text-left text-bets-title-color'
+                  className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
+          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
+            nameEffect &&
+            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
+          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
                 >
-                  Username
+                  <span className='z-[2] relative'>
+                    {errorData ? 'Wrong data' : 'Username'}
+                  </span>
                 </FormLabel>
                 <FormControl>
-                  <Input disabled={isPending} variant='registr' {...field} />
+                  <Input
+                    onFocus={() => {
+                      setErrorData(false)
+                      setNameEffect(true)
+                    }}
+                    className={`border duration-200 z-[1] relative' ${
+                      nameEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                    }`}
+                    // disabled={isPending}
+                    variant='registr'
+                    {...field}
+                    onBlur={el => {
+                      if (!el.target.value) {
+                        setNameEffect(false)
+                      }
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -113,25 +138,42 @@ const Signin: FC<SigninProps> = () => {
             control={form.control}
             name='password'
             render={({ field }) => (
-              <FormItem>
+              <FormItem className='relative'>
                 <FormLabel
-                  className='text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          text-left text-bets-title-color'
+                  className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
+          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
+            passwordEffect &&
+            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
+          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
                 >
-                  Password
+                  <span className='z-[2] relative'>
+                    {errorData ? 'Wrong data' : 'Password'}
+                  </span>
                 </FormLabel>
                 <FormControl>
                   <Input
-                    disabled={isPending}
+                    onFocus={() => {
+                      setErrorData(false)
+                      setPasswordEffect(true)
+                    }}
+                    className={`border duration-200 z-[1] relative' ${
+                      passwordEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                    }`}
+                    // disabled={isPending}
                     variant='registr'
                     type={showPassword ? 'text' : 'password'}
                     {...field}
+                    onBlur={el => {
+                      if (!el.target.value) {
+                        setPasswordEffect(false)
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          />{' '}
+          />
           <Button
             className='mt-2.5 sm:mt-5'
             disabled={isPending}
