@@ -681,3 +681,164 @@ body::-webkit-scrollbar-thumb {
     height: 100% !important;
   }
 }
+
+/* THIMBLESSS */
+
+.thimbles_table_wrap {
+  position: relative;
+  height: 100%;
+  --distance: 222px;
+}
+
+@media screen and (max-width: 760px) {
+  .thimbles_table_wrap {
+    --distance: 29vw;
+  }
+}
+@media screen and (max-width: 650px) {
+  .thimbles_table_wrap {
+    --distance: 33.5vw;
+  }
+}
+@media screen and (max-width: 490px) {
+  .thimbles_table_wrap {
+    --distance: 35.4vw;
+  }
+}
+@media screen and (max-width: 400px) {
+  .thimbles_table_wrap {
+    --distance: 32.4vw;
+  }
+}
+@media screen and (max-width: 350px) {
+  .thimbles_table_wrap {
+    --distance: 30.5vw;
+  }
+}
+
+@keyframes ball_1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+    z-index: 2;
+  }
+  8% {
+    transform: translate(calc(var(--distance) / 2), 50px) scale(1.075);
+  }
+  16% {
+    transform: translate(var(--distance), 50px) scale(1.15);
+    z-index: 1;
+  }
+  33% {
+    transform: translate(calc(var(--distance) * 2), 0) scale(1);
+  }
+  49% {
+    transform: translate(calc(var(--distance) * 2), 0) scale(1);
+    z-index: 2;
+  }
+  57% {
+    z-index: 6;
+    transform: translate(calc(var(--distance) * 2.5), 0) scale(1);
+  }
+  66% {
+    transform: translate(var(--distance), 50px) scale(1.15);
+    z-index: 6;
+  }
+  74% {
+    transform: translate(calc(var(--distance) / 2), 25px) scale(1.075);
+  }
+  82% {
+    transform: translate(0, 0) scale(1);
+    z-index: 4;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    z-index: 4;
+  }
+}
+
+@keyframes ball_2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  8% {
+    transform: translate(calc((var(--distance) / 2) * -1), 0) scale(1);
+  }
+  16% {
+    transform: translate(calc(var(--distance) * -1), 0) scale(1);
+  }
+  33% {
+    transform: translate(calc(var(--distance) * -1), 0) scale(1);
+    z-index: 2;
+  }
+  49% {
+    transform: translate(0, 40px) scale(1.15);
+  }
+
+  57% {
+    transform: translate(calc(var(--distance) / 2), -20px) scale(1);
+  }
+  66% {
+    transform: translate(var(--distance), -20px) scale(1);
+    z-index: 5;
+  }
+  74% {
+    transform: translate(var(--distance), 0) scale(1);
+  }
+  82% {
+    transform: translate(var(--distance), 0) scale(1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes ball_3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  8% {
+    transform: translate(0, 0) scale(1);
+  }
+  16% {
+    transform: translate(0, 0) scale(1);
+  }
+  24% {
+    transform: translate(calc(var(--distance) / 2), 0) scale(1);
+    z-index: 2;
+  }
+  33% {
+    transform: translate(calc(var(--distance) * -1), 10px) scale(1.15);
+    z-index: 1;
+  }
+  49% {
+    transform: translate(calc(var(--distance) * -1.5), -50px) scale(0.9);
+  }
+
+  57% {
+    transform: translate(calc(var(--distance) * -1.5), -20px) scale(1);
+  }
+  66% {
+    transform: translate(calc(var(--distance) * -2), 0) scale(1);
+    z-index: 2;
+  }
+  74% {
+    transform: translate(calc(var(--distance) * -2.5), 25px) scale(0.9);
+    z-index: 7;
+  }
+  82% {
+    transform: translate(calc(var(--distance) * -1), 50px) scale(1);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.thimble_wrap_1 {
+  animation: ball_1 1.5s infinite linear;
+}
+.thimble_wrap_2 {
+  animation: ball_2 1.5s infinite linear;
+}
+.thimble_wrap_3 {
+  animation: ball_3 1.5s infinite linear;
+}

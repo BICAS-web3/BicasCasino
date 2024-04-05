@@ -1,4 +1,4 @@
-import { Poker as GamePoker } from '@/components/custom/poker/Poker'
+import { Poker as GamePoker } from '@/app/games/Poker/components/poker/Poker'
 import { Metadata } from 'next'
 import GameLayout from '../layout'
 

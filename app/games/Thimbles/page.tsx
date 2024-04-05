@@ -1,3 +1,4 @@
+import { ThimblesGame } from '@/app/games/Thimbles/components/thimbles/ThimblesGame'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Thimbles = () => {
-  return <div>Thimbles</div>
+  return <ThimblesGame />
 }
 
 export default Thimbles
