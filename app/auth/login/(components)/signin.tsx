@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
+import { EyeClose, EyeOpen } from '../../(icons)'
 interface SigninProps {}
 
 const Signin: FC<SigninProps> = () => {
@@ -135,6 +136,17 @@ const Signin: FC<SigninProps> = () => {
                   />
                 </FormControl>
                 <FormMessage />
+                {showPassword ? (
+                  <EyeOpen
+                    className='cursor-pointer absolute top-2 right-4'
+                    onClick={() => setShowPassword(prev => !prev)}
+                  />
+                ) : (
+                  <EyeClose
+                    className='cursor-pointer absolute top-2 right-4'
+                    onClick={() => setShowPassword(prev => !prev)}
+                  />
+                )}
               </FormItem>
             )}
           />
