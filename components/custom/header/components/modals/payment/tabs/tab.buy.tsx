@@ -5,14 +5,21 @@ import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useCallback } from 'react'
 import { draxTypesList } from '../data'
+import { BonusCoinSVG, DraxMiniSVG } from '../../../icons'
 
 const TabBuy = () => {
-  const [setPurchaseVisibility] = useUnit([PaymentModel.setPurcahseVisibility])
+  const [setPurchaseVisibility, setTotalVisibility, setPurchase, setBonus] =
+    useUnit([
+      PaymentModel.setPurcahseVisibility,
+      PaymentModel.setTotalVisibility,
+      PaymentModel.setPurchase,
+      PaymentModel.setBonus
+    ])
   const handlePurchase = useCallback((price, bonusPrice) => {
-    console.log('hello there!')
-    // setPurchaseV(price)
-    // setBonusV(bonusPrice)
-    // setPurchaseVisibility(true)
+    setPurchase(price)
+    setBonus(bonusPrice)
+    setTotalVisibility(false)
+    setPurchaseVisibility(true)
   }, [])
 
   return (
@@ -32,35 +39,28 @@ const TabBuy = () => {
           alt='coins'
         />
       </div>
-      <ScrollArea className='h-[45vh] w-full rounded-md border border-none'>
+      <ScrollArea
+        className='h-[45vh] w-full rounded-md border border-none'
+        variant='ghost'
+      >
         <div className='grid grid-cols-2 gap-[10px] h-full'>
           {draxTypesList.map((item, ind) => (
             <div
               className='w-full flex flex-col rounded-lg overflow-hidden h-full min-h-56'
               key={ind}
             >
-              <div className='bg-[#212121] px-[10px] py-[8px] flex justify-center items-center gap-[8px]'>
-                <Image
-                  src='/payment/draxMiniIco.webp'
-                  className='aspect-square object-contain'
-                  width={25}
-                  height={25}
-                  alt='mini-drax-static'
-                />
-                <span className='text-text-w-def leading-[16px] tracking-[0.05em] text-left text-[10px] sm:text-[12px] font-medium'>
+              <div className='bg-[#212121] px-[10px] py-2 flex justify-center items-center gap-2'>
+                <DraxMiniSVG className='w-6 h-6 aspect-square object-contain' />
+                <span className='text-text-w-def leading-4 tracking-wider text-left text-[10px] sm:text-xs font-medium'>
                   {item.usdPrice} DRAX Coins
                 </span>
               </div>
               <div className='flex flex-col items-center bg-[#0f0f0f] h-full px-5 justify-center gap-2'>
-                <Image
-                  src='/payment/draxCoin.webp'
-                  width={50}
-                  height={50}
-                  className='aspect-square object-contain'
-                  alt='drax-coin-static'
-                />
+                <BonusCoinSVG className='w-12 h-12 aspect-square object-contain' />
                 <div className='flex flex-col justify-center items-center font-semibold uppercase'>
-                  <h6 className='text-lg'>{item.bonusCoins}</h6>
+                  <h6 className='text-lg'>
+                    {item.bonusCoins.toLocaleString('en-US')}
+                  </h6>
                   <span className='text-sm'>bonus coins</span>
                 </div>
                 <Button

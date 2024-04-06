@@ -15,7 +15,7 @@ const Preview = ({ className }: { className?: string }) => {
       }}
     >
       <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative z-[1]'>
-        Hello Markus666 <br />
+        Hello False <br />
         Bonus on the first deposit
       </h2>
       <h1
