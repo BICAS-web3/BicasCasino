@@ -7,7 +7,10 @@ import React, {
   useRef
 } from 'react'
 import { useUnit } from 'effector-react'
-import { GameModel, SessionModel, UserModel } from '@/states'
+// import * as Model from "@/widgets/LiveBets/model";
+// import { sessionModel } from "@/entities/session";
+
+// import * as LModel from "@/widgets/Layout/model";
 
 const SocketContext = createContext<WebSocket | null>(null)
 
@@ -25,15 +28,15 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocketAuth,
     setSocketLogged
   ] = useUnit([
-    GameModel.newBet,
-    SessionModel.setNewBet,
-    GameModel.setResult,
-    GameModel.setTokenId,
-    GameModel.setUuid,
-    GameModel.$uuid,
-    UserModel.setSocketReset,
-    UserModel.setSocketAuth,
-    UserModel.setSocketLogged
+    Model.newBet,
+    sessionModel.setNewBet,
+    Model.setResult,
+    Model.setTokenId,
+    Model.setUuid,
+    Model.$uuid,
+    LModel.setSocketReset,
+    LModel.setSocketAuth,
+    LModel.setSocketLogged
   ])
 
   const [reset, setReset] = useState(false)
@@ -42,18 +45,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const uuidRef = useRef<string | null>(null)
 
   useEffect(() => {
-    const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
-    setSocket(prevSocket => {
-      if (prevSocket === null) {
-        return newSocket
-      } else {
-        return prevSocket
-      }
-    })
-    console.log(`socket333:`, socket)
-    if (socket && socket.readyState === WebSocket.OPEN) return
-    // alert(5)
+    if (socket) return
     let uid: null | string = null
+    const newSocket = new WebSocket('wss://game.greekkeepers.io/api/updates')
 
     newSocket.onopen = () => {
       console.log('WebSocket connected')
@@ -98,8 +92,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.onclose = () => {
       console.log('websockets closed')
-      setReset(true)
       setSocket(null)
+      // setSocketLogged(false);
+      setReset(true)
       uid = null
     }
     newSocket.onerror = () => {
@@ -109,20 +104,12 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       setReset(true)
       uid = null
     }
+    setSocket(newSocket)
 
     // return () => {
     //   newSocket.close();
     // };
   }, [socket])
-
-  // useEffect(() => {
-  //   console.log('*****', socket)
-  //   if (socket) {
-  //     alert('exist')
-  //   } else {
-  //     alert('not exist')
-  //   }
-  // }, [socket])
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

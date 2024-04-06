@@ -19,7 +19,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import LoginLink from './login.link'
 import { signIn } from 'next-auth/react'
 import { BaseApiUrl } from '@/api'
-// import Captcha from '@/components/custom/captcha'
 import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
 import { EyeClose, EyeOpen } from '../../(icons)'
@@ -105,12 +104,10 @@ const SignUp: FC<SignupProps> = () => {
         if (userData.status === 'OK') {
           setAccessToken((userData.body as any).access_token)
           setRefreshToken((userData.body as any).refresh_token)
-          localStorage.setItem('auth', (userData.body as any).access_token)
-          console.log(2, data)
+          setAuth(true)
           await signIn('credentials', {
             username: values.username,
-            password: values.password,
-            redirectTo: '/'
+            password: values.password
           })
         }
       } else {

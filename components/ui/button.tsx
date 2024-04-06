@@ -29,7 +29,10 @@ const buttonVariants = cva(
             after:invisible after:w-[40px] after:h-[40px] after:absolute after:bottom-[-20px]
             after:left-[50%] after:translate-x-[-50%] after:bg-[#ffb800] after:mix-blend-hard-light
             after:rounded-[100px] after:blur-[50px] hover:after:opacity-100 hover:after:visible
-            active:after:blur-[45px] active:after:w-[50px] active:after:h-[50px]`
+            active:after:blur-[45px] active:after:w-[50px] active:after:h-[50px]`,
+                wager: 'bg-[#20202066]  rounded-none box-border w-full max-w-[43px] uppercase h-[36px] border-r border-r-[#363636] text-[#979797] leading-[14px] tracking-[4%] text-[10px] font-semibold',
+                wagerPlay:
+                    'w-[145px] h-[40px] border-[2px] rounded-[30px] border-[#FFE7B4] text-[#FFE7B4] text-[14px] font-medium leading-[19px] tracking-[4%]'
             },
             size: {
                 default: 'h-10 px-4 py-2',

@@ -45,10 +45,11 @@ export default {
                 const user = (userResponse as any).body
                 return user
               } else {
-                console.log('demo success', (userResponse as any).body)
+                console.log('errr')
                 return null
               }
             } catch (error) {
+              console.log('errr')
               console.error('Error during login:', error)
               return null
             }

@@ -843,7 +843,7 @@ export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
 
 export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
   async form => {
-    return fetch(`${BaseApiUrl}/invoice/create`, {
+    return fetch(`${BaseApiUrl}/user/refresh/werfd`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
