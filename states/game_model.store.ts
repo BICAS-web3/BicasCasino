@@ -43,6 +43,7 @@ export const setBetValue = createEvent<bigint>()
 export const setIsEmtyWager = createEvent<boolean>()
 export const setRefund = createEvent<boolean>()
 export const setGamesList = createEvent<GamesList[]>()
+export const $keep = createStore(false)
 
 // handlers
 $betValue.on(setBetValue, (_, state) => state)
@@ -218,3 +219,9 @@ export const setSelectedLength = createEvent<number>()
 $manualSetting.on(setManualSetting, (_, state) => state)
 $stopWinning.on(setStopWinning, (_, state) => state)
 $selectedLength.on(setSelectedLength, (_, state) => state)
+
+//! POKER
+
+export const $finishPoker = createStore<boolean>(false)
+export const setFinishPoker = createEvent<boolean>()
+$finishPoker.on(setFinishPoker, (_, state) => state)

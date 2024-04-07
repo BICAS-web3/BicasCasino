@@ -1,48 +1,39 @@
 'use client'
-import { FC, useEffect, useState } from 'react'
-import Image from 'next/image'
-import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
-import { PokerCard } from './PokerCard'
-import { useUnit } from 'effector-react'
-import { T_Card } from '@/api'
-import useSound from 'use-sound'
-import { GameModel, UserModel } from '@/states'
-import { PokerModel } from '@/states'
-import { SettingModel } from '@/states'
-import { SessionModel } from '@/states'
-import { WagerModel } from '@/states'
 import * as api from '@/api'
+import { T_Card } from '@/api'
+import Coefficient from '@/components/custom/coefficient'
+import TotalCoeff from '@/components/custom/totalCoeff'
+import { useSocket } from '@/components/providers/socket.provider'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { handleResult } from '@/lib/utils/game.result'
+import { sendSocketData } from '@/lib/utils/game.send'
+import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
+import {
+  GameModel,
+  PokerModel,
+  RegistrModel,
+  UserModel,
+  WagerModel
+} from '@/states'
+import { useUnit } from 'effector-react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import useSound from 'use-sound'
+import {
+  hasFlush,
+  hasFourOfAKind,
+  hasFullHouse,
+  hasOnePair,
+  hasRoyalFlush,
+  hasStraight,
+  hasStraightFlush,
+  hasThreeOfAKind,
+  hasTwoPair
+} from '../(utils)'
+import { PokerCard } from './PokerCard'
 import { PokerCombination } from './PokerCombination'
-import { RegistrModel } from '@/states'
-import { useSocket } from '@/src/shared/context'
-
-// чирва 2
-// пика 3
-// буба 1
-// креста 0
-const initialArrayOfCards = [
-  {
-    suit: -1,
-    number: -1
-  },
-  {
-    suit: -1,
-    number: -1
-  },
-  {
-    suit: -1,
-    number: -1
-  },
-  {
-    suit: -1,
-    number: -1
-  },
-  {
-    suit: -1,
-    number: -1
-  }
-]
+import { initialArrayOfCards } from './data'
+// чирва 2,пика 3,буба 1,креста 0
 
 interface ICards {
   suit: number
@@ -53,36 +44,26 @@ export interface PokerProps {
   gameText: string
 }
 
-export const Poker: FC<PokerProps> = props => {
+export const Poker = ({}: PokerProps) => {
+  const socket = useSocket()
   const isMobile = useMediaQuery('(max-width: 650px)')
-  // const [combinationName, setCombinationName] = useState<CombinationName>();
   const [imageLoading_1, setImageLoading_1] = useState(true)
   const [imageLoading_2, setImageLoading_2] = useState(true)
   const [preloading, setPreloading] = useState(true)
+  const [update, setUpdate] = useState(false)
   const [
     betsAmount,
     lost,
     profit,
-    playSounds,
     gameState,
-    gameAddress,
-    currentBalance,
     cryptoValue,
-    pickedToken,
-    Wagered,
-    setWagered,
-    allowance,
     setGameStatus,
     setWonStatus,
     setLostStatus,
-    flipShowFlipCards,
     setShowFlipCards,
     gameStatus,
-    availableTokens,
     setIsPlaying,
     setWaitingResponse,
-    refund,
-    setRefund,
     gamesList,
     result,
     setResult,
@@ -90,31 +71,21 @@ export const Poker: FC<PokerProps> = props => {
     isDrax,
     userInfo,
     stopGain,
-    stopLoss
+    stopLoss,
+    finishPoker
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$lost,
     GameModel.$profit,
-    GameModel.$playSounds,
     PokerModel.$gameState,
-    SessionModel.$gameAddress,
-    SessionModel.$currentBalance,
     WagerModel.$cryptoValue,
-    WagerModel.$pickedToken,
-    WagerModel.$Wagered,
-    WagerModel.setWagered,
-    SessionModel.$currentAllowance,
     GameModel.setGameStatus,
     GameModel.setWonStatus,
     GameModel.setLostStatus,
-    PokerModel.flipShowFlipCards,
     PokerModel.setShowFlipCards,
     GameModel.$gameStatus,
-    SettingModel.$AvailableTokens,
     GameModel.setIsPlaying,
     GameModel.setWaitingResponse,
-    GameModel.$refund,
-    GameModel.setRefund,
     GameModel.$gamesList,
     GameModel.$result,
     GameModel.setResult,
@@ -122,82 +93,41 @@ export const Poker: FC<PokerProps> = props => {
     UserModel.$isDrax,
     UserModel.$userInfo,
     WagerModel.$stopGain,
-    WagerModel.$stopLoss
+    WagerModel.$stopLoss,
+    GameModel.$finishPoker
   ])
 
-  const [start, setStart] = useState(true)
-
   useEffect(() => {
-    if (result) {
-      if (result.type === 'State' && result.state) {
-        //{"state":[[false,true,false],[true,false,false]],"picked_tiles":[2,2],"current_multiplier":"2.22"}
-
-        const dataState = JSON.parse(result.state).cards_in_hand
-        setShowFlipCards(true)
-        setWaitingResponse(false)
-        setActiveCards(dataState)
-        // alert(2);
-        if (result?.amount && start) {
-          // alert(1);
-          setIsPlaying(true)
-        }
-        console.log('first level: ', dataState)
-
-        setKeep(true)
-      } else if (result.type === 'Bet' && result.state) {
-        // setTimeout(() => {
-        //   setInGame(false);
-        // }, 2000);
-        const data = JSON.parse(result!.state)
-
-        setWaitingResponse(false)
-        if (
-          Number(result.profit) > Number(result.amount) ||
-          Number(result.profit) === Number(result.amount)
-        ) {
-          setGameStatus(GameModel.GameStatus.Won)
-          const multiplier = Number(
-            Number(result.profit) / Number(result.amount)
-          )
-          setWonStatus({
-            profit: Number(result.profit),
-            multiplier,
-            token: 'DRAX'
-          })
-          setTimeout(() => {
-            setInGame(false)
-            setIsPlaying(false)
-            setKeep(false)
-            setFirstBet(true)
-          }, 200)
-        } else if (Number(result.profit) < Number(result.amount)) {
-          setGameStatus(GameModel.GameStatus.Lost)
-          setLostStatus(Number(result.profit) - Number(result.amount))
-          setTimeout(() => {
-            setInGame(false)
-            setIsPlaying(false)
-            setKeep(false)
-            setFirstBet(true)
-          }, 200)
-        } else {
-          setGameStatus(GameModel.GameStatus.Draw)
-          setTimeout(() => {
-            setInGame(false)
-            setIsPlaying(false)
-            setKeep(false)
-            setFirstBet(true)
-          }, 200)
-        }
-        // setKeep(false);
-      }
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
+      socket?.send(
+        JSON.stringify({
+          type: 'Subscribe',
+          payload: [gamesList.find(item => item.name === 'Poker')?.id]
+        })
+      )
     }
+  }, [socket, socket?.readyState, gamesList.length])
+  useEffect(() => {
+    handleResult(
+      result,
+      setFirstBet,
+      setKeep,
+      setShowFlipCards,
+      setWaitingResponse,
+      setActiveCards,
+      setIsPlaying,
+      setUpdate,
+      setGameStatus,
+      setWonStatus,
+      setLostStatus,
+      setInGame
+    )
     setResult(null)
-  }, [result, result?.type])
+  }, [result])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
-
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards)
-
   const [cardsState, setCardsState] = useState<boolean[]>([
     false,
     false,
@@ -205,20 +135,12 @@ export const Poker: FC<PokerProps> = props => {
     false,
     false
   ])
-  const [playBackground, { stop: stopBackground }] = useSound(
-    '/static/media/games_assets/music/background1.wav',
-    { volume: 0.1, loop: true }
-  )
   const [playDrawnCards] = useSound(
     '/static/media/games_assets/poker/sounds/cardsEveryone.mp3'
   )
-  const [playNewCards] = useSound(
-    '/static/media/games_assets/poker/sounds/2cards.mp3'
-  )
+
   const [transactionHash, setTransactionHash] = useState<string>('')
   const [inGame, setInGame] = useState<boolean>(false)
-
-  const [setWstate] = useUnit([PokerModel.setWatchState])
 
   useEffect(() => {
     setIsPlaying(inGame)
@@ -229,92 +151,6 @@ export const Poker: FC<PokerProps> = props => {
     setActiveCards(gameState ? gameState : initialArrayOfCards)
     playDrawnCards()
   }, [gameState])
-
-  function hasRoyalFlush(cards: ICards[]) {
-    const royalFlushNumbers = [1, 10, 11, 12, 13]
-    const suits = new Set(cards.map(card => card.suit))
-
-    return Array.from(suits).some(suit => {
-      const suitCards = cards.filter(card => card.suit === suit)
-      const numbers = suitCards.map(card => card.number)
-
-      return royalFlushNumbers.every(number => numbers.includes(number))
-    })
-  }
-
-  function hasStraightFlush(cards: ICards[]) {
-    const suits = Array.from(new Set(cards.map(card => Number(card.suit))))
-    if (suits.length > 1) return false
-    return suits.some(suit => {
-      const suitCards = cards.filter(card => Number(card.suit) === suit)
-      const sortedNumbers = suitCards
-        .map(card => card.number)
-        .sort((a, b) => a - b)
-
-      for (let i = 0; i < sortedNumbers.length - 1; i++) {
-        if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
-          return false
-        }
-      }
-
-      return true
-    })
-  }
-
-  function hasFourOfAKind(cards: ICards[]) {
-    const numberCounts = countNumbers(cards)
-
-    return Object.values(numberCounts).includes(4)
-  }
-
-  function hasFullHouse(cards: ICards[]) {
-    const numberCounts = countNumbers(cards)
-    return (
-      Object.values(numberCounts).includes(3) &&
-      Object.values(numberCounts).includes(2)
-    )
-  }
-
-  function hasFlush(cards: ICards[]) {
-    const suits = new Set(cards.map(card => card.suit))
-    return suits.size === 1
-  }
-
-  function hasStraight(cards: ICards[]) {
-    const sortedNumbers = cards.map(card => card.number).sort((a, b) => a - b)
-
-    for (let i = 0; i < sortedNumbers.length - 1; i++) {
-      if (sortedNumbers[i] !== sortedNumbers[i + 1] - 1) {
-        return false
-      }
-    }
-
-    return true
-  }
-
-  function hasThreeOfAKind(cards: ICards[]) {
-    const numberCounts = countNumbers(cards)
-    return Object.values(numberCounts).includes(3)
-  }
-
-  function hasTwoPair(cards: ICards[]) {
-    const numberCounts = countNumbers(cards)
-    const pairs = Object.values(numberCounts).filter(count => count === 2)
-    return pairs.length === 2
-  }
-
-  function hasOnePair(cards: ICards[]) {
-    const numberCounts = countNumbers(cards)
-    return Object.values(numberCounts).includes(2)
-  }
-
-  function countNumbers(cards: ICards[]) {
-    const counts: Record<number, number> = {}
-    for (const card of cards) {
-      counts[card.number] = (counts[card.number] || 0) + 1
-    }
-    return counts
-  }
 
   const [combinationName, setCombinationName] = useState('')
 
@@ -386,24 +222,15 @@ export const Poker: FC<PokerProps> = props => {
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
   const [access_token] = useUnit([RegistrModel.$access_token])
-
-  const socket = useSocket()
-  const subscribe = {
-    type: 'SubscribeBets',
-    payload: [gamesList.find(item => item.name === 'Poker')?.id]
-  }
-
   const [betData, setBetData] = useState({})
-
   const [firstBet, setFirstBet] = useState(true)
   const [keep, setKeep] = useState(false)
 
-  const [coninue, setContinue] = useState(0)
   useEffect(() => {
     if (firstBet) {
       setBetData({
         type: 'MakeBet',
-        game_id: gamesList.find(item => item.name === 'Poker')?.id,
+        game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
         coin_id: isDrax ? 2 : 1,
         user_id: userInfo?.id || 0,
         data: '{}',
@@ -417,19 +244,18 @@ export const Poker: FC<PokerProps> = props => {
         setKeep(true)
       }
     } else {
-      if (keep) {
+      if (keep || update) {
         setBetData({
           type: 'ContinueGame',
-          game_id: gamesList.find(item => item.name === 'Poker')?.id,
+          game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
           coin_id: isDrax ? 2 : 1,
           user_id: userInfo?.id || 0,
-          data: `{"to_replace":${[cardsState.map(el => (el ? true : false))]}}`
+          data: `{"to_replace":[${cardsState.map(el => (el ? true : false))}]}`
         })
-        setContinue(prev => prev + 1)
       } else {
         setBetData({
           type: 'MakeBet',
-          game_id: gamesList.find(item => item.name === 'Apples')?.id,
+          game_id: gamesList.find(item => item.name === 'Apples')?.id || 12,
           coin_id: isDrax ? 2 : 1,
           user_id: userInfo?.id || 0,
           data: '{}',
@@ -438,6 +264,7 @@ export const Poker: FC<PokerProps> = props => {
           stop_win: Number(stopGain) || 0,
           num_games: betsAmount
         })
+        setKeep(true)
       }
     }
   }, [
@@ -447,39 +274,27 @@ export const Poker: FC<PokerProps> = props => {
     isDrax,
     betsAmount,
     isPlaying,
-    cardsState
+    cardsState,
+    gamesList,
+    update,
+    keep
   ])
 
   useEffect(() => setFirstBet(true), [])
 
   const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
-    if (
-      socket &&
-      isPlaying &&
-      access_token &&
-      socket.readyState === WebSocket.OPEN
-    ) {
-      socket.send(JSON.stringify(betData))
-      // setIsPlaying(false);
-    }
-    if (
-      socket &&
-      access_token &&
-      socket.readyState === WebSocket.OPEN &&
-      !subscribed &&
-      gamesList?.length > 0
-    ) {
-      socket.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Poker')?.id]
-        })
-      )
-      setCubscribed(true)
-    }
-  }, [socket, isPlaying, access_token, gamesList, coninue])
-
+    sendSocketData(
+      socket,
+      isPlaying,
+      access_token,
+      subscribed,
+      gamesList,
+      betData,
+      setCubscribed,
+      'Poker'
+    )
+  }, [socket, isPlaying, access_token, gamesList, finishPoker])
   useEffect(() => {
     if (
       access_token &&
@@ -527,84 +342,26 @@ export const Poker: FC<PokerProps> = props => {
         />
       )}
 
-      <div
-        className='
-          w-full h-full relative 
-        '
-      >
+      <div className='w-full h-full relative'>
         {/* <WagerLowerBtnsBlock game='poker' text={props.gameText} /> */}
         {/* {preloading && <Preload />}{' '} */}
-        <div
-          className='
-            w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]
-          '
-        >
+        <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image
             onLoad={() => setImageLoading_1(false)}
             src={tableBg}
-            className='
-              rounded-[20px_20px_0_0] object-cover w-full h-full
-            '
+            className='rounded-[20px_20px_0_0] object-cover w-full h-full'
             alt='table-bg'
           />
         </div>{' '}
-        <div
-          className='
-            gap-0 sm:gap-[5px] tracking-[0.4px] sm:tracking-[0.56px] text-[0.625rem] sm:text-[0.875rem]
-            absolute bottom-[10px] left-[10px] z-[2] text-white flex flex-col font-bold 
-          '
-        >
-          <span className='text-[#4ed26c]'>{fullWon.toFixed(2)}</span>
-          <span className='text-[#fc3c37]'>{fullLost.toFixed(2)}</span>
-          <div>
-            Total:{' '}
-            <span
-              // className={clsx(
-              //   totalValue > 0 && s.total_won,
-              //   totalValue < 0 && s.total_lost
-              // )}
-              className={`
-                ${totalValue > 0 ? 'text-[#4ed26c]' : 'text-[#fc3c37]'}
-              `}
-            >
-              {Math.abs(totalValue).toFixed(2)}
-            </span>
-          </div>
-        </div>
-        <div
-          className='
-            absolute sm:top-[20px] left-[50%] translate-x-[-50%] flex flex-col-reverse top-[10px]
-            w-[calc(100%_-_20px)] sm:w-[calc(100%_-_262px)] 
-            mmd:w-[calc(100%_-_358px)] 5xl:w-[calc(100%_-_398px)]
-            gap-[10px] overflow-x-scroll 
-          '
-        >
-          {coefficientData.map((item, i) => (
-            <div
-              // className={clsx(
-              //   s.multiplier_value,
-              //   item > 0 ? s.multiplier_positive : s.multiplier_negative
-              // )}
-              className={`
-                text-[0.75rem] sm:text-[0.875rem] mmd:text-[1.125rem] tracking-[0.48px]
-                sm:tracking-[0.56] mmd:tracking-[0.72px] min-w-[48px] mmd:min-w-[60px] min-h-[24px] mmd:min-h-[40px]
-                max-w-[48px] mmd:max-w-[40px] max-h-[24px] mmd:max-h-[40px] w-[48px] h-[24px] mmd:h-[40px] font-extrabold
-                leading-[18px] mmd:leading-[23px] p-[0_10px] flex items-center justify-center rounded-[5px]
-
-              `}
-              key={i}
-            >
-              {item?.toFixed(2)}x
-            </div>
-          ))}
-        </div>
+        <TotalCoeff
+          fullLost={fullLost}
+          fullWon={fullWon}
+          totalValue={totalValue}
+        />
+        <Coefficient ballsArr={coefficientData} />
         <div className='h-full'>
           <div
-            className='
-              p-[22px] w-[calc(100%_-_44px)] h-[calc(100%_-_44px)]
-              sm:w-[calc(100%_-_40px)] sm:h-[calc(100%_-_40px)] sm:p-[20px] flex items-center justify-center
-              tb:gap-[1.5vw] gap-[1vw] 
-            '
+            className='p-[22px] w-[calc(100%_-_44px)] h-[calc(100%_-_44px)] sm:w-[calc(100%_-_40px)] sm:h-[calc(100%_-_40px)] sm:p-[20px] flex items-center justify-center tb:gap-[1.5vw] gap-[1vw]'
             style={{
               backfaceVisibility: 'hidden'
             }}

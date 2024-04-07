@@ -1,19 +1,20 @@
-import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { useUnit } from 'effector-react'
 
 import { Separator } from '@/components/ui/separator'
+import { useSocket } from '@/components/providers/socket.provider'
 
 import BalanceSwitcher from './components/balance.switch'
 import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
-import { useEffect, useState } from 'react'
 
-import * as api from '@/api'
-import { useSocket } from '@/components/providers/socket.provider'
-import { useUnit } from 'effector-react'
 import { GameModel, RegistrModel, UserModel } from '@/states'
-import { setRefreshToken } from '@/states/registration_model.store'
+import * as api from '@/api'
+import { useSession } from 'next-auth/react'
+
 const Header = () => {
+  const session = useSession()
   const [
     access_token,
     setUserInfo,
@@ -22,7 +23,9 @@ const Header = () => {
     setSocketLogged,
     socketReset,
     setGamesList,
-    refresh_token
+    refresh_token,
+    setAccessToken,
+    setRefreshToken
   ] = useUnit([
     RegistrModel.$access_token,
     UserModel.setUserInfo,
@@ -31,17 +34,25 @@ const Header = () => {
     UserModel.setSocketLogged,
     UserModel.$socketReset,
     GameModel.setGamesList,
-    RegistrModel.$refresh_token
+    RegistrModel.$refresh_token,
+    RegistrModel.setAccessToken,
+    RegistrModel.setRefreshToken
   ])
+
+  useEffect(() => {
+    if (session.data?.user?.image) {
+      console.log('session:::', JSON.parse(session.data?.user?.image))
+      const userObj = JSON.parse(session.data?.user?.image)
+      setAccessToken(userObj.access_token)
+      setRefreshToken(userObj.refresh_token)
+    }
+  }, [session, session.data?.user?.image])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
         const response = await api.getUserInfo({ bareer: access_token })
         if (response.status === 'OK') {
           setUserInfo((response as any).body)
-          console.log('2user info', response.body)
-        } else {
-          console.log('err', response.body)
         }
       })()
     }
@@ -49,11 +60,11 @@ const Header = () => {
 
   const [errorSeed, setErrorSeed] = useState(false)
 
+  // Server seed
   useEffect(() => {
     if (access_token) {
       ;(async () => {
         const response = await api.getServerSeed({ bareer: access_token })
-        console.log('server seed', response)
         if (response.status === 'OK' && (response.body as any)?.seed) {
           setSeed(true)
         } else {
@@ -63,9 +74,9 @@ const Header = () => {
       })()
       ;(async () => {
         const response = await api.getClientSeed({ bareer: access_token })
-        console.log('client seed', response)
+
         if (response.status === 'OK' && (response.body as any)?.seed) {
-          // setSeed((prev) => [...prev, response]);
+          // setSeed(prev => [...prev, response])
         } else {
           setErrorSeed(true)
         }
@@ -86,13 +97,12 @@ const Header = () => {
   const [seeds, setSeed] = useState<boolean | null>(null)
   const socket = useSocket()
 
-  //?-----------------------------------------------------------------------------
   useEffect(() => {
     if (
-      // (!seeds || errorSeed) &&
       socket &&
       socket.readyState === WebSocket.OPEN &&
-      !socketAuth
+      !socketAuth &&
+      access_token
     ) {
       socket.send(JSON.stringify({ type: 'GetUuid' }))
       if (access_token) {
@@ -106,11 +116,11 @@ const Header = () => {
   }, [
     socket,
     access_token,
-    // socket?.readyState,
     seeds,
     errorSeed,
     socket?.OPEN,
-    socketAuth
+    socketAuth,
+    session.data?.user?.image
   ])
 
   useEffect(() => {
@@ -130,7 +140,6 @@ const Header = () => {
         const data = await api.getGames({ bareer: access_token })
         if (data.status === 'OK') {
           setGamesList((data.body as any).games)
-          console.log(data.body)
         }
       }
     })()
@@ -144,32 +153,25 @@ const Header = () => {
         const response = await api.getOneTimeToken({ bareer: access_token })
         if (response.status === 'OK') {
           setOtToken((response as any).body)
-          console.log('ONE TIME TOKEN---', response.body)
-        } else {
-          console.log('ONE TIME TOKEN ERROR', response.body)
         }
       }
     })()
   }, [access_token])
-  const sessionData = useSession()
-  console.log('session data:', sessionData.data)
 
   useEffect(() => {
-    ;(async () => {
-      if (refresh_token) {
-        const response = await api.refreshToken({
-          bareer: access_token,
-          refresh_token: refresh_token
-        })
-        if (response.status === 'OK') {
-          const token = response.body
-        }
-        // setRefreshToken(newRefreshToketn.)
+    const intervalId = setInterval(async () => {
+      const response = await api.refreshToken({
+        bareer: access_token,
+        refresh_token: refresh_token
+      })
+      if (response.status === 'OK') {
+        const token = response.body
       }
-    })()
+    }, 10 * 60 * 1000)
+
+    return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  useEffect(() => alert(`${refresh_token}`), [])
   return (
     <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
       <Logo />
@@ -184,3 +186,22 @@ const Header = () => {
 }
 
 export default Header
+
+// ;(async () => {
+//   const response = await api.refreshToken({
+//     bareer: access_token,
+//     refresh_token: refresh_token
+//   })
+//   if (response.status === 'OK') {
+//     const token = response.body
+//   }
+// })()
+// if (refresh_token) {
+//   const response = await api.refreshToken({
+//     bareer: access_token,
+//     refresh_token: refresh_token
+//   })
+//   if (response.status === 'OK') {
+//     const token = response.body
+//   }
+// }

@@ -8,13 +8,7 @@ import { Button } from '@/components/ui/button'
 
 import { useDropdown } from '@/lib/hooks/useDropDown'
 
-import {
-  GameModel,
-  RegistrModel,
-  SettingModel,
-  UserModel,
-  WagerModel
-} from '@/states'
+import { GameModel, SettingModel, WagerModel } from '@/states'
 import Balance from './components/balance'
 import Toggle from './components/toggle'
 
@@ -49,9 +43,7 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
     isEmtyWager,
     setIsEmtyWager,
     setError,
-    setIsPlaying,
-    access_token,
-    setAccessToken
+    setIsPlaying
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -62,17 +54,8 @@ const Wager: FC<IWager> = ({ bjVariants }) => {
     GameModel.$isEmtyWager,
     GameModel.setIsEmtyWager,
     WagerModel.setError,
-    GameModel.setIsPlaying,
-    RegistrModel.$access_token,
-    RegistrModel.setAccessToken
+    GameModel.setIsPlaying
   ])
-
-  useEffect(() => {
-    if (!access_token) {
-      const isToken = localStorage.getItem('auth')
-      isToken && setAccessToken(isToken)
-    }
-  }, [access_token])
 
   const [cryptoInputValue, setCryptoInputValue] = useState('')
   const [currencyInputValue, setCurrencyInputValue] = useState('')
