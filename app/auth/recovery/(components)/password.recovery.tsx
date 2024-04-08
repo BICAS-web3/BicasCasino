@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -12,7 +12,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -27,7 +26,6 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
       email: ''
     }
   })
-  const [emailEffect, setEmailEffect] = useState(false)
 
   return (
     <div className='flex flex-col sm:gap-[20px] gap-[10px] mt-[10px] sm:mt-[20px]'>
@@ -41,30 +39,16 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
             name='email'
             render={({ field }) => (
               <FormItem className='relative'>
-                <FormLabel
-                  className={`text-[14px] sm:text-[13px] font-normal leading-[22px] tracking-def
-          after:duration-200 text-left text-bets-title-color absolute top-[1rem] left-[1rem] duration-200 ${
-            emailEffect &&
-            '-translate-y-[90%] scale-[0.8] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
-          }`}
-                >
-                  <span className='z-[1] relative'>Email</span>
-                </FormLabel>
                 <FormControl>
                   <Input
+                    placeholder='Password'
                     type='email'
-                    onFocus={() => setEmailEffect(true)}
-                    className={`border duration-200 ${
-                      emailEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                    className={`duration-200 ${
+                      false && 'placeholder:text-[red]'
                     }`}
                     // disabled={isPending}
                     variant='registr'
                     {...field}
-                    onBlur={el => {
-                      if (!el.target.value) {
-                        setEmailEffect(false)
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />

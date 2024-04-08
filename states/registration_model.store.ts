@@ -2,8 +2,12 @@ import { createEvent, createStore } from 'effector'
 
 export const $isSignup = createStore<string>('up')
 
-export const $access_token = createStore<string>('')
-export const $refresh_token = createStore<string>('')
+export const $access_token = createStore<string>(
+  'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJMb2NhbCIsInN1YiI6MywiZXhwIjoxNzEyMjY0NzQ4LCJpYXQiOjE3MTIyNjQxNDgsImF1ZCI6IkF1dGgifQ.KO7ltQNOTdCZZ8cSj_x7GSYThmlWgpMViZ1bOh_uiXI'
+)
+export const $refresh_token = createStore<string>(
+  'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJMb2NhbCIsInN1YiI6MywiZXhwIjoxNzEyMjY0NzQ4LCJpYXQiOjE3MTIyNjQxNDgsImF1ZCI6IkF1dGgifQ.KO7ltQNOTdCZZ8cSj_x7GSYThmlWgpMViZ1bOh_uiXI'
+)
 
 export const $isAuth = createStore<boolean>(true)
 

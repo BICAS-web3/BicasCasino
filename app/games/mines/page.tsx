@@ -1,5 +1,5 @@
-import MinesGame from '@/components/custom/minesGame/MinesGame'
 import { Metadata } from 'next'
+import MinesGame from './(components)/MinesGame'
 
 export const metadata: Metadata = {
   title: 'Games - Wheel',

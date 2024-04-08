@@ -59,7 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         return (
             <>
                 {href ? (
-                    <Link href={href} className='w-full max-w-full relative'>
+                    <Link href={href} className='w-full relative'>
                         <Comp
                             className={cn(
                                 buttonVariants({ variant, size, className })

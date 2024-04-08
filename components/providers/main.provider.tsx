@@ -20,6 +20,7 @@ import { useSocket } from '@/components/providers/socket.provider'
 import { useUnit } from 'effector-react'
 import { GameModel, RegistrModel, UserModel } from '@/states'
 import { SessionProvider } from 'next-auth/react'
+import { Toaster } from '@/components/ui/sonner'
 
 type Props = {
   children: React.ReactNode
@@ -194,6 +195,7 @@ const MainProvider = ({ children }: Props) => {
                   <Footer />
                 </div>
               </div>
+              <Toaster />
             </main>
             <ModalProvider />
           </SocketProvider>

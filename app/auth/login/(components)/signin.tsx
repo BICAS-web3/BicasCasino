@@ -4,7 +4,6 @@ import { useUnit } from 'effector-react'
 import { FC, useEffect, useState, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegistrModel } from '@/states'
-import * as api from '@/api'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -14,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -81,13 +79,10 @@ const Signin: FC<SigninProps> = () => {
       // }
       await signIn('credentials', {
         username,
-        password,
-        redirectTo: '/'
+        password
       })
     })
   }
-  const [nameEffect, setNameEffect] = useState(false)
-  const [passwordEffect, setPasswordEffect] = useState(false)
 
   return (
     <div className='flex flex-col gap-[10px] sm:gap-[20px] mt-[10px] sm:mt-[20px]'>
@@ -105,20 +100,14 @@ const Signin: FC<SigninProps> = () => {
                   <Input
                     onFocus={() => {
                       setErrorData(false)
-                      setNameEffect(true)
                     }}
                     placeholder={errorData ? 'Wrong data' : 'Username'}
-                    className={`border duration-200 z-[1] relative' ${
-                      nameEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                    className={`duration-200 z-[1] relative' ${
+                      errorData && 'placeholder:text-[red]'
                     }`}
-                    // disabled={isPending}
+                    disabled={isPending}
                     variant='registr'
                     {...field}
-                    onBlur={el => {
-                      if (!el.target.value) {
-                        setNameEffect(false)
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -135,20 +124,14 @@ const Signin: FC<SigninProps> = () => {
                     placeholder={errorData ? 'Wrong data' : 'Password'}
                     onFocus={() => {
                       setErrorData(false)
-                      setPasswordEffect(true)
                     }}
-                    className={`border duration-200 z-[1] relative' ${
-                      passwordEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                    className={`duration-200 z-[1] relative' ${
+                      errorData && 'placeholder:text-[red]'
                     }`}
-                    // disabled={isPending}
+                    disabled={isPending}
                     variant='registr'
                     type={showPassword ? 'text' : 'password'}
                     {...field}
-                    onBlur={el => {
-                      if (!el.target.value) {
-                        setPasswordEffect(false)
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />

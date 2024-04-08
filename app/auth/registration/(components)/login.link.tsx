@@ -1,8 +1,14 @@
 import Link from 'next/link'
 
-const LoginLink = ({ setIsSignup }: { setIsSignup: (el: string) => void }) => {
+const LoginLink = ({
+  setIsSignup,
+  className
+}: {
+  setIsSignup: (el: string) => void
+  className?: string
+}) => {
   return (
-    <Link href='/auth/login' className='flex items-center'>
+    <Link href='/auth/login' className={`flex items-center ${className}`}>
       <span
         className='text-[13px] font-normal text-bets-title-color leading-[17px]
               tracking-def'

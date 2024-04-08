@@ -1,0 +1,5 @@
+export { default as BitcoinSVG } from './btc.svg'
+export { default as EthereumSVG } from './eth.svg'
+export { default as DogeSVG } from './doge.svg'
+export { default as LtcSVG } from './ltc.svg'
+export { default as UsdtSVG } from './usdt.svg'

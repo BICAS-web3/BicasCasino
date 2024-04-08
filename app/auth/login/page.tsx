@@ -1,4 +1,4 @@
-import Registration from '@/components/custom/Registration'
+import Registration from '@/components/custom/registration'
 import Signin from './(components)/signin'
 
 const LoginPage = () => {

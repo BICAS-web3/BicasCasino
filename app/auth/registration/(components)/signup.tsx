@@ -16,12 +16,13 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-import Checkbox from './checkbox'
 import LoginLink from './login.link'
 import { signIn } from 'next-auth/react'
 import { BaseApiUrl } from '@/api'
-import Captcha from '@/components/custom/captcha'
+// import Captcha from '@/components/custom/captcha'
+import { Checkbox } from '@/components/ui/checkbox'
+import Captcha from './captcha'
+import { toast } from 'sonner'
 
 interface SignupProps {}
 
@@ -52,7 +53,7 @@ const SignUp: FC<SignupProps> = () => {
     }
   }, [])
 
-  const [ageCheckbox, setAgeCheckbox] = useState(true)
+  const [ageCheckbox, setAgeCheckbox] = useState(false)
   const [policyCheckbox, setPolicyCheckbox] = useState(false)
 
   const [showPassword, setShowPassword] = useState(false)
@@ -71,6 +72,7 @@ const SignUp: FC<SignupProps> = () => {
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
       const { username, password } = values
+      form.reset()
       const data = await fetch(`${BaseApiUrl}/user/register`, {
         method: 'POST',
         headers: {
@@ -118,8 +120,7 @@ const SignUp: FC<SignupProps> = () => {
   }
   const [token, setToken] = useState('')
   const [show, setSHow] = useState(false)
-  const [nameEffect, setNameEffect] = useState(false)
-  const [passwordEffect, setPasswordEffect] = useState(false)
+
   return (
     <Form {...form}>
       <div className='sm:mt-[20px] mt-[10px] flex flex-col justify-between'>
@@ -134,46 +135,26 @@ const SignUp: FC<SignupProps> = () => {
               setSHow(true)
             }
           }}
-          className='flex flex-col gap-[10px] sm:gap[20px]'
+          className='flex flex-col'
         >
-          <div className='flex flex-col  relative gap-[19px]'>
+          <div className='flex flex-col relative gap-[10px] sm:gap-5'>
             <FormField
               control={form.control}
               name='username'
               render={({ field }) => (
                 <FormItem className='relative'>
-<<<<<<< HEAD
-                  <FormLabel
-                    className={`text-sm sm:text-[13px] font-normal px-1 leading-[22px] tracking-def
-          after:duration-200 text-left absolute top-[1rem] left-[1rem] duration-200 ${
-            nameEffect &&
-            '-translate-y-[90%] scale-[0.7] after:absolute after:content-[""] after:bottom-0 after:left-0 after:w-full after:h-1/2 after:bg-[#121212]'
-          } ${errorData ? 'text-[red]' : 'text-bets-title-color'}`}
-                  >
-                    <span className='z-[1] relative'>
-                      {errorData ? 'User exist' : 'Username'}
-                    </span>
-                  </FormLabel>
-=======
->>>>>>> 21de7c98ca3435060ed4b17b6ba39e7ee142ee7a
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       placeholder={errorData ? 'User exist' : 'Username'}
                       onFocus={() => {
                         setErrorData(false)
-                        setNameEffect(true)
                       }}
-                      className={`border duration-200 ${
-                        nameEffect ? 'border-[#7E7E7E]' : 'border-transparent'
+                      className={`duration-200 ${
+                        errorData && 'placeholder:text-[red]'
                       }`}
-                      // disabled={isPending}
                       variant='registr'
                       {...field}
-                      onBlur={el => {
-                        if (!el.target.value) {
-                          setNameEffect(false)
-                        }
-                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -184,77 +165,80 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='relative'>
+                <FormItem className='relative flex flex-col gap-5'>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       placeholder={errorData ? 'User exist' : 'Password'}
                       onFocus={() => {
                         setErrorData(false)
-                        setPasswordEffect(true)
                       }}
-                      className={`border duration-200 ${
-                        passwordEffect
-                          ? 'border-[#7E7E7E]'
+                      className={`duration-200 ${
+                        errorData
+                          ? 'placeholder:text-[red]'
                           : 'border-transparent'
                       }`}
-                      // disabled={isPending}
                       variant='registr'
-                      type={showPassword ? 'text' : 'password'}
                       {...field}
-                      onBlur={el => {
-                        if (!el.target.value) {
-                          setPasswordEffect(false)
-                        }
-                      }}
                     />
                   </FormControl>
                   <FormMessage />
+                  <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                    <FormControl>
+                      <Checkbox
+                        itemID='age'
+                        onClick={() => setAgeCheckbox(prev => !prev)}
+                        className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
+                      />
+                    </FormControl>
+                    <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
+                      I am at least 18 years old and not a resident of the
+                      restricted states.
+                    </FormLabel>
+                  </FormItem>
+                  <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                    <FormControl>
+                      <Checkbox
+                        onClick={() => setPolicyCheckbox(prev => !prev)}
+                        className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
+                      />
+                    </FormControl>
+                    <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
+                      I accept the GreekKeepers <span>Terms of Use</span> and
+                      <span className='text-orange'> Privacy Policy.</span>
+                    </FormLabel>
+                  </FormItem>
                 </FormItem>
               )}
             />
           </div>
-          <Checkbox
-            setCheckbox={setAgeCheckbox}
-            chackbox={ageCheckbox}
-            error={error}
-            text='I am at least 18 years old and not a resident of the restricted states.'
-          />
-          <Checkbox
-            setCheckbox={setPolicyCheckbox}
-            chackbox={policyCheckbox}
-            error={error}
-            text={
-              <>
-                I accept the GreekKeepers <span>Terms of Use</span> and
-                <span className='text-orange'> Privacy Policy.</span>
-              </>
-            }
-          />
           <Button
+            className='mt-2.5 sm:mt-5'
             disabled={
               isPending ||
               !form.getValues().password ||
-              !form.getValues().username
+              !form.getValues().username ||
+              !policyCheckbox ||
+              !ageCheckbox
             }
             type='submit'
             variant='auth'
           >
             {isPending ? 'In process' : 'Sign Up'}
           </Button>
-          <LoginLink setIsSignup={setIsSignup} />
+          <LoginLink className='mt-2.5' setIsSignup={setIsSignup} />
         </form>
 
-        <div className='mt-2 w-0 h-0 overflow-hidden fixed -left-1/2 -top-1/2 -translate-x-1/2 -translate-x-1/2'>
-          <Captcha startCaptcha={show} onToken={setToken} show />
+        <div className='mt-2 w-0 h-0 overflow-hidden fixed -left-1/2 -top-1/2 -translate-x-1/2 -translate-y-1/2'>
+          <Captcha
+            key={process.env.SITE_KEY || ''}
+            startCaptcha={show}
+            onToken={setToken}
+            show
+          />
         </div>
       </div>
     </Form>
   )
 }
 export default SignUp
-// signUp(values)
-// signIn('credentials', {
-//   username: values.username,
-//   password: values.password,
-//   callbackUrl: '/'
-// })

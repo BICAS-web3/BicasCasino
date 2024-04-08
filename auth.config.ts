@@ -36,16 +36,21 @@ export default {
                 login: username,
                 password: password
               })
-              if (userResponse.status === 'OK') {
+              if (
+                userResponse &&
+                userResponse.status &&
+                userResponse.status === 'OK'
+              ) {
                 console.log('demo success', (userResponse as any).body)
                 const user = (userResponse as any).body
                 return user
               } else {
-                return null // Если запрос не успешен, верните null
+                console.log('demo success', (userResponse as any).body)
+                return null
               }
             } catch (error) {
               console.error('Error during login:', error)
-              return null // В случае ошибки верните null
+              return null
             }
           }
         } else {
