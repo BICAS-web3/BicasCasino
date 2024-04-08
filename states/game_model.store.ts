@@ -14,7 +14,13 @@ export type GamesList = {
   parameters: string
 }
 
-// variables
+export interface WonStatus {
+  profit: number
+  multiplier: number
+  token: string
+}
+
+// variablesresult
 export const $playSounds = createStore<string>('off')
 export const $gameStatus = createStore<GameStatus | null>(null)
 export const $isPlaying = createStore<boolean>(false)
@@ -32,11 +38,7 @@ export const setIsPlaying = createEvent<boolean>()
 export const setWaitingResponse = createEvent<boolean>()
 export const switchSounds = createEvent<string>()
 export const setGameStatus = createEvent<GameStatus | null>()
-export const setWonStatus = createEvent<{
-  profit: number
-  multiplier: number
-  token: string
-}>()
+export const setWonStatus = createEvent<WonStatus>()
 export const setLostStatus = createEvent<number>()
 export const clearStatus = createEvent()
 export const setBetValue = createEvent<bigint>()

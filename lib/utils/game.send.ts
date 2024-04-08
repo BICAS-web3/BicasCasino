@@ -1,10 +1,12 @@
+import { GamesList } from '@/states/game_model.store'
+
 export function sendSocketData(
   socket: WebSocket | null,
   isPlaying: boolean,
   access_token: string | null,
   subscribed: boolean,
-  gamesList: any[] | null,
-  betData: any,
+  gamesList: GamesList[] | null,
+  betData: Record<string, string | number>,
   setCubscribed: React.Dispatch<React.SetStateAction<boolean>>,
   title: string
 ) {

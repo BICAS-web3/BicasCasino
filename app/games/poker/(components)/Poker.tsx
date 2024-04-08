@@ -111,17 +111,17 @@ export const Poker = ({}: PokerProps) => {
   useEffect(() => {
     handleResult(
       result,
-      setFirstBet,
-      setKeep,
-      setShowFlipCards,
+      setInGame,
       setWaitingResponse,
-      setActiveCards,
       setIsPlaying,
-      setUpdate,
       setGameStatus,
       setWonStatus,
       setLostStatus,
-      setInGame
+      setKeep,
+      setFirstBet,
+      setUpdate,
+      setActiveCards,
+      setShowFlipCards
     )
     setResult(null)
   }, [result])
@@ -281,7 +281,6 @@ export const Poker = ({}: PokerProps) => {
   ])
 
   useEffect(() => setFirstBet(true), [])
-
   const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
     sendSocketData(
@@ -312,7 +311,6 @@ export const Poker = ({}: PokerProps) => {
       )
     }
   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
-
   useEffect(() => {
     return () => {
       socket?.send(
@@ -323,7 +321,7 @@ export const Poker = ({}: PokerProps) => {
       )
     }
   }, [])
-
+  // useEffect(() => alert(access_token), [access_token])
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (

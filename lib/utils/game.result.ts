@@ -1,18 +1,20 @@
+import { T_Card } from '@/api'
 import { GameModel } from '@/states'
+import { GameStatus, IResult, WonStatus } from '@/states/game_model.store'
 
 export function handleResult(
-  result?: any,
-  setFirstBet?: React.Dispatch<React.SetStateAction<boolean>>,
-  setKeep?: React.Dispatch<React.SetStateAction<boolean>>,
-  setShowFlipCards?: React.Dispatch<React.SetStateAction<boolean>>,
+  result?: IResult | null,
+  setInGame?: React.Dispatch<React.SetStateAction<boolean>>,
   setWaitingResponse?: React.Dispatch<React.SetStateAction<boolean>>,
-  setActiveCards?: React.Dispatch<React.SetStateAction<any>>,
   setIsPlaying?: React.Dispatch<React.SetStateAction<boolean>>,
+  setGameStatus?: React.Dispatch<React.SetStateAction<GameStatus | null>>,
+  setWonStatus?: React.Dispatch<React.SetStateAction<WonStatus | null>>,
+  setLostStatus?: React.Dispatch<React.SetStateAction<number>>,
+  setKeep?: React.Dispatch<React.SetStateAction<boolean>>,
+  setFirstBet?: React.Dispatch<React.SetStateAction<boolean>>,
   setUpdate?: React.Dispatch<React.SetStateAction<boolean>>,
-  setGameStatus?: React.Dispatch<React.SetStateAction<any>>,
-  setWonStatus?: React.Dispatch<React.SetStateAction<any>>,
-  setLostStatus?: React.Dispatch<React.SetStateAction<any>>,
-  setInGame?: React.Dispatch<React.SetStateAction<boolean>>
+  setActiveCards?: React.Dispatch<React.SetStateAction<T_Card[]>>,
+  setShowFlipCards?: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   if (!result) return
   if (result.type === 'State' && result.state) {
@@ -29,6 +31,7 @@ export function handleResult(
       setIsPlaying?.(true)
     }
   } else if (result.type === 'Bet' && result.state) {
+    alert(JSON.stringify(result))
     setKeep?.(false)
     setFirstBet?.(true)
     setWaitingResponse?.(false)
@@ -51,8 +54,8 @@ export function handleResult(
         setFirstBet?.(true)
       }, 200)
     } else if (Number(result.profit) < Number(result.amount)) {
-      setGameStatus?.(GameModel.GameStatus.Lost)
       alert('lost')
+      setGameStatus?.(GameModel.GameStatus.Lost)
       setLostStatus?.(Number(result.profit) - Number(result.amount))
       setTimeout(() => {
         setInGame?.(false)
