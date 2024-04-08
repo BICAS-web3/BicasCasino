@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ['class'],
   content: [
@@ -77,12 +78,19 @@ module.exports = {
       screens: {
         '2xl': '1400px',
         '3xl': '1800px',
-        emd: '998px',
+        '4xl': '1920px',
+        '5xl': '1980px',
+        tb: '700px',
+        xxs: '400px',
+        tmd: '910px',
+        emd: '996px',
         sm: '650px',
         md: '996px',
+        tmd: '1200px',
         tb: '700px',
         tbs: '840px',
-        mmd: '1280px'
+        mmd: '1280px',
+        med: '1550px'
       },
       borderRadius: {
         lg: 'var(--radius)',

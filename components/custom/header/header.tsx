@@ -1,13 +1,177 @@
+import { useEffect, useState } from 'react'
+import { useUnit } from 'effector-react'
+
 import { Separator } from '@/components/ui/separator'
+import { useSocket } from '@/components/providers/socket.provider'
+
 import BalanceSwitcher from './components/balance.switch'
+import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
-import Wallet from './components/wallet'
+
+import { GameModel, RegistrModel, UserModel } from '@/states'
+import * as api from '@/api'
 import { useSession } from 'next-auth/react'
 
 const Header = () => {
-  const { data } = useSession()
-  console.log('session data: ', data)
+  const session = useSession()
+  const [
+    access_token,
+    setUserInfo,
+    socketAuth,
+    setSocketAuth,
+    setSocketLogged,
+    socketReset,
+    setGamesList,
+    refresh_token,
+    setAccessToken,
+    setRefreshToken
+  ] = useUnit([
+    RegistrModel.$access_token,
+    UserModel.setUserInfo,
+    UserModel.$socketAuth,
+    UserModel.setSocketAuth,
+    UserModel.setSocketLogged,
+    UserModel.$socketReset,
+    GameModel.setGamesList,
+    RegistrModel.$refresh_token,
+    RegistrModel.setAccessToken,
+    RegistrModel.setRefreshToken
+  ])
+
+  useEffect(() => {
+    if (session.data?.user?.image) {
+      console.log('session:::', JSON.parse(session.data?.user?.image))
+      const userObj = JSON.parse(session.data?.user?.image)
+      setAccessToken(userObj.access_token)
+      setRefreshToken(userObj.refresh_token)
+    }
+  }, [session, session.data?.user?.image])
+  useEffect(() => {
+    if (access_token) {
+      ;(async () => {
+        const response = await api.getUserInfo({ bareer: access_token })
+        if (response.status === 'OK') {
+          setUserInfo((response as any).body)
+        }
+      })()
+    }
+  }, [access_token])
+
+  const [errorSeed, setErrorSeed] = useState(false)
+
+  // Server seed
+  useEffect(() => {
+    if (access_token) {
+      ;(async () => {
+        const response = await api.getServerSeed({ bareer: access_token })
+        if (response.status === 'OK' && (response.body as any)?.seed) {
+          setSeed(true)
+        } else {
+          setSeed(false)
+          setErrorSeed(true)
+        }
+      })()
+      ;(async () => {
+        const response = await api.getClientSeed({ bareer: access_token })
+
+        if (response.status === 'OK' && (response.body as any)?.seed) {
+          // setSeed(prev => [...prev, response])
+        } else {
+          setErrorSeed(true)
+        }
+      })()
+    }
+  }, [access_token, errorSeed])
+
+  const server_seed = { type: 'NewServerSeed' }
+  const data = { type: 'Auth', token: access_token }
+
+  const seed_data = {
+    type: 'NewClientSeed',
+    seed:
+      Math.random() +
+      'Insane 1wereesawesewrsjvhgvhhvvhewrreewrdefwrefdsewrwsswqerewreesdfedr0wereewrwr0%rawefewerretwrreewrewrtedsf ewedswin seed'
+  }
+
+  const [seeds, setSeed] = useState<boolean | null>(null)
+  const socket = useSocket()
+
+  useEffect(() => {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      !socketAuth &&
+      access_token
+    ) {
+      socket.send(JSON.stringify({ type: 'GetUuid' }))
+      if (access_token) {
+        socket.send(JSON.stringify(data))
+        setSocketAuth(true)
+        setErrorSeed(false)
+        setSocketLogged(true)
+        socket.send(JSON.stringify(seed_data))
+      }
+    }
+  }, [
+    socket,
+    access_token,
+    seeds,
+    errorSeed,
+    socket?.OPEN,
+    socketAuth,
+    session.data?.user?.image
+  ])
+
+  useEffect(() => {
+    if (
+      seeds === false &&
+      seeds !== null &&
+      socket &&
+      socket.readyState === WebSocket.OPEN
+    ) {
+      socket.send(JSON.stringify(server_seed))
+    }
+  }, [seeds, socket?.readyState, socketReset])
+
+  useEffect(() => {
+    ;(async () => {
+      if (access_token) {
+        const data = await api.getGames({ bareer: access_token })
+        if (data.status === 'OK') {
+          setGamesList((data.body as any).games)
+        }
+      }
+    })()
+  }, [access_token])
+
+  const [otToken, setOtToken] = useState<any | undefined>()
+
+  useEffect(() => {
+    ;(async () => {
+      if (access_token) {
+        const response = await api.getOneTimeToken({ bareer: access_token })
+        if (response.status === 'OK') {
+          setOtToken((response as any).body)
+        }
+      }
+    })()
+  }, [access_token])
+
+  useEffect(() => {
+    const intervalId = setInterval(async () => {
+      const response = await api.refreshToken({
+        bareer: access_token,
+        refresh_token: refresh_token
+      })
+      if (response.status === 'OK') {
+        const token = response.body
+      }
+    }, 10 * 60 * 1000)
+
+    return () => clearInterval(intervalId)
+  }, [refresh_token])
+
   return (
     <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
       <Logo />
@@ -22,3 +186,22 @@ const Header = () => {
 }
 
 export default Header
+
+// ;(async () => {
+//   const response = await api.refreshToken({
+//     bareer: access_token,
+//     refresh_token: refresh_token
+//   })
+//   if (response.status === 'OK') {
+//     const token = response.body
+//   }
+// })()
+// if (refresh_token) {
+//   const response = await api.refreshToken({
+//     bareer: access_token,
+//     refresh_token: refresh_token
+//   })
+//   if (response.status === 'OK') {
+//     const token = response.body
+//   }
+// }

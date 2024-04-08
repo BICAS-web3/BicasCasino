@@ -1,3 +1,4 @@
+import { Poker as GamePoker } from './(components)/Poker'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Poker = () => {
-  return <div>Poker</div>
+  return <GamePoker gameText='text' />
 }
 
 export default Poker

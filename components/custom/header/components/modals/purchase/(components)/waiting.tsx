@@ -129,7 +129,7 @@ const WaitingModal = () => {
               Send Amount
             </h6>
             <h6 className='text-base font-semibold text-[#979797]'>
-              &asymp;{purchase.toLocaleString().slice(-3)}USDT
+              &asymp;{purchase.toLocaleString('en-US')}USDT
             </h6>
           </div>
           <div className='flex gap-0 rounded-lg overflow-hidden border border-[#202020]'>

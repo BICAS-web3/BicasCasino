@@ -843,16 +843,16 @@ export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
 
 export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
   async form => {
-    return fetch(`${BaseApiUrl}/invoice/create`, {
+    return fetch(`${BaseApiUrl}/user/refresh/${form.refresh_token}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${form.bareer}`
-      },
-      body: JSON.stringify({
-        refresh_token: form.refresh_token
-      })
+      }
+      // body: JSON.stringify({
+      //   refresh_token: form.refresh_token
+      // })
     })
       .then(async res => await res.json())
       .catch(e => e)

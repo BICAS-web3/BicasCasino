@@ -20,44 +20,46 @@ export default {
     }),
     Credentials({
       name: 'Credentials',
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         console.log('start vilidate')
         const validateFields = registrSchema.safeParse(credentials)
         if (validateFields.success) {
           const { password, username } = validateFields.data
 
-          if (!username || !password) {
-            console.log('5')
-            return null
-          } else {
-            console.log('cred', credentials)
-            try {
-              const userResponse = await api.loginUser({
-                login: username,
-                password: password
-              })
-              if (
-                userResponse &&
-                userResponse.status &&
-                userResponse.status === 'OK'
-              ) {
-                console.log('demo success', (userResponse as any).body)
-                const user = (userResponse as any).body
-                return user
-              } else {
-                console.log('demo success', (userResponse as any).body)
-                return null
+          if (username || password) {
+            const userResponse = await api.loginUser({
+              login: username,
+              password: password
+            })
+            if (userResponse.status === 'OK') {
+              console.log('demo success', (userResponse as any).body)
+              const user = (userResponse as any).body
+              // const data = JSON.parse(user)
+              return {
+                name: username,
+                email: 'ewrfer',
+                image: JSON.stringify(user)
+                // ...data
               }
-            } catch (error) {
-              console.error('Error during login:', error)
+            } else {
               return null
             }
+          } else {
+            return null
           }
         } else {
-          console.log('fuck')
           return null
         }
       }
     })
-  ]
+  ],
+  callbacks: {
+    async session({ token, session, user }) {
+      console.log('session callback:', token, session, user)
+      if (token.sub && session.user) {
+        // session.user.access_token = JSON.parse(session.user.image!).access_token
+      }
+      return session
+    }
+  }
 } satisfies NextAuthConfig

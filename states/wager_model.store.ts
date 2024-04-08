@@ -11,7 +11,7 @@ export const $error = createStore<boolean>(false)
 export const $stopGain = createStore<number | null>(null)
 export const $stopLoss = createStore<number | null>(null)
 export const $pickedToken = createStore<any>(null)
-export const $cryptoValue = createStore<number>(0)
+export const $cryptoValue = createStore<number>(4)
 export const $Wagered = createStore<boolean>(false)
 
 export const setCryptoValue = createEvent<number>()

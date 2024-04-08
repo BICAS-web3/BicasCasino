@@ -19,10 +19,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import LoginLink from './login.link'
 import { signIn } from 'next-auth/react'
 import { BaseApiUrl } from '@/api'
-// import Captcha from '@/components/custom/captcha'
 import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
-import { toast } from 'sonner'
+import { EyeClose, EyeOpen } from '../../(icons)'
 
 interface SignupProps {}
 
@@ -105,12 +104,10 @@ const SignUp: FC<SignupProps> = () => {
         if (userData.status === 'OK') {
           setAccessToken((userData.body as any).access_token)
           setRefreshToken((userData.body as any).refresh_token)
-          localStorage.setItem('auth', (userData.body as any).access_token)
-          console.log(2, data)
+          setAuth(true)
           await signIn('credentials', {
             username: values.username,
-            password: values.password,
-            redirectTo: '/'
+            password: values.password
           })
         }
       } else {
@@ -165,9 +162,10 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='relative flex flex-col gap-5'>
+                <FormItem className='relative'>
                   <FormControl>
                     <Input
+                      type={showPassword ? 'password' : 'text'}
                       disabled={isPending}
                       placeholder={errorData ? 'User exist' : 'Password'}
                       onFocus={() => {
@@ -182,32 +180,55 @@ const SignUp: FC<SignupProps> = () => {
                       {...field}
                     />
                   </FormControl>
+                  {showPassword ? (
+                    <EyeOpen
+                      className='cursor-pointer absolute top-2 right-4'
+                      onClick={() => setShowPassword(prev => !prev)}
+                    />
+                  ) : (
+                    <EyeClose
+                      className='cursor-pointer absolute top-2 right-4'
+                      onClick={() => setShowPassword(prev => !prev)}
+                    />
+                  )}
                   <FormMessage />
-                  <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
-                    <FormControl>
-                      <Checkbox
-                        itemID='age'
-                        onClick={() => setAgeCheckbox(prev => !prev)}
-                        className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
-                      />
-                    </FormControl>
-                    <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
-                      I am at least 18 years old and not a resident of the
-                      restricted states.
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
-                    <FormControl>
-                      <Checkbox
-                        onClick={() => setPolicyCheckbox(prev => !prev)}
-                        className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
-                      />
-                    </FormControl>
-                    <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
-                      I accept the GreekKeepers <span>Terms of Use</span> and
-                      <span className='text-orange'> Privacy Policy.</span>
-                    </FormLabel>
-                  </FormItem>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                  <FormControl>
+                    <Checkbox
+                      itemID='age'
+                      onClick={() => setAgeCheckbox(prev => !prev)}
+                      className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
+                    />
+                  </FormControl>
+                  <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
+                    I am at least 18 years old and not a resident of the
+                    restricted states.
+                  </FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                  <FormControl>
+                    <Checkbox
+                      onClick={() => setPolicyCheckbox(prev => !prev)}
+                      className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
+                    />
+                  </FormControl>
+                  <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
+                    I accept the GreekKeepers <span>Terms of Use</span> and
+                    <span className='text-orange'> Privacy Policy.</span>
+                  </FormLabel>
                 </FormItem>
               )}
             />
