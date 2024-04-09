@@ -169,7 +169,7 @@ const Header = () => {
     })()
   }, [refresh_token])
 
-  useEffect(() => alert(`${refresh_token}`), [])
+  // useEffect(() => alert(`${refresh_token}`), [])
   return (
     <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
       <Logo />
