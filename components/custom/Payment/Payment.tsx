@@ -48,10 +48,6 @@ const Payment: FC<PaymentProps> = () => {
 
   const [link, setLink] = useState(1)
 
-  useEffect(() => {
-    console.log(totalVisibility)
-  }, [totalVisibility])
-
   return (
     <>
       <div

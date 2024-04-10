@@ -1,7 +1,7 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import React, { useEffect, useRef } from 'react'
 import getConfig from 'next/config'
-import { showNotification } from '@mantine/notifications'
+// import { showNotification } from '@mantine/notifications'
 import { toast } from 'sonner'
 
 export interface CaptchaProps {

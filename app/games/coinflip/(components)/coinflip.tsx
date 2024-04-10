@@ -7,14 +7,14 @@ import { Canvas } from '@react-three/fiber'
 import Image from 'next/image'
 
 import { useSocket } from '@/components/providers/socket.provider'
-// import Preload from '@/components/preload'
-// import TotalCoeff from '@/components/ui/total.coeff'
 
 import Model from '../(models)/coin'
 
-import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import Preload from '@/components/custom/preload'
 import TotalCoeff from '@/components/custom/totalCoeff'
+import Coefficient from '@/components/custom/coefficient'
+import { processBetResult } from '../(utils)'
 
 enum CoinAction {
   Rotation = 'Rotation',
@@ -26,6 +26,7 @@ enum CoinAction {
 }
 
 const CoinFlipGame = () => {
+  const socket = useSocket()
   const [modelLoading, setModelLoading] = useState(true)
   const [imageLoading, setIMageLoading] = useState(true)
 
@@ -33,108 +34,78 @@ const CoinFlipGame = () => {
   const [
     lost,
     profit,
-    playSounds,
     pickedSide,
     setActivePicker,
     pickSide,
-    wagered,
-    setWagered,
     betsAmount,
-    gameAddress,
-    pickedToken,
-    currentBalance,
     cryptoValue,
     stopGain,
     stopLoss,
-    allowance,
     setGameStatus,
     gameStatus,
     setWonStatus,
     setLostStatus,
     setCoefficient,
-    waitingResponse,
-    setWaitingResponse,
     setIsPlaying,
-    setBetValue,
-    betValue,
-    refund,
-    setRefund,
-    // result,
-    // setResult,
-    // isDrax,
-    // userInfo,
-    gamesList
+    result,
+    setResult,
+    isDrax,
+    userInfo,
+    gamesList,
+    socketReset
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    GameModel.$playSounds,
     GameModel.$pickedSide,
     GameModel.setActive,
     GameModel.pickSide,
-    WagerModel.$Wagered,
-    WagerModel.setWagered,
     WagerModel.$pickedValue,
-    SessionModel.$gameAddress,
-    WagerModel.$pickedToken,
-    SessionModel.$currentBalance,
     WagerModel.$cryptoValue,
     WagerModel.$stopGain,
     WagerModel.$stopLoss,
-    SessionModel.$currentAllowance,
     GameModel.setGameStatus,
     GameModel.$gameStatus,
     GameModel.setWonStatus,
     GameModel.setLostStatus,
     GameModel.setCoefficient,
-    GameModel.$waitingResponse,
-    GameModel.setWaitingResponse,
     GameModel.setIsPlaying,
-    GameModel.setBetValue,
-    GameModel.$betValue,
-    GameModel.$refund,
-    GameModel.setRefund,
-    // BetsModel.$result,
-    // BetsModel.setResult,
-    // BalanceModel.$isDrax,
-    // LayoutModel.$userInfo,
-    GameModel.$gamesList
+    GameModel.$result,
+    GameModel.setResult,
+    UserModel.$isDrax,
+    UserModel.$userInfo,
+    GameModel.$gamesList,
+    UserModel.$socketReset
   ])
-  // useEffect(() => {
-  //   if (result !== null && result?.type === 'Bet') {
-  //     const fullAmount = Number(result.amount) * result.num_games!
-  //     setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
-  //     if (
-  //       Number(result.profit) > fullAmount ||
-  //       Number(result.profit) === fullAmount
-  //     ) {
-  //       setGameStatus(GameModel.GameStatus.Won)
+  useEffect(() => {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
+      socket?.send(
+        JSON.stringify({
+          type: 'SubscribeBets',
+          payload: [gamesList.find(item => item.name === 'CoinFlip')?.id]
+        })
+      )
+    }
+  }, [socket, socket?.readyState, gamesList.length, socketReset])
 
-  //       const multiplier = Number(Number(result.profit) / fullAmount)
-  //       pickSide(pickedSide)
-  //       setWonStatus({
-  //         profit: Number(result.profit),
-  //         multiplier,
-  //         token: 'DRAX'
-  //       })
-  //       setIsPlaying(false)
-  //       setInGame(false)
-  //       // alert("win");
-  //     } else if (Number(result.profit) < fullAmount) {
-  //       setGameStatus(GameModel.GameStatus.Lost)
-  //       pickSide(pickedSide ^ 1)
-  //       setIsPlaying(false)
-  //       setInGame(false)
-  //       setLostStatus(Number(result.profit) - fullAmount)
-  //       // alert("lost");
-  //     } else {
-  //       setGameStatus(GameModel.GameStatus.Draw)
-  //       setIsPlaying(false)
-  //       setInGame(false)
-  //       // alert("draw");
-  //     }
-  //     setResult(null)
-  //   }
-  // }, [result?.timestamp, result, gameStatus])
+  useEffect(() => {
+    processBetResult(
+      result,
+      setGameStatus,
+      pickSide,
+      setIsPlaying,
+      setInGame,
+      setLostStatus,
+      setWonStatus,
+      pickedSide,
+      setCoefficientData,
+      setResult
+    )
+  }, [result?.timestamp, result, gameStatus])
   const [isPlaying] = useUnit([GameModel.$isPlaying])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
@@ -202,21 +173,20 @@ const CoinFlipGame = () => {
 
   const [betData, setBetData] = useState({})
 
-  // useEffect(() => {
-  //   setBetData({
-  //     type: 'MakeBet',
-  //     game_id: gamesList.find(item => item.name === 'CoinFlip')?.id,
-  //     coin_id: isDrax ? 2 : 1,
-  //     user_id: userInfo?.id || 0,
-  //     data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
-  //     amount: `${cryptoValue || 0}`,
-  //     difficulty: 0,
-  //     stop_loss: Number(stopLoss) || 0,
-  //     stop_win: Number(stopGain) || 0,
-  //     num_games: betsAmount
-  //   })
-  // }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount])
-  const socket = useSocket()
+  useEffect(() => {
+    setBetData({
+      type: 'MakeBet',
+      game_id: gamesList.find(item => item.name === 'CoinFlip')?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
+      amount: `${cryptoValue || 0}`,
+      difficulty: 0,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount
+    })
+  }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount])
 
   const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
@@ -259,19 +229,7 @@ const CoinFlipGame = () => {
           fullWon={fullWon}
           totalValue={totalValue}
         />
-        {/* <div className={cn(s.balls_arr)}>
-          {coefficientData.map((item, i) => (
-            <div
-              className={cn(
-                s.multiplier_value,
-                item > 1 ? s.multiplier_positive : s.multiplier_negative
-              )}
-              key={i}
-            >
-              {item?.toFixed(2)}x
-            </div>
-          ))}
-        </div> */}
+        <Coefficient ballsArr={coefficientData} common />
         <div className='relative w-full h-full'>
           <div className='w-full h-[370px] flex flex-col items-center absolute bottom-[226px] left-1/2 -translate-x-1/2 gap-10'>
             <div className='h-full sm:h-[154px] xl:h-full w-full'>

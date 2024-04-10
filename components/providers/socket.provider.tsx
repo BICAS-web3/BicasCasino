@@ -20,7 +20,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setResult,
     setTokenId,
     setUuid,
-    uuid,
     setSocketReset,
     setSocketAuth,
     setSocketLogged
@@ -30,7 +29,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     GameModel.setResult,
     GameModel.setTokenId,
     GameModel.setUuid,
-    GameModel.$uuid,
     UserModel.setSocketReset,
     UserModel.setSocketAuth,
     UserModel.setSocketLogged
@@ -50,13 +48,10 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         return prevSocket
       }
     })
-    console.log(`socket333:`, socket)
     if (socket && socket.readyState === WebSocket.OPEN) return
-    // alert(5)
     let uid: null | string = null
 
     newSocket.onopen = () => {
-      console.log('WebSocket connected')
       reset && setSocketReset()
       reset && setSocketAuth(false)
       reset && setSocketLogged(false)
@@ -64,22 +59,16 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.onmessage = (ev: MessageEvent<any>) => {
       const data = JSON.parse(ev.data)
-      console.log('Received message from server:', data.uuid, uuidRef.current)
       if (data.type === 'Uuid') {
         setUuid(data.uuid)
         uid = data.uuid
         uuidRef.current = data.uuid
       }
-      if (data.type === 'State' && uid !== null) {
-        setResult(data)
-        // uid = null;
-      }
       if (
-        (data.type === 'Bet' ||
-          data.type === 'MakeBet' ||
-          data.type === 'ContinueGame' ||
-          data.type === 'State') &&
-        data.uuid === uuidRef.current
+        (JSON.parse(ev.data).type === 'Bet' && data.uuid === uuidRef.current) ||
+        (JSON.parse(ev.data).type === 'ContinueGame' &&
+          data.uuid === uuidRef.current) ||
+        JSON.parse(ev.data).type === 'State'
       ) {
         setResult(data)
         if (data && (data?.coin_id || data?.coin_id === 0)) {
@@ -97,32 +86,17 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     }
 
     newSocket.onclose = () => {
-      console.log('websockets closed')
       setReset(true)
       setSocket(null)
       uid = null
     }
     newSocket.onerror = () => {
-      console.log('websockets error')
       setSocket(null)
       // setSocketLogged(false);
       setReset(true)
       uid = null
     }
-
-    // return () => {
-    //   newSocket.close();
-    // };
-  }, [socket])
-
-  // useEffect(() => {
-  //   console.log('*****', socket)
-  //   if (socket) {
-  //     alert('exist')
-  //   } else {
-  //     alert('not exist')
-  //   }
-  // }, [socket])
+  }, [socket, uuidRef])
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

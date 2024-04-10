@@ -43,15 +43,12 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
   // ]);
 
   // useEffect(() => {
-  //   console.log("user info: ", userInfo);
   //   if (access_token && userInfo) {
   //     (async () => {
   //       const data = await api.getUserAmounts({
   //         bareer: access_token,
   //         userId: userInfo?.id,
   //       });
-
-  //       console.log("amount: ", data.body);
   //       if (data.status === "OK") {
   //         setBalance((data as any).body);
   //       }
@@ -69,25 +66,6 @@ export const PaymentTips: FC<PaymentTipsProps> = () => {
       title: '170.000 bc'
     }
   ])
-
-  // useEffect(() => {
-  //   console.log("BALANCE", balance);
-  // }, [balance]);
-
-  // const changeToBalance = () => {
-  //   if (balance) {
-  //     setTList([
-  //       {
-  //         ico: dcCoinIco,
-  //         title: balance.amounts[0].amount,
-  //       },
-  //       {
-  //         ico: bcCoinIco,
-  //         title: balance.amounts[1].amount,
-  //       },
-  //     ]);
-  //   }
-  // };
 
   return (
     <div

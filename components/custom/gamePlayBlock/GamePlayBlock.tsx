@@ -1,11 +1,12 @@
 'use client'
 
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import InfoIco from '@/public/images/misc/infoIco.svg'
 import { Button } from '@/components/ui/button'
 import { useUnit } from 'effector-react'
 import { GameModel, WagerModel } from '@/states'
 import { useSocket } from '@/components/providers/socket.provider'
+import { usePathname } from 'next/navigation'
 
 interface GamePlayBlockProps {}
 
@@ -17,15 +18,31 @@ export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
     setError,
     setFinishPoker,
     isPlaying,
-    finishPoker
+    finishPoker,
+    setStop,
+    apples
   ] = useUnit([
     GameModel.setIsPlaying,
     WagerModel.$cryptoValue,
     WagerModel.setError,
     GameModel.setFinishPoker,
     GameModel.$isPlaying,
-    GameModel.$finishPoker
+    GameModel.$finishPoker,
+    GameModel.setStop,
+    GameModel.$apples
   ])
+
+  const path = usePathname()
+
+  const [isApple, setIsApple] = useState(false)
+
+  useEffect(() => {
+    if (path.includes('apples')) {
+      setIsApple(true)
+    } else {
+      setIsApple(false)
+    }
+  }, [])
 
   return (
     <div className='flex gap-[20px] items-center justify-end'>
@@ -40,13 +57,14 @@ export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
             if (!isPlaying) {
               setIsPlaying(true)
             } else {
+              apples.length > 0 && setStop(true)
               setFinishPoker(!finishPoker)
             }
           }
         }}
         variant='wagerPlay'
       >
-        Play
+        {isPlaying && isApple ? 'Refund' : 'Play'}
       </Button>
     </div>
   )

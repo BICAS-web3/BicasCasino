@@ -9,7 +9,6 @@ import { draxTypesList } from '../data'
 const TabBuy = () => {
   const [setPurchaseVisibility] = useUnit([PaymentModel.setPurcahseVisibility])
   const handlePurchase = useCallback((price, bonusPrice) => {
-    console.log('hello there!')
     // setPurchaseV(price)
     // setBonusV(bonusPrice)
     // setPurchaseVisibility(true)

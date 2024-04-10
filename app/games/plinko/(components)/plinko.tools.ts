@@ -93,7 +93,6 @@ export function genParabolaMovements(
   const coefs = parabolaCoefs[screen]
     ? parabolaCoefs[screen]
     : parabolaCoefs['other']
-  //console.log(screen, coefs);
 
   let yStep = Math.abs(coefs[16] - startingTop)
   let xStep = 0
@@ -108,7 +107,6 @@ export function genParabolaMovements(
 
   var to_return: any[] = []
   for (var p of path) {
-    //console.log(y, coefs[16] + y);
     if (p) {
       to_return.push([
         {

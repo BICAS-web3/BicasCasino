@@ -30,6 +30,7 @@ const maxReveal = [
 ]
 
 const MinesGame: FC = () => {
+  const socket = useSocket()
   const initialGameField: Tile[] = [
     Tile.Closed,
     Tile.Closed,
@@ -135,7 +136,8 @@ const MinesGame: FC = () => {
     result,
     setResult,
     socketLogged,
-    setCryptoValue
+    setCryptoValue,
+    socketReset
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$lost,
@@ -158,8 +160,25 @@ const MinesGame: FC = () => {
     GameModel.$result,
     GameModel.setResult,
     UserModel.$socketLogged,
-    WagerModel.setCryptoValue
+    WagerModel.setCryptoValue,
+    UserModel.$socketReset
   ])
+
+  useEffect(() => {
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
+      socket?.send(
+        JSON.stringify({
+          type: 'SubscribeBets',
+          payload: [gamesList.find(item => item.name === 'Mines')?.id]
+        })
+      )
+    }
+  }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
     if (result) {
@@ -251,7 +270,6 @@ const MinesGame: FC = () => {
 
   const pickTile = (index: number) => {
     if (gameField[index] == Tile.Closed) {
-      console.log('TILES', totalOpenedTiles, maxReveal[pickedValue])
       if (!pickedTiles[index]) {
         if (totalOpenedTiles >= maxReveal[pickedValue]) {
           return
@@ -369,7 +387,6 @@ const MinesGame: FC = () => {
   }, [GameModel.GameStatus, profit, lost])
 
   //!----------
-  const socket = useSocket()
   const subscribe = {
     type: 'SubscribeBets',
     payload: [gamesList.find(item => item.name === 'Mines')?.id]
@@ -380,7 +397,6 @@ const MinesGame: FC = () => {
   const [gameState, setGameState] = useState<any>(null)
 
   useEffect(() => {
-    console.log(121212, pickedTiles)
     if (keep) {
       setBetData({
         type: 'ContinueGame',

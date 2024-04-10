@@ -21,7 +21,6 @@ export default {
     Credentials({
       name: 'Credentials',
       async authorize(credentials, req) {
-        console.log('start vilidate')
         const validateFields = registrSchema.safeParse(credentials)
         if (validateFields.success) {
           const { password, username } = validateFields.data
@@ -32,9 +31,7 @@ export default {
               password: password
             })
             if (userResponse.status === 'OK') {
-              console.log('demo success', (userResponse as any).body)
               const user = (userResponse as any).body
-              // const data = JSON.parse(user)
               return {
                 name: username,
                 email: 'ewrfer',
@@ -55,9 +52,7 @@ export default {
   ],
   callbacks: {
     async session({ token, session, user }) {
-      console.log('session callback:', token, session, user)
       if (token.sub && session.user) {
-        // session.user.access_token = JSON.parse(session.user.image!).access_token
       }
       return session
     }

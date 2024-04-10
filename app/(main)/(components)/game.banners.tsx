@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 
-import { Autoplay, EffectFade, Grid, Navigation } from 'swiper/modules'
+import { Autoplay, Grid, Navigation } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
 import { Button } from '@/components/ui/button'

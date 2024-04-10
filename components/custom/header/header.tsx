@@ -41,7 +41,6 @@ const Header = () => {
 
   useEffect(() => {
     if (session.data?.user?.image) {
-      console.log('session:::', JSON.parse(session.data?.user?.image))
       const userObj = JSON.parse(session.data?.user?.image)
       setAccessToken(userObj.access_token)
       setRefreshToken(userObj.refresh_token)

@@ -1,25 +1,50 @@
 import { T_Card } from '@/api'
 import { GameModel } from '@/states'
-import { GameStatus, IResult, WonStatus } from '@/states/game_model.store'
+import { GameStatus, IResult, Side, WonStatus } from '@/states/game_model.store'
+import { Dispatch, SetStateAction } from 'react'
 
-export function handleResult(
-  result?: IResult | null,
-  setInGame?: React.Dispatch<React.SetStateAction<boolean>>,
-  setWaitingResponse?: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsPlaying?: React.Dispatch<React.SetStateAction<boolean>>,
-  setGameStatus?: React.Dispatch<React.SetStateAction<GameStatus | null>>,
-  setWonStatus?: React.Dispatch<React.SetStateAction<WonStatus | null>>,
-  setLostStatus?: React.Dispatch<React.SetStateAction<number>>,
-  setKeep?: React.Dispatch<React.SetStateAction<boolean>>,
-  setFirstBet?: React.Dispatch<React.SetStateAction<boolean>>,
-  setUpdate?: React.Dispatch<React.SetStateAction<boolean>>,
-  setActiveCards?: React.Dispatch<React.SetStateAction<T_Card[]>>,
-  setShowFlipCards?: React.Dispatch<React.SetStateAction<boolean>>
-) {
+interface IHandleResult {
+  title?: string
+  result?: IResult | null
+  setInGame?: Dispatch<SetStateAction<boolean>>
+  setWaitingResponse?: Dispatch<SetStateAction<boolean>>
+  setIsPlaying?: Dispatch<SetStateAction<boolean>>
+  setGameStatus?: Dispatch<SetStateAction<GameStatus | null>>
+  setWonStatus?: Dispatch<SetStateAction<WonStatus | null>>
+  setLostStatus?: Dispatch<SetStateAction<number>>
+  setKeep?: Dispatch<SetStateAction<boolean>>
+  setFirstBet?: Dispatch<SetStateAction<boolean>>
+  setUpdate?: Dispatch<SetStateAction<boolean>>
+  setActiveCards?: Dispatch<SetStateAction<T_Card[]>>
+  setShowFlipCards?: Dispatch<SetStateAction<boolean>>
+  setCoefficientData?: Dispatch<SetStateAction<number[]>>
+  setLocalNumber?: Dispatch<SetStateAction<number>>
+  pickSide?: Dispatch<SetStateAction<Side>>
+  pickedSide?: Side
+}
+
+export function handleResult({
+  title,
+  result,
+  setInGame,
+  setWaitingResponse,
+  setIsPlaying,
+  setGameStatus,
+  setWonStatus,
+  setLostStatus,
+  setKeep,
+  setFirstBet,
+  setUpdate,
+  setActiveCards,
+  setShowFlipCards,
+  setCoefficientData,
+  setLocalNumber,
+  pickSide,
+  pickedSide
+}: IHandleResult) {
   if (!result) return
   if (result.type === 'State' && result.state) {
     const dataState = JSON.parse(result.state).cards_in_hand
-    alert(JSON.stringify(result))
     setFirstBet?.(false)
     setShowFlipCards?.(true)
     setWaitingResponse?.(false)
@@ -30,47 +55,82 @@ export function handleResult(
     if (result?.amount) {
       setIsPlaying?.(true)
     }
-  } else if (result.type === 'Bet' && result.state) {
-    alert(JSON.stringify(result))
+  } else if (result.type === 'Bet') {
+    if (title === 'rps' && setCoefficientData) {
+      const fullAmount = Number(result.amount) * result.num_games!
+      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+    }
     setKeep?.(false)
     setFirstBet?.(true)
     setWaitingResponse?.(false)
+    const fullAmount = Number(result.amount) * result.num_games!
+    const parseArr = JSON.parse(result.profits)
+    if (title === 'rocket') {
+      const handleCall = () => {
+        for (let i = 0; i < parseArr?.length; i++) {
+          setTimeout(() => {
+            const outCome = Number(parseArr[i]) / fullAmount
+            setCoefficientData?.(prev => [outCome, ...prev])
+            setLocalNumber?.(outCome)
+          }, 700 * (i + 1))
+        }
+      }
+      handleCall()
+    }
     if (
       Number(result.profit) > Number(result.amount) ||
       Number(result.profit) === Number(result.amount)
     ) {
       setGameStatus?.(GameModel.GameStatus.Won)
-      alert('win')
       const multiplier = Number(result.profit) / Number(result.amount)
       setWonStatus?.({
         profit: Number(result.profit),
         multiplier,
         token: 'DRAX'
       })
-      setTimeout(() => {
-        setInGame?.(false)
+      if (title === 'rocket' || title === 'rps') {
         setIsPlaying?.(false)
-        setKeep?.(false)
-        setFirstBet?.(true)
-      }, 200)
+        setInGame?.(false)
+      }
+      if (title === 'poker') {
+        setTimeout(() => {
+          setInGame?.(false)
+          setIsPlaying?.(false)
+          setKeep?.(false)
+          setFirstBet?.(true)
+        }, 200)
+      }
     } else if (Number(result.profit) < Number(result.amount)) {
-      alert('lost')
       setGameStatus?.(GameModel.GameStatus.Lost)
       setLostStatus?.(Number(result.profit) - Number(result.amount))
-      setTimeout(() => {
-        setInGame?.(false)
+      if (title === 'rocket' || title === 'rps') {
+        setLostStatus?.(Number(result.profit) - fullAmount)
+        pickedSide && pickSide?.(pickedSide ^ 1)
         setIsPlaying?.(false)
-        setKeep?.(false)
-        setFirstBet?.(true)
-      }, 200)
+        setInGame?.(false)
+      }
+      if (title === 'poker') {
+        setTimeout(() => {
+          setInGame?.(false)
+          setIsPlaying?.(false)
+          setKeep?.(false)
+          setFirstBet?.(true)
+        }, 200)
+      }
     } else {
       setGameStatus?.(GameModel.GameStatus.Draw)
-      setTimeout(() => {
-        setInGame?.(false)
+      if (title === 'poker') {
+        setTimeout(() => {
+          setInGame?.(false)
+          setIsPlaying?.(false)
+          setKeep?.(false)
+          setFirstBet?.(true)
+        }, 200)
+      }
+      if (title === 'rocket' || title === 'rps') {
         setIsPlaying?.(false)
-        setKeep?.(false)
-        setFirstBet?.(true)
-      }, 200)
+        setInGame?.(false)
+      }
     }
   }
 }

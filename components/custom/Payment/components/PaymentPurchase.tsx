@@ -90,7 +90,6 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   //         setInvoiceCreate(data.body as any)
   //         setSendAddress((data.body as any)?.pay_url)
   //       }
-  //       console.log(data)
   //     })()
   //   }
 
@@ -113,7 +112,6 @@ export const PaymentPurchase: FC<PaymentPurchaseProps> = ({
   //     ;(async () => {
   //       const response = await api.getInvoicePrices({ bareer: access_token })
   //       if (response.status === 'OK') {
-  //         console.log('invoice prices', response.body)
   //         setPriceList(response.body?.prices)
   //       }
   //     })()
