@@ -12,10 +12,10 @@ import { X } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { WalletSVG } from '../../icons'
-import TabBuy from './tabs/tab.buy'
+import { TabBuy, TabRedeem, TabTips } from './tabs'
 
 const tabData = ['Buy', 'Redeem', 'Tips']
-const tabContent = [<TabBuy />]
+const tabContent = [<TabBuy />, <TabRedeem />, <TabTips />]
 
 const Payment = () => {
   const [totalVisibility, setTotalVisibility] = useUnit([
@@ -50,7 +50,12 @@ const Payment = () => {
               >
                 Transactions
               </Link>
-              <Button className='' size='icon' variant='ghost'>
+              <Button
+                className=''
+                size='icon'
+                variant='ghost'
+                onClick={handleClose}
+              >
                 <X className='w-5 h-5 aspect-square object-contain text-[#3E3E3E]' />
               </Button>
             </div>
@@ -80,6 +85,7 @@ const Payment = () => {
                 tabItem.toLocaleLowerCase()
               )}-${index}`}
               value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
+              className='pt-5'
             >
               {tabContent[index]}
             </TabsContent>

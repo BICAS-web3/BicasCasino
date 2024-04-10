@@ -8,11 +8,11 @@ import { SwiperSlide } from 'swiper/react'
 import { Button } from '@/components/ui/button'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),
@@ -44,8 +44,8 @@ const GameBanners = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
-    <div className={`flex flex-col gap-[10px] overflow-hidden ${className}`}>
-      <div className='flex items-center gap-[10px] ml-auto text-[#7E7E7E] font-bold'>
+    <div className={`flex flex-col gap-2.5 overflow-hidden ${className}`}>
+      <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
         Show all
         <div className='flex gap-[5px]'>
           <Button

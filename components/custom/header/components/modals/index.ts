@@ -1,3 +1,4 @@
 import Payment from './payment'
+import Purchase from './purchase'
 
-export default Payment
+export { Payment, Purchase }

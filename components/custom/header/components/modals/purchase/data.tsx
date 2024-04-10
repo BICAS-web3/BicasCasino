@@ -1,39 +1,4 @@
-import {
-  BitcoinSVG,
-  BonusCoinSVG,
-  DogeSVG,
-  DraxMiniSVG,
-  EthereumSVG,
-  LtcSVG,
-  UsdtSVG
-} from '../../icons'
-
-export const draxTypesList = [
-  {
-    bonusCoins: 10000,
-    usdPrice: 10
-  },
-  {
-    bonusCoins: 50000,
-    usdPrice: 50
-  },
-  {
-    bonusCoins: 100000,
-    usdPrice: 100
-  },
-  {
-    bonusCoins: 500000,
-    usdPrice: 500
-  },
-  {
-    bonusCoins: 1000000,
-    usdPrice: 1000
-  },
-  {
-    bonusCoins: 2000000,
-    usdPrice: 2000
-  }
-]
+import { BitcoinSVG, DogeSVG, EthereumSVG, LtcSVG, UsdtSVG } from '../../icons'
 
 export const crypto_data = [
   {
@@ -75,22 +40,5 @@ export const crypto_data = [
     value: 'usdt',
     address: '37FmyiYEgAHu2ENf7CyPiepdVWDqy8TZ5d',
     icon: <UsdtSVG className='aspect-square object-contain' />
-  }
-]
-
-export const tips_data = [
-  {
-    id: '1',
-    label: 'DC',
-    value: 'dc',
-    address: '37FmyiYEgAHu2ENf7CyPiepdVWDqy8TZ5d',
-    icon: <BonusCoinSVG className='aspect-square object-contain' />
-  },
-  {
-    id: '2',
-    label: 'DRAX',
-    value: 'drax',
-    address: '1234',
-    icon: <DraxMiniSVG className='aspect-square object-contain' />
   }
 ]

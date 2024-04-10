@@ -301,6 +301,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes bblFadInOut {
+
   0%,
   80%,
   100% {
@@ -874,4 +875,16 @@ body::-webkit-scrollbar-thumb {
   transform: translate(-50%, -50%);
   border-radius: 8px;
   box-shadow: 0px 0px 14.800000190734863px 0px #9c740ebf;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
