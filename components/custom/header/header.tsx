@@ -173,12 +173,12 @@ const Header = () => {
   }, [refresh_token])
 
   return (
-    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
+    <header className='flex justify-between items-center px-3 sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-black'>
       <Logo />
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />
         <Wallet />
-        <Separator orientation='vertical' className='min-h-10' />
+        <Separator orientation='vertical' className='min-h-10 inline' />
         <User />
       </div>
     </header>

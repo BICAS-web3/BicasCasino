@@ -19,7 +19,7 @@ const MarqueeItem = dynamic(() => import('./marquee.item'), {
 
 export const MarqueeLine = () => {
   return (
-    <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-[2px] sm:pl-[2px] -ml-4 sm:ml-0'>
+    <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5 ml-0'>
       <Marquee
         autoFill
         speed={20}

@@ -2,7 +2,7 @@ import { FC, useEffect, useLayoutEffect, useState } from 'react'
 import { randInt } from 'three/src/math/MathUtils.js'
 import { useStore, useUnit } from 'effector-react'
 
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
 import { useDeviceType } from '@/lib/hooks/useDeviceType'
 
 import { BallSVG } from './icons'

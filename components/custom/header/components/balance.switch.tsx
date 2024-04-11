@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { BonusCoinSVG, DraxMiniSVG } from './icons'
 import { Button } from '@/components/ui/button'
+import { useMediaQuery } from 'usehooks-ts'
 
 const switch_img = [
   {
@@ -22,12 +23,13 @@ const switch_img = [
 ]
 
 const BalanceSwitcher = () => {
-  const [isDrax, setIsDrax] = useState(false)
+  const [active, setActive] = useState(false)
+  const isMobile = useMediaQuery('(max-width: 730px)')
 
   return (
     <div
       className={cn(
-        'h-[40px] flex items-center p-[5px] gap-[10px]',
+        'h-[40px] flex items-center p-1 sm:p-[5px] gap-0 sm:gap-2.5',
         'bg-[#121212] border border-[#212121] rounded-[50px]'
       )}
     >
@@ -35,19 +37,27 @@ const BalanceSwitcher = () => {
         <Button
           variant='ghost'
           key={item.id}
-          onClick={() => setIsDrax(item.isDrax)}
+          onClick={() => setActive(item.isDrax)}
           className={cn(
             'w-full h-full flex items-center pl-2 pr-1 cursor-pointer rounded-[50px] gap-2',
             'text-grey-acc text-sm font-medium leading-6 text-left uppercase duration-500',
-            isDrax === item.isDrax && 'bg-black-acc text-white'
+            active === item.isDrax && 'bg-black-acc text-white'
           )}
         >
           {item.icon}
           <div className='flex items-center gap-1 pr-2'>
-            <span className='text-sm leading-4 truncate w-max max-w-12'>
-              995.53
-            </span>
-            <span className='text-sm leading-4'>{item.token}</span>
+            {isMobile ? (
+              active === item.isDrax && (
+                <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-10'>
+                  82995.53
+                </span>
+              )
+            ) : (
+              <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-12'>
+                82995.53
+              </span>
+            )}
+            <span className='text-xs sm:text-sm leading-4'>{item.token}</span>
           </div>
         </Button>
       ))}

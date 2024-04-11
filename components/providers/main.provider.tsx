@@ -14,7 +14,7 @@ import StoreProvider from './store.provider'
 
 import { Nunito_Sans, Source_Sans_3 } from 'next/font/google'
 import localFont from 'next/font/local'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 
 import * as api from '@/api'
 import { useSocket } from '@/components/providers/socket.provider'
@@ -27,22 +27,31 @@ type Props = {
   children: React.ReactNode
 }
 const MainProvider = ({ children }: Props) => {
+  const [loaded, setLoaded] = useState<boolean>(false)
+  useLayoutEffect(() => {
+    setLoaded(true)
+  }, [])
+
   return (
     <StoreProvider>
       <SocketProvider>
         <ThemeProvider attribute='class' defaultTheme='system'>
           <SessionProvider>
-            <main className='min-h-screen flex flex-col relative '>
-              <Header />
-              <div className='flex flex-nowrap relative'>
-                <Sidebar />
-                <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
-                  {children}
-                  <Footer />
+            {!loaded ? (
+              <div>Loading..</div>
+            ) : (
+              <main className='min-h-screen flex flex-col relative '>
+                <Header />
+                <div className='flex flex-col sm:flex-row flex-nowrap relative'>
+                  <Sidebar />
+                  <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                    {children}
+                    <Footer />
+                  </div>
                 </div>
-              </div>
-              <Toaster />
-            </main>
+                <Toaster />
+              </main>
+            )}
             <ModalProvider />
           </SessionProvider>
         </ThemeProvider>
