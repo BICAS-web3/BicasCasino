@@ -76,7 +76,13 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
             key={ind}
             className='w-full max-w-[400px] flex items-center justify-between'
           >
-            <span className=''>{item.title}</span>
+            <span
+              className={`${
+                item.enabled ? 'text-[#979797]' : 'text-[#464646]'
+              } leading-[18px] text-[14px] font-medium`}
+            >
+              {item.title}
+            </span>
             <div
               className={`w-[30px] cursor-pointer h-[16px] relative rounded-[15px] ${
                 item.enabled ? 'bg-[#C3A86E]' : 'bg-[#282828]'
@@ -95,6 +101,9 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className='flex items-center text-center justify-center border-t-[1px] border-[#3E3E3E] p-[25px] text-[14px] font-normal text-[#7E7E7E]'>
+        * You can see your hidden info, but others can't *
       </div>
     </div>
   )

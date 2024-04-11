@@ -13,11 +13,13 @@ const countriesList = Object.keys(countries).map(code => ({
   title: countries[code].name,
   id: code
 }))
+import SecurIco from '@/public/images/settings/secur.svg'
+import { SubmitBtn } from '../submitBtn/SubmitBtn'
 
 interface SettingsVerifyProps {}
 
 export const SettingsVerify: FC<SettingsVerifyProps> = () => {
-  console.log(countriesList)
+  const handleSubmit = () => {}
 
   return (
     <div>
@@ -29,7 +31,7 @@ export const SettingsVerify: FC<SettingsVerifyProps> = () => {
         <div className='p-[20px] border-b-[1px] border-[#3E3E3E]'>
           Basic information: (Not Verified)
         </div>
-        <div className='w-full max-w-[400px] box-content p-[40px_35px] flex flex-col gap-[20px]'>
+        <div className='max-w-[400px] box-content p-[20px_15px] tmd:p-[40px_35px] flex flex-col gap-[20px]'>
           <div className='grid grid-cols-2 gap-[10px]'>
             <InputBlock
               title='First Name'
@@ -48,7 +50,7 @@ export const SettingsVerify: FC<SettingsVerifyProps> = () => {
             placeholder='Please select date of birth'
           />
           <div className='grid grid-cols-2 gap-[10px]'>
-            <div>
+            <div className='flex flex-col justify-between'>
               <span className='text-white text-[14px] mb-[4px] font-bold leading-[18px] block h-[18px]'>
                 Country <span className='text-[#29f061]'>*</span>
               </span>
@@ -69,9 +71,20 @@ export const SettingsVerify: FC<SettingsVerifyProps> = () => {
               </Select>
             </div>
             <InputBlock
-              title='State/Province'
+              title='State / Province'
               isNecessarily={true}
               placeholder='state/province'
+            />
+          </div>
+          <div className='flex gap-[10px] items-center'>
+            <p className='text-[14px] font-medium text-[#aaa] leading-[18px] flex items-center gap-[12px]'>
+              <SecurIco className='min-w-[20px] h-[20px]' />
+              All data is safely stored and encrypted.
+            </p>
+            <SubmitBtn
+              className='!max-w-[100px]'
+              title='Submit'
+              handler={handleSubmit}
             />
           </div>
         </div>

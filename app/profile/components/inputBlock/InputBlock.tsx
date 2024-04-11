@@ -19,7 +19,7 @@ export const InputBlock: FC<InputBlockProps> = ({
   copy
 }) => {
   return (
-    <div className='flex flex-col gap-[4px]'>
+    <div className='flex flex-col justify-between gap-[4px]'>
       <span className='text-white text-[14px] font-bold leading-[18px]'>
         {title} {isNecessarily && <span className='text-[#29f061]'>*</span>}
       </span>
