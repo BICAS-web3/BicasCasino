@@ -22,6 +22,7 @@ import { useUnit } from 'effector-react'
 import { GameModel, RegistrModel, UserModel } from '@/states'
 import { SessionProvider } from 'next-auth/react'
 import { Toaster } from '@/components/ui/sonner'
+import Preload from '../custom/preload'
 
 type Props = {
   children: React.ReactNode
@@ -38,7 +39,7 @@ const MainProvider = ({ children }: Props) => {
         <ThemeProvider attribute='class' defaultTheme='system'>
           <SessionProvider>
             {!loaded ? (
-              <div>Loading..</div>
+              <Preload />
             ) : (
               <main className='min-h-screen flex flex-col relative '>
                 <Header />

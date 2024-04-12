@@ -1,205 +1,147 @@
 'use client'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useUnit } from 'effector-react'
+import Image from 'next/image'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import ReactHowler from 'react-howler'
 import useSound from 'use-sound'
-import Image from 'next/image'
 
-import { GameModel, RegistrModel, SessionModel, WagerModel } from '@/states'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 
 import rocket from '@/public/images/rocket/rocket.webp'
 
 import { DiceCloseSVG, DicePrecentageSVG, DiceSwapSVG } from './icons'
 
-import { useSocket } from '@/components/providers/socket.provider'
+import Coefficient from '@/components/custom/coefficient'
 import Preload from '@/components/custom/preload'
 import TotalCoeff from '@/components/custom/totalCoeff'
-import Coefficient from '@/components/custom/coefficient'
+import { useSocket } from '@/components/providers/socket.provider'
 import Selector from './selector'
 
 const RocketGame = () => {
+  const socket = useSocket()
   const [isLoading, setIsLoading] = useState(true)
   const [
     lost,
     profit,
-    // setPlayingStatus,
-    wagered,
     playSounds,
-    switchSounds,
     setGameStatus,
     setLostStatus,
     setWonStatus,
-    gameAddress,
     gameStatus,
     betsAmount,
     rollOver,
     flipRollOver,
     RollValue,
     setRollValue,
-    currentNetwork,
-    pickedToken,
     cryptoValue,
     stopLoss,
     stopGain,
     pickedSide,
     setActivePicker,
     pickSide,
-    currentBalance,
-    setWagered,
-    allowance,
     setCoefficient,
     setIsPlaying,
-    waitingResponse,
-    setWaitingResponse,
-    refund,
-    setRefund,
     isPlaying,
-    // result,
-    // setResult,
-    // isDrax,
-    // userInfo,
+    result,
+    setResult,
+    isDrax,
+    userInfo,
     gamesList
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
-    // DiceM.setPlayingStatus,
-    WagerModel.$Wagered,
     GameModel.$playSounds,
-    GameModel.switchSounds,
     GameModel.setGameStatus,
     GameModel.setLostStatus,
     GameModel.setWonStatus,
-    SessionModel.$gameAddress,
     GameModel.$gameStatus,
     WagerModel.$pickedValue,
     GameModel.$RollOver,
     GameModel.flipRollOver,
     GameModel.$RollValue,
     GameModel.setRollValue,
-    SessionModel.$currentNetwork,
-    WagerModel.$pickedToken,
     WagerModel.$cryptoValue,
     WagerModel.$stopLoss,
     WagerModel.$stopGain,
     GameModel.$pickedSide,
     GameModel.setActive,
     GameModel.pickSide,
-    SessionModel.$currentBalance,
-    WagerModel.setWagered,
-    SessionModel.$currentAllowance,
     GameModel.setCoefficient,
     GameModel.setIsPlaying,
-    GameModel.$waitingResponse,
-    GameModel.setWaitingResponse,
-    GameModel.$refund,
-    GameModel.setRefund,
     GameModel.$isPlaying,
-    // BetsModel.$result,
-    // BetsModel.setResult,
-    // BalanceModel.$isDrax,
-    // LayoutModel.$userInfo,
+    GameModel.$result,
+    GameModel.setResult,
+    UserModel.$isDrax,
+    UserModel.$userInfo,
     GameModel.$gamesList
   ])
-
+  const [socketReset] = useUnit([UserModel.$socketReset])
   useEffect(() => {
-    const handleCall = () => {
-      for (let i = 0; i < [3, 4, 5, 6]?.length; i++) {
-        setTimeout(() => {
-          console.log([3, 4, 5, 6][i])
-          const outCome = Number([3, 4, 5, 6][i]) / 2
-          setCoefficientData(prev => [outCome, ...prev])
-          setLocalNumber(0)
-        }, 700 * (i + 1))
+    if (
+      socket &&
+      socket.readyState === WebSocket.OPEN &&
+      gamesList.length > 0
+    ) {
+      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
+      if (!subscribed) {
+        socket?.send(
+          JSON.stringify({
+            type: 'SubscribeBets',
+            payload: [gamesList.find(item => item.name === 'Dice')?.id]
+          })
+        )
+        setCubscribed(true)
       }
     }
-    handleCall()
+  }, [socket, socket?.readyState, gamesList.length, socketReset])
 
-    setGameStatus(GameModel.GameStatus.Won)
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
 
-    pickSide(pickedSide)
-    setWonStatus({
-      profit: 2,
-      multiplier: 3,
-      token: 'DRAX'
-    })
-    setIsPlaying(false)
-    setInGame(false)
-  }, [])
+  useEffect(() => {
+    if (result !== null && result?.type === 'Bet') {
+      const fullAmount = Number(result.amount) * result.num_games!
+      const parseArr = JSON.parse(result.profits)
+      const handleCall = () => {
+        for (let i = 0; i < parseArr?.length; i++) {
+          setTimeout(() => {
+            const outCome = Number(parseArr[i]) / fullAmount
+            setCoefficientData(prev => [outCome, ...prev])
+            setLocalNumber(outCome)
+          }, 700 * (i + 1))
+        }
+      }
+      handleCall()
 
-  //   useEffect(() => {
-  //     if (result !== null && result?.type === 'Bet') {
-  //       const fullAmount = Number(result.amount) * result.num_games!
-  //       const parseArr = JSON.parse(result.profits)
-  //       // alert(3);
-  //       const handleCall = () => {
-  //         // alert(2);
-  //         console.log('??????????', parseArr)
-  //         for (let i = 0; i < parseArr?.length; i++) {
-  //           // alert(i);
-  //           setTimeout(() => {
-  //             console.log(parseArr[i])
-  //             const outCome = Number(parseArr[i]) / fullAmount
-  //             setCoefficientData(prev => [outCome, ...prev])
-  //             setLocalNumber(outCome)
-  //           }, 700 * (i + 1))
-  //         }
-  //       }
-  //       handleCall()
+      if (
+        Number(result.profit) > fullAmount ||
+        Number(result.profit) === fullAmount
+      ) {
+        setGameStatus(GameModel.GameStatus.Won)
 
-  //       if (
-  //         Number(result.profit) > fullAmount ||
-  //         Number(result.profit) === fullAmount
-  //       ) {
-  //         // setTimeout(() => {
-  //         // }, 2000);
-  //         setGameStatus(GameModel.GameStatus.Won)
-
-  //         const multiplier = Number(Number(result.profit) / fullAmount)
-  //         pickSide(pickedSide)
-  //         setWonStatus({
-  //           profit: Number(result.profit),
-  //           multiplier,
-  //           token: 'DRAX'
-  //         })
-  //         setIsPlaying(false)
-  //         setInGame(false)
-  //         // setCoefficientData((prev) => [
-  //         //   Number(result.profit) /fullAmount,
-  //         //   ...prev,
-  //         // ]);
-  //         // alert("win");
-  //       } else if (Number(result.profit) < fullAmount) {
-  //         // setTimeout(() => {
-
-  //         // }, 2000);
-  //         setGameStatus(GameModel.GameStatus.Lost)
-  //         pickSide(pickedSide ^ 1)
-  //         setIsPlaying(false)
-  //         setInGame(false)
-  //         setLostStatus(Number(result.profit) - fullAmount)
-  //         // setCoefficientData((prev) => [
-  //         //   Number(result.profit) / Number(result.amount),
-  //         //   ...prev,
-  //         // ]);
-  //         // alert("lost");
-  //       } else {
-  //         setGameStatus(GameModel.GameStatus.Draw)
-  //         setIsPlaying(false)
-  //         setInGame(false)
-  //         // setCoefficientData((prev) => [
-  //         //   Number(result.profit) / Number(result.amount),
-  //         //   ...prev,
-  //         // ]);
-  //         // alert("draw");
-  //       }
-  //       setResult(null)
-  //     }
-  //   }, [result?.timestamp, result, gameStatus])
-
-  // const { data } = useFeeData({
-  //   watch: isConnected,
-  //   cacheTime: 5000,
-  // });
+        const multiplier = Number(Number(result.profit) / fullAmount)
+        pickSide(pickedSide)
+        setWonStatus({
+          profit: Number(result.profit),
+          multiplier,
+          token: 'DRAX'
+        })
+        setIsPlaying(false)
+        setInGame(false)
+      } else if (Number(result.profit) < fullAmount) {
+        setGameStatus(GameModel.GameStatus.Lost)
+        setLostStatus(Number(result.profit) - fullAmount)
+        pickSide(pickedSide ^ 1)
+        setIsPlaying(false)
+        setInGame(false)
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw)
+        setIsPlaying(false)
+        setInGame(false)
+      }
+      setResult(null)
+      setIsPlaying(false)
+    }
+  }, [result?.timestamp, result, gameStatus, result?.type])
 
   const win_chance = rollOver ? 100 - RollValue : RollValue
   const multiplier =
@@ -213,7 +155,6 @@ const RocketGame = () => {
   const [inGame, setInGame] = useState<boolean>(false)
 
   const [localNumber, setLocalNumber] = useState<number | null>(null)
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
 
   useEffect(() => {
     setActivePicker(true)
@@ -315,7 +256,6 @@ const RocketGame = () => {
   const [restartGif, setRestartGif] = useState(0)
 
   useEffect(() => {
-    console.log('----------', coefficientData.length)
     if (coefficientData.length > 0) {
       setRestartGif(restartGif + 1)
       setRocketStar(true)
@@ -363,37 +303,31 @@ const RocketGame = () => {
   const [betData, setBetData] = useState({})
 
   const [access_token] = useUnit([RegistrModel.$access_token])
-  const subscribe = {
-    type: 'SubscribeBets',
-    payload: [gamesList.find(item => item.name === 'Dice')?.id]
-  }
-  //   useEffect(() => {
-  //     setBetData({
-  //       type: 'MakeBet',
-  //       game_id: gamesList.find(item => item.name === 'Dice')?.id,
-  //       coin_id: isDrax ? 2 : 1,
-  //       user_id: userInfo?.id || 0,
-  //       data: `{"roll_over":true, "multiplier":"${Number(multiplier) / 10000}"}`,
-  //       amount: `${cryptoValue || 0}`,
-  //       stop_loss: stopLoss ? String(stopLoss) : 0,
-  //       stop_win: stopGain ? String(stopGain) : 0,
-  //       num_games: betsAmount
-  //     })
-  //   }, [
-  //     stopGain,
-  //     multiplier,
-  //     stopLoss,
-  //     pickedSide,
-  //     cryptoValue,
-  //     betsAmount,
-  //     rollOver,
-  //     isDrax
-  //   ])
 
-  const socket = useSocket()
+  useEffect(() => {
+    setBetData({
+      type: 'MakeBet',
+      game_id: gamesList.find(item => item.name === 'Dice')?.id || 2,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"roll_over":true, "multiplier":"${Number(multiplier) / 10000}"}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: stopLoss ? String(stopLoss) : 0,
+      stop_win: stopGain ? String(stopGain) : 0,
+      num_games: betsAmount
+    })
+  }, [
+    stopGain,
+    multiplier,
+    stopLoss,
+    pickedSide,
+    cryptoValue,
+    betsAmount,
+    rollOver,
+    isDrax
+  ])
 
   const [subscribed, setCubscribed] = useState(false)
-
   useEffect(() => {
     if (
       socket &&
@@ -401,10 +335,6 @@ const RocketGame = () => {
       access_token &&
       socket.readyState === WebSocket.OPEN
     ) {
-      if (!subscribed) {
-        socket.send(JSON.stringify(subscribe))
-        setCubscribed(true)
-      }
       socket.send(JSON.stringify(betData))
     }
   }, [socket, isPlaying, access_token])
@@ -428,11 +358,6 @@ const RocketGame = () => {
     <>
       <section className='w-full h-full relative flex flex-col overflow-hidden min-h-[680px]'>
         {isLoading && <Preload />}
-        {/* <WagerLowerBtnsBlock
-          className={s.dice_btns}
-          game='dice'
-          text={gameText}
-        /> */}
         <ReactHowler
           src={'/music/rocket_fly_2.mp3'}
           playing={bgPlay && playSounds !== 'off'}
@@ -463,7 +388,11 @@ const RocketGame = () => {
               {localNumber?.toFixed(2)}x
             </div>
           )}
-          <Coefficient ballsArr={coefficientData} multipliers={multiplier} />
+          <Coefficient
+            common
+            ballsArr={coefficientData}
+            multipliers={multiplier}
+          />
           <video
             onPlay={() => {
               setImageLoading_1(false)

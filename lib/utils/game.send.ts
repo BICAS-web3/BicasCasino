@@ -1,13 +1,26 @@
-export function sendSocketData(
-  socket: WebSocket | null,
-  isPlaying: boolean,
-  access_token: string | null,
-  subscribed: boolean,
-  gamesList: any[] | null,
-  betData: any,
-  setCubscribed: React.Dispatch<React.SetStateAction<boolean>>,
-  title: string
-) {
+import { GamesList } from '@/states/game_model.store'
+
+interface IData {
+  socket?: WebSocket | null
+  isPlaying?: boolean
+  access_token?: string | null
+  subscribed?: boolean
+  gamesList?: GamesList[] | null
+  betData?: Record<string, string | number>
+  setCubscribed?: React.Dispatch<React.SetStateAction<boolean>>
+  title?: string
+}
+
+export function sendSocketData({
+  socket,
+  isPlaying,
+  access_token,
+  subscribed,
+  gamesList,
+  betData,
+  setCubscribed,
+  title
+}: IData) {
   if (
     socket &&
     isPlaying &&
@@ -15,7 +28,6 @@ export function sendSocketData(
     socket.readyState === WebSocket.OPEN
   ) {
     socket.send(JSON.stringify(betData))
-    alert(JSON.stringify(betData))
   }
 
   if (
@@ -34,7 +46,7 @@ export function sendSocketData(
           payload: [pokerGameId]
         })
       )
-      setCubscribed(true)
+      setCubscribed?.(true)
     }
   }
 }

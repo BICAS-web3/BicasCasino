@@ -45,7 +45,6 @@ const Wheel: FC<IWheel> = props => {
     height = 100,
     setInSpeen
   } = props
-  useEffect(() => console.log(JSON.stringify(segColors)), [segColors])
   const isMobile = useMediaQuery('(max-width: 650px)')
   const isDesktop = useMediaQuery('(max-width: 1280px)')
   const [level, pickedValue] = useUnit([
@@ -72,7 +71,6 @@ const Wheel: FC<IWheel> = props => {
       initCanvas()
       wheelDraw(segColors)
     }
-    console.log(1)
   }, [segColors, isDesktop, isMobile])
   function setupCanvas(canvas: HTMLCanvasElement) {
     // Get the device pixel ratio, falling back to 1.

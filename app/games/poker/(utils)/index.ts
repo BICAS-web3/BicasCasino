@@ -1,3 +1,7 @@
+import { GamesList } from '@/states/game_model.store'
+import { UserType } from '@/states/user_model.store'
+import { Dispatch, SetStateAction } from 'react'
+
 interface ICards {
   suit: number
   number: number
@@ -87,4 +91,90 @@ export function countNumbers(cards: ICards[]) {
     counts[card.number] = (counts[card.number] || 0) + 1
   }
   return counts
+}
+
+export function evaluatePokerHand(
+  cards: ICards[],
+  setCombinationName: Dispatch<SetStateAction<string>>
+) {
+  if (hasRoyalFlush(cards)) {
+    setCombinationName('Royal Flush')
+  } else if (hasStraightFlush(cards)) {
+    setCombinationName('Straight Flush')
+  } else if (hasFourOfAKind(cards)) {
+    setCombinationName('Four of a Kind')
+  } else if (hasFullHouse(cards)) {
+    setCombinationName('Full House')
+  } else if (hasFlush(cards)) {
+    setCombinationName('Flush')
+  } else if (hasStraight(cards)) {
+    setCombinationName('Straight')
+  } else if (hasThreeOfAKind(cards)) {
+    setCombinationName('Three of a Kind')
+  } else if (hasTwoPair(cards)) {
+    setCombinationName('Two Pair')
+  } else if (hasOnePair(cards)) {
+    setCombinationName('One Pair')
+  } else {
+    setCombinationName('High Card')
+  }
+}
+
+// betLogic.ts
+export const generateBetData = (
+  firstBet: boolean,
+  keep: boolean,
+  update: boolean,
+  gamesList: GamesList[],
+  isDrax: boolean,
+  userInfo: UserType | null,
+  cryptoValue: number,
+  stopLoss: number | null,
+  stopGain: number | null,
+  betsAmount: number,
+  isPlaying: boolean,
+  cardsState: boolean[],
+  setFirstBet: Dispatch<SetStateAction<boolean>>,
+  setKeep: Dispatch<SetStateAction<boolean>>
+) => {
+  if (firstBet) {
+    if (isPlaying) {
+      setFirstBet(false)
+      setKeep(true)
+    }
+    return {
+      type: 'MakeBet',
+      game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: '{}',
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount
+    }
+  } else {
+    if (keep || update) {
+      return {
+        type: 'ContinueGame',
+        game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: `{"to_replace":[${cardsState.map(el => (el ? true : false))}]}`
+      }
+    } else {
+      setKeep(true)
+      return {
+        type: 'MakeBet',
+        game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
+        coin_id: isDrax ? 2 : 1,
+        user_id: userInfo?.id || 0,
+        data: '{}',
+        amount: `${cryptoValue || 0}`,
+        stop_loss: Number(stopLoss) || 0,
+        stop_win: Number(stopGain) || 0,
+        num_games: betsAmount
+      }
+    }
+  }
 }

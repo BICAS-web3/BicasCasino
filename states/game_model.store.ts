@@ -14,7 +14,13 @@ export type GamesList = {
   parameters: string
 }
 
-// variables
+export interface WonStatus {
+  profit: number
+  multiplier: number
+  token: string
+}
+
+// variablesresult
 export const $playSounds = createStore<string>('off')
 export const $gameStatus = createStore<GameStatus | null>(null)
 export const $isPlaying = createStore<boolean>(false)
@@ -32,11 +38,7 @@ export const setIsPlaying = createEvent<boolean>()
 export const setWaitingResponse = createEvent<boolean>()
 export const switchSounds = createEvent<string>()
 export const setGameStatus = createEvent<GameStatus | null>()
-export const setWonStatus = createEvent<{
-  profit: number
-  multiplier: number
-  token: string
-}>()
+export const setWonStatus = createEvent<WonStatus>()
 export const setLostStatus = createEvent<number>()
 export const clearStatus = createEvent()
 export const setBetValue = createEvent<bigint>()
@@ -225,3 +227,41 @@ $selectedLength.on(setSelectedLength, (_, state) => state)
 export const $finishPoker = createStore<boolean>(false)
 export const setFinishPoker = createEvent<boolean>()
 $finishPoker.on(setFinishPoker, (_, state) => state)
+
+//! RPS
+export enum RPSValue {
+  Rock = 0,
+  Paper = 1,
+  Scissors = 2
+}
+
+// variables
+export const $activeRPS = createStore<boolean>(true)
+export const $pickedValueRPS = createStore<RPSValue>(RPSValue.Paper)
+
+// events
+export const pickValueRPS = createEvent<RPSValue>()
+export const setActiveRPS = createEvent<boolean>()
+
+// handlers
+$pickedValueRPS.on(pickValueRPS, (_, value) => value)
+$activeRPS.on(setActiveRPS, (_, value) => value)
+
+//! BJ
+
+export type bjStep = 'Hit' | 'Stand' | 'Split' | 'Double' | null
+
+export const $btnsActive = createStore(false)
+export const $activeStep = createStore<bjStep>(null)
+export const $userCount = createStore<number>(0)
+export const $dilerCount = createStore<number>(0)
+
+export const setBtnsActive = createEvent<boolean>()
+export const setActiveStep = createEvent<bjStep>()
+export const setUserCount = createEvent<number>()
+export const setDilerCount = createEvent<number>()
+
+$btnsActive.on(setBtnsActive, (_, state) => state)
+$activeStep.on(setActiveStep, (_, state) => state)
+$userCount.on(setUserCount, (_, state) => state)
+$dilerCount.on(setDilerCount, (_, state) => state)

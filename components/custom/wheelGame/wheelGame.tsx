@@ -1,7 +1,7 @@
 'use client'
 
 import { useSocket } from '@/components/providers/socket.provider'
-import Preload from '@/components/preload'
+// import Preload from '@/components/preload'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
@@ -10,9 +10,11 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import ReactHowler from 'react-howler'
 import Wheel from './components/Wheel'
-import TotalCoeff from '@/components/ui/total.coeff'
+// import TotalCoeff from '@/components/ui/total.coeff'
 import bg from '@/public/images/wheel_images/bg.webp'
 import './styles.scss'
+import Preload from '../preload'
+import TotalCoeff from '../totalCoeff'
 
 interface IWheelColors {
   segment: '#100C1E' | '#1F1435'
@@ -147,7 +149,6 @@ const WheelGame = () => {
         setGameStatus(GameModel.GameStatus.Draw)
         setIsPlaying(false)
         setInGame(false)
-        // alert("draw");
       }
       setResult(null)
     }
@@ -336,7 +337,6 @@ const WheelGame = () => {
   }
 
   useEffect(() => {
-    console.log(1)
     if (easy10SegColors?.length < 11) {
       setEasy10SegColors((prev: IWheelColors[]) => [
         ...prev,

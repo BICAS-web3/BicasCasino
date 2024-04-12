@@ -1,0 +1,5 @@
+export { default as LeftHand } from './left.hand.svg'
+export { default as RightHand } from './right.hand.svg'
+export { default as RockButton } from './rock.button.svg'
+export { default as ScissorsButton } from './scissors.button.svg'
+export { default as PaperButton } from './paper.button.svg'

@@ -18,7 +18,8 @@ import {
   RaceSVG,
   RocketSVG,
   ThimblesSVG,
-  WheelSVG
+  WheelSVG,
+  PokerSVG
 } from './components/icons/games'
 import Image from 'next/image'
 
@@ -98,6 +99,10 @@ export const SGames = {
     {
       title: 'Plinko',
       icon: <PlinkoSVG />
+    },
+    {
+      title: 'Poker',
+      icon: <PokerSVG />
     },
     {
       title: 'Rocket',

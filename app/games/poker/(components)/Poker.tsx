@@ -19,17 +19,7 @@ import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
-import {
-  hasFlush,
-  hasFourOfAKind,
-  hasFullHouse,
-  hasOnePair,
-  hasRoyalFlush,
-  hasStraight,
-  hasStraightFlush,
-  hasThreeOfAKind,
-  hasTwoPair
-} from '../(utils)'
+import { evaluatePokerHand, generateBetData } from '../(utils)'
 import { PokerCard } from './PokerCard'
 import { PokerCombination } from './PokerCombination'
 import { initialArrayOfCards } from './data'
@@ -109,20 +99,21 @@ export const Poker = ({}: PokerProps) => {
     }
   }, [socket, socket?.readyState, gamesList.length])
   useEffect(() => {
-    handleResult(
+    handleResult({
+      title: 'poker',
       result,
-      setFirstBet,
-      setKeep,
-      setShowFlipCards,
+      setInGame,
       setWaitingResponse,
-      setActiveCards,
       setIsPlaying,
-      setUpdate,
       setGameStatus,
       setWonStatus,
       setLostStatus,
-      setInGame
-    )
+      setKeep,
+      setFirstBet,
+      setUpdate,
+      setActiveCards,
+      setShowFlipCards
+    })
     setResult(null)
   }, [result])
 
@@ -154,31 +145,8 @@ export const Poker = ({}: PokerProps) => {
 
   const [combinationName, setCombinationName] = useState('')
 
-  function evaluatePokerHand(cards: ICards[]) {
-    if (hasRoyalFlush(cards)) {
-      setCombinationName('Royal Flush')
-    } else if (hasStraightFlush(cards)) {
-      setCombinationName('Straight Flush')
-    } else if (hasFourOfAKind(cards)) {
-      setCombinationName('Four of a Kind')
-    } else if (hasFullHouse(cards)) {
-      setCombinationName('Full House')
-    } else if (hasFlush(cards)) {
-      setCombinationName('Flush')
-    } else if (hasStraight(cards)) {
-      setCombinationName('Straight')
-    } else if (hasThreeOfAKind(cards)) {
-      setCombinationName('Three of a Kind')
-    } else if (hasTwoPair(cards)) {
-      setCombinationName('Two Pair')
-    } else if (hasOnePair(cards)) {
-      setCombinationName('One Pair')
-    } else {
-      setCombinationName('High Card')
-    }
-  }
   useEffect(() => {
-    evaluatePokerHand(activeCards)
+    evaluatePokerHand(activeCards, setCombinationName)
   }, [activeCards, gameStatus])
 
   const [multiplier, token] = useUnit([GameModel.$multiplier, GameModel.$token])
@@ -227,46 +195,23 @@ export const Poker = ({}: PokerProps) => {
   const [keep, setKeep] = useState(false)
 
   useEffect(() => {
-    if (firstBet) {
-      setBetData({
-        type: 'MakeBet',
-        game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
-        coin_id: isDrax ? 2 : 1,
-        user_id: userInfo?.id || 0,
-        data: '{}',
-        amount: `${cryptoValue || 0}`,
-        stop_loss: Number(stopLoss) || 0,
-        stop_win: Number(stopGain) || 0,
-        num_games: betsAmount
-      })
-      if (isPlaying) {
-        setFirstBet(false)
-        setKeep(true)
-      }
-    } else {
-      if (keep || update) {
-        setBetData({
-          type: 'ContinueGame',
-          game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
-          coin_id: isDrax ? 2 : 1,
-          user_id: userInfo?.id || 0,
-          data: `{"to_replace":[${cardsState.map(el => (el ? true : false))}]}`
-        })
-      } else {
-        setBetData({
-          type: 'MakeBet',
-          game_id: gamesList.find(item => item.name === 'Apples')?.id || 12,
-          coin_id: isDrax ? 2 : 1,
-          user_id: userInfo?.id || 0,
-          data: '{}',
-          amount: `${cryptoValue || 0}`,
-          stop_loss: Number(stopLoss) || 0,
-          stop_win: Number(stopGain) || 0,
-          num_games: betsAmount
-        })
-        setKeep(true)
-      }
-    }
+    const getData = generateBetData(
+      firstBet,
+      keep,
+      update,
+      gamesList,
+      isDrax,
+      userInfo,
+      cryptoValue,
+      stopLoss,
+      stopGain,
+      betsAmount,
+      isPlaying,
+      cardsState,
+      setFirstBet,
+      setKeep
+    )
+    setBetData(getData)
   }, [
     stopGain,
     stopLoss,
@@ -281,10 +226,9 @@ export const Poker = ({}: PokerProps) => {
   ])
 
   useEffect(() => setFirstBet(true), [])
-
   const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
-    sendSocketData(
+    sendSocketData({
       socket,
       isPlaying,
       access_token,
@@ -292,8 +236,8 @@ export const Poker = ({}: PokerProps) => {
       gamesList,
       betData,
       setCubscribed,
-      'Poker'
-    )
+      title: 'Poker'
+    })
   }, [socket, isPlaying, access_token, gamesList, finishPoker])
   useEffect(() => {
     if (
@@ -312,7 +256,6 @@ export const Poker = ({}: PokerProps) => {
       )
     }
   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
-
   useEffect(() => {
     return () => {
       socket?.send(
@@ -323,7 +266,6 @@ export const Poker = ({}: PokerProps) => {
       )
     }
   }, [])
-
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (
@@ -343,8 +285,6 @@ export const Poker = ({}: PokerProps) => {
       )}
 
       <div className='w-full h-full relative'>
-        {/* <WagerLowerBtnsBlock game='poker' text={props.gameText} /> */}
-        {/* {preloading && <Preload />}{' '} */}
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image
             onLoad={() => setImageLoading_1(false)}
