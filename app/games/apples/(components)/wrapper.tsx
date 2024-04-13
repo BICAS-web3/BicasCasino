@@ -42,7 +42,12 @@ const AppleGame = () => {
     setApples(data)
   }, [appleData])
   const [applesArr, setApplesArr] = useState(Array(27).fill({}))
-  const [chunkedApplesArr, setChunkedApplesArr] = useState<any>([])
+  const [chunkedApplesArr, setChunkedApplesArr] = useState<
+    {
+      apples: number[]
+      cf: number
+    }[]
+  >([])
 
   useEffect(() => {
     const chunkedArray = updateChunkedArray(applesArr)
@@ -189,7 +194,7 @@ const AppleGame = () => {
   const [fullWon, setFullWon] = useState(0)
   const [fullLost, setFullLost] = useState(0)
   const [totalValue, setTotalValue] = useState(0.1)
-  const [localAmount, setLocalAmount] = useState<any>(0)
+  const [localAmount, setLocalAmount] = useState(0)
   const [localCryptoValue, setLocalCryptoValue] = useState(0)
   const [gameResult, setGameResult] = useState<
     { value: number; status: 'won' | 'lost' }[]

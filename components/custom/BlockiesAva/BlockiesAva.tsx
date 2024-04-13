@@ -2,7 +2,7 @@ import { FC } from 'react'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 
 interface BlockiesAvaProps {
-  address: any
+  address: string
   size: string
 }
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 
 import { useUnit } from 'effector-react'
 
@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 interface PokerCombinationProps {
   combinationName: string
-  tokenImage: any
+  tokenImage: ReactNode
   profit?: string | number
   multiplier: string | number
 }
@@ -137,9 +137,6 @@ export const PokerCombination: FC<PokerCombinationProps> = ({
           tracking-[0.72px] p-[8px_6px] sm:p-[12px_10px] rounded-[5px] sm:rounded-[12px]
           w-[180px] sm:w-[252px] h-[40px] sm:h-[50px] 
         '
-        onClick={() => {
-          // pressButton()
-        }}
       >
         Bet on my winnings
       </button>

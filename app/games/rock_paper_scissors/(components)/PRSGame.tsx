@@ -5,24 +5,23 @@ import { useEffect, useState } from 'react'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import TotalCoeff from '@/components/custom/totalCoeff'
-import Image from 'next/image'
 import { useSocket } from '@/components/providers/socket.provider'
-import { LeftHand, RightHand } from '../(icons)'
-import { RpsPicker } from './Picker'
+import RpsPicker from './Picker'
 import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
 import Coefficient from '@/components/custom/coefficient'
 
+import Image from 'next/image'
+
 export enum ModelType {
-  Paper = '/rps/paperCard.glb',
-  Rock = '/rps/rockCard.glb',
-  Scissors = '/rps/scissorsCard.glb',
-  Quest = '/rps/questCard.glb'
+  Paper = 'Paper',
+  Rock = 'Rock',
+  Scissors = 'Scissors',
+  Quest = 'Quest'
 }
 const PRSGame = () => {
   const socket = useSocket()
   const [value, setValue] = useState<ModelType>(ModelType.Paper)
-  const [imageLoading, setIMageLoading] = useState(true)
   const [
     lost,
     profit,
@@ -97,7 +96,7 @@ const PRSGame = () => {
       setCoefficientData
     })
     setResult(null)
-  }, [result])
+  }, [result, result?.type])
 
   useEffect(() => {
     setCoefficient(1.98)
@@ -136,7 +135,6 @@ const PRSGame = () => {
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Draw) {
-      setEnemyValue(value)
     } else if (gameStatus === GameModel.GameStatus.Won) {
       if (pickedValue === GameModel.RPSValue.Paper) {
         setEnemyValue(ModelType.Rock)
@@ -156,41 +154,22 @@ const PRSGame = () => {
     }
   }, [gameStatus])
 
-  useEffect(() => {
-    if (enemyValue !== ModelType.Quest) {
-      setTimeout(() => {
-        setEnemyValue(ModelType.Quest)
-      }, 1000)
-    }
-  }, [value])
-
   const [taken, setTaken] = useState(false)
-  const [localAmount, setLocalAmount] = useState<any>(0)
-  const [localCryptoValue, setLocalCryptoValue] = useState(0)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true)
-      setLocalAmount(betsAmount)
-      setLocalCryptoValue(cryptoValue)
     }
   }, [betsAmount, cryptoValue, isPlaying])
 
   const [fullWon, setFullWon] = useState(0)
   const [fullLost, setFullLost] = useState(0)
   const [totalValue, setTotalValue] = useState(0.1)
-  const [gameResult, setGameResult] = useState<
-    { value: number; status: 'won' | 'lost' }[]
-  >([])
+
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon(prev => prev + profit)
-      setGameResult(prev => [
-        ...prev,
-        { value: localCryptoValue * localAmount, status: 'won' }
-      ])
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost(prev => prev + lost)
-      setGameResult(prev => [...prev, { value: 0.0, status: 'lost' }])
     }
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
@@ -230,11 +209,8 @@ const PRSGame = () => {
 
   return (
     <div className='h-full w-full relative pt-9'>
-      {/* {isLoadingd && <Preload />} */}
-      {/* <WagerLowerBtnsBlock game='rps' text={gameText} /> */}
       <div className='w-full h-full absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
         <Image
-          onLoad={() => setIMageLoading(false)}
           src={bg}
           className='rounded-[0] sm:rounded-[20px_20px_0_0] w-full object-cover h-full'
           alt='table-bg'
@@ -245,15 +221,76 @@ const PRSGame = () => {
         fullWon={fullWon}
         totalValue={totalValue}
       />
-      <Coefficient ballsArr={coefficientData} />
+      <Coefficient common ballsArr={coefficientData} />
       <div className='w-full h-full flex justify-center items-end'>
         <div className='flex items-center flex-col gap-[98px]'>
-          <div className='flex items-center justify-between gap-[95px]'>
-            <LeftHand />
-            <span className='uppercase text-[95px] text-[#464646] font-semibold'>
+          <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px]'>
+            {value === ModelType.Paper && (
+              <Image
+                width={248}
+                height={248}
+                src={'/images/rps/papper.png'}
+                alt='img'
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+              />
+            )}
+            {value === ModelType.Rock && (
+              <Image
+                width={248}
+                height={248}
+                src={'/images/rps/rock.png'}
+                alt='img'
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+              />
+            )}
+            {value === ModelType.Scissors && (
+              <Image
+                width={248}
+                height={248}
+                src={'/images/rps/scissor.png'}
+                alt='img'
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+              />
+            )}
+            <span className='uppercase text-[32px] sm:text-5xl md:text-[69px] xl:text-[95px] text-[#464646] font-semibold'>
               vs
             </span>
-            <RightHand />
+            {enemyValue === ModelType.Paper && (
+              <Image
+                width={248}
+                height={248}
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
+                src={'/images/rps/papper.png'}
+                alt='img'
+              />
+            )}
+            {enemyValue === ModelType.Rock && (
+              <Image
+                width={248}
+                height={248}
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
+                src={'/images/rps/rock.png'}
+                alt='img'
+              />
+            )}
+            {enemyValue === ModelType.Scissors && (
+              <Image
+                width={248}
+                height={248}
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
+                src={'/images/rps/scissor.png'}
+                alt='img'
+              />
+            )}
+            {enemyValue === ModelType.Quest && (
+              <Image
+                width={248}
+                height={248}
+                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
+                src={'/images/rps/rock.png'}
+                alt='img'
+              />
+            )}
           </div>
           <div className='py-3'>
             <RpsPicker />
@@ -264,161 +301,3 @@ const PRSGame = () => {
   )
 }
 export default PRSGame
-
-{
-  /* <Canvas
-            camera={{ position: [1, 6, 1], fov: 22.5 }}
-            style={{ pointerEvents: 'none' }}
-          >
-            {value === ModelType.Paper && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_1}
-                  yValue={0.1}
-                  side={ModelType.Paper}
-                  left={true}
-                />{' '}
-              </Suspense>
-            )}
-            {value === ModelType.Rock && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_1}
-                  yValue={0.1}
-                  side={ModelType.Rock}
-                  left={true}
-                />
-              </Suspense>
-            )}
-            {value === ModelType.Scissors && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_1}
-                  yValue={0.1}
-                  side={ModelType.Scissors}
-                  left={true}
-                />
-              </Suspense>
-            )}
-          </Canvas>
-          <Canvas
-            camera={{ position: [1, 6, 1], fov: 20 }}
-            style={{ pointerEvents: 'none' }}
-          >
-            {enemyValue === ModelType.Paper && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_2}
-                  delay={2000}
-                  yValue={-0.1}
-                  side={ModelType.Paper}
-                  left={false}
-                />{' '}
-              </Suspense>
-            )}
-            {enemyValue === ModelType.Rock && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-
-                <Model
-                  setIsLoading={setModelLoading_2}
-                  delay={2000}
-                  yValue={-0.1}
-                  side={ModelType.Rock}
-                  left={false}
-                />
-              </Suspense>
-            )}
-            {enemyValue === ModelType.Scissors && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_2}
-                  delay={2000}
-                  yValue={-0.1}
-                  side={ModelType.Scissors}
-                  left={false}
-                />
-              </Suspense>
-            )}
-            {enemyValue === ModelType.Quest && (
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/hdr/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={0.3} />
-                <directionalLight intensity={2.5} position={[-2, 10, 0]} />
-                <pointLight
-                  position={[0, -10, 5]}
-                  intensity={0.5}
-                  color='#fff'
-                />
-                <Model
-                  setIsLoading={setModelLoading_2}
-                  delay={2000}
-                  yValue={-0.1}
-                  side={ModelType.Quest}
-                  left={false}
-                />
-              </Suspense>
-            )}
-          </Canvas> */
-}

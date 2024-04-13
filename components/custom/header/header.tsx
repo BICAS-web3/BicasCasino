@@ -75,16 +75,12 @@ const Header = () => {
         const response = await api.getClientSeed({ bareer: access_token })
 
         if (response.status === 'OK' && (response.body as any)?.seed) {
-          // setSeed(prev => [...prev, response])
         } else {
           setErrorSeed(true)
         }
       })()
     }
   }, [access_token, errorSeed])
-
-  const server_seed = { type: 'NewServerSeed' }
-  const data = { type: 'Auth', token: access_token }
 
   const seed_data = {
     type: 'NewClientSeed',
@@ -97,30 +93,28 @@ const Header = () => {
   const socket = useSocket()
 
   useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      !socketAuth &&
-      access_token
-    ) {
-      socket.send(JSON.stringify({ type: 'GetUuid' }))
-      if (access_token) {
-        socket.send(JSON.stringify(data))
-        setSocketAuth(true)
-        setErrorSeed(false)
-        setSocketLogged(true)
-        socket.send(JSON.stringify(seed_data))
+    if (access_token) {
+      if (socket) {
+        console.log(
+          'if data:::',
+          socket,
+          WebSocket.OPEN,
+          socket!.readyState,
+          WebSocket.OPEN === 1,
+          !socketAuth,
+          access_token
+        )
+        if (socket!.readyState === 1) {
+          socket!.send(JSON.stringify({ type: 'GetUuid' }))
+          socket!.send(JSON.stringify({ type: 'Auth', token: access_token }))
+          setSocketAuth(true)
+          setErrorSeed(false)
+          setSocketLogged(true)
+          socket!.send(JSON.stringify(seed_data))
+        }
       }
     }
-  }, [
-    socket,
-    access_token,
-    seeds,
-    errorSeed,
-    socket?.OPEN,
-    socketAuth,
-    session.data?.user?.image
-  ])
+  }, [socket, access_token, WebSocket, socketAuth, seed_data])
 
   useEffect(() => {
     if (
@@ -129,7 +123,7 @@ const Header = () => {
       socket &&
       socket.readyState === WebSocket.OPEN
     ) {
-      socket.send(JSON.stringify(server_seed))
+      socket.send(JSON.stringify({ type: 'NewServerSeed' }))
     }
   }, [seeds, socket?.readyState, socketReset])
 
@@ -170,6 +164,8 @@ const Header = () => {
 
     return () => clearInterval(intervalId)
   }, [refresh_token])
+
+  // useEffect(() => alert(access_token), [access_token])
 
   return (
     <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>

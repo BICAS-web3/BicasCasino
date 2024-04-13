@@ -127,7 +127,7 @@ const CoinFlipGame = () => {
   }, [gameStatus])
 
   const [taken, setTaken] = useState(false)
-  const [localAmount, setLocalAmount] = useState<any>(0)
+  const [localAmount, setLocalAmount] = useState(0)
   const [localCryptoValue, setLocalCryptoValue] = useState(0)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {

@@ -1,17 +1,19 @@
 import { GameModel } from '@/states'
+import { GameStatus, IResult, WonStatus } from '@/states/game_model.store'
+import { Dispatch, SetStateAction } from 'react'
 
 // betResultLogic.ts
 export const processBetResult = (
-  result: any,
-  setGameStatus: Function,
-  pickSide: Function,
-  setIsPlaying: Function,
-  setInGame: Function,
-  setLostStatus: Function,
-  setWonStatus: Function,
+  result: IResult | null,
+  setGameStatus: Dispatch<SetStateAction<GameStatus | null>>,
+  pickSide: Dispatch<SetStateAction<number>>,
+  setIsPlaying: Dispatch<SetStateAction<boolean>>,
+  setInGame: Dispatch<SetStateAction<boolean>>,
+  setLostStatus: Dispatch<SetStateAction<number>>,
+  setWonStatus: Dispatch<SetStateAction<WonStatus | null>>,
   pickedSide: number,
-  setCoefficientData: any,
-  setResult: any
+  setCoefficientData: Dispatch<SetStateAction<number[]>>,
+  setResult: Dispatch<SetStateAction<IResult | null>>
 ) => {
   if (result !== null && result?.type === 'Bet') {
     const fullAmount = Number(result.amount) * result.num_games!

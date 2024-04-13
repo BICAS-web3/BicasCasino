@@ -301,7 +301,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes bblFadInOut {
-
   0%,
   80%,
   100% {
@@ -885,6 +884,41 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
+}
+@keyframes levitate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.levitate {
+  animation: levitate 2s infinite;
+}
+
+@keyframes levitate_enemy {
+  0% {
+    transform: translateY(-15px) scaleX(-1);
+  }
+  50% {
+    transform: translateY(0) scaleX(-1);
+  }
+  100% {
+    transform: translateY(-15px) scaleX(-1);
+  }
+}
+
+.levitate_enemy {
+  animation: levitate_enemy 2s infinite;
+}
+
+.gradient {
+  /* background: linear-gradient(to right, #f8eeb8, #dbb370, #8e5b2d); */
 }

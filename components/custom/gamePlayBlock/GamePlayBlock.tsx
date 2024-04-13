@@ -5,13 +5,11 @@ import InfoIco from '@/public/images/misc/infoIco.svg'
 import { Button } from '@/components/ui/button'
 import { useUnit } from 'effector-react'
 import { GameModel, WagerModel } from '@/states'
-import { useSocket } from '@/components/providers/socket.provider'
 import { usePathname } from 'next/navigation'
 
 interface GamePlayBlockProps {}
 
 export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
-  const socket = useSocket()
   const [
     setIsPlaying,
     cryptoValue,
@@ -20,7 +18,9 @@ export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
     isPlaying,
     finishPoker,
     setStop,
-    apples
+    apples,
+    setStopWinning,
+    keep
   ] = useUnit([
     GameModel.setIsPlaying,
     WagerModel.$cryptoValue,
@@ -29,12 +29,15 @@ export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
     GameModel.$isPlaying,
     GameModel.$finishPoker,
     GameModel.setStop,
-    GameModel.$apples
+    GameModel.$apples,
+    GameModel.setStopWinning,
+    GameModel.$keep
   ])
 
   const path = usePathname()
 
   const [isApple, setIsApple] = useState(false)
+  const [isMines, setIsMines] = useState(false)
 
   useEffect(() => {
     if (path.includes('apples')) {
@@ -42,30 +45,43 @@ export const GamePlayBlock: FC<GamePlayBlockProps> = () => {
     } else {
       setIsApple(false)
     }
-  }, [])
+    if (path.includes('mines')) {
+      setIsMines(true)
+    } else {
+      setIsMines(false)
+    }
+  }, [path])
+
+  const commonClick = () => {
+    if (!cryptoValue) {
+      setError(true)
+    } else {
+      if (!isPlaying) {
+        setIsPlaying(true)
+      } else {
+        apples.length > 0 && setStop(true)
+        setFinishPoker(!finishPoker)
+      }
+    }
+  }
+
+  const minesClick = () => {
+    setStopWinning('YES')
+  }
 
   return (
     <div className='flex gap-[20px] items-center justify-end'>
       <div className='cursor-pointer'>
         <InfoIco className='w-6 h-6' />
       </div>
-      <Button
-        onClick={() => {
-          if (!cryptoValue) {
-            setError(true)
-          } else {
-            if (!isPlaying) {
-              setIsPlaying(true)
-            } else {
-              apples.length > 0 && setStop(true)
-              setFinishPoker(!finishPoker)
-            }
-          }
-        }}
-        variant='wagerPlay'
-      >
+      <Button onClick={commonClick} variant='wagerPlay'>
         {isPlaying && isApple ? 'Refund' : 'Play'}
       </Button>
+      {isMines && keep && (
+        <Button onClick={minesClick} variant='wagerPlay'>
+          Refund
+        </Button>
+      )}
     </div>
   )
 }

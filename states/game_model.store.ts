@@ -46,7 +46,8 @@ export const setIsEmtyWager = createEvent<boolean>()
 export const setRefund = createEvent<boolean>()
 export const setGamesList = createEvent<GamesList[]>()
 export const $keep = createStore(false)
-
+export const setKeep = createEvent<boolean>()
+$keep.on(setKeep, (_, state) => state)
 // handlers
 $betValue.on(setBetValue, (_, state) => state)
 $isPlaying.on(setIsPlaying, (_, state) => state)

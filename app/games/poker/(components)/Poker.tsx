@@ -152,7 +152,7 @@ export const Poker = ({}: PokerProps) => {
   const [multiplier, token] = useUnit([GameModel.$multiplier, GameModel.$token])
 
   const [taken, setTaken] = useState(false)
-  const [localAmount, setLocalAmount] = useState<any>(0)
+  const [localAmount, setLocalAmount] = useState(0)
   const [localCryptoValue, setLocalCryptoValue] = useState(0)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
@@ -266,6 +266,13 @@ export const Poker = ({}: PokerProps) => {
       )
     }
   }, [])
+
+  const pokerPlay = (ind: number) => {
+    const cards = cardsState
+    cards[ind] = !cards[ind]
+    setCardsState([...cards])
+  }
+
   return (
     <>
       {gameStatus === GameModel.GameStatus.Won && (
@@ -324,11 +331,7 @@ export const Poker = ({}: PokerProps) => {
                     isEmptyCard={false}
                     coat={item.suit}
                     card={item.number}
-                    onClick={() => {
-                      const cards = cardsState
-                      cards[ind] = !cards[ind]
-                      setCardsState([...cards])
-                    }}
+                    onClick={pokerPlay.bind('', ind)}
                   />
                 )
               })}

@@ -1,6 +1,6 @@
 import { useUnit } from 'effector-react'
 import useSound from 'use-sound'
-import { FC } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 
 import {
   AppleBgFalseSVG,
@@ -22,12 +22,15 @@ interface IAppleData {
 }
 
 interface IAppleTable {
-  chunkedApplesArr: any[]
+  chunkedApplesArr: {
+    apples: number[]
+    cf: number
+  }[]
   appleData: IAppleData[]
   inGame: boolean
   mines: boolean[][]
-  setAppleData: any
-  setAppleItem: any
+  setAppleData: Dispatch<SetStateAction<IAppleData[]>>
+  setAppleItem: Dispatch<SetStateAction<number[]>>
 }
 
 const AppleTable: FC<IAppleTable> = props => {
@@ -51,7 +54,7 @@ const AppleTable: FC<IAppleTable> = props => {
   return (
     <div className='flex overflow-hidden flex-col gap-[10px] sm:gap-3 pt-[18px] sm:pt-5 -mt-3 sm:-mt-4'>
       {chunkedApplesArr &&
-        chunkedApplesArr.map((item: any, ind: any) => {
+        chunkedApplesArr.map((item, ind) => {
           const currentIndex = Math.abs(ind - 8)
           return (
             <div
@@ -101,7 +104,7 @@ const AppleTable: FC<IAppleTable> = props => {
                   <CfBgSVG className='w-full sm:h-auto h-full absolute top-[-5px]  left-0' />
                 )}
               </div>
-              {item.apples.map((_: any, ind2: any) => {
+              {item.apples.map((_, ind2) => {
                 const picked = appleData[currentIndex]?.value === ind2
                 const resultExist =
                   mines &&
