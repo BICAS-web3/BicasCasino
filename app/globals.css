@@ -7,6 +7,15 @@
   margin: 0;
 }
 
+.vip_swiper_slide {
+  flex-shrink: 100 !important;
+  min-width: 125px !important;
+}
+
+.vip_swiper_slide[data-bg="true"] {
+  
+}
+
 .disable-arrs::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
