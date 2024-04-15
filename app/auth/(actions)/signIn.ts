@@ -34,7 +34,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
         redirectTo: '/'
       })
     }
-  } catch (e) {
-    console.log(1, e)
+  } catch (error) {
+    console.log('Oooops! Error:', error)
   }
 }

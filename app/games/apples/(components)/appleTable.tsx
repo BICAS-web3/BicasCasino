@@ -1,6 +1,6 @@
 import { useUnit } from 'effector-react'
 import useSound from 'use-sound'
-import { FC } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 
 import {
   AppleBgFalseSVG,
@@ -31,8 +31,8 @@ interface IAppleTable {
   appleData: IAppleData[]
   inGame: boolean
   mines: boolean[][]
-  setAppleData: any
-  setAppleItem: any
+  setAppleData: Dispatch<SetStateAction<IAppleData[]>>
+  setAppleItem: Dispatch<SetStateAction<number[]>>
 }
 
 const AppleTable: FC<IAppleTable> = ({

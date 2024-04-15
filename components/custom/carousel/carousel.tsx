@@ -14,7 +14,8 @@ import {
   GridOptions,
   NavigationOptions,
   PaginationOptions,
-  SwiperModule
+  SwiperModule,
+  SwiperOptions
 } from 'swiper/types'
 
 type CarouselProps = {

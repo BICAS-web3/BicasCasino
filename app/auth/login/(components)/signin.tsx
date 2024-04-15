@@ -85,6 +85,9 @@ const Signin: FC<SigninProps> = () => {
     })
   }
 
+  const openPassword = () => setShowPassword(prev => !prev)
+  const disableError = () => setErrorData(false)
+
   return (
     <div className='flex flex-col gap-[10px] sm:gap-[20px] mt-[10px] sm:mt-[20px]'>
       <Form {...form}>
@@ -99,9 +102,7 @@ const Signin: FC<SigninProps> = () => {
               <FormItem className='relative'>
                 <FormControl>
                   <Input
-                    onFocus={() => {
-                      setErrorData(false)
-                    }}
+                    onFocus={disableError}
                     placeholder={errorData ? 'Wrong data' : 'Username'}
                     className={`duration-200 z-[1] relative' ${
                       errorData && 'placeholder:text-[red]'
@@ -123,9 +124,7 @@ const Signin: FC<SigninProps> = () => {
                 <FormControl>
                   <Input
                     placeholder={errorData ? 'Wrong data' : 'Password'}
-                    onFocus={() => {
-                      setErrorData(false)
-                    }}
+                    onFocus={disableError}
                     className={`duration-200 z-[1] relative' ${
                       errorData && 'placeholder:text-[red]'
                     }`}
@@ -139,12 +138,12 @@ const Signin: FC<SigninProps> = () => {
                 {showPassword ? (
                   <EyeOpen
                     className='cursor-pointer absolute top-2 right-4'
-                    onClick={() => setShowPassword(prev => !prev)}
+                    onClick={openPassword}
                   />
                 ) : (
                   <EyeClose
                     className='cursor-pointer absolute top-2 right-4'
-                    onClick={() => setShowPassword(prev => !prev)}
+                    onClick={openPassword}
                   />
                 )}
               </FormItem>

@@ -1,36 +1,21 @@
 'use client'
 
-import { FC, useEffect } from 'react'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { AnimationAction } from 'three'
 import { GameModel } from '@/states'
+import { CoinAction } from '@/types/games.types'
+import { useAnimations, useGLTF } from '@react-three/drei'
+import { useEffect } from 'react'
+import { AnimationAction } from 'three'
 
-enum CoinAction {
-  Rotation = 'Rotation',
-  HeadsHeads = 'HeadsHeads',
-  HeadsTails = 'HeadsTails',
-  TailsHeads = 'TailsHeads',
-  TailsTails = 'TailsTails',
-  Stop = ''
-}
 interface ModelProps {
   action: CoinAction
   initial: GameModel.Side
-  setIsLoading: (el: boolean) => void
 }
 
-const Model: FC<ModelProps> = ({ action, initial, setIsLoading }) => {
-  const { scene, animations } = useGLTF('/models/coinflip/coin_old.gltf')
-
-  const loader = new GLTFLoader()
-
-  loader.load(
-    '/models/coinflip/coin_old.gltf',
-    () => setIsLoading(false),
-    undefined,
-    () => setIsLoading(false)
+const Model = ({ action, initial }: ModelProps) => {
+  const { scene, animations } = useGLTF(
+    '/models/coinflip/coin_old-optimized.gltf'
   )
+
   const { actions } = useAnimations(animations, scene)
 
   if (initial == GameModel.Side.Heads) {
@@ -55,8 +40,9 @@ const Model: FC<ModelProps> = ({ action, initial, setIsLoading }) => {
     }
   }, [initial, action])
 
-  // @ts-ignore
   return <primitive object={scene} />
 }
 
 export default Model
+
+useGLTF.preload('/models/coinflip/coin_old-optimized.gltf')

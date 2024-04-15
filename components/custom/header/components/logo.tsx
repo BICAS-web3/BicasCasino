@@ -6,7 +6,7 @@ import { useMediaQuery } from 'usehooks-ts'
 const Logo = () => {
   const isMobile = useMediaQuery('(max-width:768px)')
   return (
-    <Link href='/' className='flex justify-start items-center w-full h-full'>
+    <Link href='/' className='flex justify-start items-center w-max'>
       {isMobile ? (
         <Image
           src='/images/logo/header_logo-mini.png'

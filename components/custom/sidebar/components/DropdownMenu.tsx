@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
 
 type Props = {
   data: any

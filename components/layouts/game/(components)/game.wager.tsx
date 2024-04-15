@@ -14,7 +14,7 @@ const GameWager = () => {
     console.log(value)
   }
   return (
-    <div className='w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
+    <div className='w-full sm:w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
       <div className='flex items-center justify-between flex-nowrap'>
         {titles.map((title, index) => (
           <span
@@ -26,7 +26,7 @@ const GameWager = () => {
         ))}
       </div>
       <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636]'>
-        <div className='flex items-center gap-3.5 w-full max-w-36 pr-2.5'>
+        <div className='flex items-center gap-3.5 w-full max-w-full sm:max-w-36 pr-2.5'>
           <Input
             type='number'
             placeholder='0.0000'

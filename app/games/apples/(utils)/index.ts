@@ -9,8 +9,8 @@ import { Dispatch, SetStateAction } from 'react'
 import { IAppleData } from '../(components)/wrapper'
 import { UserType } from '@/states/user_model.store'
 
-export const updateChunkedArray = (applesArr: any[]) => {
-  const arr: any[] = []
+export const updateChunkedArray = (applesArr: number[]) => {
+  const arr: { apples: number[]; cf: number }[] = []
   const chunkSize = 3
 
   for (let i = 0; i < applesArr.length; i += chunkSize) {
@@ -69,7 +69,7 @@ export const handleGameResult = (
   setLostStatus: Dispatch<SetStateAction<number>>,
   setInGame: Dispatch<SetStateAction<boolean>>,
   setFirstBet: Dispatch<SetStateAction<boolean>>,
-  handleReset: any,
+  handleReset: () => void,
   setStop: Dispatch<SetStateAction<boolean>>,
   setAppleItem: Dispatch<SetStateAction<number[]>>,
   setAppleGameResult: Dispatch<SetStateAction<number[]>>,
@@ -88,7 +88,7 @@ export const handleGameResult = (
         setMines(dataState)
         setStart(false)
         setAppleData(
-          dataState.map((_: any, i: number) => {
+          dataState.map((_, i: number) => {
             return {
               value: 5,
               number: 1

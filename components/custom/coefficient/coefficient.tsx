@@ -6,8 +6,8 @@ interface IBall {
 }
 
 interface ICoefficient {
-  ballsArr: IBall[] | any[]
-  multipliers?: any
+  ballsArr: IBall[] | number[]
+  multipliers?: number[] | Record<string, string>[] | number | bigint
   common?: boolean
 }
 
@@ -29,13 +29,14 @@ const Coefficient: FC<ICoefficient> = props => {
                 }`}
                 key={i}
               >
-                {ball}x
+                {ball?.toFixed(2)}x
               </div>
             ))
         : ballsArr
             .sort((a, b) => b.index - a.index)
             .map(
               (ball, i) =>
+                multipliers &&
                 multipliers[ball.value] && (
                   <div
                     className={`text-xs sm:text-sm xl:text-lg font-black rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex items-center justify-center ${
@@ -47,7 +48,7 @@ const Coefficient: FC<ICoefficient> = props => {
                     }`}
                     key={i}
                   >
-                    {multipliers[ball.value]}x
+                    {multipliers[ball.value]?.toFixed(2)}x
                   </div>
                 )
             )}

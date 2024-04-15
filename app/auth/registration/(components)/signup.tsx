@@ -1,6 +1,13 @@
 'use client'
 import { useUnit } from 'effector-react'
-import { FC, useEffect, useState, useTransition } from 'react'
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition
+} from 'react'
 import { RegistrModel } from '@/states'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
@@ -118,6 +125,13 @@ const SignUp: FC<SignupProps> = () => {
   const [token, setToken] = useState('')
   const [show, setSHow] = useState(false)
 
+  const resetPassword = () => setShowPassword(prev => !prev)
+  const errorFocus = () => setErrorData(false)
+
+  const resetCheckbox = (func: Dispatch<SetStateAction<boolean>>) => {
+    func(prev => !prev)
+  }
+
   return (
     <Form {...form}>
       <div className='sm:mt-[20px] mt-[10px] flex flex-col justify-between'>
@@ -144,9 +158,7 @@ const SignUp: FC<SignupProps> = () => {
                     <Input
                       disabled={isPending}
                       placeholder={errorData ? 'User exist' : 'Username'}
-                      onFocus={() => {
-                        setErrorData(false)
-                      }}
+                      onFocus={errorFocus}
                       className={`duration-200 ${
                         errorData && 'placeholder:text-[red]'
                       }`}
@@ -168,9 +180,7 @@ const SignUp: FC<SignupProps> = () => {
                       type={showPassword ? 'password' : 'text'}
                       disabled={isPending}
                       placeholder={errorData ? 'User exist' : 'Password'}
-                      onFocus={() => {
-                        setErrorData(false)
-                      }}
+                      onFocus={errorFocus}
                       className={`duration-200 ${
                         errorData
                           ? 'placeholder:text-[red]'
@@ -183,12 +193,12 @@ const SignUp: FC<SignupProps> = () => {
                   {showPassword ? (
                     <EyeOpen
                       className='cursor-pointer absolute top-2 right-4'
-                      onClick={() => setShowPassword(prev => !prev)}
+                      onClick={resetPassword}
                     />
                   ) : (
                     <EyeClose
                       className='cursor-pointer absolute top-2 right-4'
-                      onClick={() => setShowPassword(prev => !prev)}
+                      onClick={resetPassword}
                     />
                   )}
                   <FormMessage />
@@ -203,7 +213,7 @@ const SignUp: FC<SignupProps> = () => {
                   <FormControl>
                     <Checkbox
                       itemID='age'
-                      onClick={() => setAgeCheckbox(prev => !prev)}
+                      onClick={resetCheckbox.bind('', setAgeCheckbox)}
                       className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
                     />
                   </FormControl>
@@ -221,7 +231,7 @@ const SignUp: FC<SignupProps> = () => {
                 <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
                   <FormControl>
                     <Checkbox
-                      onClick={() => setPolicyCheckbox(prev => !prev)}
+                      onClick={resetCheckbox.bind('', setPolicyCheckbox)}
                       className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
                     />
                   </FormControl>

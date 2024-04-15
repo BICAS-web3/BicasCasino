@@ -4,7 +4,8 @@ import React, {
   useState,
   useEffect,
   ReactNode,
-  useRef
+  useRef,
+  useMemo
 } from 'react'
 import { useUnit } from 'effector-react'
 import { GameModel, SessionModel, UserModel } from '@/states'
@@ -39,6 +40,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const uuidRef = useRef<string | null>(null)
 
+  // const socketValue = useMemo(() => socket, [socket])
+
   useEffect(() => {
     const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
     setSocket(prevSocket => {
@@ -70,6 +73,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
           data.uuid === uuidRef.current) ||
         JSON.parse(ev.data).type === 'State'
       ) {
+        // alert(9999)
         setResult(data)
         if (data && (data?.coin_id || data?.coin_id === 0)) {
           setTokenId(data.coin_id)

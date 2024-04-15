@@ -8,13 +8,20 @@ const GameCreditBet = dynamic(() => import('./game.credit-bet'), {
 
 import GamePlayBlock from './game.play-block'
 import GameWager from './game.wager'
+import GameAmount from './game.amount'
 import { Skeleton } from '@/components/ui/skeleton'
+import { usePathname } from 'next/navigation'
 
 const GameMenu = () => {
+  const minesGame = usePathname().includes('mines')
   return (
-    <div className='bg-[#151515] p-[20px_16px_30px_16px] grid grid-cols-2 md:flex gap-[15px] items-center justify-between rounded-[0_0_20px_20px] '>
+    <div className='bg-[#151515] py-5 px-4 flex flex-wrap gap-5 items-center rounded-b-[20px] '>
       <GameCreditBet />
       <GameWager />
+
+      {minesGame ? (
+        <GameAmount min={1} max={24} title='Number of mines' />
+      ) : null}
       <GamePlayBlock />
     </div>
   )

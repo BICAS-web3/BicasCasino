@@ -7,9 +7,7 @@ export const {
   signOut
 } = NextAuth({
   ...authConfig,
-  pages: {
-    error: '/auth/login'
-  },
+
   secret: process.env.AUTH_SECRET,
   session: { strategy: 'jwt' }
 })

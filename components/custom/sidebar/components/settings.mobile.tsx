@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { BurgerMenuSVG, GamesSVG } from './icons/mobile'
+import { BurgerMenuSVG, ChatSVG, GamesSVG, UserSVG } from './icons/mobile'
 import { LanguageToggle } from './LanguageToggle'
 import { ThemeToggle } from './ThemeToggle'
 import { useMediaQuery } from 'usehooks-ts'
@@ -26,10 +26,10 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
         <GamesSVG className='object-contain text-[#7E7E7E]' />
       </Button>
       <Button onClick={handleAction} variant='ghost' size='icon'>
-        <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
+        <UserSVG className='object-contain text-[#7E7E7E]' />
       </Button>
       <Button onClick={handleAction} variant='ghost' size='icon'>
-        <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
+        <ChatSVG className='object-contain' />
       </Button>
     </div>
   )

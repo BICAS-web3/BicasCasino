@@ -1,11 +1,14 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useSession } from 'next-auth/react'
 
 const Preview = ({ className }: { className?: string }) => {
+  const { data, status } = useSession()
   return (
     <article
       className={cn(
-        'flex items-center flex-col lg:block w-full h-[383px]',
+        'flex items-center flex-col lg:block w-full h-[440px]',
         'relative pt-10 pb-[25px] overflow-hidden',
         className
       )}
@@ -15,7 +18,7 @@ const Preview = ({ className }: { className?: string }) => {
       }}
     >
       <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
-        Hello USERNAME <br />
+        Hello {status === 'authenticated' ? data?.user?.name : ''} <br />
         Bonus on the first deposit
       </h2>
       <h1 className='text-center lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>

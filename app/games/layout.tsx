@@ -3,10 +3,10 @@
 import LostMessage from '@/components/custom/lostMessage'
 import WinMessage from '@/components/custom/winMessage'
 import GameLayout from '@/components/layouts/game/game.layout'
-import { GameModel, RegistrModel } from '@/states'
+import { GameModel } from '@/states'
 import { useUnit } from 'effector-react'
 
-function MainLayout({ children }) {
+function Layout({ children }) {
   const [gameStatus, profit, result, multiplier, lost] = useUnit([
     GameModel.$gameStatus,
     GameModel.$profit,
@@ -40,4 +40,4 @@ function MainLayout({ children }) {
   )
 }
 
-export default GameLayout
+export default Layout

@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import { Info } from 'lucide-react'
 
 const GamePlayBlock = () => {
   const [
@@ -42,11 +43,11 @@ const GamePlayBlock = () => {
   }
 
   return (
-    <div className='flex gap-5 items-center justify-end'>
+    <div className='flex gap-2 sm:gap-5 items-center justify-end -order-5 sm:order-none'>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
-            <InfoSVG className='w-6 h-6 cursor-pointer' />
+          <TooltipTrigger className='flex justify-center items-center'>
+            <Info className='w-5 h-5 aspect-square cursor-pointer' />
           </TooltipTrigger>
           <TooltipContent>
             <p>Some info</p>

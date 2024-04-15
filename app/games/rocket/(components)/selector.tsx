@@ -1,12 +1,18 @@
 import { FC } from 'react'
+import { DiceCloseSVG } from './icons'
 
 interface ISelector {
-  diceValue: any[]
+  diceValue: {
+    id: number
+    title: string
+    value: string
+    img_alt: string
+    img_src: typeof DiceCloseSVG
+  }[]
   onClick?: () => void
 }
 
-const Selector: FC<ISelector> = props => {
-  const { diceValue, onClick } = props
+const Selector: FC<ISelector> = ({ diceValue, onClick }) => {
   return (
     <div
       className={

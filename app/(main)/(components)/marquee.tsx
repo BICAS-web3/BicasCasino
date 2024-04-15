@@ -23,7 +23,7 @@ export const MarqueeLine = () => {
       <Marquee
         autoFill
         speed={20}
-        className='px-5 py-[5px] sm:py-[13px] flex-1 bg-[#151515] rounded-r-[9px] sm:rounded-[99px] z-[3] relative overflow-hidden'
+        className='px-5 py-[5px] sm:py-[13px] flex-1 bg-[#151515] rounded-r-full sm:rounded-[99px] z-[3] relative overflow-hidden'
       >
         {marquee_data.map((item, index) => (
           <span
@@ -38,10 +38,10 @@ export const MarqueeLine = () => {
           </span>
         ))}
       </Marquee>
-      <div className='flex justify-center items-center gap-[5px] min-w-40'>
+      <div className='flex justify-center items-center gap-[5px] min-w-32 sm:min-w-40'>
         <ChevronsUp className='text-[#A7F7D1] w-5 h-5' />
         <Image
-          src='/marquee/draxma.png'
+          src='/images/marquee/draxma.png'
           alt='draxma'
           width={32}
           height={32}
