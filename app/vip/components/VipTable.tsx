@@ -340,7 +340,8 @@ interface VipTableProps {}
 
 export const VipTable:FC<VipTableProps> = () => {
     return (
-        <Swiper 
+        <>
+            <Swiper 
             slidesPerView={'auto'} 
             breakpoints={{
                 1280: {
@@ -349,10 +350,15 @@ export const VipTable:FC<VipTableProps> = () => {
             }} 
             className='vip_swiper mt-[20px]' 
             spaceBetween={2} 
+            modules={[Scrollbar]} 
+            scrollbar={{
+                el: ".scroll-bar-vip",
+                draggable: true,
+            }}
         >
             {
                 slides.map((item, ind) => (
-                    <SwiperSlide key={ind} className='vip_swiper_slide h-full flex flex-col gap-[2px]' >
+                    <SwiperSlide  key={ind} className='vip_swiper_slide h-full flex flex-col gap-[2px]' >
                         <div className="bg-[#181818] h-[80px] flex text-center p-[0_2px] prewrap items-center justify-center text-[18px] font-semibold text-[#7E7E7E]">
                             {item.title}
                         </div>
@@ -373,6 +379,8 @@ export const VipTable:FC<VipTableProps> = () => {
                     </SwiperSlide>
                 ))
             }
-        </Swiper>
+            </Swiper>
+            <div className="scroll-bar-vip"></div>
+        </>
     )
 }

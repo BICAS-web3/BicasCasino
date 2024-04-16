@@ -734,18 +734,19 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-.scroll-bar {
+.scroll-bar, .scroll-bar-vip {
   margin-top: 20px;
   height: 3px;
   background: #212121;
   border-radius: 5px;
 } 
 
-.scroll-bar > .swiper-scrollbar-drag {
+.scroll-bar, .scroll-bar-vip > .swiper-scrollbar-drag {
   height: 100%;
   border-radius: 5px;
   background: #3E3E3E;
 }
+
 
 .affiliates_swiper_slide0 {
   min-width: 50px !important;

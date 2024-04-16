@@ -12,6 +12,7 @@ import { SettingsVerify } from './components/verify/SettingsVerify'
 import { VerifyWarn } from './components/verifyWarn/VerifyWarn'
 import { SettingsBonusdrop } from './components/bonusDrop/SettingsBonusdrop'
 import { SettingsExclusion } from './components/exclusion/SettingsExclusion'
+import { ClosePage } from '@/components/custom/closePage/ClosePage'
 
 interface ProfileProps {}
 
@@ -24,7 +25,8 @@ const Profile: FC<ProfileProps> = () => {
       defaultValue='profile'
       value={tab}
     >
-      <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
+      <div className='h-full relative p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
+        <ClosePage />
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <SettingsIco />
           Settings

@@ -7,6 +7,7 @@ import { AffiliatesGetStart } from './components/GetStart/AfflitiatesGetStart'
 import { AffiliatesFunds } from './components/funds/AffiliatesFunds'
 import { AffiliatesUsers } from './components/users/AffiliatesUsers'
 import { AffiliatesCampaigns } from './components/campaigns/AffiliatesCampaigns'
+import { ClosePage } from '@/components/custom/closePage/ClosePage'
 
 interface AffiliatesProps {}
 
@@ -19,7 +20,8 @@ const Affiliates: FC<AffiliatesProps> = () => {
       defaultValue='getStart'
       value={tab}
     >
-      <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
+      <div className='h-full p-[1.25rem] relative tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
+        <ClosePage />
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <AffiliatesIco />
           Affiliates
