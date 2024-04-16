@@ -12,6 +12,9 @@ import { sendSocketData } from '@/lib/utils/game.send'
 import Coefficient from '@/components/custom/coefficient'
 
 import Image from 'next/image'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { changeEnemyValue } from '../(utils)'
 
 export enum ModelType {
   Paper = 'Paper',
@@ -69,19 +72,13 @@ const PRSGame = () => {
   const [socketReset] = useUnit([UserModel.$socketReset])
 
   useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList.length > 0
-    ) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'RPS')?.id] || 5
-        })
-      )
-    }
+    useSubscibeBets({
+      name: 'RPS',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
@@ -134,24 +131,7 @@ const PRSGame = () => {
   const [enemyValue, setEnemyValue] = useState(ModelType.Quest)
 
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Draw) {
-    } else if (gameStatus === GameModel.GameStatus.Won) {
-      if (pickedValue === GameModel.RPSValue.Paper) {
-        setEnemyValue(ModelType.Rock)
-      } else if (pickedValue === GameModel.RPSValue.Rock) {
-        setEnemyValue(ModelType.Scissors)
-      } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        setEnemyValue(ModelType.Paper)
-      }
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      if (pickedValue === GameModel.RPSValue.Paper) {
-        setEnemyValue(ModelType.Scissors)
-      } else if (pickedValue === GameModel.RPSValue.Rock) {
-        setEnemyValue(ModelType.Paper)
-      } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        setEnemyValue(ModelType.Rock)
-      }
-    }
+    changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
   }, [gameStatus])
 
   const [taken, setTaken] = useState(false)
@@ -199,13 +179,13 @@ const PRSGame = () => {
       socket,
       isPlaying,
       access_token,
-      subscribed,
-      gamesList,
-      betData,
-      setCubscribed,
-      title: 'RPS'
+      betData
     })
   }, [socket, isPlaying, access_token, gamesList])
+
+  useEffect(() => {
+    return () => useUnSubscribe({ gamesList, socket, name: 'RPS' })
+  }, [])
 
   return (
     <div className='h-full w-full relative pt-9'>

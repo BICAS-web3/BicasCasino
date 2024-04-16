@@ -109,8 +109,10 @@ const SignUp: FC<SignupProps> = () => {
           .then(async res => await res.json())
           .catch(e => e)
         if (userData.status === 'OK') {
-          setAccessToken((userData.body as any).access_token)
-          setRefreshToken((userData.body as any).refresh_token)
+          setAccessToken((userData.body as Record<string, string>).access_token)
+          setRefreshToken(
+            (userData.body as Record<string, string>).refresh_token
+          )
           setAuth(true)
           await signIn('credentials', {
             username: values.username,

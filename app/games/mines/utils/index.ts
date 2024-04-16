@@ -8,7 +8,37 @@ import {
   WonStatus
 } from '@/states/game_model.store'
 import { Dispatch, SetStateAction } from 'react'
-import { Tile, initialPickedTiles } from '../data'
+import { Tile, initialPickedTiles, maxReveal } from '../data'
+
+export const setGameFields = ({
+  revealedTiles,
+  tilesPicked,
+  setGameField,
+  setPickedTiles
+}: {
+  revealedTiles: boolean[]
+  tilesPicked: boolean[] | undefined
+  setGameField: Dispatch<SetStateAction<Tile[]>>
+  setPickedTiles: Dispatch<SetStateAction<boolean[]>>
+}) => {
+  var openedTiles = 0
+  setGameField(
+    revealedTiles.map((value: boolean) => {
+      if (value) {
+        openedTiles += 1
+        return Tile.Coin
+      } else {
+        return Tile.Closed
+      }
+    })
+  )
+
+  if (tilesPicked) {
+    setPickedTiles(tilesPicked)
+  }
+
+  return openedTiles
+}
 
 interface IHandleResult {
   result: IResult | null
@@ -25,10 +55,7 @@ interface IHandleResult {
   setStopWinning: Dispatch<SetStateAction<WinningType>>
   setGameField: Dispatch<SetStateAction<Tile[]>>
   setPickedTiles: Dispatch<SetStateAction<boolean[]>>
-  setGameFields: (
-    revealedTiles: boolean[],
-    tilesPicked: boolean[] | undefined
-  ) => number
+
   gameField: Tile[]
 }
 
@@ -47,7 +74,6 @@ export function handleResult({
   setStopWinning,
   setGameField,
   setPickedTiles,
-  setGameFields,
   gameField
 }: IHandleResult) {
   if (!result) return
@@ -79,7 +105,12 @@ export function handleResult({
     setTimeout(() => {
       setInGame(false)
       triggerRedraw(true)
-      setGameFields(initialPickedTiles, [...initialPickedTiles])
+      setGameFields({
+        revealedTiles: initialPickedTiles,
+        tilesPicked: [...initialPickedTiles],
+        setGameField,
+        setPickedTiles
+      })
     }, 2000)
     const data = JSON.parse(result!.state)
     const newGameField = gameField.map((value, index) => {
@@ -119,5 +150,41 @@ export function handleResult({
       setInGame(false)
     }
     setKeep(false)
+  }
+}
+
+export const pickTile = ({
+  index,
+  pickedTiles,
+  totalOpenedTiles,
+  setTotalOpenedTiles,
+  gameField,
+  musicType,
+  playTileClick,
+  triggerRedraw,
+  pickedValue
+}: {
+  index: number
+  pickedTiles: boolean[]
+  totalOpenedTiles: number
+  setTotalOpenedTiles: Dispatch<SetStateAction<number>>
+  musicType: string
+  gameField: Tile[]
+  playTileClick: () => void
+  triggerRedraw: Dispatch<SetStateAction<boolean>>
+  pickedValue: number
+}) => {
+  if (gameField[index] == Tile.Closed) {
+    if (!pickedTiles[index]) {
+      if (totalOpenedTiles >= maxReveal[pickedValue]) {
+        return
+      }
+      setTotalOpenedTiles(totalOpenedTiles + 1)
+    } else {
+      setTotalOpenedTiles(totalOpenedTiles - 1)
+    }
+    musicType !== 'off' && playTileClick()
+    pickedTiles[index] = !pickedTiles[index]
+    triggerRedraw(true)
   }
 }

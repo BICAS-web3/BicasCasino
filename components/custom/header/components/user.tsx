@@ -11,8 +11,8 @@ const User = () => {
   const navigation = useRouter()
   return (
     <Button
-      onClick={() => {
-        signOut()
+      onClick={async () => {
+        await signOut()
         navigation.push('/auth/registration')
       }}
       variant='ghost'
