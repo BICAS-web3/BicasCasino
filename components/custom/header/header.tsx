@@ -11,15 +11,11 @@ import User from './components/user'
 
 import { GameModel, RegistrModel, UserModel } from '@/states'
 import * as api from '@/api'
-import { useSession, getCsrfToken, getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { UserType } from '@/states/user_model.store'
 
 const Header = () => {
-  // const getToke = getCsrfToken()
-  // const SESSIONgET = getSession()
-  const session = useSession()
-  // useEffect(() => console.log('getToke:', getToke), [getToke])
-  // useEffect(() => console.log('SESSIONgET:', SESSIONgET), [SESSIONgET])
+  const { data } = useSession()
   const [
     access_token,
     setUserInfo,
@@ -45,13 +41,13 @@ const Header = () => {
   ])
 
   useEffect(() => {
-    const userData = session.data?.token?.user
+    const userData = (data as any)?.token?.user
     if (userData?.access_token && userData?.refresh_token) {
       setAccessToken(userData.access_token)
       setRefreshToken(userData.refresh_token)
-      console.log(111, session)
+      console.log(111, data)
     }
-  }, [session, session.data?.user?.image])
+  }, [data])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
@@ -107,15 +103,6 @@ const Header = () => {
   useEffect(() => {
     if (access_token) {
       if (socket) {
-        console.log(
-          'if data:::',
-          socket,
-          WebSocket.OPEN,
-          socket!.readyState,
-          WebSocket.OPEN === 1,
-          !socketAuth,
-          access_token
-        )
         if (socket!.readyState === 1) {
           socket!.send(JSON.stringify({ type: 'GetUuid' }))
           socket!.send(JSON.stringify({ type: 'Auth', token: access_token }))
@@ -176,15 +163,13 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  // useEffect(() => alert(access_token), [access_token])
-
   return (
-    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
+    <header className='flex justify-between items-center px-3 sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-black'>
       <Logo />
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />
         <Wallet />
-        <Separator orientation='vertical' className='min-h-10' />
+        <Separator orientation='vertical' className='min-h-10 inline' />
         <User />
       </div>
     </header>

@@ -13,7 +13,7 @@ const SidebarSettings = ({ open, handleAction }: Props) => (
   <div
     className={cn(
       'flex justify-between items-center bg-[#121212] w-full py-4 px-5',
-      open ? '' : 'flex-col gap-4'
+      open ? '' : 'sm:flex-col gap-4'
     )}
   >
     <ThemeToggle disabled open={open} />

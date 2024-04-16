@@ -1,28 +1,29 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useUnit } from 'effector-react'
-import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import { useSocket } from '@/components/providers/socket.provider'
 
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 
-import AppleTable from './appleTable'
-import TotalCoeff from '@/components/custom/totalCoeff'
-import Preload from '@/components/custom/preload'
 import Coefficient from '@/components/custom/coefficient'
+import TotalCoeff from '@/components/custom/totalCoeff'
 import {
   generateBetData,
   handleGameResult,
   updateChunkedArray
 } from '../(utils)'
+
+import AppleTable from './appleTable'
+
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 export interface IAppleData {
   number: number
   value: number
 }
+
 const AppleGame = () => {
   const socket = useSocket()
   const [start, setStart] = useState(true)
@@ -56,7 +57,6 @@ const AppleGame = () => {
     setChunkedApplesArr(chunkedArray)
   }, [applesArr])
 
-  const [isLoading, setIsLoading] = useState(false)
   const [
     lost,
     profit,
@@ -295,18 +295,13 @@ const AppleGame = () => {
   }, [])
 
   return (
-    <div className='relative w-full h-full py-11 sm:py-16 lg:py-[30px] px-[10px] sm:px-[30px] lg:px-0 min-h-[680px]'>
-      <div className='absolute top-0 right-0 w-full h-full overflow-hidden rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0]'>
-        <Image
-          width={1438}
-          height={680}
-          onLoad={() => setIsLoading(false)}
-          src='/images/apples/applesBg.webp'
-          className='absolute right-0 bottom-0 h-full overflow-hidden object-cover z-[-1] w-full 2xl:w-[1438px] 3xl:w-full'
-          alt='apples-static-bg'
-        />
-      </div>
-      {isLoading && <Preload />}
+    <div
+      className='relative w-full h-full py-11 sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 min-h-[680px] rounded-none sm:rounded-t-[20px]'
+      style={{
+        background: `url('/images/apples/applesBg.webp') center center no-repeat`,
+        backgroundSize: 'cover'
+      }}
+    >
       <TotalCoeff
         fullLost={fullLost}
         fullWon={fullWon}
@@ -314,16 +309,14 @@ const AppleGame = () => {
       />
       <Coefficient ballsArr={coefficientData} multipliers={multiplier} />
       <div className='h-full flex items-center justify-center'>
-        <div className='max-w-[325px] mt-0 mb-10 px-[17px] py-[19px] sm:px-6 sm:pt-[31px] sm:pb-5 shadow-[0px_0px_24.6px_0px_rgba(25,102,101,0.89)] lg:mt-[30px] bg-[rgba(3,33,45,0.82)] border border-[#105453] rounded-[12px] sm:max-w-[425px] w-full relative'>
-          <AppleTable
-            appleData={appleData}
-            chunkedApplesArr={chunkedApplesArr}
-            inGame={inGame}
-            mines={mines}
-            setAppleData={setAppleData}
-            setAppleItem={setAppleItem}
-          />
-        </div>
+        <AppleTable
+          appleData={appleData}
+          chunkedApplesArr={chunkedApplesArr}
+          inGame={inGame}
+          mines={mines}
+          setAppleData={setAppleData}
+          setAppleItem={setAppleItem}
+        />
       </div>
     </div>
   )

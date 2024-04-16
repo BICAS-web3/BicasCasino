@@ -161,3 +161,58 @@ export const SBottomMenu = [
     title: 'Support'
   }
 ]
+
+export const SMobileMenu = [
+  {
+    icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'Home'
+  },
+  {
+    icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'Bonus'
+  },
+  {
+    icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'double',
+    buttons: [
+      {
+        icon: (
+          <Image
+            src='/sidebar-icons/goals.png'
+            alt='icon goals'
+            width={16}
+            height={16}
+            className='w-5 h-5 object-contain aspect-square'
+          />
+        ),
+        title: 'Goals',
+        color: 'linear-gradient(40deg, #44278A 0%, #24232E 100%)'
+      },
+      {
+        icon: (
+          <Image
+            src='/sidebar-icons/wheel.png'
+            alt='icon wheel'
+            width={16}
+            height={16}
+            className='w-5 h-5 object-contain aspect-square'
+          />
+        ),
+        title: 'Wheel',
+        color: 'linear-gradient(40deg, #61194F 0%, #272229 100%)'
+      }
+    ]
+  },
+  {
+    icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'NFT market'
+  },
+  {
+    icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'Affiliate'
+  },
+  {
+    icon: <SupportSVG className='w-5 h-5 object-contain aspect-square' />,
+    title: 'Support'
+  }
+]

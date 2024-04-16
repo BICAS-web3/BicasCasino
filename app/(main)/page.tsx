@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 const Home = () => (
-  <div className='flex flex-col px-10 py-5 mx-auto max-w-screen-2xl overflow-hidden w-full h-full'>
+  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full sm:max-w-screen-2xl overflow-hidden w-full h-full'>
     <MarqueeLine />
     <Preview className='mt-[15px]' />
     <Banner />

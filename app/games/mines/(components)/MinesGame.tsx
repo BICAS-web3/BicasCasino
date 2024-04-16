@@ -1,24 +1,22 @@
 'use client'
 
 import Coefficient from '@/components/custom/coefficient'
-import Preload from '@/components/custom/preload'
 import TotalCoeff from '@/components/custom/totalCoeff'
 import { useSocket } from '@/components/providers/socket.provider'
 import { cn } from '@/lib/utils'
-import background from '@/public/images/mines_images/mines_bg.webp'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import Image from 'next/image'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
-import { Tile, initialGameField, initialPickedTiles } from '../data'
-import { handleResult, pickTile } from '../utils'
+import { Tile, initialGameField, initialPickedTiles, maxReveal } from '../data'
+import { handleResult, pickTileforMine } from '../utils'
 import SelectedMine from './selected.mine'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
 
-const MinesGame: FC = () => {
+const MinesGame = () => {
   const socket = useSocket()
   const [
     betsAmount,
@@ -141,6 +139,45 @@ const MinesGame: FC = () => {
     setPickedTiles(initialPickedTiles)
     triggerRedraw(true)
   }, [pickedValue])
+
+  const pickTile = (index: number) => {
+    if (gameField[index] == Tile.Closed) {
+      if (!pickedTiles[index]) {
+        if (totalOpenedTiles >= maxReveal[pickedValue]) {
+          return
+        }
+        setTotalOpenedTiles(totalOpenedTiles + 1)
+      } else {
+        setTotalOpenedTiles(totalOpenedTiles - 1)
+      }
+      musicType !== 'off' && playTileClick()
+      pickedTiles[index] = !pickedTiles[index]
+      triggerRedraw(true)
+    }
+  }
+
+  const setGameFields = (
+    revealedTiles: boolean[],
+    tilesPicked: boolean[] | undefined
+  ) => {
+    var openedTiles = 0
+    setGameField(
+      revealedTiles.map((value: boolean) => {
+        if (value) {
+          openedTiles += 1
+          return Tile.Coin
+        } else {
+          return Tile.Closed
+        }
+      })
+    )
+
+    if (tilesPicked) {
+      setPickedTiles(tilesPicked)
+    }
+
+    return openedTiles
+  }
 
   useEffect(() => {
     if (stopWinning === 'NO') {
@@ -275,7 +312,7 @@ const MinesGame: FC = () => {
   }, [])
 
   const pickTiles = (index: number) =>
-    pickTile({
+    pickTileforMine({
       index,
       gameField,
       musicType,
@@ -288,19 +325,14 @@ const MinesGame: FC = () => {
     })
 
   return (
-    <div className='w-full h-full relative flex justify-center flex-col min-h-[680px]'>
-      {preloading && <Preload />}
-      <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
-        <Image
-          onLoad={() => setPreloading(false)}
-          src={background}
-          className='rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0] object-cover w-full h-full'
-          alt='table-bg'
-          width={1418}
-          height={680}
-          quality={100}
-        />
-      </div>
+    <div
+      className='w-full h-full relative flex justify-center flex-col min-h-[680px]'
+      style={{
+        background: `url('/images/mines_images/mines_bg.webp') center center no-repeat`,
+        backgroundSize: 'cover'
+      }}
+    >
+      {/* {preloading && <Preload />} */}
       <TotalCoeff
         fullLost={fullLost}
         fullWon={fullWon}

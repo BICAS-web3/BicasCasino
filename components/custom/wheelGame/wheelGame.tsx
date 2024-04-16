@@ -2,7 +2,8 @@
 
 import { useSocket } from '@/components/providers/socket.provider'
 // import Preload from '@/components/preload'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
+
 import { cn } from '@/lib/utils'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'

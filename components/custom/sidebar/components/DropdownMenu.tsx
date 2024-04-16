@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
+import { useMediaQuery } from 'usehooks-ts'
 
 type Props = {
   data: any
@@ -19,6 +20,7 @@ type Props = {
 
 const Menu = ({ data, open }: Props) => {
   const params = usePathname()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

@@ -1,4 +1,5 @@
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
+
 import { GameModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { FC, useEffect, useState } from 'react'

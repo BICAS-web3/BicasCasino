@@ -40,7 +40,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const uuidRef = useRef<string | null>(null)
 
-  const socketValue = useMemo(() => socket, [socket])
+  // const socketValue = useMemo(() => socket, [socket])
 
   useEffect(() => {
     const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
@@ -103,8 +103,6 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   }, [socket, uuidRef])
 
   return (
-    <SocketContext.Provider value={socketValue}>
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   )
 }

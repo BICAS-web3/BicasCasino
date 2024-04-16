@@ -9,7 +9,7 @@ import tableBg from '@/public/images/games_assets/plinko/plinkoBgImage3.webp'
 import helmet from '@/public/images/plinko_images/helmet.webp'
 import statue from '@/public/images/plinko_images/statue.webp'
 
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
 
 import PlinkoPyramid from './plinko.pyramid'
 import { useSocket } from '@/components/providers/socket.provider'

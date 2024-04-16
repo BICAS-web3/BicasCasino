@@ -153,7 +153,7 @@ export function handleResult({
   }
 }
 
-export const pickTile = ({
+export const pickTileforMine = ({
   index,
   pickedTiles,
   totalOpenedTiles,

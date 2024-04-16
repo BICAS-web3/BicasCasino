@@ -7,9 +7,9 @@ export enum Tile {
 }
 
 export const initialGameField: Tile[] = [
-  Tile.Closed,
-  Tile.Closed,
-  Tile.Closed,
+  Tile.Selected,
+  Tile.SelectedShaking,
+  Tile.Bomb,
   Tile.Closed,
   Tile.Closed,
   Tile.Closed,

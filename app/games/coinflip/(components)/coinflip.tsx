@@ -1,32 +1,23 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
-import { useUnit } from 'effector-react'
 import { Environment, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import Image from 'next/image'
+import { useUnit } from 'effector-react'
+import { useEffect, useState } from 'react'
 import { useSocket } from '@/components/providers/socket.provider'
 import Model from '../(models)/coin'
-import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
-import Preload from '@/components/custom/preload'
-import TotalCoeff from '@/components/custom/totalCoeff'
 import Coefficient from '@/components/custom/coefficient'
+import TotalCoeff from '@/components/custom/totalCoeff'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
+import { CoinAction } from '@/types/games.types'
 import { processBetResult } from '../(utils)'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { sendSocketData } from '@/lib/utils/game.send'
 
-enum CoinAction {
-  Rotation = 'Rotation',
-  HeadsHeads = 'HeadsHeads',
-  HeadsTails = 'HeadsTails',
-  TailsHeads = 'TailsHeads',
-  TailsTails = 'TailsTails',
-  Stop = ''
-}
-
 const CoinFlipGame = () => {
   const socket = useSocket()
+
   const [
     lost,
     profit,
@@ -142,11 +133,18 @@ const CoinFlipGame = () => {
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
 
-  useEffect(() => {
-    if (!modelLoading && !imageLoading) {
-      setIsLoading?.(modelLoading)
-    }
-  }, [modelLoading, imageLoading])
+  // useEffect(() => {
+  //   if (!modelLoading && !imageLoading) {
+  //     setIsLoading?.(modelLoading)
+  //   }
+  // }, [modelLoading, imageLoading])
+
+  useEffect(() => setInGame(isPlaying), [isPlaying])
+
+  const subscribe = {
+    type: 'SubscribeBets',
+    payload: [gamesList.find(item => item.name === 'CoinFlip')?.id]
+  }
 
   useEffect(() => {
     setBetData({
@@ -173,17 +171,14 @@ const CoinFlipGame = () => {
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
   return (
-    <div className='relative w-full h-full min-h-[680px]'>
-      {isLoading && <Preload />}
-      <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 overflow-hidden z-[-1]'>
-        <Image
-          onLoad={() => setIMageLoading(false)}
-          src='/images/coinflip_images/coinflipTableBg.webp'
-          className='w-full object-cover h-full'
-          fill
-          alt='table-bg'
-        />
-      </div>
+    <div
+      className='relative w-full h-full min-h-[680px]'
+      style={{
+        background: `url('/images/coinflip_images/coinflipTableBg.webp') center center no-repeat`,
+        backgroundSize: 'cover'
+      }}
+    >
+      {/* <WagerLowerBtnsBlock game='coinflip' text={gameText} /> */}
       <TotalCoeff
         fullLost={fullLost}
         fullWon={fullWon}
@@ -200,23 +195,20 @@ const CoinFlipGame = () => {
               }}
               style={{ pointerEvents: 'none' }}
             >
-              <Suspense fallback={<></>}>
-                <Stage adjustCamera={false} environment='dawn'>
-                  <Environment path='/kira/' files='kiara_1_dawn_1k.hdr' />
-                </Stage>
-                <ambientLight intensity={1} />
-                <Model
-                  setIsLoading={setModelLoading}
-                  action={
-                    inGame
-                      ? CoinAction.Rotation
-                      : pickedSide == GameModel.Side.Heads
-                      ? CoinAction.TailsHeads
-                      : CoinAction.TailsHeads
-                  }
-                  initial={pickedSide}
-                />
-              </Suspense>
+              <Stage adjustCamera={false} environment='dawn'>
+                <Environment path='/kira/' files='kiara_1_dawn_1k.hdr' />
+              </Stage>
+              <ambientLight intensity={1} />
+              <Model
+                action={
+                  inGame
+                    ? CoinAction.Rotation
+                    : pickedSide == GameModel.Side.Heads
+                    ? CoinAction.TailsHeads
+                    : CoinAction.TailsHeads
+                }
+                initial={pickedSide}
+              />
             </Canvas>
           </div>
         </div>

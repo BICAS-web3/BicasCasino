@@ -8,7 +8,7 @@ import { SwiperSlide } from 'swiper/react'
 import { Button } from '@/components/ui/button'
 
 import { Skeleton } from '@/components/ui/skeleton'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
@@ -70,7 +70,7 @@ const GameBanners = ({ className }: { className?: string }) => {
       <Carousel
         slides='auto'
         spacing={20}
-        containerClassName='w-full mb-2 h-[554px] sm:mb-5 gap-5'
+        containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[554px] sm:mb-5 gap-5'
         loop
         grid={{
           rows: isMobile ? 1 : 2
