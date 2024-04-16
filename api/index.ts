@@ -1,5 +1,6 @@
 import { UserType } from '@/states/user_model.store'
 import { createEffect, createEvent } from 'effector'
+import { JWT } from 'next-auth/jwt'
 
 export const BaseApiUrl = 'https:/rew.greekkeepers.io/api'
 export const BaseStaticUrl = 'https:/rew.greekkeepers.io/static'
@@ -217,6 +218,7 @@ export type T_ApiResponse = {
     | T_NFTMarket
     | T_LoginReponse
     | UserType
+    | JWT
 }
 
 export type T_InvoiceCreate = {

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { signIn } from 'next-auth/react'
+import { FacebookSVG, GoogleSVG, TwitterSVG } from '../icons'
 
 const SocialsLinks = () => {
   const onClick = (provider: 'google' | 'facebook' | 'twitter') => {
@@ -27,12 +28,7 @@ const SocialsLinks = () => {
                   cursor-pointer flex justify-center items-center px-[10px] h-[40px] transition-all
                   duration-300 hover:bg-border-black'
         >
-          <Image
-            width={25}
-            height={25}
-            src='/images/registration/googleIco.svg'
-            alt='gg'
-          />
+          <GoogleSVG />
         </button>
         <button
           onClick={() => onClick('facebook')}
@@ -40,13 +36,7 @@ const SocialsLinks = () => {
                   cursor-pointer flex justify-center items-center px-[10px] h-[40px] transition-all
                   duration-300 hover:bg-border-black'
         >
-          <Image
-            className='w-[25px] h-[25px]'
-            src='/images/registration/fbIco.svg'
-            alt='fb'
-            width={25}
-            height={25}
-          />
+          <FacebookSVG />
         </button>
         <button
           onClick={() => onClick('twitter')}
@@ -54,13 +44,7 @@ const SocialsLinks = () => {
                   cursor-pointer flex justify-center items-center px-[10px] h-[40px] transition-all
                   duration-300 hover:bg-border-black'
         >
-          <Image
-            className='w-[25px] h-[25px]'
-            src='/images/registration/twitterIco.svg'
-            alt='tw'
-            width={25}
-            height={25}
-          />
+          <TwitterSVG />
         </button>
       </div>
     </div>

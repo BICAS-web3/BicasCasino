@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUnit } from 'effector-react'
 
 import { Separator } from '@/components/ui/separator'
@@ -11,11 +11,11 @@ import User from './components/user'
 
 import { GameModel, RegistrModel, UserModel } from '@/states'
 import * as api from '@/api'
-import { useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { UserType } from '@/states/user_model.store'
 
 const Header = () => {
-  const { data } = useSession()
+  const session = useSession()
   const [
     access_token,
     setUserInfo,
@@ -41,13 +41,14 @@ const Header = () => {
   ])
 
   useEffect(() => {
-    const userData = (data as any)?.token?.user
+    console.log(111, session.data)
+    const userData = (session.data as any)?.token?.user
     if (userData?.access_token && userData?.refresh_token) {
       setAccessToken(userData.access_token)
       setRefreshToken(userData.refresh_token)
-      console.log(111, data)
+      console.log(111, session.data)
     }
-  }, [data])
+  }, [session.data])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
@@ -162,6 +163,12 @@ const Header = () => {
 
     return () => clearInterval(intervalId)
   }, [refresh_token])
+
+  useEffect(() => {
+    if ((session as any)?.error === 'RefreshAccessTokenError') {
+      signIn() // Force sign in to hopefully resolve error
+    }
+  }, [session])
 
   return (
     <header className='flex justify-between items-center px-3 sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-black'>

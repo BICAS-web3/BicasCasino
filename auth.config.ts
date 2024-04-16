@@ -6,12 +6,14 @@ import TwitterProvider from 'next-auth/providers/twitter'
 import * as api from '@/api'
 import type { NextAuthConfig } from 'next-auth'
 import { registrSchema } from './schemas'
+import { JWT } from 'next-auth/jwt'
 
 export default {
   providers: [
     Google({
       clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET
+      clientSecret: process.env.GOOGLE_SECRET,
+      redirectProxyUrl: ''
     }),
     FacebookProvider,
     TwitterProvider({
@@ -21,11 +23,9 @@ export default {
     Credentials({
       name: 'Credentials',
       credentials: {
-        access_token: {},
-        name: {},
-        email: {}
+        username: {},
+        password: {}
       },
-
       async authorize(credentials) {
         const validateFields = registrSchema.safeParse(credentials)
         if (validateFields.success) {
@@ -67,11 +67,14 @@ export default {
       ) {
         try {
           const response = await api.refreshToken({
-            // request to update token
             refresh_token: token.refresh_token,
             bareer: token.access_token
           })
-          return { ...token, ...user } // return token and user data for session
+          if (response.status === 'OK') {
+            return { ...(response.body as JWT), ...user }
+          } else {
+            return { ...token, ...user } // return token and user data for session
+          }
         } catch (err) {
           session.error = 'RefreshAccessTokenError'
           return { ...token, ...user } // return token and user data for session
