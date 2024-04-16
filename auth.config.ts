@@ -12,8 +12,17 @@ export default {
   providers: [
     Google({
       clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      redirectProxyUrl: ''
+      // clientSecret: process.env.GOOGLE_SECRET,
+      // redirectProxyUrl: 'https://rew.greekkeepers.io/api/user/login_google',
+      authorization: {
+        params: {
+          // access_type: 'offline',
+          response_type: 'code',
+          prompt: 'consent',
+          redirect_uri: 'https://rew.greekkeepers.io/api/user/login/google',
+          scope: 'openid profile email'
+        }
+      }
     }),
     FacebookProvider,
     TwitterProvider({
