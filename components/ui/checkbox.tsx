@@ -7,6 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from 'lib/utils'
 import Image from 'next/image'
+import { CheckIcon } from 'lucide-react'
 
 const unputVariants = cva('', {
     variants: {
@@ -41,13 +42,7 @@ const Checkbox = React.forwardRef<
         <CheckboxPrimitive.Indicator
             className={cn('flex items-center justify-center text-current')}
         >
-            <Image
-                width={12}
-                height={9}
-                src='/images/registration/arr.svg'
-                className={`transition-all duration-300`}
-                alt='arr-ico'
-            />
+            <CheckIcon className='w-2.5 h-2.5 aspect-square object-contain text-white' />
         </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
 ))
