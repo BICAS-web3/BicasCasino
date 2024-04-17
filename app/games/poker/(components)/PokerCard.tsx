@@ -1,10 +1,8 @@
-import { FC, RefObject, useEffect, useRef, useState } from 'react'
-import Image, { StaticImageData } from 'next/image'
-import backCard from '@/public/images/poker_images/backCard.svg'
-import useSound from 'use-sound'
 import * as api from '@/api'
+import Image, { StaticImageData } from 'next/image'
+import { FC, RefObject, useEffect, useRef, useState } from 'react'
+import useSound from 'use-sound'
 // import * as GameModel from '@/widgets/GamePage/model'
-import { useUnit } from 'effector-react'
 interface itemProps {
   img: StaticImageData
 }
@@ -84,18 +82,13 @@ export const PokerCard: FC<PokerCardProps> = props => {
               alt='card-image'
               width={200}
               height={278}
-              className='
-                h-auto w-full select-none
-              '
+              className='h-auto w-full select-none'
               onDragStart={() => false}
             />
           </div>
           <div
-            className={`
-                        flex items-center justify-center transition-all duration-1000
-                        absolute w-full left-0 top-0 h-full
-                        
-                      `}
+            className={`flex items-center justify-center transition-all duration-1000
+                        absolute w-full left-0 top-0 h-full`}
             style={{
               backfaceVisibility: 'hidden',
               transform: cardFlipped ? 'rotateY(0)' : 'rotateY(180deg)'

@@ -4,16 +4,16 @@ import { Environment, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-
 import { useSocket } from '@/components/providers/socket.provider'
-
 import Model from '../(models)/coin'
-
 import Coefficient from '@/components/custom/coefficient'
 import TotalCoeff from '@/components/custom/totalCoeff'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { CoinAction } from '@/types/games.types'
 import { processBetResult } from '../(utils)'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { sendSocketData } from '@/lib/utils/game.send'
 
 const CoinFlipGame = () => {
   const socket = useSocket()
@@ -39,7 +39,9 @@ const CoinFlipGame = () => {
     isDrax,
     userInfo,
     gamesList,
-    socketReset
+    socketReset,
+    isPlaying,
+    access_token
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -61,22 +63,30 @@ const CoinFlipGame = () => {
     UserModel.$isDrax,
     UserModel.$userInfo,
     GameModel.$gamesList,
-    UserModel.$socketReset
+    UserModel.$socketReset,
+    GameModel.$isPlaying,
+    RegistrModel.$access_token
   ])
+  const [modelLoading, setModelLoading] = useState(true)
+  const [imageLoading, setIMageLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
+  const [inGame, setInGame] = useState(false)
+  const [subscribed, setCubscribed] = useState(false)
+  const [fullWon, setFullWon] = useState(0)
+  const [fullLost, setFullLost] = useState(0)
+  const [totalValue, setTotalValue] = useState(0.1)
+  const [taken, setTaken] = useState(false)
+  const [betData, setBetData] = useState({})
+
   useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList.length > 0
-    ) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'CoinFlip')?.id]
-        })
-      )
-    }
+    useSubscibeBets({
+      name: 'CoinFlip',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
@@ -93,15 +103,10 @@ const CoinFlipGame = () => {
       setResult
     )
   }, [result?.timestamp, result, gameStatus])
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
-
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
 
   useEffect(() => {
     setCoefficient(1.98)
   }, [])
-
-  const [inGame, setInGame] = useState<boolean>(false)
 
   useEffect(() => {
     setActivePicker(true)
@@ -113,33 +118,17 @@ const CoinFlipGame = () => {
     }
   }, [gameStatus])
 
-  const [taken, setTaken] = useState(false)
-  const [localAmount, setLocalAmount] = useState(0)
-  const [localCryptoValue, setLocalCryptoValue] = useState(0)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true)
-      setLocalAmount(betsAmount)
-      setLocalCryptoValue(cryptoValue)
     }
   }, [betsAmount, cryptoValue, isPlaying])
 
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
-  const [gameResult, setGameResult] = useState<
-    { value: number; status: 'won' | 'lost' }[]
-  >([])
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon(prev => prev + profit)
-      setGameResult(prev => [
-        ...prev,
-        { value: localCryptoValue * localAmount, status: 'won' }
-      ])
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost(prev => prev + lost)
-      setGameResult(prev => [...prev, { value: 0.0, status: 'lost' }])
     }
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
@@ -151,14 +140,11 @@ const CoinFlipGame = () => {
   // }, [modelLoading, imageLoading])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
-  const [access_token] = useUnit([RegistrModel.$access_token])
 
   const subscribe = {
     type: 'SubscribeBets',
     payload: [gamesList.find(item => item.name === 'CoinFlip')?.id]
   }
-
-  const [betData, setBetData] = useState({})
 
   useEffect(() => {
     setBetData({
@@ -175,28 +161,15 @@ const CoinFlipGame = () => {
     })
   }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount])
 
-  const [subscribed, setCubscribed] = useState(false)
+  useEffect(
+    () => sendSocketData({ access_token, betData, isPlaying, socket }),
+    [socket, isPlaying, access_token]
+  )
   useEffect(() => {
-    if (
-      socket &&
-      isPlaying &&
-      access_token &&
-      socket.readyState === WebSocket.OPEN
-    ) {
-      if (!subscribed) {
-        socket.send(JSON.stringify(subscribe))
-        setCubscribed(true)
-      }
-      socket.send(JSON.stringify(betData))
-    }
-  }, [socket, isPlaying, access_token])
-
-  useEffect(() => {
-    return () => {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeBets', payload: [1] }))
-    }
+    return () => useUnSubscribe({ gamesList, socket, name: 'CoinFlip' })
   }, [])
 
+  useEffect(() => setInGame(isPlaying), [isPlaying])
   return (
     <div
       className='relative w-full h-full min-h-[680px]'

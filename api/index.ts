@@ -1,11 +1,13 @@
+import { UserType } from '@/states/user_model.store'
 import { createEffect, createEvent } from 'effector'
+import { JWT } from 'next-auth/jwt'
 
 export const BaseApiUrl = 'https:/rew.greekkeepers.io/api'
 export const BaseStaticUrl = 'https:/rew.greekkeepers.io/static'
 
 export type T_ErrorText = {
   error: string
-  prices: any
+  prices: unknown
 }
 
 export type T_InfoText = {
@@ -29,7 +31,7 @@ export type T_NetworkFullInfo = {
 
 export type T_Networks = {
   networks: Array<T_NetworkFullInfo>
-  prices: any
+  prices: unknown
 }
 
 export type T_Localization = {}
@@ -42,11 +44,11 @@ export type T_RpcUrl = {
 
 export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>
-  prices: any
+  prices: unknown
 }
 
 export type T_NFTMarket = {
-  prices: any
+  prices: unknown
   nfts: Array<T_NFT_MarketResponse>
 }
 
@@ -62,12 +64,12 @@ export type T_BlockExplorerUrl = {
 
 export type T_BlockExplorers = {
   explorers: Array<T_BlockExplorerUrl>
-  prices: any
+  prices: unknown
 }
 
 export type T_Token = {
   id: number
-  prices: any
+  prices: unknown
   network_id: number
   name: string
   icon: string
@@ -76,12 +78,12 @@ export type T_Token = {
 
 export type T_Tokens = {
   tokens: Array<T_Token>
-  prices: any
+  prices: unknown
 }
 
 export type T_Game = {
   id: number
-  prices: any
+  prices: unknown
   network_id: number
   name: string
   address: string
@@ -90,7 +92,7 @@ export type T_Game = {
 
 export type T_Nickname = {
   id: number
-  prices: any
+  prices: unknown
   address: string
   nickname: string
 }
@@ -107,7 +109,7 @@ export type T_OneTimeToken = {
 
 export type T_Player = {
   id: number
-  prices: any
+  prices: unknown
   address: string
   wagered: number
   bets: number
@@ -169,20 +171,20 @@ export type T_BetInfo = {
 
 export type T_Bets = {
   bets: T_BetInfo[]
-  prices: any
+  prices: unknown
 }
 
 export type T_GameAbi = {
   signature: string
   types: string
-  prices: any
+  prices: unknown
   names: string
 }
 
 export type T_Totals = {
   bets_amount: number
   player_amount: number
-  prices: any
+  prices: unknown
   sum: number
 }
 
@@ -215,6 +217,8 @@ export type T_ApiResponse = {
     | T_TokenPrice
     | T_NFTMarket
     | T_LoginReponse
+    | UserType
+    | JWT
 }
 
 export type T_InvoiceCreate = {
@@ -233,7 +237,7 @@ export type T_LoginReponse = {
   expires_in: number
   refresh_token: string
   token_type: string
-  prices: any
+  prices: unknown
 }
 
 export type T_GetUsername = {
@@ -253,11 +257,11 @@ export type T_SetUsername = {
 
 export type T_LatestGames = {
   games: string[]
-  prices: any
+  prices: unknown
 }
 
 export type T_PlayerTotals = {
-  prices: any
+  prices: unknown
   bets_amount: number
   total_wagered_sum: number | null
   won_bets: number | null
@@ -269,11 +273,11 @@ export type T_PlayerTotals = {
 
 export type T_TokenPrice = {
   token_price: number
-  prices: any
+  prices: unknown
 }
 
 export type T_OpenseaData = {
-  listings: any[]
+  listings: unknown[]
   next: string
 }
 
@@ -396,7 +400,7 @@ export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
 
 //?-----------------
 
-export const getDataFromOpensea = createEffect<string, any, string>(
+export const getDataFromOpensea = createEffect<string, unknown, string>(
   async next => {
     return fetch(
       `https://api.opensea.io/api/v2/listings/collection/greekkeepers/all`,

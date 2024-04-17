@@ -95,28 +95,11 @@ const SignUp: FC<SignupProps> = () => {
         .catch(e => e)
 
       if (data.status === 'OK') {
-        const userData = await fetch(`${BaseApiUrl}/user/login`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            login: username,
-            password
-          })
+        setAuth(true)
+        await signIn('credentials', {
+          username: values.username,
+          password: values.password
         })
-          .then(async res => await res.json())
-          .catch(e => e)
-        if (userData.status === 'OK') {
-          setAccessToken((userData.body as any).access_token)
-          setRefreshToken((userData.body as any).refresh_token)
-          setAuth(true)
-          await signIn('credentials', {
-            username: values.username,
-            password: values.password
-          })
-        }
       } else {
         setErrorData(true)
       }

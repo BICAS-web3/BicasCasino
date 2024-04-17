@@ -23,7 +23,6 @@ const Model = ({ action, initial }: ModelProps) => {
   } else if (initial == GameModel.Side.Tails) {
     scene.rotation.y = 1.58
   }
-  // scene.rotation.x = 3;
   scene.scale.set(1, 1, 1)
 
   useEffect(() => {

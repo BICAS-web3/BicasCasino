@@ -10,37 +10,14 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import { Tile, initialGameField, initialPickedTiles, maxReveal } from '../data'
-import { handleResult } from '../utils'
+import { handleResult, pickTileforMine } from '../utils'
 import SelectedMine from './selected.mine'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useGetState } from '@/lib/utils/useGetState'
 
 const MinesGame = () => {
   const socket = useSocket()
-
-  const [pickedValue, pickMines, musicType] = useUnit([
-    WagerModel.$pickedRows,
-    WagerModel.pickRows,
-    GameModel.$playSounds
-  ])
-
-  const [gameField, setGameField] = useState<Tile[]>(initialGameField)
-  const [pickedTiles, setPickedTiles] = useState<boolean[]>([
-    ...initialPickedTiles
-  ])
-  const [totalOpenedTiles, setTotalOpenedTiles] = useState<number>(0)
-
-  const [playTileClick] = useSound(
-    `/static/media/games_assets/mines/mineClick.mp3`,
-    {
-      playbackRate: (totalOpenedTiles + 1) / 25 + 0.5,
-      volume: 1
-    }
-  )
-  const [inGame, setInGame] = useState<boolean>(false)
-
-  const [redrawTrigger, triggerRedraw] = useState<boolean>(true)
-
-  const [setIsPlaying] = useUnit([GameModel.setIsPlaying])
-
   const [
     betsAmount,
     lost,
@@ -52,7 +29,6 @@ const MinesGame = () => {
     setLostStatus,
     stopWinning,
     setStopWinning,
-    setCoefficient,
     waitingResponse,
     setWaitingResponse,
     isDrax,
@@ -66,7 +42,12 @@ const MinesGame = () => {
     setCryptoValue,
     socketReset,
     keep,
-    setKeep
+    setKeep,
+    setIsPlaying,
+    musicType,
+    pickedValue,
+    access_token,
+    isPlaying
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$lost,
@@ -78,7 +59,6 @@ const MinesGame = () => {
     GameModel.setLostStatus,
     GameModel.$stopWinning,
     GameModel.setStopWinning,
-    GameModel.setCoefficient,
     GameModel.$waitingResponse,
     GameModel.setWaitingResponse,
     UserModel.$isDrax,
@@ -92,23 +72,45 @@ const MinesGame = () => {
     WagerModel.setCryptoValue,
     UserModel.$socketReset,
     GameModel.$keep,
-    GameModel.setKeep
+    GameModel.setKeep,
+    GameModel.setIsPlaying,
+    GameModel.$playSounds,
+    WagerModel.$pickedRows,
+    RegistrModel.$access_token,
+    GameModel.$isPlaying
   ])
 
-  useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList.length > 0
-    ) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Mines')?.id]
-        })
-      )
+  const [preloading, setPreloading] = useState(true)
+  const [isCashout, setIsCashout] = useState(true)
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
+  const [fullWon, setFullWon] = useState(0)
+  const [fullLost, setFullLost] = useState(0)
+  const [totalValue, setTotalValue] = useState(0.1)
+  const [taken, setTaken] = useState(false)
+  const [betData, setBetData] = useState({})
+  const [subscribed, setCubscribed] = useState(false)
+  const [copySelectedArr, setCopySelectedArr] = useState<number[]>([])
+  const [gameField, setGameField] = useState<Tile[]>(initialGameField)
+  const [pickedTiles, setPickedTiles] = useState([...initialPickedTiles])
+  const [totalOpenedTiles, setTotalOpenedTiles] = useState(0)
+  const [inGame, setInGame] = useState<boolean>(false)
+  const [redrawTrigger, triggerRedraw] = useState<boolean>(true)
+
+  const [playTileClick] = useSound(
+    `/static/media/games_assets/mines/mineClick.mp3`,
+    {
+      playbackRate: (totalOpenedTiles + 1) / 25 + 0.5,
+      volume: 1
     }
+  )
+  useEffect(() => {
+    useSubscibeBets({
+      name: 'Mines',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
@@ -124,7 +126,6 @@ const MinesGame = () => {
       setCoefficientData,
       setCryptoValue,
       setGameField,
-      setGameFields,
       setPickedTiles,
       setStopWinning,
       setTotalOpenedTiles,
@@ -178,8 +179,6 @@ const MinesGame = () => {
     return openedTiles
   }
 
-  const [isCashout, setIsCashout] = useState(true)
-
   useEffect(() => {
     if (stopWinning === 'NO') {
       setIsCashout(false)
@@ -187,13 +186,6 @@ const MinesGame = () => {
       setIsCashout(true)
     }
   }, [stopWinning])
-
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
-
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
@@ -204,8 +196,6 @@ const MinesGame = () => {
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
 
-  const [copySelectedArr, setCopySelectedArr] = useState<number[]>([])
-
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
       setIsCashout(true)
@@ -214,8 +204,6 @@ const MinesGame = () => {
   }, [gameStatus])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
-  const [access_token] = useUnit([RegistrModel.$access_token])
-  const [taken, setTaken] = useState(false)
 
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
@@ -231,8 +219,6 @@ const MinesGame = () => {
     }
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
-
-  const [betData, setBetData] = useState({})
 
   useEffect(() => {
     if (keep) {
@@ -283,7 +269,6 @@ const MinesGame = () => {
     }
   }, [keep, stopWinning, isDrax, betsAmount, totalOpenedTiles, pickedTiles])
 
-  const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
     if (
       socket &&
@@ -312,35 +297,32 @@ const MinesGame = () => {
   }, [socket, isPlaying, access_token, gamesList, subscribed])
 
   useEffect(() => {
-    if (
-      access_token &&
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList?.length > 0 &&
-      socketLogged
-    ) {
-      socket.send(
-        JSON.stringify({
-          type: 'GetState',
-          game_id: gamesList.find(item => item.name === 'Mines')?.id,
-          coin_id: isDrax ? 2 : 1
-        })
-      )
-    }
+    useGetState({
+      access_token,
+      gamesList,
+      isDrax,
+      socket,
+      socketLogged,
+      title: 'Mines'
+    })
   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
 
   useEffect(() => {
-    return () => {
-      socket?.send(
-        JSON.stringify({
-          type: 'UnsubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Mines')?.id]
-        })
-      )
-    }
+    return () => useUnSubscribe({ gamesList, socket, name: 'Mines' })
   }, [])
 
-  const pickTiles = (index: number) => pickTile(index)
+  const pickTiles = (index: number) =>
+    pickTileforMine({
+      index,
+      gameField,
+      musicType,
+      pickedTiles,
+      pickedValue,
+      playTileClick,
+      setTotalOpenedTiles,
+      totalOpenedTiles,
+      triggerRedraw
+    })
 
   return (
     <div

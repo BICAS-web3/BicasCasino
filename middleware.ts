@@ -6,6 +6,8 @@ const { auth } = NextAuth(authConfig)
 
 export default auth(req => {
   const { nextUrl } = req
+  const url = 'http://localhost:3000'
+  console.log(nextUrl.origin)
   const isLoggin = !!req.auth
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
@@ -20,7 +22,7 @@ export default auth(req => {
     }
     return
   }
-  if (isPublicRoute && !isLoggin) {
+  if (!isLoggin && !isAuthName) {
     return Response.redirect(new URL('/auth/registration', nextUrl))
   }
   return

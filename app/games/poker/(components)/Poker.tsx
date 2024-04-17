@@ -23,24 +23,16 @@ import { evaluatePokerHand, generateBetData } from '../(utils)'
 import { PokerCard } from './PokerCard'
 import { PokerCombination } from './PokerCombination'
 import { initialArrayOfCards } from './data'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useGetState } from '@/lib/utils/useGetState'
 // чирва 2,пика 3,буба 1,креста 0
-
-interface ICards {
-  suit: number
-  number: number
-}
 
 export interface PokerProps {
   gameText: string
 }
 
 export const Poker = ({}: PokerProps) => {
-  const socket = useSocket()
-  const isMobile = useMediaQuery('(max-width: 650px)')
-  const [imageLoading_1, setImageLoading_1] = useState(true)
-  const [imageLoading_2, setImageLoading_2] = useState(true)
-  const [preloading, setPreloading] = useState(true)
-  const [update, setUpdate] = useState(false)
   const [
     betsAmount,
     lost,
@@ -62,7 +54,10 @@ export const Poker = ({}: PokerProps) => {
     userInfo,
     stopGain,
     stopLoss,
-    finishPoker
+    finishPoker,
+    multiplier,
+    token,
+    access_token
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$lost,
@@ -84,19 +79,50 @@ export const Poker = ({}: PokerProps) => {
     UserModel.$userInfo,
     WagerModel.$stopGain,
     WagerModel.$stopLoss,
-    GameModel.$finishPoker
+    GameModel.$finishPoker,
+    GameModel.$multiplier,
+    GameModel.$token,
+    RegistrModel.$access_token
   ])
 
+  const [betData, setBetData] = useState({})
+  const [firstBet, setFirstBet] = useState(true)
+  const [keep, setKeep] = useState(false)
+  const [taken, setTaken] = useState(false)
+  const [fullWon, setFullWon] = useState(0)
+  const [fullLost, setFullLost] = useState(0)
+  const [totalValue, setTotalValue] = useState(0.1)
+  const socket = useSocket()
+  const isMobile = useMediaQuery('(max-width: 650px)')
+  const [imageLoading_1, setImageLoading_1] = useState(true)
+  const [imageLoading_2, setImageLoading_2] = useState(true)
+  const [preloading, setPreloading] = useState(true)
+  const [update, setUpdate] = useState(false)
+  const [subscribed, setCubscribed] = useState(false)
+  const [combinationName, setCombinationName] = useState('')
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
+  const [transactionHash, setTransactionHash] = useState<string>('')
+  const [inGame, setInGame] = useState<boolean>(false)
+  const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards)
+  const [cardsState, setCardsState] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false
+  ])
+  const [playDrawnCards] = useSound(
+    '/static/media/games_assets/poker/sounds/cardsEveryone.mp3'
+  )
+
   useEffect(() => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'Subscribe',
-          payload: [gamesList.find(item => item.name === 'Poker')?.id]
-        })
-      )
-    }
+    useSubscibeBets({
+      name: 'Poker',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length])
   useEffect(() => {
     handleResult({
@@ -117,22 +143,6 @@ export const Poker = ({}: PokerProps) => {
     setResult(null)
   }, [result])
 
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
-  const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards)
-  const [cardsState, setCardsState] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false
-  ])
-  const [playDrawnCards] = useSound(
-    '/static/media/games_assets/poker/sounds/cardsEveryone.mp3'
-  )
-
-  const [transactionHash, setTransactionHash] = useState<string>('')
-  const [inGame, setInGame] = useState<boolean>(false)
-
   useEffect(() => {
     setIsPlaying(inGame)
   }, [inGame])
@@ -143,41 +153,21 @@ export const Poker = ({}: PokerProps) => {
     playDrawnCards()
   }, [gameState])
 
-  const [combinationName, setCombinationName] = useState('')
-
   useEffect(() => {
     evaluatePokerHand(activeCards, setCombinationName)
   }, [activeCards, gameStatus])
 
-  const [multiplier, token] = useUnit([GameModel.$multiplier, GameModel.$token])
-
-  const [taken, setTaken] = useState(false)
-  const [localAmount, setLocalAmount] = useState(0)
-  const [localCryptoValue, setLocalCryptoValue] = useState(0)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true)
-      setLocalAmount(betsAmount)
-      setLocalCryptoValue(cryptoValue)
     }
   }, [betsAmount, cryptoValue, isPlaying])
 
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
-  const [gameResult, setGameResult] = useState<
-    { value: number; status: 'won' | 'lost' }[]
-  >([])
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon(prev => prev + profit)
-      setGameResult(prev => [
-        ...prev,
-        { value: localCryptoValue * localAmount, status: 'won' }
-      ])
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost(prev => prev + lost)
-      setGameResult(prev => [...prev, { value: 0.0, status: 'lost' }])
     }
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
@@ -189,10 +179,6 @@ export const Poker = ({}: PokerProps) => {
   }, [imageLoading_1, imageLoading_2])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
-  const [access_token] = useUnit([RegistrModel.$access_token])
-  const [betData, setBetData] = useState({})
-  const [firstBet, setFirstBet] = useState(true)
-  const [keep, setKeep] = useState(false)
 
   useEffect(() => {
     const getData = generateBetData(
@@ -226,45 +212,27 @@ export const Poker = ({}: PokerProps) => {
   ])
 
   useEffect(() => setFirstBet(true), [])
-  const [subscribed, setCubscribed] = useState(false)
   useEffect(() => {
     sendSocketData({
       socket,
       isPlaying,
       access_token,
-      subscribed,
-      gamesList,
-      betData,
-      setCubscribed,
-      title: 'Poker'
+      betData
     })
   }, [socket, isPlaying, access_token, gamesList, finishPoker])
   useEffect(() => {
-    if (
-      access_token &&
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList?.length > 0 &&
-      socketLogged
-    ) {
-      socket.send(
-        JSON.stringify({
-          type: 'GetState',
-          game_id: gamesList.find(item => item.name === 'Poker')?.id,
-          coin_id: isDrax ? 2 : 1
-        })
-      )
-    }
+    useGetState({
+      access_token,
+      gamesList,
+      isDrax,
+      socket,
+      socketLogged,
+      title: 'Poker'
+    })
   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
+
   useEffect(() => {
-    return () => {
-      socket?.send(
-        JSON.stringify({
-          type: 'UnsubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Poker')?.id]
-        })
-      )
-    }
+    return () => useUnSubscribe({ gamesList, socket, name: 'Poker' })
   }, [])
 
   const pokerPlay = (ind: number) => {

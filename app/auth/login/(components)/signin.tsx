@@ -71,14 +71,14 @@ const Signin: FC<SigninProps> = () => {
         password: values.password
       })
       if (data?.status === 'OK') {
-        setAccessToken((data.body as any).access_token)
-        setRefreshToken((data.body as any).refresh_token)
+        setAccessToken((data.body as Record<string, string>).access_token)
+        setRefreshToken((data.body as Record<string, string>).refresh_token)
         setAuth(true)
         await signIn('credentials', {
           username,
           password
         })
-      } else if ((data.body as any)?.status !== 'OK') {
+      } else if ((data.body as Record<string, string>)?.status !== 'OK') {
         setAuth(false)
         setErrorData(true)
       }
