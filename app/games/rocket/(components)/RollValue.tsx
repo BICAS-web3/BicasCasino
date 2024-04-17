@@ -16,11 +16,7 @@ const RollState = ({ rangeRef }: { rangeRef: RefObject<HTMLInputElement> }) => {
   return (
     <div className='w-full flex justify-center items-center sm:block sm:w-fit mx-auto mt-auto px-5 z-[3] relative mb-5 bg-[rgba(15,15,15,0.2)] p-[20px_0_0_0]'>
       <div className='mt-auto relative z-[1] flex items-center gap-[10px] mb-3 md:mb-[15px]'>
-        <span
-          className={
-            'absolute left-1/2 -translate-x-1/2 -top-5 text-[#eaeaea] text-center text-sm font-black uppercase'
-          }
-        >
+        <span className='absolute left-1/2 -translate-x-1/2 -top-5 text-[#eaeaea] text-center text-sm font-black uppercase'>
           {RollValue}
         </span>
         <span className='text-[#eaeaea] text-center text-sm font-black uppercase'>

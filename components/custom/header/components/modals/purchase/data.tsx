@@ -42,3 +42,43 @@ export const crypto_data = [
     icon: <UsdtSVG className='aspect-square object-contain' />
   }
 ]
+
+export const coins_list = [
+  {
+    title: 'BTC_BITCOIN',
+    icon: <BitcoinSVG className='aspect-square object-contain' />
+  },
+  {
+    title: 'ETH_ETHEREUM',
+    icon: <EthereumSVG className='aspect-square object-contain' />
+  },
+  {
+    title: 'USDT_ETHEREUM',
+    icon: <UsdtSVG className='aspect-square object-contain' />
+  },
+  {
+    title: 'USDC_TRON',
+    icon: <UsdtSVG className='aspect-square object-contain' />
+  },
+  {
+    title: 'TUSD_TRON',
+    icon: <UsdtSVG className='aspect-square object-contain' />
+  },
+  { title: 'DAI_ETHEREUM', icon: <DogeSVG /> }
+  // { title: 'TRX_TRON', icon: trxIco },
+  // { title: 'LTC_LITECOIN', icon: ltcIco },
+  // { title: 'BNB_BSC', icon: bnb },
+  // { title: 'BUSD_BSC', icon: busd },
+  // { title: 'TON_TON', icon: ton }
+]
+
+export const networks_list = [
+  {
+    title: 'ERC20',
+    id: 'ETHEREUM'
+  },
+  {
+    title: 'TRC20',
+    id: 'TRON'
+  }
+]

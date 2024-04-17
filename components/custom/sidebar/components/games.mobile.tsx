@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { ChevronRight } from 'lucide-react'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
 
@@ -11,7 +10,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
-import React from 'react'
 
 export interface Item {
   title: string
@@ -26,7 +24,8 @@ type Props = {
   }
   open: boolean
 }
-const Menu = ({ data, open }: Props) => {
+
+const GamesMobileMenu = ({ data, open }: Props) => {
   const params = usePathname()
 
   return (
@@ -40,22 +39,10 @@ const Menu = ({ data, open }: Props) => {
         )}
       >
         <span>{data.main.icon}</span>
-        <div className='flex items-center gap-4'>
-          <span
-            className={cn(
-              'leading-5 text-base font-bold tracking-wide truncate uppercase',
-              open ? 'text-base' : 'text-[9px]'
-            )}
-          >
-            {data.main.title}
-          </span>
-          {open ? <ChevronRight className='w-5 aspect-square' /> : null}
-        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        align='start'
-        side='right'
-        className='h-[calc(100vh_-_64px)] flex flex-col justify-between w-56 bg-[#121212] border-none rounded-none'
+        side='bottom'
+        className='h-[calc(100vh_-_56px)] w-full max-w-full flex flex-col justify-between bg-[#121212] border-none rounded-none'
       >
         <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
           {data.items.map((item, index) => (
@@ -101,4 +88,4 @@ const Menu = ({ data, open }: Props) => {
   )
 }
 
-export default Menu
+export default GamesMobileMenu

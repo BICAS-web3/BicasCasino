@@ -1,9 +1,18 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { BurgerMenuSVG, ChatSVG, GamesSVG, UserSVG } from './icons/mobile'
-import { LanguageToggle } from './LanguageToggle'
-import { ThemeToggle } from './ThemeToggle'
+import { PaymentModel } from '@/states'
+import { useUnit } from 'effector-react'
+import { useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
+import { SGames } from '../data'
+import GamesMobileMenu from './games.mobile'
+import {
+  BurgerMenuSVG,
+  ChatSVG,
+  GamesSVG,
+  UserSVG,
+  WalletSVG
+} from './icons/mobile'
 
 type Props = {
   open: boolean
@@ -11,7 +20,20 @@ type Props = {
 }
 
 const SidebarMobileSettings = ({ open, handleAction }: Props) => {
+  const [gamesOpen, setGamesOpen] = useState(false)
   const isMobile = useMediaQuery('(max-width:768px)')
+
+  const [setVisibility, visibility] = useUnit([
+    PaymentModel.setTotalVisibility,
+    PaymentModel.$totalVisibility
+  ])
+
+  const handlePaymentAction = () => {
+    setVisibility(!visibility)
+  }
+  const handleGamesOpen = () => {
+    setGamesOpen(!gamesOpen)
+  }
   return (
     <div
       className={cn(
@@ -22,8 +44,12 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
       <Button onClick={handleAction} variant='ghost' size='icon'>
         <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
       </Button>
-      <Button variant='ghost' size='icon'>
+      <Button variant='ghost' size='icon' onClick={handleGamesOpen}>
         <GamesSVG className='object-contain text-[#7E7E7E]' />
+        <GamesMobileMenu data={SGames} open={gamesOpen} />
+      </Button>
+      <Button variant='ghost' size='icon' onClick={handlePaymentAction}>
+        <WalletSVG />
       </Button>
       <Button onClick={handleAction} variant='ghost' size='icon'>
         <UserSVG className='object-contain text-[#7E7E7E]' />

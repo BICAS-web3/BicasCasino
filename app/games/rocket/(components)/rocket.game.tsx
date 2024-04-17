@@ -280,6 +280,7 @@ const RocketGame = () => {
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
   const imageError = () => setImageLoading_1(false)
+
   return (
     <section className='w-full h-full relative flex flex-col overflow-hidden min-h-[680px]'>
       {isLoading && <Preload />}
