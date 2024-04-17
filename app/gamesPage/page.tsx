@@ -1,15 +1,15 @@
 'use client'
-// import { GamesPageBlock } from '@/src/widgets/GamesPageBlock/GamesPageBlock'
-// import { PopularGamesBlock } from '@/src/widgets/PopularGamesBlock/PopularGamesBlock'
 import { FC } from 'react'
+import { PopularGamesBlock } from './components/PopularGamesBlock/PopularGamesBlock'
+import { GamesPageBlock } from './components/GamesPageBlock/GamesPageBlock'
 
 interface GamesPageProps {}
 
 const GamesPage: FC<GamesPageProps> = () => {
   return (
     <section className='flex flex-col items-center justify-center w-full h-full p-[20px]'>
-      {/* <PopularGamesBlock />
-      <GamesPageBlock /> */}
+      <PopularGamesBlock />
+      <GamesPageBlock />
     </section>
   )
 }

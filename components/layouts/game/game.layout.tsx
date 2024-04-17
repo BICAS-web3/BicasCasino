@@ -6,7 +6,7 @@ const GameLayout = ({ children }) => {
   const { status } = useSession()
   return (
     <div className='w-full h-full p-5 sm:p-10 flex flex-col min-h-[880px]'>
-      <div className='h-full'>
+      <div className='h-full relative'>
         {status === 'authenticated' ? children : <Preload />}
       </div>
       <GameMenu />

@@ -9,7 +9,7 @@ const Preview = ({ className }: { className?: string }) => {
     <article
       className={cn(
         'flex items-center flex-col lg:block w-full h-[440px]',
-        'relative pt-10 pb-[25px] overflow-hidden',
+        'relative pt-10 p-[10px] overflow-hidden',
         className
       )}
       style={{
