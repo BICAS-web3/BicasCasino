@@ -12,9 +12,18 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { toast } from 'sonner'
+
 
 const GamePlayBlock = () => {
+  // const { toast } = useToast()
+
   const [
+    error,
     setIsPlaying,
     cryptoValue,
     setError,
@@ -22,6 +31,7 @@ const GamePlayBlock = () => {
     isPlaying,
     finishPoker
   ] = useUnit([
+    WagerModel.$error,
     GameModel.setIsPlaying,
     WagerModel.$cryptoValue,
     WagerModel.setError,
@@ -32,6 +42,7 @@ const GamePlayBlock = () => {
 
   const handlePlay = () => {
     if (!cryptoValue) {
+      toast('Error, place your bet!')
       setError(true)
     } else {
       if (!isPlaying) {
@@ -41,6 +52,10 @@ const GamePlayBlock = () => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log('ERROR', error)
+  }, [error])
 
   return (
     <div className='flex gap-2 sm:gap-5 items-center justify-end -order-5 sm:order-none'>

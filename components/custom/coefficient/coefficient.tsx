@@ -20,7 +20,7 @@ const Coefficient: FC<ICoefficient> = props => {
             // .sort((a, b) => b.index - a.index)
             .map((ball, i) => (
               <div
-                className={`text-xs sm:text-sm xl:text-lg font-black rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex items-center justify-center ${
+                className={`text-xs sm:text-sm xl:text-lg shadow-[0px_0px_10px_0px_#FFFFFF4D] font-black rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex items-center justify-center ${
                   ball === 1
                     ? 'text-[#eaeaea]'
                     : ball > 1
