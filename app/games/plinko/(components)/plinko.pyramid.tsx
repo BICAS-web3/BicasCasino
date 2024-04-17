@@ -330,11 +330,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   }
 
   return (
-    <div
-      className={
-        'flex justify-center flex-col relative mb-5 sm:mb-10 lg:mb-20 items-center'
-      }
-    >
+    <div className='flex justify-center flex-col relative mb-5 sm:mb-10 lg:mb-20 items-center'>
       {generateRows()}
       {props.path && (
         <div className='absolute w-full h-full top-0 bottom-0'>{balls}</div>
