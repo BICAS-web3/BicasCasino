@@ -26,11 +26,8 @@ import { initialArrayOfCards } from './data'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
+import { PokerProps } from '@/types/games.types'
 // чирва 2,пика 3,буба 1,креста 0
-
-export interface PokerProps {
-  gameText: string
-}
 
 export const Poker = ({}: PokerProps) => {
   const [

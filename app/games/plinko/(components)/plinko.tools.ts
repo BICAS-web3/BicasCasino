@@ -1,9 +1,5 @@
-export interface IParabolaCoefs {
-  main: any[]
-  bigTablet: any[]
-  other: any[]
-  [key: string]: any
-}
+import { IParabolaCoefs } from '@/types/games.types'
+
 export const parabolaCoefs: IParabolaCoefs = {
   main: [
     81.8399972, 79.2742744, 77.3028316, 75.9256688, 75.142786, 74.9541832,
