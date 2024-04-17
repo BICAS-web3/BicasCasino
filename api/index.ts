@@ -198,6 +198,7 @@ export type T_GetUserAmount = {
 }
 
 export type T_ApiResponse = {
+  json(): any
   status: string
   body:
     | T_ErrorText

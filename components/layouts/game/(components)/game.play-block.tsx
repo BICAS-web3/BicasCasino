@@ -12,6 +12,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
+import { useEffect } from 'react'
 
 const GamePlayBlock = () => {
   const [

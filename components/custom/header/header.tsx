@@ -165,10 +165,7 @@ const Header = () => {
   }, [refresh_token])
 
   useEffect(() => {
-    if (
-      (session as any)?.error === 'RefreshAccessTokenError' ||
-      (session.data?.expires as any) * 1000 < Date.now()
-    ) {
+    if ((session as any)?.error === 'RefreshAccessTokenError') {
       signIn()
     }
   }, [session])
