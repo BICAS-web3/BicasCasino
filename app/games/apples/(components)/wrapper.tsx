@@ -19,10 +19,7 @@ import AppleTable from './appleTable'
 
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
-export interface IAppleData {
-  number: number
-  value: number
-}
+import { IAppleData } from '@/types/games.types'
 
 const AppleGame = () => {
   const socket = useSocket()

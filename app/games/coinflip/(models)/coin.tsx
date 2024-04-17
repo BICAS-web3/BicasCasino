@@ -1,15 +1,10 @@
 'use client'
 
 import { GameModel } from '@/states'
-import { CoinAction } from '@/types/games.types'
+import { CoinAction, ModelProps } from '@/types/games.types'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { useEffect } from 'react'
 import { AnimationAction } from 'three'
-
-interface ModelProps {
-  action: CoinAction
-  initial: GameModel.Side
-}
 
 const Model = ({ action, initial }: ModelProps) => {
   const { scene, animations } = useGLTF(

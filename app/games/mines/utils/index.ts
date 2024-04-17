@@ -1,12 +1,5 @@
-import { T_Card } from '@/api'
 import { GameModel } from '@/states'
-import {
-  GameStatus,
-  IResult,
-  Side,
-  WinningType,
-  WonStatus
-} from '@/states/game_model.store'
+import { IHandleResult } from '@/types/games.types'
 import { Dispatch, SetStateAction } from 'react'
 import { Tile, initialPickedTiles, maxReveal } from '../data'
 
@@ -38,25 +31,6 @@ export const setGameFields = ({
   }
 
   return openedTiles
-}
-
-interface IHandleResult {
-  result: IResult | null
-  setInGame: Dispatch<SetStateAction<boolean>>
-  setWaitingResponse: Dispatch<SetStateAction<boolean>>
-  setGameStatus: Dispatch<SetStateAction<GameStatus | null>>
-  setWonStatus: Dispatch<SetStateAction<WonStatus | null>>
-  setLostStatus: Dispatch<SetStateAction<number>>
-  setKeep: Dispatch<SetStateAction<boolean>>
-  setCoefficientData: Dispatch<SetStateAction<number[]>>
-  setCryptoValue: Dispatch<SetStateAction<number>>
-  setTotalOpenedTiles: Dispatch<SetStateAction<number>>
-  triggerRedraw: Dispatch<SetStateAction<boolean>> //----
-  setStopWinning: Dispatch<SetStateAction<WinningType>>
-  setGameField: Dispatch<SetStateAction<Tile[]>>
-  setPickedTiles: Dispatch<SetStateAction<boolean[]>>
-
-  gameField: Tile[]
 }
 
 export function handleResult({

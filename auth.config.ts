@@ -68,32 +68,28 @@ export default {
     signIn: '/auth/registration'
   },
   callbacks: {
-    async jwt({ token, user, session }) {
-      if (
-        token.refresh_token &&
-        token.access_token &&
-        (token.expires_at as any) * 1000 < Date.now()
-      ) {
+    async jwt({ token, user }) {
+      return { ...token, ...user }
+    },
+
+    async session({ session, token }: any) {
+      if (token.expires_at * 1000 < Date.now()) {
+        // If the access token has expired, try to refresh it
         try {
+          // https://accounts.google.com/.well-known/openid-configuration
+          // We need the `token_endpoint`.
           const response = await api.refreshToken({
             refresh_token: token.refresh_token,
             bareer: token.access_token
           })
-          if (response.status === 'OK') {
-            return { ...(response.body as JWT), ...user }
-          } else {
-            return { ...token, ...user } // return token and user data for session
-          }
-        } catch (err) {
-          session.error = 'RefreshAccessTokenError'
-          return { ...token, ...user } // return token and user data for session
-        }
-      } else {
-        return { ...token, ...user } // return token and user data for session
-      }
-    },
 
-    async session({ session, token }: any) {
+          if (response.status !== 'OK') throw response
+        } catch (error) {
+          console.error('Error refreshing access token', error)
+          // The error property will be used client-side to handle the refresh token error
+          session.error = 'RefreshAccessTokenError'
+        }
+      }
       session.token = token // in token user data from back
       return { ...session }
     }

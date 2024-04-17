@@ -16,16 +16,7 @@ import bg from '@/public/images/wheel_images/bg.webp'
 import './styles.scss'
 import Preload from '../preload'
 import TotalCoeff from '../totalCoeff'
-
-interface IWheelColors {
-  segment: '#100C1E' | '#1F1435'
-  border: string
-}
-
-interface IWheelCoef {
-  color: string
-  value: number
-}
+import { IWheelCoef, IWheelColors } from '@/types/games.types'
 
 const WheelGame = () => {
   const isDesktop = useMediaQuery('(max-width: 1280px)')

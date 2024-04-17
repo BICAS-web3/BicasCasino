@@ -2,12 +2,8 @@ import { cn } from '@/lib/utils'
 // import { MineBombSVG, MineGreenSVG, MineMoneySVG } from './icons'
 import Image from 'next/image'
 import { Tile } from '../data'
+import { ISelectedMine } from '@/types/games.types'
 
-interface ISelectedMine {
-  type: Tile
-  waitingResponse: boolean
-  index: number
-}
 const SelectedMine = ({ type, waitingResponse, index }: ISelectedMine) => {
   const handleIcon = () => {
     switch (type) {

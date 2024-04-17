@@ -2,12 +2,12 @@ import { DraxMiniSVG } from '@/components/custom/header/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stringRemoveSpacing } from '@/lib/string'
-import { GameModel, SettingModel, WagerModel } from '@/states'
+import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useRef, useState } from 'react'
 
 const bets = ['min', '/2', 'x2', 'max']
-const titles = ['Wager', 'Max: 0']
+const titles = ['Wager', 'Max: 50']
 
 const GameWager = () => {
   const [
@@ -21,7 +21,8 @@ const GameWager = () => {
     setIsEmtyWager,
     activeStep,
     setError,
-    error
+    error,
+    balance
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -33,8 +34,11 @@ const GameWager = () => {
     GameModel.setIsEmtyWager,
     GameModel.$activeStep,
     WagerModel.setError,
-    WagerModel.$error
+    WagerModel.$error,
+    UserModel.$balance
   ])
+
+  // useEffect(() => alert(balance), [balance])
 
   useEffect(() => {
     if (activeStep === 'Double' && Number(cryptoInputValue)) {
@@ -110,12 +114,10 @@ const GameWager = () => {
     setCryptoValue(num)
   }
   const handleBet = value => {
-    const minVal = 1
-    const maxVal = 100
-    if (value === 'Min') {
-      setCryptoInputValue(minVal.toString())
-    } else if (value === 'Max') {
-      setCryptoInputValue(maxVal.toString())
+    if (value === 'min') {
+      setCryptoInputValue('1')
+    } else if (value === 'max') {
+      setCryptoInputValue(balance.toString())
     } else if (cryptoInputValue.length && value === '/2') {
       setCryptoInputValue((Number(cryptoInputValue) / 2).toString())
     } else if (cryptoInputValue.length && value === 'x2') {

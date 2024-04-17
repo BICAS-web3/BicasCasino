@@ -11,16 +11,7 @@ import { genParabolaMovements, newMultipliers } from './plinko.tools'
 import { $pickedRows } from '@/states/game_model.store'
 import { GameModel } from '@/states'
 import RowItem from './row.item'
-
-interface IPlinkoPyramid {
-  path: boolean[][] | undefined
-  multipliers: number[]
-  setMultipliers: (el: number[]) => void
-  ballsArr: { value: number; index: number }[]
-  setBallsArr: any
-  middleC: number
-  inGame: boolean
-}
+import { IPlinkoPyramid, InterfaceMultipliersColor } from '@/types/games.types'
 
 const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   const isDesktop = useMediaQuery('(max-width: 1200px)')
@@ -265,11 +256,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
     }
 
     // Назначение цветов
-    interface InterfaceMultipliersColor {
-      r: number
-      g: number
-      b: number
-    }
+
     // rgba(205, 93, 33, 1) rgba(255, 170, 92, 1)
     const multipliersColorCenter: string = 'rgba(255, 170, 92, 1)' // вот цвета. Крайние и центральный. Надо, чтобы обязательно затемнялись. На высветвление надо другое делать
     const multipliersColorStart: InterfaceMultipliersColor = {

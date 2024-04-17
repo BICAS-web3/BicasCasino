@@ -2,7 +2,7 @@
 
 import { InfoSVG } from '@/components/custom/sidebar/components/icons/bottom'
 import { Button } from '@/components/ui/button'
-import { GameModel, WagerModel } from '@/states'
+import { GameModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 
 import {
@@ -12,26 +12,43 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { ToastAction } from '@/components/ui/toast'
+import { useToast } from '@/components/ui/use-toast'
+import { toast } from 'sonner'
 
 const GamePlayBlock = () => {
+  // const { toast } = useToast()
+
   const [
+    error,
     setIsPlaying,
     cryptoValue,
     setError,
     setFinishPoker,
     isPlaying,
-    finishPoker
+    finishPoker,
+    balance
   ] = useUnit([
+    WagerModel.$error,
     GameModel.setIsPlaying,
     WagerModel.$cryptoValue,
     WagerModel.setError,
     GameModel.setFinishPoker,
     GameModel.$isPlaying,
-    GameModel.$finishPoker
+    GameModel.$finishPoker,
+    UserModel.$balance
   ])
 
   const handlePlay = () => {
+    if (cryptoValue > balance) {
+      toast('Top up balance!')
+      setError(true)
+      return
+    }
     if (!cryptoValue) {
+      toast('Error, place your bet!')
       setError(true)
     } else {
       if (!isPlaying) {
@@ -41,6 +58,10 @@ const GamePlayBlock = () => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log('ERROR', error)
+  }, [error])
 
   return (
     <div className='flex gap-2 sm:gap-5 items-center justify-end -order-5 sm:order-none'>

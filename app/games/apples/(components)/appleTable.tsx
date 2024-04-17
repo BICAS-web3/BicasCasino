@@ -15,25 +15,7 @@ import {
 import { cn } from '@/lib/utils'
 
 import { GameModel } from '@/states'
-
-interface IAppleData {
-  number: number
-  value: number
-}
-
-interface appleItemData {
-  apples: any[]
-  cf: number
-}
-
-interface IAppleTable {
-  chunkedApplesArr: appleItemData[]
-  appleData: IAppleData[]
-  inGame: boolean
-  mines: boolean[][]
-  setAppleData: Dispatch<SetStateAction<IAppleData[]>>
-  setAppleItem: Dispatch<SetStateAction<number[]>>
-}
+import { IAppleData, IAppleTable, appleItemData } from '@/types/games.types'
 
 const AppleTable: FC<IAppleTable> = ({
   chunkedApplesArr,
