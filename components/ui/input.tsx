@@ -26,21 +26,38 @@ export interface InputProps
         VariantProps<typeof inputVariants> {
     asChild?: boolean
     href?: string
+    startAdornment?: React.ReactNode
+    endAdornment?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, variant, type, ...props }, ref) => {
+    (
+        { className, variant, type, startAdornment, endAdornment, ...props },
+        ref
+    ) => {
         return (
-            <input
-                type={type}
-                className={cn(
-                    'flex h-10 w-full rounded-md bg-background px-3 py-2 text-sm ring-offset-background file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none active:outline-none',
-                    inputVariants({ variant }),
-                    className
-                )}
-                ref={ref}
-                {...props}
-            />
+            <div className='flex justify-between w-full items-center flex-row flex-nowrap rounded-md bg-[#121212] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-1'>
+                {!!startAdornment ? (
+                    <div className='w-[42px] h-[42px] aspect-square flex items-center justify-center'>
+                        {startAdornment}
+                    </div>
+                ) : null}
+                <input
+                    type={type}
+                    className={cn(
+                        'flex h-10 flex-1 rounded-md bg-background px-3 py-2 text-sm ring-offset-background file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none active:outline-none',
+                        inputVariants({ variant }),
+                        className
+                    )}
+                    ref={ref}
+                    {...props}
+                />
+                {!!endAdornment ? (
+                    <div className='w-[42px] h-[42px] aspect-square flex items-center justify-center'>
+                        {endAdornment}
+                    </div>
+                ) : null}
+            </div>
         )
     }
 )
