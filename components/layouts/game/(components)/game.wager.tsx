@@ -7,7 +7,7 @@ import { useUnit } from 'effector-react'
 import { useEffect, useRef, useState } from 'react'
 
 const bets = ['min', '/2', 'x2', 'max']
-const titles = ['Wager', 'Max: 0']
+const titles = ['Wager', 'Max: 50']
 
 const GameWager = () => {
   const [
@@ -38,7 +38,7 @@ const GameWager = () => {
     UserModel.$balance
   ])
 
-  useEffect(() => alert(balance), [balance])
+  // useEffect(() => alert(balance), [balance])
 
   useEffect(() => {
     if (activeStep === 'Double' && Number(cryptoInputValue)) {
@@ -113,12 +113,10 @@ const GameWager = () => {
     setCryptoValue(num)
   }
   const handleBet = value => {
-    const minVal = 1
-    const maxVal = 100
-    if (value === 'Min') {
-      setCryptoInputValue(minVal.toString())
-    } else if (value === 'Max') {
-      setCryptoInputValue(maxVal.toString())
+    if (value === 'min') {
+      setCryptoInputValue('1')
+    } else if (value === 'max') {
+      setCryptoInputValue(balance.toString())
     } else if (cryptoInputValue.length && value === '/2') {
       setCryptoInputValue((Number(cryptoInputValue) / 2).toString())
     } else if (cryptoInputValue.length && value === 'x2') {
@@ -137,7 +135,7 @@ const GameWager = () => {
           </span>
         ))}
       </div>
-      <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636]'>
+      <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636] overflow-hidden'>
         <div
           className={`flex items-center gap-3.5 w-full max-w-full sm:max-w-36 pr-2.5 ${
             error ? 'border-[#ee6969]' : 'border-[#363636]'
