@@ -2,7 +2,7 @@ import { DraxMiniSVG } from '@/components/custom/header/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stringRemoveSpacing } from '@/lib/string'
-import { GameModel, SettingModel, WagerModel } from '@/states'
+import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -21,7 +21,8 @@ const GameWager = () => {
     setIsEmtyWager,
     activeStep,
     setError,
-    error
+    error,
+    balance
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -33,8 +34,11 @@ const GameWager = () => {
     GameModel.setIsEmtyWager,
     GameModel.$activeStep,
     WagerModel.setError,
-    WagerModel.$error
+    WagerModel.$error,
+    UserModel.$balance
   ])
+
+  useEffect(() => alert(balance), [balance])
 
   useEffect(() => {
     if (activeStep === 'Double' && Number(cryptoInputValue)) {
@@ -146,6 +150,7 @@ const GameWager = () => {
             variant='borderNone'
             className='placeholder-[#eaeaea] w-full'
             onChange={handleInput}
+            value={`${cryptoInputValue}`}
           />
           <DraxMiniSVG className='min-w-3.5 h-3.5 aspect-square object-contain' />
         </div>

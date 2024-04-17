@@ -1,11 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 import { BonusCoinSVG, DraxMiniSVG } from './icons'
 import { Button } from '@/components/ui/button'
 import { useMediaQuery } from 'usehooks-ts'
+import { GameModel, RegistrModel, UserModel } from '@/states'
+import { useUnit } from 'effector-react'
+
+import * as api from '@/api'
 
 const switch_img = [
   {
@@ -21,10 +25,60 @@ const switch_img = [
     token: 'dc'
   }
 ]
-
+interface IAmount {
+  type: 'Amounts'
+  amounts: {
+    name: 'Drax' | 'DraxBonus'
+    amount: string
+  }[]
+}
 const BalanceSwitcher = () => {
-  const [active, setActive] = useState(false)
   const isMobile = useMediaQuery('(max-width: 730px)')
+
+  const [isDrax, setDrax, access_token, userInfo, result, setBalanceValue] =
+    useUnit([
+      UserModel.$isDrax,
+      UserModel.setIsDrax,
+      RegistrModel.$access_token,
+      UserModel.$userInfo,
+      GameModel.$result,
+      UserModel.setBalance
+    ])
+
+  const [balance, setBalance] = useState<null | IAmount>(null)
+
+  useEffect(() => {
+    if (access_token && userInfo) {
+      ;(async () => {
+        const data = await api.getUserAmounts({
+          bareer: access_token,
+          userId: userInfo?.id
+        })
+        if (data.status === 'OK') {
+          setBalance((data as any).body)
+          setBalanceValue(
+            Number(
+              (data.body as any).amounts.find(
+                (item: any) => item.name === (isDrax ? 'Drax' : 'DraxBonus')
+              )?.amount
+            )
+          )
+        }
+      })()
+    }
+  }, [access_token, userInfo?.id, result])
+
+  const zero = 0
+
+  const changeToken = item => {
+    const type = item.isDrax ? 'Drax' : 'DraxBonus'
+    setDrax(item.isDrax)
+    setBalanceValue(
+      balance !== null
+        ? Number(balance.amounts.find(item => item.name === type)?.amount)
+        : 0.0
+    )
+  }
 
   return (
     <div
@@ -37,24 +91,36 @@ const BalanceSwitcher = () => {
         <Button
           variant='ghost'
           key={item.id}
-          onClick={() => setActive(item.isDrax)}
+          onClick={() => changeToken(item)}
           className={cn(
             'w-full h-full flex items-center pl-2 pr-1 cursor-pointer rounded-[50px] gap-2',
             'text-grey-acc text-sm font-medium leading-6 text-left uppercase duration-500',
-            active === item.isDrax && 'bg-black-acc text-white'
+            isDrax === item.isDrax && 'bg-black-acc text-white'
           )}
         >
           {item.icon}
           <div className='flex items-center gap-1 pr-2'>
             {isMobile ? (
-              active === item.isDrax && (
+              isDrax === item.isDrax && (
                 <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-10'>
-                  82995.53
+                  382995.53
                 </span>
               )
             ) : (
               <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-12'>
-                82995.53
+                {item.isDrax
+                  ? balance !== null
+                    ? Number(
+                        balance.amounts.find(item => item.name === 'Drax')
+                          ?.amount
+                      )
+                    : zero.toFixed(3)
+                  : balance !== null
+                  ? Number(
+                      balance.amounts.find(item => item.name === 'DraxBonus')
+                        ?.amount
+                    )
+                  : zero.toFixed(3)}
               </span>
             )}
             <span className='text-xs sm:text-sm leading-4'>{item.token}</span>
