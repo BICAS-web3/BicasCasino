@@ -1,4 +1,4 @@
-import { IParabolaCoefs } from '@/types/games.types'
+import { IMultipliersObject, IParabolaCoefs } from '@/types/games.types'
 
 export const parabolaCoefs: IParabolaCoefs = {
   main: [
@@ -25,12 +25,6 @@ export const parabolaCoefs: IParabolaCoefs = {
     81.60671453, 82.86003704129999, 84.2999015632, 85.9263080957,
     87.73925663879999, 89.7387471925, 91.92477975679999, 94.29735433169999
   ]
-}
-
-interface IMultipliersObject {
-  [key: string]: {
-    [key: number]: number[]
-  }
 }
 
 export const newMultipliers: IMultipliersObject = {

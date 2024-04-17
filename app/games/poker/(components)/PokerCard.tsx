@@ -1,19 +1,9 @@
 import * as api from '@/api'
-import Image, { StaticImageData } from 'next/image'
+import { PokerCardProps } from '@/types/games.types'
+import Image from 'next/image'
 import { FC, RefObject, useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
 // import * as GameModel from '@/widgets/GamePage/model'
-interface itemProps {
-  img: StaticImageData
-}
-
-interface PokerCardProps {
-  coat: number | undefined
-  card: number | undefined
-  isEmptyCard: boolean
-  onClick: () => void
-  setImageLoading: (el: boolean) => void
-}
 
 export const PokerCard: FC<PokerCardProps> = props => {
   const [cardFlipped, setCardFlipped] = useState(false)

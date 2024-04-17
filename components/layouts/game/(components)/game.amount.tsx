@@ -1,15 +1,8 @@
 import { Slider } from '@/components/ui/slider'
 import { WagerModel } from '@/states'
+import { IGameAmount } from '@/types/games.types'
 import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
-
-interface IGameAmount {
-  min: number
-  max: number
-  step?: number
-  inputType?: WagerModel.RangeType
-  title: string
-}
 
 const GameAmount = ({ min, max, step, inputType, title }: IGameAmount) => {
   const [pickedValue, pickValue] = useUnit([

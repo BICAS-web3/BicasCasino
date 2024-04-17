@@ -1,9 +1,4 @@
-interface PokerCombinationProps {
-  combinationName: string
-  tokenImage: React.ReactNode
-  profit?: string | number
-  multiplier: string | number
-}
+import { PokerCombinationProps } from '@/types/games.types'
 
 export const PokerCombination = ({
   combinationName,

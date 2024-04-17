@@ -14,10 +14,7 @@ import Thimble from './Thimble'
 import { handleGameResult } from '../utils'
 import Image from 'next/image'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
-
-interface ThimblesGameProps {
-  gameText?: string
-}
+import { ThimblesGameProps } from '@/types/games.types'
 
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const socket = useSocket()
