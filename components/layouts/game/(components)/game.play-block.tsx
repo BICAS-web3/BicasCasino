@@ -1,6 +1,5 @@
 'use client'
 
-import { InfoSVG } from '@/components/custom/sidebar/components/icons/bottom'
 import { Button } from '@/components/ui/button'
 import { GameModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
@@ -12,15 +11,12 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { ToastAction } from '@/components/ui/toast'
-import { useToast } from '@/components/ui/use-toast'
+import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
 
 const GamePlayBlock = () => {
-  // const { toast } = useToast()
-
   const [
     error,
     setIsPlaying,
@@ -29,7 +25,9 @@ const GamePlayBlock = () => {
     setFinishPoker,
     isPlaying,
     finishPoker,
-    balance
+    balance,
+    setStop,
+    apples
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -38,8 +36,22 @@ const GamePlayBlock = () => {
     GameModel.setFinishPoker,
     GameModel.$isPlaying,
     GameModel.$finishPoker,
-    UserModel.$balance
+    UserModel.$balance,
+    GameModel.setStop,
+    GameModel.$apples
   ])
+
+  const path = usePathname()
+
+  const [isApple, setIsApple] = useState(false)
+
+  useEffect(() => {
+    if (path.includes('apples')) {
+      setIsApple(true)
+    } else {
+      setIsApple(false)
+    }
+  }, [])
 
   const handlePlay = () => {
     if (cryptoValue > balance) {
@@ -55,6 +67,7 @@ const GamePlayBlock = () => {
         setIsPlaying(true)
       } else {
         setFinishPoker(!finishPoker)
+        apples.length > 0 && setStop(true)
       }
     }
   }
@@ -77,7 +90,7 @@ const GamePlayBlock = () => {
       </TooltipProvider>
 
       <Button onClick={handlePlay} variant='wagerPlay'>
-        Play
+        {isPlaying && isApple ? 'Refund' : 'Play'}
       </Button>
     </div>
   )
