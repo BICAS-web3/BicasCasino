@@ -98,6 +98,7 @@ const GameWager = () => {
   useEffect(() => {
     cryptoValue !== 0 && setCryptoInputValue(String(cryptoValue))
   }, [cryptoValue])
+
   const handleInput = e => {
     setError(false)
     const numb = e.target.value
@@ -135,23 +136,21 @@ const GameWager = () => {
           </span>
         ))}
       </div>
-      <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636] overflow-hidden'>
-        <div
-          className={`flex items-center gap-3.5 w-full max-w-full sm:max-w-36 pr-2.5 ${
+      <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636]'>
+        <Input
+          type='number'
+          ref={wagerInputRef}
+          placeholder='0.0000'
+          // variant='borderNone'
+          className='placeholder-[#eaeaea] w-full'
+          containerClassName={`bg-transparent gap-3.5 max-w-full sm:max-w-36 ${
             error ? 'border-[#ee6969]' : 'border-[#363636]'
           }`}
-        >
-          <Input
-            type='number'
-            ref={wagerInputRef}
-            placeholder='0.0000'
-            variant='borderNone'
-            className='placeholder-[#eaeaea] w-full'
-            onChange={handleInput}
-            value={`${cryptoInputValue}`}
-          />
-          <DraxMiniSVG className='min-w-3.5 h-3.5 aspect-square object-contain' />
-        </div>
+          onChange={handleInput}
+          endAdornment={
+            <DraxMiniSVG className='min-w-3.5 h-3.5 aspect-square object-contain' />
+          }
+        />
         {bets.map((bet, index) => (
           <Button
             variant='wager'

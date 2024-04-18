@@ -25,7 +25,7 @@ const TabBuy = () => {
   return (
     <div className='flex flex-col gap-5'>
       <div className='tab-buy--info flex border border-[#ffe09d] rounded-lg relative py-3 px-5'>
-        <span className='w-2/3'>
+        <span className='w-3/5 sm:w-2/3 text-xs sm:text-sm'>
           <span className='font-extrabold text-[#ffe09d]'>DRAX tokens </span>
           won through play can be redeemed for
           <p className='text-[#f7931a] inline'> BTC, LTC</p> and more

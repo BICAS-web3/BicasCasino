@@ -170,20 +170,19 @@ const SignUp: FC<SignupProps> = () => {
                           : 'border-transparent'
                       }`}
                       variant='registr'
+                      endAdornment={
+                        <Button
+                          variant='ghost'
+                          type='button'
+                          className='w-full h-full flex justify-center items-center p-0'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeClose /> : <EyeOpen />}
+                        </Button>
+                      }
                       {...field}
                     />
                   </FormControl>
-                  {showPassword ? (
-                    <EyeOpen
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={resetPassword}
-                    />
-                  ) : (
-                    <EyeClose
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={resetPassword}
-                    />
-                  )}
                   <FormMessage />
                 </FormItem>
               )}
