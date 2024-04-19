@@ -5,6 +5,7 @@ import { stringRemoveSpacing } from '@/lib/string'
 import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 const bets = ['min', '/2', 'x2', 'max']
 const titles = ['Wager', 'Max: 50']
@@ -22,7 +23,8 @@ const GameWager = () => {
     activeStep,
     setError,
     error,
-    balance
+    balance,
+    isPlaying
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -35,7 +37,8 @@ const GameWager = () => {
     GameModel.$activeStep,
     WagerModel.setError,
     WagerModel.$error,
-    UserModel.$balance
+    UserModel.$balance,
+    GameModel.$isPlaying
   ])
 
   // useEffect(() => alert(balance), [balance])
@@ -114,6 +117,11 @@ const GameWager = () => {
     setCryptoValue(num)
   }
   const handleBet = value => {
+    // alert(3)
+    if (isPlaying) {
+      toast('You are in game!')
+      return
+    }
     if (value === 'min') {
       setCryptoInputValue('1')
     } else if (value === 'max') {
@@ -141,6 +149,7 @@ const GameWager = () => {
           type='number'
           ref={wagerInputRef}
           placeholder='0.0000'
+          value={`${cryptoInputValue}`}
           // variant='borderNone'
           className='placeholder-[#eaeaea] w-full'
           containerClassName={`bg-transparent gap-3.5 max-w-full sm:max-w-36 ${

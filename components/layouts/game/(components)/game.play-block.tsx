@@ -27,7 +27,9 @@ const GamePlayBlock = () => {
     finishPoker,
     balance,
     setStop,
-    apples
+    apples,
+    setStopWinning,
+    keep
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -38,12 +40,15 @@ const GamePlayBlock = () => {
     GameModel.$finishPoker,
     UserModel.$balance,
     GameModel.setStop,
-    GameModel.$apples
+    GameModel.$apples,
+    GameModel.setStopWinning,
+    GameModel.$keep
   ])
 
   const path = usePathname()
 
   const [isApple, setIsApple] = useState(false)
+  const [isMines, setIsMines] = useState(false)
 
   useEffect(() => {
     if (path.includes('apples')) {
@@ -51,7 +56,13 @@ const GamePlayBlock = () => {
     } else {
       setIsApple(false)
     }
-  }, [])
+
+    if (path.includes('mines')) {
+      setIsMines(true)
+    } else {
+      setIsMines(false)
+    }
+  }, [path])
 
   const handlePlay = () => {
     if (cryptoValue > balance) {
@@ -72,10 +83,9 @@ const GamePlayBlock = () => {
     }
   }
 
-  useEffect(() => {
-    console.log('ERROR', error)
-  }, [error])
-
+  const minesClick = () => {
+    setStopWinning('YES')
+  }
   return (
     <div className='flex gap-2 sm:gap-5 items-center justify-end -order-5 sm:order-none'>
       <TooltipProvider>
@@ -92,6 +102,11 @@ const GamePlayBlock = () => {
       <Button onClick={handlePlay} variant='wagerPlay'>
         {isPlaying && isApple ? 'Refund' : 'Play'}
       </Button>
+      {isMines && keep && (
+        <Button onClick={minesClick} variant='wagerPlay'>
+          Refund
+        </Button>
+      )}
     </div>
   )
 }

@@ -27,7 +27,7 @@ const SelectedMine = ({ type, waitingResponse, index }: ISelectedMine) => {
             width={80}
             height={80}
             alt='mine money'
-            src={'/icons/mines/mine.money.svg'}
+            src={'/icons/mines/mine.bomb.svg'}
           />
         )
 

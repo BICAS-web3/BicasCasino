@@ -6,8 +6,9 @@ import {
   WonStatus
 } from '@/states/game_model.store'
 import { Dispatch, SetStateAction } from 'react'
-import { IAppleData } from '../(components)/wrapper'
+// import { IAppleData } from '../(components)/wrapper'
 import { UserType } from '@/states/user_model.store'
+import { IAppleData } from '@/types/games.types'
 
 export const updateChunkedArray = (applesArr: number[]) => {
   const arr: { apples: number[]; cf: number }[] = []

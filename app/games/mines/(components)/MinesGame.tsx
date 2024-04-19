@@ -140,45 +140,6 @@ const MinesGame = () => {
     triggerRedraw(true)
   }, [pickedValue])
 
-  const pickTile = (index: number) => {
-    if (gameField[index] == Tile.Closed) {
-      if (!pickedTiles[index]) {
-        if (totalOpenedTiles >= maxReveal[pickedValue]) {
-          return
-        }
-        setTotalOpenedTiles(totalOpenedTiles + 1)
-      } else {
-        setTotalOpenedTiles(totalOpenedTiles - 1)
-      }
-      musicType !== 'off' && playTileClick()
-      pickedTiles[index] = !pickedTiles[index]
-      triggerRedraw(true)
-    }
-  }
-
-  const setGameFields = (
-    revealedTiles: boolean[],
-    tilesPicked: boolean[] | undefined
-  ) => {
-    var openedTiles = 0
-    setGameField(
-      revealedTiles.map((value: boolean) => {
-        if (value) {
-          openedTiles += 1
-          return Tile.Coin
-        } else {
-          return Tile.Closed
-        }
-      })
-    )
-
-    if (tilesPicked) {
-      setPickedTiles(tilesPicked)
-    }
-
-    return openedTiles
-  }
-
   useEffect(() => {
     if (stopWinning === 'NO') {
       setIsCashout(false)
@@ -324,6 +285,8 @@ const MinesGame = () => {
       triggerRedraw
     })
 
+  // useEffect(() => alert(inGame), [inGame])
+
   return (
     <div
       className='w-full h-full relative flex justify-center flex-col min-h-[680px]'
@@ -332,7 +295,6 @@ const MinesGame = () => {
         backgroundSize: 'cover'
       }}
     >
-      {/* {preloading && <Preload />} */}
       <TotalCoeff
         fullLost={fullLost}
         fullWon={fullWon}
