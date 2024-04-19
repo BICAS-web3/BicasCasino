@@ -16,13 +16,13 @@ export default auth(req => {
   }
   if (isAuthName) {
     if (isLoggin) {
-       return Response.redirect(nextUrl.origin + '/')
+      return Response.redirect(nextUrl.origin + '/')
     } else {
     }
     return
   }
   if (!isLoggin && !isAuthName) {
-     return Response.redirect(nextUrl.origin + '/auth/registration')
+    return Response.redirect(nextUrl.origin + '/auth/registration')
   }
   return
 })
