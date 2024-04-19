@@ -6,7 +6,6 @@ const { auth } = NextAuth(authConfig)
 
 export default auth(req => {
   const { nextUrl } = req
-  const url = 'http://localhost:3000'
   console.log(nextUrl.origin)
   const isLoggin = !!req.auth
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
