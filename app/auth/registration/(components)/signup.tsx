@@ -79,7 +79,7 @@ const SignUp: FC<SignupProps> = () => {
     setrtTransition(async () => {
       const { username, password } = values
       form.reset()
-      const data = await fetch(`https:/rew.greekkeepers.io/api/user/register`, {
+      const data = await fetch(`/user/register`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
