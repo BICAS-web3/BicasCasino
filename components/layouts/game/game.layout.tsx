@@ -7,8 +7,8 @@ import { RegistrModel } from '@/states'
 const GameLayout = ({ children }) => {
   const [access_token] = useUnit([RegistrModel.$access_token])
   return (
-    <div className='w-full h-full py-5 sm:p-10 flex flex-col min-h-[880px]'>
-      <div className='h-full relative'>
+    <div className='w-full h-full py-5 sm:p-10 flex flex-col min-h-[880px] relative'>
+      <div className='h-full relative flex flex-col'>
         {access_token ? children : <Preload />}
       </div>
       <GameMenu />

@@ -14,6 +14,7 @@ import { processBetResult } from '../(utils)'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { sendSocketData } from '@/lib/utils/game.send'
+import Selector from './selector'
 
 const CoinFlipGame = () => {
   const socket = useSocket()
@@ -172,21 +173,16 @@ const CoinFlipGame = () => {
   useEffect(() => setInGame(isPlaying), [isPlaying])
   return (
     <div
-      className='relative w-full h-[328px] sm:h-[594px] xl:h-[680px] min-h-[328px] sm:min-h-[594px] xl:min-h-[680px]'
+      className='relative w-full h-[328px] sm:h-full xl:h-full min-h-[328px] sm:min-h-[594px] xl:min-h-[680px] px-4'
       style={{
-        background: `url('/images/coinflip_images/coinflipTableBg.webp') center center no-repeat`,
+        background: `url('/images/coinflip_images/bg.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
       <Coefficient ballsArr={coefficientData} common />
-      <div className='relative w-full h-full'>
-        <div className='w-full h-[370px] flex flex-col items-center absolute bottom-[226px] left-1/2 -translate-x-1/2 gap-10'>
-          <div className='h-full sm:h-[154px] xl:h-full w-full'>
+      <div className='relative w-full h-full flex flex-col overflow-hidden'>
+        <div className='w-full h-[370px] flex flex-col items-center absolute top-[100px] sm:top-[219px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
+          <div className='h-[114px] sm:h-[154px] xl:h-full w-full'>
             <Canvas
               camera={{
                 position: [-9, 0, 0],
@@ -211,6 +207,7 @@ const CoinFlipGame = () => {
             </Canvas>
           </div>
         </div>
+        <Selector className='mx-auto mt-auto mb-3 ms:mb-4 sm:mb-[22px]' />
       </div>
     </div>
   )
