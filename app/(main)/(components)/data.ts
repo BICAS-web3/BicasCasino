@@ -17,6 +17,12 @@ export const main_banner = [
     btn: 'Claim your deposit bonus',
     text: "Become a VIP and get benefits"
   },
+  {
+    img: '/images/main_banner/banner1.png',
+    title: 'Affiliate Program',
+    btn: 'Join game',
+    text: 'Invite friends and get rewarded'
+  },
   // {
   //   img: '/images/main_banner/banner_1.png',
   //   title: 'exclusive Greekkeepers Games',
