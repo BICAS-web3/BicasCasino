@@ -22,7 +22,7 @@ const GameAmount = ({ min, max, step, inputType, title }: IGameAmount) => {
     pickValue(value[0])
   }
   return (
-    <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64'>
+    <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64 game-amount'>
       <h3 className='text-[#7E7E7E] text-sm font-semibold'>
         {title}: {pickedValue}
       </h3>

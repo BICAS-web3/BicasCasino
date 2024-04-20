@@ -14,8 +14,9 @@ import { usePathname } from 'next/navigation'
 
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
+
   return (
-    <div className='bg-[#151515] py-5 px-4 flex flex-wrap gap-5 items-center rounded-b-[20px] '>
+    <div className={`bg-[#151515] ${minesGame && 'game-menu-mines'} py-5 px-4 grid flex-col tbs:flex tbs:flex-row gap-5 items-center rounded-b-[20px]`}>
       <GameCreditBet />
       <GameWager />
 
