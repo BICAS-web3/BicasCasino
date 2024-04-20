@@ -30,6 +30,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
 import { EyeClose, EyeOpen } from '../../(icons)'
 
+import * as api from '@/api'
+import { useRouter } from 'next/navigation'
+
 interface SignupProps {}
 
 const SignUp: FC<SignupProps> = () => {
@@ -74,7 +77,7 @@ const SignUp: FC<SignupProps> = () => {
       }, 1500)
     }
   }, [error])
-
+  const route = useRouter()
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
       const { username, password } = values
@@ -96,10 +99,28 @@ const SignUp: FC<SignupProps> = () => {
 
       if (data.status === 'OK') {
         setAuth(true)
-        await signIn('credentials', {
-          username: values.username,
-          password: values.password
+        const userResponse = await api.loginUser({
+          login: username,
+          password: password
         })
+        if (userResponse.status === 'OK') {
+          setAccessToken(
+            (userResponse.body as Record<string, string>).access_token
+          )
+          setRefreshToken(
+            (userResponse.body as Record<string, string>).refresh_token
+          )
+          localStorage.setItem(
+            'access',
+            (userResponse.body as Record<string, string>).access_token
+          )
+          localStorage.setItem(
+            'refresh',
+            (userResponse.body as Record<string, string>).access_token
+          )
+
+          route.push('/')
+        }
       } else {
         setErrorData(true)
       }

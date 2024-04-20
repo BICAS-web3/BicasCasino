@@ -6,7 +6,6 @@ import TwitterProvider from 'next-auth/providers/twitter'
 import * as api from '@/api'
 import type { NextAuthConfig } from 'next-auth'
 import { registrSchema } from './schemas'
-import { JWT } from 'next-auth/jwt'
 
 export default {
   providers: [
@@ -16,7 +15,6 @@ export default {
       // redirectProxyUrl: 'https://rew.greekkeepers.io/api/user/login_google',
       authorization: {
         params: {
-          // access_type: 'offline',
           response_type: 'code',
           prompt: 'consent',
           redirect_uri: 'https://rew.greekkeepers.io/api/user/login/google',
