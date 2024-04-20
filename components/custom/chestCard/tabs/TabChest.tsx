@@ -8,7 +8,7 @@ interface TabChestProps {}
 
 export const TabChest:FC<TabChestProps> = () => {
     return (
-        <div className="overflow-scroll h-[70vh] max-h-[530px]">
+        <div className="">
             <div className='flex items-center justify-between'>
                 <span className='underline text-[13px] font-semibold leading-[18px] text-[#7e7e7e] cursor-pointer select-none'>History</span>
                 <div className='p-[4px] select-none cursor-pointer rounded-[5px] text-[13px] font-bold text-[#fff] leading-[18px] bg-[#2e2e2e] flex items-center gap-[4px]'>
@@ -18,7 +18,8 @@ export const TabChest:FC<TabChestProps> = () => {
                 </div>
             </div>
             <div className='flex h-[160px] relative top-[-20px] items-center justify-center'>
-                <ChestIco />
+                {/* очко с картинкой какое-то... */}
+                {/* <ChestIco /> */}
             </div>
             <p className='text-center text-[13px] font-semibold block mt-[30px]'>The treasure chest you have: 25</p>
             <div className='flex mt-[10px] gap-[10px]'>

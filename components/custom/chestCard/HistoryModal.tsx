@@ -1,51 +1,49 @@
 import {FC, useEffect, useState} from 'react'
-import ChestIco from '@/public/images/chestCard/modalIco.svg'
+
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
   } from "@/components/ui/dialog"
 import { useUnit } from 'effector-react'
 import { ChestModel } from '@/states'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { TabBuy, TabRedeem, TabTips } from '@/components/custom/header/components/modals/payment/tabs'
 import { stringRemoveSpacing } from '@/lib/string'
-import { TabChest } from './tabs/TabChest'
-import { TabCard } from './tabs/TabCard'
+import HistoryIco from '@/public/images/chestCard/historyIco.svg'
+import {TabOpened} from './tabs/TabOpened'
+import { TabValid } from './tabs/TabValid'
 
-const tabData = ['Chest', 'Card']
-const tabContent = [<TabChest />, <TabCard />]
+const tabData = ['Opened Chest', 'Valid Chest', "Expired Chest"]
+const tabContent = [<TabOpened />, <TabValid />, <h1>expired</h1>]
 
-interface ChestCardModalProps {}
+interface HistoryModalProps {}
 
-export const ChestCardModal:FC<ChestCardModalProps> = () => {
-    const [visibility, setVisibility] = useUnit([
+export const HistoryModal:FC<HistoryModalProps> = () => {
+    const [visibility, setVisibility, historyVisibility, setHistoryVisibility] = useUnit([
         ChestModel.$modalVisibility,
-        ChestModel.setModalVisibility
+        ChestModel.setModalVisibility,
+        ChestModel.$historyVisibility,
+        ChestModel.setHistoryVisibility,
     ])
-
-    useEffect(() => {
-        console.log(visibility)
-    }, [visibility])
 
     const [tab, setTab] = useState(
         stringRemoveSpacing(tabData[0]).toLocaleLowerCase().toLocaleLowerCase()
       )
 
+      useEffect(() => {
+        console.log('historyVisibility', historyVisibility)
+      }, [historyVisibility])
+
     return (
-        <Dialog open={visibility} onOpenChange={() => setVisibility(false)} >
-            <DialogContent className='gap-0 !flex flex-col max-w-[525px] h-full max-h-[700px] bg-[#181818] p-[5px_18px_8px_18px]' customClose>
+        <Dialog open={historyVisibility} onOpenChange={() => setHistoryVisibility(false)} >
+            <DialogContent className='gap-0 !flex flex-col max-w-[525px] !h-fit bg-[#181818] p-[5px_18px_8px_18px]' customClose>
                 <div className='flex justify-between items-center pb-[5px] flex-row pr-2'>
                     <div className='flex items-center gap-[10px] text-[#979797]'>
-                        <ChestIco className='w-5 aspect-square object-contain' />
+                        <HistoryIco className='w-5 aspect-square object-contain' />
                         <h5 className='text-[17px] tracking-[4%] leading-[23px] text-[#979797] mt-[2px] font-bold'>
-                            Chest & Card
+                            History
                         </h5>
                         </div>
                         <div className='flex items-center gap-4'>
@@ -53,7 +51,7 @@ export const ChestCardModal:FC<ChestCardModalProps> = () => {
                             className=''
                             size='icon'
                             variant='ghost'
-                            onClick={() => setVisibility(false)}
+                            onClick={() => setHistoryVisibility(false)}
                         >
                             <X className='w-5 h-5 aspect-square object-contain text-[#3E3E3E]' />
                         </Button>
@@ -62,11 +60,11 @@ export const ChestCardModal:FC<ChestCardModalProps> = () => {
                 <Separator className='mt-[0]' />
                     <div className="chestModalBody">
                         <Tabs defaultValue={tab} className='mt-[20px]' >
-                            <TabsList className='w-full border border-[#252525]  bg-[#121212] py-[5px] px-1 rounded-full h-max gap-2'>
+                            <TabsList className='w-full bg-inherit py-[5px] p-0 h-max'>
                                 {tabData.map((tabItem, index) => (
                                     <TabsTrigger
                                         value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
-                                        className='rounded-full min-h-10 text-lg data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
+                                        className='min-h-10 !rounded-none text-lg text-[#7E7E7E border-b-[1px] text-[17px] font-normal border-[#252525] data-[state=active]:bg-[linear-gradient(180deg,_rgba(255,_183,_0,_0)_19.23%,_rgba(255,_183,_0,_0.15)_100%)] data-[state=active]:border-[#FFE09D] w-full'
                                         key={`payment-modal-title--${stringRemoveSpacing(
                                         tabItem.toLocaleLowerCase()
                                         )}-${index}`}
