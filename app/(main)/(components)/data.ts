@@ -1,34 +1,43 @@
 export const main_banner = [
   {
-    img: '/images/main_banner/banner_1.png',
-    title: 'exclusive Greekkeepers Games',
-    btn: 'Join game'
+    img: '/images/main_banner/banner1.png',
+    title: 'Affiliate Program',
+    btn: 'Join game',
+    text: 'Invite friends and get rewarded'
   },
   {
-    img: '/images/main_banner/banner_2.png',
-    title: 'You can bet on the BSC, Polygon and Arbitrum networks',
-    btn: 'Play now'
+    img: '/images/main_banner/banner2.png',
+    title: "NFT Market",
+    btn: 'Play now',
+    text: 'Our NFT holders get Up to 18% airdrop payout'
   },
   {
-    img: '/images/main_banner/banner_3.png',
-    title: 'Get your $100 deposit bonus in the DRAXB token',
-    btn: 'Claim your deposit bonus'
+    img: '/images/main_banner/banner3.png',
+    title: 'VIP CLUB',
+    btn: 'Claim your deposit bonus',
+    text: "Become a VIP and get benefits"
   },
   {
-    img: '/images/main_banner/banner_1.png',
-    title: 'exclusive Greekkeepers Games',
-    btn: 'Join game'
+    img: '/images/main_banner/banner1.png',
+    title: 'Affiliate Program',
+    btn: 'Join game',
+    text: 'Invite friends and get rewarded'
   },
-  {
-    img: '/images/main_banner/banner_2.png',
-    title: 'You can bet on the BSC, Polygon and Arbitrum networks',
-    btn: 'Play now'
-  },
-  {
-    img: '/images/main_banner/banner_3.png',
-    title: 'Get your $100 deposit bonus in the DRAXB token',
-    btn: 'Claim your deposit bonus'
-  }
+  // {
+  //   img: '/images/main_banner/banner_1.png',
+  //   title: 'exclusive Greekkeepers Games',
+  //   btn: 'Join game'
+  // },
+  // {
+  //   img: '/images/main_banner/banner_2.png',
+  //   title: 'You can bet on the BSC, Polygon and Arbitrum networks',
+  //   btn: 'Play now'
+  // },
+  // {
+  //   img: '/images/main_banner/banner_3.png',
+  //   title: 'Get your $100 deposit bonus in the DRAXB token',
+  //   btn: 'Claim your deposit bonus'
+  // }
 ]
 
 export const games_banner = [
