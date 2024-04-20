@@ -172,13 +172,12 @@ const CoinFlipGame = () => {
   useEffect(() => setInGame(isPlaying), [isPlaying])
   return (
     <div
-      className='relative w-full h-full min-h-[680px]'
+      className='relative w-full h-[328px] sm:h-[594px] xl:h-[680px] min-h-[328px] sm:min-h-[594px] xl:min-h-[680px]'
       style={{
         background: `url('/images/coinflip_images/coinflipTableBg.webp') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      {/* <WagerLowerBtnsBlock game='coinflip' text={gameText} /> */}
       <TotalCoeff
         fullLost={fullLost}
         fullWon={fullWon}

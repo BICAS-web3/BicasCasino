@@ -81,6 +81,7 @@ const SignUp: FC<SignupProps> = () => {
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
       const { username, password } = values
+      console.log(`${BaseApiUrl}/user/register`)
       form.reset()
       const data = await fetch(`${BaseApiUrl}/user/register`, {
         method: 'POST',

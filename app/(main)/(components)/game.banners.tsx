@@ -72,9 +72,9 @@ const GameBanners = ({ className }: { className?: string }) => {
         spacing={20}
         containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[554px] sm:mb-5 gap-5'
         loop
-        grid={{
-          rows: isMobile ? 1 : 2
-        }}
+        // grid={{
+        //   rows: isMobile ? 1 : 2
+        // }}
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current
@@ -83,7 +83,7 @@ const GameBanners = ({ className }: { className?: string }) => {
           swiper.params.navigation.prevEl = navigationPrevRef.current
           swiper.params.navigation.nextEl = navigationNextRef.current
         }}
-        modules={[Navigation, Autoplay, Grid]}
+        modules={[Navigation, Autoplay]} // Grid
       >
         {games_banner.map((item, index) => (
           <SwiperSlide

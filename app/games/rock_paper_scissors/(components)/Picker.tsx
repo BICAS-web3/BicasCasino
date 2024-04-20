@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { GameModel } from '@/states'
 import { PaperButton, RockButton, ScissorsButton } from '../(icons)'
 
-const RpsPicker = () => {
+const RpsPicker = ({ className }: { className?: string }) => {
   const [pickedValue, pickValue, active] = useUnit([
     GameModel.$pickedValueRPS,
     GameModel.pickValueRPS,
@@ -21,16 +21,17 @@ const RpsPicker = () => {
   }
 
   return (
-    <div className='grid grid-cols-3 gap-x-1.5 mt-5 mb-3 sm:mb-0'>
+    <div className={`w-full sm:w-fit grid grid-cols-3 gap-x-1.5 ${className}`}>
       {buttons.map(({ value, Icon }, index) => (
         <div
           key={index}
           onClick={selectHand.bind('', value)}
           className={clsx(
-            'duration-300 cursor-pointer bg-[#202020] flex w-full items-end justify-center py-[15px] sm:px-5 md:px-[35px] xl:px-[46.5px] group hover:bg-[#2e2e2e]',
+            'duration-300 cursor-pointer bg-[#202020] flex items-center justify-center group hover:bg-[#2e2e2e] h-[50px] w-full sm:w-[92px] xl:w-[138px] xl:h-[75px]',
             pickedValue === value && 'bg-[#2e2e2e]',
-            index === 0 && 'rounded-[12px_5px_5px_12px]',
-            index === buttons.length - 1 && 'rounded-[5px_12px_12px_5px]'
+            index === 0 && 'rounded-[5px] sm:rounded-[12px_5px_5px_12px]',
+            index === buttons.length - 1 &&
+              'rounded-[5px] sm:rounded-[5px_12px_12px_5px]'
           )}
         >
           <Icon
