@@ -122,6 +122,14 @@ input::-webkit-inner-spin-button {
   }
 }
 
+.rfm-marquee {
+  margin-left: 30px;
+}
+
+.rfm-initial-child-container {
+  margin-right: 30px;
+}
+
 @media screen and (max-width: 1130px) {
   .game-menu-mines {
     display: grid !important;
@@ -138,6 +146,31 @@ input::-webkit-inner-spin-button {
   outline: none;
   padding: 0;
   margin: 0;
+}
+
+.bonus-block {
+  overflow: visible;
+  position: relative;
+}
+
+.bonus-block::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  background: #121212;
+  left: 50px;
+  bottom: -7px;
+}
+
+.bonus-block::before {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  background: #121212;
+  right: 50px;
+  bottom: -7px;
 }
 
 body {

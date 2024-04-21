@@ -9,12 +9,13 @@ const Preview = ({ className }: { className?: string }) => {
     <article
       className={cn(
         'flex items-center flex-col lg:block w-full h-[440px]',
-        'relative pt-10 p-[10px] overflow-hidden',
+        'relative pt-10 p-[10px] overflow-hidden bg-cover',
         className
       )}
       style={{
-        background: `url('/images/main_banner/layout.png') center center no-repeat`,
-        backgroundSize: 'cover'
+        backgroundImage: `url('/images/main_banner/layout.png')`,
+        backgroundSize: 'cover',
+        background: 'background: linear-gradient(to left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 1))'
       }}
     >
       <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>

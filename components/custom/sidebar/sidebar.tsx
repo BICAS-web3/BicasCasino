@@ -29,10 +29,10 @@ const Sidebar = () => {
         <div
           id='sidebar'
           className={cn(
-            `bg-[#0F0F0F] fixed sm:sticky z-50 left-0 bottom-0 sm:top-16 flex flex-col w-full`,
+            `bg-[#181818] fixed sm:sticky z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full`,
             open
-              ? 'sm:w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_64px)]'
-              : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_64px)]'
+              ? 'sm:w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_60px)]'
+              : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
           )}
         >
           <div
@@ -64,7 +64,7 @@ const Sidebar = () => {
         <div
           id='sidebar'
           className={cn(
-            `bg-[#181818] fixed mmd:sticky z-50 left-0 bottom-0 sm:top-16 flex flex-col w-full`,
+            `bg-[#181818] fixed mmd:sticky z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full`,
             open
               ? 'w-[90px] sm:w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_64px)]'
               : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_64px)]'

@@ -42,7 +42,7 @@ const MainProvider = ({ children }: Props) => {
                 <Header />
                 <div className='flex flex-col sm:flex-row flex-nowrap relative'>
                   <Sidebar />
-                  <div className='w-auto tbb:pl-[90px] flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                  <div className='w-auto tbbs:pl-[90px] flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
                     {children}
                     <Footer />
                   </div>

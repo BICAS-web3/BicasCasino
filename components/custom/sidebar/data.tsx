@@ -169,7 +169,7 @@ export const SMobileMenu = [
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus'
+    title: 'Bonus',
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -182,7 +182,7 @@ export const SMobileMenu = [
             alt='icon goals'
             width={16}
             height={16}
-            className='w-5 h-5 object-contain aspect-square'
+            className='min-w-[20px] h-[20px] object-contain aspect-square'
           />
         ),
         title: 'Goals',

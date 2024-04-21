@@ -38,12 +38,14 @@ import dynamic from 'next/dynamic'
 // }
 
 const Home = () => (
-  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full sm:max-w-screen-2xl overflow-hidden w-full h-full'>
+  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full overflow-hidden w-full h-full'>
 
     <MarqueeLine />
     <Preview className='mt-[15px]' />
-    <div className='px-[15px]'>
-      <Banner />
+    <div className='pt-[10px] relative top-[-20px]'>
+      <div className='p-[10px_0] relative after:w-full after:h-full after:absolute after:top-0 after:bg-inherit after:backdrop-blur-[20px]'>
+        <Banner />
+      </div>
       <GameBanners className='mt-[15px]' />
     </div>
   </div>
