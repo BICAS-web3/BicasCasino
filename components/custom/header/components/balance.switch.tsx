@@ -25,7 +25,7 @@ const switch_img = [
     token: 'dc'
   }
 ]
-interface IAmount {
+export interface IAmount {
   type: 'Amounts'
   amounts: {
     name: 'Drax' | 'DraxBonus'
@@ -42,7 +42,7 @@ const BalanceSwitcher = () => {
       RegistrModel.$access_token,
       UserModel.$userInfo,
       GameModel.$result,
-      UserModel.setBalance
+      UserModel.setBalance,
     ])
 
   const [balance, setBalance] = useState<null | IAmount>(null)
