@@ -23,7 +23,7 @@ export const MarqueeLine = () => {
       <Marquee
         autoFill
         speed={55}
-        className='px-5 py-[5px] sm:py-[13px] flex-1 bg-[#151515] rounded-r-full sm:rounded-[99px] z-[3] relative overflow-hidden'
+        className='px-5 py-[5px] h-[40px] sm:py-[13px] flex-1 bg-[#151515] rounded-r-full sm:rounded-[99px] z-[3] relative overflow-hidden'
       >
         {marquee_data.map((item, index) => (
           <span

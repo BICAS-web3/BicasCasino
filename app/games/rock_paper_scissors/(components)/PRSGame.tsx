@@ -188,16 +188,12 @@ const PRSGame = () => {
   }, [])
 
   return (
-    <div className='h-[328px] sm:h-full w-full relative pt-9'>
-      <div className='w-full h-full  absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
-        <Image
-          src={bg}
-          className='rounded-[0] sm:rounded-[20px_20px_0_0] w-full object-cover h-full'
-          alt='table-bg'
-        />
+    <div className='h-full w-full relative pt-9  flex-[1_1_auto] flex flex-col'>
+      <div className='w-full h-full absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
+        <Image src={bg} className='w-full object-cover h-full' alt='table-bg' />
       </div>
       <Coefficient common ballsArr={coefficientData} />
-      <div className='w-full h-full flex justify-center items-end'>
+      <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto]'>
         <div className='w-full flex items-center flex-col gap-[62px] sm:gap-[131px] xl:gap-[98px]'>
           <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px]'>
             {value === ModelType.Paper && (

@@ -7,14 +7,13 @@ import { useUnit } from 'effector-react'
 import { WagerModel } from '@/states'
 
 import Coefficient from '@/components/custom/coefficient'
-import TotalCoeff from '@/components/custom/totalCoeff'
 import { useSocket } from '@/components/providers/socket.provider'
-import { RegistrModel } from '@/states'
-import Thimble from './Thimble'
-import { handleGameResult } from '../utils'
-import Image from 'next/image'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { RegistrModel } from '@/states'
 import { ThimblesGameProps } from '@/types/games.types'
+import Image from 'next/image'
+import { handleGameResult } from '../utils'
+import Thimble from './Thimble'
 
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const socket = useSocket()
@@ -210,13 +209,8 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   }, [GameModel.GameStatus, profit, lost])
 
   return (
-    <section className='thimbles_table_wrap'>
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
-      <Coefficient common ballsArr={coefficientData} multipliers={multiplier} />
+    <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
+      <Coefficient common ballsArr={coefficientData} />
       <div className='absolute w-full h-full left-0 top-0'>
         <Image
           width={1438}
@@ -226,7 +220,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
           alt='thimbles-static-bg'
         />
       </div>
-      <div className='sm:w-full w-[calc(100%_-_60px)] h-full z-[5] relative flex justify-center items-end p-[0_30px] sm:p-[0]'>
+      <div className='sm:w-full w-[calc(100%_-_60px)] h-full z-[5] relative flex justify-center items-end p-[0_30px] sm:p-[0] flex-[1_1_auto]'>
         <div className='gap-[20px] sm:gap-[35px] mb-[50px] sm:mb-[73px] relative flex'>
           {thimbles.map((_, ind) => (
             <Thimble

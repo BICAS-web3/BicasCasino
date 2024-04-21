@@ -1,21 +1,19 @@
 'use client'
+import Coefficient from '@/components/custom/coefficient'
+import Preload from '@/components/custom/preload'
+import { useSocket } from '@/components/providers/socket.provider'
+import { handleResult } from '@/lib/utils/game.result'
+import { sendSocketData } from '@/lib/utils/game.send'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useSoundPlay } from '@/lib/utils/useSoundPlay'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import ReactHowler from 'react-howler'
-import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
-import { DiceCloseSVG, DicePrecentageSVG, DiceSwapSVG } from './icons'
-import Coefficient from '@/components/custom/coefficient'
-import Preload from '@/components/custom/preload'
-import TotalCoeff from '@/components/custom/totalCoeff'
-import { useSocket } from '@/components/providers/socket.provider'
-import Selector from './selector'
-import { useSubscibeBets } from '@/lib/utils/subscibe'
 import RollState from './RollValue'
-import { handleResult } from '@/lib/utils/game.result'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { useSoundPlay } from '@/lib/utils/useSoundPlay'
-import { sendSocketData } from '@/lib/utils/game.send'
+import { DiceCloseSVG, DicePrecentageSVG, DiceSwapSVG } from './icons'
 
 const RocketGame = () => {
   const socket = useSocket()
@@ -282,7 +280,7 @@ const RocketGame = () => {
   const imageError = () => setImageLoading_1(false)
 
   return (
-    <section className='w-full h-full relative flex flex-col overflow-hidden min-h-[680px]'>
+    <section className='w-full h-full relative flex flex-col overflow-hidden  flex-[1_1_auto]'>
       {isLoading && <Preload />}
       <ReactHowler
         src={'/music/rocket_fly_2.mp3'}
@@ -290,12 +288,7 @@ const RocketGame = () => {
         loop
         volume={2}
       />
-      <div className='relative w-full h-full flex flex-col'>
-        <TotalCoeff
-          fullLost={fullLost}
-          fullWon={fullWon}
-          totalValue={totalValue}
-        />
+      <div className='relative w-full h-full flex flex-col flex-[1_1_auto]'>
         {rocketStar && localNumber !== null && localNumber <= 0 && (
           <Image
             className='block z-[1] absolute mx-auto w-[200px] sm:w-[250px] h-[180px] sm:h-[190px] left-1/2 -translate-x-1/2 -scale-[1] top-0 sm:top-[75px]'
@@ -349,7 +342,7 @@ const RocketGame = () => {
         </video>
         <div
           onClick={() => setRestartGif(prev => prev + 1)}
-          className={`bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[130px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
+          className={`bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
             rocketStar && ' animate-[rocket-box_0.44s]'
           }`}
         >
@@ -371,7 +364,7 @@ const RocketGame = () => {
         </div>
         <RollState rangeRef={rangeRef} />
       </div>
-      <Selector diceValue={diceValue} onClick={changeBetween} />
+      {/* <Selector diceValue={diceValue} onClick={changeBetween} /> */}
     </section>
   )
 }

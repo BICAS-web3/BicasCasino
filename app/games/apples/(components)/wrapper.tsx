@@ -293,17 +293,12 @@ const AppleGame = () => {
 
   return (
     <div
-      className='relative w-full h-full py-11 sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 sm:min-h-[680px] rounded-none sm:rounded-t-[20px]'
+      className='relative w-full h-full py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
       style={{
         background: `url('/images/apples/applesBg.webp') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
       <Coefficient ballsArr={coefficientData} multipliers={multiplier} />
       <div className='h-full flex items-center justify-center'>
         <AppleTable

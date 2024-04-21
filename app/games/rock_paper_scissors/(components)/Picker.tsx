@@ -21,7 +21,7 @@ const RpsPicker = ({ className }: { className?: string }) => {
   }
 
   return (
-    <div className={`w-full sm:w-fit grid grid-cols-3 gap-x-1.5 ${className}`}>
+    <div className={`w-full sm:w-fit grid grid-cols-3 gap-x-1.5  ${className}`}>
       {buttons.map(({ value, Icon }, index) => (
         <div
           key={index}

@@ -44,6 +44,13 @@ input::-webkit-inner-spin-button {
   border-radius: 4px;
 }
 
+.home-btn{
+  &::before {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -346,7 +353,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes bblFadInOut {
-
   0%,
   80%,
   100% {
@@ -775,146 +781,139 @@ body::-webkit-scrollbar-thumb {
   }
 }
 
-@keyframes ball_1 {
-  0% {
-    transform: translate(0, 0) scale(1);
-    z-index: 2;
+.thimbles_table_wrap {
+  --distance: 222px;
+  @media (max-width: 760px) {
+    --distance: 29vw;
+  }
+  @media (max-width: 650px) {
+    --distance: 33.5vw;
+  }
+  @media (max-width: 490px) {
+    --distance: 35.4vw;
+  }
+  @media (max-width: 400px) {
+    --distance: 32.4vw;
+  }
+  @media (max-width: 350px) {
+    --distance: 30.5vw;
+  }
+  @keyframes ball_1 {
+    0% {
+      transform: translate(0, 0) scale(1);
+      z-index: 2;
+    }
+    8% {
+      transform: translate(calc(var(--distance) / 2), 50px) scale(1.075);
+    }
+    16% {
+      transform: translate(var(--distance), 50px) scale(1.15);
+      z-index: 1;
+    }
+    33% {
+      transform: translate(calc(var(--distance) * 2), 0) scale(1);
+    }
+    49% {
+      transform: translate(calc(var(--distance) * 2), 0) scale(1);
+      z-index: 2;
+    }
+    57% {
+      z-index: 6;
+      transform: translate(calc(var(--distance) * 2.5), 0) scale(1);
+    }
+    66% {
+      transform: translate(var(--distance), 50px) scale(1.15);
+      z-index: 6;
+    }
+    74% {
+      transform: translate(calc(var(--distance) / 2), 25px) scale(1.075);
+    }
+    82% {
+      transform: translate(0, 0) scale(1);
+      z-index: 4;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      z-index: 4;
+    }
   }
 
-  8% {
-    transform: translate(calc(var(--distance) / 2), 50px) scale(1.075);
+  @keyframes ball_2 {
+    0% {
+      // background-color: blue;
+      transform: translate(0, 0) scale(1);
+    }
+    8% {
+      transform: translate(calc((var(--distance) / 2) * -1), 0) scale(1);
+    }
+    16% {
+      transform: translate(calc(var(--distance) * -1), 0) scale(1);
+    }
+    33% {
+      transform: translate(calc(var(--distance) * -1), 0) scale(1);
+      z-index: 2;
+    }
+    49% {
+      transform: translate(0, 40px) scale(1.15);
+    }
+
+    57% {
+      transform: translate(calc(var(--distance) / 2), -20px) scale(1);
+    }
+    66% {
+      transform: translate(var(--distance), -20px) scale(1);
+      z-index: 5;
+    }
+    74% {
+      transform: translate(var(--distance), 0) scale(1);
+    }
+    82% {
+      transform: translate(var(--distance), 0) scale(1);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
   }
 
-  16% {
-    transform: translate(var(--distance), 50px) scale(1.15);
-    z-index: 1;
-  }
+  @keyframes ball_3 {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+    8% {
+      transform: translate(0, 0) scale(1);
+    }
+    16% {
+      transform: translate(0, 0) scale(1);
+    }
+    24% {
+      transform: translate(calc(var(--distance) / 2), 0) scale(1);
+      z-index: 2;
+    }
+    33% {
+      transform: translate(calc(var(--distance) * -1), 10px) scale(1.15);
+      z-index: 1;
+    }
+    49% {
+      transform: translate(calc(var(--distance) * -1.5), -50px) scale(0.9);
+    }
 
-  33% {
-    transform: translate(calc(var(--distance) * 2), 0) scale(1);
-  }
-
-  49% {
-    transform: translate(calc(var(--distance) * 2), 0) scale(1);
-    z-index: 2;
-  }
-
-  57% {
-    z-index: 6;
-    transform: translate(calc(var(--distance) * 2.5), 0) scale(1);
-  }
-
-  66% {
-    transform: translate(var(--distance), 50px) scale(1.15);
-    z-index: 6;
-  }
-
-  74% {
-    transform: translate(calc(var(--distance) / 2), 25px) scale(1.075);
-  }
-
-  82% {
-    transform: translate(0, 0) scale(1);
-    z-index: 4;
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
-    z-index: 4;
-  }
-}
-
-@keyframes ball_2 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  8% {
-    transform: translate(calc((var(--distance) / 2) * -1), 0) scale(1);
-  }
-
-  16% {
-    transform: translate(calc(var(--distance) * -1), 0) scale(1);
-  }
-
-  33% {
-    transform: translate(calc(var(--distance) * -1), 0) scale(1);
-    z-index: 2;
-  }
-
-  49% {
-    transform: translate(0, 40px) scale(1.15);
-  }
-
-  57% {
-    transform: translate(calc(var(--distance) / 2), -20px) scale(1);
-  }
-
-  66% {
-    transform: translate(var(--distance), -20px) scale(1);
-    z-index: 5;
-  }
-
-  74% {
-    transform: translate(var(--distance), 0) scale(1);
-  }
-
-  82% {
-    transform: translate(var(--distance), 0) scale(1);
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-}
-
-@keyframes ball_3 {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  8% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  16% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  24% {
-    transform: translate(calc(var(--distance) / 2), 0) scale(1);
-    z-index: 2;
-  }
-
-  33% {
-    transform: translate(calc(var(--distance) * -1), 10px) scale(1.15);
-    z-index: 1;
-  }
-
-  49% {
-    transform: translate(calc(var(--distance) * -1.5), -50px) scale(0.9);
-  }
-
-  57% {
-    transform: translate(calc(var(--distance) * -1.5), -20px) scale(1);
-  }
-
-  66% {
-    transform: translate(calc(var(--distance) * -2), 0) scale(1);
-    z-index: 2;
-  }
-
-  74% {
-    transform: translate(calc(var(--distance) * -2.5), 25px) scale(0.9);
-    z-index: 7;
-  }
-
-  82% {
-    transform: translate(calc(var(--distance) * -1), 50px) scale(1);
-  }
-
-  100% {
-    transform: translate(0, 0) scale(1);
+    57% {
+      transform: translate(calc(var(--distance) * -1.5), -20px) scale(1);
+    }
+    66% {
+      transform: translate(calc(var(--distance) * -2), 0) scale(1);
+      z-index: 2;
+    }
+    74% {
+      transform: translate(calc(var(--distance) * -2.5), 25px) scale(0.9);
+      z-index: 7;
+    }
+    82% {
+      transform: translate(calc(var(--distance) * -1), 50px) scale(1);
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
   }
 }
 

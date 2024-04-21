@@ -1,6 +1,7 @@
+import { Slider } from '@/components/ui/slider'
 import { GameModel } from '@/states'
 import { useUnit } from 'effector-react'
-import { ChangeEvent, RefObject } from 'react'
+import { RefObject } from 'react'
 
 const RollState = ({ rangeRef }: { rangeRef: RefObject<HTMLInputElement> }) => {
   const [rollOver, RollValue, setRollValue] = useUnit([
@@ -8,10 +9,8 @@ const RollState = ({ rangeRef }: { rangeRef: RefObject<HTMLInputElement> }) => {
     GameModel.$RollValue,
     GameModel.setRollValue
   ])
-  const onChange = (el: ChangeEvent<HTMLInputElement>) => {
-    const number_value = Number(el.target.value.toString())
-
-    setRollValue(number_value)
+  const onChange = el => {
+    setRollValue(el)
   }
   return (
     <div className='w-full flex justify-center items-center sm:block sm:w-fit mx-auto mt-auto px-5 z-[3] relative mb-5 bg-[rgba(15,15,15,0.2)] p-[20px_0_0_0]'>
@@ -22,14 +21,12 @@ const RollState = ({ rangeRef }: { rangeRef: RefObject<HTMLInputElement> }) => {
         <span className='text-[#eaeaea] text-center text-sm font-black uppercase'>
           {rollOver ? 5 : 0.1}
         </span>
-        <input
-          className={`dice_range ${rollOver ? 'dice_over' : 'dice_under'}`}
-          type='range'
+        <Slider
+          ref={rangeRef}
+          className='w-[230px] sm:w-[538px] xl:w-[948px]'
           min={rollOver ? 5 : 0.1}
           max={rollOver ? 99.9 : 95}
-          value={RollValue}
-          onChange={onChange}
-          ref={rangeRef}
+          onValueChange={onChange}
           step={0.1}
         />
         <span className='text-[#eaeaea] text-center text-sm font-black uppercase'>

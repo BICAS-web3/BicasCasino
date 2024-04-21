@@ -85,15 +85,16 @@ const MenuItem = ({ href, data, open, className }: Props) => {
         <Button
           href={`/${href === 'home' ? '' : href}`}
           className={cn(
-            'w-full flex items-center flex-nowrap relative overflow-hidden hover:text-white min-h-[50px] min-w-[50px]',
+            'w-full flex items-center flex-nowrap text-[#979797] relative overflow-hidden hover:text-white min-h-[50px] min-w-[50px]',
             open
               ? 'justify-start open rounded-[20px] gap-3 bg-[#121212]'
               : 'justify-center rounded-xl flex-col bg-transparent hover:bg-transparent gap-1',
-            `/${href === 'home' ? '' : href}` === params
-              ? 'text-[#FFE09D] sidebar-item--active'
-              : 'text-[#979797]',
+            // `/${href === 'home' ? '' : href}` === params
+            //   ? 'text-[#FFE09D] sidebar-item--active'
+            //   : 'text-[#979797]',
             className,
-            data.title === 'Bonus' && open && 'bonus-block'
+            data.title === 'Bonus' && open && 'bonus-block',
+            data.title === 'Home' && 'home-btn'
           )}
           variant='secondary'
           size={open ? 'default' : 'icon'}

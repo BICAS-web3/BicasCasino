@@ -41,7 +41,7 @@ const Sidebar = () => {
               open ? 'flex gap-1.5' : 'hidden sm:flex'
             )}
           >
-            <div className={cn('flex flex-col gap-1')}>
+            <div className={cn('flex flex-col gap-[5px]')}>
               {SMobileMenu.map((item, index) => (
                 <MenuItem
                   open={open}
@@ -76,7 +76,7 @@ const Sidebar = () => {
               open ? 'flex gap-1.5' : 'hidden sm:flex'
             )}
           >
-            <div className={cn('flex flex-col', open ? 'gap-.5 sm:gap-1' : '')}>
+            <div className={cn('flex flex-col', open ? 'gap-[5px]' : '')}>
               {STopMenu.map((item, index) => (
                 <MenuItem
                   open={open}
@@ -93,7 +93,7 @@ const Sidebar = () => {
 
             <div
               className={cn(
-                'flex flex-col gap-.5 sm:gap-1 rounded-[20px]',
+                'flex flex-col gap-[5px] sm:gap-[5px] rounded-[20px]',
                 open ? 'bg-[#121212]' : 'bg-transparent'
               )}
             >

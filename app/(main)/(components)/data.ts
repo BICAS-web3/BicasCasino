@@ -128,7 +128,7 @@ export const games_banner = [
   {
     image: '/images/new_banners/15.png',
     id: '15',
-    link: '/games/thimbles',
+    link: '/games/thimbles_3',
     title: 'Thimbles'
   }
   // {
