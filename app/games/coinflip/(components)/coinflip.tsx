@@ -173,14 +173,14 @@ const CoinFlipGame = () => {
   useEffect(() => setInGame(isPlaying), [isPlaying])
   return (
     <div
-      className='relative w-full h-[328px] sm:h-full xl:h-full min-h-[328px] sm:min-h-[594px] xl:min-h-[680px] px-4'
+      className='relative w-full h-full px-4 flex-[1_1_auto] flex flex-col'
       style={{
         background: `url('/images/coinflip_images/bg.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
       <Coefficient ballsArr={coefficientData} common />
-      <div className='relative w-full h-full flex flex-col overflow-hidden'>
+      <div className='relative w-full h-full flex flex-col overflow-hidden  flex-[1_1_auto]'>
         <div className='w-full h-[370px] flex flex-col items-center absolute top-[100px] sm:top-[219px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
           <div className='h-[114px] sm:h-[154px] xl:h-full w-full'>
             <Canvas

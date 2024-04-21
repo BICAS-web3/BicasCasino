@@ -1,20 +1,19 @@
 'use client'
 
 import Coefficient from '@/components/custom/coefficient'
-import TotalCoeff from '@/components/custom/totalCoeff'
 import { useSocket } from '@/components/providers/socket.provider'
 import { cn } from '@/lib/utils'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useGetState } from '@/lib/utils/useGetState'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
-import { Tile, initialGameField, initialPickedTiles, maxReveal } from '../data'
+import { Tile, initialGameField, initialPickedTiles } from '../data'
 import { handleResult, pickTileforMine } from '../utils'
 import SelectedMine from './selected.mine'
-import { useSubscibeBets } from '@/lib/utils/subscibe'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { useGetState } from '@/lib/utils/useGetState'
 
 const MinesGame = () => {
   const socket = useSocket()
@@ -79,8 +78,6 @@ const MinesGame = () => {
     RegistrModel.$access_token,
     GameModel.$isPlaying
   ])
-
-  const [preloading, setPreloading] = useState(true)
   const [isCashout, setIsCashout] = useState(true)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [fullWon, setFullWon] = useState(0)
@@ -285,21 +282,14 @@ const MinesGame = () => {
       triggerRedraw
     })
 
-  // useEffect(() => alert(inGame), [inGame])
-
   return (
     <div
-      className='w-full h-full relative flex justify-center flex-col min-h-[680px]'
+      className='w-full h-full relative flex justify-center flex-col  flex-[1_1_auto]'
       style={{
         background: `url('/images/mines_images/mines_bg.webp') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
       <Coefficient common ballsArr={coefficientData} />
       <div className='w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'>
         {redrawTrigger &&

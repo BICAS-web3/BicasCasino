@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import MinesGame from './(components)/MinesGame'
 
 export const metadata: Metadata = {
-  title: 'Games - Wheel',
-  description: 'Wheel game page '
+  title: 'Games - Mines',
+  description: 'Mines game page '
 }
 
 const Wheel = () => {

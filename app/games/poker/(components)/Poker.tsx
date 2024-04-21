@@ -256,7 +256,7 @@ export const Poker = ({}: PokerProps) => {
         />
       )}
 
-      <div className='w-full h-full relative'>
+      <div className='w-full h-full relative  flex-[1_1_auto] flex flex-col items-center justify-center'>
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image
             onLoad={() => setImageLoading_1(false)}
@@ -264,14 +264,9 @@ export const Poker = ({}: PokerProps) => {
             className='rounded-[20px_20px_0_0] object-cover w-full h-full'
             alt='table-bg'
           />
-        </div>{' '}
-        <TotalCoeff
-          fullLost={fullLost}
-          fullWon={fullWon}
-          totalValue={totalValue}
-        />
+        </div>
         <Coefficient ballsArr={coefficientData} />
-        <div className='h-full'>
+        <div className='h-full flex items-center justify-center'>
           <div
             className='p-[22px] w-[calc(100%_-_44px)] h-[calc(100%_-_44px)] sm:w-[calc(100%_-_40px)] sm:h-[calc(100%_-_40px)] sm:p-[20px] flex items-center justify-center tb:gap-[1.5vw] gap-[1vw]'
             style={{

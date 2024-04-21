@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { MutableRefObject, RefObject } from 'react'
+import { MutableRefObject, RefObject, useEffect } from 'react'
 
 const Thimble = ({
   ind,
@@ -23,10 +23,8 @@ const Thimble = ({
   return (
     <div
       key={ind}
-      className={`
-                flex flex-col justify-center items-center transition-all duration-500 relative
-                ${showAnimation && `thimble_wrap_${ind + 1}`}
-              `}
+      className={`flex flex-col justify-center items-center transition-all duration-500 relative
+                ${showAnimation && `thimble_wrap_${ind + 1}`}`}
       onClick={() => {
         if (!showAnimation && !openGame && isPlaying) {
           setSelected(ind)
@@ -37,12 +35,10 @@ const Thimble = ({
       {activeThimble === ind || openGame == ind ? (
         <img
           src='/images/thimbles/activeThimble.webp'
-          className={`
-                    absolute select-none opacity-0 invisible z-[2] transition-all duration-400
+          className={`absolute select-none opacity-0 invisible z-[2] transition-all duration-400
                     bottom-[-10.5px] h-[79px] max-w-[92px] smm:bottom-[-20.5px] smm:h-[142px] smm:max-w-[165.5px] smm:w-full
                     opacity-100 !visible bottom-[94px] smm:bottom-[85px] tbb:bottom-[80px] tbb:max-w-[186px] tbb:h-[160px]
-                    ${selectedShow === ind && 'bottom-[105px]'}
-                  `}
+                    ${selectedShow === ind && 'bottom-[105px]'}`}
           alt='thimble'
         />
       ) : (

@@ -31,17 +31,21 @@ const MarqueeLine = dynamic(() => import('./(components)/marquee'), {
 import Preview from './(components)/preview'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
+import Footer from '@/components/custom/footer'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 const Home = () => (
-  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full sm:max-w-screen-2xl overflow-hidden w-full h-full'>
-    <MarqueeLine />
-    <Preview className='mt-[15px]' />
-    <Banner />
-    <GameBanners className='mt-[15px]' />
-  </div>
+  <>
+    <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full sm:max-w-screen-2xl overflow-hidden w-full h-full'>
+      <MarqueeLine />
+      <Preview className='mt-[15px]' />
+      <Banner />
+      <GameBanners className='mt-[15px]' />
+    </div>
+    <Footer />
+  </>
 )
 export default Home

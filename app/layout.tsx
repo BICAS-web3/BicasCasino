@@ -1,5 +1,5 @@
 import MainProvider from '@/components/providers/main.provider'
-import './globals.css'
+import './globals.scss'
 
 import { Nunito_Sans, Source_Sans_3 } from 'next/font/google'
 import localFont from 'next/font/local'
