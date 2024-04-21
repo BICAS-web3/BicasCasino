@@ -18,10 +18,16 @@ export const main_banner = [
     text: "Become a VIP and get benefits"
   },
   {
-    img: '/images/main_banner/banner2.png',
-    title: "NFT Market",
-    btn: 'Play now',
-    text: 'Our NFT holders get Up to 18% airdrop payout'
+    img: '/images/main_banner/banner4.png',
+    title: 'Poker Tournaments',
+    btn: 'Claim your deposit bonus',
+    text: "Every week in our telegram community"
+  },
+  {
+    img: '/images/main_banner/banner5.png',
+    title: 'Treasure Chest',
+    btn: 'Claim your deposit bonus',
+    text: "Open the chests and claim your treasures"
   },
   // {
   //   img: '/images/main_banner/banner_1.png',

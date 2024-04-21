@@ -3,7 +3,7 @@ import { socials } from '../data'
 
 const Social = () => {
   return (
-    <div className='flex flex-col gap-y-6'>
+    <div className='flex flex-col gap-y-6 '>
       <h6 className='text-[#979797] text-center font-normal'>
         Join our Community
       </h6>

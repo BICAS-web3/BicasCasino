@@ -56,7 +56,7 @@ $isPlaying.on(setIsPlaying, (_, state) => state)
 $waitingResponse.on(setWaitingResponse, (_, state) => state)
 $playSounds.on(switchSounds, (old, state) => state)
 $gameStatus.on(setGameStatus, (_, status) => status)
-$autoVisible.on(setAutoVisible, (_, state) => state)
+$autoVisible.on(setAutoVisible, (_, state) => state )
 
 $profit.on(setWonStatus, (_, data) => data.profit).on(clearStatus, () => 0)
 $multiplier

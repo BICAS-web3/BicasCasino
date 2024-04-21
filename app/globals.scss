@@ -44,6 +44,20 @@ input::-webkit-inner-spin-button {
   border-radius: 4px;
 }
 
+.game_mob_list {
+  .game_slide {
+    @media screen and (max-width: 650px) {
+      width: 100%;
+    }
+  }
+
+  .game_slide_wrap {
+    @media screen and (max-width: 650px) {
+      width: 100%;
+    }
+  }
+}
+
 .home-btn{
   &::before {
     visibility: hidden;

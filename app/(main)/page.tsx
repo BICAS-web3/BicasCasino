@@ -32,6 +32,7 @@ import Preview from './(components)/preview'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import Footer from '@/components/custom/footer'
+import { MobileList } from './(components)/mobileList'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
@@ -47,6 +48,7 @@ const Home = () => (
         <Banner />
       </div>
       <GameBanners className='mt-[15px]' />
+      <MobileList />
     </div>
     <Footer />
   </div>
