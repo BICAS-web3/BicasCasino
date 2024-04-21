@@ -863,3 +863,18 @@ export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
       .catch(e => e)
   }
 )
+
+export const getTokensGeneral = createEffect<T_Header, T_ApiResponse, string>(
+  async () => {
+    return fetch(`${BaseApiUrl}/general/promtokens`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+        // Authorization: `Bearer ${form.bareer}`
+      }
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)

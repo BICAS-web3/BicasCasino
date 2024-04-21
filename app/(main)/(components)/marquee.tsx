@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import Marquee from 'react-fast-marquee'
 
@@ -6,6 +8,8 @@ import { ChevronsUp } from 'lucide-react'
 import { marquee_data } from './data'
 import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useEffect } from 'react'
+import { getTokensGeneral } from '@/api'
 
 const MarqueeItem = dynamic(() => import('./marquee.item'), {
   loading: () => (
@@ -18,6 +22,12 @@ const MarqueeItem = dynamic(() => import('./marquee.item'), {
 })
 
 export const MarqueeLine = () => {
+  useEffect(() => {
+    ;(async () => {
+      const data = await getTokensGeneral({ bareer: '' })
+      console.log('tokensData::', data)
+    })()
+  }, [])
   return (
     <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5 ml-0'>
       <Marquee

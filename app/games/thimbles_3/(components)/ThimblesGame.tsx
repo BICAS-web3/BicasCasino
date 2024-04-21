@@ -69,12 +69,12 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const [showAnimation, setShowAnimation] = useState(false)
   const [selected, setSelected] = useState<null | number>(null)
   const [subscribed, setCubscribed] = useState(false)
-  const [selectedShow, setSelectedShow] = useState<number | null>(null)
+  const [selectedShow, setSelectedShow] = useState<number[] | null>(null)
   const [fullWon, setFullWon] = useState(0)
   const [fullLost, setFullLost] = useState(0)
   const [totalValue, setTotalValue] = useState(0)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
-
+  const [openBall, setOpenBall] = useState(false)
   useEffect(() => {
     useSubscibeBets({
       name: 'Thimbles',
@@ -85,12 +85,40 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
+  // useEffect(() => alert(gameStatus), [gameStatus])
+
+  const [index, setIndex] = useState(1)
+
+  useEffect(() => {
+    if (gameStatus === 0 && selected !== null) {
+      setIndex(selected)
+    } else if (gameStatus === 1 && selected !== null) {
+      selected === 1 ? setIndex(0) : setIndex(1)
+    }
+  }, [gameStatus, selected])
+
+  const [firstBet, setFirstBet] = useState(true)
+
   useEffect(() => {
     if (isPlaying) {
-      setSelected(null)
-      setOpenGame(null)
+      if (!firstBet) {
+        setSelectedShow([0, 1, 2])
+      }
+      setTimeout(() => {
+        setFirstBet(false)
+        setSelectedShow(null)
+        setSelected(null)
+        setOpenGame(null)
+        setOpenBall(false)
+      }, 650)
     }
   }, [isPlaying])
+
+  useEffect(() => {
+    if (isPlaying && selectedShow?.length === 3) {
+      setOpenBall(true)
+    }
+  }, [isPlaying, selectedShow?.length])
 
   useEffect(() => {
     if (startGame) {
@@ -190,7 +218,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
 
   useEffect(() => {
     if (selected !== null) {
-      setSelectedShow(selected)
+      setSelectedShow([selected])
     } else
       [
         setTimeout(() => {
@@ -224,6 +252,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         <div className='gap-[20px] sm:gap-[35px] mb-[50px] sm:mb-[73px] relative flex'>
           {thimbles.map((_, ind) => (
             <Thimble
+              openBall={ind === index && openBall}
               activeThimble={activeThimble}
               animatedRefs={animatedRefs}
               ind={ind}

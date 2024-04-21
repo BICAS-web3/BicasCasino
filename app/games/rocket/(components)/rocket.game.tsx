@@ -1,6 +1,5 @@
 'use client'
 import Coefficient from '@/components/custom/coefficient'
-import Preload from '@/components/custom/preload'
 import { useSocket } from '@/components/providers/socket.provider'
 import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
@@ -96,8 +95,6 @@ const RocketGame = () => {
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100))
   const rollOverNumber = rollOver ? 100 - RollValue : RollValue
   const rollUnderNumber = rollOver ? RollValue : 100 - RollValue
-  const rocketRef = useRef<HTMLVideoElement | null>(null)
-  const bgRef = useRef<HTMLVideoElement | null>(null)
   const rangeRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -139,21 +136,6 @@ const RocketGame = () => {
       pickSide(pickedSide ^ 1)
     }
   }, [gameStatus])
-
-  useEffect(() => {
-    const video = rocketRef.current
-    const handleTimeUpdate = () => {
-      const duration = video?.duration || 0
-      const currentTime = video?.currentTime || 0
-      if (currentTime + 0.1 >= duration - 1) {
-        video!.currentTime = 4
-      }
-    }
-    video?.addEventListener('timeupdate', handleTimeUpdate)
-    return () => {
-      video?.removeEventListener('timeupdate', handleTimeUpdate)
-    }
-  }, [])
 
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
@@ -200,13 +182,6 @@ const RocketGame = () => {
     }
   ]
   const changeBetween = () => flipRollOver(RollValue)
-
-  useEffect(() => {
-    const bg = bgRef.current
-    const bg_2 = rocketRef.current
-    bg!.currentTime = 0
-    bg_2!.currentTime = 0
-  }, [inGame])
 
   useEffect(() => {
     if (coefficientData.length > 0) {
@@ -277,11 +252,19 @@ const RocketGame = () => {
   }, [])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
-  const imageError = () => setImageLoading_1(false)
 
   return (
-    <section className='w-full h-full relative flex flex-col overflow-hidden  flex-[1_1_auto]'>
-      {isLoading && <Preload />}
+    <section
+      style={{
+        background: `url('/images/rocket/bg.png') center center no-repeat`,
+        backgroundSize: 'cover',
+        zIndex: 2
+      }}
+      className='w-full h-full relative flex flex-col overflow-hidden  flex-[1_1_auto]'
+    >
+      <div className='stars'></div>
+      <div className='twinkling'></div>
+      <div className='clouds'></div>
       <ReactHowler
         src={'/music/rocket_fly_2.mp3'}
         playing={bgPlay && playSounds !== 'off'}
@@ -312,7 +295,7 @@ const RocketGame = () => {
           ballsArr={coefficientData}
           multipliers={multiplier}
         />
-        <video
+        {/* <video
           onPlay={imageError}
           onError={imageError}
           ref={rocketRef}
@@ -339,7 +322,7 @@ const RocketGame = () => {
           playsInline
         >
           <source src={'/videos/rocket/bg_1.mp4'} type='video/mp4' />
-        </video>
+        </video> */}
         <div
           onClick={() => setRestartGif(prev => prev + 1)}
           className={`bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${

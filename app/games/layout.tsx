@@ -26,6 +26,7 @@ function Layout({ children }) {
             profit={profit}
           />
         )}
+
         {/* {gameStatus == GameModel.GameStatus.Lost && (
           <div
             className='left-[calc(50%-72px)] top-auto sm:top-[-1px] sm:left-[calc(50%-90.405px)] sm:bottom-auto bottom-0 absolute z-[7] min-w-max'

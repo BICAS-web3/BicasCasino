@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { MutableRefObject, RefObject, useEffect } from 'react'
+import { MutableRefObject, RefObject } from 'react'
 
 const Thimble = ({
   ind,
@@ -9,16 +9,18 @@ const Thimble = ({
   openGame,
   activeThimble,
   setSelected,
-  animatedRefs
+  animatedRefs,
+  openBall
 }: {
   ind: number
-  selectedShow: number | null
+  selectedShow: number[] | null
   showAnimation: boolean
   isPlaying: boolean
   openGame: number | null
   activeThimble: number | null
   setSelected: (el: number) => void
   animatedRefs: MutableRefObject<RefObject<HTMLDivElement>[]>
+  openBall?: boolean
 }) => {
   return (
     <div
@@ -38,7 +40,7 @@ const Thimble = ({
           className={`absolute select-none opacity-0 invisible z-[2] transition-all duration-400
                     bottom-[-10.5px] h-[79px] max-w-[92px] smm:bottom-[-20.5px] smm:h-[142px] smm:max-w-[165.5px] smm:w-full
                     opacity-100 !visible bottom-[94px] smm:bottom-[85px] tbb:bottom-[80px] tbb:max-w-[186px] tbb:h-[160px]
-                    ${selectedShow === ind && 'bottom-[105px]'}`}
+                    ${selectedShow?.includes(ind) && 'bottom-[105px]'}`}
           alt='thimble'
         />
       ) : (
@@ -47,7 +49,7 @@ const Thimble = ({
           className={`
                     select-none z-[3] absolute bottom-0 transition-all duration-400
                     max-w-[70px] h-[57px] smm:h-[104px] smm:max-w-[130px] smm:w-full tbb:w-[auto] tbb:h-[auto]
-                    ${selectedShow === ind && 'bottom-[105px]'}
+                    ${selectedShow?.includes(ind) && 'bottom-[105px]'}
                     ${
                       !showAnimation &&
                       !openGame &&
@@ -58,7 +60,7 @@ const Thimble = ({
           alt='thimble'
         />
       )}
-      {(activeThimble === ind || openGame == ind) && (
+      {(activeThimble === ind || openGame == ind || openBall) && (
         <Image
           width={40}
           height={40}
