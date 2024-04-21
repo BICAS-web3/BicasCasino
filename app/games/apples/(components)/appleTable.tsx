@@ -12,6 +12,8 @@ import {
   CfBgSVG
 } from '../(icons)'
 
+import AppleBgF from '@/public/icons/appleIco.svg'
+
 import { cn } from '@/lib/utils'
 
 import { GameModel } from '@/states'
@@ -175,7 +177,7 @@ const AppleTable: FC<IAppleTable> = ({
                       <AppleBgSVG className='absolute w-full h-full object-cover left-0' />
                     )}
                     <div className='w-full flex h-full justify-center items-center relative'>
-                      <div className='w-[22px] h-[22px] sm:w-auto sm:h-auto'>
+                      <div className='w-[22px] h-[22px] flex items-center justify-center sm:w-auto sm:h-auto'>
                         {falseResult ? (
                           <AppleFalseIcoSVG
                             className={`duration-500 w-full h-full ${
@@ -197,15 +199,22 @@ const AppleTable: FC<IAppleTable> = ({
                             }`}
                           />
                         ) : (
-                          <AppleIcoSVG
-                            className={`duration-500 w-full h-full ${
-                              picked
-                                ? resultExist && falseResult
-                                  ? 'text-[#b44646]'
-                                  : 'text-[#49b446]'
-                                : 'text-[#5E675E]'
-                            }`}
-                          />
+                          // <AppleIcoSVG
+                          //   className={`duration-500 w-full h-full ${
+                          //     picked
+                          //       ? resultExist && falseResult
+                          //         ? 'text-[#b44646]'
+                          //         : 'text-[#49b446]'
+                          //       : 'text-[#5E675E]'
+                          //   }`}
+                          // />
+                          <AppleBgF className={`duration-500 w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] ${
+                                picked
+                                  ? resultExist && falseResult
+                                    ? 'text-[#b44646]'
+                                    : 'text-[#49b446]'
+                                  : 'text-[#5E675E]'
+                              }`} />
                         )}
                       </div>
                     </div>

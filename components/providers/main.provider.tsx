@@ -16,6 +16,10 @@ import { useLayoutEffect, useState } from 'react'
 import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
 import Preload from '@/components/custom/preload'
+import { Metadata } from 'next'
+
+
+
 
 type Props = {
   children: React.ReactNode
@@ -38,7 +42,7 @@ const MainProvider = ({ children }: Props) => {
                 <Header />
                 <div className='flex flex-col sm:flex-row flex-nowrap relative'>
                   <Sidebar />
-                  <div className='w-auto flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
+                  <div className='w-auto tbb:pl-[90px] flex-1 flex justify-between flex-col min-h-screen overflow-hidden'>
                     {children}
                     <Footer />
                   </div>
