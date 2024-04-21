@@ -25,18 +25,12 @@ export const UserModal:FC<UserModalProps> = () => {
         HeaderM.setUserModalVisibility
     ])
 
-    const [isDrax, setDrax, access_token, userInfo, result, setBalanceValue, balanceU] =
+    const [isDrax, setDrax, info] =
     useUnit([
       UserModel.$isDrax,
       UserModel.setIsDrax,
-      RegistrModel.$access_token,
-      UserModel.$userInfo,
-      GameModel.$result,
-      UserModel.setBalance,
-      UserModel.$balance
+      UserModel.$userInfo
     ])
-
-  const [balance, setBalance] = useState<null | IAmount>(null)
 
   const changeToken = (isDrax:boolean) => {
     const type = isDrax ? 'Drax' : 'DraxBonus'
@@ -45,7 +39,7 @@ export const UserModal:FC<UserModalProps> = () => {
 
     return (
         <Dialog open={visibility} onOpenChange={() => setVisibility(false)} >
-            <DialogContent className='gap-0 !flex flex-col max-w-[560px] !h-fit bg-[#191919] p-[10px_20px]' customClose>
+            <DialogContent className='gap-0 !flex flex-col max-w-[560px] !h-fit bg-[#191919] p-[10px_20px_30px_20px]' customClose>
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-[10px] text-[#979797] text-[17px] font-bold">
                         <ModalIco />
@@ -83,6 +77,24 @@ export const UserModal:FC<UserModalProps> = () => {
                                 DraxCoins
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="grid mt-[20px] grid-cols-2 gap-[10px]">
+                    <div className="bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]">
+                        <span className="text-[#fff] text-[15px] font-bold">3</span>
+                        <span className="text-[#7e7e7e] text-[15px] font-medium uppercase">wins</span>
+                    </div>
+                    <div className="bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]">
+                        <span className="text-[#fff] text-[15px] font-bold">3</span>
+                        <span className="text-[#7e7e7e] text-[15px] font-medium uppercase">wins</span>
+                    </div>
+                    <div className="bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]">
+                        <span className="text-[#fff] text-[15px] font-bold">3</span>
+                        <span className="text-[#7e7e7e] text-[15px] font-medium uppercase">wins</span>
+                    </div>
+                    <div className="bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]">
+                        <span className="text-[#fff] text-[15px] font-bold">3</span>
+                        <span className="text-[#7e7e7e] text-[15px] font-medium uppercase">wins</span>
                     </div>
                 </div>
             </DialogContent>
