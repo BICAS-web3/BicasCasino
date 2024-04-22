@@ -33,6 +33,7 @@ export const Banner = () => {
       modules={[Autoplay, Navigation]}
       spacing={20}
       loop={true}
+      containerClassName='p-[16px] sm:p-0'
     >
       {main_banner.map((item, i) => (
         <SwiperSlide

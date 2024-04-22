@@ -44,7 +44,7 @@ const GameBanners = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
-    <div className={`flex flex-col gap-2.5 overflow-hidden ${className}`}>
+    <div className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}>
       <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
         Show all
         <div className='flex gap-[5px]'>
@@ -90,7 +90,7 @@ const GameBanners = ({ className }: { className?: string }) => {
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
           >
-            <GameSlideItem image={item.image} link={item.link} />
+            <GameSlideItem image={item.image} title={item.title} link={item.link} />
           </SwiperSlide>
         ))}
       </Carousel>

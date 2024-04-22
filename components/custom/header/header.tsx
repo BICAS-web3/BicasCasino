@@ -9,7 +9,7 @@ import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
 
-import { GameModel, RegistrModel, UserModel } from '@/states'
+import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
 import { UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
@@ -178,8 +178,12 @@ const Header = () => {
   //   }
   // }, [session])
 
+  const [opened] = useUnit([
+    SidebarModel.$open
+  ])
+
   return (
-    <header className='flex justify-between items-center px-3 sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-black'>
+    <header className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${!opened ? "px-3 sm:!pr-10" : "px-3"} sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-[#0F0F0F]`}>
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />

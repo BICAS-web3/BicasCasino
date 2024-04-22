@@ -22,7 +22,7 @@ const SidebarSettings = ({ open, handleAction }: Props) => (
       onClick={handleAction}
       variant='ghost'
       size='icon'
-      className='border border-[#202020]'
+      className='border !rounded-[12px]border-[#202020]'
     >
       <ArrowLeftToLine
         className={cn(

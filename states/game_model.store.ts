@@ -33,6 +33,7 @@ export const $betValue = createStore<bigint>(BigInt(0))
 export const $isEmtyWager = createStore<boolean>(false)
 export const $refund = createStore<boolean>(false)
 export const $gamesList = createStore<GamesList[]>([])
+export const $autoVisible = createStore<boolean>(false)
 // events
 export const setIsPlaying = createEvent<boolean>()
 export const setWaitingResponse = createEvent<boolean>()
@@ -47,6 +48,7 @@ export const setRefund = createEvent<boolean>()
 export const setGamesList = createEvent<GamesList[]>()
 export const $keep = createStore(false)
 export const setKeep = createEvent<boolean>()
+export const setAutoVisible = createEvent<boolean>()
 $keep.on(setKeep, (_, state) => state)
 // handlers
 $betValue.on(setBetValue, (_, state) => state)
@@ -54,6 +56,7 @@ $isPlaying.on(setIsPlaying, (_, state) => state)
 $waitingResponse.on(setWaitingResponse, (_, state) => state)
 $playSounds.on(switchSounds, (old, state) => state)
 $gameStatus.on(setGameStatus, (_, status) => status)
+$autoVisible.on(setAutoVisible, (_, state) => state )
 
 $profit.on(setWonStatus, (_, data) => data.profit).on(clearStatus, () => 0)
 $multiplier
