@@ -1,19 +1,18 @@
 'use client'
 
+import Coefficient from '@/components/custom/coefficient'
+import { useSocket } from '@/components/providers/socket.provider'
+import { sendSocketData } from '@/lib/utils/game.send'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
+import { CoinAction } from '@/types/games.types'
 import { Environment, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { useSocket } from '@/components/providers/socket.provider'
 import Model from '../(models)/coin'
-import Coefficient from '@/components/custom/coefficient'
-import TotalCoeff from '@/components/custom/totalCoeff'
-import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
-import { CoinAction } from '@/types/games.types'
 import { processBetResult } from '../(utils)'
-import { useSubscibeBets } from '@/lib/utils/subscibe'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { sendSocketData } from '@/lib/utils/game.send'
 import Selector from './selector'
 
 const CoinFlipGame = () => {
@@ -68,9 +67,7 @@ const CoinFlipGame = () => {
     GameModel.$isPlaying,
     RegistrModel.$access_token
   ])
-  const [modelLoading, setModelLoading] = useState(true)
-  const [imageLoading, setIMageLoading] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
+
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [subscribed, setCubscribed] = useState(false)
@@ -134,18 +131,7 @@ const CoinFlipGame = () => {
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
 
-  // useEffect(() => {
-  //   if (!modelLoading && !imageLoading) {
-  //     setIsLoading?.(modelLoading)
-  //   }
-  // }, [modelLoading, imageLoading])
-
   useEffect(() => setInGame(isPlaying), [isPlaying])
-
-  const subscribe = {
-    type: 'SubscribeBets',
-    payload: [gamesList.find(item => item.name === 'CoinFlip')?.id]
-  }
 
   useEffect(() => {
     setBetData({

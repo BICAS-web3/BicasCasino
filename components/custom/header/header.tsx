@@ -112,13 +112,13 @@ const Header = () => {
   useEffect(() => {
     if (access_token) {
       if (socket) {
-        if (socket!.readyState === 1) {
-          socket!.send(JSON.stringify({ type: 'GetUuid' }))
-          socket!.send(JSON.stringify({ type: 'Auth', token: access_token }))
+        if (socket.readyState === 1) {
+          socket.send(JSON.stringify({ type: 'GetUuid' }))
+          socket.send(JSON.stringify({ type: 'Auth', token: access_token }))
           setSocketAuth(true)
           setErrorSeed(false)
           setSocketLogged(true)
-          socket!.send(JSON.stringify(seed_data))
+          socket.send(JSON.stringify(seed_data))
         }
       }
     }

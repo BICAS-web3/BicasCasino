@@ -1,44 +1,25 @@
 import { useMediaQuery } from 'usehooks-ts'
 
-import { GameModel, WagerModel } from '@/states'
-import { useUnit } from 'effector-react'
-import { FC, useEffect, useState } from 'react'
 import { IWheel, IWheelColors } from '@/types/games.types'
+import { FC, useEffect, useState } from 'react'
 
 const Wheel: FC<IWheel> = props => {
   const {
     count,
     segColors,
-    winningSegment,
-    onFinished,
     isOnlyOnce = true,
     size = 500,
-    upDuration = 1000,
-    downDuration = 100,
     fontFamily = 'proxima-nova',
     width = 100,
-    height = 100,
-    setInSpeen
+    height = 100
   } = props
   const isMobile = useMediaQuery('(max-width: 650px)')
   const isDesktop = useMediaQuery('(max-width: 1280px)')
-  const [level, pickedValue] = useUnit([
-    GameModel.$level,
-    WagerModel.$pickedRows
-  ])
-  let currentSegment = ''
+
   let isStarted = false
   const [isFinished, setFinished] = useState(false)
-  let timerHandle = 0
-  const timerDelay = 10
   let angleCurrent = 0
-  let angleDelta = 0
   let canvasContext: any = null
-  let maxSpeed = Math.PI / 10
-  const upTime = 10 * upDuration
-  const downTime = 10 * downDuration
-  let spinStart = 0
-  let frames = 0
   const centerX = isMobile ? 130 : isDesktop ? 155 : 212
   const centerY = isMobile ? 130 : isDesktop ? 155 : 212
   useEffect(() => {
@@ -47,18 +28,13 @@ const Wheel: FC<IWheel> = props => {
       wheelDraw(segColors)
     }
   }, [segColors, isDesktop, isMobile])
+
   function setupCanvas(canvas: HTMLCanvasElement) {
-    // Get the device pixel ratio, falling back to 1.
     var dpr = window.devicePixelRatio || 1
-    // Get the size of the canvas in CSS pixels.
     var rect = canvas?.getBoundingClientRect()
-    // Give the canvas pixel dimensions of their CSS
-    // size * the device pixel ratio.
     canvas!.width = rect?.width * dpr
     canvas!.height = rect?.height * dpr
     var ctx = canvas?.getContext('2d')
-    // Scale all drawing operations by the dpr, so you
-    // don't have to worry about the difference.
     ctx!.scale(dpr, dpr)
     return ctx
   }
@@ -101,7 +77,6 @@ const Wheel: FC<IWheel> = props => {
     colors: IWheelColors[]
   ) => {
     const ctx = canvasContext
-
     function toRad(deg: number): number {
       return deg * (Math.PI / 180.0)
     }
@@ -126,14 +101,12 @@ const Wheel: FC<IWheel> = props => {
       let colorStyle = color
 
       ctx!.beginPath()
-      // Рисуем сегмент без обводки
       ctx!.arc(centerX, centerY, radius, toRad(startDeg), toRad(endDeg))
       ctx!.lineTo(centerX, centerY)
       let colorStyle2 = colors[i].border
       ctx!.fillStyle = colorStyle2
       ctx!.fill()
       ctx!.beginPath()
-      // Рисуем сегмент с обводкой
       ctx!.arc(
         centerX,
         centerY,
@@ -145,7 +118,6 @@ const Wheel: FC<IWheel> = props => {
       ctx!.lineTo(centerX, centerY)
       ctx!.fill()
     }
-    // ctx.restore();
   }
 
   const drawWheel = (colors: IWheelColors[]) => {
@@ -161,7 +133,6 @@ const Wheel: FC<IWheel> = props => {
       lastAngle = angle
     }
 
-    // Draw outer circle
     ctx.beginPath()
     ctx.arc(centerX, centerY, size, 0, PI2, false)
     ctx.closePath()
@@ -183,7 +154,6 @@ const Wheel: FC<IWheel> = props => {
     ctx.textBaseline = 'middle'
     ctx.fillStyle = 'transparent'
     ctx.font = 'bold 1.5em ' + fontFamily
-    // currentSegment = segments[i];
     isStarted && ctx.fillText(' ', centerX + count, centerY + size + 50)
   }
   const clear = () => {

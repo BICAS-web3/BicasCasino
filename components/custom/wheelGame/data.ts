@@ -1,0 +1,5 @@
+export const WHITE_COLOR = '#D7E8F1'
+export const GREEN_COLOR = '#3ECF55'
+export const BLUE_COLOR = '#2C589B'
+export const PURPLE_COLOR = '#FB2E90'
+export const YELLOW_COLOR = '#FBC02E'

@@ -2,12 +2,15 @@ import { useSession } from 'next-auth/react'
 import GameMenu from './(components)/game.menu'
 import Preload from '@/components/custom/preload'
 import { useUnit } from 'effector-react'
-import { RegistrModel } from '@/states'
+import { RegistrModel, UserModel } from '@/states'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const GameLayout = ({ children }) => {
-  const [access_token] = useUnit([RegistrModel.$access_token])
+  const [access_token, socketAuth] = useUnit([
+    RegistrModel.$access_token,
+    UserModel.$socketAuth
+  ])
   const path = usePathname()
 
   const [isApples, setIsApples] = useState(false)
@@ -29,7 +32,7 @@ const GameLayout = ({ children }) => {
             : 'min-h-[328px] max-h-[328px]'
         }`}
       >
-        {access_token ? children : <Preload />}
+        {access_token && socketAuth ? children : <Preload />}
       </div>
       <GameMenu />
     </div>

@@ -116,7 +116,7 @@ $uuid.on(setUuid, (_, state) => state)
 
 //! PLINKO
 
-export const $level = createStore<string>('easy')
+export const $level = createStore<string>('Easy')
 export const $pickedValue = createStore<number>(1)
 export const $pickedRows = createStore<number>(10)
 export const $arrayStore = createStore<{ value: number; index: number }>({
