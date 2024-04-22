@@ -1097,3 +1097,129 @@ input[type='number'] {
 .total_lost {
   color: #fc3c37;
 }
+
+.row_wrap {
+  width: 100%;
+  position: relative;
+  bottom: 27%;
+  @media (max-width: 1280px) {
+    bottom: 23%;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.start_game {
+  animation: preStart_1 0.5s linear, slot_start 0.5s 0.4s steps(550, end),
+    slot_start infinite 0.35s 0.8s steps(550, end);
+}
+
+.start_game_2 {
+  animation: preStart_2 0.5s linear, slot_start_2 0.5s 0.4s steps(550, end),
+    slot_start_2 infinite 0.35s 0.8s steps(550, end);
+}
+
+.start_game {
+  animation: preStart_1 0.5s linear, slot_start 0.5s 0.4s steps(550, end),
+    slot_start infinite 0.35s 0.8s steps(550, end);
+}
+
+@keyframes preStart_1 {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(300px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes preStart_2 {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-300px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slot_start {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -800px;
+  }
+}
+
+@keyframes slot_start_2 {
+  0% {
+    top: -800px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+.squese {
+  img {
+    &:nth-child(2) {
+      animation: squese 0.6s;
+    }
+    &:nth-child(3) {
+      animation: squese_2 0.6s;
+    }
+    &:nth-child(4) {
+      animation: squese_3 0.6s;
+    }
+  }
+}
+
+@keyframes squese {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-11px);
+  }
+  66% {
+    transform: translateY(11px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes squese_2 {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-16px);
+  }
+  66% {
+    transform: translateY(16px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes squese_3 {
+  0% {
+    transform: translateY(0);
+  }
+  33% {
+    transform: translateY(-11px);
+  }
+  66% {
+    transform: translateY(11px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

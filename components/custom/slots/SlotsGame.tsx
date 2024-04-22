@@ -606,7 +606,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
       )} */}
       <div
         onClick={() => setInGame((prev) => !prev)}
-        className="relative w-full h-full"
+        className="relative w-full h-full max-h-[620px]"
       >
         <div className="
             left-[-15%] object-fill w-[130%] sxs:w-[100%] sxs:left-0 sxs:object-cover emd:object-fill mmd:object-cover
@@ -616,7 +616,7 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             onLoad={() => setImageLoading_1(false)}
             src={is1280 ? slots1280Bg.src : slotsBg.src}
             className="
-            left-[-15%] object-fill w-[130%] sxs:w-[100%] sxs:left-0 sxs:object-cover emd:object-fill mmd:object-cover
+            left-[-15%] object-fill w-[130%] sxs:w-[100%] sxs:left-0 sxs:object-cover emd:object-fill mmd:object-fill
             z-[-1] overflow-hidden top-0 bottom-0 right-0 absolute h-full rounded-0 sm:rounded-[20px_20px_0_0] emd:rounded-[20px_0_0_0]
         "
             alt="slots-static-bg"
@@ -637,13 +637,18 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             </span>
           </div>
         </div>
-        <div className={s.slots_table}>
+        <div className="
+          max-w-[83%] sxs:max-w-[341.5px] smx:max-w-[600px] emd:max-w-[81%] mmd:max-w-[50%]
+          left-[49.9%] smx:left-[50%] top-[55.5%] smx:top-[55.4%] mds:top-[55.7%] emd:top-[55.3%]
+          h-[209.6px] smx:h-[370px] md:h-[370px] translate-x-[-50%] translate-y-[-50%]
+          absolute w-full grid-cols-3 grid overflow-hidden
+        ">
           <div
-            className={clsx(
-              s.row_wrap,
-              startFirst && s.start_game,
-              startFirstSquese && gameStart && s.squese
-            )}
+            className={`
+              row_wrap
+              ${startFirst && 'start_game'}
+              ${startFirstSquese && gameStart && 'squese'}
+            `}
           >
             {imageArr1.map((img, ind) => (
               <img
@@ -655,11 +660,11 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             ))}
           </div>
           <div
-            className={clsx(
-              s.row_wrap,
-              startSecond && s.start_game_2,
-              startSecondSquese && gameStart && s.squese
-            )}
+            className={`
+              row_wrap
+              ${startSecond && 'start_game_2'}
+              ${startSecondSquese && gameStart && 'squese'}
+            `}
           >
             {imageArr2.map((img, ind) => (
               <img
@@ -671,11 +676,11 @@ export const SlotsGame: FC<SlotsGameProps> = () => {
             ))}
           </div>
           <div
-            className={clsx(
-              s.row_wrap,
-              startThird && s.start_game,
-              startThirdSquese && gameStart && s.squese
-            )}
+            className={`
+              row_wrap
+              ${startThird && 'start_game'}
+              ${startThirdSquese && gameStart && 'squese'}
+            `}
           >
             {imageArr3.map((img, ind) => (
               <img

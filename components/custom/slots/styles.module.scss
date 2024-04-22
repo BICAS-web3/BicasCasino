@@ -45,7 +45,7 @@
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
     max-width: 678.2px;
-    height: 416px;
+    height: 380px;
     position: absolute;
     top: 55.3%;
     left: 49.9%;
@@ -56,17 +56,17 @@
     }
   
     @media screen and (max-width: 996px) {
-      height: 259px;
+      height: 370px;
       top: 55.7%;
-      max-width: 49%;
+      max-width: 600px;
     }
   
-    @media screen and (max-width: 950px) {
-      height: 249px;
-      top: 55.4%;
-      max-width: 404px;
-      left: 50%;
-    }
+    // @media screen and (max-width: 950px) {
+    //   height: 249px;
+    //   top: 55.4%;
+    //   max-width: 404px;
+    //   left: 50%;
+    // }
   
     @media screen and (max-width: 600px) {
       height: 209.6px;
@@ -98,196 +98,3 @@
       slot_start infinite 0.35s 0.8s steps(550, end);
   }
   
-  .start_game_2 {
-    animation: preStart_2 0.5s linear, slot_start_2 0.5s 0.4s steps(550, end),
-      slot_start_2 infinite 0.35s 0.8s steps(550, end);
-  }
-  
-  .start_game {
-    animation: preStart_1 0.5s linear, slot_start 0.5s 0.4s steps(550, end),
-      slot_start infinite 0.35s 0.8s steps(550, end);
-  }
-  
-  @keyframes preStart_1 {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(300px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  @keyframes preStart_2 {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-300px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slot_start {
-    0% {
-      top: 0;
-    }
-    100% {
-      top: -800px;
-    }
-  }
-  
-  @keyframes slot_start_2 {
-    0% {
-      top: -800px;
-    }
-    100% {
-      top: 0;
-    }
-  }
-  
-  .squese {
-    img {
-      &:nth-child(2) {
-        animation: squese 0.6s;
-      }
-      &:nth-child(3) {
-        animation: squese_2 0.6s;
-      }
-      &:nth-child(4) {
-        animation: squese_3 0.6s;
-      }
-    }
-  }
-  
-  @keyframes squese {
-    0% {
-      transform: translateY(0);
-    }
-    33% {
-      transform: translateY(-11px);
-    }
-    66% {
-      transform: translateY(11px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  @keyframes squese_2 {
-    0% {
-      transform: translateY(0);
-    }
-    33% {
-      transform: translateY(-16px);
-    }
-    66% {
-      transform: translateY(16px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  @keyframes squese_3 {
-    0% {
-      transform: translateY(0);
-    }
-    33% {
-      transform: translateY(-11px);
-    }
-    66% {
-      transform: translateY(11px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  
-  .balls_arr {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 3px;
-    // width: 800px;
-    width: (calc(100% - 398px));
-    overflow-x: scroll;
-    gap: 10px;
-    scrollbar-width: 0;
-    &::-webkit-scrollbar {
-      display: none;
-      width: 0;
-      background-color: transparent;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    @media (max-width: 1980px) {
-      width: (calc(100% - 358px));
-    }
-    @media (max-width: 1280px) {
-      width: (calc(100% - 262px));
-    }
-    @media (max-width: 650px) {
-      top: 20px;
-      width: (calc(100% - 20px));
-    }
-  }
-  
-  .multiplier_value {
-    color: var(--white-1-ea-night, #eaeaea);
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
-    font-family: var(--font-nunito-sans);
-    font-size: 1.125rem;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 128.16%; /* 23.069px */
-    letter-spacing: 0.72px;
-    // padding: 8.5px 19px;
-    border-radius: 5px;
-    width: 60px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 60px;
-    min-height: 40px;
-    max-width: 60px;
-    max-height: 40px;
-    @media (max-width: 1280px) {
-      min-width: 48px;
-      min-height: 24px;
-      max-width: 48px;
-      max-height: 24px;
-      width: 48px;
-      height: 24px;
-      font-size: 0.875rem;
-      font-style: normal;
-      font-weight: 800;
-      line-height: 128.16%; /* 17.942px */
-      letter-spacing: 0.56px;
-    }
-    @media (max-width: 650px) {
-      font-size: 0.75rem;
-      letter-spacing: 0.48px;
-    }
-  }
-  
-  .multiplier_positive {
-    background-color: #1ea42b;
-  }
-  
-  .multiplier_negative {
-    background: var(--switch-in-game-2-e-night, #2e2e2e);
-  }
-  .total_won {
-    color: #4ed26c;
-  }
-  
-  .total_lost {
-    color: #fc3c37;
-  }
