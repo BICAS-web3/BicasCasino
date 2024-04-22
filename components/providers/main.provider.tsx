@@ -16,6 +16,8 @@ import { useLayoutEffect, useState } from 'react'
 import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
 import Preload from '@/components/custom/preload'
+import { useUnit } from 'effector-react'
+import { SidebarModel } from '@/states'
 
 type Props = {
   children: React.ReactNode
@@ -25,6 +27,10 @@ const MainProvider = ({ children }: Props) => {
   useLayoutEffect(() => {
     setLoaded(true)
   }, [])
+
+  const [open] = useUnit([
+    SidebarModel.$open
+  ])
 
   return (
     <StoreProvider>
@@ -36,9 +42,9 @@ const MainProvider = ({ children }: Props) => {
             ) : (
               <main className='min-h-screen flex flex-col relative '>
                 <Header />
-                <div className='flex flex-col sm:flex-row flex-nowrap relative'>
+                <div className={`flex flex-col sm:flex-row flex-nowrap relative`}>
                   <Sidebar />
-                  <div className='w-auto flex-1 flex justify-between flex-col overflow-hidden'>
+                  <div className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${!open && 'tbbs:ml-[90px] mmd:ml-0'}`}>
                     {children}
                   </div>
                 </div>

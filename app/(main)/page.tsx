@@ -32,20 +32,25 @@ import Preview from './(components)/preview'
 import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import Footer from '@/components/custom/footer'
+import { MobileList } from './(components)/mobileList'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 const Home = () => (
-  <>
-    <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full sm:max-w-screen-2xl overflow-hidden w-full h-full'>
-      <MarqueeLine />
-      <Preview className='mt-[15px]' />
-      <Banner />
+  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full overflow-hidden w-full h-full'>
+
+    <MarqueeLine />
+    <Preview className='mt-[15px]' />
+    <div className='pt-[10px] relative top-[-20px]'>
+      <div className='p-[10px_0] relative after:w-full after:h-full after:absolute after:top-0 after:bg-inherit after:backdrop-blur-[20px]'>
+        <Banner />
+      </div>
       <GameBanners className='mt-[15px]' />
+      <MobileList />
     </div>
     <Footer />
-  </>
+  </div>
 )
 export default Home

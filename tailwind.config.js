@@ -82,6 +82,7 @@ module.exports = {
         '5xl': '1980px',
         tb: '700px',
         tbb: '760px',
+        tbbs: '770px',
         xxs: '400px',
         xxxs: '350px',
         tmd: '910px',

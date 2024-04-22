@@ -112,7 +112,7 @@ const BalanceSwitcher = () => {
                 </span>
               )
             ) : (
-              <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-12'>
+              <span className='text-xs sm:text-[14px] leading-4 truncate w-max max-w-12'>
                 {item.isDrax
                   ? balance !== null
                     ? Number(
@@ -128,7 +128,7 @@ const BalanceSwitcher = () => {
                   : zero.toFixed(3)}
               </span>
             )}
-            <span className='text-xs sm:text-sm leading-4'>{item.token}</span>
+            <span className='text-xs sm:text-[12px] leading-4'>{item.token}</span>
           </div>
         </Button>
       ))}
