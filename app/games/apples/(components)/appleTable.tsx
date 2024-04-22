@@ -1,7 +1,7 @@
 import { useUnit } from 'effector-react'
 import useSound from 'use-sound'
 import { Dispatch, FC, SetStateAction } from 'react'
-
+import cf from '@/public/images/apples/line.png'
 import {
   AppleBgFalseSVG,
   AppleBgSVG,
@@ -12,28 +12,13 @@ import {
   CfBgSVG
 } from '../(icons)'
 
+import AppleBgF from '@/public/icons/appleIco.svg'
+
 import { cn } from '@/lib/utils'
 
 import { GameModel } from '@/states'
-
-interface IAppleData {
-  number: number
-  value: number
-}
-
-interface appleItemData {
-  apples: any[]
-  cf: number
-}
-
-interface IAppleTable {
-  chunkedApplesArr: appleItemData[]
-  appleData: IAppleData[]
-  inGame: boolean
-  mines: boolean[][]
-  setAppleData: Dispatch<SetStateAction<IAppleData[]>>
-  setAppleItem: Dispatch<SetStateAction<number[]>>
-}
+import { IAppleData, IAppleTable, appleItemData } from '@/types/games.types'
+import Image from 'next/image'
 
 const AppleTable: FC<IAppleTable> = ({
   chunkedApplesArr,
@@ -115,7 +100,11 @@ const AppleTable: FC<IAppleTable> = ({
                 ? currentIndex === appleData.length - 1
                 : currentIndex === appleData.length) ||
                 (9 === appleData.length && index === 0)) && (
-                <CfBgActiveSVG className='absolute -top-1.5 sm:-top-4 left-1/2 -translate-x-1/2 w-full' />
+                <Image
+                  src={cf}
+                  className='absolute -top-[11px] xxs:top-[-16px] sm:-top-[18px] left-1/2 -translate-x-1/2 w-full'
+                  alt=''
+                />
               )}
 
               <div className='w-[25%] sm:w-full h-3.5 sm:h-5 bottom-5 sm:bottom-[30.5px] left-1/2 max-w-[110px] absolute flex justify-center items-center px-[2px] -translate-x-1/2'>
@@ -157,25 +146,25 @@ const AppleTable: FC<IAppleTable> = ({
                     }}
                     onClick={() => handleMine(id, currentIndex)}
                     className={cn(
-                      'rounded-[5px] bg-[#2a394b] relative h-7 sm:h-10 px-2.5 overflow-hidden duration-500'
-                      // currentIndex <= appleData.length &&
-                      //   appleGameResult?.length === 0 &&
-                      //   isPlaying &&
-                      //   'cursor-pointer rounded-[5px] hover:bg-[#293e3e] shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]',
-                      // picked &&
-                      //   'bg-[#293e3e] cursor-default shadow-[0px_0px_6px_0px_#4fca88_inset]',
-                      // falseResult &&
-                      //   'bg-[#b44646] shadow-none hover:shadow-[0px_0px_4px_0px_#b44646]',
-                      // !falseResult &&
-                      //   resultExist &&
-                      //   'bg-[#4e9f31] shadow-none hover:shadow-[0px_0px_4px_0px_#4e9f31]',
-                      // currentIndex === appleData.length &&
-                      //   isPlaying &&
-                      //   appleGameResult?.length === 0 &&
-                      //   'cursor-pointer bg-[#293e3e] shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]',
-                      // isPlaying &&
-                      //   currentIndex < appleData.length &&
-                      //   'cursor-auto'
+                      'rounded-[5px] bg-[#2a394b] relative h-7 sm:h-10 px-2.5 overflow-hidden duration-500',
+                      currentIndex <= appleData.length &&
+                        appleGameResult?.length === 0 &&
+                        isPlaying &&
+                        'cursor-pointer rounded-[5px]  shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]', // hover:bg-[#293e3e]
+                      picked &&
+                        'bg-[#293e3e] cursor-default shadow-[0px_0px_6px_0px_#4fca88_inset]',
+                      falseResult &&
+                        'bg-[#b44646] shadow-none hover:shadow-[0px_0px_4px_0px_#b44646]',
+                      !falseResult &&
+                        resultExist &&
+                        'bg-[#4e9f31] shadow-none hover:shadow-[0px_0px_4px_0px_#4e9f31]',
+                      currentIndex === appleData.length &&
+                        isPlaying &&
+                        appleGameResult?.length === 0 &&
+                        'cursor-pointer bg-[#293e3e] shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]',
+                      isPlaying &&
+                        currentIndex < appleData.length &&
+                        'cursor-auto'
                     )}
                   >
                     {resultExist && picked ? (
@@ -187,37 +176,45 @@ const AppleTable: FC<IAppleTable> = ({
                     ) : (
                       <AppleBgSVG className='absolute w-full h-full object-cover left-0' />
                     )}
-                    <div className='w-full flex h-full justify-center items-center'>
-                      <div className='w-[22px] h-[22px] sm:w-auto sm:h-auto'>
-                        {resultExist && picked ? (
-                          falseResult ? (
-                            <AppleFalseIcoSVG
-                              className={`duration-500 w-full h-full ${
-                                picked &&
-                                (resultExist && falseResult
-                                  ? 'text-[#b44646]'
-                                  : 'text-[#49b446]')
-                              }`}
-                            />
-                          ) : (
-                            <AppleIcoSVG
-                              className={`duration-500 w-full h-full ${
-                                picked &&
-                                (resultExist && falseResult
-                                  ? 'text-[#b44646]'
-                                  : 'text-[#49b446]')
-                              }`}
-                            />
-                          )
-                        ) : (
-                          <AppleIcoSVG
+                    <div className='w-full flex h-full justify-center items-center relative'>
+                      <div className='w-[22px] h-[22px] flex items-center justify-center sm:w-auto sm:h-auto'>
+                        {falseResult ? (
+                          <AppleFalseIcoSVG
                             className={`duration-500 w-full h-full ${
-                              picked &&
-                              (resultExist && falseResult
-                                ? 'text-[#b44646]'
-                                : 'text-[#49b446]')
+                              picked
+                                ? resultExist && falseResult
+                                  ? 'text-[#b44646]'
+                                  : 'text-[#49b446]'
+                                : 'text-[#5E675E]'
                             }`}
                           />
+                        ) : resultExist && picked ? (
+                          <AppleIcoSVG
+                            className={`duration-500 w-full h-full ${
+                              picked
+                                ? resultExist && falseResult
+                                  ? 'text-[#b44646]'
+                                  : 'text-[#49b446]'
+                                : 'text-[#5E675E]'
+                            }`}
+                          />
+                        ) : (
+                          // <AppleIcoSVG
+                          //   className={`duration-500 w-full h-full ${
+                          //     picked
+                          //       ? resultExist && falseResult
+                          //         ? 'text-[#b44646]'
+                          //         : 'text-[#49b446]'
+                          //       : 'text-[#5E675E]'
+                          //   }`}
+                          // />
+                          <AppleBgF className={`duration-500 w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] ${
+                                picked
+                                  ? resultExist && falseResult
+                                    ? 'text-[#b44646]'
+                                    : 'text-[#49b446]'
+                                  : 'text-[#5E675E]'
+                              }`} />
                         )}
                       </div>
                     </div>

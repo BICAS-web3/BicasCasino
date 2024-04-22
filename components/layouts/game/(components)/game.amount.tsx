@@ -1,15 +1,8 @@
 import { Slider } from '@/components/ui/slider'
 import { WagerModel } from '@/states'
+import { IGameAmount } from '@/types/games.types'
 import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
-
-interface IGameAmount {
-  min: number
-  max: number
-  step?: number
-  inputType?: WagerModel.RangeType
-  title: string
-}
 
 const GameAmount = ({ min, max, step, inputType, title }: IGameAmount) => {
   const [pickedValue, pickValue] = useUnit([
@@ -29,7 +22,7 @@ const GameAmount = ({ min, max, step, inputType, title }: IGameAmount) => {
     pickValue(value[0])
   }
   return (
-    <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64'>
+    <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64 game-amount'>
       <h3 className='text-[#7E7E7E] text-sm font-semibold'>
         {title}: {pickedValue}
       </h3>

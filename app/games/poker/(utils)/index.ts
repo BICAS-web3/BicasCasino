@@ -1,11 +1,7 @@
 import { GamesList } from '@/states/game_model.store'
 import { UserType } from '@/states/user_model.store'
+import { ICards } from '@/types/games.types'
 import { Dispatch, SetStateAction } from 'react'
-
-interface ICards {
-  suit: number
-  number: number
-}
 
 export function hasRoyalFlush(cards: ICards[]) {
   const royalFlushNumbers = [1, 10, 11, 12, 13]

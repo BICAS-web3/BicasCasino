@@ -30,6 +30,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
 import { EyeClose, EyeOpen } from '../../(icons)'
 
+import * as api from '@/api'
+import { useRouter } from 'next/navigation'
+
 interface SignupProps {}
 
 const SignUp: FC<SignupProps> = () => {
@@ -74,10 +77,11 @@ const SignUp: FC<SignupProps> = () => {
       }, 1500)
     }
   }, [error])
-
+  const route = useRouter()
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
       const { username, password } = values
+      console.log(`${BaseApiUrl}/user/register`)
       form.reset()
       const data = await fetch(`${BaseApiUrl}/user/register`, {
         method: 'POST',
@@ -95,27 +99,28 @@ const SignUp: FC<SignupProps> = () => {
         .catch(e => e)
 
       if (data.status === 'OK') {
-        const userData = await fetch(`${BaseApiUrl}/user/login`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            login: username,
-            password
-          })
+        setAuth(true)
+        const userResponse = await api.loginUser({
+          login: username,
+          password: password
         })
-          .then(async res => await res.json())
-          .catch(e => e)
-        if (userData.status === 'OK') {
-          setAccessToken((userData.body as any).access_token)
-          setRefreshToken((userData.body as any).refresh_token)
-          setAuth(true)
-          await signIn('credentials', {
-            username: values.username,
-            password: values.password
-          })
+        if (userResponse.status === 'OK') {
+          setAccessToken(
+            (userResponse.body as Record<string, string>).access_token
+          )
+          setRefreshToken(
+            (userResponse.body as Record<string, string>).refresh_token
+          )
+          localStorage.setItem(
+            'access',
+            (userResponse.body as Record<string, string>).access_token
+          )
+          localStorage.setItem(
+            'refresh',
+            (userResponse.body as Record<string, string>).access_token
+          )
+
+          route.push('/')
         }
       } else {
         setErrorData(true)
@@ -187,20 +192,19 @@ const SignUp: FC<SignupProps> = () => {
                           : 'border-transparent'
                       }`}
                       variant='registr'
+                      endAdornment={
+                        <Button
+                          variant='ghost'
+                          type='button'
+                          className='w-full h-full flex justify-center items-center p-0'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeClose /> : <EyeOpen />}
+                        </Button>
+                      }
                       {...field}
                     />
                   </FormControl>
-                  {showPassword ? (
-                    <EyeOpen
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={resetPassword}
-                    />
-                  ) : (
-                    <EyeClose
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={resetPassword}
-                    />
-                  )}
                   <FormMessage />
                 </FormItem>
               )}

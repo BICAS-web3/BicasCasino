@@ -90,10 +90,10 @@ export const SGames = {
       title: 'Coinflip',
       icon: <CoinSVG />
     },
-    {
-      title: 'Dice',
-      icon: <DiceSVG />
-    },
+    // {
+    //   title: 'Dice',
+    //   icon: <DiceSVG />
+    // },
     {
       title: 'Rock paper scissors',
       icon: <RpcSVG />
@@ -102,10 +102,10 @@ export const SGames = {
       title: 'Mines',
       icon: <MinesSVG />
     },
-    {
-      title: 'Plinko',
-      icon: <PlinkoSVG />
-    },
+    // {
+    //   title: 'Plinko',
+    //   icon: <PlinkoSVG />
+    // },
     {
       title: 'Poker',
       icon: <PokerSVG />
@@ -114,38 +114,38 @@ export const SGames = {
       title: 'Rocket',
       icon: <RocketSVG />
     },
-    {
-      title: 'Wheel of Fortune',
-      icon: <WheelSVG />
-    },
+    // {
+    //   title: 'Wheel of Fortune',
+    //   icon: <WheelSVG />
+    // },
     {
       title: 'Apples',
       icon: <AppleSVG />
     },
-    {
-      title: 'Race',
-      icon: <RaceSVG />
-    },
-    {
-      title: 'Cars',
-      icon: <CarsSVG />
-    },
-    {
-      title: 'Thimbles',
-      icon: <ThimblesSVG />
-    },
-    {
-      title: 'Race 1',
-      icon: <RaceSVG />
-    },
-    {
-      title: 'Cars 2',
-      icon: <CarsSVG />
-    },
+    // {
+    //   title: 'Race',
+    //   icon: <RaceSVG />
+    // },
+    // {
+    //   title: 'Cars',
+    //   icon: <CarsSVG />
+    // },
     {
       title: 'Thimbles 3',
       icon: <ThimblesSVG />
     }
+    // {
+    //   title: 'Race 1',
+    //   icon: <RaceSVG />
+    // },
+    // {
+    //   title: 'Cars 2',
+    //   icon: <CarsSVG />
+    // },
+    // {
+    //   title: 'Thimbles 3',
+    //   icon: <ThimblesSVG />
+    // }
   ]
 }
 
@@ -175,7 +175,7 @@ export const SMobileMenu = [
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus'
+    title: 'Bonus',
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -188,7 +188,7 @@ export const SMobileMenu = [
             alt='icon goals'
             width={16}
             height={16}
-            className='w-5 h-5 object-contain aspect-square'
+            className='min-w-[20px] h-[20px] object-contain aspect-square'
           />
         ),
         title: 'Goals',

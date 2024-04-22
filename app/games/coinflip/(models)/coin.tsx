@@ -1,15 +1,10 @@
 'use client'
 
 import { GameModel } from '@/states'
-import { CoinAction } from '@/types/games.types'
+import { CoinAction, ModelProps } from '@/types/games.types'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { useEffect } from 'react'
 import { AnimationAction } from 'three'
-
-interface ModelProps {
-  action: CoinAction
-  initial: GameModel.Side
-}
 
 const Model = ({ action, initial }: ModelProps) => {
   const { scene, animations } = useGLTF(
@@ -23,7 +18,6 @@ const Model = ({ action, initial }: ModelProps) => {
   } else if (initial == GameModel.Side.Tails) {
     scene.rotation.y = 1.58
   }
-  // scene.rotation.x = 3;
   scene.scale.set(1, 1, 1)
 
   useEffect(() => {

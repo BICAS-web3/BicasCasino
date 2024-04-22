@@ -1,7 +1,7 @@
 'use server'
 
 import { BaseApiUrl } from '@/api'
-import { signIn } from '@/auth'
+// import { signIn } from '@/auth'
 import { registrSchema } from '@/schemas'
 
 import * as z from 'zod'
@@ -41,11 +41,11 @@ export const signUp = async (values: z.infer<typeof registrSchema>) => {
       .then(async res => await res.json())
       .catch(e => e)
     if (userData.status === 'OK') {
-      await signIn('credentials', {
-        username: values.username,
-        password: values.password,
-        redirectTo: '/'
-      })
+      // await signIn('credentials', {
+      //   username: values.username,
+      //   password: values.password,
+      //   redirectTo: '/'
+      // })
     }
   }
 }

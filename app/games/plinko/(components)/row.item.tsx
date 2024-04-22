@@ -1,15 +1,6 @@
+import { IRowItem } from '@/types/games.types'
 import { FC } from 'react'
 
-interface IRowItem {
-  isMobile: boolean
-  value: number
-  color: string
-  ball: {
-    value: number
-  }
-  animationDelay: boolean
-  index: number
-}
 const RowItem: FC<IRowItem> = props => {
   const { isMobile, value, color, ball, animationDelay, index } = props
   return (

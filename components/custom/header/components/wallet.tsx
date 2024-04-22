@@ -18,7 +18,7 @@ const Wallet = () => {
     <Button
       onClick={handleAction}
       variant='ghost'
-      className='hidden sm:flex items-center justify-center gap-3 text-grey-acc hover:text-white border border-black-acc rounded-[3.125rem] cursor-pointer'
+      className='hidden bg-[#121212] sm:flex items-center justify-center gap-3 text-grey-acc hover:text-white border border-black-acc rounded-[3.125rem] cursor-pointer'
     >
       <span className='text-sm font-semibold'>Wallet</span>
       <WalletSVG className='w-5 aspect-square object-contain' />

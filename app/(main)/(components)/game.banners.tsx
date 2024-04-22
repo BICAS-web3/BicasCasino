@@ -44,7 +44,7 @@ const GameBanners = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
-    <div className={`flex flex-col gap-2.5 overflow-hidden ${className}`}>
+    <div className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}>
       <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
         Show all
         <div className='flex gap-[5px]'>
@@ -72,9 +72,9 @@ const GameBanners = ({ className }: { className?: string }) => {
         spacing={20}
         containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[554px] sm:mb-5 gap-5'
         loop
-        grid={{
-          rows: isMobile ? 1 : 2
-        }}
+        // grid={{
+        //   rows: isMobile ? 1 : 2
+        // }}
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current
@@ -83,14 +83,14 @@ const GameBanners = ({ className }: { className?: string }) => {
           swiper.params.navigation.prevEl = navigationPrevRef.current
           swiper.params.navigation.nextEl = navigationNextRef.current
         }}
-        modules={[Navigation, Autoplay, Grid]}
+        modules={[Navigation, Autoplay]} // Grid
       >
         {games_banner.map((item, index) => (
           <SwiperSlide
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
           >
-            <GameSlideItem image={item.image} link={item.link} />
+            <GameSlideItem image={item.image} title={item.title} link={item.link} />
           </SwiperSlide>
         ))}
       </Carousel>

@@ -12,6 +12,9 @@ import { sendSocketData } from '@/lib/utils/game.send'
 import Coefficient from '@/components/custom/coefficient'
 
 import Image from 'next/image'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { changeEnemyValue } from '../(utils)'
 
 export enum ModelType {
   Paper = 'Paper',
@@ -69,19 +72,13 @@ const PRSGame = () => {
   const [socketReset] = useUnit([UserModel.$socketReset])
 
   useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList.length > 0
-    ) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeAllBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'RPS')?.id] || 5
-        })
-      )
-    }
+    useSubscibeBets({
+      name: 'RPS',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
@@ -134,24 +131,7 @@ const PRSGame = () => {
   const [enemyValue, setEnemyValue] = useState(ModelType.Quest)
 
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Draw) {
-    } else if (gameStatus === GameModel.GameStatus.Won) {
-      if (pickedValue === GameModel.RPSValue.Paper) {
-        setEnemyValue(ModelType.Rock)
-      } else if (pickedValue === GameModel.RPSValue.Rock) {
-        setEnemyValue(ModelType.Scissors)
-      } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        setEnemyValue(ModelType.Paper)
-      }
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      if (pickedValue === GameModel.RPSValue.Paper) {
-        setEnemyValue(ModelType.Scissors)
-      } else if (pickedValue === GameModel.RPSValue.Rock) {
-        setEnemyValue(ModelType.Paper)
-      } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        setEnemyValue(ModelType.Rock)
-      }
-    }
+    changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
   }, [gameStatus])
 
   const [taken, setTaken] = useState(false)
@@ -199,31 +179,22 @@ const PRSGame = () => {
       socket,
       isPlaying,
       access_token,
-      subscribed,
-      gamesList,
-      betData,
-      setCubscribed,
-      title: 'RPS'
+      betData
     })
   }, [socket, isPlaying, access_token, gamesList])
 
+  useEffect(() => {
+    return () => useUnSubscribe({ gamesList, socket, name: 'RPS' })
+  }, [])
+
   return (
-    <div className='h-full w-full relative pt-9'>
+    <div className='h-full w-full relative pt-9  flex-[1_1_auto] flex flex-col'>
       <div className='w-full h-full absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
-        <Image
-          src={bg}
-          className='rounded-[0] sm:rounded-[20px_20px_0_0] w-full object-cover h-full'
-          alt='table-bg'
-        />
-      </div>{' '}
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
+        <Image src={bg} className='w-full object-cover h-full' alt='table-bg' />
+      </div>
       <Coefficient common ballsArr={coefficientData} />
-      <div className='w-full h-full flex justify-center items-end'>
-        <div className='flex items-center flex-col gap-[98px]'>
+      <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto]'>
+        <div className='w-full flex items-center flex-col gap-[62px] sm:gap-[131px] xl:gap-[98px]'>
           <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px]'>
             {value === ModelType.Paper && (
               <Image
@@ -292,9 +263,7 @@ const PRSGame = () => {
               />
             )}
           </div>
-          <div className='py-3'>
-            <RpsPicker />
-          </div>
+          <RpsPicker className='my-3 px-4' />
         </div>
       </div>
     </div>

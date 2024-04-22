@@ -3,33 +3,7 @@ import { useMediaQuery } from 'usehooks-ts'
 import { GameModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { FC, useEffect, useState } from 'react'
-interface IWheelColors {
-  segment: '#100C1E' | '#1F1435'
-  border: string
-}
-
-interface IWheel {
-  localNumber?: number
-  count: number
-  segColors: IWheelColors[]
-  winningSegment: any
-  onFinished?: any
-  onRotate?: boolean
-  onRotatefinish?: boolean
-  primaryColor: string
-  primaryColoraround: any
-  contrastColor: string
-  buttonText: string
-  isOnlyOnce?: boolean
-  size?: number
-  upDuration?: number
-  downDuration?: number
-  fontFamily?: string
-  width?: number
-  height?: number
-  inSpeen: boolean
-  setInSpeen: (el: boolean) => void
-}
+import { IWheel, IWheelColors } from '@/types/games.types'
 
 const Wheel: FC<IWheel> = props => {
   const {

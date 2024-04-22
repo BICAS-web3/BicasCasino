@@ -11,13 +11,21 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
-import { useMediaQuery } from 'usehooks-ts'
+import React from 'react'
 
-type Props = {
-  data: any
-  open: boolean
+export interface Item {
+  title: string
+  icon: React.ReactNode
 }
 
+type Props = {
+  data: {
+    main: Item
+    second: Item
+    items: Item[]
+  }
+  open: boolean
+}
 const Menu = ({ data, open }: Props) => {
   const params = usePathname()
 

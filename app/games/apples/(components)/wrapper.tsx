@@ -17,10 +17,9 @@ import {
 
 import AppleTable from './appleTable'
 
-export interface IAppleData {
-  number: number
-  value: number
-}
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { IAppleData } from '@/types/games.types'
 
 const AppleGame = () => {
   const socket = useSocket()
@@ -122,19 +121,13 @@ const AppleGame = () => {
   ])
 
   useEffect(() => {
-    if (
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      gamesList.length > 0
-    ) {
-      socket?.send(JSON.stringify({ type: 'UnsubscribeBets' }))
-      socket?.send(
-        JSON.stringify({
-          type: 'SubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Apples')?.id] || 14
-        })
-      )
-    }
+    useSubscibeBets({
+      name: 'Apples',
+      setCubscribed,
+      gamesList,
+      subscribed,
+      socket
+    })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   const [firstBet, setFirstBet] = useState(true)
@@ -194,21 +187,12 @@ const AppleGame = () => {
   const [fullWon, setFullWon] = useState(0)
   const [fullLost, setFullLost] = useState(0)
   const [totalValue, setTotalValue] = useState(0.1)
-  const [localAmount, setLocalAmount] = useState(0)
-  const [localCryptoValue, setLocalCryptoValue] = useState(0)
-  const [gameResult, setGameResult] = useState<
-    { value: number; status: 'won' | 'lost' }[]
-  >([])
+
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
       setFullWon(prev => prev + profit)
-      setGameResult(prev => [
-        ...prev,
-        { value: localCryptoValue * localAmount, status: 'won' }
-      ])
     } else if (gameStatus === GameModel.GameStatus.Lost) {
       setFullLost(prev => prev + lost)
-      setGameResult(prev => [...prev, { value: 0.0, status: 'lost' }])
     }
     setTotalValue(fullWon - fullLost)
   }, [GameModel.GameStatus, profit, lost])
@@ -304,29 +288,17 @@ const AppleGame = () => {
   }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
 
   useEffect(() => {
-    return () => {
-      socket?.send(
-        JSON.stringify({
-          type: 'UnsubscribeBets',
-          payload: [gamesList.find(item => item.name === 'Apples')?.id]
-        })
-      )
-    }
+    return () => useUnSubscribe({ gamesList, socket, name: 'Apples' })
   }, [])
 
   return (
     <div
-      className='relative w-full h-full py-11 sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 min-h-[680px] rounded-none sm:rounded-t-[20px]'
+      className='relative w-full h-full py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
       style={{
         background: `url('/images/apples/applesBg.webp') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <TotalCoeff
-        fullLost={fullLost}
-        fullWon={fullWon}
-        totalValue={totalValue}
-      />
       <Coefficient ballsArr={coefficientData} multipliers={multiplier} />
       <div className='h-full flex items-center justify-center'>
         <AppleTable

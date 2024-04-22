@@ -44,12 +44,12 @@ const Payment = () => {
               </h5>
             </div>
             <div className='flex items-center gap-4'>
-              <Link
+              {/* <Link
                 href='#'
                 className='text-[#FFE09D] hover:text-white transition-all underline hover:no-underline'
               >
                 Transactions
-              </Link>
+              </Link> */}
               <Button
                 className=''
                 size='icon'

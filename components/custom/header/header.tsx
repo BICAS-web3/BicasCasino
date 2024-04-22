@@ -9,12 +9,13 @@ import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
 
-import { GameModel, RegistrModel, UserModel } from '@/states'
+import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
-import { useSession } from 'next-auth/react'
+import { UserType } from '@/states/user_model.store'
+import { usePathname, useRouter } from 'next/navigation'
 
 const Header = () => {
-  const { data } = useSession()
+  // const session = useSession()
   const [
     access_token,
     setUserInfo,
@@ -38,20 +39,30 @@ const Header = () => {
     RegistrModel.setAccessToken,
     RegistrModel.setRefreshToken
   ])
+  const route = useRouter()
+  const location = usePathname()
 
   useEffect(() => {
-    if (!!data && !!data.user) {
-      const userObj = JSON.parse(data.user.image!)
-      setAccessToken(userObj.access_token)
-      setRefreshToken(userObj.refresh_token)
+    const access_token = localStorage.getItem('access')
+    const refresh_token = localStorage.getItem('refresh')
+    if (access_token) {
+      setAccessToken(access_token)
+      refresh_token && setRefreshToken(refresh_token)
+      if (location.includes('auth')) {
+        route.push('/')
+      }
+    } else {
+      if (!location.includes('auth')) {
+        route.push('/auth/registration')
+      }
     }
-  }, [data])
+  }, [location])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
         const response = await api.getUserInfo({ bareer: access_token })
         if (response.status === 'OK') {
-          setUserInfo((response as any).body)
+          setUserInfo((response as unknown as { body: UserType }).body)
         }
       })()
     }
@@ -64,7 +75,10 @@ const Header = () => {
     if (access_token) {
       ;(async () => {
         const response = await api.getServerSeed({ bareer: access_token })
-        if (response.status === 'OK' && (response.body as any)?.seed) {
+        if (
+          response.status === 'OK' &&
+          (response.body as Record<string, string>)?.seed
+        ) {
           setSeed(true)
         } else {
           setSeed(false)
@@ -74,7 +88,10 @@ const Header = () => {
       ;(async () => {
         const response = await api.getClientSeed({ bareer: access_token })
 
-        if (response.status === 'OK' && (response.body as any)?.seed) {
+        if (
+          response.status === 'OK' &&
+          (response.body as Record<string, string>)?.seed
+        ) {
         } else {
           setErrorSeed(true)
         }
@@ -129,19 +146,18 @@ const Header = () => {
     })()
   }, [access_token])
 
-  const [otToken, setOtToken] = useState<any | undefined>()
+  // const [otToken, setOtToken] = useState<any | undefined>()
 
   useEffect(() => {
     ;(async () => {
       if (access_token) {
         const response = await api.getOneTimeToken({ bareer: access_token })
         if (response.status === 'OK') {
-          setOtToken((response as any).body)
+          // setOtToken((response as any).body)
         }
       }
     })()
   }, [access_token])
-
   useEffect(() => {
     const intervalId = setInterval(async () => {
       const response = await api.refreshToken({
@@ -156,10 +172,18 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  // useEffect(() => alert(access_token), [access_token])
+  // useEffect(() => {
+  //   if ((session as any)?.error === 'RefreshAccessTokenError') {
+  //     signIn()
+  //   }
+  // }, [session])
+
+  const [opened] = useUnit([
+    SidebarModel.$open
+  ])
 
   return (
-    <header className='flex justify-between items-center px-3 sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-black'>
+    <header className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${!opened ? "px-3 sm:!pr-10" : "px-3"} sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-[#0F0F0F]`}>
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />

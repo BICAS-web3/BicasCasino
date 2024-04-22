@@ -4,19 +4,14 @@ import { DialogHeader } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 
 import {
-  BitcoinSVG,
   BonusCoinSVG,
-  DogeSVG,
   DraxMiniSVG,
-  EthereumSVG,
   LoaderSVG,
-  LtcSVG,
-  UsdtSVG,
   WalletSVG
 } from '@/components/custom/header/components/icons'
 import { Input } from '@/components/ui/input'
 import { copyToClipboard, stringRemoveSpacing } from '@/lib/string'
-import { PaymentModel } from '@/states'
+import { PaymentModel, RegistrModel } from '@/states'
 import { useUnit } from 'effector-react'
 
 import { Button } from '@/components/ui/button'
@@ -28,38 +23,34 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Copy, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-import QRCode from 'react-qr-code'
-import { crypto_data } from '../data'
+import { coins_list, networks_list } from '../data'
 
-type CryptoProps = {
-  id: string
-  network: 'default' | string[]
-  label: string
-  value: string
-  address: string
-  icon: React.ReactNode
-}
+import * as api from '@/api'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
+import { InvoiceCreate, InvoicePriceItem, Rate } from '@/types/payment.types'
+import Image from 'next/image'
 
 const WaitingModal = () => {
-  const [amount, setAmount] = useState<number>(0.002454)
-  const [purchaseI, setPurchaseI] = useState<CryptoProps>({
-    id: '1',
-    network: 'default',
-    label: 'BTC',
-    value: 'btc',
-    address: '37FmyiYEgAHu2ENf7CyPiepdVWDqy8TZ5d',
-    icon: <BitcoinSVG className='aspect-square object-contain' />
-  })
-  const [setPurcahseVisibility, bonus, purchase] = useUnit([
+  const [address, setAddress] = useState('')
+  const [priceList, setPriceList] = useState<any>([])
+  const [coinList, setCoinList] = useState(coins_list[0])
+
+  const [invoiceCreate, setInvoiceCreate] = useState<null | InvoiceCreate>(null)
+  const [showNetworks, setShowNetworks] = useState(false)
+
+  const [setPurcahseVisibility, bonus, purchase, access_token] = useUnit([
     PaymentModel.setPurcahseVisibility,
     PaymentModel.$bonus,
-    PaymentModel.$purchase
+    PaymentModel.$purchase,
+    RegistrModel.$access_token
   ])
+  const [amount, setAmount] = useState<number>(0)
 
   const estimateData = [
     {
@@ -73,15 +64,79 @@ const WaitingModal = () => {
       count: bonus.toLocaleString('en-US')
     }
   ]
+
   const handleClose = () => {
     setPurcahseVisibility(false)
   }
 
   const handleSelect = (value: string) => {
-    crypto_data.filter((item: any) =>
-      item.id === value ? setPurchaseI(item) : null
-    )
+    coins_list.filter((item: any) => {
+      if (item.title === value) {
+        setCoinList(item)
+        switch (item.title) {
+          case 'USDT':
+            setShowNetworks(true)
+            break
+          case 'USDC':
+            setShowNetworks(true)
+            break
+          case 'TUSD':
+            setShowNetworks(true)
+            break
+          default:
+            setShowNetworks(false)
+            break
+        }
+      } else {
+        null
+      }
+    })
   }
+
+  const handleCreateInvoice = async () => {
+    const response = await api.invoiceCreate({
+      amount: purchase,
+      currency: coinList.title,
+      bareer: access_token
+    })
+    if (response.status === 'OK') {
+      setInvoiceCreate(response.body as any)
+      setAddress((response.body as any)?.pay_url)
+    } else {
+      console.error('Error:', response.body)
+    }
+  }
+  useEffect(() => {
+    !!access_token && handleCreateInvoice()
+  }, [access_token, purchase, coinList])
+
+  const handleGetList = async () => {
+    const response: any = await api.getInvoicePrices({
+      bareer: access_token
+    })
+
+    if (response.status === 'OK') {
+      setPriceList(response.body.prices)
+    } else {
+      console.error('Error:', response.body)
+    }
+  }
+
+  useEffect(() => {
+    !!access_token && handleGetList()
+  }, [access_token])
+
+  useEffect(() => {
+    if (priceList) {
+      const amount =
+        purchase /
+        priceList
+          .find((item: InvoicePriceItem) => item.monetary === coinList.title)
+          ?.rates.find((el: Rate) => el.fiatCurrency === 'USD').rate
+
+      setAmount(amount)
+    }
+  }, [priceList, coinList])
 
   return (
     <>
@@ -135,32 +190,34 @@ const WaitingModal = () => {
           <div className='flex gap-0 rounded-lg overflow-hidden border border-[#202020]'>
             <Input
               className='w-full flex-1 bg-[#121212] h-10 rounded-none'
-              value={amount}
+              value={amount || 0}
               readOnly
               type='number'
               placeholder='amount'
             />
             <Select onValueChange={handleSelect}>
-              <SelectTrigger className='w-[140px] h-10 rounded-none bg-[#202020]'>
-                <span className='mr-2'>{purchaseI.icon}</span>
+              <SelectTrigger className='w-40 h-10 rounded-none bg-[#202020]'>
+                <span className='mr-2'>{coinList.icon}</span>
                 <SelectValue
-                  placeholder={purchaseI.label}
+                  placeholder={coinList.title.split('_')[0]}
                   className='uppercase text-xs font-bold text-[#eaeaea]'
                 />
               </SelectTrigger>
               <SelectContent className='gap-4'>
-                {crypto_data.map((item, index) => (
-                  <SelectItem
-                    value={item.id}
-                    key={index}
-                    icon={item.icon}
-                    className='py-2 gap-2'
-                  >
-                    <span className='uppercase text-xs font-bold text-[#eaeaea]'>
-                      {item.label}
-                    </span>
-                  </SelectItem>
-                ))}
+                <ScrollArea className='h-[160px]' variant='ghost'>
+                  {coins_list.map((item, index) => (
+                    <SelectItem
+                      value={item.title}
+                      key={index}
+                      icon={item.icon}
+                      className='py-2 gap-2'
+                    >
+                      <span className='uppercase text-xs font-bold text-[#eaeaea]'>
+                        {item.title.split('_')[0]}
+                      </span>
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
               </SelectContent>
             </Select>
           </div>
@@ -168,57 +225,70 @@ const WaitingModal = () => {
 
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
-            {purchaseI.network === 'default' ? (
-              <div className='w-full flex gap-1 items-center justify-center text-base font-semibold text-[#979797]'>
-                <span>{purchaseI.label}</span>
-                <span>Send Address</span>
-              </div>
-            ) : (
+            {showNetworks && (
               <RadioGroup
-                defaultValue={purchaseI.network[0]}
+                defaultValue={networks_list[0].id}
+                onValueChange={value => console.log(value)}
                 className='flex flex-nowrap gap-2 justify-center w-full'
               >
-                {purchaseI.network.map(networkItem => (
-                  <div className='flex items-center space-x-2'>
+                {networks_list.map((networkItem, index) => (
+                  <div
+                    className='flex items-center space-x-2'
+                    key={`purchase-modal--networks-${networkItem.id.toLocaleLowerCase()}-${index}`}
+                  >
                     <RadioGroupItem
-                      value={networkItem}
-                      id={networkItem}
+                      value={networkItem.id}
+                      id={networkItem.id}
                       className='peer'
                     />
                     <Label
-                      htmlFor={networkItem}
-                      className={`uppercase text-base font-bold text-[#7E7E7E] cursor-pointer peer-aria-checked:text-[#20E793]`}
+                      htmlFor={networkItem.id}
+                      className='uppercase text-base font-bold text-[#7E7E7E] cursor-pointer peer-aria-checked:text-[#20E793]'
                     >
-                      {networkItem}
+                      {networkItem.title}
                     </Label>
                   </div>
                 ))}
               </RadioGroup>
             )}
+            <div className='w-full flex gap-1 items-center justify-center text-base font-semibold text-[#979797]'>
+              <span>{coinList.title.split('_')[0]}</span>
+              <span>Send Address</span>
+            </div>
           </div>
 
           <div className='flex gap-0 rounded-lg overflow-hidden border border-[#202020]'>
             <Input
               className='w-full flex-1 bg-[#121212] h-10 rounded-none'
-              value={purchaseI.address}
+              value={address}
               readOnly
-              onDoubleClick={() => copyToClipboard(purchaseI.address)}
+              onDoubleClick={() => copyToClipboard(address)}
               type='string'
             />
             <Button
               size='icon'
               variant='ghost'
-              onClick={() => copyToClipboard(purchaseI.address)}
+              onClick={() => copyToClipboard(address)}
             >
               <Copy className='w-4 h-4 aspect-square object-contain' />
             </Button>
           </div>
         </div>
         <div className='flex justify-center items-center'>
-          <QRCode value={purchaseI.address} className='p-2 bg-white' />
+          {invoiceCreate?.id ? (
+            <Image
+              src={`https://rew.greekkeepers.io/api/invoice/qr/${invoiceCreate.id}`}
+              alt='qr-code / address'
+              width={200}
+              height={200}
+              className='aspect-square object-contain'
+            />
+          ) : (
+            <Skeleton className='w-52 aspect-square object-contain' />
+          )}
         </div>
 
-        <div className='flex flex-col p-[10px] w-full bg-[#212121] rounded-lg'>
+        <div className='flex flex-col p-2.5 w-full bg-[#212121] rounded-lg'>
           <h6 className='text-sm text-[#979797] font-medium'>Disclaimer:</h6>
           <p className='text-sm text-[#979797] font-medium'>
             The exact amount you receive is subject to real-time exchange rate

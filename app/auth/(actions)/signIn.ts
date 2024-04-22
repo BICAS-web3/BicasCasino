@@ -1,7 +1,7 @@
 'use server'
 
 import { BaseApiUrl } from '@/api'
-import { signIn } from '@/auth'
+// import { signIn } from '@/auth'
 import { loginSchema, registrSchema } from '@/schemas'
 
 import * as z from 'zod'
@@ -27,13 +27,13 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
     .catch(e => e)
 
   try {
-    if (data.status === 'OK') {
-      await signIn('credentials', {
-        username: values.username,
-        password: values.password,
-        redirectTo: '/'
-      })
-    }
+    // if (data.status === 'OK') {
+    //   await signIn('credentials', {
+    //     username: values.username,
+    //     password: values.password,
+    //     redirectTo: '/'
+    //   })
+    // }
   } catch (error) {
     console.log('Oooops! Error:', error)
   }

@@ -10,7 +10,7 @@ const Logo = () => {
       {isMobile ? (
         <Image
           src='/images/logo/header_logo-mini.png'
-          className='flex sm:hidden aspect-square object-contain'
+          className='flex aspect-square object-contain'
           width={39}
           height={30}
           alt={'gamekeeper / logo'}
@@ -18,7 +18,7 @@ const Logo = () => {
       ) : (
         <Image
           src='/images/logo/header_logo.png'
-          className='hidden sm:flex max-h-9 object-contain'
+          className='max-h-9 object-contain'
           width={112}
           height={36}
           alt={'gamekeeper / logo'}
