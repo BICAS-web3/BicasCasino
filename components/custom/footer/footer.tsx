@@ -4,11 +4,11 @@ import Social from './components/Social'
 import { footer_text, games } from './data'
 
 const Footer = () => (
-  <div className='bg-[#181818] flex flex-col justify-center items-center w-full p-5 sm:p-10 gap-y-6'>
-    <div className='flex justify-between items-center flex-wrap w-full h-max'>
+  <div className='bg-[#181818] mb-[40px] sm:mb-0 flex flex-col justify-center items-center w-full p-5 sm:p-[2.5rem_2.5rem_10px_2.5rem] gap-y-3'>
+    <div className='flex justify-center mb-[15px] items-center flex-wrap w-full h-max'>
       <div className='flex-1 hidden sm:flex flex-wrap pr-16 sm:h-full sm:gap-[5vw]'>
         {games.map((item, ind) => (
-          <div className='flex flex-col gap-[15px]' key={`games-${ind}_column`}>
+          <div className='flex flex-col mt-[20px] gap-[15px]' key={`games-${ind}_column`}>
             {item.list.map((link, index) => (
               <Link
                 key={`${link.title}_link-${index}`}
@@ -24,7 +24,7 @@ const Footer = () => (
       <Social />
     </div>
     <Separator />
-    <div className='my-2 h-max flex-col items-center justify-center p-5 flex gap-y-1'>
+    <div className='my-2 h-max flex-col items-center justify-center flex'>
       {footer_text.map((text, id) => (
         <div
           key={`footer-text--${id}`}

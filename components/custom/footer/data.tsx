@@ -100,8 +100,5 @@ export const socials = [
 ]
 
 export const footer_text = [
-  'BSC METAVERSE LIMITED Suite 305,',
-  'Griffith Corporate Centre',
-  'P.O. Box 1510, Beachmont Kingstown St. Vincent and the Grenadines',
-  '6818 BC 2023'
+  '©2024 GreekKeepers. All Rights Reserved.',
 ]

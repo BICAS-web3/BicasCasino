@@ -11,8 +11,9 @@ import {
   ChatSVG,
   GamesSVG,
   UserSVG,
-  WalletSVG
 } from './icons/mobile'
+
+import Wallet from '@/components/custom/sidebar/components/icons/mobile/walIco.svg'
 
 type Props = {
   open: boolean
@@ -49,7 +50,9 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
         <GamesMobileMenu data={SGames} open={gamesOpen} />
       </Button>
       <Button variant='ghost' size='icon' onClick={handlePaymentAction}>
-        <WalletSVG />
+        <div className='p-[5px] rounded-[30px] border border-[#202020] bg-[#121212] min-w-[60px] flex justify-center items-center'>
+          <Wallet />
+        </div>
       </Button>
       <Button onClick={handleAction} variant='ghost' size='icon'>
         <UserSVG className='object-contain text-[#7E7E7E]' />

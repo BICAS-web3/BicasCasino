@@ -16,6 +16,8 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
 
+import AutoBorder from '@/public/images/misc/autoBorder.svg'
+
 const GamePlayBlock = () => {
   const [
     error,
@@ -29,7 +31,9 @@ const GamePlayBlock = () => {
     setStop,
     apples,
     setStopWinning,
-    keep
+    keep,
+    setAuto,
+    autoVisibile
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -42,7 +46,9 @@ const GamePlayBlock = () => {
     GameModel.setStop,
     GameModel.$apples,
     GameModel.setStopWinning,
-    GameModel.$keep
+    GameModel.$keep,
+    GameModel.setAutoVisible,
+    GameModel.$autoVisible,
   ])
 
   const path = usePathname()
@@ -87,7 +93,7 @@ const GamePlayBlock = () => {
     setStopWinning('YES')
   }
   return (
-    <div className='flex gap-2 sm:gap-5 items-center justify-end -order-5 sm:order-none'>
+    <div className='flex gap-2 sm:gap-5 row-start-4 m-[0_auto] mt-[20px] sm:mt-0 col-start-1 col-end-3 items-center justify-end -order-5 sm:order-none'>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className='flex justify-center items-center'>
@@ -98,6 +104,11 @@ const GamePlayBlock = () => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      
+      <div className='h-[30px] flex items-center justify-center cursor-pointer min-w-[60px] relative' onClick={() => setAuto(!autoVisibile)} >
+        <span className='uppercase text-[10px] text-[#7e7e7e] font-semibold mr-[8px] block'>auto</span>
+        <AutoBorder className='absolute top-0 left-0 w-full h-full fill-[#676767]' />
+      </div>
 
       <Button onClick={handlePlay} variant='wagerPlay'>
         {isPlaying && isApple ? 'Refund' : 'Play'}
