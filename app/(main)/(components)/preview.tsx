@@ -9,24 +9,24 @@ const Preview = ({ className }: { className?: string }) => {
     <article
       className={cn(
         'flex items-center flex-col lg:block w-full h-[350px] sm:h-[440px]',
-        'relative pt-10 p-[10px] overflow-hidden bg-cover',
+        'relative pt-10 p-[10px] overflow-hidden bg-cover preview',
         className
       )}
       style={{
-        backgroundImage: `url('/images/main_banner/layout.png')`,
+        backgroundImage: `url('/images/main_banner/2xbanner.png')`,
         backgroundSize: 'cover',
-        background: 'background: linear-gradient(to left, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 1))'
+        backgroundPositionX: '70%',
       }}
     >
-      <h2 className='text-center lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
+      <h2 className='text-center z-20 lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
         Hello {status === 'authenticated' ? data?.user?.name : ''} <br />
         Bonus on the first deposit
       </h2>
-      <h1 className='text-center lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
+      <h1 className='text-center z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
         +$100
         <br /> Reward
       </h1>
-      <div className='mt-3 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
+      <div className='mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
         <Button
           variant='secondary'
           style={{
