@@ -65,7 +65,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
                     item.icon : (
                       <div className='relative'>
                         <img src={wheelIco.src} className='animate-spin max-w-[20px] max-h-[20px]' alt='img-wheel' />
-                        <img src={wheelBranch.src} className='absolute h-[13px] top-[38%] left-[50%] translate-x-[-50%] translate-y-[-50%]' alt='img-palka' />
+                        <img src={wheelBranch.src} className='absolute h-[13px] top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%]' alt='img-palka' />
                       </div>
                     )                  
                 }

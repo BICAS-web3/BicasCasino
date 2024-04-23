@@ -112,7 +112,7 @@ const BalanceSwitcher = () => {
                 </span>
               )
             ) : (
-              <span className='text-xs sm:text-[14px] leading-4 truncate w-max max-w-12'>
+              <span className='text-xs sm:text-[14px] leading-4 w-max max-w-12'>
                 {item.isDrax
                   ? balance !== null
                     ? Number(
