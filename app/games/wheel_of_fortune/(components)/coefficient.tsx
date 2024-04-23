@@ -12,8 +12,7 @@ const Coefficient = ({ coefficientData }: { coefficientData: any }) => {
       {coefficientData.map((item, i) => (
         <div
           className={cn(
-            'font-extrabold text-[0.9375rem] h-[30px] w-20 xl:h-10 xl:w-[70px] rounded-[5px] flex justify-center items-center px-2.5 xl:text-lg bg-[rgba(60,56,74,0.49)]',
-
+            'font-extrabold text-[0.9375rem] h-[30px] w-20 xl:h-9 xl:w-[72px] rounded-[5px] flex justify-center items-center px-2.5 xl:text-sm bg-[#181818B2]',
             level === 'Hard' &&
               item > 0 &&
               item < 10 &&
@@ -67,13 +66,13 @@ const Coefficient = ({ coefficientData }: { coefficientData: any }) => {
               'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
             level === 'Medium' &&
               item < 0.1 &&
-              'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+              'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
             level === 'Hard' &&
               item < 0.1 &&
-              'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+              'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
             level === 'Easy' &&
               item < 0.1 &&
-              'text-[#d7e8f1] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]'
+              'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]'
           )}
           key={i}
         >

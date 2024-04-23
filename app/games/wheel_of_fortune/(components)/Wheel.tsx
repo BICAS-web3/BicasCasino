@@ -3,7 +3,7 @@ import { useMediaQuery } from 'usehooks-ts'
 import { IWheel, IWheelColors } from '@/types/games.types'
 import { FC, useEffect, useState } from 'react'
 
-const Wheel: FC<IWheel> = props => {
+const WheelCircle: FC<IWheel> = props => {
   const {
     count,
     segColors,
@@ -110,7 +110,7 @@ const Wheel: FC<IWheel> = props => {
       ctx!.arc(
         centerX,
         centerY,
-        radius - (isMobile ? 12 : isDesktop ? 16 : 18),
+        radius - (isMobile ? 19 : isDesktop ? 19 : 23),
         toRad(startDeg - (isMobile ? 0.4 : 0.25)),
         toRad(endDeg)
       )
@@ -169,7 +169,11 @@ const Wheel: FC<IWheel> = props => {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        minWidth: '100%',
+        minHeight: '100%',
+        borderRadius: '100%',
+        overflow: 'hidden'
       }}
     >
       <canvas
@@ -177,6 +181,7 @@ const Wheel: FC<IWheel> = props => {
         width={isMobile ? 260 : isDesktop ? 310 : 424}
         height={isMobile ? 260 : isDesktop ? 310 : 424}
         style={{
+          transform: isMobile ? 'scale(1.06)' : 'scale(1.07)',
           pointerEvents: isFinished && isOnlyOnce ? 'none' : 'auto'
         }}
       />
@@ -184,4 +189,4 @@ const Wheel: FC<IWheel> = props => {
   )
 }
 
-export default Wheel
+export default WheelCircle

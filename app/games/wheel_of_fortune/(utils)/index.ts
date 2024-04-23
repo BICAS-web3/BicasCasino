@@ -5,7 +5,7 @@ import {
   PURPLE_COLOR,
   WHITE_COLOR,
   YELLOW_COLOR
-} from '../data'
+} from '../(components)/data'
 
 export const setMediumLevel = ({
   setMedium10SegColors,

@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
 
 import AutoBorder from '@/public/images/misc/autoBorder.svg'
+import { SettingSVG } from '../(icons)'
 
 const GamePlayBlock = () => {
   const [
@@ -33,7 +34,9 @@ const GamePlayBlock = () => {
     setStopWinning,
     keep,
     setAuto,
-    autoVisibile
+    autoVisibile,
+    setWheelVisible,
+    wheelVisible
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -49,6 +52,8 @@ const GamePlayBlock = () => {
     GameModel.$keep,
     GameModel.setAutoVisible,
     GameModel.$autoVisible,
+    GameModel.setWheelVisible,
+    GameModel.$wheelVisible
   ])
 
   const path = usePathname()
@@ -88,6 +93,7 @@ const GamePlayBlock = () => {
       }
     }
   }
+  const wheelGame = usePathname().includes('wheel_of_fortune')
 
   const minesClick = () => {
     setStopWinning('YES')
@@ -97,19 +103,36 @@ const GamePlayBlock = () => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className='flex justify-center items-center'>
-            <Info className='w-5 h-5 aspect-square cursor-pointer' />
+            <Info className='w-6 h-6 aspect-square cursor-pointer text-[#676767]' />
           </TooltipTrigger>
           <TooltipContent>
             <p>Some info</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      
-      <div className='h-[30px] flex items-center justify-center cursor-pointer min-w-[60px] relative' onClick={() => setAuto(!autoVisibile)} >
-        <span className='uppercase text-[10px] text-[#7e7e7e] font-semibold mr-[8px] block'>auto</span>
+      {wheelGame && (
+        <SettingSVG
+          className={`cursor-pointer duration-500 ${
+            wheelVisible ? 'text-[#FFE09D] bg-transparent' : 'text-[#676767]'
+          }`}
+          onClick={() => {
+            setWheelVisible(!wheelVisible)
+            setAuto(false)
+          }}
+        />
+      )}
+      <div
+        className='h-[30px] flex items-center justify-center cursor-pointer min-w-[60px] relative'
+        onClick={() => {
+          setAuto(!autoVisibile)
+          setWheelVisible(false)
+        }}
+      >
+        <span className='uppercase text-[10px] text-[#7e7e7e] font-semibold mr-[8px] block'>
+          auto
+        </span>
         <AutoBorder className='absolute top-0 left-0 w-full h-full fill-[#676767]' />
       </div>
-
       <Button onClick={handlePlay} variant='wagerPlay'>
         {isPlaying && isApple ? 'Refund' : 'Play'}
       </Button>

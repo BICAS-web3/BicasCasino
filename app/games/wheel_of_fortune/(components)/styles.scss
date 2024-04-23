@@ -140,6 +140,7 @@ $_50_steps: 50;
   @media (max-width: 1280px) {
     width: 360px;
     height: 360px;
+    padding: 20px;
   }
   @media (max-width: 650px) {
     width: 280.959px;
@@ -612,5 +613,37 @@ $_50_steps: 50;
   }
   100% {
     transform: rotate(611deg);
+  }
+}
+
+@keyframes pick-animation {
+  0% {
+    transform: translateX(10%) translateY(-14px) rotate(-20deg);
+  }
+  100% {
+    transform: translateX(95%) translateY(-18px) rotate(-50deg);
+  }
+}
+
+@media (max-width: 1280px) {
+  @keyframes pick-animation {
+    0% {
+      transform: translateX(10%) translateY(-9px) rotate(-20deg);
+    }
+    100% {
+      transform: translateX(95%) translateY(-12px) rotate(-50deg);
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes pick-animation {
+    0% {
+      transform: translateX(10%) translateY(-10px) rotate(-20deg);
+    }
+
+    100% {
+      transform: translateX(95%) translateY(-13px) rotate(-50deg);
+    }
   }
 }

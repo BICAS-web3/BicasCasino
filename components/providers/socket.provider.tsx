@@ -56,7 +56,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
     newSocket.onopen = () => {
       reset && setSocketReset()
-      reset && setSocketAuth(false)
+      // reset && setSocketAuth(false)
       reset && setSocketLogged(false)
     }
 

@@ -12,19 +12,23 @@ import GameAmount from './game.amount'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePathname } from 'next/navigation'
 import { GameAuto } from './game.auto'
+import { WheelSettings } from './game.wheel'
 
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
+  const wheelGame = usePathname().includes('wheel_of_fortune')
 
   return (
-    <div className={`bg-[#151515] ${minesGame && 'game-menu-mines'} py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-center rounded-b-[20px]`}>
+    <div
+      className={`bg-[#151515] ${
+        minesGame && 'game-menu-mines'
+      } py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-center rounded-b-[20px]`}
+    >
       <GameCreditBet />
       <GameWager />
       <GameAuto />
-
-      {minesGame ? (
-        <GameAmount min={1} max={24} title='Number of mines' />
-      ) : null}
+      {wheelGame && <WheelSettings />}
+      {minesGame && <GameAmount min={1} max={24} title='Number of mines' />}
       <GamePlayBlock />
     </div>
   )

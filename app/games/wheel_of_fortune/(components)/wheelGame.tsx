@@ -11,19 +11,19 @@ import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import ReactHowler from 'react-howler'
-import { BallSVG, CircleSVG, PickerSVG } from './(icons)'
+import './styles.scss'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { BLUE_COLOR, GREEN_COLOR, WHITE_COLOR } from './data'
 import {
   generateSegmentColors_easy,
   setCoefLevel,
   setHardLevel,
   setMediumLevel
-} from './(utils)'
-import Wheel from './components/Wheel'
-import Coefficient from './components/coefficient'
-import { BLUE_COLOR, GREEN_COLOR, WHITE_COLOR } from './data'
-import './styles.scss'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { useSubscibeBets } from '@/lib/utils/subscibe'
+} from '../(utils)'
+import { BallSVG, CircleSVG, PickerSVG } from '../(icons)'
+import Coefficient from './coefficient'
+import WheelCircle from './Wheel'
 
 const WheelGame = () => {
   const socket = useSocket()
@@ -468,30 +468,98 @@ const WheelGame = () => {
       </div>
       <div className='flex flex-col items-center w-full h-full justify-center'>
         <div className='w-[280.959px] h-[280.959px] sm:w-[360px] sm:h-[360px] xl:w-[495px] xl:h-[495px] relative'>
-          <div className='top-[3px] h-[23.209px] w-[15.473px] sm:top-2 sm:w-[18.928px] sm:h-[28.392px] z-[2] xl:w-[26px] xl:h-[39px] xl:top-1.5 -translate-x-1/2 left-1/2 absolute'>
+          <div className='top-[9px] h-[23.209px] w-[15.473px] sm:top-1 sm:w-[18.928px] sm:h-[28.392px] z-[2] xl:w-[26px] xl:h-[39px] xl:top-[0px] -translate-x-1/2 left-1/2 absolute'>
             <PickerSVG className='w-[15.473px] h-[23.209px] sm:w-[18.928px] sm:h-[18.392px] xl:w-[26px] xl:h-[26px] -top-[10px] sm:-top-1 relative' />
             <CircleSVG
               className={cn(
-                'relative left-1/2 -translate-x-1/2 -translate-y-[9px] -top-[7px] w-[5px] h-[10px] sm:h-[14px] sm:w-[7px] sm:top-0 xl:w-auto',
-                inGame &&
-                  'animate-[pick-animation_0.15s_infinite_steps(2)] top-[5px] -translate-x-[calc(50%-5px)] -rotate-[30deg]',
-                outcomes.length > 0 &&
-                  lastNum !== null &&
-                  lastNum > -1 &&
-                  'animate-[pick-animation 0.15s 0.3s infinite steps(2)] top-[5px] -translate-x-1/2 -rotate-[40deg]'
+                'relative left-1/2 -translate-x-1/2 -translate-y-[9px] ] w-[5px] h-[10px] sm:h-[14px] sm:w-[7px]  xl:w-auto',
+
+                inGame ||
+                  (outcomes.length > 0 && lastNum !== null && lastNum > -1)
+                  ? '-top-2 sm:top-[1px] xl:top-[6.5px] -rotate-[30deg] animate-[pick-animation_0.15s_infinite_steps(2)]'
+                  : '-top-[7px] sm:top-0'
               )}
             />
           </div>
-          <div className='w-[107.195px] h-[107.195px] text-xl sm:h-[131.132px] sm:w-[131.132px] sm:text-2xl xl:w-[180.126px] xl:h-[180.126px] xl:text-3xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#181724] border-[2px] border-[#2c2a45] flex justify-center items-center text-[#d7e8f1] shadow-[0px_0px_15px_rgba(255,255,255,0.4)] font-extrabold rounded-[50%] z-[2]'>
-            {localNumber?.toFixed(2) || (0.0).toFixed(2)}x
+          <div
+            className={cn(
+              'w-[107.195px] h-[107.195px] text-xl sm:h-[131.132px] sm:w-[131.132px] sm:text-2xl xl:w-[180.126px] xl:h-[180.126px] xl:text-3xl absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#181724] border-[2px] border-[#2c2a45] flex justify-center items-center text-[#d7e8f1] shadow-[0px_0px_15px_rgba(255,255,255,0.4)] font-extrabold rounded-[50%] z-[2]',
+              level === 'Hard' &&
+                coefficientData[0] > 0 &&
+                coefficientData[0] < 10 &&
+                'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+              level === 'Hard' &&
+                coefficientData[0] > 11 &&
+                'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
+              level === 'Easy' &&
+                coefficientData[0] > 1.3 &&
+                'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
+              level === 'Easy' &&
+                coefficientData[0] > 0 &&
+                coefficientData[0] < 1.3 &&
+                'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+              level === 'Medium' &&
+                coefficientData[0] > 0 &&
+                coefficientData[0] < 1.6 &&
+                'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+              level === 'Medium' &&
+                coefficientData[0] == 2 &&
+                'text-[#fbc02e] shadow-[0px_0px_10px_rgba(251,192,46,0.3)]',
+              (pickedValue === 10 ||
+                pickedValue === 20 ||
+                pickedValue === 30) &&
+                level === 'Medium' &&
+                coefficientData[0] < 1.6 &&
+                coefficientData[0] > 0 &&
+                'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+              (pickedValue === 10 ||
+                pickedValue === 20 ||
+                pickedValue === 30) &&
+                level === 'Medium' &&
+                coefficientData[0] < 2 &&
+                coefficientData[0] > 1.6 &&
+                'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
+              (pickedValue === 40 || pickedValue === 50) &&
+                level === 'Medium' &&
+                coefficientData[0] == 3 &&
+                'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
+              (pickedValue === 10 ||
+                pickedValue === 20 ||
+                pickedValue === 30) &&
+                level === 'Medium' &&
+                coefficientData[0] == 3 &&
+                'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
+              level === 'Medium' &&
+                pickedValue === 30 &&
+                coefficientData[0] == 4 &&
+                'text-[red]',
+              level === 'Medium' &&
+                pickedValue === 40 &&
+                coefficientData[0] == 1.6 &&
+                'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
+              level === 'Medium' &&
+                pickedValue === 50 &&
+                coefficientData[0] == 5 &&
+                'text-[#3ecf55] shadow-[0px_0px_10px_rgba(62,207,85,0.3)]',
+              level === 'Medium' &&
+                coefficientData[0] < 0.1 &&
+                'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+              level === 'Hard' &&
+                coefficientData[0] < 0.1 &&
+                'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]',
+              level === 'Easy' &&
+                coefficientData[0] < 0.1 &&
+                'text-[#979797] shadow-[0px_0px_10px_rgba(255,255,255,0.3)]'
+            )}
+          >
+            {coefficientData[0]?.toFixed(2) || (0.0).toFixed(2)}x
           </div>
           {Array.from({ length: 24 }).map((_, i) => (
             <BallSVG
               className={cn(
                 'wheel_ball',
                 `wheel_ball_${i + 1}`,
-                highlightIndex.find(el => el === i + 1) &&
-                  'shadow-[(0px_0px_11px_#e9e9e9)]'
+                highlightIndex.find(el => el === i + 1) && 'shadow'
               )}
             />
           ))}
@@ -505,7 +573,7 @@ const WheelGame = () => {
               inGame && 'animate-[rotate-2_2s_ease-in,rotate_7000s_2s_linear]'
             )}
           >
-            <Wheel
+            <WheelCircle
               inSpeen={inSpeen}
               setInSpeen={setInSpeen}
               localNumber={localNumber || 0}
