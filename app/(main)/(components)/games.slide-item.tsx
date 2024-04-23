@@ -34,7 +34,9 @@ const GameSlideItem = ({ image, link, title }: Props) => (
         <UsersSVG />
         <span>330</span>
       </div>
-      <span className='z-10 absolute text-red uppercase text-[20px] font-bold self-start bottom-[10px]'>{title}</span>
+      <span className='z-10 absolute text-red uppercase text-[20px] font-bold self-start bottom-[10px]'>
+        {title}
+      </span>
     </div>
     {/* footer */}
     <div className='w-full items-center flex justify-between px-[10px] py-4 bg-[#181818]'>

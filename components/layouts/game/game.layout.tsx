@@ -14,12 +14,18 @@ const GameLayout = ({ children }) => {
   const path = usePathname()
 
   const [isApples, setIsApples] = useState(false)
+  const [isWheel, setIsWheel] = useState(false)
 
   useEffect(() => {
     if (path.includes('apples')) {
       setIsApples(true)
     } else {
       setIsApples(false)
+    }
+    if (path.includes('wheel_of_fortune')) {
+      setIsWheel(true)
+    } else {
+      setIsWheel(false)
     }
   }, [path])
 

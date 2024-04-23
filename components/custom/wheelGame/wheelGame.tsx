@@ -445,7 +445,7 @@ const WheelGame = () => {
         setCount(prev => prev + 2)
         setTestInGame(prev => !prev)
       }}
-      className='w-full h-full relative flex flex-col overflow-hidden'
+      className='w-full h-full relative flex flex-col overflow-hidden flex-[1_1_auto] items-center justify-center'
     >
       <ReactHowler
         src={'/music/wheel.mp3'}
@@ -469,12 +469,12 @@ const WheelGame = () => {
       <div className='flex flex-col items-center w-full h-full justify-center'>
         <div className='w-[280.959px] h-[280.959px] sm:w-[360px] sm:h-[360px] xl:w-[495px] xl:h-[495px] relative'>
           <div className='top-[3px] h-[23.209px] w-[15.473px] sm:top-2 sm:w-[18.928px] sm:h-[28.392px] z-[2] xl:w-[26px] xl:h-[39px] xl:top-1.5 -translate-x-1/2 left-1/2 absolute'>
-            <PickerSVG />
+            <PickerSVG className='w-[15.473px] h-[23.209px] sm:w-[18.928px] sm:h-[18.392px] xl:w-[26px] xl:h-[26px] -top-[10px] sm:-top-1 relative' />
             <CircleSVG
               className={cn(
-                'relative left-1/2 -translate-x-1/2 -translate-y-[9px] -top-[7px] w-[5px] sm:w-[7px] sm:top-0 xl:w-auto',
+                'relative left-1/2 -translate-x-1/2 -translate-y-[9px] -top-[7px] w-[5px] h-[10px] sm:h-[14px] sm:w-[7px] sm:top-0 xl:w-auto',
                 inGame &&
-                  'animate-[pick-animation_0.15s_infinite_steps(2)] top-[5px] -translate-x-1/2 -rotate-[40deg]',
+                  'animate-[pick-animation_0.15s_infinite_steps(2)] top-[5px] -translate-x-[calc(50%-5px)] -rotate-[30deg]',
                 outcomes.length > 0 &&
                   lastNum !== null &&
                   lastNum > -1 &&

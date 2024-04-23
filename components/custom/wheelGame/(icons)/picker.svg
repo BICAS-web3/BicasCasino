@@ -1,7 +1,6 @@
  <svg
-              className='w-[15.473px] h-[23.209px] sm:w-[18.928px] sm:h-[18.392px] xl:w-[26px] xl:h-[26px]'
-              width='26'
-              height='26'
+              width='inherit'
+              height='inherit'
               viewBox='0 0 26 26'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
