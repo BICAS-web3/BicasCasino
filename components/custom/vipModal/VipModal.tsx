@@ -12,9 +12,11 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { stringRemoveSpacing } from '@/lib/string'
 import { ProgressTab } from './tabs/ProgressTab'
+import { BonusTab } from './tabs/BonusTab'
+import { RakebackTab } from './tabs/RakebackTab'
 
 const tabData = ['Progress', 'Bonus', 'Rakeback']
-const tabContent = [<ProgressTab />, <h1>bs</h1>, <h1>rb</h1>]
+const tabContent = [<ProgressTab />, <BonusTab />, <RakebackTab />]
 
 interface VipModal {}
 

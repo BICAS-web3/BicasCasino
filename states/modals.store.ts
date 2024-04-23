@@ -2,7 +2,7 @@ import { createEffect, createEvent, createStore, sample } from 'effector'
 
 // variables
 export const $vaultModal = createStore<boolean>(false)
-export const $vipModal = createStore<boolean>(true)
+export const $vipModal = createStore<boolean>(false)
 
 // events
 export const setVaultModal = createEvent<boolean>()
