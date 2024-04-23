@@ -11,19 +11,18 @@ import { X } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { stringRemoveSpacing } from '@/lib/string'
-import { StoreTab } from './tabs/StoreTab'
-import { RetrieveTab } from './tabs/RetrieveTab'
+import { ProgressTab } from './tabs/ProgressTab'
 
-const tabData = ['Store', 'Retrieve']
-const tabContent = [<StoreTab />, <RetrieveTab />]
+const tabData = ['Progress', 'Bonus', 'Rakeback']
+const tabContent = [<ProgressTab />, <h1>bs</h1>, <h1>rb</h1>]
 
-interface VaultModalProps {}
+interface VipModal {}
 
-export const VaultModal:FC<VaultModalProps> = () => {
+export const VipModal:FC<VipModal> = () => {
 
     const [visibility, setVisibility] = useUnit([
-        ModalsModel.$vaultModal,
-        ModalsModel.setVaultModal,
+        ModalsModel.$vipModal,
+        ModalsModel.setVipModal,
     ])
 
     const [tab, setTab] = useState(
@@ -37,7 +36,7 @@ export const VaultModal:FC<VaultModalProps> = () => {
                     <div className='flex items-center gap-[10px] text-[#979797]'>
                         <VaultIco className='w-5 aspect-square object-contain' />
                         <h5 className='text-[17px] tracking-[4%] leading-[23px] text-[#979797] mt-[2px] font-bold'>
-                            Vault
+                            Vip
                         </h5>
                         </div>
                         <div className='flex items-center gap-4'>

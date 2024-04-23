@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import DCoin from '@/components/custom/header/components/icons/draxMiniIco.svg'
 import { Button } from '@/components/ui/button'
 
-interface StoreTabProps {}
+interface RetrieveTabProps {}
 
 export const list = [
     {
@@ -19,7 +19,7 @@ export const list = [
     },
 ]
 
-export const StoreTab:FC<StoreTabProps> = () => {
+export const RetrieveTab:FC<RetrieveTabProps> = () => {
   const [activeBalance, setActiveBalance] = useState(list[0])
   const [activeList, setActiveList] = useState(list.filter(item => item.id !== 'redem'))
   const [listVisibility, setListVisibility] = useState(false)
@@ -87,7 +87,7 @@ export const StoreTab:FC<StoreTabProps> = () => {
             <Button
                 className='w-full mt-[25px] max-w-full text-sm border border-[#907640] bg-[#252019] hover:bg-[#25201950] transition-all duration-300 text-[#FFE09D] font-bold'
             >
-                Store To Vault
+                Store From Vault
             </Button>
         </div>
     )
