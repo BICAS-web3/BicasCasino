@@ -557,7 +557,7 @@ const WheelGame = () => {
           {Array.from({ length: 24 }).map((_, i) => (
             <BallSVG
               className={cn(
-                'wheel_ball',
+                'wheel_ball w-[11px] h-[11px]',
                 `wheel_ball_${i + 1}`,
                 highlightIndex.find(el => el === i + 1) && 'shadow'
               )}
