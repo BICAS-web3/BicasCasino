@@ -42,21 +42,21 @@ const Header = () => {
   const route = useRouter()
   const location = usePathname()
 
-  useEffect(() => {
-    const access_token = localStorage.getItem('access')
-    const refresh_token = localStorage.getItem('refresh')
-    if (access_token) {
-      setAccessToken(access_token)
-      refresh_token && setRefreshToken(refresh_token)
-      if (location.includes('auth')) {
-        route.push('/')
-      }
-    } else {
-      if (!location.includes('auth')) {
-        route.push('/auth/registration')
-      }
-    }
-  }, [location])
+  // useEffect(() => {
+  //   const access_token = localStorage.getItem('access')
+  //   const refresh_token = localStorage.getItem('refresh')
+  //   if (access_token) {
+  //     setAccessToken(access_token)
+  //     refresh_token && setRefreshToken(refresh_token)
+  //     if (location.includes('auth')) {
+  //       route.push('/')
+  //     }
+  //   } else {
+  //     if (!location.includes('auth')) {
+  //       route.push('/auth/registration')
+  //     }
+  //   }
+  // }, [location])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
@@ -158,6 +158,7 @@ const Header = () => {
       }
     })()
   }, [access_token])
+  
   useEffect(() => {
     const intervalId = setInterval(async () => {
       const response = await api.refreshToken({
@@ -171,12 +172,6 @@ const Header = () => {
 
     return () => clearInterval(intervalId)
   }, [refresh_token])
-
-  // useEffect(() => {
-  //   if ((session as any)?.error === 'RefreshAccessTokenError') {
-  //     signIn()
-  //   }
-  // }, [session])
 
   const [opened] = useUnit([
     SidebarModel.$open

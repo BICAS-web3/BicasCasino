@@ -3,7 +3,7 @@ export const main_banner = [
     img: '/images/main_banner/banner1.png',
     title: 'Affiliate Program',
     btn: 'Join game',
-    text: 'Invite friends and get rewarded'
+    text: `Invite friends and get rewarded`
   },
   {
     img: '/images/main_banner/banner2.png',

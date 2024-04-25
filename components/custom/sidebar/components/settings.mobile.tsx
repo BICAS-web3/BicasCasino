@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PaymentModel } from '@/states'
+import { HeaderM, PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -24,15 +24,18 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
   const [gamesOpen, setGamesOpen] = useState(false)
   const isMobile = useMediaQuery('(max-width:768px)')
 
-  const [setVisibility, visibility] = useUnit([
+  const [setVisibility, visibility, setUserModal] = useUnit([
     PaymentModel.setTotalVisibility,
-    PaymentModel.$totalVisibility
+    PaymentModel.$totalVisibility,
+    HeaderM.setUserModalVisibility
   ])
 
   const handlePaymentAction = () => {
+    setUserModal(false)
     setVisibility(!visibility)
   }
   const handleGamesOpen = () => {
+    setUserModal(false)
     setGamesOpen(!gamesOpen)
   }
   return (

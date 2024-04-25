@@ -240,22 +240,6 @@ export const Poker = ({}: PokerProps) => {
 
   return (
     <>
-      {gameStatus === GameModel.GameStatus.Won && (
-        <PokerCombination
-          combinationName={combinationName}
-          tokenImage={
-            <Image
-              src={`${api.BaseStaticUrl}/media/tokens/${token}.svg`}
-              alt={''}
-              width={isMobile ? 22 : 30}
-              height={isMobile ? 22 : 30}
-            />
-          }
-          profit={profit.toFixed(2)}
-          multiplier={Number(multiplier.toFixed(2)).toString()}
-        />
-      )}
-
       <div className='w-full h-full relative  flex-[1_1_auto] flex flex-col items-center justify-center'>
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image

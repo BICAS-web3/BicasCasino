@@ -21,6 +21,7 @@ import {
   WheelSVG,
   PokerSVG
 } from './components/icons/games'
+import goalsImg from '@/public/images/sidebar-icons/goals.png'
 import Image from 'next/image'
 
 export const STopMenu = [
@@ -177,8 +178,8 @@ export const SMobileMenu = [
     buttons: [
       {
         icon: (
-          <Image
-            src='/sidebar-icons/goals.png'
+          <img
+            src={goalsImg.src}
             alt='icon goals'
             width={16}
             height={16}

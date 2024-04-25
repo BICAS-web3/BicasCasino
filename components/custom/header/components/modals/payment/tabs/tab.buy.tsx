@@ -39,9 +39,8 @@ const TabBuy = () => {
           alt='coins'
         />
       </div>
-      <ScrollArea
-        className='h-[45vh] w-full rounded-md border border-none'
-        variant='ghost'
+      <div
+        className='h-[45vh] w-full overflow-scroll border border-none'
       >
         <div className='grid grid-cols-2 gap-[10px] h-full'>
           {draxTypesList.map((item, ind) => (
@@ -73,7 +72,7 @@ const TabBuy = () => {
             </div>
           ))}
         </div>
-      </ScrollArea>
+      </div>
       <span className='text-[#979797] text-lg text-center'>
         Maximum purchase of $5000 USD per day
       </span>

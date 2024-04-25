@@ -12,7 +12,7 @@ const Preview = ({ className }: { className?: string }) => {
         'relative pt-10 p-[10px] overflow-hidden bg-cover preview',
         className
       )}
-      style={{
+      style={{  
         backgroundImage: `url('/images/main_banner/2xbanner.png')`,
         backgroundSize: 'cover',
         backgroundPositionX: '70%',
@@ -22,11 +22,11 @@ const Preview = ({ className }: { className?: string }) => {
         Hello {status === 'authenticated' ? data?.user?.name : ''} <br />
         Bonus on the first deposit
       </h2>
-      <h1 className='text-center z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
+      <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
         +$100
         <br /> Reward
       </h1>
-      <div className='mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
+      <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
         <Button
           variant='secondary'
           style={{

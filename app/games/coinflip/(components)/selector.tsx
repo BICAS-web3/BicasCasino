@@ -34,7 +34,7 @@ const Selector = ({ className }: { className?: string }) => {
             : 'border-transparent'
         }`}
       >
-        tails
+        Tails
       </button>
     </div>
   )
