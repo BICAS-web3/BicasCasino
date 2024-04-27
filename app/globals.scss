@@ -13,18 +13,22 @@
 }
 
 body {
-  background: #0F0F0F;
+  background: #0f0f0f;
 }
 
 .preview {
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 300px;
     height: 100%;
-    background: linear-gradient(to left, rgba(15, 15, 15, 0), rgba(15, 15, 15, 1));
+    background: linear-gradient(
+      to left,
+      rgba(15, 15, 15, 0),
+      rgba(15, 15, 15, 1)
+    );
     z-index: 10;
   }
 }
@@ -1386,4 +1390,25 @@ input[type='number'] {
 }
 .shadow {
   filter: drop-shadow(0px 0px 11px #e9e9e9);
+}
+
+.btn {
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    246.04deg,
+    rgba(0, 255, 179, 0.6) 0%,
+    rgba(90, 156, 255, 0.6) 100%
+  );
+  border-image-slice: 1;
+  border-radius: 5px;
+}
+.btn_2 {
+  border: 1px solid;
+  border-image-source: linear-gradient(
+    246.04deg,
+    rgba(0, 240, 255, 0.6) 0%,
+    rgba(182, 90, 255, 0.6) 100%
+  );
+  border-image-slice: 1;
+  border-radius: 5px;
 }

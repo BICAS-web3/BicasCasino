@@ -23,7 +23,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setUuid,
     setSocketReset,
     setSocketAuth,
-    setSocketLogged
+    setSocketLogged,
+    socketAuth
   ] = useUnit([
     GameModel.newBet,
     SessionModel.setNewBet,
@@ -32,7 +33,8 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     GameModel.setUuid,
     UserModel.setSocketReset,
     UserModel.setSocketAuth,
-    UserModel.setSocketLogged
+    UserModel.setSocketLogged,
+    UserModel.$socketAuth
   ])
 
   const [reset, setReset] = useState(false)
@@ -40,40 +42,37 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null)
   const uuidRef = useRef<string | null>(null)
 
-  // const socketValue = useMemo(() => socket, [socket])
-
   useEffect(() => {
-    const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
-    setSocket(prevSocket => {
-      if (prevSocket === null) {
-        return newSocket
-      } else {
-        return prevSocket
-      }
-    })
-    if (socket && socket.readyState === WebSocket.OPEN) return
+    if (socket) return
     let uid: null | string = null
+    const newSocket = new WebSocket('wss://rew.greekkeepers.io/api/updates')
 
     newSocket.onopen = () => {
+      console.log('WebSocket connected')
       reset && setSocketReset()
-      // reset && setSocketAuth(false)
+      reset && setSocketAuth(false)
       reset && setSocketLogged(false)
     }
 
     newSocket.onmessage = (ev: MessageEvent<any>) => {
       const data = JSON.parse(ev.data)
+      console.log('Received message from server:', data.uuid, uuidRef.current)
       if (data.type === 'Uuid') {
         setUuid(data.uuid)
         uid = data.uuid
         uuidRef.current = data.uuid
       }
+      if (data.type === 'State' && uid !== null) {
+        setResult(data)
+        // uid = null;
+      }
       if (
-        (JSON.parse(ev.data).type === 'Bet' && data.uuid === uuidRef.current) ||
-        (JSON.parse(ev.data).type === 'ContinueGame' &&
-          data.uuid === uuidRef.current) ||
-        JSON.parse(ev.data).type === 'State'
+        (data.type === 'Bet' ||
+          data.type === 'MakeBet' ||
+          data.type === 'ContinueGame' ||
+          data.type === 'State') &&
+        data.uuid === uuidRef.current
       ) {
-        // alert(9999)
         setResult(data)
         if (data && (data?.coin_id || data?.coin_id === 0)) {
           setTokenId(data.coin_id)
@@ -90,18 +89,25 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     }
 
     newSocket.onclose = () => {
-      setReset(true)
-      setSocket(null)
-      uid = null
-    }
-    newSocket.onerror = () => {
+      console.log('websockets closed')
       setSocket(null)
       // setSocketLogged(false);
       setReset(true)
       uid = null
     }
-  }, [socket, uuidRef])
+    newSocket.onerror = () => {
+      console.log('websockets error')
+      setSocket(null)
+      // setSocketLogged(false);
+      setReset(true)
+      uid = null
+    }
+    setSocket(newSocket)
 
+    // return () => {
+    //   newSocket.close();
+    // };
+  }, [socket])
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   )

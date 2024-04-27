@@ -93,22 +93,33 @@ const WaitingModal = () => {
     })
   }
 
-  const handleCreateInvoice = async () => {
-    const response = await api.invoiceCreate({
-      amount: purchase,
-      currency: coinList.title,
-      bareer: access_token
-    })
-    if (response.status === 'OK') {
-      setInvoiceCreate(response.body as any)
-      setAddress((response.body as any)?.pay_url)
-    } else {
-      console.error('Error:', response.body)
-    }
-  }
+  const [networkActive, setNetworkActive] = useState<'ETHEREUM' | 'TRON'>(
+    'ETHEREUM'
+  )
+
   useEffect(() => {
-    !!access_token && handleCreateInvoice()
-  }, [access_token, purchase, coinList])
+    if (access_token) {
+      ;(async () => {
+        // alert(`${coinList.title}_${networkActive}`)
+        const response = await api.invoiceCreate({
+          amount: purchase,
+          currency:
+            coinList.title === 'USDT' ||
+            coinList.title === 'USDC' ||
+            coinList.title === 'TUSD'
+              ? `${coinList.title}_${networkActive}`
+              : coinList.title,
+          bareer: access_token
+        })
+        if (response.status === 'OK') {
+          setInvoiceCreate(response.body as any)
+          setAddress((response.body as any)?.pay_url)
+        } else {
+          console.error('Error:', response.body)
+        }
+      })()
+    }
+  }, [access_token, purchase, coinList, networkActive])
 
   const handleGetList = async () => {
     const response: any = await api.getInvoicePrices({
@@ -138,6 +149,7 @@ const WaitingModal = () => {
     }
   }, [priceList, coinList])
 
+  const [ercActive, setErcActive] = useState(true)
   return (
     <>
       <DialogHeader>
@@ -225,10 +237,19 @@ const WaitingModal = () => {
 
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
-            {showNetworks && (
+            {(coinList.title === 'USDT' ||
+              coinList.title === 'USDC' ||
+              coinList.title === 'TUSD') && (
               <RadioGroup
                 defaultValue={networks_list[0].id}
-                onValueChange={value => console.log(value)}
+                onValueChange={value => {
+                  setNetworkActive(value as any)
+                  if (value === 'TRON') {
+                    setErcActive(false)
+                  } else {
+                    setErcActive(true)
+                  }
+                }}
                 className='flex flex-nowrap gap-2 justify-center w-full'
               >
                 {networks_list.map((networkItem, index) => (

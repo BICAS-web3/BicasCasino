@@ -9,7 +9,6 @@ import { stringRemoveSpacing } from '@/lib/string'
 import { PaymentModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { X } from 'lucide-react'
-import Link from 'next/link'
 import { useState } from 'react'
 import { WalletSVG } from '../../icons'
 import { TabBuy, TabRedeem, TabTips } from './tabs'
@@ -44,12 +43,6 @@ const Payment = () => {
               </h5>
             </div>
             <div className='flex items-center gap-4'>
-              {/* <Link
-                href='#'
-                className='text-[#FFE09D] hover:text-white transition-all underline hover:no-underline'
-              >
-                Transactions
-              </Link> */}
               <Button
                 className=''
                 size='icon'

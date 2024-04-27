@@ -110,7 +110,7 @@ const AppleGame = () => {
     GameModel.setResult,
     UserModel.$socketLogged,
     UserModel.$isDrax,
-    UserModel.$userInfo,
+    UserModel.$userInfo, //! ---- user data -----
     GameModel.$isPlaying,
     GameModel.$multiplier,
     WagerModel.setCryptoValue,
