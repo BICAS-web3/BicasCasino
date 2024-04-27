@@ -16,19 +16,7 @@ function Layout({ children }) {
   ])
   const isWheel = usePathname().includes('wheel_of_fortune')
 
-  return (
-    <GameLayout>
-      {gameStatus === GameModel.GameStatus.Won && !isWheel && (
-        <WinMessage
-          resIco={result?.coin_id}
-          multiplier={Number(multiplier.toFixed(2)).toString()}
-          cf={100}
-          profit={profit}
-        />
-      )}
-      {children}
-    </GameLayout>
-  )
+  return <GameLayout>{children}</GameLayout>
 }
 
 export default Layout
