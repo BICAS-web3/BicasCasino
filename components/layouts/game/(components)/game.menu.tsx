@@ -22,7 +22,7 @@ const GameMenu = () => {
     <div
       className={`bg-[#151515] ${
         minesGame && 'game-menu-mines'
-      } py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-center rounded-b-[20px]`}
+      } py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-end rounded-b-[20px]`}
     >
       <GameCreditBet />
       <GameWager />

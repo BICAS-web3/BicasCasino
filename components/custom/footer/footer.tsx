@@ -12,7 +12,7 @@ const Footer = () => (
             {item.list.map((link, index) => (
               <Link
                 key={`${link.title}_link-${index}`}
-                className='uppercase text-sm font-extrabold text-[#979797]'
+                className='uppercase hover:text-[#fff] text-sm font-extrabold text-[#979797]'
                 href={link.path}
               >
                 {link.title}

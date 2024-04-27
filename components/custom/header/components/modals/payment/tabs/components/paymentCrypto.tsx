@@ -22,10 +22,7 @@ const PaymentCrypto = () => {
     setPurchaseVisibility(true)
   }, [])
   return (
-    <ScrollArea
-      className='h-[45vh] w-full rounded-md border border-none'
-      variant='ghost'
-    >
+    <div className='h-[45vh] w-full rounded-md border border-none'>
       <div className='grid grid-cols-2 gap-[10px] h-full'>
         {draxTypesList.map((item, ind) => (
           <div
@@ -56,7 +53,7 @@ const PaymentCrypto = () => {
           </div>
         ))}
       </div>{' '}
-    </ScrollArea>
+    </div>
   )
 }
 

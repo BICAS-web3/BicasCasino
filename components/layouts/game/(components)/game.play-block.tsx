@@ -122,16 +122,16 @@ const GamePlayBlock = () => {
         />
       )}
       <div
-        className='h-[30px] flex items-center justify-center cursor-pointer min-w-[60px] relative'
+        className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[60px] relative`}
         onClick={() => {
           setAuto(!autoVisibile)
           setWheelVisible(false)
         }}
       >
-        <span className='uppercase text-[10px] text-[#7e7e7e] font-semibold mr-[8px] block'>
+        <span className={`uppercase text-[10px] text-[#7e7e7e] font-semibold mr-[8px] block ${autoVisibile && 'text-[#FFE09D]'}`}>
           auto
         </span>
-        <AutoBorder className='absolute top-0 left-0 w-full h-full fill-[#676767]' />
+        <AutoBorder className={`absolute top-0 left-0 w-full h-full fill-[#676767] ${autoVisibile && 'fill-[#FFE09D]'}`} />
       </div>
       <Button onClick={handlePlay} variant='wagerPlay'>
         {isPlaying && isApple ? 'Refund' : 'Play'}

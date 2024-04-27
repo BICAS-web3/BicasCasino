@@ -153,62 +153,68 @@ const SignUp: FC<SignupProps> = () => {
           }}
           className='flex flex-col'
         >
-          <div className='flex flex-col relative gap-[10px] sm:gap-5'>
-            <FormField
-              control={form.control}
-              name='username'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      placeholder={errorData ? 'User exist' : 'Username'}
-                      onFocus={errorFocus}
-                      className={`duration-200 ${
-                        errorData && 'placeholder:text-[red]'
-                      }`}
-                      variant='registr'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormControl>
-                    <Input
-                      type={showPassword ? 'password' : 'text'}
-                      disabled={isPending}
-                      placeholder={errorData ? 'User exist' : 'Password'}
-                      onFocus={errorFocus}
-                      className={`duration-200 ${
-                        errorData
-                          ? 'placeholder:text-[red]'
-                          : 'border-transparent'
-                      }`}
-                      variant='registr'
-                      endAdornment={
-                        <Button
-                          variant='ghost'
-                          type='button'
-                          className='w-full h-full flex justify-center items-center p-0'
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? <EyeClose /> : <EyeOpen />}
-                        </Button>
-                      }
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className='flex flex-col relative'>
+            <div className='mb-[10px]'>
+              <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Username</span>
+              <FormField
+                control={form.control}
+                name='username'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        placeholder={errorData ? 'User exist' : 'Username'}
+                        onFocus={errorFocus}
+                        className={`duration-200 ${
+                          errorData && 'placeholder:text-[red]'
+                        }`}
+                        variant='registr'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='mb-[10px]'>
+              <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Password</span>
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormControl>
+                      <Input
+                        type={showPassword ? 'password' : 'text'}
+                        disabled={isPending}
+                        placeholder={errorData ? 'User exist' : 'Password'}
+                        onFocus={errorFocus}
+                        className={`duration-200 ${
+                          errorData
+                            ? 'placeholder:text-[red]'
+                            : 'border-transparent'
+                        }`}
+                        variant='registr'
+                        endAdornment={
+                          <Button
+                            variant='noneBg'
+                            type='button'
+                            className='w-full h-full flex justify-center items-center p-0'
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <EyeClose /> : <EyeOpen />}
+                          </Button>
+                        }
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name='password'
@@ -248,7 +254,7 @@ const SignUp: FC<SignupProps> = () => {
             />
           </div>
           <Button
-            className='mt-2.5 sm:mt-5'
+            className='mt-2.5 border border-[#907640] sm:mt-5'
             disabled={
               isPending ||
               !form.getValues().password ||

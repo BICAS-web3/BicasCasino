@@ -17,7 +17,7 @@ const LoginLink = ({
         Already have an account?
       </span>
       <span
-        className='cursor-pointer text-orange text-[16px] font-semibold leading-[22px] tracking-def mb-[3px]
+        className='cursor-pointer text-orange text-[13px] font-normal leading-[22px] tracking-def mb-[3px]
             '
         onClick={signIn}
       >

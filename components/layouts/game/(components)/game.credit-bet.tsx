@@ -16,7 +16,7 @@ const data = {
 
 const GameCreditBet = () => {
   return (
-    <div className='grid-cols-2 gap-2 row-start-3 col-start-1 col-end-3 m-[20px_auto] hidden sm:grid min-w-[100px] w-fit -order-10 sm:order-none'>
+    <div className='grid-cols-2 gap-2 row-start-3 col-start-1 col-end-3 m-[20px_auto] tbs:m-[20px_auto_0_auto] hidden sm:grid min-w-[100px] w-fit -order-10 sm:order-none'>
       <div className='flex flex-col gap-1'>
         {data.titles.map((item, index) => (
           <span
@@ -36,7 +36,7 @@ const GameCreditBet = () => {
             <span className='leading-4 text-[#7e7e7e] tracking-[4%] text-sm font-medium nowrap'>
               {item.value}
             </span>
-            <span className='text-xs leading-3 uppercase'>{item.currency}</span>
+            <span className='text-[10px] text-[#7e7e7e] leading-3 uppercase'>{item.currency}</span>
           </div>
         ))}
       </div>

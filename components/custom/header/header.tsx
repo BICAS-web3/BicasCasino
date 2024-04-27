@@ -206,6 +206,7 @@ const Header = () => {
       }
     })()
   }, [access_token])
+
   useEffect(() => {
     const intervalId = setInterval(async () => {
       const response = await api.refreshToken({
