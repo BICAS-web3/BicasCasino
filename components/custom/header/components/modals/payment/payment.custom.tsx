@@ -122,7 +122,13 @@ const CustomPayment = ({ close }: { close: () => void }) => {
           setStartPay(false)
           setMakeOrder(data as any)
         } else {
-          toast((data as any).error)
+          toast(
+            `${
+              (data as any).error === 'NO_PAYMENT_METHODS_AVAILABLE'
+                ? `${(data as any).error}, increase amount`
+                : (data as any).error
+            }`
+          )
         }
         setStartPay(false)
       })()
