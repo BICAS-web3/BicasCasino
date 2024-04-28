@@ -354,7 +354,14 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                         <p className='text-[#AAAAAA] font-light text-[12px] lg:text-base'>
                           {makeOrder.paymentDetails.value}
                         </p>{' '}
-                        <CopySVG className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5' />
+                        <CopySVG
+                          onClick={() =>
+                            window.navigator.clipboard.writeText(
+                              makeOrder.paymentDetails.value
+                            )
+                          }
+                          className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5'
+                        />
                       </div>
                     </div>
                     <div className='flex w-full justify-between items-center gap-[27px]'>
@@ -365,7 +372,14 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                         <p className='text-[#AAAAAA] font-light text-[12px] lg:text-base'>
                           {makeOrder.paymentDetails.paymentMethodName}
                         </p>
-                        <CopySVG className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5' />
+                        <CopySVG
+                          onClick={() =>
+                            window.navigator.clipboard.writeText(
+                              makeOrder.paymentDetails.paymentMethodName
+                            )
+                          }
+                          className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5'
+                        />
                       </div>
                     </div>
                   </div>
