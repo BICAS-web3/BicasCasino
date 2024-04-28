@@ -23,10 +23,12 @@ import {
   TrashSVG
 } from '../../icons'
 import Logo from '../../logo'
+import { LoaderIcon } from 'lucide-react'
 
 const CustomPayment = ({ close }: { close: () => void }) => {
   const key = process.env.NEXT_PUBLIC_P2WAY_KEY
-
+  const [done, setDone] = useState(false)
+  const [payProcess, setPayProcess] = useState(false)
   const [fileType, setFileType] = useState('')
   const [fileExtension, setFileExtension] = useState('')
   const [file, setFile] = useState<any>(null)
@@ -43,8 +45,8 @@ const CustomPayment = ({ close }: { close: () => void }) => {
   const [bucketUrl, setBucketUrl] = useState('')
   const [cancelOrder, setCancelOrder] = useState(false)
   const [confirmData, setConfirmData] = useState<null | {
-    success: true
-    createdAt: '2023-12-15T00:00:00.000Z'
+    success: boolean
+    createdAt: string
   }>(null)
   const [widgetSetting, setWidgetSetting] = useState<null | {
     merchant: { settings: { amount: { min: number; max: number } } }
@@ -73,7 +75,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
         if (data.status === 'OK') {
           setToken((data.body as any).token)
         } else {
-          toast(data.status)
+          toast(`Error: ${JSON.stringify(data)}`)
         }
       })()
     }
@@ -86,7 +88,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
         if ((data as any).merchant) {
           setWidgetSetting(data as any)
         } else {
-          toast((data as any).error)
+          toast(`Error getting settings ${(data as any).error}`)
         }
       })()
     }
@@ -104,7 +106,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
         if ((data as any).sessionId) {
           setSessionInit((data as any).sessionId)
         } else {
-          toast((data as any).error)
+          toast(`Error create session ${(data as any).error}`)
         }
       })()
     }
@@ -172,7 +174,11 @@ const CustomPayment = ({ close }: { close: () => void }) => {
     if (finish && makeOrder) {
       ;(async () => {
         const data = await getOrderInfo({ orderId: makeOrder.orderId })
-        if ((data as any).orderId) toast('Ождиайте проверки и поступления!')
+        if ((data as any).orderId) {
+          toast('Ождиайте проверки и поступления!')
+          setPayProcess(false)
+          setDone(true)
+        }
       })()
     }
   }, [finish])
@@ -221,7 +227,6 @@ const CustomPayment = ({ close }: { close: () => void }) => {
           orderId: makeOrder?.orderId,
           token
         })
-        data && alert(JSON.stringify(data))
         setCancelOrder(false)
         setMakeOrder(null)
         setFile(null)
@@ -355,11 +360,12 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                           {makeOrder.paymentDetails.value}
                         </p>{' '}
                         <CopySVG
-                          onClick={() =>
+                          onClick={() => {
                             window.navigator.clipboard.writeText(
                               makeOrder.paymentDetails.value
                             )
-                          }
+                            toast('Copied!')
+                          }}
                           className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5'
                         />
                       </div>
@@ -373,11 +379,12 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                           {makeOrder.paymentDetails.paymentMethodName}
                         </p>
                         <CopySVG
-                          onClick={() =>
+                          onClick={() => {
                             window.navigator.clipboard.writeText(
                               makeOrder.paymentDetails.paymentMethodName
                             )
-                          }
+                            toast('Copied!')
+                          }}
                           className='text-[#7E7E7E] cursor-pointer scale-[0.7] lg:scale-[1] w-5 h-5'
                         />
                       </div>
@@ -441,15 +448,28 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                             toast('Добавьте скриншот оплаты!')
                           } else {
                             setSend(true)
+                            setPayProcess(true)
+                            toast('Отправляем данные!')
                           }
                         }}
-                        className={`flex items-center justify-center rounded-[8px] w-full border bg-[#202020] ${
+                        className={`flex gap-2 items-center justify-center rounded-[8px] w-full border bg-[#202020] ${
                           !file
                             ? 'border-transparent text-[#7E7E7E]'
                             : 'border-[#363636] text-white'
                         }`}
                       >
-                        Продолжить
+                        {done
+                          ? 'Ожидайте!'
+                          : payProcess
+                          ? 'В процессе'
+                          : 'Продолжить'}{' '}
+                        {payProcess && (
+                          <LoaderIcon
+                            className='icon-rotate'
+                            width={16}
+                            height={16}
+                          />
+                        )}
                       </button>
                     </div>
                   </div>

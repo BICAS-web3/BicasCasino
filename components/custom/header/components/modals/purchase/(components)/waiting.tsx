@@ -100,7 +100,6 @@ const WaitingModal = () => {
   useEffect(() => {
     if (access_token) {
       ;(async () => {
-        // alert(`${coinList.title}_${networkActive}`)
         const response = await api.invoiceCreate({
           amount: purchase,
           currency:

@@ -35,15 +35,23 @@ export interface IAmount {
 const BalanceSwitcher = () => {
   const isMobile = useMediaQuery('(max-width: 730px)')
 
-  const [isDrax, setDrax, access_token, userInfo, result, setBalanceValue] =
-    useUnit([
-      UserModel.$isDrax,
-      UserModel.setIsDrax,
-      RegistrModel.$access_token,
-      UserModel.$userInfo,
-      GameModel.$result,
-      UserModel.setBalance,
-    ])
+  const [
+    isDrax,
+    setDrax,
+    access_token,
+    userInfo,
+    result,
+    setBalanceValue,
+    balanceValue
+  ] = useUnit([
+    UserModel.$isDrax,
+    UserModel.setIsDrax,
+    RegistrModel.$access_token,
+    UserModel.$userInfo,
+    GameModel.$result,
+    UserModel.setBalance,
+    UserModel.$balance
+  ])
 
   const [balance, setBalance] = useState<null | IAmount>(null)
 
@@ -103,12 +111,7 @@ const BalanceSwitcher = () => {
             {isMobile ? (
               isDrax === item.isDrax && (
                 <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-10'>
-                  {balance !== null
-                    ? Number(
-                        balance.amounts.find(item => item.name === 'DraxBonus')
-                          ?.amount
-                      )
-                    : zero.toFixed(3)}
+                  {balance !== null ? balanceValue : zero.toFixed(3)}
                 </span>
               )
             ) : (
@@ -128,7 +131,9 @@ const BalanceSwitcher = () => {
                   : zero.toFixed(3)}
               </span>
             )}
-            <span className='text-xs sm:text-[12px] leading-4'>{item.token}</span>
+            <span className='text-xs sm:text-[12px] leading-4'>
+              {item.token}
+            </span>
           </div>
         </Button>
       ))}

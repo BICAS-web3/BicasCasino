@@ -1,7 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.icon-rotate {
+  animation: rotate 2s linear infinite; /* Используйте свою иконку */
+}
 
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .disable-arrs::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
@@ -47,7 +58,11 @@ body {
     z-index: 10;
 
     @media screen and (max-width: 650px) {
-      background: linear-gradient(to left, rgba(15, 15, 15, 0), rgba(15, 15, 15, 0.8));
+      background: linear-gradient(
+        to left,
+        rgba(15, 15, 15, 0),
+        rgba(15, 15, 15, 0.8)
+      );
     }
   }
 }
