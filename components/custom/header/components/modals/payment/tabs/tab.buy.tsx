@@ -31,7 +31,7 @@ const TabBuy = () => {
           <CryptoRoute
             title='Bank card'
             text='You can buy DRAX coins by Visa or Mastercard'
-            // onClick={open}
+            onClick={open}
           />
           <CryptoRoute
             isCrypto

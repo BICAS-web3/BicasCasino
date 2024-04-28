@@ -1026,7 +1026,7 @@ export const confirmOrder = createEffect<T_DataOrder, T_ApiResponse, string>(
 
 type T_ScreenShootOrder = {
   orderId: string
-  bucketS3ImageName: string
+  bucketS3DocumentName: string
 }
 
 export const screenShootOrder = createEffect<
@@ -1034,7 +1034,7 @@ export const screenShootOrder = createEffect<
   T_ApiResponse,
   string
 >(async form => {
-  return fetch(`${P2WayUrl}/widget/addScreenshotToOrder`, {
+  return fetch(`${P2WayUrl}/widget/addDocumentToOrder`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -1052,14 +1052,13 @@ export const getOrderInfo = createEffect<
   T_ApiResponse,
   string
 >(async form => {
-  return fetch(`${P2WayUrl}/widget/getOrderById`, {
-    method: 'POST',
+  return fetch(`${P2WayUrl}/widget/getOrderById?orderId=${form.orderId}`, {
+    method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
       // Authorization: `Bearer ${form.bareer}`
-    },
-    body: JSON.stringify(form)
+    }
   })
     .then(async res => await res.json())
     .catch(e => e)

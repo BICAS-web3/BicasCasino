@@ -39,17 +39,14 @@ const CryptoRoute: FC<ICryptoRoute> = ({
       <p className='relative max-w-[153px] text-[13px] text-[#AAAAAA] mt-[5px]'>
         {text}
       </p>
-      <div className='rounded-[5px] overflow-hidden w-fit h-fit mt-[38px]'>
-        <button
-          disabled={!isCrypto}
-          className={`relative py-2 px-[53px]  text-[12px] text-white w-fit overflow-hidden ${
-            isCrypto ? 'btn_2' : 'btn'
-          }`}
-          onClick={onClick}
-        >
-          {isCrypto ? 'Continue' : 'Soon!'}
-        </button>
-      </div>
+      <button
+        className={`relative py-2 px-[53px] w-fit h-fit mt-[38px] text-[12px] text-white overflow-hidden ${
+          isCrypto ? 'btn_2' : 'btn'
+        }`}
+        onClick={onClick}
+      >
+        Continue
+      </button>
     </div>
   )
 }
