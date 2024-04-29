@@ -138,7 +138,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
   }, [startPay])
 
   useEffect(() => {
-    if (makeOrder && token) {
+    if (makeOrder && token && send) {
       ;(async () => {
         const data = await confirmOrder({ orderId: makeOrder.orderId, token })
         if ((data as any).success) {
@@ -149,7 +149,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
         }
       })()
     }
-  }, [makeOrder])
+  }, [makeOrder, send])
 
   useEffect(() => {
     if (makeOrder?.orderId && send && screen) {
@@ -221,51 +221,57 @@ const CustomPayment = ({ close }: { close: () => void }) => {
   }, [bucketUrl, file])
 
   useEffect(() => {
-    if (cancelOrder && makeOrder) {
+    if (cancelOrder && !confirmData?.success && makeOrder) {
       ;(async () => {
         const data = await cancelTokenOrder({
           orderId: makeOrder?.orderId,
           token
         })
-        setCancelOrder(false)
-        setMakeOrder(null)
-        setFile(null)
-        setAmount('')
+        if ((data as any).message === 'OK') {
+          setCancelOrder(false)
+          setMakeOrder(null)
+          setFile(null)
+          setAmount('')
+          toast('Canceled!')
+        } else {
+          toast((data as any)?.error)
+        }
       })()
     }
   }, [cancelOrder, makeOrder])
 
+  const [time, setTime] = useState(new Date())
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
   return (
     <>
-      <span className='fixed top-0 left-0 w-screen h-screen bg-black opacity-[0.4] z-[3]'></span>
-      <div className='w-screen sm:w-auto sm:h-auto h-screen z-[20] lg:w-[806px] lg:h-[470px] py-4 px-5 lg:p-[30px] pb-6 lg:pb-10 sm:rounded-[20px] flex flex-col bg-[#181818] overflow-hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+      <span className='fixed top-0 left-0  w-screen h-screen bg-black opacity-[0.4] z-[3]'></span>
+      <div className='overflow-y-auto sm:overflow-y-hidden w-screen sm:w-auto sm:h-auto h-screen z-[20] lg:w-[806px] lg:h-[470px] pt-8 py-4 px-5 lg:p-[30px] pb-6 lg:pb-10 sm:rounded-[20px] flex flex-col bg-[#181818] overflow-hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
         <EclipseSVG className='absolute top-0 left-0 h-full' />
         <div className='flex items-center justify-between relative z-[1] gap-[19px]'>
           <Logo />
           {makeOrder && (
             <div className='hidden lg:flex w-full border border-[#3E3E3E] rounded-[45px] bg-[#121212] h-10 pr-[15px] mr-4'>
               <button className='flex items-center justify-center h-full bg-[#282828] w-[159px] font-[Montserrat] font-semibold rounded-[45px]'>
-                {confirmData?.createdAt &&
-                  `${('0' + new Date(confirmData?.createdAt).getHours()).slice(
-                    -2
-                  )}:${(
-                    '0' + new Date(confirmData?.createdAt).getMinutes()
-                  ).slice(-2)}`}
+                {`${('0' + time.getHours()).slice(-2)}:${(
+                  '0' + time.getMinutes()
+                ).slice(-2)}`}
               </button>
               <div className='flex items-center gap-9 ml-auto h-full'>
                 <span className='text-[#AAAAAA] text-[12px]'>
                   № {makeOrder?.orderId}
                 </span>
                 <span className='text-[#AAAAAA] text-[12px]'>
-                  {confirmData?.createdAt &&
-                    `${`${new Date(confirmData?.createdAt).getDate()}`.padStart(
-                      2,
-                      '0'
-                    )}.${`${
-                      new Date(confirmData?.createdAt).getMonth() + 1
-                    }`.padStart(2, '0')}.${new Date(
-                      confirmData?.createdAt
-                    ).getFullYear()}`}
+                  {`${`${new Date().getDate()}`.padStart(2, '0')}.${`${
+                    new Date().getMonth() + 1
+                  }`.padStart(2, '0')}.${new Date().getFullYear()}`}
                 </span>
               </div>
             </div>
@@ -276,27 +282,18 @@ const CustomPayment = ({ close }: { close: () => void }) => {
           <>
             <div className='flex mt-2 lg:hidden w-full border border-[#3E3E3E] rounded-[45px] bg-[#121212] h-7 lg:h-10 pr-[10px] lg:pr-[15px] mr-0 lg:mr-4'>
               <button className='flex items-center justify-center h-full bg-[#282828] text-[10px] lg:text-base w-[70px] lg:w-[159px] font-[Montserrat] font-semibold rounded-[45px]'>
-                {confirmData?.createdAt &&
-                  `${('0' + new Date(confirmData?.createdAt).getHours()).slice(
-                    -2
-                  )}:${(
-                    '0' + new Date(confirmData?.createdAt).getMinutes()
-                  ).slice(-2)}`}
+                {`${('0' + time.getHours()).slice(-2)}:${(
+                  '0' + time.getMinutes()
+                ).slice(-2)}`}
               </button>
               <div className='flex items-center gap-2 lg:gap-9 ml-auto h-full'>
                 <span className='text-[#AAAAAA] text-[8px] lg:text-[12px] text-center mx-auto'>
                   № {makeOrder?.orderId}
                 </span>
                 <span className='text-[#AAAAAA] text-[9px] lg:text-[12px]'>
-                  {confirmData?.createdAt &&
-                    `${`${new Date(confirmData?.createdAt).getDate()}`.padStart(
-                      2,
-                      '0'
-                    )}.${`${
-                      new Date(confirmData?.createdAt).getMonth() + 1
-                    }`.padStart(2, '0')}.${new Date(
-                      confirmData?.createdAt
-                    ).getFullYear()}`}
+                  {`${`${new Date().getDate()}`.padStart(2, '0')}.${`${
+                    new Date().getMonth() + 1
+                  }`.padStart(2, '0')}.${new Date().getFullYear()}`}
                 </span>
               </div>
             </div>
@@ -336,11 +333,11 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                   </p>
                 </div>
               </div>
-              <div className='flex flex-col gap-4 lg:gap-[45px] w-full relative z-[1]'>
+              <div className='flex flex-col gap-4 lg:gap-[45px] w-full relative z-[1] flex-auto'>
                 <h2 className='hidden lg:block text-lg lg:text-xl font-semibold lg:max-w-[426px]'>
                   Войдите в интернет-банк и переведите точную сумму
                 </h2>
-                <div className='flex flex-col gap-3 lg:gap-[18px]'>
+                <div className='flex flex-col gap-3 lg:gap-[18px] flex-auto'>
                   <div className='flex flex-col gap-2 lg:gap-[14px]'>
                     <div className='flex w-full items-end'>
                       <span className='min-w-max text-[13px] lg:text-[15px] text-[#7E7E7E]'>
@@ -390,7 +387,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-col ml-auto gap-3 lg:gap-[22px] max-w-[310px] w-full'>
+                  <div className='flex flex-col ml-auto gap-3 lg:gap-[22px] max-w-[100%] sm:max-w-[310px] w-full flex-auto'>
                     <div className='w-full border border-dashed border-[#3E3E3E] bg-[#121212] h-9 lg:h-10 rounded-[99px] flex justify-between pl-[14px] pr-5 items-center'>
                       <span></span>
                       <label
@@ -433,16 +430,22 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                         )}
                       </div>
                     </div>
-                    <div className='w-full flex gap-[10px] h-9 lg:h-10'>
-                      {/* <button
+                    <div className='w-full flex gap-[10px] h-9 lg:h-10 mt-auto sm:mt-0'>
+                      <button
+                        disabled={confirmData?.success}
                         onClick={() => {
                           setCancelOrder(true)
                         }}
-                        className='flex items-center justify-center text-[#979797] rounded-[8px] w-full border border-[#363636]'
+                        className={`flex items-center justify-center duration-500 rounded-[8px] w-full border border-[#363636] ${
+                          !confirmData?.success
+                            ? 'text-white'
+                            : 'text-[#979797]'
+                        }`}
                       >
                         Отменить
-                      </button> */}
+                      </button>
                       <button
+                        disabled={done}
                         onClick={() => {
                           if (!file) {
                             toast('Добавьте скриншот оплаты!')
@@ -522,7 +525,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                 </span>
               </div>
             </div>
-            <div className='flex flex-col lg:flex-row items-end justify-between mt-2 lg:mt-[43px] relative z-[1]'>
+            <div className='flex flex-col lg:flex-row items-end justify-between mt-2 lg:mt-[43px] relative z-[1] flex-auto'>
               <p className='lg:max-w-[227px] text-[13px] text-[#7E7E7E]'>
                 * Самый быстрый путь в банк будет определен автоматически
               </p>
@@ -536,7 +539,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                     (widgetSetting?.merchant?.settings?.amount?.max || 29999)
                 }
                 onClick={() => setStartPay(true)}
-                className={`mt-2 lg:mt-0 font-medium duration-500  px-[47.5px] py-[17px] w-full lg:w-fit leading-4 flex items-center justify-center border rounded-[8px] bg-[#202020] ${
+                className={`mt-auto lg:mt-0 font-medium duration-500  px-[47.5px] py-[9px] sm:py-[17px] w-full lg:w-fit leading-4 flex items-center justify-center border rounded-[8px] bg-[#202020] ${
                   !amount ||
                   !sessionInit ||
                   Number(amount) <
@@ -558,20 +561,3 @@ const CustomPayment = ({ close }: { close: () => void }) => {
 }
 
 export default CustomPayment
-// useEffect(() => {
-//   ;(async () => {
-//     const data = await getTokensBilliane({
-//       address: '',
-//       amount: '',
-//       city: '',
-//       country: '',
-//       currency: '',
-//       email: '',
-//       first_name: '',
-//       last_name: '',
-//       phone: '',
-//       post_code: '',
-//       region: ''
-//     })
-//   })()
-// }, [])
