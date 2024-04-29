@@ -333,11 +333,11 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                   </p>
                 </div>
               </div>
-              <div className='flex flex-col gap-4 lg:gap-[45px] w-full relative z-[1] flex-auto'>
+              <div className='flex flex-col gap-4 lg:gap-[45px] w-full relative z-[1]'>
                 <h2 className='hidden lg:block text-lg lg:text-xl font-semibold lg:max-w-[426px]'>
                   Войдите в интернет-банк и переведите точную сумму
                 </h2>
-                <div className='flex flex-col gap-3 lg:gap-[18px] flex-auto'>
+                <div className='flex flex-col gap-3 lg:gap-[18px]'>
                   <div className='flex flex-col gap-2 lg:gap-[14px]'>
                     <div className='flex w-full items-end'>
                       <span className='min-w-max text-[13px] lg:text-[15px] text-[#7E7E7E]'>
@@ -387,7 +387,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-col ml-auto gap-3 lg:gap-[22px] max-w-[100%] sm:max-w-[310px] w-full flex-auto'>
+                  <div className='flex flex-col ml-auto gap-3 lg:gap-[22px] max-w-[100%] sm:max-w-[310px] w-full'>
                     <div className='w-full border border-dashed border-[#3E3E3E] bg-[#121212] h-9 lg:h-10 rounded-[99px] flex justify-between pl-[14px] pr-5 items-center'>
                       <span></span>
                       <label
@@ -430,7 +430,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                         )}
                       </div>
                     </div>
-                    <div className='w-full flex gap-[10px] h-9 lg:h-10 mt-auto sm:mt-0'>
+                    <div className='w-full flex gap-[10px] h-9 lg:h-10 sm:mt-0'>
                       <button
                         disabled={confirmData?.success}
                         onClick={() => {
@@ -525,7 +525,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                 </span>
               </div>
             </div>
-            <div className='flex flex-col lg:flex-row items-end justify-between mt-2 lg:mt-[43px] relative z-[1] flex-auto'>
+            <div className='flex flex-col lg:flex-row items-end justify-between mt-2 lg:mt-[43px] relative z-[1]'>
               <p className='lg:max-w-[227px] text-[13px] text-[#7E7E7E]'>
                 * Самый быстрый путь в банк будет определен автоматически
               </p>
@@ -539,7 +539,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
                     (widgetSetting?.merchant?.settings?.amount?.max || 29999)
                 }
                 onClick={() => setStartPay(true)}
-                className={`mt-auto lg:mt-0 font-medium duration-500  px-[47.5px] py-[9px] sm:py-[17px] w-full lg:w-fit leading-4 flex items-center justify-center border rounded-[8px] bg-[#202020] ${
+                className={`lg:mt-0 font-medium duration-500 mt-4 px-[47.5px] py-[9px] sm:py-[17px] w-full lg:w-fit leading-4 flex items-center justify-center border rounded-[8px] bg-[#202020] ${
                   !amount ||
                   !sessionInit ||
                   Number(amount) <
