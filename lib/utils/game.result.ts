@@ -56,7 +56,6 @@ export function handleResult({
       setIsPlaying?.(true)
     }
   } else if (result.type === 'Bet') {
-    // alert(1)
     if (title === 'rps' && setCoefficientData) {
       const fullAmount = Number(result.amount) * result.num_games!
       setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])

@@ -41,7 +41,8 @@ const CoinFlipGame = () => {
     gamesList,
     socketReset,
     isPlaying,
-    access_token
+    access_token,
+    setCoin
   ] = useUnit([
     GameModel.$lost,
     GameModel.$profit,
@@ -65,7 +66,8 @@ const CoinFlipGame = () => {
     GameModel.$gamesList,
     UserModel.$socketReset,
     GameModel.$isPlaying,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.pickCoin
   ])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
@@ -98,6 +100,7 @@ const CoinFlipGame = () => {
       setWonStatus,
       pickedSide,
       setCoefficientData,
+      setCoin,
       setResult
     )
   }, [result?.timestamp, result, gameStatus])
@@ -105,16 +108,6 @@ const CoinFlipGame = () => {
   useEffect(() => {
     setCoefficient(1.98)
   }, [])
-
-  useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1)
-    }
-  }, [gameStatus])
 
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
@@ -157,6 +150,9 @@ const CoinFlipGame = () => {
   }, [])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
+
+  const [start, setStart] = useState(3.5)
+
   return (
     <div
       className='relative w-full h-full px-4 flex-[1_1_auto] flex flex-col'
@@ -181,6 +177,8 @@ const CoinFlipGame = () => {
               </Stage>
               <ambientLight intensity={1} />
               <Model
+                start={start}
+                setStart={setStart}
                 action={
                   inGame
                     ? CoinAction.Rotation
@@ -200,3 +198,12 @@ const CoinFlipGame = () => {
 }
 
 export default CoinFlipGame
+// useEffect(() => {
+//   setActivePicker(true)
+//   setInGame(false)
+//   if (gameStatus == GameModel.GameStatus.Won) {
+//     pickSide(pickedSide)
+//   } else if (gameStatus == GameModel.GameStatus.Lost) {
+//     pickSide(pickedSide ^ 1)
+//   }
+// }, [gameStatus])

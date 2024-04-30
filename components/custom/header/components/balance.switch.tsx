@@ -74,6 +74,29 @@ const BalanceSwitcher = () => {
         }
       })()
     }
+  }, [access_token, userInfo?.id])
+
+  useEffect(() => {
+    if (access_token && userInfo && result) {
+      ;(async () => {
+        const data = await api.getUserAmounts({
+          bareer: access_token,
+          userId: userInfo?.id
+        })
+        if (data.status === 'OK') {
+          setTimeout(() => {
+            setBalance((data as any).body)
+            setBalanceValue(
+              Number(
+                (data.body as any).amounts.find(
+                  (item: any) => item.name === (isDrax ? 'Drax' : 'DraxBonus')
+                )?.amount
+              )
+            )
+          }, 1650)
+        }
+      })()
+    }
   }, [access_token, userInfo?.id, result])
 
   const zero = 0

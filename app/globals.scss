@@ -1066,6 +1066,149 @@ input[type='number'] {
   }
 }
 
+@keyframes shakeUpRight {
+  0% {
+    transform: translateY(0) scaleX(-1);
+  }
+  20% {
+    transform: translateY(-10px) scaleX(-1);
+  }
+  30% {
+    transform: translateY(40px) translateX(-60px) scaleX(-1);
+  }
+  40% {
+    transform: translateY(-22px) scaleX(-1);
+  }
+  50% {
+    transform: translateY(40px) translateX(-50px) scaleX(-1);
+  }
+  60% {
+    transform: translateY(-20px) scaleX(-1);
+  }
+  70% {
+    transform: translateY(40px) translateX(-70px) scaleX(-1);
+  }
+  80% {
+    transform: translateY(-15px) scaleX(-1);
+  }
+  90% {
+    transform: translateY(40px) translateX(-40px) scaleX(-1);
+  }
+  100% {
+    transform: translateY(-5px) scaleX(-1);
+  }
+}
+
+@keyframes shakeUpLeft {
+  0% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  30% {
+    transform: translateY(40px) translateX(60px) rotateY(-20deg);
+  }
+  40% {
+    transform: translateY(-22px);
+  }
+  50% {
+    transform: translateY(40px) translateX(50px) rotateY(-20deg);
+  }
+  60% {
+    transform: translateY(-20px);
+  }
+  70% {
+    transform: translateY(40px) translateX(70px) rotateY(-20deg);
+  }
+  80% {
+    transform: translateY(-15px);
+  }
+  90% {
+    transform: translateY(40px) translateX(40px) rotateY(-20deg);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes shakeUpRight {
+    0% {
+      transform: translateY(0) scaleX(-1);
+    }
+    20% {
+      transform: translateY(-8px) scaleX(-1);
+    }
+    30% {
+      transform: translateY(25px) translateX(-45px) scaleX(-1);
+    }
+    40% {
+      transform: translateY(-17px) scaleX(-1);
+    }
+    50% {
+      transform: translateY(25px) translateX(-35px) scaleX(-1);
+    }
+    60% {
+      transform: translateY(-20px) scaleX(-1);
+    }
+    70% {
+      transform: translateY(25px) translateX(-50px) scaleX(-1);
+    }
+    80% {
+      transform: translateY(-15px) scaleX(-1);
+    }
+    90% {
+      transform: translateY(25px) translateX(-15px) scaleX(-1);
+    }
+    100% {
+      transform: translateY(-5px) scaleX(-1);
+    }
+  }
+
+  @keyframes shakeUpLeft {
+    0% {
+      transform: translateY(0);
+    }
+    20% {
+      transform: translateY(-8px);
+    }
+    30% {
+      transform: translateY(25px) translateX(45px) rotateY(-20deg);
+    }
+    40% {
+      transform: translateY(-17px);
+    }
+    50% {
+      transform: translateY(25px) translateX(35px) rotateY(-20deg);
+    }
+    60% {
+      transform: translateY(-20px);
+    }
+    70% {
+      transform: translateY(25px) translateX(50px) rotateY(-20deg);
+    }
+    80% {
+      transform: translateY(-15px);
+    }
+    90% {
+      transform: translateY(25px) translateX(15px) rotateY(-20deg);
+    }
+    100% {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+.right-hand {
+  animation: shakeUpRight 1.5s;
+  // transform-origin: bottom center;
+}
+
+.left-hand {
+  animation: shakeUpLeft 1.5s;
+}
+
 .levitate_enemy {
   animation: levitate_enemy 2s infinite;
 }

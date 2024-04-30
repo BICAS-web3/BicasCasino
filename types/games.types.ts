@@ -50,6 +50,8 @@ export interface PokerProps {
 export interface ModelProps {
   action: CoinAction
   initial: GameModel.Side
+  start?: number
+  setStart?: (el: number) => void
 }
 
 export interface ISelectedMine {

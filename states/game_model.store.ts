@@ -148,14 +148,17 @@ export enum Side {
 
 export const $active = createStore<boolean>(true)
 export const $pickedSide = createStore<Side>(Side.Heads)
+export const $pickedCoin = createStore<Side>(Side.Heads)
 export const $coefficient = createStore<number>(0)
 
 // events
 export const pickSide = createEvent<Side>()
+export const pickCoin = createEvent<Side>()
 export const setActive = createEvent<boolean>()
 export const setCoefficient = createEvent<number>()
 
 $pickedSide.on(pickSide, (_, side) => side)
+$pickedCoin.on(pickCoin, (_, side) => side)
 $active.on(setActive, (_, value) => value)
 $coefficient.on(setCoefficient, (_, value) => value)
 
@@ -218,7 +221,7 @@ export type ManualType = 'MANUAL' | 'AUTO'
 export type WinningType = 'YES' | 'NO' | 'X5'
 
 export const $manualSetting = createStore<ManualType>('MANUAL')
-export const $stopWinning = createStore<WinningType>('NO')
+export const $stopWinning = createStore<WinningType>('YES')
 export const $selectedLength = createStore<number>(0)
 
 export const setManualSetting = createEvent<ManualType>()

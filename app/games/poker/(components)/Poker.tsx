@@ -1,12 +1,12 @@
 'use client'
-import * as api from '@/api'
 import { T_Card } from '@/api'
 import Coefficient from '@/components/custom/coefficient'
-import TotalCoeff from '@/components/custom/totalCoeff'
 import { useSocket } from '@/components/providers/socket.provider'
-import { useMediaQuery } from 'usehooks-ts'
 import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
+import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { useGetState } from '@/lib/utils/useGetState'
 import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
 import {
   GameModel,
@@ -15,25 +15,19 @@ import {
   UserModel,
   WagerModel
 } from '@/states'
+import { PokerProps } from '@/types/games.types'
 import { useUnit } from 'effector-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import { evaluatePokerHand, generateBetData } from '../(utils)'
 import { PokerCard } from './PokerCard'
-import { PokerCombination } from './PokerCombination'
 import { initialArrayOfCards } from './data'
-import { useSubscibeBets } from '@/lib/utils/subscibe'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { useGetState } from '@/lib/utils/useGetState'
-import { PokerProps } from '@/types/games.types'
 // чирва 2,пика 3,буба 1,креста 0
 
 export const Poker = ({}: PokerProps) => {
   const [
     betsAmount,
-    lost,
-    profit,
     gameState,
     cryptoValue,
     setGameStatus,
@@ -52,13 +46,9 @@ export const Poker = ({}: PokerProps) => {
     stopGain,
     stopLoss,
     finishPoker,
-    multiplier,
-    token,
     access_token
   ] = useUnit([
     WagerModel.$pickedValue,
-    GameModel.$lost,
-    GameModel.$profit,
     PokerModel.$gameState,
     WagerModel.$cryptoValue,
     GameModel.setGameStatus,
@@ -77,8 +67,6 @@ export const Poker = ({}: PokerProps) => {
     WagerModel.$stopGain,
     WagerModel.$stopLoss,
     GameModel.$finishPoker,
-    GameModel.$multiplier,
-    GameModel.$token,
     RegistrModel.$access_token
   ])
 
@@ -86,11 +74,7 @@ export const Poker = ({}: PokerProps) => {
   const [firstBet, setFirstBet] = useState(true)
   const [keep, setKeep] = useState(false)
   const [taken, setTaken] = useState(false)
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
   const socket = useSocket()
-  const isMobile = useMediaQuery('(max-width: 650px)')
   const [imageLoading_1, setImageLoading_1] = useState(true)
   const [imageLoading_2, setImageLoading_2] = useState(true)
   const [preloading, setPreloading] = useState(true)
@@ -121,24 +105,75 @@ export const Poker = ({}: PokerProps) => {
       socket
     })
   }, [socket, socket?.readyState, gamesList.length])
+
   useEffect(() => {
-    handleResult({
-      title: 'poker',
-      result,
-      setInGame,
-      setWaitingResponse,
-      setIsPlaying,
-      setGameStatus,
-      setWonStatus,
-      setLostStatus,
-      setKeep,
-      setFirstBet,
-      setUpdate,
-      setActiveCards,
-      setShowFlipCards
-    })
+    if (result) {
+      if (result.type === 'State' && result.state) {
+        const dataState = JSON.parse(result.state).cards_in_hand
+        setShowFlipCards(true)
+        setWaitingResponse(false)
+        setActiveCards(dataState)
+        if (result?.amount) {
+          setIsPlaying(true)
+        }
+        console.log('first level: ', dataState)
+
+        setKeep(true)
+      } else if (result.type === 'Bet' && result.state) {
+        const fullAmount = Number(result.amount) * result.num_games!
+        setTimeout(() => {
+          setCoefficientData(prev => [
+            Number(result.profit) / fullAmount,
+            ...prev
+          ])
+        }, 200)
+        setWaitingResponse(false)
+        if (
+          Number(result.profit) > Number(result.amount) ||
+          Number(result.profit) === Number(result.amount)
+        ) {
+          alert('win')
+          setGameStatus(GameModel.GameStatus.Won)
+          const multiplier = Number(
+            Number(result.profit) / Number(result.amount)
+          )
+          setWonStatus({
+            profit: Number(result.profit),
+            multiplier,
+            token: 'DRAX'
+          })
+          setTimeout(() => {
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+            setActiveCards(initialArrayOfCards)
+          }, 200)
+        } else if (Number(result.profit) < Number(result.amount)) {
+          alert('lose')
+          setGameStatus(GameModel.GameStatus.Lost)
+          setLostStatus(Number(result.profit) - Number(result.amount))
+          setTimeout(() => {
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+            setActiveCards(initialArrayOfCards)
+          }, 200)
+        } else {
+          setGameStatus(GameModel.GameStatus.Draw)
+          setTimeout(() => {
+            setInGame(false)
+            setIsPlaying(false)
+            setKeep(false)
+            setFirstBet(true)
+          }, 200)
+        }
+        // setKeep(false);
+      }
+    }
     setResult(null)
-  }, [result])
+  }, [result, result?.type])
 
   useEffect(() => {
     setIsPlaying(inGame)
@@ -159,15 +194,6 @@ export const Poker = ({}: PokerProps) => {
       setTaken(true)
     }
   }, [betsAmount, cryptoValue, isPlaying])
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => {
     if (!imageLoading_1 && !imageLoading_2) {
@@ -207,16 +233,17 @@ export const Poker = ({}: PokerProps) => {
     update,
     keep
   ])
-
+  const [refund, setRefund] = useState(1)
   useEffect(() => setFirstBet(true), [])
   useEffect(() => {
+    alert(JSON.stringify(betData))
     sendSocketData({
       socket,
       isPlaying,
       access_token,
       betData
     })
-  }, [socket, isPlaying, access_token, gamesList, finishPoker])
+  }, [refund, socket, isPlaying, access_token, gamesList, finishPoker])
   useEffect(() => {
     useGetState({
       access_token,
@@ -226,17 +253,19 @@ export const Poker = ({}: PokerProps) => {
       socketLogged,
       title: 'Poker'
     })
-  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
+  }, [
+    socket,
+    gamesList,
+    isDrax,
+    isPlaying,
+    access_token,
+    socketLogged,
+    cardsState.find(el => el === true)
+  ])
 
   useEffect(() => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Poker' })
   }, [])
-
-  const pokerPlay = (ind: number) => {
-    const cards = cardsState
-    cards[ind] = !cards[ind]
-    setCardsState([...cards])
-  }
 
   return (
     <>
@@ -275,7 +304,15 @@ export const Poker = ({}: PokerProps) => {
                     isEmptyCard={false}
                     coat={item.suit}
                     card={item.number}
-                    onClick={pokerPlay.bind('', ind)}
+                    onClick={() => {
+                      const cards = cardsState
+                      cards[ind] = !cards[ind]
+                      setCardsState([...cards])
+                      const updatedActiveCards = [...activeCards]
+                      updatedActiveCards[ind].number = -1
+                      setActiveCards(updatedActiveCards)
+                      // setRefund(prev => prev + 1)
+                    }}
                   />
                 )
               })}

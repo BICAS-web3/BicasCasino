@@ -1,19 +1,18 @@
 'use client'
 
-import bg from '@/public/images/rps/bg.png'
-import { useEffect, useState } from 'react'
-import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
-import { useUnit } from 'effector-react'
-import TotalCoeff from '@/components/custom/totalCoeff'
+import Coefficient from '@/components/custom/coefficient'
 import { useSocket } from '@/components/providers/socket.provider'
-import RpsPicker from './Picker'
 import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
-import Coefficient from '@/components/custom/coefficient'
+import bg from '@/public/images/rps/bg.png'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
+import { useUnit } from 'effector-react'
+import { useEffect, useState } from 'react'
+import RpsPicker from './Picker'
 
-import Image from 'next/image'
-import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
+import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import Image from 'next/image'
 import { changeEnemyValue } from '../(utils)'
 
 export enum ModelType {
@@ -24,13 +23,8 @@ export enum ModelType {
 }
 const PRSGame = () => {
   const socket = useSocket()
-  const [value, setValue] = useState<ModelType>(ModelType.Paper)
   const [
-    lost,
-    profit,
     pickedValue,
-    setActivePicker,
-    pickSide,
     betsAmount,
     cryptoValue,
     stopGain,
@@ -45,13 +39,12 @@ const PRSGame = () => {
     setResult,
     isDrax,
     userInfo,
-    gamesList
+    gamesList,
+    isPlaying,
+    socketReset,
+    access_token
   ] = useUnit([
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$pickedValueRPS,
-    GameModel.setActiveRPS,
-    GameModel.pickValueRPS,
     WagerModel.$pickedValue,
     WagerModel.$cryptoValue,
     WagerModel.$stopGain,
@@ -66,10 +59,39 @@ const PRSGame = () => {
     GameModel.setResult,
     UserModel.$isDrax,
     UserModel.$userInfo,
-    GameModel.$gamesList
+    GameModel.$gamesList,
+    GameModel.$isPlaying,
+    UserModel.$socketReset,
+    RegistrModel.$access_token
   ])
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
+  const [enemyValue, setEnemyValue] = useState(ModelType.Quest)
+  const [betData, setBetData] = useState({})
+  const [subscribed, setCubscribed] = useState(false)
+  const [value, setValue] = useState<ModelType>(ModelType.Paper)
+  const [startPlay, setStartPlay] = useState(false)
+  const [startAnimation, setSTartAnimation] = useState(false)
 
-  const [socketReset] = useUnit([UserModel.$socketReset])
+  useEffect(() => {
+    if (isPlaying) {
+      setSTartAnimation(true)
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve(setStartPlay(true)), 1500)
+        ),
+        new Promise(resolve =>
+          setTimeout(() => resolve(setSTartAnimation(false)), 1400)
+        )
+      ])
+    } else {
+      setSTartAnimation(false)
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve(setStartPlay(false)), 1500)
+        )
+      ])
+    }
+  }, [isPlaying])
 
   useEffect(() => {
     useSubscibeBets({
@@ -85,7 +107,6 @@ const PRSGame = () => {
     handleResult({
       title: 'rps',
       result,
-      setInGame,
       setIsPlaying,
       setGameStatus,
       setWonStatus,
@@ -109,54 +130,9 @@ const PRSGame = () => {
     }
   }, [pickedValue])
 
-  const [inGame, setInGame] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsPlaying(inGame)
-  }, [inGame])
-
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
-
-  useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedValue)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedValue)
-    }
-  }, [gameStatus])
-
-  const [enemyValue, setEnemyValue] = useState(ModelType.Quest)
-
   useEffect(() => {
     changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
   }, [gameStatus])
-
-  const [taken, setTaken] = useState(false)
-  useEffect(() => {
-    if (cryptoValue && isPlaying && !taken && betsAmount) {
-      setTaken(true)
-    }
-  }, [betsAmount, cryptoValue, isPlaying])
-
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
-
-  const [access_token] = useUnit([RegistrModel.$access_token])
-
-  const [betData, setBetData] = useState({})
 
   useEffect(() => {
     setBetData({
@@ -172,16 +148,14 @@ const PRSGame = () => {
     })
   }, [stopGain, stopLoss, pickedValue, cryptoValue, isDrax, betsAmount])
 
-  const [subscribed, setCubscribed] = useState(false)
-
   useEffect(() => {
     sendSocketData({
       socket,
-      isPlaying,
+      isPlaying: startPlay,
       access_token,
       betData
     })
-  }, [socket, isPlaying, access_token, gamesList])
+  }, [socket, startPlay, access_token, gamesList])
 
   useEffect(() => {
     return () => useUnSubscribe({ gamesList, socket, name: 'RPS' })
@@ -196,72 +170,92 @@ const PRSGame = () => {
       <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto]'>
         <div className='w-full flex items-center flex-col gap-[62px] sm:gap-[131px] xl:gap-[98px]'>
           <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px]'>
-            {value === ModelType.Paper && (
+            {!startAnimation && !isPlaying && value === ModelType.Paper && (
               <Image
                 width={248}
                 height={248}
                 src={'/images/rps/papper.png'}
                 alt='img'
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  startAnimation ? 'left-hand' : 'levitate'
+                }`}
               />
             )}
-            {value === ModelType.Rock && (
+            {(startAnimation || isPlaying || value === ModelType.Rock) && (
               <Image
                 width={248}
                 height={248}
                 src={'/images/rps/rock.png'}
                 alt='img'
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  startAnimation ? 'left-hand' : 'levitate'
+                }`}
               />
             )}
-            {value === ModelType.Scissors && (
+            {!startAnimation && !isPlaying && value === ModelType.Scissors && (
               <Image
                 width={248}
                 height={248}
                 src={'/images/rps/scissor.png'}
                 alt='img'
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate'
+                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  startAnimation ? 'left-hand' : 'levitate'
+                }`}
               />
             )}
             <span className='uppercase text-[32px] sm:text-5xl md:text-[69px] xl:text-[95px] text-[#464646] font-semibold'>
               vs
             </span>
-            {enemyValue === ModelType.Paper && (
+            {!startAnimation &&
+              !isPlaying &&
+              enemyValue === ModelType.Paper && (
+                <Image
+                  width={248}
+                  height={248}
+                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                    startAnimation ? 'right-hand' : 'levitate_enemy'
+                  }`}
+                  src={'/images/rps/papper.png'}
+                  alt='img'
+                />
+              )}
+            {(startAnimation || isPlaying || enemyValue === ModelType.Rock) && (
               <Image
                 width={248}
                 height={248}
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
-                src={'/images/rps/papper.png'}
-                alt='img'
-              />
-            )}
-            {enemyValue === ModelType.Rock && (
-              <Image
-                width={248}
-                height={248}
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
+                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  startAnimation ? 'right-hand' : 'levitate_enemy'
+                }`}
                 src={'/images/rps/rock.png'}
                 alt='img'
               />
             )}
-            {enemyValue === ModelType.Scissors && (
-              <Image
-                width={248}
-                height={248}
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
-                src={'/images/rps/scissor.png'}
-                alt='img'
-              />
-            )}
-            {enemyValue === ModelType.Quest && (
-              <Image
-                width={248}
-                height={248}
-                className='w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] levitate_enemy'
-                src={'/images/rps/rock.png'}
-                alt='img'
-              />
-            )}
+            {!startAnimation &&
+              !isPlaying &&
+              enemyValue === ModelType.Scissors && (
+                <Image
+                  width={248}
+                  height={248}
+                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                    startAnimation ? 'right-hand' : 'levitate_enemy'
+                  }`}
+                  src={'/images/rps/scissor.png'}
+                  alt='img'
+                />
+              )}
+            {!startAnimation &&
+              !isPlaying &&
+              enemyValue === ModelType.Quest && (
+                <Image
+                  width={248}
+                  height={248}
+                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                    startAnimation ? 'right-hand' : 'levitate_enemy'
+                  }`}
+                  src={'/images/rps/rock.png'}
+                  alt='img'
+                />
+              )}
           </div>
           <RpsPicker className='my-3 px-4' />
         </div>

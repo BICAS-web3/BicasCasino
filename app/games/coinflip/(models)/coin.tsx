@@ -6,7 +6,7 @@ import { useAnimations, useGLTF } from '@react-three/drei'
 import { useEffect } from 'react'
 import { AnimationAction } from 'three'
 
-const Model = ({ action, initial }: ModelProps) => {
+const Model = ({ action, initial, setStart, start }: ModelProps) => {
   const { scene, animations } = useGLTF(
     '/models/coinflip/coin_old-optimized.gltf'
   )
@@ -22,6 +22,7 @@ const Model = ({ action, initial }: ModelProps) => {
 
   useEffect(() => {
     const rotation = actions[CoinAction.Rotation] as AnimationAction
+
     rotation.stop()
     if (action != CoinAction.Stop) {
       const current = actions[action] as AnimationAction
@@ -30,6 +31,8 @@ const Model = ({ action, initial }: ModelProps) => {
       current.clampWhenFinished = false
       if (action != CoinAction.Rotation) {
         current.setLoop(2200, 1)
+        start && current.setDuration(start)
+        setStart && setStart(1.6)
       }
     }
   }, [initial, action])
