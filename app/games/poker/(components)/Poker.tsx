@@ -132,7 +132,6 @@ export const Poker = ({}: PokerProps) => {
           Number(result.profit) > Number(result.amount) ||
           Number(result.profit) === Number(result.amount)
         ) {
-          alert('win')
           setGameStatus(GameModel.GameStatus.Won)
           const multiplier = Number(
             Number(result.profit) / Number(result.amount)
@@ -150,7 +149,6 @@ export const Poker = ({}: PokerProps) => {
             setActiveCards(initialArrayOfCards)
           }, 200)
         } else if (Number(result.profit) < Number(result.amount)) {
-          alert('lose')
           setGameStatus(GameModel.GameStatus.Lost)
           setLostStatus(Number(result.profit) - Number(result.amount))
           setTimeout(() => {
@@ -236,7 +234,6 @@ export const Poker = ({}: PokerProps) => {
   const [refund, setRefund] = useState(1)
   useEffect(() => setFirstBet(true), [])
   useEffect(() => {
-    alert(JSON.stringify(betData))
     sendSocketData({
       socket,
       isPlaying,
