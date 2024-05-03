@@ -20,9 +20,9 @@ const GameMenu = () => {
 
   return (
     <div
-      className={`bg-[#151515] ${
+      className={`bg-[#151515]  border-b border-[#252525] sm:border-none ${
         minesGame && 'game-menu-mines'
-      } py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-end rounded-b-[20px]`}
+      } py-5 px-4 relative grid flex-col tbs:flex tbs:flex-row items-end sm:rounded-b-[20px]`}
     >
       <GameCreditBet />
       <GameWager />

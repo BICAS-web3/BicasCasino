@@ -8,7 +8,7 @@ import { useDropdown } from '@/lib/hooks/useDropdown'
 const TabBuy = () => {
   const [isCrypto, setIsCrypto] = useState(false)
   const [isFiat, setIsFiat] = useState(false)
-  const { toggle, open, close, isOpen, dropdownRef } = useDropdown()
+  const { open, close, isOpen, dropdownRef } = useDropdown()
   return (
     <div ref={dropdownRef} className='flex flex-col gap-5'>
       <div className='tab-buy--info flex border border-[#ffe09d] rounded-lg relative py-3 px-5'>
@@ -31,7 +31,7 @@ const TabBuy = () => {
           <CryptoRoute
             title='Bank card'
             text='You can buy DRAX coins by Visa or Mastercard'
-            onClick={open}
+            onClick={() => setIsFiat(true)}
           />
           <CryptoRoute
             isCrypto
@@ -42,6 +42,20 @@ const TabBuy = () => {
         </>
       )}
       {isCrypto && <PaymentCrypto />}
+      {isFiat && (
+        <>
+          <CryptoRoute
+            title='BillLine'
+            text='You can buy DRAX coinsby Visa or Mastercard'
+            onClick={open}
+          />
+          <CryptoRoute
+            // onClick={() => setIsCrypto(true)}
+            title='P2WAY'
+            text='We support Ukranian Cards'
+          />
+        </>
+      )}
       {isOpen && <CustomPayment close={close} />}
       <span className='text-[#979797] text-lg text-center'>
         Maximum purchase of $5000 USD per day

@@ -35,6 +35,17 @@ export interface IAppleTable {
   mines: boolean[][]
   setAppleData: Dispatch<SetStateAction<IAppleData[]>>
   setAppleItem: Dispatch<SetStateAction<number[]>>
+  setAppleGameResult: any
+  setApples: any
+  setMines: any
+  setInGame: any
+  setIsPlaying: any
+  setKeep: any
+  setFirstBet: any
+  handleReset: any
+  setStop: any
+  localStatus: GameStatus | null
+  setLocalStatus: Dispatch<SetStateAction<GameStatus | null>>
 }
 
 export interface IParabolaCoefs {

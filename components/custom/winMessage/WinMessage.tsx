@@ -31,7 +31,7 @@ const WinMessage: FC<IWinMessage> = ({ cf, profit, resIco, multiplier }) => {
         setTimeout(() => {
           setGameStatus(GameModel.GameStatus.Draw)
         }, 100)
-      }, 3000)
+      }, 1400)
     }, 200)
   }, [])
   return (

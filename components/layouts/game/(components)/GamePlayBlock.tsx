@@ -1,9 +1,7 @@
 'use client'
-
 import { Button } from '@/components/ui/button'
 import { GameModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
-
 import {
   Tooltip,
   TooltipContent,
@@ -12,18 +10,12 @@ import {
 } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
 import { usePathname } from 'next/navigation'
 import { toast } from 'sonner'
-
 import AutoBorder from '@/public/images/misc/autoBorder.svg'
 import { SettingSVG } from '../(icons)'
-import {
-  BonusCoinSVG,
-  DraxMiniSVG
-} from '@/components/custom/header/components/icons'
 
-const GamePlayBlock = () => {
+export const GamePlayBlock = () => {
   const [
     error,
     setIsPlaying,
@@ -43,8 +35,7 @@ const GamePlayBlock = () => {
     wheelVisible,
     appleWager,
     showResult,
-    startAnimation,
-    isDrax
+    startAnimation
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -64,8 +55,7 @@ const GamePlayBlock = () => {
     GameModel.$wheelVisible,
     GameModel.$appleWager,
     GameModel.$showResult,
-    GameModel.$startAnimation,
-    UserModel.$isDrax
+    GameModel.$startAnimation
   ])
 
   const path = usePathname()
@@ -187,20 +177,16 @@ const GamePlayBlock = () => {
         }
         onClick={handlePlay}
         variant='wagerPlay'
-        className={`uppercase flex items-center gap-[10px] ${
-          isApple && isPlaying
-            ? 'border-[#49B446] text-white'
-            : 'border-[#FFE7B4] text-[#FFE7B4]'
-        }`}
+        className='uppercase'
       >
         {isPlaying && isApple ? (
           <>
             Refund ${appleWager.toFixed(2)}
             {cryptoValue &&
               (isDrax ? (
-                <DraxMiniSVG width={20} height={20} />
+                <DraxMiniSVG className='absolute w-3 h-3 sm:w-3 sm:h-3 -top-[4px] left-[85%] sm:left-[75%] -translate-x-1/2' />
               ) : (
-                <BonusCoinSVG width={20} height={20} />
+                <BonusCoinSVG className='absolute w-3 h-3 sm:w-3 sm:h-3 -top-[4px] left-[85%] sm:left-[75%] -translate-x-1/2' />
               ))}
           </>
         ) : (
@@ -215,5 +201,3 @@ const GamePlayBlock = () => {
     </div>
   )
 }
-
-export default GamePlayBlock

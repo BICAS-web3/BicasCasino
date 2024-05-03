@@ -8,7 +8,6 @@ import { useSocket } from '@/components/providers/socket.provider'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 
 import Coefficient from '@/components/custom/coefficient'
-import TotalCoeff from '@/components/custom/totalCoeff'
 import {
   generateBetData,
   handleGameResult,
@@ -17,8 +16,10 @@ import {
 
 import AppleTable from './appleTable'
 
+import WinMessage from '@/components/custom/winMessage'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import { GameStatus } from '@/states/game_model.store'
 import { IAppleData } from '@/types/games.types'
 
 const AppleGame = () => {
@@ -55,10 +56,7 @@ const AppleGame = () => {
   }, [applesArr])
 
   const [
-    lost,
     profit,
-    setActivePicker,
-    pickSide,
     betsAmount,
     cryptoValue,
     stopGain,
@@ -87,10 +85,7 @@ const AppleGame = () => {
     setApples,
     socketReset
   ] = useUnit([
-    GameModel.$lost,
     GameModel.$profit,
-    GameModel.setActive,
-    GameModel.pickSide,
     WagerModel.$pickedValue,
     WagerModel.$cryptoValue,
     WagerModel.$stopGain,
@@ -121,6 +116,10 @@ const AppleGame = () => {
   ])
 
   useEffect(() => {
+    setGameStatus(null)
+  }, [])
+
+  useEffect(() => {
     useSubscibeBets({
       name: 'Apples',
       setCubscribed,
@@ -129,7 +128,7 @@ const AppleGame = () => {
       socket
     })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
-
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [firstBet, setFirstBet] = useState(true)
   const [mines, setMines] = useState<boolean[][]>([])
   const [appleItem, setAppleItem] = useState<number[]>([])
@@ -155,7 +154,8 @@ const AppleGame = () => {
       setCryptoValue,
       setStart,
       setWaitingResponse,
-      setResult
+      setResult,
+      setCoefficientData
     )
   }, [result, start])
   useEffect(() => {
@@ -164,38 +164,13 @@ const AppleGame = () => {
 
   const [isCashout, setIsCashout] = useState(true)
 
-  const [coefficientData, setCoefficientData] = useState<number[]>([])
-
   useEffect(() => {
     setCoefficient(1.98)
   }, [])
 
   const [inGame, setInGame] = useState<boolean>(false)
 
-  useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1)
-    }
-  }, [gameStatus])
-
   useEffect(() => setInGame(true), [inGame])
-
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
   const [access_token] = useUnit([RegistrModel.$access_token])
@@ -291,15 +266,21 @@ const AppleGame = () => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Apples' })
   }, [])
 
+  const [localStatus, setLocalStatus] = useState<null | GameModel.GameStatus>(
+    null
+  )
   return (
     <div
-      className='relative w-full h-full py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
+      className='relative w-full h-full pt-12 py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
       style={{
         background: `url('/images/apples/applesBg.webp') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
-      <Coefficient ballsArr={coefficientData} multipliers={multiplier} />
+      {localStatus === GameStatus.Won && (
+        <WinMessage profit={profit} resIco={0} />
+      )}
+      <Coefficient ballsArr={coefficientData} common />
       <div className='h-full flex items-center justify-center'>
         <AppleTable
           appleData={appleData}
@@ -308,6 +289,17 @@ const AppleGame = () => {
           mines={mines}
           setAppleData={setAppleData}
           setAppleItem={setAppleItem}
+          setAppleGameResult={setAppleGameResult}
+          setApples={setApples}
+          setMines={setMines}
+          setInGame={setInGame}
+          setIsPlaying={setIsPlaying}
+          setKeep={setKeep}
+          setFirstBet={setFirstBet}
+          handleReset={handleReset}
+          setStop={setStop}
+          localStatus={localStatus}
+          setLocalStatus={setLocalStatus}
         />
       </div>
     </div>

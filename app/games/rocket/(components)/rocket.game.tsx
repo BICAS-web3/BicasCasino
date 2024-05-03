@@ -12,14 +12,11 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import ReactHowler from 'react-howler'
 import RollState from './RollValue'
-import { DiceCloseSVG, DicePrecentageSVG, DiceSwapSVG } from './icons'
 
 const RocketGame = () => {
   const socket = useSocket()
   const [isLoading, setIsLoading] = useState(true)
   const [
-    lost,
-    profit,
     playSounds,
     setGameStatus,
     setLostStatus,
@@ -27,7 +24,6 @@ const RocketGame = () => {
     gameStatus,
     betsAmount,
     rollOver,
-    flipRollOver,
     RollValue,
     cryptoValue,
     stopLoss,
@@ -45,8 +41,6 @@ const RocketGame = () => {
     gamesList,
     access_token
   ] = useUnit([
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$playSounds,
     GameModel.setGameStatus,
     GameModel.setLostStatus,
@@ -54,7 +48,6 @@ const RocketGame = () => {
     GameModel.$gameStatus,
     WagerModel.$pickedValue,
     GameModel.$RollOver,
-    GameModel.flipRollOver,
     GameModel.$RollValue,
     WagerModel.$cryptoValue,
     WagerModel.$stopLoss,
@@ -76,9 +69,6 @@ const RocketGame = () => {
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [localNumber, setLocalNumber] = useState<number | null>(null)
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0)
   const [rocketStar, setRocketStar] = useState(false)
   const [restartGif, setRestartGif] = useState(0)
   const [imageLoading_1, setImageLoading_1] = useState(true)
@@ -93,8 +83,6 @@ const RocketGame = () => {
   const win_chance = rollOver ? 100 - RollValue : RollValue
   const multiplier =
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100))
-  const rollOverNumber = rollOver ? 100 - RollValue : RollValue
-  const rollUnderNumber = rollOver ? RollValue : 100 - RollValue
   const rangeRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -138,15 +126,6 @@ const RocketGame = () => {
   }, [gameStatus])
 
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
-
-  useEffect(() => {
     let num = rollOver ? 102 : 95
     const rangeElement = rangeRef.current
     const rangeWidth = (RollValue / num) * rangeElement!.offsetWidth
@@ -158,30 +137,6 @@ const RocketGame = () => {
       }px`
     )
   }, [RollValue, rollOver])
-  const diceValue = [
-    {
-      id: 1,
-      title: 'Multiplier',
-      value: (Number(multiplier) / 10000).toFixed(4),
-      img_src: DiceCloseSVG,
-      img_alt: 'close'
-    },
-    {
-      id: 2,
-      title: 'Roll',
-      value: rollOver ? rollOverNumber.toFixed(2) : rollUnderNumber.toFixed(2),
-      img_src: DiceSwapSVG,
-      img_alt: 'swap'
-    },
-    {
-      id: 3,
-      title: 'Win Chance',
-      value: win_chance.toFixed(2),
-      img_src: DicePrecentageSVG,
-      img_alt: '%'
-    }
-  ]
-  const changeBetween = () => flipRollOver(RollValue)
 
   useEffect(() => {
     if (coefficientData.length > 0) {
@@ -295,7 +250,38 @@ const RocketGame = () => {
           ballsArr={coefficientData}
           multipliers={multiplier}
         />
-        {/* <video
+
+        <div
+          onClick={() => setRestartGif(prev => prev + 1)}
+          className={`bottom-auto top-[200px] sm:top-auto sm:bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
+            rocketStar && ' animate-[rocket-box_0.44s]'
+          }`}
+        >
+          <Image
+            width={133}
+            height={203}
+            onLoad={() => setImageLoading_2(false)}
+            className={`absolute w-[97px] sm:w-[133px] h-[132px] sm:h-[203px] z-[21] left-0 top-0 ${
+              inGame && 'animate-[rocket-animations_1s_2.9s_infinite]'
+            }`}
+            src={'/images/rocket/rocket.webp'}
+            alt='rocket'
+          />{' '}
+          <div
+            className={`absolute mx-auto w-[5.0625rem] h-[7rem] rocket_fire animate-[fire-img_0.7s_steps(1)_infinite] left-1/2 -translate-x-[45%] top-[calc(100%-52px)] sm:top-[calc(100%-70px)] ${
+              inGame && 'animate-[fire_img_0.35s_steps(1)_infinite]'
+            }`}
+          ></div>
+        </div>
+        <RollState rangeRef={rangeRef} />
+      </div>
+    </section>
+  )
+}
+
+export default RocketGame
+{
+  /* <video
           onPlay={imageError}
           onError={imageError}
           ref={rocketRef}
@@ -322,34 +308,5 @@ const RocketGame = () => {
           playsInline
         >
           <source src={'/videos/rocket/bg_1.mp4'} type='video/mp4' />
-        </video> */}
-        <div
-          onClick={() => setRestartGif(prev => prev + 1)}
-          className={`bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
-            rocketStar && ' animate-[rocket-box_0.44s]'
-          }`}
-        >
-          <Image
-            width={133}
-            height={203}
-            onLoad={() => setImageLoading_2(false)}
-            className={`absolute w-[97px] sm:w-[133px] h-[132px] sm:h-[203px] z-[21] left-0 top-0 ${
-              inGame && 'animate-[rocket-animations_1s_2.9s_infinite]'
-            }`}
-            src={'/images/rocket/rocket.webp'}
-            alt='rocket'
-          />{' '}
-          <div
-            className={`absolute mx-auto w-[5.0625rem] h-[7rem] rocket_fire animate-[fire-img_0.7s_steps(1)_infinite] left-1/2 -translate-x-[45%] top-[calc(100%-52px)] sm:top-[calc(100%-70px)] ${
-              inGame && 'animate-[fire_img_0.35s_steps(1)_infinite]'
-            }`}
-          ></div>
-        </div>
-        <RollState rangeRef={rangeRef} />
-      </div>
-      {/* <Selector diceValue={diceValue} onClick={changeBetween} /> */}
-    </section>
-  )
+        </video> */
 }
-
-export default RocketGame

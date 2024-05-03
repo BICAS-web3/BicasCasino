@@ -14,8 +14,8 @@ import { getTokensGeneral } from '@/api'
 const MarqueeItem = dynamic(() => import('./marquee.item'), {
   loading: () => (
     <div className='flex'>
-      <Skeleton className='w-6 h-6 aspect-square object-contain' />
-      <Skeleton className='w-6 h-12' />
+      <Skeleton className='w-5 h-5 aspect-square object-contain' />
+      <Skeleton className='w-5 h-12' />
     </div>
   ),
   ssr: false
@@ -31,8 +31,9 @@ export const MarqueeLine = () => {
   return (
     <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5 ml-0'>
       <Marquee
+        pauseOnHover
         autoFill
-        speed={55}
+        speed={100}
         className='px-5 py-[5px] h-[40px] sm:py-[13px] flex-1 bg-[#151515] rounded-r-full sm:rounded-[99px] z-[3] relative overflow-hidden'
       >
         {marquee_data.map((item, index) => (
@@ -53,9 +54,8 @@ export const MarqueeLine = () => {
         <Image
           src='/images/marquee/draxma.png'
           alt='draxma'
-          width={32}
-          height={32}
-          className='w-5 sm:w-6 h-5 sm:h-6'
+          width={24}
+          height={24}
         />
         DraXma
       </div>

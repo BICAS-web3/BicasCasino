@@ -6,6 +6,7 @@ import {
   getImageFile,
   getOneTimeToken,
   getOrderInfo,
+  getTokensBilliane,
   getTokensSettings,
   screenShootOrder
 } from '@/api'

@@ -891,18 +891,31 @@ interface IBilliane {
   phone: string
   post_code: string
   region: string
+  bareer: string
 }
 
 export const getTokensBilliane = createEffect<IBilliane, T_ApiResponse, string>(
   async form => {
-    return fetch(`${BaseApiUrl}invoice/billine/create`, {
+    return fetch(`${BaseApiUrl}/invoice/billine/create`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-        // Authorization: `Bearer ${form.bareer}`
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
       },
-      body: JSON.stringify(form)
+      body: JSON.stringify({
+        address: form.address,
+        amount: form.amount,
+        city: form.city,
+        country: form.country,
+        currency: form.currency,
+        email: form.email,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        phone: form.phone,
+        post_code: form.post_code,
+        region: form.region
+      })
     })
       .then(async res => await res.json())
       .catch(e => e)
@@ -1081,3 +1094,44 @@ export const getImageFile = createEffect<T_ImageFile, T_ApiResponse, string>(
       .catch(e => e)
   }
 )
+
+export type T_BilllineIframe = {
+  merchant: string
+  order: string
+  amount: string
+  currency: string
+  item_name: string
+  first_name: string
+  last_name: string
+  user_id: string
+  payment_url: string
+  country: string
+  ip: string
+  custom: ''
+  email: 'test@gmail.com'
+  phone: '+35988222763'
+  address: 'Avenue Marius Renard 21'
+  city: 'Anderlecht'
+  post_code: '1070'
+  region: 'stuttgart'
+  lang: 'en'
+}
+
+// export const getBilllineIframe = createEffect<
+//   T_BilllineIframe,
+//   T_ApiResponse,
+//   string
+// >(async form => {
+//   return fetch(
+//     `${P2WayUrl}/uploadFile/getUploadDocumentURL?documentName=${form.imageName}&contentType=${form.contentType}`,
+//     {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json'
+//       }
+//     }
+//   )
+//     .then(async res => await res.json())
+//     .catch(e => e)
+// })

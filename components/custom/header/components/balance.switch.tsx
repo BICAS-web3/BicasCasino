@@ -133,24 +133,24 @@ const BalanceSwitcher = () => {
           <div className='flex items-center gap-1 pr-2'>
             {isMobile ? (
               isDrax === item.isDrax && (
-                <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-10'>
+                <span className='text-xs sm:text-sm leading-4  w-max'>
                   {balance !== null ? balanceValue : zero.toFixed(3)}
                 </span>
               )
             ) : (
-              <span className='text-xs sm:text-[14px] leading-4 w-max max-w-12'>
+              <span className='text-xs sm:text-[14px] leading-4 w-max'>
                 {item.isDrax
                   ? balance !== null
                     ? Number(
                         balance.amounts.find(item => item.name === 'Drax')
                           ?.amount
-                      )
+                      ).toFixed(2)
                     : zero.toFixed(3)
                   : balance !== null
                   ? Number(
                       balance.amounts.find(item => item.name === 'DraxBonus')
                         ?.amount
-                    )
+                    ).toFixed(2)
                   : zero.toFixed(3)}
               </span>
             )}

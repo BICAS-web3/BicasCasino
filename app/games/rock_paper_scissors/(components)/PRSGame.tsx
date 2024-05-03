@@ -18,8 +18,7 @@ import { changeEnemyValue } from '../(utils)'
 export enum ModelType {
   Paper = 'Paper',
   Rock = 'Rock',
-  Scissors = 'Scissors',
-  Quest = 'Quest'
+  Scissors = 'Scissors'
 }
 const PRSGame = () => {
   const socket = useSocket()
@@ -42,7 +41,9 @@ const PRSGame = () => {
     gamesList,
     isPlaying,
     socketReset,
-    access_token
+    access_token,
+    startAnimation,
+    setStartAnimation
   ] = useUnit([
     GameModel.$pickedValueRPS,
     WagerModel.$pickedValue,
@@ -62,29 +63,30 @@ const PRSGame = () => {
     GameModel.$gamesList,
     GameModel.$isPlaying,
     UserModel.$socketReset,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$startAnimation,
+    GameModel.setStartAnimation
   ])
   const [coefficientData, setCoefficientData] = useState<number[]>([])
-  const [enemyValue, setEnemyValue] = useState(ModelType.Quest)
+  const [enemyValue, setEnemyValue] = useState(ModelType.Rock)
   const [betData, setBetData] = useState({})
   const [subscribed, setCubscribed] = useState(false)
   const [value, setValue] = useState<ModelType>(ModelType.Paper)
   const [startPlay, setStartPlay] = useState(false)
-  const [startAnimation, setSTartAnimation] = useState(false)
 
   useEffect(() => {
     if (isPlaying) {
-      setSTartAnimation(true)
+      setStartAnimation(true)
       Promise.all([
         new Promise(resolve =>
           setTimeout(() => resolve(setStartPlay(true)), 1500)
         ),
         new Promise(resolve =>
-          setTimeout(() => resolve(setSTartAnimation(false)), 1400)
+          setTimeout(() => resolve(setStartAnimation(false)), 1400)
         )
       ])
     } else {
-      setSTartAnimation(false)
+      setStartAnimation(false)
       Promise.all([
         new Promise(resolve =>
           setTimeout(() => resolve(setStartPlay(false)), 1500)
@@ -104,15 +106,44 @@ const PRSGame = () => {
   }, [socket, socket?.readyState, gamesList.length, socketReset])
 
   useEffect(() => {
-    handleResult({
-      title: 'rps',
-      result,
-      setIsPlaying,
-      setGameStatus,
-      setWonStatus,
-      setLostStatus,
-      setCoefficientData
-    })
+    if (!result) return
+    if (result.type === 'Bet') {
+      const fullAmount = Number(result.amount) * result.num_games!
+      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        if (pickedValue === GameModel.RPSValue.Paper) {
+          setEnemyValue(ModelType.Rock)
+        } else if (pickedValue === GameModel.RPSValue.Rock) {
+          setEnemyValue(ModelType.Scissors)
+        } else if (pickedValue === GameModel.RPSValue.Scissors) {
+          setEnemyValue(ModelType.Paper)
+        }
+        setGameStatus?.(GameModel.GameStatus.Won)
+        const multiplier = Number(result.profit) / Number(result.amount)
+        setWonStatus?.({
+          profit: Number(result.profit),
+          multiplier,
+          token: 'DRAX'
+        })
+        setIsPlaying?.(false)
+      } else {
+        if (pickedValue === GameModel.RPSValue.Paper) {
+          setEnemyValue(ModelType.Scissors)
+        } else if (pickedValue === GameModel.RPSValue.Rock) {
+          setEnemyValue(ModelType.Paper)
+        } else if (pickedValue === GameModel.RPSValue.Scissors) {
+          setEnemyValue(ModelType.Rock)
+        }
+        setGameStatus?.(GameModel.GameStatus.Lost)
+        setLostStatus?.(Number(result.profit) - Number(result.amount))
+        setLostStatus?.(Number(result.profit) - fullAmount)
+        setIsPlaying?.(false)
+      }
+    }
     setResult(null)
   }, [result, result?.type])
 
@@ -130,9 +161,9 @@ const PRSGame = () => {
     }
   }, [pickedValue])
 
-  useEffect(() => {
-    changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
-  }, [gameStatus])
+  // useEffect(() => {
+  //   changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
+  // }, [gameStatus])
 
   useEffect(() => {
     setBetData({
@@ -167,16 +198,16 @@ const PRSGame = () => {
         <Image src={bg} className='w-full object-cover h-full' alt='table-bg' />
       </div>
       <Coefficient common ballsArr={coefficientData} />
-      <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto]'>
-        <div className='w-full flex items-center flex-col gap-[62px] sm:gap-[131px] xl:gap-[98px]'>
-          <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px]'>
+      <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto] flex-col'>
+        <div className='w-full flex items-center flex-col justify-between flex-auto h-full'>
+          <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px] mt-auto mb-auto'>
             {!startAnimation && !isPlaying && value === ModelType.Paper && (
               <Image
                 width={248}
                 height={248}
                 src={'/images/rps/papper.png'}
                 alt='img'
-                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -187,7 +218,7 @@ const PRSGame = () => {
                 height={248}
                 src={'/images/rps/rock.png'}
                 alt='img'
-                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -198,7 +229,7 @@ const PRSGame = () => {
                 height={248}
                 src={'/images/rps/scissor.png'}
                 alt='img'
-                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -212,7 +243,7 @@ const PRSGame = () => {
                 <Image
                   width={248}
                   height={248}
-                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                     startAnimation ? 'right-hand' : 'levitate_enemy'
                   }`}
                   src={'/images/rps/papper.png'}
@@ -223,7 +254,7 @@ const PRSGame = () => {
               <Image
                 width={248}
                 height={248}
-                className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'right-hand' : 'levitate_enemy'
                 }`}
                 src={'/images/rps/rock.png'}
@@ -236,23 +267,10 @@ const PRSGame = () => {
                 <Image
                   width={248}
                   height={248}
-                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                     startAnimation ? 'right-hand' : 'levitate_enemy'
                   }`}
                   src={'/images/rps/scissor.png'}
-                  alt='img'
-                />
-              )}
-            {!startAnimation &&
-              !isPlaying &&
-              enemyValue === ModelType.Quest && (
-                <Image
-                  width={248}
-                  height={248}
-                  className={`w-[60px] h-[60px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
-                    startAnimation ? 'right-hand' : 'levitate_enemy'
-                  }`}
-                  src={'/images/rps/rock.png'}
                   alt='img'
                 />
               )}
@@ -264,3 +282,12 @@ const PRSGame = () => {
   )
 }
 export default PRSGame
+// handleResult({
+//   title: 'rps',
+//   result,
+//   setIsPlaying,
+//   setGameStatus,
+//   setWonStatus,
+//   setLostStatus,
+//   setCoefficientData
+// })

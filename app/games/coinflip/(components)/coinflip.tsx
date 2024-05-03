@@ -73,9 +73,6 @@ const CoinFlipGame = () => {
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [subscribed, setCubscribed] = useState(false)
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
   const [taken, setTaken] = useState(false)
   const [betData, setBetData] = useState({})
 
@@ -114,15 +111,6 @@ const CoinFlipGame = () => {
       setTaken(true)
     }
   }, [betsAmount, cryptoValue, isPlaying])
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
 
@@ -163,8 +151,8 @@ const CoinFlipGame = () => {
     >
       <Coefficient ballsArr={coefficientData} common />
       <div className='relative w-full h-full flex flex-col overflow-hidden  flex-[1_1_auto]'>
-        <div className='w-full h-[370px] flex flex-col items-center absolute top-[100px] sm:top-[219px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
-          <div className='h-[114px] sm:h-[154px] xl:h-full w-full'>
+        <div className='w-full h-[370px] flex flex-col items-center absolute top-20 sm:top-[119px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
+          <div className='h-[210px] sm:h-[255px] xl:h-full w-full'>
             <Canvas
               camera={{
                 position: [-9, 0, 0],

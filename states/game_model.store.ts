@@ -35,7 +35,9 @@ export const $refund = createStore<boolean>(false)
 export const $gamesList = createStore<GamesList[]>([])
 export const $autoVisible = createStore<boolean>(false)
 export const $wheelVisible = createStore<boolean>(false)
+export const $coefficientData = createStore<number[]>([])
 // events
+export const setCoefficientData = createEvent<number[]>()
 export const setIsPlaying = createEvent<boolean>()
 export const setWaitingResponse = createEvent<boolean>()
 export const switchSounds = createEvent<string>()
@@ -51,6 +53,7 @@ export const $keep = createStore(false)
 export const setKeep = createEvent<boolean>()
 export const setAutoVisible = createEvent<boolean>()
 export const setWheelVisible = createEvent<boolean>()
+$coefficientData.on(setCoefficientData, (_, state) => state)
 $keep.on(setKeep, (_, state) => state)
 // handlers
 $betValue.on(setBetValue, (_, state) => state)
@@ -201,6 +204,8 @@ export const $reset = createStore<boolean>(false)
 export const $emptyField = createStore(false)
 export const $stop = createStore<boolean>(false)
 export const $apples = createStore<number[]>([])
+export const $appleWager = createStore<number>(0)
+export const $showResult = createStore<boolean>(false)
 // events
 export const setPlayingStatus = createEvent<boolean>()
 export const setGameResult = createEvent<number[]>()
@@ -208,12 +213,16 @@ export const setReset = createEvent<boolean>()
 export const setEmptyField = createEvent<boolean>()
 export const setStop = createEvent<boolean>()
 export const setApples = createEvent<number[]>()
+export const setApplesWagerr = createEvent<number>()
+export const setShowResult = createEvent<boolean>()
 $isPlayingStatus.on(setPlayingStatus, (_, state) => state)
 $gameResult.on(setGameResult, (_, state) => state)
 $reset.on(setReset, (_, state) => state)
 $emptyField.on(setEmptyField, (_, state) => state)
 $stop.on(setStop, (_, state) => state)
 $apples.on(setApples, (_, state) => state)
+$appleWager.on(setApplesWagerr, (_, state) => state)
+$showResult.on(setShowResult, (_, state) => state)
 
 //! Mines
 
@@ -247,15 +256,18 @@ export enum RPSValue {
 
 // variables
 export const $activeRPS = createStore<boolean>(true)
+export const $startAnimation = createStore<boolean>(false)
 export const $pickedValueRPS = createStore<RPSValue>(RPSValue.Paper)
 
 // events
 export const pickValueRPS = createEvent<RPSValue>()
 export const setActiveRPS = createEvent<boolean>()
+export const setStartAnimation = createEvent<boolean>()
 
 // handlers
 $pickedValueRPS.on(pickValueRPS, (_, value) => value)
 $activeRPS.on(setActiveRPS, (_, value) => value)
+$startAnimation.on(setStartAnimation, (_, value) => value)
 
 //! BJ
 

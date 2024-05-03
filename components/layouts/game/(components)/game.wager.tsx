@@ -24,7 +24,8 @@ const GameWager = () => {
     setError,
     error,
     balance,
-    isPlaying
+    isPlaying,
+    setApplesWagerr
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -38,7 +39,8 @@ const GameWager = () => {
     WagerModel.setError,
     WagerModel.$error,
     UserModel.$balance,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
+    GameModel.setApplesWagerr
   ])
 
   // useEffect(() => alert(balance), [balance])
@@ -90,6 +92,7 @@ const GameWager = () => {
 
   useEffect(() => {
     setCryptoValue(Number(cryptoInputValue))
+    setApplesWagerr(Number(cryptoInputValue))
   }, [cryptoInputValue])
 
   useEffect(() => {
@@ -125,11 +128,19 @@ const GameWager = () => {
     if (value === 'min') {
       setCryptoInputValue('1')
     } else if (value === 'max') {
-      setCryptoInputValue(balance.toString())
+      if (balance > 50) {
+        setCryptoInputValue('50')
+      } else {
+        setCryptoInputValue(balance.toString())
+      }
     } else if (cryptoInputValue.length && value === '/2') {
       setCryptoInputValue((Number(cryptoInputValue) / 2).toString())
     } else if (cryptoInputValue.length && value === 'x2') {
-      setCryptoInputValue((Number(cryptoInputValue) * 2).toString())
+      if (Number(cryptoInputValue) * 2 > 50) {
+        setCryptoInputValue('50')
+      } else {
+        setCryptoInputValue((Number(cryptoInputValue) * 2).toString())
+      }
     }
   }
   return (
