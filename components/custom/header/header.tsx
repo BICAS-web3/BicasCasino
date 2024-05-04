@@ -38,90 +38,6 @@ const Header = () => {
     RegistrModel.setAccessToken,
     RegistrModel.setRefreshToken
   ])
-  const [number, setNumber] = useState(1)
-  const [redirect, setRedirect] = useState<null | {
-    address: string
-    amount: string
-    city: string
-    country: string
-    cpf: null
-    currency: string
-    custom: string
-    email: string
-    first_name: string
-    ip: string
-    item_name: string
-    lang: string
-    last_name: string
-    merchant: string
-    order: string
-    payment_url: string
-    phone: string
-    post_code: string
-    region: string
-    user_id: string
-  }>(null)
-
-  useEffect(() => {
-    if (access_token) {
-      ;(async () => {
-        const data = await api.getTokensBilliane({
-          address: '49 Featherstone Street',
-          amount: '2',
-          city: 'Luton',
-          country: 'England',
-          currency: 'USD',
-          email: 'ewr@erfd.re',
-          first_name: 'Ilya',
-          last_name: 'LastName',
-          phone: '+442071234567',
-          post_code: '998',
-          region: 'Slindon',
-          bareer: access_token
-        })
-        if (data.status === 'OK') {
-          setRedirect((data.body as any).data)
-        }
-        data && console.log(data)
-      })()
-    }
-  }, [access_token])
-  const paymentUrl = 'https://paycareforyou.com'
-  useEffect(() => {
-    if (redirect) {
-      ;(async () => {
-        await fetch(`https://paycareforyou.com/payment/form`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            merchant: 'BJXWKA6SNVN6L',
-            order: redirect.order,
-            amount: redirect.amount,
-            currency: redirect.currency,
-            item_name: redirect.item_name,
-            first_name: redirect.first_name,
-            last_name: redirect.last_name,
-            user_id: redirect.user_id,
-            payment_url: redirect.payment_url,
-            country: redirect.country,
-            ip: redirect.ip,
-            custom: redirect.custom,
-            email: redirect.email,
-            phone: redirect.phone,
-            address: redirect.address,
-            city: redirect.city,
-            post_code: redirect.post_code,
-            region: redirect.region,
-            lang: redirect.lang
-          })
-        })
-      })()
-    }
-  }, [redirect, number])
-  // const session = useSession()
 
   const route = useRouter()
   const location = usePathname()
@@ -278,8 +194,6 @@ const Header = () => {
     })()
   }, [access_token])
 
-  // const [otToken, setOtToken] = useState<any | undefined>()
-
   useEffect(() => {
     ;(async () => {
       if (access_token) {
@@ -305,26 +219,10 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  // useEffect(() => {
-  //   if ((session as any)?.error === 'RefreshAccessTokenError') {
-  //     signIn()
-  //   }
-  // }, [session])
-
   const [opened] = useUnit([SidebarModel.$open])
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     const data = await fetch('https://www.dextools.io/shared/exchanges', {
-  //       method: 'GET'
-  //     })
-  //     data && alert(JSON.stringify(data))
-  //   })()
-  // }, [])
 
   return (
     <header
-      onClick={() => setNumber(prev => prev + 1)}
       className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
         !opened ? 'px-3 sm:!pr-10' : 'px-3'
       } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-[#0F0F0F]`}
