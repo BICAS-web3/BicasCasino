@@ -132,7 +132,7 @@ const Billline = () => {
     <div className='w-full h-full flex-auto flex flex-col gap-[18px]'>
       <div className='w-full flex justify-between items-center'>
         <BackItem onClick={() => setIsBillline(false)} />
-        <BilllineLogoSVG />
+        {/* <BilllineLogoSVG /> */}
       </div>
       <div className='w-full flex flex-col gap-[14px] items-center'>
         <h2 className='text-center text-[19px] text-[#7E7E7E] font-medium'>
