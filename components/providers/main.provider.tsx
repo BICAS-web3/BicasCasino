@@ -3,7 +3,6 @@
 import { SocketProvider } from '@/components/providers/socket.provider'
 import { ThemeProvider } from '@/components/providers/theme.provider'
 
-import Footer from '@/components/custom/footer'
 import Header from '@/components/custom/header'
 
 import Sidebar from '@/components/custom/sidebar'

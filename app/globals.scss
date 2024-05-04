@@ -31,6 +31,35 @@ body {
   }
 }
 
+////
+
+.slots-border {
+  height: 400px;
+
+  @media screen and (min-height: 770px) {
+    height: 60vh;
+  }
+}
+
+.settings-text {
+  background-image: linear-gradient(0deg, #F583FF 30.67%, #5477C8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.autoplay-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  background: red !important;
+  color: red !important;
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: 0;
+}
+
+/// 
+
 .preview {
   &::after {
     content: "";
@@ -46,6 +75,15 @@ body {
       background: linear-gradient(to left, rgba(15, 15, 15, 0), rgba(15, 15, 15, 0.8));
     }
   }
+}
+
+.win-text {
+  color: #fff;
+  // text-shadow:
+  //   -2px -2px 0 #34A9DE,
+  //   2px -2px 0 #34A9DE,
+  //   -2px 2px 0 #34A9DE,
+  //   2px 2px 0 #34A9DE;
 }
 
 input::-webkit-outer-spin-button,
