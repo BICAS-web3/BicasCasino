@@ -103,7 +103,7 @@ const Billline = () => {
       url.searchParams.set('merchant', responseData.merchant)
       url.searchParams.set('order', responseData.order)
       url.searchParams.set('amount', responseData.amount)
-      url.searchParams.set('currency', responseData.currency)
+      url.searchParams.set('currency', responseData.currency.toLowerCase())
       url.searchParams.set('item_name', responseData.item_name)
       url.searchParams.set('first_name', responseData.first_name)
       url.searchParams.set('last_name', responseData.last_name)
