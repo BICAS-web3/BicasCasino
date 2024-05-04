@@ -46,7 +46,11 @@ const GamePlayBlock = () => {
     startAnimation,
     isDrax,
     rocketStar,
-    betsAmount
+    betsAmount,
+    setFinishGame,
+    redrawCards,
+    setRedrawCards,
+    setBackCards
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -69,7 +73,11 @@ const GamePlayBlock = () => {
     GameModel.$startAnimation,
     UserModel.$isDrax,
     GameModel.$rocketStar,
-    WagerModel.$pickedValue
+    WagerModel.$pickedValue,
+    GameModel.setFinishGame,
+    GameModel.$redrawCards,
+    GameModel.setRedrawCards,
+    GameModel.setBackCards
   ])
 
   const path = usePathname()
@@ -80,6 +88,7 @@ const GamePlayBlock = () => {
   const [isMines, setIsMines] = useState(false)
   const [isRPS, setIsRPS] = useState(false)
   const [coinflipGame, setCoinflipGame] = useState(false)
+  const [isPoker, setIsPoker] = useState(false)
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
@@ -127,6 +136,11 @@ const GamePlayBlock = () => {
     } else {
       setIsRocket(false)
     }
+    if (path.includes('poker')) {
+      setIsPoker(true)
+    } else {
+      setIsPoker(false)
+    }
   }, [path])
 
   useEffect(() => {
@@ -140,6 +154,15 @@ const GamePlayBlock = () => {
   }, [isPlaying, isCoinflip])
 
   const handlePlay = () => {
+    if (redrawCards && isPoker) {
+      setRedrawCards(false)
+      setBackCards(true)
+      return
+    }
+    if (isPlaying && isPoker) {
+      setFinishGame(true)
+      return
+    }
     if (cryptoValue > balance) {
       toast('Top up balance!')
       setError(true)
@@ -149,7 +172,7 @@ const GamePlayBlock = () => {
       toast('Error, place your bet!')
       setError(true)
     } else {
-      if (!isPlaying) {
+      if (!isPlaying && !isPlaying) {
         setIsPlaying(true)
       } else {
         setFinishPoker(!finishPoker)
@@ -222,7 +245,9 @@ const GamePlayBlock = () => {
             : 'border-[#FFE7B4] text-[#FFE7B4]'
         }`}
       >
-        {isPlaying && isApple ? (
+        {isPoker && redrawCards ? (
+          'Redraw'
+        ) : isPlaying && isApple ? (
           <>
             Refund ${appleWager.toFixed(2)}
             {cryptoValue &&

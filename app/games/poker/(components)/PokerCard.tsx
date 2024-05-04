@@ -86,7 +86,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
           >
             <Image
               onLoad={() => props.setImageLoading(false)}
-              src={`${api.BaseStaticUrl}/media/games_assets/poker/${props.coat}/${props.card}.svg`}
+              src={`${api.BaseStaticUrl}/media/games_assets/poker/0/0.svg`}
               alt='card-image'
               width={200}
               height={278}

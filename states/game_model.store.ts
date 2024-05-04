@@ -244,11 +244,15 @@ $stopWinning.on(setStopWinning, (_, state) => state)
 $selectedLength.on(setSelectedLength, (_, state) => state)
 
 //! POKER
-
+export const $redrawCards = createStore<boolean>(false)
 export const $finishPoker = createStore<boolean>(false)
+export const $backCards = createStore(false)
+export const setRedrawCards = createEvent<boolean>()
 export const setFinishPoker = createEvent<boolean>()
+export const setBackCards = createEvent<boolean>()
+$redrawCards.on(setRedrawCards, (_, state) => state)
 $finishPoker.on(setFinishPoker, (_, state) => state)
-
+$backCards.on(setBackCards, (_, state) => state)
 //! RPS
 export enum RPSValue {
   Rock = 0,
@@ -260,16 +264,18 @@ export enum RPSValue {
 export const $activeRPS = createStore<boolean>(true)
 export const $startAnimation = createStore<boolean>(false)
 export const $pickedValueRPS = createStore<RPSValue>(RPSValue.Paper)
-
+export const $finishGame = createStore<boolean>(false)
 // events
 export const pickValueRPS = createEvent<RPSValue>()
 export const setActiveRPS = createEvent<boolean>()
 export const setStartAnimation = createEvent<boolean>()
+export const setFinishGame = createEvent<boolean>()
 
 // handlers
 $pickedValueRPS.on(pickValueRPS, (_, value) => value)
 $activeRPS.on(setActiveRPS, (_, value) => value)
 $startAnimation.on(setStartAnimation, (_, value) => value)
+$finishGame.on(setFinishGame, (_, state) => state)
 
 //! BJ
 

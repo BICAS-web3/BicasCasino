@@ -2,7 +2,6 @@
 import { T_Card } from '@/api'
 import Coefficient from '@/components/custom/coefficient'
 import { useSocket } from '@/components/providers/socket.provider'
-import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
@@ -23,7 +22,6 @@ import useSound from 'use-sound'
 import { evaluatePokerHand, generateBetData } from '../(utils)'
 import { PokerCard } from './PokerCard'
 import { initialArrayOfCards } from './data'
-// чирва 2,пика 3,буба 1,креста 0
 
 export const Poker = ({}: PokerProps) => {
   const [
@@ -46,7 +44,13 @@ export const Poker = ({}: PokerProps) => {
     stopGain,
     stopLoss,
     finishPoker,
-    access_token
+    access_token,
+    finishGame,
+    setRedrawCards,
+    backCards,
+    setBackCards,
+    setFinishGame,
+    setCryptoValue
   ] = useUnit([
     WagerModel.$pickedValue,
     PokerModel.$gameState,
@@ -67,7 +71,13 @@ export const Poker = ({}: PokerProps) => {
     WagerModel.$stopGain,
     WagerModel.$stopLoss,
     GameModel.$finishPoker,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$finishGame,
+    GameModel.setRedrawCards,
+    GameModel.$backCards,
+    GameModel.setBackCards,
+    GameModel.setFinishGame,
+    WagerModel.setCryptoValue
   ])
 
   const [betData, setBetData] = useState({})
@@ -78,7 +88,7 @@ export const Poker = ({}: PokerProps) => {
   const [imageLoading_1, setImageLoading_1] = useState(true)
   const [imageLoading_2, setImageLoading_2] = useState(true)
   const [preloading, setPreloading] = useState(true)
-  const [update, setUpdate] = useState(false)
+
   const [subscribed, setCubscribed] = useState(false)
   const [combinationName, setCombinationName] = useState('')
   const [coefficientData, setCoefficientData] = useState<number[]>([])
@@ -115,19 +125,25 @@ export const Poker = ({}: PokerProps) => {
         setActiveCards(dataState)
         if (result?.amount) {
           setIsPlaying(true)
+          setCryptoValue(Number(result?.amount))
         }
         console.log('first level: ', dataState)
 
         setKeep(true)
       } else if (result.type === 'Bet' && result.state) {
-        const fullAmount = Number(result.amount) * result.num_games!
         setTimeout(() => {
           setCoefficientData(prev => [
-            Number(result.profit) / fullAmount,
+            Number(result.profit) / Number(result.amount),
             ...prev
           ])
         }, 200)
         setWaitingResponse(false)
+        setShowFlipCards(false)
+        setWaitingResponse(false)
+        const dataState = JSON.parse(result.state).cards_in_hand
+        setActiveCards(dataState)
+        setCardsState([false, false, false, false, false])
+        setInGame(false)
         if (
           Number(result.profit) > Number(result.amount) ||
           Number(result.profit) === Number(result.amount)
@@ -146,7 +162,6 @@ export const Poker = ({}: PokerProps) => {
             setIsPlaying(false)
             setKeep(false)
             setFirstBet(true)
-            setActiveCards(initialArrayOfCards)
           }, 200)
         } else if (Number(result.profit) < Number(result.amount)) {
           setGameStatus(GameModel.GameStatus.Lost)
@@ -156,7 +171,6 @@ export const Poker = ({}: PokerProps) => {
             setIsPlaying(false)
             setKeep(false)
             setFirstBet(true)
-            setActiveCards(initialArrayOfCards)
           }, 200)
         } else {
           setGameStatus(GameModel.GameStatus.Draw)
@@ -167,7 +181,6 @@ export const Poker = ({}: PokerProps) => {
             setFirstBet(true)
           }, 200)
         }
-        // setKeep(false);
       }
     }
     setResult(null)
@@ -205,7 +218,6 @@ export const Poker = ({}: PokerProps) => {
     const getData = generateBetData(
       firstBet,
       keep,
-      update,
       gamesList,
       isDrax,
       userInfo,
@@ -228,10 +240,8 @@ export const Poker = ({}: PokerProps) => {
     isPlaying,
     cardsState,
     gamesList,
-    update,
     keep
   ])
-  const [refund, setRefund] = useState(1)
   useEffect(() => setFirstBet(true), [])
   useEffect(() => {
     sendSocketData({
@@ -240,7 +250,7 @@ export const Poker = ({}: PokerProps) => {
       access_token,
       betData
     })
-  }, [refund, socket, isPlaying, access_token, gamesList, finishPoker])
+  }, [socket, isPlaying, access_token, gamesList, finishPoker])
   useEffect(() => {
     useGetState({
       access_token,
@@ -250,19 +260,34 @@ export const Poker = ({}: PokerProps) => {
       socketLogged,
       title: 'Poker'
     })
-  }, [
-    socket,
-    gamesList,
-    isDrax,
-    isPlaying,
-    access_token,
-    socketLogged,
-    cardsState.find(el => el === true)
-  ])
+  }, [socket, gamesList, isDrax, isPlaying, access_token, socketLogged])
 
   useEffect(() => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Poker' })
   }, [])
+
+  useEffect(() => {
+    if (finishGame) {
+      socket?.send(
+        JSON.stringify({
+          type: 'ContinueGame',
+          game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: `{"to_replace":[${cardsState.map(el => (el ? true : false))}]}`
+        })
+      )
+      setFinishGame(false)
+      setRedrawCards(true)
+    }
+  }, [finishGame, cardsState])
+
+  useEffect(() => {
+    if (backCards) {
+      setActiveCards(initialArrayOfCards)
+      setBackCards(false)
+    }
+  }, [backCards])
 
   return (
     <>
@@ -275,7 +300,7 @@ export const Poker = ({}: PokerProps) => {
             alt='table-bg'
           />
         </div>
-        <Coefficient ballsArr={coefficientData} />
+        <Coefficient ballsArr={coefficientData} common />
         <div className='h-full flex items-center justify-center'>
           <div
             className='p-[22px] w-[calc(100%_-_44px)] h-[calc(100%_-_44px)] sm:w-[calc(100%_-_40px)] sm:h-[calc(100%_-_40px)] sm:p-[20px] flex items-center justify-center tb:gap-[1.5vw] gap-[1vw]'
@@ -305,10 +330,6 @@ export const Poker = ({}: PokerProps) => {
                       const cards = cardsState
                       cards[ind] = !cards[ind]
                       setCardsState([...cards])
-                      const updatedActiveCards = [...activeCards]
-                      updatedActiveCards[ind].number = -1
-                      setActiveCards(updatedActiveCards)
-                      // setRefund(prev => prev + 1)
                     }}
                   />
                 )

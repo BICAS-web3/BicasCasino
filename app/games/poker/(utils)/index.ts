@@ -120,7 +120,6 @@ export function evaluatePokerHand(
 export const generateBetData = (
   firstBet: boolean,
   keep: boolean,
-  update: boolean,
   gamesList: GamesList[],
   isDrax: boolean,
   userInfo: UserType | null,
@@ -150,7 +149,7 @@ export const generateBetData = (
       num_games: betsAmount
     }
   } else {
-    if (keep || update) {
+    if (keep) {
       return {
         type: 'ContinueGame',
         game_id: gamesList.find(item => item.name === 'Poker')?.id || 12,
