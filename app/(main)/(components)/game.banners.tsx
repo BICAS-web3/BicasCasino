@@ -70,7 +70,7 @@ const GameBanners = ({ className }: { className?: string }) => {
       <Carousel
         slides='auto'
         spacing={20}
-        containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[554px] sm:mb-5 gap-5'
+        containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[290px] sm:mb-5 gap-5'
         loop
         // grid={{
         //   rows: isMobile ? 1 : 2

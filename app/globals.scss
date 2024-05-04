@@ -33,6 +33,20 @@ body {
   }
 }
 
+.vip_swiper_slide {
+  flex-shrink: 100 !important;
+  min-width: 125px !important;
+}
+
+.scroll-bar-vip {
+  .swiper-scrollbar-drag {
+    border-radius: 10px;
+    height: 6px;
+    background: #2e2e2e;
+    margin-top: 15px;
+  }
+}
+
 @keyframes ha {
   0% {
     height: 0;

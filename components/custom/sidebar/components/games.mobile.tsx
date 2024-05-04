@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 
 import { ScrollArea } from '@/components/ui/scroll-area'
-
+import PlayIco from '@/public/images/misc/play.svg'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,11 +38,11 @@ const GamesMobileMenu = ({ data, open }: Props) => {
             : 'justify-center flex-col gap-1 rounded-xl bg-transparent hover:bg-transparent'
         )}
       >
-        <span>{data.main.icon}</span>
+        <PlayIco className='object-contain text-[#7E7E7E]' />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side='bottom'
-        className='h-[calc(100vh_-_56px)] w-full max-w-full flex flex-col justify-between bg-[#121212] border-none rounded-none'
+        className='h-[calc(100vh_-_56px)] relative top-[7px] sm:top-0 w-full max-w-full flex flex-col justify-between bg-[#121212] border-none rounded-none'
       >
         <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
           {data.items.map((item, index) => (
