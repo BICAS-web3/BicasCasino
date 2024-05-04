@@ -45,7 +45,8 @@ const GamePlayBlock = () => {
     showResult,
     startAnimation,
     isDrax,
-    rocketStar
+    rocketStar,
+    betsAmount
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -67,7 +68,8 @@ const GamePlayBlock = () => {
     GameModel.$showResult,
     GameModel.$startAnimation,
     UserModel.$isDrax,
-    GameModel.$rocketStar
+    GameModel.$rocketStar,
+    WagerModel.$pickedValue
   ])
 
   const path = usePathname()
@@ -78,6 +80,24 @@ const GamePlayBlock = () => {
   const [isMines, setIsMines] = useState(false)
   const [isRPS, setIsRPS] = useState(false)
   const [coinflipGame, setCoinflipGame] = useState(false)
+
+  const [rocketDelay, setRocketDelay] = useState(0)
+  const [rocketInGame, setRocketInGame] = useState(false)
+  useEffect(() => {
+    if (isPlaying && betsAmount && !rocketInGame) {
+      setRocketDelay(betsAmount * 700)
+    }
+  }, [betsAmount, isPlaying])
+
+  useEffect(() => {
+    if (rocketDelay) {
+      setRocketInGame(true)
+      setTimeout(() => {
+        setRocketInGame(false)
+        setRocketDelay(0)
+      }, rocketDelay)
+    }
+  }, [rocketDelay])
 
   useEffect(() => {
     if (path.includes('apples')) {
@@ -192,7 +212,7 @@ const GamePlayBlock = () => {
           (isApple && apples.length === 0 && isPlaying) ||
           (isRPS && startAnimation) ||
           (isRPS && isPlaying) ||
-          (isRocket && rocketStar)
+          (isRocket && rocketInGame)
         }
         onClick={handlePlay}
         variant='wagerPlay'

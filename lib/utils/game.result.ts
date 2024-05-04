@@ -67,12 +67,22 @@ export function handleResult({
     const parseArr = JSON.parse(result.profits)
     if (title === 'rocket') {
       const handleCall = () => {
+        // alert(1)
         for (let i = 0; i < parseArr?.length; i++) {
-          setTimeout(() => {
-            const outCome = Number(parseArr[i]) / Number(result.amount)
-            setCoefficientData?.(prev => [outCome, ...prev])
-            setLocalNumber?.(outCome)
-          }, 700 * (i + 1))
+          Promise.all([
+            new Promise(resolve =>
+              setTimeout(() => {
+                const outCome = Number(parseArr[i]) / Number(result.amount)
+                resolve(setCoefficientData?.(prev => [outCome, ...prev]))
+              }, 700 * i)
+            ),
+            new Promise(resolve =>
+              setTimeout(() => {
+                const outCome = Number(parseArr[i]) / Number(result.amount)
+                resolve(setLocalNumber?.(outCome))
+              }, 700 * i)
+            )
+          ])
         }
       }
       handleCall()
