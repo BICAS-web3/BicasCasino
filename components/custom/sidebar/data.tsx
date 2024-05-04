@@ -27,11 +27,13 @@ import Image from 'next/image'
 export const STopMenu = [
   {
     icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Home'
+    title: 'Home',
+    href: '/'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus'
+    title: 'Bonus',
+    href: 'bonus'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -67,7 +69,8 @@ export const STopMenu = [
   },
   {
     icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'VIP Club'
+    title: 'VIP Club',
+    href: 'vip'
   }
 ]
 
