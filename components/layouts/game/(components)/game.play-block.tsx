@@ -44,7 +44,8 @@ const GamePlayBlock = () => {
     appleWager,
     showResult,
     startAnimation,
-    isDrax
+    isDrax,
+    rocketStar
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -65,12 +66,14 @@ const GamePlayBlock = () => {
     GameModel.$appleWager,
     GameModel.$showResult,
     GameModel.$startAnimation,
-    UserModel.$isDrax
+    UserModel.$isDrax,
+    GameModel.$rocketStar
   ])
 
   const path = usePathname()
 
   const [isCoinflip, setIsCoinflip] = useState(false)
+  const [isRocket, setIsRocket] = useState(false)
   const [isApple, setIsApple] = useState(false)
   const [isMines, setIsMines] = useState(false)
   const [isRPS, setIsRPS] = useState(false)
@@ -98,6 +101,11 @@ const GamePlayBlock = () => {
       setIsRPS(true)
     } else {
       setIsRPS(false)
+    }
+    if (path.includes('rocket')) {
+      setIsRocket(true)
+    } else {
+      setIsRocket(false)
     }
   }, [path])
 
@@ -183,7 +191,8 @@ const GamePlayBlock = () => {
           (isApple && showResult) ||
           (isApple && apples.length === 0 && isPlaying) ||
           (isRPS && startAnimation) ||
-          (isRPS && isPlaying)
+          (isRPS && isPlaying) ||
+          (isRocket && rocketStar)
         }
         onClick={handlePlay}
         variant='wagerPlay'

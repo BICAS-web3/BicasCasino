@@ -4,11 +4,16 @@ import CryptoRoute from './components/crypto.route'
 import { useState } from 'react'
 import CustomPayment from '../payment.custom'
 import { useDropdown } from '@/lib/hooks/useDropdown'
+import { useUnit } from 'effector-react'
+import { PaymentModel } from '@/states'
 
 const TabBuy = () => {
   const [isCrypto, setIsCrypto] = useState(false)
   const [isFiat, setIsFiat] = useState(false)
   const { open, close, isOpen, dropdownRef } = useDropdown()
+
+  const [setIsBillline] = useUnit([PaymentModel.setIsBillline])
+
   return (
     <div ref={dropdownRef} className='flex flex-col gap-5'>
       <div className='tab-buy--info flex border border-[#ffe09d] rounded-lg relative py-3 px-5'>
@@ -47,10 +52,10 @@ const TabBuy = () => {
           <CryptoRoute
             title='BillLine'
             text='You can buy DRAX coinsby Visa or Mastercard'
-            onClick={open}
+            onClick={() => setIsBillline(true)}
           />
           <CryptoRoute
-            // onClick={() => setIsCrypto(true)}
+            onClick={open}
             title='P2WAY'
             text='We support Ukranian Cards'
           />

@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import ReactHowler from 'react-howler'
 import RollState from './RollValue'
+import { useSpring, animated } from 'react-spring'
 
 const RocketGame = () => {
   const socket = useSocket()
@@ -39,7 +40,9 @@ const RocketGame = () => {
     isDrax,
     userInfo,
     gamesList,
-    access_token
+    access_token,
+    rocketStar,
+    setRocketStar
   ] = useUnit([
     GameModel.$playSounds,
     GameModel.setGameStatus,
@@ -63,13 +66,17 @@ const RocketGame = () => {
     UserModel.$isDrax,
     UserModel.$userInfo,
     GameModel.$gamesList,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$rocketStar,
+    GameModel.setRocketStar
   ])
+  const [springProps, setSpringProps] = useSpring(() => ({
+    number: 0 // начальное значение числа
+  }))
   const [socketReset] = useUnit([UserModel.$socketReset])
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [localNumber, setLocalNumber] = useState<number | null>(null)
-  const [rocketStar, setRocketStar] = useState(false)
   const [restartGif, setRestartGif] = useState(0)
   const [imageLoading_1, setImageLoading_1] = useState(true)
   const [imageLoading_2, setImageLoading_2] = useState(true)
@@ -84,6 +91,12 @@ const RocketGame = () => {
   const multiplier =
     (BigInt(990000) * BigInt(100)) / BigInt(Math.floor(win_chance * 100))
   const rangeRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (localNumber !== null) {
+      setSpringProps({ number: localNumber })
+    }
+  }, [localNumber])
 
   useEffect(() => {
     useSubscibeBets({
@@ -114,16 +127,6 @@ const RocketGame = () => {
   useEffect(() => {
     setCoefficient(Number(multiplier) / 10000)
   }, [multiplier])
-
-  useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1)
-    }
-  }, [gameStatus])
 
   useEffect(() => {
     let num = rollOver ? 102 : 95
@@ -206,8 +209,6 @@ const RocketGame = () => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Dice' })
   }, [])
 
-  useEffect(() => setInGame(isPlaying), [isPlaying])
-
   return (
     <section
       style={{
@@ -237,14 +238,16 @@ const RocketGame = () => {
           />
         )}
         {localNumber !== null && (
-          <div
+          <animated.div
             className={`text-xs sm:text-sm xl:text-lg font-extrabold rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex justify-center items-center absolute left-1/2 -translate-x-1/2 top-[75px] sm:top-[115px] text-[2.8125rem] sm:text-[4.375rem] z-[5] ${
               localNumber > 0 ? 'text-[#34b113]' : 'text-[#e15f02]'
             }`}
+            style={{ fontSize: '2.8125rem', ...springProps }}
           >
-            {localNumber?.toFixed(2)}x
-          </div>
+            {springProps.number.to(n => `${n.toFixed(2)}x`)}
+          </animated.div>
         )}
+
         <Coefficient
           common
           ballsArr={coefficientData}
@@ -310,3 +313,21 @@ export default RocketGame
           <source src={'/videos/rocket/bg_1.mp4'} type='video/mp4' />
         </video> */
 }
+// <div
+//   className={`text-xs sm:text-sm xl:text-lg font-extrabold rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex justify-center items-center absolute left-1/2 -translate-x-1/2 top-[75px] sm:top-[115px] text-[2.8125rem] sm:text-[4.375rem] z-[5] ${
+//     localNumber > 0 ? 'text-[#34b113]' : 'text-[#e15f02]'
+//   }`}
+// >
+//   {/* {localNumber?.toFixed(2)}x */}
+//   {springProps.number.to(n => n.toFixed(2))}
+// </div>
+
+// useEffect(() => {
+//   setActivePicker(true)
+//   setInGame(false)
+//   if (gameStatus == GameModel.GameStatus.Won) {
+//     pickSide(pickedSide)
+//   } else if (gameStatus == GameModel.GameStatus.Lost) {
+//     pickSide(pickedSide ^ 1)
+//   }
+// }, [gameStatus])

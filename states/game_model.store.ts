@@ -173,6 +173,7 @@ $coefficient.on(setCoefficient, (_, value) => value)
 
 export const $RollValue = createStore<number>(50.5)
 export const $RollOver = createStore<boolean>(true)
+export const $rocketStar = createStore<boolean>(false)
 //export const $RollUnder = createStore<boolean>(false);
 
 // events
@@ -180,8 +181,9 @@ export const setRollValue = createEvent<number>()
 export const setRollOver = createEvent<boolean>()
 export const setRollUnder = createEvent<boolean>()
 export const flipRollOver = createEvent<number>()
+export const setRocketStar = createEvent<boolean>()
 //export const flipRollUnder = createEvent<number>();
-
+$rocketStar.on(setRocketStar, (_, state) => state)
 // handlers
 $RollValue.on(setRollValue, (_, value) => value)
 $RollOver

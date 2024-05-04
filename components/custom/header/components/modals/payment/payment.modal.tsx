@@ -12,14 +12,16 @@ import { X } from 'lucide-react'
 import { useState } from 'react'
 import { WalletSVG } from '../../icons'
 import { TabBuy, TabRedeem, TabTips } from './tabs'
+import Billline from './billline'
 
 const tabData = ['Buy', 'Redeem', 'Tips']
 const tabContent = [<TabBuy />, <TabRedeem />, <TabTips />]
 
 const Payment = () => {
-  const [totalVisibility, setTotalVisibility] = useUnit([
+  const [totalVisibility, setTotalVisibility, isBillline] = useUnit([
     PaymentModel.$totalVisibility,
-    PaymentModel.setTotalVisibility
+    PaymentModel.setTotalVisibility,
+    PaymentModel.$isBillline
   ])
   const [tab, setTab] = useState(
     stringRemoveSpacing(tabData[0]).toLocaleLowerCase().toLocaleLowerCase()
@@ -55,35 +57,39 @@ const Payment = () => {
           </div>
           <Separator />
         </DialogHeader>
-        <Tabs defaultValue={tab}>
-          <TabsList className='w-full border border-[#252525]  bg-[#121212] py-[5px] px-1 rounded-full h-max gap-2'>
+        {isBillline ? (
+          <Billline />
+        ) : (
+          <Tabs defaultValue={tab}>
+            <TabsList className='w-full border border-[#252525]  bg-[#121212] py-[5px] px-1 rounded-full h-max gap-2'>
+              {tabData.map((tabItem, index) => (
+                <TabsTrigger
+                  value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
+                  className='rounded-full min-h-10 text-lg data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
+                  key={`payment-modal-title--${stringRemoveSpacing(
+                    tabItem.toLocaleLowerCase()
+                  )}-${index}`}
+                  onClick={() =>
+                    setTab(stringRemoveSpacing(tabItem).toLocaleLowerCase())
+                  }
+                >
+                  {tabItem}
+                </TabsTrigger>
+              ))}
+            </TabsList>
             {tabData.map((tabItem, index) => (
-              <TabsTrigger
-                value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
-                className='rounded-full min-h-10 text-lg data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
-                key={`payment-modal-title--${stringRemoveSpacing(
+              <TabsContent
+                key={`payment-modal-content--${stringRemoveSpacing(
                   tabItem.toLocaleLowerCase()
                 )}-${index}`}
-                onClick={() =>
-                  setTab(stringRemoveSpacing(tabItem).toLocaleLowerCase())
-                }
+                value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
+                className='pt-5'
               >
-                {tabItem}
-              </TabsTrigger>
+                {tabContent[index]}
+              </TabsContent>
             ))}
-          </TabsList>
-          {tabData.map((tabItem, index) => (
-            <TabsContent
-              key={`payment-modal-content--${stringRemoveSpacing(
-                tabItem.toLocaleLowerCase()
-              )}-${index}`}
-              value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
-              className='pt-5'
-            >
-              {tabContent[index]}
-            </TabsContent>
-          ))}
-        </Tabs>
+          </Tabs>
+        )}
       </DialogContent>
     </Dialog>
   )

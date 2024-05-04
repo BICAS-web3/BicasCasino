@@ -10,6 +10,9 @@ export { default as ChipSVG } from './chip.svg'
 export { default as CloseSVG } from './close.svg'
 export { default as TrashSVG } from './trash.svg'
 export { default as RefreshSVG } from './refresh.svg'
+export { default as BackSVG } from './back.svg'
+export { default as BilllineLogoSVG } from './billline.logo.svg'
+export { default as RedirectSVG } from './redirect.svg'
 
 import { BitcoinSVG, EthereumSVG, DogeSVG, LtcSVG, UsdtSVG } from './crypto'
 
