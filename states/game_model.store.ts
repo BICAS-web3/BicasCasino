@@ -149,19 +149,19 @@ export enum Side {
   Heads = 1
 }
 
+export const $initialValue = createStore<Side>(Side.Heads)
 export const $active = createStore<boolean>(true)
 export const $pickedSide = createStore<Side>(Side.Heads)
-export const $pickedCoin = createStore<Side>(Side.Heads)
 export const $coefficient = createStore<number>(0)
 
 // events
+export const setInitialValue = createEvent<Side>()
 export const pickSide = createEvent<Side>()
-export const pickCoin = createEvent<Side>()
 export const setActive = createEvent<boolean>()
 export const setCoefficient = createEvent<number>()
 
+$initialValue.on(setInitialValue, (_, state) => state)
 $pickedSide.on(pickSide, (_, side) => side)
-$pickedCoin.on(pickCoin, (_, side) => side)
 $active.on(setActive, (_, value) => value)
 $coefficient.on(setCoefficient, (_, value) => value)
 

@@ -19,10 +19,7 @@ const CoinFlipGame = () => {
   const socket = useSocket()
 
   const [
-    lost,
-    profit,
     pickedSide,
-    setActivePicker,
     pickSide,
     betsAmount,
     cryptoValue,
@@ -42,12 +39,9 @@ const CoinFlipGame = () => {
     socketReset,
     isPlaying,
     access_token,
-    setCoin
+    initialValue
   ] = useUnit([
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$pickedSide,
-    GameModel.setActive,
     GameModel.pickSide,
     WagerModel.$pickedValue,
     WagerModel.$cryptoValue,
@@ -67,7 +61,7 @@ const CoinFlipGame = () => {
     UserModel.$socketReset,
     GameModel.$isPlaying,
     RegistrModel.$access_token,
-    GameModel.pickCoin
+    GameModel.$initialValue
   ])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
@@ -95,9 +89,8 @@ const CoinFlipGame = () => {
       setInGame,
       setLostStatus,
       setWonStatus,
-      pickedSide,
+      initialValue,
       setCoefficientData,
-      setCoin,
       setResult
     )
   }, [result?.timestamp, result, gameStatus])
@@ -120,14 +113,14 @@ const CoinFlipGame = () => {
       game_id: gamesList.find(item => item.name === 'CoinFlip')?.id,
       coin_id: isDrax ? 2 : 1,
       user_id: userInfo?.id || 0,
-      data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
+      data: `{"is_heads": ${initialValue === 1 ? true : false}}`,
       amount: `${cryptoValue || 0}`,
       difficulty: 0,
       stop_loss: Number(stopLoss) || 0,
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount
     })
-  }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount])
+  }, [stopGain, stopLoss, initialValue, cryptoValue, isDrax, betsAmount])
 
   useEffect(
     () => sendSocketData({ access_token, betData, isPlaying, socket }),
@@ -151,7 +144,10 @@ const CoinFlipGame = () => {
     >
       <Coefficient ballsArr={coefficientData} common />
       <div className='relative w-full h-full flex flex-col overflow-hidden  flex-[1_1_auto]'>
-        <div className='w-full h-[370px] flex flex-col items-center absolute top-20 sm:top-[119px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
+        <div
+          className='w-full h-[370px] flex flex-col items-center justify-center absolute left-1/2 -translate-x-1/2 gap-10 -translate-y-1/2 top-[calc(50%-30px)] sm:top-[calc(50%-32px)] '
+          //top-20 sm:top-[119px] xl:top-[50px]
+        >
           <div className='h-[210px] sm:h-[255px] xl:h-full w-full'>
             <Canvas
               camera={{
@@ -186,12 +182,3 @@ const CoinFlipGame = () => {
 }
 
 export default CoinFlipGame
-// useEffect(() => {
-//   setActivePicker(true)
-//   setInGame(false)
-//   if (gameStatus == GameModel.GameStatus.Won) {
-//     pickSide(pickedSide)
-//   } else if (gameStatus == GameModel.GameStatus.Lost) {
-//     pickSide(pickedSide ^ 1)
-//   }
-// }, [gameStatus])

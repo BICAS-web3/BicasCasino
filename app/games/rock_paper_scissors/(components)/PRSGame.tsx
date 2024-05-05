@@ -2,7 +2,6 @@
 
 import Coefficient from '@/components/custom/coefficient'
 import { useSocket } from '@/components/providers/socket.provider'
-import { handleResult } from '@/lib/utils/game.result'
 import { sendSocketData } from '@/lib/utils/game.send'
 import bg from '@/public/images/rps/bg.png'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
@@ -13,7 +12,6 @@ import RpsPicker from './Picker'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import Image from 'next/image'
-import { changeEnemyValue } from '../(utils)'
 
 export enum ModelType {
   Paper = 'Paper',
@@ -67,6 +65,18 @@ const PRSGame = () => {
     GameModel.$startAnimation,
     GameModel.setStartAnimation
   ])
+
+  const [openGame, setOpenGame] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOpenGame(true)
+    }, 500)
+  }, [])
+
+  useEffect(() => {
+    setIsPlaying(false)
+  }, [])
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [enemyValue, setEnemyValue] = useState(ModelType.Rock)
   const [betData, setBetData] = useState({})
@@ -75,7 +85,7 @@ const PRSGame = () => {
   const [startPlay, setStartPlay] = useState(false)
 
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && openGame) {
       setStartAnimation(true)
       Promise.all([
         new Promise(resolve =>
@@ -109,8 +119,6 @@ const PRSGame = () => {
     if (!result) return
     if (result.type === 'Bet') {
       const enemyValue = JSON.parse(result.outcomes)
-
-      // alert(`${enemyValue[0]}`)
       if (enemyValue[0] === 2) {
         setEnemyValue(ModelType.Scissors)
       } else if (enemyValue[0] === 1) {
@@ -128,13 +136,6 @@ const PRSGame = () => {
         Number(result.profit) > Number(result.amount) ||
         Number(result.profit) === Number(result.amount)
       ) {
-        // if (pickedValue === GameModel.RPSValue.Paper) {
-        //   setEnemyValue(ModelType.Rock)
-        // } else if (pickedValue === GameModel.RPSValue.Rock) {
-        //   setEnemyValue(ModelType.Scissors)
-        // } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        //   setEnemyValue(ModelType.Paper)
-        // }
         setGameStatus?.(GameModel.GameStatus.Won)
         const multiplier = Number(result.profit) / Number(result.amount)
         setWonStatus?.({
@@ -144,13 +145,6 @@ const PRSGame = () => {
         })
         setIsPlaying?.(false)
       } else {
-        // if (pickedValue === GameModel.RPSValue.Paper) {
-        //   setEnemyValue(ModelType.Scissors)
-        // } else if (pickedValue === GameModel.RPSValue.Rock) {
-        //   setEnemyValue(ModelType.Paper)
-        // } else if (pickedValue === GameModel.RPSValue.Scissors) {
-        //   setEnemyValue(ModelType.Rock)
-        // }
         setGameStatus?.(GameModel.GameStatus.Lost)
         setLostStatus?.(Number(result.profit) - Number(result.amount))
         setLostStatus?.(Number(result.profit) - fullAmount)
@@ -173,10 +167,6 @@ const PRSGame = () => {
       setValue(ModelType.Scissors)
     }
   }, [pickedValue])
-
-  // useEffect(() => {
-  //   changeEnemyValue({ gameStatus, pickedValue, setEnemyValue })
-  // }, [gameStatus])
 
   useEffect(() => {
     setBetData({
@@ -295,12 +285,3 @@ const PRSGame = () => {
   )
 }
 export default PRSGame
-// handleResult({
-//   title: 'rps',
-//   result,
-//   setIsPlaying,
-//   setGameStatus,
-//   setWonStatus,
-//   setLostStatus,
-//   setCoefficientData
-// })

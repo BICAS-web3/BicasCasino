@@ -31,7 +31,9 @@ const GameWager = () => {
     balance,
     isPlaying,
     setApplesWagerr,
-    isDrax
+    isDrax,
+    setGameStatus,
+    setIsPlaying
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -47,12 +49,16 @@ const GameWager = () => {
     UserModel.$balance,
     GameModel.$isPlaying,
     GameModel.setApplesWagerr,
-    UserModel.$isDrax
+    UserModel.$isDrax,
+    GameModel.setGameStatus,
+    GameModel.setIsPlaying
   ])
 
   useEffect(() => {
     setCryptoValue(0)
     setCryptoInputValue('')
+    // setGameStatus(null)
+    // setIsPlaying(false)
   }, [path])
 
   useEffect(() => {

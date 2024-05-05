@@ -29,12 +29,12 @@ const RpsPicker = ({ className }: { className?: string }) => {
           key={index}
           onClick={selectHand.bind('', value)}
           className={clsx(
-            'duration-300 bg-[#202020] flex items-center justify-center group h-[50px] w-full sm:w-[92px] xl:w-[138px] xl:h-[75px]',
+            'duration-300 bg-[#202020] flex items-center justify-center group h-[50px] w-full sm:w-[92px] xl:w-[138px] xl:h-[75px] rounded-[5px] lg:rounded-[7.5px]',
             !isPlaying && 'hover:bg-[#2e2e2e]',
-            pickedValue === value && 'bg-[#2e2e2e]',
-            index === 0 && 'rounded-[5px] sm:rounded-[12px_5px_5px_12px]',
-            index === buttons.length - 1 &&
-              'rounded-[5px] sm:rounded-[5px_12px_12px_5px]'
+            pickedValue === value && 'bg-[#2e2e2e]'
+            // index === 0 && 'rounded-[5px] sm:rounded-[12px_5px_5px_12px]',
+            // index === buttons.length - 1 &&
+            //   'rounded-[5px] sm:rounded-[5px_12px_12px_5px]'
           )}
         >
           <Icon

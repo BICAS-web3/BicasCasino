@@ -6,7 +6,7 @@ export const PokerCombination = ({
   multiplier
 }: PokerCombinationProps) => {
   return (
-    <article className='w-[220px] py-5 px-[15px]'>
+    <article className='w-[220px] py-5 px-[15px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-max'>
       <h3 className='text-center text-xl sm:text-2xl tmd:text-4xl font-black tracking-def bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] uppercase'>
         {combinationName}
       </h3>

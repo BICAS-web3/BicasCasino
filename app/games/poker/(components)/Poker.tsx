@@ -22,6 +22,8 @@ import useSound from 'use-sound'
 import { evaluatePokerHand, generateBetData } from '../(utils)'
 import { PokerCard } from './PokerCard'
 import { initialArrayOfCards } from './data'
+import { PokerCombination } from './PokerCombination'
+import { BonusCoinSVG } from '@/components/custom/header/components/icons'
 
 export const Poker = ({}: PokerProps) => {
   const [
@@ -50,7 +52,9 @@ export const Poker = ({}: PokerProps) => {
     backCards,
     setBackCards,
     setFinishGame,
-    setCryptoValue
+    setCryptoValue,
+    profit,
+    multiplier
   ] = useUnit([
     WagerModel.$pickedValue,
     PokerModel.$gameState,
@@ -77,7 +81,9 @@ export const Poker = ({}: PokerProps) => {
     GameModel.$backCards,
     GameModel.setBackCards,
     GameModel.setFinishGame,
-    WagerModel.setCryptoValue
+    WagerModel.setCryptoValue,
+    GameModel.$profit,
+    GameModel.$multiplier
   ])
 
   const [betData, setBetData] = useState({})
@@ -291,6 +297,14 @@ export const Poker = ({}: PokerProps) => {
 
   return (
     <>
+      {gameStatus === GameModel.GameStatus.Won && (
+        <PokerCombination
+          combinationName={combinationName}
+          tokenImage={<BonusCoinSVG width={30} height={30} />}
+          profit={profit.toFixed(2)}
+          multiplier={Number(multiplier.toFixed(2)).toString()}
+        />
+      )}
       <div className='w-full h-full relative  flex-[1_1_auto] flex flex-col items-center justify-center'>
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image

@@ -1,14 +1,16 @@
 import Preload from '@/components/custom/preload'
-import { RegistrModel, UserModel } from '@/states'
+import { GameModel, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import GameMenu from './(components)/game.menu'
 
 const GameLayout = ({ children }) => {
-  const [access_token, socketAuth] = useUnit([
+  const [access_token, socketAuth, setIsPlaying, setGameStatus] = useUnit([
     RegistrModel.$access_token,
-    UserModel.$socketAuth
+    UserModel.$socketAuth,
+    GameModel.setIsPlaying,
+    GameModel.setGameStatus
   ])
   const path = usePathname()
 
@@ -26,6 +28,11 @@ const GameLayout = ({ children }) => {
     } else {
       setIsWheel(false)
     }
+  }, [path])
+
+  useEffect(() => {
+    setGameStatus(null)
+    setIsPlaying(false)
   }, [path])
 
   return (

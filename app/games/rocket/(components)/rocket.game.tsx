@@ -220,7 +220,7 @@ const RocketGame = () => {
     >
       <div className='stars'></div>
       <div className='twinkling'></div>
-      <div className='clouds'></div>
+      {/* <div className='clouds'></div> */}
       <ReactHowler
         src={'/music/rocket_fly_2.mp3'}
         playing={bgPlay && playSounds !== 'off'}

@@ -114,6 +114,10 @@ const AppleTable: FC<IAppleTable> = ({
   }, [gameStatus])
 
   useEffect(() => {
+    setLocalStatus(null)
+  }, [])
+
+  useEffect(() => {
     if (showResult) {
       setTimeout(() => {
         setAppleGameResult([])

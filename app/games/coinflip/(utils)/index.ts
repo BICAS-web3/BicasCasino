@@ -13,7 +13,6 @@ export const processBetResult = (
   setWonStatus: Dispatch<SetStateAction<WonStatus | null>>,
   pickedSide: number,
   setCoefficientData: Dispatch<SetStateAction<number[]>>,
-  setCoin: Dispatch<SetStateAction<number>>,
   setResult: Dispatch<SetStateAction<IResult | null>>
 ) => {
   if (result !== null && result?.type === 'Bet') {
@@ -38,14 +37,12 @@ export const processBetResult = (
       pickSide(pickedSide)
       setIsPlaying(false)
       setInGame(false)
-      setTimeout(() => setCoin(pickedSide), 2200)
     } else if (Number(result.profit) < fullAmount) {
       pickSide(pickedSide ^ 1)
       setIsPlaying(false)
       setInGame(false)
       setGameStatus(GameModel.GameStatus.Lost)
       setLostStatus(Number(result.profit) - fullAmount)
-      setTimeout(() => setCoin(pickedSide ^ 1), 2200)
     } else {
       setGameStatus(GameModel.GameStatus.Draw)
       setIsPlaying(false)
