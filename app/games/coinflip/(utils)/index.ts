@@ -19,7 +19,10 @@ export const processBetResult = (
   if (result !== null && result?.type === 'Bet') {
     const fullAmount = Number(result.amount) * result.num_games!
     setTimeout(() => {
-      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
     }, 2200)
     if (
       Number(result.profit) > fullAmount ||

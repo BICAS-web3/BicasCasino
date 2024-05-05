@@ -168,6 +168,7 @@ export interface ICoefficient {
   ballsArr: IBall[] | number[]
   multipliers?: number[] | Record<string, string>[] | number | bigint
   common?: boolean
+  rps?: boolean
 }
 
 export interface IWheelColors {

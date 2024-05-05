@@ -102,7 +102,10 @@ export const handleGameResult = (
       setKeep(true)
     } else if (result.type === 'Bet' && result.state) {
       const fullAmount = Number(result.amount) * result.num_games!
-      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
       setWaitingResponse(false)
       if (
         Number(result.profit) > Number(result.amount) ||

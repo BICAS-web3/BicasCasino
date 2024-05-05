@@ -58,7 +58,10 @@ export function handleResult({
   } else if (result.type === 'Bet') {
     if (title === 'rps' && setCoefficientData) {
       const fullAmount = Number(result.amount) * result.num_games!
-      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
     }
     setKeep?.(false)
     setFirstBet?.(true)

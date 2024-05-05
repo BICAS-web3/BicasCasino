@@ -13,7 +13,7 @@ export const PokerCombination = ({
       <span className='text-xl sm:text-2xl tmd:text-4xl font-black leading-[90%] bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] text-transparent bg-clip-text'>
         you win
       </span>
-      <div className='flex flex0col items-center'>
+      <div className='flex flex-col items-center'>
         <div className='flex items-center gap-2.5'>
           <div>{tokenImage}</div>
           <div className='text-center text-sm sm:text-base tmd:text-lg font-black leading-[90%] text-[#eaeaea]'>

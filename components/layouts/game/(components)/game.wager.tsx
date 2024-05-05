@@ -1,9 +1,13 @@
-import { DraxMiniSVG } from '@/components/custom/header/components/icons'
+import {
+  BonusCoinSVG,
+  DraxMiniSVG
+} from '@/components/custom/header/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stringRemoveSpacing } from '@/lib/string'
 import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -11,6 +15,7 @@ const bets = ['min', '/2', 'x2', 'max']
 const titles = ['Wager', 'Max: 50']
 
 const GameWager = () => {
+  const path = usePathname()
   const [
     availableTokens,
     cryptoValue,
@@ -25,7 +30,8 @@ const GameWager = () => {
     error,
     balance,
     isPlaying,
-    setApplesWagerr
+    setApplesWagerr,
+    isDrax
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -40,10 +46,14 @@ const GameWager = () => {
     WagerModel.$error,
     UserModel.$balance,
     GameModel.$isPlaying,
-    GameModel.setApplesWagerr
+    GameModel.setApplesWagerr,
+    UserModel.$isDrax
   ])
 
-  // useEffect(() => alert(balance), [balance])
+  useEffect(() => {
+    setCryptoValue(0)
+    setCryptoInputValue('')
+  }, [path])
 
   useEffect(() => {
     if (activeStep === 'Double' && Number(cryptoInputValue)) {
@@ -143,6 +153,7 @@ const GameWager = () => {
       }
     }
   }
+
   return (
     <div className='w-full sm:w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
       <div className='flex items-center justify-between flex-nowrap'>
@@ -168,7 +179,11 @@ const GameWager = () => {
           }`}
           onChange={handleInput}
           endAdornment={
-            <DraxMiniSVG className='min-w-3.5 h-3.5 aspect-square object-contain' />
+            isDrax ? (
+              <DraxMiniSVG className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain' />
+            ) : (
+              <BonusCoinSVG className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain' />
+            )
           }
         />
         {bets.map((bet, index) => (

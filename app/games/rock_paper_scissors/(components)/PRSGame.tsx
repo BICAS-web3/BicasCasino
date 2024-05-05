@@ -108,20 +108,33 @@ const PRSGame = () => {
   useEffect(() => {
     if (!result) return
     if (result.type === 'Bet') {
+      const enemyValue = JSON.parse(result.outcomes)
+
+      // alert(`${enemyValue[0]}`)
+      if (enemyValue[0] === 2) {
+        setEnemyValue(ModelType.Scissors)
+      } else if (enemyValue[0] === 1) {
+        setEnemyValue(ModelType.Paper)
+      } else if (enemyValue[0] === 0) {
+        setEnemyValue(ModelType.Rock)
+      }
       const fullAmount = Number(result.amount) * result.num_games!
-      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
 
       if (
         Number(result.profit) > Number(result.amount) ||
         Number(result.profit) === Number(result.amount)
       ) {
-        if (pickedValue === GameModel.RPSValue.Paper) {
-          setEnemyValue(ModelType.Rock)
-        } else if (pickedValue === GameModel.RPSValue.Rock) {
-          setEnemyValue(ModelType.Scissors)
-        } else if (pickedValue === GameModel.RPSValue.Scissors) {
-          setEnemyValue(ModelType.Paper)
-        }
+        // if (pickedValue === GameModel.RPSValue.Paper) {
+        //   setEnemyValue(ModelType.Rock)
+        // } else if (pickedValue === GameModel.RPSValue.Rock) {
+        //   setEnemyValue(ModelType.Scissors)
+        // } else if (pickedValue === GameModel.RPSValue.Scissors) {
+        //   setEnemyValue(ModelType.Paper)
+        // }
         setGameStatus?.(GameModel.GameStatus.Won)
         const multiplier = Number(result.profit) / Number(result.amount)
         setWonStatus?.({
@@ -131,13 +144,13 @@ const PRSGame = () => {
         })
         setIsPlaying?.(false)
       } else {
-        if (pickedValue === GameModel.RPSValue.Paper) {
-          setEnemyValue(ModelType.Scissors)
-        } else if (pickedValue === GameModel.RPSValue.Rock) {
-          setEnemyValue(ModelType.Paper)
-        } else if (pickedValue === GameModel.RPSValue.Scissors) {
-          setEnemyValue(ModelType.Rock)
-        }
+        // if (pickedValue === GameModel.RPSValue.Paper) {
+        //   setEnemyValue(ModelType.Scissors)
+        // } else if (pickedValue === GameModel.RPSValue.Rock) {
+        //   setEnemyValue(ModelType.Paper)
+        // } else if (pickedValue === GameModel.RPSValue.Scissors) {
+        //   setEnemyValue(ModelType.Rock)
+        // }
         setGameStatus?.(GameModel.GameStatus.Lost)
         setLostStatus?.(Number(result.profit) - Number(result.amount))
         setLostStatus?.(Number(result.profit) - fullAmount)
@@ -197,7 +210,7 @@ const PRSGame = () => {
       <div className='w-full h-full absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
         <Image src={bg} className='w-full object-cover h-full' alt='table-bg' />
       </div>
-      <Coefficient common ballsArr={coefficientData} />
+      <Coefficient rps common ballsArr={coefficientData} />
       <div className='w-full h-full flex justify-center items-end  flex-[1_1_auto] flex-col'>
         <div className='w-full flex items-center flex-col justify-between flex-auto h-full'>
           <div className='flex items-center justify-between gap-10 sm:gap-[50px] md:gap-5 xl:gap-[95px] mt-auto mb-auto'>

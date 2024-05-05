@@ -71,7 +71,10 @@ export function handleResult({
   if (!result) return
   const fullAmount = Number(result.amount) * result.num_games!
   setTimeout(() => {
-    setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+    setCoefficientData(prev => [
+      fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+      ...prev
+    ])
   }, 1600)
   const data = JSON.parse(result!.state as string)
   const newGameField = gameField.map((value, index) => {
