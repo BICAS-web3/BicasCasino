@@ -41,7 +41,7 @@ const TabTips = () => {
   }
 
   return (
-    <div className='flex flex-col gap-5'>
+    <div className='flex flex-col gap-3'>
       <div className='w-full flex justify-center items-center'>
         <Select onValueChange={handleSelect}>
           <SelectTrigger className='w-[240px] h-10 bg-[#202020] rounded-lg'>
@@ -51,13 +51,13 @@ const TabTips = () => {
               className='uppercase text-xs font-bold text-[#eaeaea]'
             />
           </SelectTrigger>
-          <SelectContent className='gap-4'>
+          <SelectContent className='gap-4 bg-[#202020]'>
             {tips_data.map((item, index) => (
               <SelectItem
                 value={item.id}
                 key={index}
                 icon={item.icon}
-                className='py-2 gap-2'
+                className='py-2 gap-2 cursor-pointer'
               >
                 <span className='uppercase text-xs font-bold text-[#eaeaea]'>
                   {amount.toFixed(2)} {purchaseI.label}

@@ -54,12 +54,12 @@ const WaitingModal = () => {
 
   const estimateData = [
     {
-      icon: <DraxMiniSVG className='w-6 h-6 aspect-square object-contain' />,
+      icon: <DraxMiniSVG className='w-[20px] h-[20px] aspect-square object-contain' />,
       title: 'DRAX Coin',
       count: purchase.toLocaleString('en-US')
     },
     {
-      icon: <BonusCoinSVG className='w-6 h-6 aspect-square object-contain' />,
+      icon: <BonusCoinSVG className='w-[20px] h-[20px] aspect-square object-contain' />,
       title: 'Bonus Coin',
       count: bonus.toLocaleString('en-US')
     }
@@ -171,7 +171,7 @@ const WaitingModal = () => {
           <h6 className='text-[#979797] text-sm sm:text-lg leading-6 font-semibold tracking-wider'>
             Estimate Receive
           </h6>
-          <div className='grid grid-cols-2 py-1.5 px-2.5 gap-1 bg-[#202020] border border-[#252525] rounded-lg min-h-14 box-border'>
+          <div className='grid grid-cols-2 h-[55px] p-[5px_10px] gap-1 bg-[#202020] border border-[#252525] rounded-lg min-h-14 box-border'>
             {estimateData.map((item, index) => (
               <div
                 key={`purcahse-modal--estimate-${stringRemoveSpacing(
@@ -180,7 +180,7 @@ const WaitingModal = () => {
                 className='text-[#979797] text-sm font-light leading-5 tracking-wider'
               >
                 {item.title}
-                <div className='flex gap-2 items-center text-[#979797] mt-2'>
+                <div className='flex gap-2 h-[20px] items-center text-[#979797] mt-1'>
                   {item.icon}
                   <span className='text-sm sm:text-lg'>{item.count}</span>
                 </div>
@@ -214,7 +214,7 @@ const WaitingModal = () => {
                   className='uppercase text-xs font-bold text-[#eaeaea]'
                 />
               </SelectTrigger>
-              <SelectContent className='gap-4'>
+              <SelectContent className='gap-4 bg-[#202020]'>
                 <ScrollArea className='h-[160px]' variant='ghost'>
                   {coins_list.map((item, index) => (
                     <SelectItem
@@ -299,12 +299,12 @@ const WaitingModal = () => {
             <Image
               src={`https://rew.greekkeepers.io/api/invoice/qr/${invoiceCreate.id}`}
               alt='qr-code / address'
-              width={200}
-              height={200}
+              width={184}
+              height={184}
               className='aspect-square object-contain'
             />
           ) : (
-            <Skeleton className='w-52 aspect-square object-contain' />
+            <Skeleton className='w-[184px] h-[184px] aspect-square object-contain' />
           )}
         </div>
 
