@@ -153,6 +153,15 @@ const GamePlayBlock = () => {
     }
   }, [isPlaying, isCoinflip])
 
+  useEffect(() => {
+    if (redrawCards && isPoker) {
+      setTimeout(() => {
+        setRedrawCards(false)
+        setBackCards(true)
+      }, 2000)
+    }
+  }, [redrawCards, isPlaying])
+
   const handlePlay = () => {
     if (redrawCards && isPoker) {
       setRedrawCards(false)
@@ -243,7 +252,8 @@ const GamePlayBlock = () => {
           (isApple && apples.length === 0 && isPlaying) ||
           (isRPS && startAnimation) ||
           (isRPS && isPlaying) ||
-          (isRocket && rocketInGame)
+          (isRocket && rocketInGame) ||
+          (redrawCards && isPoker)
         }
         onClick={handlePlay}
         variant='wagerPlay'
@@ -253,7 +263,7 @@ const GamePlayBlock = () => {
             : 'border-[#FFE7B4] text-[#FFE7B4]'
         }`}
       >
-        {isPoker && redrawCards ? (
+        {isPoker && isPlaying ? (
           'Redraw'
         ) : isPlaying && isApple ? (
           <>

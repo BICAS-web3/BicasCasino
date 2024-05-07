@@ -110,30 +110,6 @@ const Header = () => {
   const socket = useSocket()
 
   const data = { type: 'Auth', token: access_token }
-  // useEffect(() => {
-  //   // alert(JSON.stringify(socket))
-  //   if (
-  //     // (!seeds || errorSeed) &&
-  //     socket
-  //   ) {
-  //     socket.send(JSON.stringify({ type: 'GetUuid' }))
-  //     if (access_token) {
-  //       socket.send(JSON.stringify(data))
-  //       setSocketAuth(true)
-  //       setErrorSeed(false)
-  //       setSocketLogged(true)
-  //       socket.send(JSON.stringify(seed_data))
-  //     }
-  //   }
-  // }, [
-  //   socket,
-  //   access_token,
-  //   seeds,
-  //   errorSeed,
-  //   socket?.OPEN,
-  //   socketAuth,
-  //   WebSocket
-  // ])
 
   useEffect(() => {
     if (socket) {
@@ -156,21 +132,6 @@ const Header = () => {
       }
     }
   }, [socket, access_token])
-
-  // useEffect(() => {
-  //   if (access_token) {
-  //     if (socket) {
-  //       if (socket.readyState === 1) {
-  //         socket.send(JSON.stringify({ type: 'GetUuid' }))
-  //         socket.send(JSON.stringify({ type: 'Auth', token: access_token }))
-  //         setSocketAuth(true)
-  //         setErrorSeed(false)
-  //         setSocketLogged(true)
-  //         socket.send(JSON.stringify(seed_data))
-  //       }
-  //     }
-  //   }
-  // }, [socket, access_token, WebSocket, socketAuth, seed_data])
 
   useEffect(() => {
     if (
@@ -239,3 +200,41 @@ const Header = () => {
 }
 
 export default Header
+// useEffect(() => {
+//   // alert(JSON.stringify(socket))
+//   if (
+//     // (!seeds || errorSeed) &&
+//     socket
+//   ) {
+//     socket.send(JSON.stringify({ type: 'GetUuid' }))
+//     if (access_token) {
+//       socket.send(JSON.stringify(data))
+//       setSocketAuth(true)
+//       setErrorSeed(false)
+//       setSocketLogged(true)
+//       socket.send(JSON.stringify(seed_data))
+//     }
+//   }
+// }, [
+//   socket,
+//   access_token,
+//   seeds,
+//   errorSeed,
+//   socket?.OPEN,
+//   socketAuth,
+//   WebSocket
+// ])
+// useEffect(() => {
+//   if (access_token) {
+//     if (socket) {
+//       if (socket.readyState === 1) {
+//         socket.send(JSON.stringify({ type: 'GetUuid' }))
+//         socket.send(JSON.stringify({ type: 'Auth', token: access_token }))
+//         setSocketAuth(true)
+//         setErrorSeed(false)
+//         setSocketLogged(true)
+//         socket.send(JSON.stringify(seed_data))
+//       }
+//     }
+//   }
+// }, [socket, access_token, WebSocket, socketAuth, seed_data])

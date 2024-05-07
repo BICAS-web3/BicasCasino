@@ -59,9 +59,8 @@ export const PokerCard: FC<PokerCardProps> = props => {
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
       className={`
-        w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[50px] xxs:min-h-[70px]
-        sm:w-[90px] sm:h-[125px] tb:w-full tb:h-[21.5vw] tmd:w-[140px] tmd:h-[190px] emd:w-full emd:h-[18vw]
-        relative flex items-center justify-center cursor-pointer med:h-[280px]
+        w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[50px] xxs:min-h-[70px] hover:translate-y-[-5px] duration-300
+        sm:w-[90px] sm:h-[125px] tb:w-full tb:h-[21.5vw] tmd:w-[140px] tmd:h-[190px] emd:w-full emd:h-[18vw] relative flex items-center justify-center cursor-pointer med:h-[280px]
         ${
           isEmptyCard ? 'bg-[rgba(15,_15,_15,_0.4)] rounded-[10px] h-auto ' : ''
         }`}
