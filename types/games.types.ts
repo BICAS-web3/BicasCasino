@@ -151,6 +151,7 @@ export interface PokerCombinationProps {
   tokenImage: React.ReactNode
   profit?: string | number
   multiplier: string | number
+  className?: string
 }
 
 export interface ICards {

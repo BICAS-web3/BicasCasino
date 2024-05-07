@@ -24,6 +24,7 @@ import { PokerCard } from './PokerCard'
 import { initialArrayOfCards } from './data'
 import { PokerCombination } from './PokerCombination'
 import { BonusCoinSVG } from '@/components/custom/header/components/icons'
+import { GameStatus } from '@/states/game_model.store'
 
 export const Poker = ({}: PokerProps) => {
   const [
@@ -203,8 +204,10 @@ export const Poker = ({}: PokerProps) => {
   }, [gameState])
 
   useEffect(() => {
-    evaluatePokerHand(activeCards, setCombinationName)
-  }, [activeCards, gameStatus])
+    if (gameStatus === GameStatus.Won) {
+      evaluatePokerHand(activeCards, setCombinationName)
+    }
+  }, [gameStatus, gameStatus])
 
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
@@ -319,20 +322,20 @@ export const Poker = ({}: PokerProps) => {
 
   return (
     <>
-      {/* {gameStatus === GameModel.GameStatus.Won && (
+      {gameStatus === GameModel.GameStatus.Won && !isPlaying && (
         <PokerCombination
           combinationName={combinationName}
           tokenImage={<BonusCoinSVG width={30} height={30} />}
           profit={profit.toFixed(2)}
           multiplier={Number(multiplier.toFixed(2)).toString()}
         />
-      )} */}
+      )}
       <div className='w-full h-full relative  flex-[1_1_auto] flex flex-col items-center justify-center'>
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image
             onLoad={() => setImageLoading_1(false)}
             src={tableBg}
-            className='rounded-[20px_20px_0_0] object-cover w-full h-full'
+            className='object-cover w-full h-full'
             alt='table-bg'
           />
         </div>

@@ -59,11 +59,11 @@ export const PokerCard: FC<PokerCardProps> = props => {
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
       className={`
-        w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[50px] xxs:min-h-[70px] hover:translate-y-[-5px] duration-300
-        sm:w-[90px] sm:h-[125px] tb:w-full tb:h-[21.5vw] tmd:w-[140px] tmd:h-[190px] emd:w-full emd:h-[18vw] relative flex items-center justify-center cursor-pointer med:h-[280px]
+        w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[50px] xxs:min-h-[70px] duration-300
+        sm:w-[90px] sm:h-[125px] tb:w-full tb:h-[21.5vw] tmd:w-[140px] tmd:h-[190px] emd:w-full emd:h-[18vw] relative flex items-center justify-center med:h-[280px]
         ${
           isEmptyCard ? 'bg-[rgba(15,_15,_15,_0.4)] rounded-[10px] h-auto ' : ''
-        }`}
+        } ${isPlaying && 'hover:translate-y-[-5px] cursor-pointer'}`}
       onClick={
         !isEmptyCard
           ? () => {
@@ -82,14 +82,14 @@ export const PokerCard: FC<PokerCardProps> = props => {
               style={{
                 backfaceVisibility: 'hidden',
                 transform:
-                  cardFlipped || openedCard || closeCard
+                  ((cardFlipped || openedCard) && isPlaying) || closeCard
                     ? 'rotateY(0)'
                     : 'rotateY(180deg)'
               }}
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`${api.BaseStaticUrl}/media/games_assets/poker/0/0.svg`}
+                src={`/images/cards/back.png`}
                 alt='card-image'
                 width={200}
                 height={278}
@@ -103,14 +103,19 @@ export const PokerCard: FC<PokerCardProps> = props => {
               style={{
                 backfaceVisibility: 'hidden',
                 transform:
-                  cardFlipped || openedCard || closeCard
+                  ((cardFlipped || openedCard) && isPlaying) || closeCard
                     ? 'rotateY(180deg)'
                     : 'rotateY(0)'
               }}
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`}
+                src={
+                  card === 0 && coat === 0
+                    ? `/images/cards/back.png`
+                    : `${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`
+                }
+                // src={`/images/cards/${coat}/${card}.svg`}
                 alt='card-image'
                 width={200}
                 height={278}
@@ -127,14 +132,19 @@ export const PokerCard: FC<PokerCardProps> = props => {
               style={{
                 backfaceVisibility: 'hidden',
                 transform:
-                  cardFlipped || openedCard || localFlip || closeCard
+                  ((cardFlipped || openedCard || localFlip) && isPlaying) ||
+                  closeCard
                     ? 'rotateY(180deg)'
                     : 'rotateY(0)'
               }}
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`}
+                src={
+                  card === 0 && coat === 0
+                    ? `/images/cards/back.png`
+                    : `${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`
+                }
                 alt='card-image'
                 width={200}
                 height={278}
@@ -148,14 +158,15 @@ export const PokerCard: FC<PokerCardProps> = props => {
               style={{
                 backfaceVisibility: 'hidden',
                 transform:
-                  cardFlipped || openedCard || localFlip || closeCard
+                  ((cardFlipped || openedCard || localFlip) && isPlaying) ||
+                  closeCard
                     ? 'rotateY(0)'
                     : 'rotateY(180deg)'
               }}
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`${api.BaseStaticUrl}/media/games_assets/poker/0/0.svg`}
+                src={`/images/cards/back.png`}
                 alt='card-image'
                 width={200}
                 height={278}

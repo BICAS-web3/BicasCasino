@@ -92,6 +92,14 @@ const GamePlayBlock = () => {
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
+  const [pokerDelay, setPokerDelay] = useState(false)
+
+  useEffect(() => {
+    if (pokerDelay) {
+      setTimeout(() => setPokerDelay(false), 1000)
+    }
+  }, [pokerDelay])
+
   useEffect(() => {
     if (isPlaying && betsAmount && !rocketInGame) {
       setRocketDelay(betsAmount * 700)
@@ -158,6 +166,7 @@ const GamePlayBlock = () => {
       setTimeout(() => {
         setRedrawCards(false)
         setBackCards(true)
+        setPokerDelay(true)
       }, 2000)
     }
   }, [redrawCards, isPlaying])
@@ -171,6 +180,9 @@ const GamePlayBlock = () => {
     if (isPlaying && isPoker) {
       setFinishGame(true)
       return
+    }
+    if (isPoker && !isPlaying) {
+      setPokerDelay(true)
     }
     if (cryptoValue > balance) {
       toast('Top up balance!')
@@ -217,34 +229,36 @@ const GamePlayBlock = () => {
           }}
         />
       )}
-      <div
-        className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
-        onClick={() => {
-          setAuto(!autoVisibile)
-          setWheelVisible(false)
-        }}
-      >
-        <span
-          className={`uppercase text-[10px] font-semibold block ${
-            isPlaying
-              ? 'text-[#29F061]'
-              : autoVisibile
-              ? 'text-[#FFE09D]'
-              : 'text-[#7e7e7e]'
-          }`}
+      {!isPoker && (
+        <div
+          className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
+          onClick={() => {
+            setAuto(!autoVisibile)
+            setWheelVisible(false)
+          }}
         >
-          auto
-        </span>
-        <AutoBorder
-          className={`absolute top-0 left-0 w-full h-full ${
-            isPlaying
-              ? 'fill-[#29F061]'
-              : autoVisibile
-              ? 'fill-[#FFE09D]'
-              : 'fill-[#7e7e7e]'
-          }`}
-        />
-      </div>
+          <span
+            className={`uppercase text-[10px] font-semibold block ${
+              isPlaying
+                ? 'text-[#29F061]'
+                : autoVisibile
+                ? 'text-[#FFE09D]'
+                : 'text-[#7e7e7e]'
+            }`}
+          >
+            auto
+          </span>
+          <AutoBorder
+            className={`absolute top-0 left-0 w-full h-full ${
+              isPlaying
+                ? 'fill-[#29F061]'
+                : autoVisibile
+                ? 'fill-[#FFE09D]'
+                : 'fill-[#7e7e7e]'
+            }`}
+          />
+        </div>
+      )}
       <Button
         disabled={
           coinflipGame ||
@@ -253,7 +267,8 @@ const GamePlayBlock = () => {
           (isRPS && startAnimation) ||
           (isRPS && isPlaying) ||
           (isRocket && rocketInGame) ||
-          (redrawCards && isPoker)
+          (redrawCards && isPoker) ||
+          (isPoker && pokerDelay)
         }
         onClick={handlePlay}
         variant='wagerPlay'
