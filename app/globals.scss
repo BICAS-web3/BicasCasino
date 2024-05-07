@@ -37,7 +37,7 @@ body {
   height: 400px;
 
   @media screen and (min-height: 770px) {
-    height: 60vh;
+    // height: 60vh;
   }
 }
 
@@ -77,13 +77,31 @@ body {
   }
 }
 
-.win-text {
+.buy-text {
   color: #fff;
-  // text-shadow:
-  //   -2px -2px 0 #34A9DE,
-  //   2px -2px 0 #34A9DE,
-  //   -2px 2px 0 #34A9DE,
-  //   2px 2px 0 #34A9DE;
+  text-shadow:
+    -1px -1px 0 #34A9DE,
+    1px -1px 0 #34A9DE,
+    -1px 1px 0 #34A9DE,
+    1px 1px 0 #34A9DE;
+
+}
+
+.buy-qt-text {
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #BC378A,
+    1px -1px 0 #BC378A,
+    -1px 1px 0 #BC378A,
+    1px 1px 0 #BC378A;
+
+}
+
+.mell-title {
+  background-color: #2AA5A0;
+  background-image: linear-gradient(90deg, #FFCBA6, #FFBAA6, #FFACA8, #FF93AA, #F583FF, #5477C8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 input::-webkit-outer-spin-button,
