@@ -22,32 +22,35 @@ const PaymentCrypto = () => {
     setPurchaseVisibility(true)
   }, [])
   return (
-    <ScrollArea
-      className='h-[45vh] w-full rounded-md border border-none'
-      variant='ghost'
-    >
+    // <ScrollArea
+    //   className='h-[45vh] w-full rounded-md border border-none'
+    //   variant='ghost'
+    // >
+      
+    // </ScrollArea>
+    <div className='payment-crypto-list w-full rounded-md border border-none overflow-auto'>
       <div className='grid grid-cols-2 gap-[10px] h-full'>
         {draxTypesList.map((item, ind) => (
           <div
             className='w-full flex flex-col rounded-lg overflow-hidden h-full min-h-56'
             key={ind}
           >
-            <div className='bg-[#212121] px-[10px] py-2 flex justify-center items-center gap-2'>
-              <DraxMiniSVG className='w-6 h-6 aspect-square object-contain' />
-              <span className='text-text-w-def leading-4 tracking-wider text-left text-[10px] sm:text-xs font-medium'>
+            <div className='bg-[#212121] px-[10px] h-[30px] py-2 flex justify-center items-center gap-2'>
+              <DraxMiniSVG className='w-[20px] h-[20px] aspect-square object-contain' />
+              <span className='text-text-w-def leading-4 tracking-wider text-left text-[10px] sm:text-[12px] font-medium'>
                 {item.usdPrice} DRAX Coins
               </span>
             </div>
             <div className='flex flex-col items-center bg-[#0f0f0f] h-full px-5 justify-center gap-2'>
-              <BonusCoinSVG className='w-12 h-12 aspect-square object-contain' />
+              <BonusCoinSVG className='w-[40px] h-[40px] aspect-square object-contain' />
               <div className='flex flex-col justify-center items-center font-semibold uppercase'>
-                <h6 className='text-lg'>
+                <h6 className='text-[12px] sm:text-[16px] font-semibold uppercase'>
                   {item.bonusCoins.toLocaleString('en-US')}
                 </h6>
-                <span className='text-sm'>bonus coins</span>
+                <span className='text-[12px] sm:text-[16px] font-semibold uppercase text-center'>bonus coins</span>
               </div>
               <Button
-                className='w-full max-w-full text-sm border border-[#907640] bg-[#252019] hover:bg-[#25201950] transition-all duration-300 text-[#FFE09D] font-bold'
+                className='w-full h-[30px] max-w-full text-[16px] border border-[#907640] bg-[#201F1C] hover:bg-[#252019] transition-all duration-300 text-[#FFE09D] font-bold'
                 onClick={() => handlePurchase(item.usdPrice, item.bonusCoins)}
               >
                 ${item.usdPrice}
@@ -55,8 +58,8 @@ const PaymentCrypto = () => {
             </div>
           </div>
         ))}
-      </div>{' '}
-    </ScrollArea>
+      </div>
+    </div>
   )
 }
 

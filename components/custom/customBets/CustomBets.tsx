@@ -114,7 +114,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
   // const [gamesList] = useUnit([GameModel.$gamesList])
 
   return (
-    <div className='w-full flex-col items-center sm:rounded-md flex bg-black-def py-[45px]'>
+    <div className='w-full flex-col items-center sm:rounded-[12px] flex bg-black-def py-[45px]'>
       <div
         className={`flex justify-between items-center w-[calc(100%_-_60px)] px-[30px] ${
           props?.isMainPage && 'justify-center'
@@ -136,35 +136,35 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         mmd:grid-cols-[160px_110px_1fr_100px_80px_70px_1fr] 
         gap-x-[5px] content-between mb-[7px] '
         >
-          <span className='text-bets-title-color text-footer-text-xs'>
+          <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             Time
           </span>
-          <span className='text-bets-title-color text-footer-text-xs '>
+          <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             Game
           </span>
-          <span className='text-bets-title-color text-footer-text-xs'>
+          <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             Player
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden mmd:block'
+            className='text-bets-title-color text-footer-text-xs hidden mmd:block sm:text-[14px]'
             data-id='address'
           >
             Number of games
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden sm:block'
+            className='text-bets-title-color text-footer-text-xs hidden sm:block sm:text-[14px]'
             data-id='wager'
           >
             Wager
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden md:block '
+            className='text-bets-title-color text-footer-text-xs hidden md:block sm:text-[14px]'
             data-id='multiplier'
           >
             Multiplier
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs flex justify-end'
+            className='text-bets-title-color text-footer-text-xs flex justify-end sm:text-[14px]'
             data-id='profit'
           >
             Profit

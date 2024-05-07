@@ -225,7 +225,7 @@ const Header = () => {
     <header
       className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
         !opened ? 'px-3 sm:!pr-10' : 'px-3'
-      } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-[#0F0F0F]`}
+      } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[55] w-full bg-[#0F0F0F]`}
     >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>

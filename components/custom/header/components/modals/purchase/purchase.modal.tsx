@@ -27,7 +27,7 @@ const Purchase = () => {
     <Dialog open={purchaseVisibility} onOpenChange={handleClose}>
       <DialogContent
         customClose
-        className='gap-5 max-w-[525px] bg-[#181818] px-[30px] py-5'
+        className='gap-5 h-full sm:max-h-[725px] max-w-[525px] overflow-auto bg-[#181818] px-[20px] py-[10px]'
       >
         <WaitingModal />
         {/* <DetectedModal /> */}

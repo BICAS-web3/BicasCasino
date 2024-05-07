@@ -6,6 +6,7 @@ import CustomPayment from '../payment.custom'
 import { useDropdown } from '@/lib/hooks/useDropdown'
 import { useUnit } from 'effector-react'
 import { PaymentModel } from '@/states'
+import Arr from '@/public/images/payment/rightArr.svg'
 
 const TabBuy = () => {
   const [isCrypto, setIsCrypto] = useState(false)
@@ -15,54 +16,66 @@ const TabBuy = () => {
   const [setIsBillline] = useUnit([PaymentModel.setIsBillline])
 
   return (
-    <div ref={dropdownRef} className='flex flex-col gap-5'>
-      <div className='tab-buy--info flex border border-[#ffe09d] rounded-lg relative py-3 px-5'>
-        <span className='w-3/5 sm:w-2/3 text-xs sm:text-sm'>
-          <span className='font-extrabold text-[#ffe09d]'>DRAX tokens </span>
-          won through play can be redeemed for
-          <p className='text-[#f7931a] inline'> BTC, LTC</p> and more
-        </span>
+    <div ref={dropdownRef} className='flex h-full flex-col gap-2 justify-between'>
+      <div className='flex flex-col gap-3'>
+        {isFiat && (
+            <div className='flex items-center justify-between'>
+              <div onClick={() => setIsFiat(false)} className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center'>
+                <Arr className='rotate-[180deg]' />
+                Back
+              </div>
+              <span className='text-[18px] font-light text-[#7E7E7E]'>Buy/Bank card</span>
+            </div>
+          )}
+        <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5'>
+          <span className='text-[10px] sm:text-xs sm:text-sm'>
+            <span className='font-extrabold text-[#ffe09d]'>DRAX tokens </span>
+            won through play can be redeemed for
+            <p className='text-[#f7931a] inline'> BTC, LTC</p> and more
+          </span>
 
-        <Image
-          src='/payment/attentionCoins.webp'
-          className='object-contain absolute right-5 top-1/2 -translate-y-1/2'
-          width={120}
-          height={50}
-          alt='coins'
-        />
+          <Image
+            src='/payment/attentionCoins.webp'
+            className='object-cover w-[60px] xxs:w-[80px] smm:w-[120px]'
+            width={120}
+            height={50}
+            alt='coins'
+          />
+        </div>
+        {!isCrypto && !isFiat && (
+          <>
+            <span className="text-center text-[14px] font-normal" >Choose payment system:</span>
+            <CryptoRoute
+              title='Bank card'
+              text='You can buy DRAX coins by Visa or Mastercard'
+              onClick={() => setIsFiat(true)}
+            />
+            <span className='uppercase text-[#7E7E7E] text-[11px] font-normal text-center leading-[14px]'>or buy with</span>
+            <CryptoRoute
+              isCrypto
+              onClick={() => setIsCrypto(true)}
+              title='Crypto payments'
+              text='You also can buy DRAX coinsby crypto-currency'
+            />
+          </>
+        )}
+        {isCrypto && <PaymentCrypto />}
+        {isFiat && (
+          <>
+            <span className="text-center text-[14px] font-normal" >Choose payment system:</span>
+            <div onClick={() => setIsBillline(true)} className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'>
+              <span className="text-[#979797] font-normal text-[15px]">Ukraine / LA (Visa/Mastercard)</span>
+              <Arr />
+            </div>
+            <div  onClick={open} className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'>
+              <span className="text-[#979797] font-normal text-[15px]">Ukraine (Visa/Mastercard) </span>
+              <Arr />
+            </div>
+          </>
+        )}
+        {isOpen && <CustomPayment close={close} />}
       </div>
-      {!isCrypto && !isFiat && (
-        <>
-          <CryptoRoute
-            title='Bank card'
-            text='You can buy DRAX coins by Visa or Mastercard'
-            onClick={() => setIsFiat(true)}
-          />
-          <CryptoRoute
-            isCrypto
-            onClick={() => setIsCrypto(true)}
-            title='Crypto payments'
-            text='You also can buy DRAX coinsby crypto-currency'
-          />
-        </>
-      )}
-      {isCrypto && <PaymentCrypto />}
-      {isFiat && (
-        <>
-          <CryptoRoute
-            title='BillLine'
-            text='You can buy DRAX coinsby Visa or Mastercard'
-            onClick={() => setIsBillline(true)}
-          />
-          <CryptoRoute
-            onClick={open}
-            title='P2WAY'
-            text='We support Ukranian Cards'
-          />
-        </>
-      )}
-      {isOpen && <CustomPayment close={close} />}
-      <span className='text-[#979797] text-lg text-center'>
+      <span className={`text-[#979797] ${isFiat && 'border-t-[1px] border-[#252525] pt-[10px]'} flex items-center justify-center text-[12px] font-normal text-center`}>
         Maximum purchase of $5000 USD per day
       </span>
     </div>

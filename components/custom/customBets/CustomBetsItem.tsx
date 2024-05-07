@@ -171,7 +171,6 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         22
       </div>
       <div className='hidden sm:flex items-center gap-x-[5px]'>
-
         {
           props.bet.coin_id === 1 ? (
             <BonusTokenIco className='w-[20px] h-[20px]' />
