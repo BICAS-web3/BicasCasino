@@ -25,6 +25,7 @@ import {
 } from '../../icons'
 import Logo from '../../logo'
 import { LoaderIcon } from 'lucide-react'
+import { useDropdown } from '@/lib/hooks/useDropdown'
 
 const CustomPayment = ({ close }: { close: () => void }) => {
   const key = process.env.NEXT_PUBLIC_P2WAY_KEY
@@ -251,8 +252,64 @@ const CustomPayment = ({ close }: { close: () => void }) => {
     return () => clearInterval(intervalId)
   }, [])
 
+  // const { toggle, open, close: onClose, isOpen, dropdownRef } = useDropdown()
+
+  // const [access_token, userInfo] = useUnit([
+  //   RegistrModel.$access_token,
+  //   UserModel.$userInfo
+  // ])
+
+  // // TODO: turn into a separate widget
+  // const [otToken, setOtToken] = useState<any | undefined>()
+  // useEffect(() => {
+  //   ;(async () => {
+  //     if (access_token && !otToken) {
+  //       const response = await getOneTimeToken({ bareer: access_token })
+  //       if (response.status === 'OK') {
+  //         setOtToken((response as any).body)
+  //         console.log('ONE TIME TOKEN---', response.body)
+  //       } else {
+  //         console.log('ONE TIME TOKEN ERROR', response.body)
+  //       }
+  //     }
+  //   })()
+  // }, [access_token, otToken])
+
+  // const init = () => {
+  //   if (otToken?.token && userInfo) {
+  //     alert(2)
+  //     const userId = userInfo.id.toString()
+  //     const apiKey = process.env.NEXT_PUBLIC_P2WAY_KEY
+  //     const callbackUrl = 'https://game.greekkeepers.io/api/p2way/callback'
+  //     const token = otToken.token
+
+  //     const params = { userId, apiKey, callbackUrl, token }
+
+  //     window.initP2PWidget(params)
+  //   }
+  // }
+
+  // // TODO: remove this effect
+  // useEffect(() => {
+  //   if (!isOpen) {
+  //     setOtToken(undefined) // TODO: remove
+  //   }
+  // }, [isOpen])
+
   return (
     <>
+      {/* <button
+        onClick={() => {
+          console.log(2)
+          open()
+          // setLink((prev) => prev + 1);
+
+          init() // TODO: add a proper button, remove this line
+        }}
+        // className={s.wallet_btn}
+      >
+        open
+      </button> */}
       <span className='fixed top-0 left-0  w-screen h-screen bg-black opacity-[0.4] z-[3]'></span>
       <div className='overflow-y-auto sm:overflow-y-hidden w-screen sm:w-auto sm:h-auto h-screen z-[20] lg:w-[806px] lg:h-[470px] pt-8 py-4 px-5 lg:p-[30px] pb-6 lg:pb-10 sm:rounded-[20px] flex flex-col bg-[#181818] overflow-hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
         <EclipseSVG className='absolute top-0 left-0 h-full' />
