@@ -4,8 +4,13 @@ import { cn } from '@/lib/utils'
 import { PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 const Preview = ({ className }: { className?: string }) => {
+  const isMobile = useMediaQuery('(max-width:400px)')
+  const isTablet = useMediaQuery('(max-width:700px)')
+
   const [userInfo] = useUnit([UserModel.$userInfo])
   const [setVisibility, visibility] = useUnit([
     PaymentModel.setTotalVisibility,
@@ -23,8 +28,12 @@ const Preview = ({ className }: { className?: string }) => {
         className
       )}
       style={{
-        backgroundImage: `url('/images/main_banner/2xbanner.png')`,
-        backgroundSize: 'cover',
+        backgroundImage: isMobile
+          ? `url('/images/main_banner/0xbanner.png')`
+          : isTablet
+          ? `url('/images/main_banner/1xbanner.png')`
+          : `url('/images/main_banner/2xbanner.png')`,
+        backgroundSize: isMobile ? '100% 100%' : 'cover',
         backgroundPositionX: '70%'
       }}
     >

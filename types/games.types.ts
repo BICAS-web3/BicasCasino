@@ -141,6 +141,9 @@ export interface PokerCardProps {
   isEmptyCard: boolean
   onClick: () => void
   setImageLoading: (el: boolean) => void
+  openedCard?: boolean
+  setOpenedCard?: Dispatch<SetStateAction<boolean>>
+  closeCard?: boolean
 }
 
 export interface PokerCombinationProps {

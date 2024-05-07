@@ -290,21 +290,43 @@ export const Poker = ({}: PokerProps) => {
 
   useEffect(() => {
     if (backCards) {
-      setActiveCards(initialArrayOfCards)
+      setCloseCard(true)
       setBackCards(false)
     }
   }, [backCards])
 
+  useEffect(() => {
+    if (!backCards) {
+      setOpenedCard(true)
+    }
+  }, [backCards])
+
+  const [closeCard, setCloseCard] = useState(false)
+  useEffect(() => {
+    if (closeCard) {
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve(setActiveCards(initialArrayOfCards)), 1000)
+        ),
+        new Promise(resolve =>
+          setTimeout(() => resolve(setCloseCard(false)), 1100)
+        )
+      ])
+    }
+  }, [closeCard])
+
+  const [openedCard, setOpenedCard] = useState(true)
+
   return (
     <>
-      {gameStatus === GameModel.GameStatus.Won && (
+      {/* {gameStatus === GameModel.GameStatus.Won && (
         <PokerCombination
           combinationName={combinationName}
           tokenImage={<BonusCoinSVG width={30} height={30} />}
           profit={profit.toFixed(2)}
           multiplier={Number(multiplier.toFixed(2)).toString()}
         />
-      )}
+      )} */}
       <div className='w-full h-full relative  flex-[1_1_auto] flex flex-col items-center justify-center'>
         <div className='w-full h-full absolute right-0 bottom-0 top-0 left-0 z-[-1]'>
           <Image
@@ -332,9 +354,13 @@ export const Poker = ({}: PokerProps) => {
                     coat={0}
                     card={0}
                     onClick={() => {}}
+                    setOpenedCard={setOpenedCard}
                   />
                 ) : (
                   <PokerCard
+                    closeCard={closeCard}
+                    openedCard={openedCard}
+                    setOpenedCard={setOpenedCard}
                     setImageLoading={setImageLoading_2}
                     key={`${item.suit}_${item.number}_${transactionHash}`}
                     isEmptyCard={false}
