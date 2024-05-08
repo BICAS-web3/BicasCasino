@@ -295,3 +295,10 @@ $btnsActive.on(setBtnsActive, (_, state) => state)
 $activeStep.on(setActiveStep, (_, state) => state)
 $userCount.on(setUserCount, (_, state) => state)
 $dilerCount.on(setDilerCount, (_, state) => state)
+
+//! THIMBLES
+
+export const $showAnimation = createStore<boolean>(false)
+
+export const setShowAnimation = createEvent<boolean>()
+$showAnimation.on(setShowAnimation, (_, state) => state)

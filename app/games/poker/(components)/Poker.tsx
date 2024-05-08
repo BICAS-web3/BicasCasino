@@ -6,7 +6,7 @@ import { sendSocketData } from '@/lib/utils/game.send'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
-import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
+import tableBg from '@/public/images/poker_images/pokerBgImage_2.png'
 import {
   GameModel,
   PokerModel,

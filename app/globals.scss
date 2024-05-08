@@ -1614,3 +1614,39 @@ input[type='number'] {
   border-image-slice: 1;
   border-radius: 5px;
 }
+
+.thible {
+  filter: drop-shadow(0px 0px 25px #e78137);
+  @media (max-width: 650px) {
+    filter: drop-shadow(0px 0px 12px #e78137);
+  }
+}
+
+.thible_select_animation {
+  animation: thibmle_select 1s infinite;
+}
+
+@keyframes thibmle_select {
+  0% {
+    filter: drop-shadow(0px 0px 15px transparent);
+  }
+  50% {
+    filter: drop-shadow(0px 0px 25px #e78137);
+  }
+  100% {
+    filter: drop-shadow(0px 0px 15px transparent);
+  }
+}
+@media (max-width: 650px) {
+  @keyframes thibmle_select {
+    0% {
+      filter: drop-shadow(0px 0px 5px transparent);
+    }
+    50% {
+      filter: drop-shadow(0px 0px 10px rgb(255, 140, 57));
+    }
+    100% {
+      filter: drop-shadow(0px 0px 5px transparent);
+    }
+  }
+}

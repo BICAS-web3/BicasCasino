@@ -35,7 +35,9 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     userInfo,
     gamesList,
     socketReset,
-    access_token
+    access_token,
+    showAnimation,
+    setShowAnimation
   ] = useUnit([
     GameModel.setGameStatus,
     GameModel.setLostStatus,
@@ -54,13 +56,14 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     UserModel.$userInfo,
     GameModel.$gamesList,
     UserModel.$socketReset,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$showAnimation,
+    GameModel.setShowAnimation
   ])
   const [activeThimble, setActiveThimble] = useState<number | null>(null) //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0])
   const [openGame, setOpenGame] = useState<number | null>(1)
   const [startGame, setStartGame] = useState(false)
-  const [showAnimation, setShowAnimation] = useState(false)
   const [selected, setSelected] = useState<null | number>(null)
   const [subscribed, setCubscribed] = useState(false)
   const [selectedShow, setSelectedShow] = useState<number[] | null>(null)
@@ -216,6 +219,12 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         }, 2000)
       ]
   }, [selected])
+
+  // useEffect(() => {
+  //   return () => {
+  //     setShowAnimation(false)
+  //   }
+  // })
 
   return (
     <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>

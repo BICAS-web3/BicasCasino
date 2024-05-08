@@ -50,7 +50,8 @@ const GamePlayBlock = () => {
     setFinishGame,
     redrawCards,
     setRedrawCards,
-    setBackCards
+    setBackCards,
+    showAnimation
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -77,7 +78,8 @@ const GamePlayBlock = () => {
     GameModel.setFinishGame,
     GameModel.$redrawCards,
     GameModel.setRedrawCards,
-    GameModel.setBackCards
+    GameModel.setBackCards,
+    GameModel.$showAnimation
   ])
 
   const path = usePathname()
@@ -89,6 +91,7 @@ const GamePlayBlock = () => {
   const [isRPS, setIsRPS] = useState(false)
   const [coinflipGame, setCoinflipGame] = useState(false)
   const [isPoker, setIsPoker] = useState(false)
+  const [isThimbles, setIsThimbles] = useState(false)
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
@@ -148,6 +151,11 @@ const GamePlayBlock = () => {
       setIsPoker(true)
     } else {
       setIsPoker(false)
+    }
+    if (path.includes('thimbles_3')) {
+      setIsThimbles(true)
+    } else {
+      setIsThimbles(false)
     }
   }, [path])
 
@@ -268,7 +276,9 @@ const GamePlayBlock = () => {
           (isRPS && isPlaying) ||
           (isRocket && rocketInGame) ||
           (redrawCards && isPoker) ||
-          (isPoker && pokerDelay)
+          (isPoker && pokerDelay) ||
+          (isThimbles && isPlaying) ||
+          (isThimbles && showAnimation)
         }
         onClick={handlePlay}
         variant='wagerPlay'

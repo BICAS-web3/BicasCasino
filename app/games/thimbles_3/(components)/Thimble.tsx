@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import { MutableRefObject, RefObject } from 'react'
+import { MutableRefObject, RefObject, useEffect, useState } from 'react'
+import { ThimbleSVG } from './icons'
 
 const Thimble = ({
   ind,
@@ -22,6 +23,16 @@ const Thimble = ({
   animatedRefs: MutableRefObject<RefObject<HTMLDivElement>[]>
   openBall?: boolean
 }) => {
+  const [localPlay, setLocalPlay] = useState(false)
+
+  useEffect(() => {
+    if (isPlaying) {
+      setTimeout(() => setLocalPlay(true), 600)
+    } else {
+      setLocalPlay(false)
+    }
+  }, [isPlaying])
+
   return (
     <div
       key={ind}
@@ -35,25 +46,22 @@ const Thimble = ({
       ref={animatedRefs.current[ind]}
     >
       {activeThimble === ind || openGame == ind ? (
-        <Image
+        <ThimbleSVG
           width={179}
           height={144}
-          src='/images/thimbles/activeThimble.png'
-          className={`absolute select-none z-[2] transition-all duration-400
+          className={`absolute select-none z-[2] transition-all duration-400 thible
                     w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[179px] xl:h-[144px] min-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[179px] xl:min-h-[144px] bottom-[45px] sm:bottom-[94px] tbb:bottom-[80px]
                     ${
                       selectedShow?.includes(ind) &&
                       'bottom-[45px] sm:bottom-[105px]'
                     }`}
-          alt='thimble'
         />
       ) : (
-        <Image
+        <ThimbleSVG
           width={179}
           height={144}
-          src='/images/thimbles/thimble.png'
-          className={`select-none z-[3] absolute bottom-0 transition-all duration-400
-                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[179px] xl:h-[144px] min-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[179px] xl:min-h-[144px]
+          className={`select-none z-[3] absolute bottom-0 transition-all duration-400 
+                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[179px] xl:h-[144px] ￼in-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[179px] xl:min-h-[144px]
                     ${
                       selectedShow?.includes(ind) &&
                       'bottom-[45px] sm:bottom-[105px]'
@@ -61,11 +69,10 @@ const Thimble = ({
                     ${
                       !showAnimation &&
                       !openGame &&
-                      isPlaying &&
-                      'cursor-pointer'
+                      localPlay &&
+                      'cursor-pointer thible_select_animation'
                     }
                   `}
-          alt='thimble'
         />
       )}
       {(activeThimble === ind || openGame == ind || openBall) && (
