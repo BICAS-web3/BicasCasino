@@ -13,6 +13,7 @@ import {
   UserSVG,
 } from './icons/mobile'
 
+
 import Wallet from '@/components/custom/sidebar/components/icons/mobile/walIco.svg'
 
 type Props = {
@@ -49,7 +50,6 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
         <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
       </Button>
       <Button variant='ghost' size='icon' onClick={handleGamesOpen}>
-        <GamesSVG className='object-contain text-[#7E7E7E]' />
         <GamesMobileMenu data={SGames} open={gamesOpen} />
       </Button>
       <Button variant='ghost' size='icon' onClick={handlePaymentAction}>

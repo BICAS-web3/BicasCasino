@@ -19,11 +19,11 @@ const MarqueeItem = ({ index, grow, image, title }: Props) => (
       }`}
     />
     <Image
-      className='aspect-square object-contain max-w-6 max-h-6 border border-white rounded-full'
+      className='aspect-square object-contain max-w-5 max-h-5 border border-white rounded-full'
       src={image}
       alt={title}
-      width={32}
-      height={32}
+      width={20}
+      height={20}
     />
     <span className='text-sm sm:text-base font-medium uppercase'>{title}</span>
   </div>

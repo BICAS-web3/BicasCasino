@@ -31,7 +31,8 @@ export const handleGameResult = ({
     const handleCall = () => {
       for (let i = 0; i < parseArr?.length; i++) {
         setTimeout(() => {
-          const outCome = Number(parseArr[i]) / fullAmount
+          const outCome =
+            fullAmount === 0 ? 0 : Number(parseArr[i]) / fullAmount
           setCoefficientData(prev => [outCome, ...prev])
         }, 700 * (i + 1))
       }

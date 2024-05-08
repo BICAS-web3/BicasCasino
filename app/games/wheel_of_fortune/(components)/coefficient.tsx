@@ -8,7 +8,7 @@ const Coefficient = ({ coefficientData }: { coefficientData: any }) => {
     GameModel.$pickedValue
   ])
   return (
-    <div className='w-[calc(100%-20px)] top-2.5 sm:w-[calc(100%-262px)] xl:w-[calc(100%-358px)] 3xl:w-[calc(100%-398px)] gap-2.5 overflow-x-scroll flex flex-row-reverse -translate-x-1/2 absolute t-5 left-1/2'>
+    <div className='scrollbar scrollbar-track-transparent scrollbar-thumb-transparent scrollbar-none w-[calc(100%-20px)] top-2.5 sm:w-[calc(100%-262px)] xl:w-[calc(100%-358px)] 3xl:w-[calc(100%-398px)] gap-2.5 overflow-x-scroll flex flex-row-reverse -translate-x-1/2 absolute t-5 left-1/2'>
       {coefficientData.map((item, i) => (
         <div
           className={cn(

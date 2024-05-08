@@ -270,7 +270,7 @@ const WheelGame = () => {
         ...generateSegmentColors_easy(50, 1)
       ])
     }
-  }, [easy10SegColors?.length])
+  }, [easy10SegColors?.length, easy20SegColors.length])
 
   // Medium level
 
@@ -304,6 +304,10 @@ const WheelGame = () => {
       setHard50SegColors
     })
   }, [hard10SegColors?.length])
+
+  useEffect(() => {
+    if (easy10SegColors.length > 0) setSegColors(easy10SegColors)
+  }, [easy10SegColors.length])
 
   useEffect(() => {
     if (level === 'Easy') {
@@ -343,7 +347,7 @@ const WheelGame = () => {
         setSegColors(hard50SegColors)
       }
     }
-  }, [pickedValue, level, easy10SegColors])
+  }, [pickedValue, level, easy10SegColors, easy20SegColors])
 
   const [highlightIndex, setHighlightIndex] = useState<number[]>([])
 
@@ -366,8 +370,6 @@ const WheelGame = () => {
 
   const [inSpeen, setInSpeen] = useState(false)
 
-  const [testInGame, setTestInGame] = useState(false)
-
   const [lastNum, setLastNum] = useState<null | number>(null)
 
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -382,8 +384,7 @@ const WheelGame = () => {
     } else {
       // Animation for all elements in the array is complete
       setTimeout(() => {
-        setCurrentIndex(0) // Reset the index for future animations
-        setTestInGame(false)
+        setCurrentIndex(0)
         setOutcomes([])
       }, 1500)
     }
@@ -443,7 +444,6 @@ const WheelGame = () => {
     <section
       onClick={() => {
         setCount(prev => prev + 2)
-        setTestInGame(prev => !prev)
       }}
       className='w-full h-full relative flex flex-col overflow-hidden flex-[1_1_auto] items-center justify-center'
     >

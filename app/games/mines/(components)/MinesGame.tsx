@@ -14,7 +14,7 @@ import useSound from 'use-sound'
 import { Tile, initialGameField, initialPickedTiles } from '../data'
 import { handleResult, pickTileforMine } from '../utils'
 import SelectedMine from './selected.mine'
-
+import './styles.scss'
 const MinesGame = () => {
   const socket = useSocket()
   const [
@@ -179,27 +179,17 @@ const MinesGame = () => {
   }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => {
-    if (keep) {
-      setBetData({
-        type: 'ContinueGame',
-        game_id: gamesList.find(item => item.name === 'Mines')?.id,
-        coin_id: isDrax ? 2 : 1,
-        user_id: userInfo?.id || 0,
-        data: `{ "cashout":${isCashout}, "tiles":[${pickedTiles}]}`
-      })
-    } else {
-      setBetData({
-        type: 'MakeBet',
-        game_id: gamesList.find(item => item.name === 'Mines')?.id,
-        coin_id: isDrax ? 2 : 1,
-        user_id: userInfo?.id || 0,
-        data: `{"num_mines":${pickedValue}, "cashout":${isCashout}, "tiles": [${pickedTiles}]}`,
-        amount: `${cryptoValue || 0}`,
-        stop_loss: Number(stopLoss) || 0,
-        stop_win: Number(stopGain) || 0,
-        num_games: betsAmount
-      })
-    }
+    setBetData({
+      type: 'MakeBet',
+      game_id: gamesList.find(item => item.name === 'Mines')?.id,
+      coin_id: isDrax ? 2 : 1,
+      user_id: userInfo?.id || 0,
+      data: `{"num_mines":${pickedValue}, "cashout":true, "tiles": [${pickedTiles}]}`,
+      amount: `${cryptoValue || 0}`,
+      stop_loss: Number(stopLoss) || 0,
+      stop_win: Number(stopGain) || 0,
+      num_games: betsAmount
+    })
   }, [
     stopGain,
     stopLoss,
@@ -210,22 +200,6 @@ const MinesGame = () => {
     pickedTiles,
     totalOpenedTiles
   ])
-
-  useEffect(() => {
-    if (keep && stopWinning === 'YES' && totalOpenedTiles === 0) {
-      if (socket && access_token && socket.readyState === WebSocket.OPEN) {
-        socket.send(
-          JSON.stringify({
-            type: 'ContinueGame',
-            game_id: gamesList.find(item => item.name === 'Mines')?.id,
-            coin_id: isDrax ? 2 : 1,
-            user_id: userInfo?.id || 0,
-            data: `{"cashout":true}`
-          })
-        )
-      }
-    }
-  }, [keep, stopWinning, isDrax, betsAmount, totalOpenedTiles, pickedTiles])
 
   useEffect(() => {
     if (
@@ -286,7 +260,7 @@ const MinesGame = () => {
     <div
       className='w-full h-full relative flex justify-center flex-col  flex-[1_1_auto]'
       style={{
-        background: `url('/images/mines_images/mines_bg.webp') center center no-repeat`,
+        background: `url('/images/mines_images/bg.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
@@ -330,3 +304,50 @@ const MinesGame = () => {
 }
 
 export default MinesGame
+// useEffect(() => {
+//   if (false) {
+//     setBetData({
+//       type: 'ContinueGame',
+//       game_id: gamesList.find(item => item.name === 'Mines')?.id,
+//       coin_id: isDrax ? 2 : 1,
+//       user_id: userInfo?.id || 0,
+//       data: `{ "cashout":true, "tiles":[${pickedTiles}]}`
+//     })
+//   } else {
+//     setBetData({
+//       type: 'MakeBet',
+//       game_id: gamesList.find(item => item.name === 'Mines')?.id,
+//       coin_id: isDrax ? 2 : 1,
+//       user_id: userInfo?.id || 0,
+//       data: `{"num_mines":${pickedValue}, "cashout":true, "tiles": [${pickedTiles}]}`,
+//       amount: `${cryptoValue || 0}`,
+//       stop_loss: Number(stopLoss) || 0,
+//       stop_win: Number(stopGain) || 0,
+//       num_games: betsAmount
+//     })
+//   }
+// }, [
+//   stopGain,
+//   stopLoss,
+//   cryptoValue,
+//   isDrax,
+//   betsAmount,
+//   isCashout,
+//   pickedTiles,
+//   totalOpenedTiles
+// ])
+// useEffect(() => {
+//   if (keep && stopWinning === 'YES' && totalOpenedTiles === 0) {
+//     if (socket && access_token && socket.readyState === WebSocket.OPEN) {
+//       socket.send(
+//         JSON.stringify({
+//           type: 'ContinueGame',
+//           game_id: gamesList.find(item => item.name === 'Mines')?.id,
+//           coin_id: isDrax ? 2 : 1,
+//           user_id: userInfo?.id || 0,
+//           data: `{"cashout":true}`
+//         })
+//       )
+//     }
+//   }
+// }, [keep, stopWinning, isDrax, betsAmount, totalOpenedTiles, pickedTiles])

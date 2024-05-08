@@ -35,15 +35,23 @@ export interface IAmount {
 const BalanceSwitcher = () => {
   const isMobile = useMediaQuery('(max-width: 730px)')
 
-  const [isDrax, setDrax, access_token, userInfo, result, setBalanceValue] =
-    useUnit([
-      UserModel.$isDrax,
-      UserModel.setIsDrax,
-      RegistrModel.$access_token,
-      UserModel.$userInfo,
-      GameModel.$result,
-      UserModel.setBalance,
-    ])
+  const [
+    isDrax,
+    setDrax,
+    access_token,
+    userInfo,
+    result,
+    setBalanceValue,
+    balanceValue
+  ] = useUnit([
+    UserModel.$isDrax,
+    UserModel.setIsDrax,
+    RegistrModel.$access_token,
+    UserModel.$userInfo,
+    GameModel.$result,
+    UserModel.setBalance,
+    UserModel.$balance
+  ])
 
   const [balance, setBalance] = useState<null | IAmount>(null)
 
@@ -55,6 +63,7 @@ const BalanceSwitcher = () => {
           userId: userInfo?.id
         })
         if (data.status === 'OK') {
+          // alert(JSON.stringify(data))
           setBalance((data as any).body)
           setBalanceValue(
             Number(
@@ -63,6 +72,30 @@ const BalanceSwitcher = () => {
               )?.amount
             )
           )
+        }
+      })()
+    }
+  }, [access_token, userInfo?.id])
+
+  useEffect(() => {
+    if (access_token && userInfo && result) {
+      ;(async () => {
+        const data = await api.getUserAmounts({
+          bareer: access_token,
+          userId: userInfo?.id
+        })
+        // data && alert(JSON.stringify(data))
+        if (data.status === 'OK') {
+          setTimeout(() => {
+            setBalance((data as any).body)
+            setBalanceValue(
+              Number(
+                (data.body as any).amounts.find(
+                  (item: any) => item.name === (isDrax ? 'Drax' : 'DraxBonus')
+                )?.amount
+              )
+            )
+          }, 1650)
         }
       })()
     }
@@ -102,33 +135,30 @@ const BalanceSwitcher = () => {
           <div className='flex items-center gap-1 pr-2'>
             {isMobile ? (
               isDrax === item.isDrax && (
-                <span className='text-xs sm:text-sm leading-4 truncate w-max max-w-10'>
-                  {balance !== null
-                    ? Number(
-                        balance.amounts.find(item => item.name === 'DraxBonus')
-                          ?.amount
-                      )
-                    : zero.toFixed(3)}
+                <span className='text-xs sm:text-sm leading-4  w-max'>
+                  {balance !== null ? balanceValue : zero.toFixed(3)}
                 </span>
               )
             ) : (
-              <span className='text-xs sm:text-[14px] leading-4 w-max max-w-12'>
+              <span className='text-xs sm:text-[14px] leading-4 w-max'>
                 {item.isDrax
                   ? balance !== null
                     ? Number(
                         balance.amounts.find(item => item.name === 'Drax')
                           ?.amount
-                      )
+                      ).toFixed(2)
                     : zero.toFixed(3)
                   : balance !== null
                   ? Number(
                       balance.amounts.find(item => item.name === 'DraxBonus')
                         ?.amount
-                    )
+                    ).toFixed(2)
                   : zero.toFixed(3)}
               </span>
             )}
-            <span className='text-xs sm:text-[12px] leading-4'>{item.token}</span>
+            <span className='text-xs sm:text-[12px] leading-4'>
+              {item.token}
+            </span>
           </div>
         </Button>
       ))}

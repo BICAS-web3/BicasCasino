@@ -1,30 +1,32 @@
 import { Slider } from '@/components/ui/slider'
 import { GameModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
+import { usePathname } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
 
 interface GameAutoProps {}
 
 export const GameAuto: FC<GameAutoProps> = () => {
-  const [value, setValue] = useState(1)
-
-  useEffect(() => {
-    setValue(1)
-  }, [])
-
   const changeInputValue = value => {
     pickValue(value[0])
   }
 
   const [inpValue, setInpValue] = useState(1.98)
 
-  const [visible, pickValue] = useUnit([
+  const [visible, pickValue, pickedValue] = useUnit([
     GameModel.$autoVisible,
-    WagerModel.pickValue
+    WagerModel.pickValue,
+    WagerModel.$pickedValue
   ])
+
+  const path = usePathname()
+  useEffect(() => {
+    pickValue(1)
+  }, [path])
+
   return (
     <div
-      className={`durarion-300 ${
+      className={`durarion-300 z-[3] ${
         visible ? 'opacity-1 visible' : 'opacity-0 invisible h-0 !p-0'
       } col-start-1 col-end-3 m-[0_auto] w-full max-w-[330px] tbs:absolute tbs:top-[calc(-100%_-_80px)] bg-[#151515] tbs:right-[50px] rounded-[20px] border-[#3e3e3e] p-[10px_20px_20px_20px] box-border`}
     >
@@ -33,8 +35,9 @@ export const GameAuto: FC<GameAutoProps> = () => {
           Number of games
         </h3>
         <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
-          <span>{value}</span>
+          <span>{pickedValue}</span>
           <Slider
+            key={path}
             step={1}
             min={1}
             max={100}

@@ -16,10 +16,8 @@ const buttonVariants = cva(
                     'bg-destructive text-destructive-foreground hover:bg-destructive/90',
                 outline:
                     'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-                noneBg:
-                    'eye_btn transition-all duration-200',
-                secondary:
-                    'bg-secondary text-secondary-foreground',
+                noneBg: 'eye_btn transition-all duration-200',
+                secondary: 'bg-secondary text-secondary-foreground',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
                 gray: 'bg-[#20202080] border border-[#363636]',
@@ -32,9 +30,9 @@ const buttonVariants = cva(
             after:left-[50%] after:translate-x-[-50%] after:bg-[#ffb800] after:mix-blend-hard-light
             after:rounded-[100px] after:blur-[50px] hover:after:opacity-100 hover:after:visible
             active:after:blur-[45px] active:after:w-[50px] active:after:h-[50px]`,
-                wager: 'bg-[#20202066]  rounded-none box-border w-full max-w-[43px] uppercase h-[36px] border-r border-r-[#363636] text-[#979797] leading-[14px] tracking-[4%] text-[10px] font-semibold',
+                wager: 'bg-[#20202066] hover:bg-[#282828] rounded-none box-border w-full max-w-[48px] sm:max-w-[43px] uppercase h-[36px] border-r border-r-[#363636] text-[#979797] leading-[14px] tracking-[4%] text-[10px] font-semibold',
                 wagerPlay:
-                    'w-[145px] h-[40px] border-[2px] rounded-[30px] border-[#FFE7B4] text-[#FFE7B4] text-[14px] font-medium leading-[19px] tracking-[4%]'
+                    'min-w-[145px] h-[40px] border-[2px] rounded-[30px] text-[14px] font-medium leading-[19px] tracking-[4%]'
             },
             size: {
                 default: 'h-10 px-4 py-2',

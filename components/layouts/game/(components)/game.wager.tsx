@@ -1,9 +1,13 @@
-import { DraxMiniSVG } from '@/components/custom/header/components/icons'
+import {
+  BonusCoinSVG,
+  DraxMiniSVG
+} from '@/components/custom/header/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stringRemoveSpacing } from '@/lib/string'
 import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -11,6 +15,7 @@ const bets = ['min', '/2', 'x2', 'max']
 const titles = ['Wager', 'Max: 50']
 
 const GameWager = () => {
+  const path = usePathname()
   const [
     availableTokens,
     cryptoValue,
@@ -24,7 +29,11 @@ const GameWager = () => {
     setError,
     error,
     balance,
-    isPlaying
+    isPlaying,
+    setApplesWagerr,
+    isDrax,
+    setGameStatus,
+    setIsPlaying
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -38,10 +47,19 @@ const GameWager = () => {
     WagerModel.setError,
     WagerModel.$error,
     UserModel.$balance,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
+    GameModel.setApplesWagerr,
+    UserModel.$isDrax,
+    GameModel.setGameStatus,
+    GameModel.setIsPlaying
   ])
 
-  // useEffect(() => alert(balance), [balance])
+  useEffect(() => {
+    setCryptoValue(0)
+    setCryptoInputValue('')
+    // setGameStatus(null)
+    // setIsPlaying(false)
+  }, [path])
 
   useEffect(() => {
     if (activeStep === 'Double' && Number(cryptoInputValue)) {
@@ -90,6 +108,7 @@ const GameWager = () => {
 
   useEffect(() => {
     setCryptoValue(Number(cryptoInputValue))
+    setApplesWagerr(Number(cryptoInputValue))
   }, [cryptoInputValue])
 
   useEffect(() => {
@@ -125,13 +144,22 @@ const GameWager = () => {
     if (value === 'min') {
       setCryptoInputValue('1')
     } else if (value === 'max') {
-      setCryptoInputValue(balance.toString())
+      if (balance > 50) {
+        setCryptoInputValue('50')
+      } else {
+        setCryptoInputValue(balance.toString())
+      }
     } else if (cryptoInputValue.length && value === '/2') {
       setCryptoInputValue((Number(cryptoInputValue) / 2).toString())
     } else if (cryptoInputValue.length && value === 'x2') {
-      setCryptoInputValue((Number(cryptoInputValue) * 2).toString())
+      if (Number(cryptoInputValue) * 2 > 50) {
+        setCryptoInputValue('50')
+      } else {
+        setCryptoInputValue((Number(cryptoInputValue) * 2).toString())
+      }
     }
   }
+
   return (
     <div className='w-full sm:w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
       <div className='flex items-center justify-between flex-nowrap'>
@@ -152,12 +180,24 @@ const GameWager = () => {
           value={`${cryptoInputValue}`}
           // variant='borderNone'
           className='placeholder-[#eaeaea] w-full'
-          containerClassName={`bg-transparent gap-3.5 max-w-full sm:max-w-36 ${
+          containerClassName={`bg-transparent gap-[6px] sm:gap-3.5 max-w-full sm:max-w-36 ${
             error ? 'border-[#ee6969]' : 'border-[#363636]'
           }`}
           onChange={handleInput}
           endAdornment={
-            <DraxMiniSVG className='min-w-3.5 h-3.5 aspect-square object-contain' />
+            isDrax ? (
+              <DraxMiniSVG
+                width={14}
+                height={14}
+                className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain'
+              />
+            ) : (
+              <BonusCoinSVG
+                width={14}
+                height={14}
+                className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain'
+              />
+            )
           }
         />
         {bets.map((bet, index) => (

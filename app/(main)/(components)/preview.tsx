@@ -1,10 +1,25 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PaymentModel, UserModel } from '@/states'
+import { useUnit } from 'effector-react'
 import { useSession } from 'next-auth/react'
+import { useEffect } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
 const Preview = ({ className }: { className?: string }) => {
-  const { data, status } = useSession()
+  const isMobile = useMediaQuery('(max-width:400px)')
+  const isTablet = useMediaQuery('(max-width:700px)')
+
+  const [userInfo] = useUnit([UserModel.$userInfo])
+  const [setVisibility, visibility] = useUnit([
+    PaymentModel.setTotalVisibility,
+    PaymentModel.$totalVisibility
+  ])
+
+  const handleAction = () => {
+    setVisibility(!visibility)
+  }
   return (
     <article
       className={cn(
@@ -12,22 +27,30 @@ const Preview = ({ className }: { className?: string }) => {
         'relative pt-10 p-[10px] overflow-hidden bg-cover preview',
         className
       )}
-      style={{  
-        backgroundImage: `url('/images/main_banner/2xbanner.png')`,
-        backgroundSize: 'cover',
-        backgroundPositionX: '70%',
+      style={{
+        backgroundImage: isMobile
+          ? `url('/images/main_banner/0xbanner.png')`
+          : isTablet
+          ? `url('/images/main_banner/1xbanner.png')`
+          : `url('/images/main_banner/2xbanner.png')`,
+        backgroundSize: isMobile ? '100% 100%' : 'cover',
+        backgroundPositionX: '70%'
       }}
     >
       <h2 className='text-center z-20 lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
-        Hello {status === 'authenticated' ? data?.user?.name : ''} <br />
+        Hello {userInfo?.username || ''} <br />
         Bonus on the first deposit
       </h2>
       <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
         +$100
-        <br /> Reward
+        <br />{' '}
+        <span className='-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[68px] font-black relative text-[#B4E915]'>
+          Reward
+        </span>
       </h1>
       <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
         <Button
+          onClick={handleAction}
           variant='secondary'
           style={{
             boxShadow:

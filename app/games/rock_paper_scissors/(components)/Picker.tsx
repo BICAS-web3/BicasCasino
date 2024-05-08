@@ -4,10 +4,11 @@ import { GameModel } from '@/states'
 import { PaperButton, RockButton, ScissorsButton } from '../(icons)'
 
 const RpsPicker = ({ className }: { className?: string }) => {
-  const [pickedValue, pickValue, active] = useUnit([
+  const [pickedValue, pickValue, active, isPlaying] = useUnit([
     GameModel.$pickedValueRPS,
     GameModel.pickValueRPS,
-    GameModel.$activeRPS
+    GameModel.$activeRPS,
+    GameModel.$isPlaying
   ])
 
   const buttons = [
@@ -23,24 +24,26 @@ const RpsPicker = ({ className }: { className?: string }) => {
   return (
     <div className={`w-full sm:w-fit grid grid-cols-3 gap-x-1.5  ${className}`}>
       {buttons.map(({ value, Icon }, index) => (
-        <div
+        <button
+          disabled={isPlaying}
           key={index}
           onClick={selectHand.bind('', value)}
           className={clsx(
-            'duration-300 cursor-pointer bg-[#202020] flex items-center justify-center group hover:bg-[#2e2e2e] h-[50px] w-full sm:w-[92px] xl:w-[138px] xl:h-[75px]',
-            pickedValue === value && 'bg-[#2e2e2e]',
-            index === 0 && 'rounded-[5px] sm:rounded-[12px_5px_5px_12px]',
-            index === buttons.length - 1 &&
-              'rounded-[5px] sm:rounded-[5px_12px_12px_5px]'
+            'duration-300 bg-[#202020] flex items-center justify-center group h-[50px] w-full sm:w-[92px] xl:w-[138px] xl:h-[75px] rounded-[5px] lg:rounded-[7.5px]',
+            !isPlaying && 'hover:bg-[#2e2e2e]',
+            pickedValue === value && 'bg-[#2e2e2e]'
+            // index === 0 && 'rounded-[5px] sm:rounded-[12px_5px_5px_12px]',
+            // index === buttons.length - 1 &&
+            //   'rounded-[5px] sm:rounded-[5px_12px_12px_5px]'
           )}
         >
           <Icon
             className={clsx(
               pickedValue === value ? 'text-[#eaeaea]' : 'text-[#7e7e7e]',
-              'group-hover:text-[#eaeaea] duration-300'
+              !isPlaying && 'group-hover:text-[#eaeaea] duration-300'
             )}
           />
-        </div>
+        </button>
       ))}
     </div>
   )

@@ -35,6 +35,17 @@ export interface IAppleTable {
   mines: boolean[][]
   setAppleData: Dispatch<SetStateAction<IAppleData[]>>
   setAppleItem: Dispatch<SetStateAction<number[]>>
+  setAppleGameResult: any
+  setApples: any
+  setMines: any
+  setInGame: any
+  setIsPlaying: any
+  setKeep: any
+  setFirstBet: any
+  handleReset: any
+  setStop: any
+  localStatus: GameStatus | null
+  setLocalStatus: Dispatch<SetStateAction<GameStatus | null>>
 }
 
 export interface IParabolaCoefs {
@@ -50,6 +61,8 @@ export interface PokerProps {
 export interface ModelProps {
   action: CoinAction
   initial: GameModel.Side
+  start?: number
+  setStart?: (el: number) => void
 }
 
 export interface ISelectedMine {
@@ -128,6 +141,9 @@ export interface PokerCardProps {
   isEmptyCard: boolean
   onClick: () => void
   setImageLoading: (el: boolean) => void
+  openedCard?: boolean
+  setOpenedCard?: Dispatch<SetStateAction<boolean>>
+  closeCard?: boolean
 }
 
 export interface PokerCombinationProps {
@@ -135,6 +151,7 @@ export interface PokerCombinationProps {
   tokenImage: React.ReactNode
   profit?: string | number
   multiplier: string | number
+  className?: string
 }
 
 export interface ICards {
@@ -155,6 +172,7 @@ export interface ICoefficient {
   ballsArr: IBall[] | number[]
   multipliers?: number[] | Record<string, string>[] | number | bigint
   common?: boolean
+  rps?: boolean
 }
 
 export interface IWheelColors {

@@ -6,7 +6,6 @@ import {
   WonStatus
 } from '@/states/game_model.store'
 import { Dispatch, SetStateAction } from 'react'
-// import { IAppleData } from '../(components)/wrapper'
 import { UserType } from '@/states/user_model.store'
 import { IAppleData } from '@/types/games.types'
 
@@ -77,7 +76,8 @@ export const handleGameResult = (
   setCryptoValue: Dispatch<SetStateAction<number>>,
   setStart: Dispatch<SetStateAction<boolean>>,
   setWaitingResponse: Dispatch<SetStateAction<boolean>>,
-  setResult: Dispatch<SetStateAction<IResult | null>>
+  setResult: Dispatch<SetStateAction<IResult | null>>,
+  setCoefficientData: Dispatch<SetStateAction<number[]>>
 ) => {
   if (result) {
     if (result.type === 'State' && result.state) {
@@ -101,6 +101,11 @@ export const handleGameResult = (
       setMines(() => dataState)
       setKeep(true)
     } else if (result.type === 'Bet' && result.state) {
+      const fullAmount = Number(result.amount) * result.num_games!
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
       setWaitingResponse(false)
       if (
         Number(result.profit) > Number(result.amount) ||
@@ -113,55 +118,13 @@ export const handleGameResult = (
           multiplier,
           token: 'DRAX'
         })
-        setTimeout(() => {
-          setAppleGameResult([])
-          setAppleData([])
-          setApples([])
-          setMines([])
-          setInGame(false)
-          setIsPlaying(false)
-          setKeep(false)
-          setFirstBet(true)
-          handleReset()
-          setStop(false)
-          setAppleItem([])
-        }, 200)
       } else if (Number(result.profit) < Number(result.amount)) {
         const dataState = JSON.parse(result.state).state
         setApples(JSON.parse(result.state).picked_tiles)
         setMines(dataState)
         setGameStatus(GameModel.GameStatus.Lost)
         setLostStatus(Number(result.profit) - Number(result.amount))
-        setTimeout(() => {
-          setInGame(false)
-          setIsPlaying(false)
-          setKeep(false)
-          setFirstBet(true)
-          handleReset()
-          setAppleItem([])
-          setTimeout(() => {
-            setAppleGameResult([])
-            setAppleData([])
-            setApples([])
-            setMines([])
-          }, 300)
-        }, 200)
-      } else {
-        setGameStatus(GameModel.GameStatus.Draw)
-        setTimeout(() => {
-          setAppleGameResult([])
-          setAppleData([])
-          setApples([])
-          setMines([])
-          setInGame(false)
-          setIsPlaying(false)
-          setKeep(false)
-          setFirstBet(true)
-          handleReset()
-          setAppleItem([])
-        }, 200)
       }
-      // setKeep(false);
     }
   }
   setResult(null)

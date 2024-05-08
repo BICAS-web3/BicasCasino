@@ -19,10 +19,7 @@ const CoinFlipGame = () => {
   const socket = useSocket()
 
   const [
-    lost,
-    profit,
     pickedSide,
-    setActivePicker,
     pickSide,
     betsAmount,
     cryptoValue,
@@ -41,12 +38,10 @@ const CoinFlipGame = () => {
     gamesList,
     socketReset,
     isPlaying,
-    access_token
+    access_token,
+    initialValue
   ] = useUnit([
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$pickedSide,
-    GameModel.setActive,
     GameModel.pickSide,
     WagerModel.$pickedValue,
     WagerModel.$cryptoValue,
@@ -65,15 +60,13 @@ const CoinFlipGame = () => {
     GameModel.$gamesList,
     UserModel.$socketReset,
     GameModel.$isPlaying,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$initialValue
   ])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [subscribed, setCubscribed] = useState(false)
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
   const [taken, setTaken] = useState(false)
   const [betData, setBetData] = useState({})
 
@@ -96,7 +89,7 @@ const CoinFlipGame = () => {
       setInGame,
       setLostStatus,
       setWonStatus,
-      pickedSide,
+      initialValue,
       setCoefficientData,
       setResult
     )
@@ -107,29 +100,10 @@ const CoinFlipGame = () => {
   }, [])
 
   useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1)
-    }
-  }, [gameStatus])
-
-  useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
       setTaken(true)
     }
   }, [betsAmount, cryptoValue, isPlaying])
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
 
@@ -139,14 +113,14 @@ const CoinFlipGame = () => {
       game_id: gamesList.find(item => item.name === 'CoinFlip')?.id,
       coin_id: isDrax ? 2 : 1,
       user_id: userInfo?.id || 0,
-      data: `{"is_heads": ${pickedSide === 1 ? true : false}}`,
+      data: `{"is_heads": ${initialValue === 1 ? true : false}}`,
       amount: `${cryptoValue || 0}`,
       difficulty: 0,
       stop_loss: Number(stopLoss) || 0,
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount
     })
-  }, [stopGain, stopLoss, pickedSide, cryptoValue, isDrax, betsAmount])
+  }, [stopGain, stopLoss, initialValue, cryptoValue, isDrax, betsAmount])
 
   useEffect(
     () => sendSocketData({ access_token, betData, isPlaying, socket }),
@@ -157,6 +131,9 @@ const CoinFlipGame = () => {
   }, [])
 
   useEffect(() => setInGame(isPlaying), [isPlaying])
+
+  const [start, setStart] = useState(3.5)
+
   return (
     <div
       className='relative w-full h-full px-4 flex-[1_1_auto] flex flex-col'
@@ -167,8 +144,11 @@ const CoinFlipGame = () => {
     >
       <Coefficient ballsArr={coefficientData} common />
       <div className='relative w-full h-full flex flex-col overflow-hidden  flex-[1_1_auto]'>
-        <div className='w-full h-[370px] flex flex-col items-center absolute top-[100px] sm:top-[219px] xl:top-[50px] left-1/2 -translate-x-1/2 gap-10'>
-          <div className='h-[114px] sm:h-[154px] xl:h-full w-full'>
+        <div
+          className='w-full h-[370px] flex flex-col items-center justify-center absolute left-1/2 -translate-x-1/2 gap-10 -translate-y-1/2 top-[calc(50%-30px)] sm:top-[calc(50%-32px)] '
+          //top-20 sm:top-[119px] xl:top-[50px]
+        >
+          <div className='h-[210px] sm:h-[255px] xl:h-full w-full'>
             <Canvas
               camera={{
                 position: [-9, 0, 0],
@@ -181,6 +161,8 @@ const CoinFlipGame = () => {
               </Stage>
               <ambientLight intensity={1} />
               <Model
+                start={start}
+                setStart={setStart}
                 action={
                   inGame
                     ? CoinAction.Rotation
