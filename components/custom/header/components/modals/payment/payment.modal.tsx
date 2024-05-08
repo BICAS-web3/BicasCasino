@@ -35,7 +35,9 @@ const Payment = () => {
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
       <DialogContent
         customClose
-        className={`gap-3 max-w-[525px] ${ tab !== 'tips' && 'h-full sm:max-h-[725px]' } flex flex-col overflow-auto bg-[#181818] px-[30px] py-5`}
+        className={`gap-3 max-w-[525px] ${
+          tab !== 'tips' && 'h-full sm:max-h-[725px]'
+        } flex flex-col  bg-[#181818] px-[30px] py-5`}
       >
         <DialogHeader className='h-[55px]'>
           <div className='flex justify-between items-center flex-row pr-2'>
@@ -61,7 +63,7 @@ const Payment = () => {
         {isBillline ? (
           <Billline />
         ) : (
-          <Tabs className='h-full flex flex-col' value={tab} >
+          <Tabs className='h-full flex flex-col' value={tab}>
             <div>
               <TabsList className='w-full border border-[#252525] bg-[#121212] py-[5px] h-[40px] px-[5px] rounded-full gap-2'>
                 {tabData.map((tabItem, index) => (

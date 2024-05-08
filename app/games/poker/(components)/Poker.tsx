@@ -24,6 +24,7 @@ import { PokerCard } from './PokerCard'
 import { initialArrayOfCards } from './data'
 import { PokerCombination } from './PokerCombination'
 import { BonusCoinSVG } from '@/components/custom/header/components/icons'
+import { GameStatus } from '@/states/game_model.store'
 
 export const Poker = ({}: PokerProps) => {
   const [
@@ -203,8 +204,10 @@ export const Poker = ({}: PokerProps) => {
   }, [gameState])
 
   useEffect(() => {
-    evaluatePokerHand(activeCards, setCombinationName)
-  }, [activeCards, gameStatus])
+    if (gameStatus === GameStatus.Won) {
+      evaluatePokerHand(activeCards, setCombinationName)
+    }
+  }, [gameStatus, gameStatus])
 
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
@@ -290,14 +293,36 @@ export const Poker = ({}: PokerProps) => {
 
   useEffect(() => {
     if (backCards) {
-      setActiveCards(initialArrayOfCards)
+      setCloseCard(true)
       setBackCards(false)
     }
   }, [backCards])
 
+  useEffect(() => {
+    if (!backCards) {
+      setOpenedCard(true)
+    }
+  }, [backCards])
+
+  const [closeCard, setCloseCard] = useState(false)
+  useEffect(() => {
+    if (closeCard) {
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve(setActiveCards(initialArrayOfCards)), 1000)
+        ),
+        new Promise(resolve =>
+          setTimeout(() => resolve(setCloseCard(false)), 1100)
+        )
+      ])
+    }
+  }, [closeCard])
+
+  const [openedCard, setOpenedCard] = useState(true)
+
   return (
     <>
-      {gameStatus === GameModel.GameStatus.Won && (
+      {gameStatus === GameModel.GameStatus.Won && !isPlaying && (
         <PokerCombination
           combinationName={combinationName}
           tokenImage={<BonusCoinSVG width={30} height={30} />}
@@ -310,7 +335,7 @@ export const Poker = ({}: PokerProps) => {
           <Image
             onLoad={() => setImageLoading_1(false)}
             src={tableBg}
-            className='rounded-[20px_20px_0_0] object-cover w-full h-full'
+            className='object-cover w-full h-full'
             alt='table-bg'
           />
         </div>
@@ -332,9 +357,13 @@ export const Poker = ({}: PokerProps) => {
                     coat={0}
                     card={0}
                     onClick={() => {}}
+                    setOpenedCard={setOpenedCard}
                   />
                 ) : (
                   <PokerCard
+                    closeCard={closeCard}
+                    openedCard={openedCard}
+                    setOpenedCard={setOpenedCard}
                     setImageLoading={setImageLoading_2}
                     key={`${item.suit}_${item.number}_${transactionHash}`}
                     isEmptyCard={false}

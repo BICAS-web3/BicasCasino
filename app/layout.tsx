@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games',
   icons: {
-    icon: "/images/marquee/draxma.png",
-  },
+    icon: '/images/marquee/draxma.png'
+  }
 }
 
 function MainLayout({ children }) {
@@ -31,6 +31,10 @@ function MainLayout({ children }) {
         suppressContentEditableWarning
       >
         <MainProvider>{children}</MainProvider>
+        <script
+          src='https://stage.p2way.fyi/widget/getWidgetFile?file=index.js'
+          defer
+        ></script>
       </body>
     </html>
   )

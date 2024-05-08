@@ -63,6 +63,7 @@ const BalanceSwitcher = () => {
           userId: userInfo?.id
         })
         if (data.status === 'OK') {
+          // alert(JSON.stringify(data))
           setBalance((data as any).body)
           setBalanceValue(
             Number(
@@ -83,6 +84,7 @@ const BalanceSwitcher = () => {
           bareer: access_token,
           userId: userInfo?.id
         })
+        // data && alert(JSON.stringify(data))
         if (data.status === 'OK') {
           setTimeout(() => {
             setBalance((data as any).body)

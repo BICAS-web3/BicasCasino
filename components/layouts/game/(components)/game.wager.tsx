@@ -180,15 +180,23 @@ const GameWager = () => {
           value={`${cryptoInputValue}`}
           // variant='borderNone'
           className='placeholder-[#eaeaea] w-full'
-          containerClassName={`bg-transparent gap-3.5 max-w-full sm:max-w-36 ${
+          containerClassName={`bg-transparent gap-[6px] sm:gap-3.5 max-w-full sm:max-w-36 ${
             error ? 'border-[#ee6969]' : 'border-[#363636]'
           }`}
           onChange={handleInput}
           endAdornment={
             isDrax ? (
-              <DraxMiniSVG className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain' />
+              <DraxMiniSVG
+                width={14}
+                height={14}
+                className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain'
+              />
             ) : (
-              <BonusCoinSVG className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain' />
+              <BonusCoinSVG
+                width={14}
+                height={14}
+                className='min-w-3.5 h-3.5 max-w-3.5 max-h-3.5 aspect-square object-contain'
+              />
             )
           }
         />

@@ -141,6 +141,9 @@ export interface PokerCardProps {
   isEmptyCard: boolean
   onClick: () => void
   setImageLoading: (el: boolean) => void
+  openedCard?: boolean
+  setOpenedCard?: Dispatch<SetStateAction<boolean>>
+  closeCard?: boolean
 }
 
 export interface PokerCombinationProps {
@@ -148,6 +151,7 @@ export interface PokerCombinationProps {
   tokenImage: React.ReactNode
   profit?: string | number
   multiplier: string | number
+  className?: string
 }
 
 export interface ICards {

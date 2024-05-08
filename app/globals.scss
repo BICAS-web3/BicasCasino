@@ -64,6 +64,42 @@ body {
   }
 }
 
+////
+
+.slots-border {
+  height: 400px;
+
+  @media screen and (min-height: 770px) {
+    // height: 60vh;
+  }
+}
+
+.history-mell-item {
+  box-shadow: 0px 0px 31.51px 0px #92237F;
+  box-shadow: 0px 0px 15.93px 0px #92237F inset;
+  border: 1px solid #FF20B7;
+  // border-image-source: linear-gradient(51.38deg, #FFC0A6 -3.27%, #FFBAA6 10.57%, #FFACA8 26.55%, #FF93AA 44.66%, #FF71AE 63.83%, #FF46B2 83%, #FF20B7 97.91%);
+}
+
+.settings-text {
+  background-image: linear-gradient(0deg, #F583FF 30.67%, #5477C8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.autoplay-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  background: red !important;
+  color: red !important;
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: 0;
+}
+
+/// 
+
 .preview {
   &::after {
     content: '';
@@ -87,6 +123,33 @@ body {
       );
     }
   }
+}
+
+.buy-text {
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #34A9DE,
+    1px -1px 0 #34A9DE,
+    -1px 1px 0 #34A9DE,
+    1px 1px 0 #34A9DE;
+
+}
+
+.buy-qt-text {
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #BC378A,
+    1px -1px 0 #BC378A,
+    -1px 1px 0 #BC378A,
+    1px 1px 0 #BC378A;
+
+}
+
+.mell-title {
+  background-color: #2AA5A0;
+  background-image: linear-gradient(90deg, #FFCBA6, #FFBAA6, #FFACA8, #FF93AA, #F583FF, #5477C8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 input::-webkit-outer-spin-button,
