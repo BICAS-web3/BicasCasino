@@ -13,9 +13,9 @@ export const MelSettings:FC<MelSettingsProps> = () => {
     ])
 
     return (
-        <div className='flex flex-col gap-[10px] items-center'>
-            <SettingsIco onClick={() => setSettings(true)} className='cursor-pointer' />
-            <SoundIco className='cursor-pointer' />
+        <div className='flex-col gap-[10px] items-center'>
+            <SettingsIco onClick={() => setSettings(true)} className='cursor-pointer w-[30px] h-[30px] sm:w-[25px] sm:h-[25px]' />
+            <SoundIco className='cursor-pointer hidden sm:block' />
         </div>
     )
 }

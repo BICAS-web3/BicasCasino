@@ -84,6 +84,7 @@ module.exports = {
         tbb: '760px',
         tbbs: '770px',
         xxs: '400px',
+        sxs: '440px',
         xxxs: '350px',
         tmd: '910px',
         emd: '996px',
@@ -95,7 +96,9 @@ module.exports = {
         tbs: '840px',
         mmd: '1280px',
         med: '1550px',
-        mad: '1130px'
+        mde: '1600px',
+        mad: '1130px',
+        xsl: '1450px'
       },
       borderRadius: {
         lg: 'var(--radius)',

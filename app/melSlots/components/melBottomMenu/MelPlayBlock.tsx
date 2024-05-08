@@ -9,9 +9,9 @@ interface MelPlayBlockProps {}
 
 export const MelPlayBlock:FC<MelPlayBlockProps> = () => {
     return (
-        <div className="flex gap-[15px] items-center">
+        <div className="hidden tbb:flex gap-[15px] items-center">
             <div className='w-[70px] cursor-pointer  h-[70px] relative flex items-center justify-center'>
-                <Minus />
+                <Minus className='w-[40px] h-[40px]' />
                 <Border className='w-full h-full absolute top-0 left-0' />
             </div>
             <div className='relative top-[-30px] cursor-pointer flex w-[120px] h-[120px] items-center justify-center'>
@@ -23,7 +23,7 @@ export const MelPlayBlock:FC<MelPlayBlockProps> = () => {
                 </div>
             </div>
             <div className='w-[70px] cursor-pointer  h-[70px] relative flex items-center justify-center'>
-                <Plus />
+                <Plus className='w-[40px] h-[40px]' />
                 <Border className='w-full h-full absolute top-0 left-0' />
             </div>
         </div>

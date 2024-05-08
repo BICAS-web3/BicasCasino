@@ -25,32 +25,34 @@ export const AutoPlaySettings:FC<AutoPlaySettingsProps> = () => {
     return (
         <div className={`w-full h-full flex justify-center items-center absolute top-0 left-0 transition-all duration-300 bg-[rgba(0,_0,_0,_0.6)] z-[22] ${modalVisibility ? 'opacity-1 visible' : 'opacity-0 invisible'}`}>
             <div className='w-full max-w-[620px] p-[40px] m-[20px] relative text-center bg-[#050505F5]'>
-                <X onClick={() => setModalVisibility(false)} className='absolute top-[30px] right-[30px] text-[#363636] cursor-pointer' />
-                <span className='uppercase text-[24px] font-normal text-[#fff]'>настройки автоматической игры</span>
-                <div className='flex items-center w-full justify-between mt-[30px]'>
-                    <div onClick={() => setTurboChecked(!turboChecked)} className='flex uppercase select-none cursor-pointer text-[14px] font-normal items-center gap-[10px]'>
-                        <div className={`w-[30px] h-[30px] border flex ${turboChecked && 'bg-[#29F061] border-none'} items-center justify-center  border-[#D9D9D9] rounded-[5px]`}>
-                            {
-                                turboChecked && <CheckArr />
-                            }
+                <X onClick={() => setModalVisibility(false)} className='absolute top-[20px] right-[20px] text-[#363636] cursor-pointer' />
+                <span className='uppercase text-[16px] sm:text-[24px] font-normal text-[#fff]'>настройки автоматической игры</span>
+                <div className='flex justify-center w-full'>
+                    <div className='flex w-fit flex-col items-start sxs:flex-row sxs:items-center gap-[10px] justify-between mt-[30px]'>
+                        <div onClick={() => setTurboChecked(!turboChecked)} className='flex uppercase select-none cursor-pointer text-[11px] sm:text-[14px] font-normal items-center gap-[10px]'>
+                            <div className={`min-w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] border flex ${turboChecked && 'bg-[#29F061] border-none'} items-center justify-center  border-[#D9D9D9] rounded-[5px]`}>
+                                {
+                                    turboChecked && <CheckArr className='w-[15px] h-[15px]' />
+                                }
+                            </div>
+                            турбоспин
                         </div>
-                        турбоспин
-                    </div>
-                    <div onClick={() => setFastgameChecked(!fastgameChecked)} className='flex uppercase select-none text-start text-[14px] font-normal cursor-pointer items-center gap-[10px]'>
-                        <div className={`w-[30px] h-[30px] border flex ${fastgameChecked && 'bg-[#29F061] border-none'} items-center justify-center border-[#D9D9D9] rounded-[5px]`}>
-                            {
-                                fastgameChecked && <CheckArr />
-                            }
+                        <div onClick={() => setFastgameChecked(!fastgameChecked)} className='flex uppercase select-none text-start text-[11px] sm:text-[14px] font-normal cursor-pointer items-center gap-[10px]'>
+                            <div className={`min-w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] border flex ${fastgameChecked && 'bg-[#29F061] border-none'} items-center justify-center border-[#D9D9D9] rounded-[5px]`}>
+                                {
+                                    fastgameChecked && <CheckArr className='w-[15px] h-[15px]' />
+                                }
+                            </div>
+                            быстрая игра
                         </div>
-                        быстрая игра
-                    </div>
-                    <div onClick={() => setScreensChecked(!screensChecked)} className='flex uppercase select-none text-start text-[14px] font-normal cursor-pointer items-center gap-[10px]'>
-                        <div className={`w-[30px] h-[30px] border flex ${screensChecked && 'bg-[#29F061] border-none'} items-center justify-center border-[#D9D9D9] rounded-[5px]`}>
-                            {
-                                screensChecked && <CheckArr />
-                            }
+                        <div onClick={() => setScreensChecked(!screensChecked)} className='flex uppercase select-none text-start text-[11px] sm:text-[14px] font-normal cursor-pointer items-center gap-[10px]'>
+                            <div className={`min-w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] border flex ${screensChecked && 'bg-[#29F061] border-none'} items-center justify-center border-[#D9D9D9] rounded-[5px]`}>
+                                {
+                                    screensChecked && <CheckArr className='w-[15px] h-[15px]' />
+                                }
+                            </div>
+                            не показывать <br/> экраны
                         </div>
-                        не показывать <br/> экраны
                     </div>
                 </div>
                 <div className='flex flex-col gap-[20px] mt-[50px] text-center'>
@@ -103,7 +105,7 @@ export const AutoPlaySettings:FC<AutoPlaySettingsProps> = () => {
                         <span className="text-[24px] w-[60px] text-end font-normal">{rangeValue}</span>
                     </div>
                 </div>
-                <div className='mt-[30px] text-[20px] font-normal uppercase m-[50px_auto_0_auto] w-[380px] h-[85px] relative flex items-center justify-center'>
+                <div className='mt-[30px] text-[14px] sm:text-[20px] font-normal uppercase m-[50px_auto_0_auto] w-[240px] sm:w-[380px] h-[85px] relative flex items-center justify-center'>
                     <AutoBorder className='w-full h-full top-0 left-0 absolute' />
                     начать автоигру ({rangeValue})
                 </div>
