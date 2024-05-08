@@ -6,11 +6,18 @@ import { useEffect, useState } from 'react'
 import GameMenu from './(components)/game.menu'
 
 const GameLayout = ({ children }) => {
-  const [access_token, socketAuth, setIsPlaying, setGameStatus] = useUnit([
+  const [
+    access_token,
+    socketAuth,
+    setIsPlaying,
+    setGameStatus,
+    setShowAnimation
+  ] = useUnit([
     RegistrModel.$access_token,
     UserModel.$socketAuth,
     GameModel.setIsPlaying,
-    GameModel.setGameStatus
+    GameModel.setGameStatus,
+    GameModel.setShowAnimation
   ])
   const path = usePathname()
 
@@ -33,6 +40,7 @@ const GameLayout = ({ children }) => {
   useEffect(() => {
     setGameStatus(null)
     setIsPlaying(false)
+    setShowAnimation(false)
   }, [path])
 
   return (
