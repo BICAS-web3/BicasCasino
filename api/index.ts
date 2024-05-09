@@ -5,6 +5,7 @@ import { JWT } from 'next-auth/jwt'
 export const BaseApiUrl = '/api'
 export const BaseStaticUrl = '/static'
 export const P2WayUrl = 'https://stage.p2way.fyi'
+
 export type T_ErrorText = {
   error: string
   prices: unknown

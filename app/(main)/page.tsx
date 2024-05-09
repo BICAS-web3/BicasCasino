@@ -34,6 +34,7 @@ import dynamic from 'next/dynamic'
 import Footer from '@/components/custom/footer'
 import { MobileList } from './(components)/mobileList'
 import { CustomBets } from '@/components/custom/customBets/CustomBets'
+import { Total } from '@/components/custom/total/Total'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
@@ -50,6 +51,7 @@ const Home = () => (
       </div>
       <GameBanners className='mt-[15px]' />
       <MobileList />
+      <Total />
       <CustomBets title='Live Bets' isMainPage isGamePage={false} game={undefined} />
     </div>
     <Footer />

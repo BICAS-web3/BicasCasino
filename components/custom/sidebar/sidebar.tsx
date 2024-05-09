@@ -12,6 +12,7 @@ import SidebarSettings from './components/Settings'
 import SidebarMobileSettings from './components/settings.mobile'
 import { useMediaQuery } from 'usehooks-ts'
 import { useEffect } from 'react'
+import { AffilateSVG, NftSVG, SupportSVG } from './components/icons/bottom'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -97,7 +98,37 @@ const Sidebar = () => {
                 open ? 'bg-[#121212]' : 'bg-transparent'
               )}
             >
-              {SBottomMenu.map((item, index) => (
+              <MenuItem
+                  open={open}
+                  href={stringRemoveSpacing('NFT Market')}
+                  data={
+                    {
+                      icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: open ? 'NFT Market' : 'NFT'
+                    }
+                  }
+              />
+              <MenuItem
+                  open={open}
+                  href={stringRemoveSpacing('NFT Market')}
+                  data={
+                    {
+                      icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: 'Affiliate'
+                    }
+                  }
+              />
+              <MenuItem
+                  open={open}
+                  href={stringRemoveSpacing('NFT Market')}
+                  data={
+                    {
+                      icon: <SupportSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: 'Support'
+                    }
+                  }
+              />
+              {/* {SBottomMenu.map((item, index) => (
                 <MenuItem
                   open={open}
                   href={stringRemoveSpacing(item.title)}
@@ -106,7 +137,7 @@ const Sidebar = () => {
                     item.title
                   )}-${index}`}
                 />
-              ))}
+              ))} */}
             </div>
           </div>
           <div className='flex flex-1' />

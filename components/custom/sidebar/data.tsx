@@ -154,7 +154,7 @@ export const SBottomMenu = [
   // },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT market'
+    title: 'NFT Market'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -209,7 +209,7 @@ export const SMobileMenu = [
   },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT market'
+    title: 'NFT Market'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,

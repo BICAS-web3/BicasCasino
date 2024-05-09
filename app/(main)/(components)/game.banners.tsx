@@ -47,12 +47,12 @@ const GameBanners = ({ className }: { className?: string }) => {
     <div className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}>
       <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
         Show all
-        <div className='flex gap-[5px]'>
+        <div className='flex'>
           <Button
             size={'icon'}
             id='swiper-button--prev-game'
             ref={navigationPrevRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            className='flex items-center justify-center min-w-[26px] h-[26px] duration-500 group rounded-[20px_0_0_20px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
           >
             <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
           </Button>
@@ -60,7 +60,7 @@ const GameBanners = ({ className }: { className?: string }) => {
             size={'icon'}
             id='swiper-button--next-game'
             ref={navigationNextRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            className='flex items-center justify-center min-w-[26px] h-[26px] duration-500 group rounded-[0_20px_20px_0] bg-[#212121] hover:bg-[#282828] cursor-pointer'
           >
             <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
           </Button>
@@ -72,9 +72,6 @@ const GameBanners = ({ className }: { className?: string }) => {
         spacing={20}
         containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[290px] sm:mb-5 gap-5'
         loop
-        // grid={{
-        //   rows: isMobile ? 1 : 2
-        // }}
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current
@@ -89,6 +86,7 @@ const GameBanners = ({ className }: { className?: string }) => {
           <SwiperSlide
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
+            className='pt-[10px]'
           >
             <GameSlideItem image={item.image} title={item.title} link={item.link} />
           </SwiperSlide>

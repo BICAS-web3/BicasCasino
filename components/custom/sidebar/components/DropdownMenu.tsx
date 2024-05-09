@@ -34,17 +34,18 @@ const Menu = ({ data, open }: Props) => {
     <DropdownMenu onOpenChange={() => setIsOpen(!isOpen)} >
       <DropdownMenuTrigger
         className={cn(
-          'px-4 py-2 min-h-[50px] min-w-[50px] w-full flex justify-start items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
+          'text-center py-2 min-h-[50px] min-w-[50px] w-full flex items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
+          open ? 'px-4 justify-between' : 'px-0 justify-center',
           open
             ? 'justify-start open bg-[#121212] hover:bg-[#121212] gap-3 rounded-[20px]'
             : 'justify-center flex-col gap-1 rounded-xl bg-transparent hover:bg-transparent'
         )}
       >
         <span>{data.main.icon}</span>
-        <div className={`flex items-center transition-all duration-300 ${isOpen ? 'justify-between' : 'justify-start'} gap-4 w-full`}>
+        <div className={`flex items-center ${!open && 'justify-center'} text-center transition-all duration-300 ${isOpen && open ? 'justify-between' : 'justify-start'} gap-4 w-full`}>
           <span
             className={cn(
-              'leading-5 text-base font-bold tracking-wide truncate uppercase',
+              'leading-5 text-center text-base font-bold tracking-wide text-nowrap truncate uppercase',
               open ? 'text-base' : 'text-[9px]'
             )}
           >
