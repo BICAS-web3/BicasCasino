@@ -44,26 +44,31 @@ const GameBanners = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
-    <div className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}>
-      <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
-        Show all
-        <div className='flex gap-[5px]'>
-          <Button
-            size={'icon'}
-            id='swiper-button--prev-game'
-            ref={navigationPrevRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
-          >
-            <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
-          </Button>
-          <Button
-            size={'icon'}
-            id='swiper-button--next-game'
-            ref={navigationNextRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
-          >
-            <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
-          </Button>
+    <div
+      className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}
+    >
+      <div className='w-full flex items-center justify-center'>
+        <h2 className='font-bold sm:text-xl'>GreekKeepers originals</h2>
+        <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
+          Show all
+          <div className='flex gap-[5px]'>
+            <Button
+              size={'icon'}
+              id='swiper-button--prev-game'
+              ref={navigationPrevRef}
+              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            >
+              <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+            </Button>
+            <Button
+              size={'icon'}
+              id='swiper-button--next-game'
+              ref={navigationNextRef}
+              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            >
+              <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -90,7 +95,11 @@ const GameBanners = ({ className }: { className?: string }) => {
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
           >
-            <GameSlideItem image={item.image} title={item.title} link={item.link} />
+            <GameSlideItem
+              image={item.image}
+              title={item.title}
+              link={item.link}
+            />
           </SwiperSlide>
         ))}
       </Carousel>

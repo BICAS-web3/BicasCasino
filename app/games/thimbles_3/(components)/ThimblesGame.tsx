@@ -220,11 +220,9 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       ]
   }, [selected])
 
-  // useEffect(() => {
-  //   return () => {
-  //     setShowAnimation(false)
-  //   }
-  // })
+  useEffect(() => {
+    setIsPlaying(false)
+  }, [])
 
   return (
     <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>

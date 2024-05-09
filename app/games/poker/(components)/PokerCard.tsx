@@ -7,7 +7,7 @@ import { FC, RefObject, useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
 
 export const PokerCard: FC<PokerCardProps> = props => {
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
+  const [isPlaying] = useUnit([GameModel.$pokerPlay])
   const {
     card,
     coat,

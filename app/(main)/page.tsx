@@ -41,7 +41,6 @@ export const metadata: Metadata = {
 }
 const Home = () => (
   <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 !pb-0 mx-auto max-w-full overflow-hidden w-full h-full'>
-
     <MarqueeLine />
     <Preview className='mt-[15px]' />
     <div className='pt-[10px] relative top-[-20px]'>
@@ -49,8 +48,14 @@ const Home = () => (
         <Banner />
       </div>
       <GameBanners className='mt-[15px]' />
+      <h2 className='font-bold sm:hidden ml-4'>GreekKeepers originals</h2>
       <MobileList />
-      <CustomBets title='Live Bets' isMainPage isGamePage={false} game={undefined} />
+      <CustomBets
+        title='Live Bets'
+        isMainPage
+        isGamePage={false}
+        game={undefined}
+      />
     </div>
     <Footer />
   </div>

@@ -14,7 +14,7 @@ export const PokerCombination = ({
   const [invisible, setInvisible] = useState(false)
   const [setGameStatus, setIsPlaying] = useUnit([
     GameModel.setGameStatus,
-    GameModel.setIsPlaying
+    GameModel.setPokerPlay
   ])
   useEffect(() => {
     setTimeout(() => {
@@ -23,10 +23,10 @@ export const PokerCombination = ({
         setApper(false)
         setInvisible(true)
         setTimeout(() => {
-          setGameStatus(GameModel.GameStatus.Draw)
-        }, 1500)
-      }, 2000)
-    }, 500)
+          setGameStatus(null)
+        }, 1000)
+      }, 1500)
+    }, 0)
   }, [])
   return (
     <article

@@ -75,14 +75,14 @@ body {
 }
 
 .history-mell-item {
-  box-shadow: 0px 0px 31.51px 0px #92237F;
-  box-shadow: 0px 0px 15.93px 0px #92237F inset;
-  border: 1px solid #FF20B7;
+  box-shadow: 0px 0px 31.51px 0px #92237f;
+  box-shadow: 0px 0px 15.93px 0px #92237f inset;
+  border: 1px solid #ff20b7;
   // border-image-source: linear-gradient(51.38deg, #FFC0A6 -3.27%, #FFBAA6 10.57%, #FFACA8 26.55%, #FF93AA 44.66%, #FF71AE 63.83%, #FF46B2 83%, #FF20B7 97.91%);
 }
 
 .settings-text {
-  background-image: linear-gradient(0deg, #F583FF 30.67%, #5477C8 100%);
+  background-image: linear-gradient(0deg, #f583ff 30.67%, #5477c8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -98,7 +98,7 @@ body {
   margin-top: 0;
 }
 
-/// 
+///
 
 .preview {
   &::after {
@@ -127,27 +127,27 @@ body {
 
 .buy-text {
   color: #fff;
-  text-shadow:
-    -1px -1px 0 #34A9DE,
-    1px -1px 0 #34A9DE,
-    -1px 1px 0 #34A9DE,
-    1px 1px 0 #34A9DE;
-
+  text-shadow: -1px -1px 0 #34a9de, 1px -1px 0 #34a9de, -1px 1px 0 #34a9de,
+    1px 1px 0 #34a9de;
 }
 
 .buy-qt-text {
   color: #fff;
-  text-shadow:
-    -1px -1px 0 #BC378A,
-    1px -1px 0 #BC378A,
-    -1px 1px 0 #BC378A,
-    1px 1px 0 #BC378A;
-
+  text-shadow: -1px -1px 0 #bc378a, 1px -1px 0 #bc378a, -1px 1px 0 #bc378a,
+    1px 1px 0 #bc378a;
 }
 
 .mell-title {
-  background-color: #2AA5A0;
-  background-image: linear-gradient(90deg, #FFCBA6, #FFBAA6, #FFACA8, #FF93AA, #F583FF, #5477C8);
+  background-color: #2aa5a0;
+  background-image: linear-gradient(
+    90deg,
+    #ffcba6,
+    #ffbaa6,
+    #ffaca8,
+    #ff93aa,
+    #f583ff,
+    #5477c8
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -486,23 +486,25 @@ body::-webkit-scrollbar-thumb {
 }
 
 .swiper-pagination-bullet {
-  background: #282828;
-  width: 23px;
-  height: 3px;
-  border-radius: 10px;
-  transition: all 0.5s;
+  background: #282828 !important;
+  color: #282828 !important;
+  width: 23px !important;
+  height: 3px !important;
+  border-radius: 10px !important;
+  transition: all 0.5s !important;
+  bottom: -20px !important;
 }
 
 .swiper-pagination-bullet-active {
-  background: #ffef29;
-  width: 50px;
-  box-shadow: 0px 0px 5px 0px #ec8125e5;
+  background: #ffef29 !important;
+  width: 50px !important;
+  box-shadow: 0px 0px 5px 0px #ec8125e5 !important;
 }
 
 @media screen and (max-width: 650px) {
   .swiper-pagination-bullet {
-    width: 16px;
-    height: 3px;
+    width: 16px !important;
+    height: 3px !important;
   }
 }
 

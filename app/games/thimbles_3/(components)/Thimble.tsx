@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { MutableRefObject, RefObject, useEffect, useState } from 'react'
 import { ThimbleSVG } from './icons'
+import { useUnit } from 'effector-react'
+import { GameModel } from '@/states'
 
 const Thimble = ({
   ind,
@@ -23,12 +25,18 @@ const Thimble = ({
   animatedRefs: MutableRefObject<RefObject<HTMLDivElement>[]>
   openBall?: boolean
 }) => {
+  const [setIsPlaying] = useUnit([GameModel.setIsPlaying])
   const [localPlay, setLocalPlay] = useState(false)
+  useEffect(() => {
+    setLocalPlay(false)
+    setIsPlaying(false)
+  }, [])
 
   useEffect(() => {
     if (isPlaying) {
-      setTimeout(() => setLocalPlay(true), 600)
+      setLocalPlay(true)
     } else {
+      // alert(2)
       setLocalPlay(false)
     }
   }, [isPlaying])

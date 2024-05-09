@@ -32,7 +32,7 @@ const GamesMobileMenu = ({ data, open }: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          'px-4 py-2 min-h-[50px] min-w-[50px] w-full flex justify-start items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
+          'sm:px-4  py-2 min-h-[50px] min-w-[50px] w-[50px] flex justify-start items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
           open
             ? 'justify-start open bg-[#121212] hover:bg-[#121212] gap-3 rounded-[20px]'
             : 'justify-center flex-col gap-1 rounded-xl bg-transparent hover:bg-transparent'
