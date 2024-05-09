@@ -78,7 +78,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
               </span>
               <span
                 className={cn(
-                  'leading-5 font-bold tracking-wide relative z-10 uppercase',
+                  'leading-5 font-bold tracking-wide  relative z-10 uppercase',
                   open ? 'text-xs' : 'text-[9px] truncate w-full max-w-12'
                 )}
               >
@@ -108,7 +108,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           {data.icon}
           <span
             className={cn(
-              'leading-5 text-base font-bold tracking-wide uppercase',
+              'leading-5 text-base font-bold tracking-wide text-nowrap uppercase',
               open ? 'text-base' : 'text-[9px] truncate w-full max-w-12'
             )}
           >

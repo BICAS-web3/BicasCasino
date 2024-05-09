@@ -41,6 +41,18 @@ body {
   }
 }
 
+.balance-hover {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.balance-switch:hover {
+  .balance-hover {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 .vip_swiper_slide {
   flex-shrink: 100 !important;
   min-width: 125px !important;
@@ -121,6 +133,8 @@ body {
         rgba(15, 15, 15, 0),
         rgba(15, 15, 15, 0.8)
       );
+
+      display: none;
     }
   }
 }

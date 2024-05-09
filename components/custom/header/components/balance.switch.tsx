@@ -10,6 +10,7 @@ import { GameModel, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 
 import * as api from '@/api'
+import { BalanceHover } from './balance.hover'
 
 const switch_img = [
   {
@@ -116,10 +117,11 @@ const BalanceSwitcher = () => {
   return (
     <div
       className={cn(
-        'h-[40px] flex items-center p-1 sm:p-[5px] gap-0 sm:gap-2.5',
-        'bg-[#121212] border border-[#212121] rounded-[50px]'
+        'h-[40px] balance-switch flex items-center p-1 sm:p-[5px] gap-0 sm:gap-2.5',
+        'bg-[#121212] border relative border-[#212121] group rounded-[50px]'
       )}
     >
+      <BalanceHover balance={balance} />
       {switch_img.map(item => (
         <Button
           variant='ghost'

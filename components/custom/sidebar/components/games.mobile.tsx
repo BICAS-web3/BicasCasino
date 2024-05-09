@@ -42,7 +42,7 @@ const GamesMobileMenu = ({ data, open }: Props) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side='bottom'
-        className='h-[calc(100vh_-_56px)] relative top-[7px] sm:top-0 w-full max-w-full flex flex-col justify-between bg-[#121212] border-none rounded-none'
+        className='h-[calc(100vh_-_112px)] relative top-[7px] sm:top-0 w-full max-w-full flex flex-col justify-between bg-[#121212] border-none rounded-none'
       >
         <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
           {data.items.map((item, index) => (

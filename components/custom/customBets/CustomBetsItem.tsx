@@ -117,7 +117,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       className={`${
         props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
-      } h-[50px] border-b-[1px] border-[#252525] px-[8.5px] sm:px-[15px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_70px_1fr] mmd:grid-cols-[160px_110px_1fr_100px_80px_70px_1fr]`}
+      } h-[50px] border-b-[1px] border-[#252525] px-[8.5px] sm:px-[40px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
     >
       <div className='flex items-center '>
         <Link
@@ -135,7 +135,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='flex items-center'>
+      <div className='flex justify-center mmd:justify-start pl-[10px] sm:pl-[22px] mmd:pl-0 items-center'>
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
@@ -151,7 +151,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='flex items-center '>
+      <div className='flex emd:justify-center items-center '>
         <Link
           href={`/account/${props?.user_id}`}
           target='_blank'
@@ -170,7 +170,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
       <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] tracking-[0.56px] font-medium'>
         22
       </div>
-      <div className='hidden sm:flex items-center gap-x-[5px]'>
+      <div className='hidden mmd:justify-center sm:flex items-center gap-x-[5px]'>
         {
           props.bet.coin_id === 1 ? (
             <BonusTokenIco className='w-[20px] h-[20px]' />
@@ -182,7 +182,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           x{props?.amount}
         </span>
       </div>
-      <div className='hidden md:flex items-center '>
+      <div className='hidden md:justify-center md:flex items-center '>
         <span className='text-[0.875rem] tracking-[0.56px] text-text-w-def font-medium'>
           {props?.multiplier}x
         </span>

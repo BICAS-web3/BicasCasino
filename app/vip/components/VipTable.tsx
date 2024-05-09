@@ -344,7 +344,7 @@ export const VipTable:FC<VipTableProps> = () => {
             <Swiper 
                 slidesPerView={'auto'} 
                 breakpoints={{
-                    1280: {
+                    1380: {
                         slidesPerView: slides.length 
                     }
                 }} 

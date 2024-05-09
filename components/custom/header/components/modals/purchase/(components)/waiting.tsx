@@ -54,12 +54,16 @@ const WaitingModal = () => {
 
   const estimateData = [
     {
-      icon: <DraxMiniSVG className='w-[20px] h-[20px] aspect-square object-contain' />,
+      icon: (
+        <DraxMiniSVG className='w-[20px] h-[20px] aspect-square object-contain' />
+      ),
       title: 'DRAX Coin',
       count: purchase.toLocaleString('en-US')
     },
     {
-      icon: <BonusCoinSVG className='w-[20px] h-[20px] aspect-square object-contain' />,
+      icon: (
+        <BonusCoinSVG className='w-[20px] h-[20px] aspect-square object-contain' />
+      ),
       title: 'Bonus Coin',
       count: bonus.toLocaleString('en-US')
     }
@@ -320,7 +324,7 @@ const WaitingModal = () => {
           <Button className='flex-1 text-base font-semibold' variant='gray'>
             Waiting for payment
           </Button>
-          <Button className='min-w-36' variant='gray'>
+          <Button className='min-w-10 sm:min-w-36' variant='gray'>
             <LoaderSVG className='animate-spin duration-1000' />
           </Button>
         </div>

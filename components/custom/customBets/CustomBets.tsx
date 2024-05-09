@@ -130,35 +130,35 @@ export const CustomBets: FC<CustomBetsProps> = props => {
       <div className='w-full mt-[35px]'>
         <div
           className='px-[10px] 
-        sm:px-[15px] grid xs:grid-cols-[25px_80px_85px_100px] 
+        sm:px-[40px] grid xs:grid-cols-[25px_80px_85px_100px] 
         grid-cols-[25px_65px_1fr_30px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
-        md:grid-cols-[40px_110px_1fr_60px_70px_1fr] 
-        mmd:grid-cols-[160px_110px_1fr_100px_80px_70px_1fr] 
+        md:grid-cols-[40px_110px_1fr_60px_1fr_60px] 
+        mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px] 
         gap-x-[5px] content-between mb-[7px] '
         >
           <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             Time
           </span>
-          <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
+          <span className='text-bets-title-color pr-[15px] sm:pr-0 text-center mmd:text-start text-footer-text-xs sm:text-[14px]'>
             Game
           </span>
-          <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
+          <span className='text-bets-title-color emd:pr-[50px] emd:text-center text-footer-text-xs sm:text-[14px]'>
             Player
           </span>
           <span
             className='text-bets-title-color text-footer-text-xs hidden mmd:block sm:text-[14px]'
             data-id='address'
           >
-            Number of games
+            Number <br/> of games
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden sm:block sm:text-[14px]'
+            className='text-bets-title-color mmd:pr-[25px] mmd:text-center text-footer-text-xs hidden sm:block sm:text-[14px]'
             data-id='wager'
           >
             Wager
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden md:block sm:text-[14px]'
+            className='text-bets-title-color md:pl-[15px] md:text-center text-footer-text-xs hidden md:block sm:text-[14px]'
             data-id='multiplier'
           >
             Multiplier

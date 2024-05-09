@@ -77,9 +77,6 @@ const GameBanners = ({ className }: { className?: string }) => {
         spacing={20}
         containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[290px] sm:mb-5 gap-5'
         loop
-        // grid={{
-        //   rows: isMobile ? 1 : 2
-        // }}
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current
@@ -94,6 +91,7 @@ const GameBanners = ({ className }: { className?: string }) => {
           <SwiperSlide
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
+            className='pt-[10px]'
           >
             <GameSlideItem
               className='duration-500 hover:-translate-y-[8px] mt-2'
