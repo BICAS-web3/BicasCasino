@@ -10,7 +10,7 @@ interface Props {
 const GameSlideItem = ({ image, link, title }: Props) => (
   <Link
     href={link}
-    className='flex flex-col rounded-[8px] overflow-hidden w-fit game_slide_wrap'
+    className='flex flex-col rounded-[8px] overflow-hidden w-fit game_slide_wrap hover:translate-y-[-10px] duration-150 transition-all'
   >
     <div className='relative w-[206px] aspect-square p-[10px] flex flex-col items-end game_slide'>
       <img
