@@ -84,15 +84,23 @@ export const handleGameResult = (
       const dataState = JSON.parse(result.state).state
       setCryptoValue(Number(result.amount))
       if (result?.amount && start) {
+        // alert(JSON.stringify(dataState))
         setIsPlaying(true)
         setApples(JSON.parse(result.state).picked_tiles)
         setMines(dataState)
         setStart(false)
         setAppleData(
-          dataState.map((_, i: number) => {
-            return {
-              value: 5,
-              number: 1
+          dataState.map((el, i: number) => {
+            if (!el[0]) {
+              return {
+                value: 0,
+                number: i
+              }
+            } else {
+              return {
+                value: 1,
+                number: i
+              }
             }
           })
         )

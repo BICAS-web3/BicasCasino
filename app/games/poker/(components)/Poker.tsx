@@ -6,7 +6,7 @@ import { sendSocketData } from '@/lib/utils/game.send'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
-import tableBg from '@/public/images/poker_images/pokerBgImage.webp'
+import tableBg from '@/public/images/poker_images/pokerBgImage_2.png'
 import {
   GameModel,
   PokerModel,
@@ -55,7 +55,8 @@ export const Poker = ({}: PokerProps) => {
     setFinishGame,
     setCryptoValue,
     profit,
-    multiplier
+    multiplier,
+    isPlaying
   ] = useUnit([
     WagerModel.$pickedValue,
     PokerModel.$gameState,
@@ -65,7 +66,7 @@ export const Poker = ({}: PokerProps) => {
     GameModel.setLostStatus,
     PokerModel.setShowFlipCards,
     GameModel.$gameStatus,
-    GameModel.setIsPlaying,
+    GameModel.setPokerPlay,
     GameModel.setWaitingResponse,
     GameModel.$gamesList,
     GameModel.$result,
@@ -84,7 +85,8 @@ export const Poker = ({}: PokerProps) => {
     GameModel.setFinishGame,
     WagerModel.setCryptoValue,
     GameModel.$profit,
-    GameModel.$multiplier
+    GameModel.$multiplier,
+    GameModel.$pokerPlay
   ])
 
   const [betData, setBetData] = useState({})
@@ -100,7 +102,6 @@ export const Poker = ({}: PokerProps) => {
   const [combinationName, setCombinationName] = useState('')
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [transactionHash, setTransactionHash] = useState<string>('')
-  const [inGame, setInGame] = useState<boolean>(false)
   const [activeCards, setActiveCards] = useState<T_Card[]>(initialArrayOfCards)
   const [cardsState, setCardsState] = useState<boolean[]>([
     false,
@@ -150,7 +151,6 @@ export const Poker = ({}: PokerProps) => {
         const dataState = JSON.parse(result.state).cards_in_hand
         setActiveCards(dataState)
         setCardsState([false, false, false, false, false])
-        setInGame(false)
         if (
           Number(result.profit) > Number(result.amount) ||
           Number(result.profit) === Number(result.amount)
@@ -165,7 +165,6 @@ export const Poker = ({}: PokerProps) => {
             token: 'DRAX'
           })
           setTimeout(() => {
-            setInGame(false)
             setIsPlaying(false)
             setKeep(false)
             setFirstBet(true)
@@ -174,7 +173,6 @@ export const Poker = ({}: PokerProps) => {
           setGameStatus(GameModel.GameStatus.Lost)
           setLostStatus(Number(result.profit) - Number(result.amount))
           setTimeout(() => {
-            setInGame(false)
             setIsPlaying(false)
             setKeep(false)
             setFirstBet(true)
@@ -182,7 +180,6 @@ export const Poker = ({}: PokerProps) => {
         } else {
           setGameStatus(GameModel.GameStatus.Draw)
           setTimeout(() => {
-            setInGame(false)
             setIsPlaying(false)
             setKeep(false)
             setFirstBet(true)
@@ -192,11 +189,6 @@ export const Poker = ({}: PokerProps) => {
     }
     setResult(null)
   }, [result, result?.type])
-
-  useEffect(() => {
-    setIsPlaying(inGame)
-  }, [inGame])
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards)
@@ -220,8 +212,6 @@ export const Poker = ({}: PokerProps) => {
       setPreloading(imageLoading_1)
     }
   }, [imageLoading_1, imageLoading_2])
-
-  useEffect(() => setInGame(isPlaying), [isPlaying])
 
   useEffect(() => {
     const getData = generateBetData(
@@ -320,9 +310,21 @@ export const Poker = ({}: PokerProps) => {
 
   const [openedCard, setOpenedCard] = useState(true)
 
+  const [localStatus, setLocalStatus] = useState<null | GameModel.GameStatus>(
+    null
+  )
+
+  useEffect(() => {
+    if (gameStatus !== null) {
+      setLocalStatus(gameStatus)
+    } else {
+      setTimeout(() => setLocalStatus(null), 2500)
+    }
+  }, [gameStatus])
+
   return (
     <>
-      {gameStatus === GameModel.GameStatus.Won && !isPlaying && (
+      {localStatus === GameModel.GameStatus.Won && !isPlaying && (
         <PokerCombination
           combinationName={combinationName}
           tokenImage={<BonusCoinSVG width={30} height={30} />}

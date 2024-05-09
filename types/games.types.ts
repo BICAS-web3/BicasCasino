@@ -31,14 +31,14 @@ export interface appleItemData {
 export interface IAppleTable {
   chunkedApplesArr: appleItemData[]
   appleData: IAppleData[]
-  inGame: boolean
+  inGame?: boolean
   mines: boolean[][]
   setAppleData: Dispatch<SetStateAction<IAppleData[]>>
   setAppleItem: Dispatch<SetStateAction<number[]>>
   setAppleGameResult: any
   setApples: any
   setMines: any
-  setInGame: any
+  setInGame?: any
   setIsPlaying: any
   setKeep: any
   setFirstBet: any

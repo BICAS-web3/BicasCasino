@@ -50,7 +50,12 @@ const GamePlayBlock = () => {
     setFinishGame,
     redrawCards,
     setRedrawCards,
-    setBackCards
+    setBackCards,
+    showAnimation,
+    pokerPlay,
+    setPokerPlay,
+    applesPlay,
+    setapplesPlay
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -77,7 +82,12 @@ const GamePlayBlock = () => {
     GameModel.setFinishGame,
     GameModel.$redrawCards,
     GameModel.setRedrawCards,
-    GameModel.setBackCards
+    GameModel.setBackCards,
+    GameModel.$showAnimation,
+    GameModel.$pokerPlay,
+    GameModel.setPokerPlay,
+    GameModel.$applesPlay,
+    GameModel.setapplesPlay
   ])
 
   const path = usePathname()
@@ -89,6 +99,7 @@ const GamePlayBlock = () => {
   const [isRPS, setIsRPS] = useState(false)
   const [coinflipGame, setCoinflipGame] = useState(false)
   const [isPoker, setIsPoker] = useState(false)
+  const [isThimbles, setIsThimbles] = useState(false)
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
@@ -149,6 +160,11 @@ const GamePlayBlock = () => {
     } else {
       setIsPoker(false)
     }
+    if (path.includes('thimbles_3')) {
+      setIsThimbles(true)
+    } else {
+      setIsThimbles(false)
+    }
   }, [path])
 
   useEffect(() => {
@@ -169,7 +185,7 @@ const GamePlayBlock = () => {
         setPokerDelay(true)
       }, 2000)
     }
-  }, [redrawCards, isPlaying])
+  }, [redrawCards, pokerPlay])
 
   const handlePlay = () => {
     if (redrawCards && isPoker) {
@@ -177,11 +193,11 @@ const GamePlayBlock = () => {
       setBackCards(true)
       return
     }
-    if (isPlaying && isPoker) {
+    if (pokerPlay && isPoker) {
       setFinishGame(true)
       return
     }
-    if (isPoker && !isPlaying) {
+    if (isPoker && !pokerPlay) {
       setPokerDelay(true)
     }
     if (cryptoValue > balance) {
@@ -193,19 +209,28 @@ const GamePlayBlock = () => {
       toast('Error, place your bet!')
       setError(true)
     } else {
-      if (!isPlaying && !isPlaying) {
+      if (isPoker && !pokerPlay) {
+        setPokerPlay(true)
+      } else if (isApple) {
+        if (!applesPlay) {
+          setapplesPlay(true)
+        } else {
+          setStop(true)
+        }
+      } else if (!isPlaying) {
         setIsPlaying(true)
       } else {
         setFinishPoker(!finishPoker)
-        apples.length > 0 && setStop(true)
       }
     }
   }
+
   const wheelGame = usePathname().includes('wheel_of_fortune')
 
   const minesClick = () => {
     setStopWinning('YES')
   }
+
   return (
     <div className='w-full sm:w-auto flex gap-[13px] sm:gap-5 row-start-4 m-[0_auto] mt-[20px] sm:mt-0 col-start-1 col-end-3 items-center justify-end -order-5 sm:order-none'>
       <TooltipProvider>
@@ -229,7 +254,7 @@ const GamePlayBlock = () => {
           }}
         />
       )}
-      {!isPoker && (
+      {!isPoker && !isMines && !isApple && !isThimbles && (
         <div
           className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
           onClick={() => {
@@ -263,24 +288,26 @@ const GamePlayBlock = () => {
         disabled={
           coinflipGame ||
           (isApple && showResult) ||
-          (isApple && apples.length === 0 && isPlaying) ||
+          (isApple && apples.length === 0 && applesPlay) ||
           (isRPS && startAnimation) ||
           (isRPS && isPlaying) ||
           (isRocket && rocketInGame) ||
           (redrawCards && isPoker) ||
-          (isPoker && pokerDelay)
+          (isPoker && pokerDelay) ||
+          (isThimbles && isPlaying) ||
+          (isThimbles && showAnimation)
         }
         onClick={handlePlay}
         variant='wagerPlay'
         className={`uppercase flex items-center gap-[10px] ${
-          isApple && isPlaying
+          isApple && applesPlay
             ? 'border-[#49B446] text-white'
             : 'border-[#FFE7B4] text-[#FFE7B4]'
         }`}
       >
-        {isPoker && isPlaying ? (
+        {isPoker && pokerPlay ? (
           'Redraw'
-        ) : isPlaying && isApple ? (
+        ) : applesPlay && isApple ? (
           <>
             Refund ${appleWager.toFixed(2)}
             {cryptoValue &&

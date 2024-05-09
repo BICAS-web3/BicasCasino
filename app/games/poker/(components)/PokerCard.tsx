@@ -7,7 +7,7 @@ import { FC, RefObject, useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
 
 export const PokerCard: FC<PokerCardProps> = props => {
-  const [isPlaying] = useUnit([GameModel.$isPlaying])
+  const [isPlaying] = useUnit([GameModel.$pokerPlay])
   const {
     card,
     coat,
@@ -59,11 +59,14 @@ export const PokerCard: FC<PokerCardProps> = props => {
     <div
       ref={cardRef as RefObject<HTMLDivElement>}
       className={`
-        w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[50px] xxs:min-h-[70px] duration-300
+        min-w-[58px] xxxs:min-w-[62px] w-[15.5vw] h-[70px] rounded-[2.5px] xxs:h-[40%] xxs:w-[50%] xxs:min-w-[73px] xxs:min-h-[70px] duration-300
         sm:w-[90px] sm:h-[125px] tb:w-full tb:h-[21.5vw] tmd:w-[140px] tmd:h-[190px] emd:w-full emd:h-[18vw] relative flex items-center justify-center med:h-[280px]
         ${
           isEmptyCard ? 'bg-[rgba(15,_15,_15,_0.4)] rounded-[10px] h-auto ' : ''
-        } ${isPlaying && 'hover:translate-y-[-5px] cursor-pointer'}`}
+        } ${
+        isPlaying &&
+        'sm:hover:translate-y-[-15px] hover:translate-y-[-5px] cursor-pointer'
+      }`}
       onClick={
         !isEmptyCard
           ? () => {
@@ -113,7 +116,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 src={
                   card === 0 && coat === 0
                     ? `/images/cards/back.png`
-                    : `${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`
+                    : `/images/cards/${coat}/${card}.svg`
                 }
                 // src={`/images/cards/${coat}/${card}.svg`}
                 alt='card-image'
@@ -143,7 +146,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 src={
                   card === 0 && coat === 0
                     ? `/images/cards/back.png`
-                    : `${api.BaseStaticUrl}/media/games_assets/poker/${coat}/${card}.svg`
+                    : `/images/cards/${coat}/${card}.svg`
                 }
                 alt='card-image'
                 width={200}

@@ -4,13 +4,25 @@ import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import GameMenu from './(components)/game.menu'
+import { MelBottomMenu } from './(components)/melBottomMenu/MelBottomMenu'
 
 const GameLayout = ({ children }) => {
-  const [access_token, socketAuth, setIsPlaying, setGameStatus] = useUnit([
+  const [
+    access_token,
+    socketAuth,
+    setIsPlaying,
+    setGameStatus,
+    setShowAnimation,
+    isPlaying,
+    gameStatus
+  ] = useUnit([
     RegistrModel.$access_token,
     UserModel.$socketAuth,
     GameModel.setIsPlaying,
-    GameModel.setGameStatus
+    GameModel.setGameStatus,
+    GameModel.setShowAnimation,
+    GameModel.$isPlaying,
+    GameModel.$gameStatus
   ])
   const path = usePathname()
 
@@ -32,8 +44,17 @@ const GameLayout = ({ children }) => {
 
   useEffect(() => {
     setGameStatus(null)
-    setIsPlaying(false)
+    setShowAnimation(false)
+    if (isPlaying) {
+      setIsPlaying(false)
+    }
   }, [path])
+
+  useEffect(() => {
+    if (gameStatus !== null) {
+      setGameStatus(null)
+    }
+  }, [gameStatus])
 
   return (
     <div className='w-full sm:p-10 sm:pb-5 flex flex-col min-h-[calc(100vh-112px)] sm:min-h-[calc(100vh-100px)] xl:min-h-[calc(100vh-110px)] 3xl:min-h-[calc(100vh-90px)] relative'>
@@ -45,6 +66,7 @@ const GameLayout = ({ children }) => {
         }`}
       >
         {access_token && socketAuth ? children : <Preload />}
+        {/* <MelBottomMenu /> */}
       </div>
       <GameMenu />
     </div>

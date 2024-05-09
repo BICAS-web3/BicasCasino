@@ -27,14 +27,14 @@ import {
 const AppleTable: FC<IAppleTable> = ({
   chunkedApplesArr,
   appleData,
-  inGame,
+  // inGame,
   mines,
   setAppleData,
   setAppleItem,
   setAppleGameResult,
   setApples,
   setMines,
-  setInGame,
+  // setInGame,
   setIsPlaying,
   setKeep,
   setFirstBet,
@@ -57,7 +57,7 @@ const AppleTable: FC<IAppleTable> = ({
   ] = useUnit([
     GameModel.$playSounds,
     GameModel.$gameResult,
-    GameModel.$isPlaying,
+    GameModel.$applesPlay,
     GameModel.$gameStatus,
     GameModel.setGameStatus,
     GameModel.setApplesWagerr,
@@ -66,6 +66,10 @@ const AppleTable: FC<IAppleTable> = ({
     GameModel.setShowResult,
     UserModel.$isDrax
   ])
+
+  useEffect(() => {
+    setGameStatus(null)
+  }, [])
 
   const [playApple] = useSound('/music/apple_click.mp3', { volume: 1 })
 
@@ -124,7 +128,8 @@ const AppleTable: FC<IAppleTable> = ({
         setAppleData([])
         setApples([])
         setMines([])
-        setInGame(false)
+        // setInGame(false)
+        // alert(1)
         setIsPlaying(false)
         setKeep(false)
         setFirstBet(true)
@@ -164,7 +169,7 @@ const AppleTable: FC<IAppleTable> = ({
                   ))}
                 </>
               )}
-              {((inGame || appleGameResult?.length > 0
+              {((isPlaying || appleGameResult?.length > 0
                 ? currentIndex === appleData.length
                 : currentIndex === appleData.length) ||
                 (9 === appleData.length && index === 0)) && (
@@ -189,7 +194,7 @@ const AppleTable: FC<IAppleTable> = ({
                       ))} */}
                   </span>
                 )}
-                {(inGame || appleGameResult?.length > 0
+                {(isPlaying || appleGameResult?.length > 0
                   ? currentIndex > appleData.length
                   : currentIndex > appleData.length) && (
                   <CfBgSVG className='w-full sm:h-auto h-full absolute top-[-5px] left-0' />
