@@ -96,6 +96,7 @@ const GameBanners = ({ className }: { className?: string }) => {
             style={{ width: 206 }}
           >
             <GameSlideItem
+              className='duration-500 hover:-translate-y-[8px] mt-2'
               image={item.image}
               title={item.title}
               link={item.link}

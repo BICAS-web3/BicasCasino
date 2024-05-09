@@ -48,9 +48,9 @@ export const PokerCombination = ({
             {profit}
           </div>
         </div>
-        <div className='text-sm sm:text-base leading-[90%] text-[#7E7E7E] font-bold text-center'>
+        {/* <div className='text-sm sm:text-base leading-[90%] text-[#7E7E7E] font-bold text-center'>
           {multiplier}x
-        </div>
+        </div> */}
       </div>
     </article>
   )

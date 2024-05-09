@@ -5,12 +5,13 @@ interface Props {
   image: string
   link: string
   title: string
+  className?: string
 }
 
-const GameSlideItem = ({ image, link, title }: Props) => (
+const GameSlideItem = ({ image, link, title, className }: Props) => (
   <Link
     href={link}
-    className='flex flex-col rounded-[8px] overflow-hidden w-fit game_slide_wrap'
+    className={`flex flex-col rounded-[8px] overflow-hidden w-fit game_slide_wrap ${className}`}
   >
     <div className='relative w-[206px] aspect-square p-[10px] flex flex-col items-end game_slide'>
       <img
