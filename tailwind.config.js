@@ -83,6 +83,7 @@ module.exports = {
         tb: '700px',
         tbb: '760px',
         tbbs: '770px',
+        exxs: '365px',
         xxs: '400px',
         sxs: '440px',
         xxxs: '350px',

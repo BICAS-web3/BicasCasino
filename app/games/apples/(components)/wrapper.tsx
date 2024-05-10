@@ -271,7 +271,7 @@ const AppleGame = () => {
     <div
       className='relative w-full h-full pt-12 py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
       style={{
-        background: `url('/images/apples/applesBg.webp') center center no-repeat`,
+        background: `url('/images/apples/applesBg.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
