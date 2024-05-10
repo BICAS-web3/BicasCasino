@@ -41,6 +41,7 @@
     "bs-icon": "^0.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "countries-list": "^3.1.0",
     "cmdk": "^1.0.0",
     "date-fns": "^3.3.1",
     "effector": "^23.2.0",
