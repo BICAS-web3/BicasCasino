@@ -78,19 +78,28 @@ module.exports = {
       screens: {
         '2xl': '1400px',
         '3xl': '1800px',
-        '4xl': '1920px',
+        '4xl': '1925px',
         '5xl': '1980px',
         tb: '700px',
+        tbb: '760px',
+        tbbs: '770px',
+        exxs: '365px',
         xxs: '400px',
+        sxs: '440px',
+        xxxs: '350px',
         tmd: '910px',
         emd: '996px',
         sm: '650px',
+        smm: '490px',
         md: '996px',
         tmd: '1200px',
         tb: '700px',
         tbs: '840px',
         mmd: '1280px',
-        med: '1550px'
+        med: '1550px',
+        mde: '1600px',
+        mad: '1130px',
+        xsl: '1450px'
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -127,5 +136,5 @@ module.exports = {
     }
   },
 
-  plugins: [require('tailwindcss-animate')]
+  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar')]
 }

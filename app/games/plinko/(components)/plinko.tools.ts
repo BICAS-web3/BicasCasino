@@ -1,9 +1,5 @@
-export interface IParabolaCoefs {
-  main: any[]
-  bigTablet: any[]
-  other: any[]
-  [key: string]: any
-}
+import { IMultipliersObject, IParabolaCoefs } from '@/types/games.types'
+
 export const parabolaCoefs: IParabolaCoefs = {
   main: [
     81.8399972, 79.2742744, 77.3028316, 75.9256688, 75.142786, 74.9541832,
@@ -29,12 +25,6 @@ export const parabolaCoefs: IParabolaCoefs = {
     81.60671453, 82.86003704129999, 84.2999015632, 85.9263080957,
     87.73925663879999, 89.7387471925, 91.92477975679999, 94.29735433169999
   ]
-}
-
-interface IMultipliersObject {
-  [key: string]: {
-    [key: number]: number[]
-  }
 }
 
 export const newMultipliers: IMultipliersObject = {
@@ -93,7 +83,6 @@ export function genParabolaMovements(
   const coefs = parabolaCoefs[screen]
     ? parabolaCoefs[screen]
     : parabolaCoefs['other']
-  //console.log(screen, coefs);
 
   let yStep = Math.abs(coefs[16] - startingTop)
   let xStep = 0
@@ -108,7 +97,6 @@ export function genParabolaMovements(
 
   var to_return: any[] = []
   for (var p of path) {
-    //console.log(y, coefs[16] + y);
     if (p) {
       to_return.push([
         {

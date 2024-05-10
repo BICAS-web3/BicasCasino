@@ -11,41 +11,53 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
+import React, { useState } from 'react'
 
-type Props = {
-  data: any
-  open: boolean
+export interface Item {
+  title: string
+  icon: React.ReactNode
 }
 
+type Props = {
+  data: {
+    main: Item
+    second: Item
+    items: Item[]
+  }
+  open: boolean
+}
 const Menu = ({ data, open }: Props) => {
   const params = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={() => setIsOpen(!isOpen)} >
       <DropdownMenuTrigger
         className={cn(
-          'px-4 py-2 min-h-[50px] min-w-[50px] w-full flex justify-start items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
+          'text-center py-2 min-h-[50px] min-w-[50px] w-full flex items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
+          open ? 'px-4 justify-between' : 'px-0 justify-center',
           open
             ? 'justify-start open bg-[#121212] hover:bg-[#121212] gap-3 rounded-[20px]'
             : 'justify-center flex-col gap-1 rounded-xl bg-transparent hover:bg-transparent'
         )}
       >
         <span>{data.main.icon}</span>
-        <div className='flex items-center gap-4'>
+        <div className={`flex items-center ${!open && 'justify-center'} text-center transition-all duration-300 ${isOpen && open ? 'justify-between' : 'justify-start'} gap-4 w-full`}>
           <span
             className={cn(
-              'leading-5 text-base font-bold tracking-wide truncate uppercase',
+              'leading-5 text-center text-base font-bold tracking-wide text-nowrap truncate uppercase',
               open ? 'text-base' : 'text-[9px]'
             )}
           >
             {data.main.title}
           </span>
-          {open ? <ChevronRight className='w-5 aspect-square' /> : null}
+          {open ? <ChevronRight className={`w-5 transition-all duration-300 aspect-square`} /> : null}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align='start'
         side='right'
-        className='h-[calc(100vh_-_64px)] flex flex-col justify-between w-56 bg-[#121212] border-none rounded-none'
+        className={`${isOpen ? "sidebar-anim" : ""} flex flex-col justify-between w-56 bg-[#121212] border-none rounded-none`}
       >
         <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
           {data.items.map((item, index) => (

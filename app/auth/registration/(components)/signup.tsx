@@ -1,6 +1,13 @@
 'use client'
 import { useUnit } from 'effector-react'
-import { FC, useEffect, useState, useTransition } from 'react'
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition
+} from 'react'
 import { RegistrModel } from '@/states'
 import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
@@ -22,6 +29,9 @@ import { BaseApiUrl } from '@/api'
 import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
 import { EyeClose, EyeOpen } from '../../(icons)'
+
+import * as api from '@/api'
+import { useRouter } from 'next/navigation'
 
 interface SignupProps {}
 
@@ -67,10 +77,11 @@ const SignUp: FC<SignupProps> = () => {
       }, 1500)
     }
   }, [error])
-
+  const route = useRouter()
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
     setrtTransition(async () => {
       const { username, password } = values
+      console.log(`${BaseApiUrl}/user/register`)
       form.reset()
       const data = await fetch(`${BaseApiUrl}/user/register`, {
         method: 'POST',
@@ -88,27 +99,28 @@ const SignUp: FC<SignupProps> = () => {
         .catch(e => e)
 
       if (data.status === 'OK') {
-        const userData = await fetch(`${BaseApiUrl}/user/login`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            login: username,
-            password
-          })
+        setAuth(true)
+        const userResponse = await api.loginUser({
+          login: username,
+          password: password
         })
-          .then(async res => await res.json())
-          .catch(e => e)
-        if (userData.status === 'OK') {
-          setAccessToken((userData.body as any).access_token)
-          setRefreshToken((userData.body as any).refresh_token)
-          setAuth(true)
-          await signIn('credentials', {
-            username: values.username,
-            password: values.password
-          })
+        if (userResponse.status === 'OK') {
+          setAccessToken(
+            (userResponse.body as Record<string, string>).access_token
+          )
+          setRefreshToken(
+            (userResponse.body as Record<string, string>).refresh_token
+          )
+          localStorage.setItem(
+            'access',
+            (userResponse.body as Record<string, string>).access_token
+          )
+          localStorage.setItem(
+            'refresh',
+            (userResponse.body as Record<string, string>).access_token
+          )
+
+          route.push('/')
         }
       } else {
         setErrorData(true)
@@ -117,6 +129,13 @@ const SignUp: FC<SignupProps> = () => {
   }
   const [token, setToken] = useState('')
   const [show, setSHow] = useState(false)
+
+  const resetPassword = () => setShowPassword(prev => !prev)
+  const errorFocus = () => setErrorData(false)
+
+  const resetCheckbox = (func: Dispatch<SetStateAction<boolean>>) => {
+    func(prev => !prev)
+  }
 
   return (
     <Form {...form}>
@@ -134,76 +153,81 @@ const SignUp: FC<SignupProps> = () => {
           }}
           className='flex flex-col'
         >
-          <div className='flex flex-col relative gap-[10px] sm:gap-5'>
-            <FormField
-              control={form.control}
-              name='username'
-              render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormControl>
-                    <Input
-                      disabled={isPending}
-                      placeholder={errorData ? 'User exist' : 'Username'}
-                      onFocus={() => {
-                        setErrorData(false)
-                      }}
-                      className={`duration-200 ${
-                        errorData && 'placeholder:text-[red]'
-                      }`}
-                      variant='registr'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className='flex flex-col relative'>
+            <div className='mb-[10px]'>
+              <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+                Username
+              </span>
+              <FormField
+                control={form.control}
+                name='username'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormControl>
+                      <Input
+                        disabled={isPending}
+                        placeholder={errorData ? 'User exist' : 'Username'}
+                        onFocus={errorFocus}
+                        className={`duration-200 ${
+                          errorData && 'placeholder:text-[red]'
+                        }`}
+                        variant='registr'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='mb-[10px]'>
+              <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+                Password
+              </span>
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem className='relative'>
+                    <FormControl>
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        disabled={isPending}
+                        placeholder={errorData ? 'User exist' : 'Password'}
+                        onFocus={errorFocus}
+                        className={`duration-200 ${
+                          errorData
+                            ? 'placeholder:text-[red]'
+                            : 'border-transparent'
+                        }`}
+                        variant='registr'
+                        endAdornment={
+                          <Button
+                            variant='noneBg'
+                            type='button'
+                            className='w-full h-full flex justify-center items-center p-0'
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {!showPassword ? <EyeClose /> : <EyeOpen />}
+                          </Button>
+                        }
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='relative'>
-                  <FormControl>
-                    <Input
-                      type={showPassword ? 'password' : 'text'}
-                      disabled={isPending}
-                      placeholder={errorData ? 'User exist' : 'Password'}
-                      onFocus={() => {
-                        setErrorData(false)
-                      }}
-                      className={`duration-200 ${
-                        errorData
-                          ? 'placeholder:text-[red]'
-                          : 'border-transparent'
-                      }`}
-                      variant='registr'
-                      {...field}
-                    />
-                  </FormControl>
-                  {showPassword ? (
-                    <EyeOpen
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={() => setShowPassword(prev => !prev)}
-                    />
-                  ) : (
-                    <EyeClose
-                      className='cursor-pointer absolute top-2 right-4'
-                      onClick={() => setShowPassword(prev => !prev)}
-                    />
-                  )}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                <FormItem className='flex items-center flex-row mt-[0_!important] mb-[0_!important] gap-5'>
                   <FormControl>
                     <Checkbox
                       itemID='age'
-                      onClick={() => setAgeCheckbox(prev => !prev)}
+                      onClick={resetCheckbox.bind('', setAgeCheckbox)}
                       className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
                     />
                   </FormControl>
@@ -218,10 +242,10 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                <FormItem className='flex items-center flex-row mb-[0_!important] gap-5 mt-5'>
                   <FormControl>
                     <Checkbox
-                      onClick={() => setPolicyCheckbox(prev => !prev)}
+                      onClick={resetCheckbox.bind('', setPolicyCheckbox)}
                       className={`min-h-[14px] min-w-[14px] max-h-[14px] max-w-[14px] flex items-center justify-center border border-[#e5c787] rounded-[2px] bg-inherit transition-all duration-300`}
                     />
                   </FormControl>
@@ -234,7 +258,7 @@ const SignUp: FC<SignupProps> = () => {
             />
           </div>
           <Button
-            className='mt-2.5 sm:mt-5'
+            className='mt-2.5 border border-[#907640] sm:mt-5'
             disabled={
               isPending ||
               !form.getValues().password ||

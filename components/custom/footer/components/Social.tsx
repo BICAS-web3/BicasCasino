@@ -3,8 +3,8 @@ import { socials } from '../data'
 
 const Social = () => {
   return (
-    <div className='flex flex-col gap-y-6'>
-      <h6 className='text-[#979797] text-base font-normal'>
+    <div className='flex flex-col gap-y-6 '>
+      <h6 className='text-[#979797] tracking-[1px] text-center font-normal'>
         Join our Community
       </h6>
       <div className='grid w-auto justify-evenly gap-3 grid-cols-4'>

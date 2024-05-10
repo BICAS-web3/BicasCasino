@@ -1,7 +1,9 @@
-import { GameLayout as Layout } from '@/components/custom/gameLayout/GameLayout'
+'use client'
 
-function GameLayout({ children }) {
-  return <Layout>{children}</Layout>
+import GameLayout from '@/components/layouts/game/game.layout'
+
+function Layout({ children }) {
+  return <GameLayout>{children}</GameLayout>
 }
 
-export default GameLayout
+export default Layout

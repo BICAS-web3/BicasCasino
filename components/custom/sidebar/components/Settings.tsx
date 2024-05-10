@@ -13,7 +13,7 @@ const SidebarSettings = ({ open, handleAction }: Props) => (
   <div
     className={cn(
       'flex justify-between items-center bg-[#121212] w-full py-4 px-5',
-      open ? '' : 'flex-col gap-4'
+      open ? '' : 'sm:flex-col gap-4'
     )}
   >
     <ThemeToggle disabled open={open} />
@@ -22,11 +22,11 @@ const SidebarSettings = ({ open, handleAction }: Props) => (
       onClick={handleAction}
       variant='ghost'
       size='icon'
-      className='border border-[#202020]'
+      className='border group rounded-xl border-[#202020]'
     >
       <ArrowLeftToLine
         className={cn(
-          'h-4 w-4 aspect-square object-contain text-[#7E7E7E]',
+          'h-4 w-4 aspect-square group-hover:text-accent-foreground object-contain text-[#7E7E7E]',
           !open && 'rotate-180'
         )}
       />

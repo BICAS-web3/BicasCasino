@@ -1,25 +1,22 @@
-import { logout } from '@/app/auth/(actions)/logOut'
 import { Button } from '@/components/ui/button'
-import { signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useUnit } from 'effector-react'
+import { HeaderM, UserModel } from '@/states'
 
 const User = () => {
-  const user = {
-    name: 'Boris',
-    surname: 'Yaremchenko'
-  }
-  const navigation = useRouter()
+  const [visible, setVisible, nickname] = useUnit([
+    HeaderM.$menuVisibility,
+    HeaderM.setMenuVisibility,
+    UserModel.$userInfo
+  ])
+
   return (
     <Button
-      onClick={() => {
-        signOut()
-        navigation.push('/auth/registration')
-      }}
+      onClick={() => setVisible(!visible)}
       variant='ghost'
+      data-close
       className='cursor-pointer w-10 aspect-square flex items-center justify-center rounded-full bg-orange-400 text-white'
     >
-      <span>{user.name.slice(0, 1).toLocaleUpperCase()}</span>
-      <span>{user.surname.slice(0, 1).toLocaleUpperCase()}</span>
+      <div data-close className='min-w-[40px] flex items-center justify-center h-[40px] rounded-[50%] bg-[#F57731]'>GK</div>
     </Button>
   )
 }

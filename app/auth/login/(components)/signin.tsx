@@ -17,10 +17,11 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+// import { signIn } from 'next-auth/react'
 import { EyeClose, EyeOpen } from '../../(icons)'
 
 import * as api from '@/api'
+import { useRouter } from 'next/navigation'
 
 interface SigninProps {}
 
@@ -63,95 +64,107 @@ const Signin: FC<SigninProps> = () => {
     }
   }, [error])
 
+  const route = useRouter()
   const handleSubmitIn = (values: z.infer<typeof loginSchema>) => {
     setrtTransition(async () => {
-      const { username, password } = values
       const data = await api.loginUser({
         login: values.username,
         password: values.password
       })
       if (data?.status === 'OK') {
-        setAccessToken((data.body as any).access_token)
-        setRefreshToken((data.body as any).refresh_token)
+        setAccessToken((data.body as Record<string, string>).access_token)
+        localStorage.setItem(
+          'access',
+          (data.body as Record<string, string>).access_token
+        )
+        localStorage.setItem(
+          'refresh',
+          (data.body as Record<string, string>).access_token
+        )
+        setRefreshToken((data.body as Record<string, string>).refresh_token)
         setAuth(true)
-        await signIn('credentials', {
-          username,
-          password
-        })
-      } else if ((data.body as any)?.status !== 'OK') {
+        route.push('/')
+      } else if ((data.body as Record<string, string>)?.status !== 'OK') {
         setAuth(false)
         setErrorData(true)
       }
     })
   }
 
+  const disableError = () => setErrorData(false)
+
   return (
     <div className='flex flex-col gap-[10px] sm:gap-[20px] mt-[10px] sm:mt-[20px]'>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmitIn)}
-          className='flex flex-col gap-[4px] sm:gap-[19px] relative'
+          className='flex flex-col gap-[4px] sm:gap-[15px] relative'
         >
-          <FormField
-            control={form.control}
-            name='username'
-            render={({ field }) => (
-              <FormItem className='relative'>
-                <FormControl>
-                  <Input
-                    onFocus={() => {
-                      setErrorData(false)
-                    }}
-                    placeholder={errorData ? 'Wrong data' : 'Username'}
-                    className={`duration-200 z-[1] relative' ${
-                      errorData && 'placeholder:text-[red]'
-                    }`}
-                    disabled={isPending}
-                    variant='registr'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem className='relative'>
-                <FormControl>
-                  <Input
-                    placeholder={errorData ? 'Wrong data' : 'Password'}
-                    onFocus={() => {
-                      setErrorData(false)
-                    }}
-                    className={`duration-200 z-[1] relative' ${
-                      errorData && 'placeholder:text-[red]'
-                    }`}
-                    disabled={isPending}
-                    variant='registr'
-                    type={showPassword ? 'text' : 'password'}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-                {showPassword ? (
-                  <EyeOpen
-                    className='cursor-pointer absolute top-2 right-4'
-                    onClick={() => setShowPassword(prev => !prev)}
-                  />
-                ) : (
-                  <EyeClose
-                    className='cursor-pointer absolute top-2 right-4'
-                    onClick={() => setShowPassword(prev => !prev)}
-                  />
-                )}
-              </FormItem>
-            )}
-          />
+          <div>
+            <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+              Username
+            </span>
+            <FormField
+              control={form.control}
+              name='username'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormControl>
+                    <Input
+                      onFocus={disableError}
+                      placeholder={errorData ? 'Wrong data' : 'Username'}
+                      className={`duration-200 z-[1] relative' ${
+                        errorData && 'placeholder:text-[red]'
+                      }`}
+                      disabled={isPending}
+                      variant='registr'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+              Password
+            </span>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem className='relative'>
+                  <FormControl>
+                    <Input
+                      placeholder={errorData ? 'Wrong data' : 'Password'}
+                      onFocus={disableError}
+                      className={`duration-200 z-[1] relative' ${
+                        errorData && 'placeholder:text-[red]'
+                      }`}
+                      disabled={isPending}
+                      variant='registr'
+                      type={showPassword ? 'text' : 'password'}
+                      endAdornment={
+                        <Button
+                          variant='noneBg'
+                          type='button'
+                          className='w-full h-full flex justify-center items-center p-0'
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {!showPassword ? <EyeClose /> : <EyeOpen />}
+                        </Button>
+                      }
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <Button
-            className='mt-2.5 sm:mt-5'
+            className='mt-3 sm:mt-0'
             disabled={isPending}
             type='submit'
             variant='auth'
@@ -163,7 +176,7 @@ const Signin: FC<SigninProps> = () => {
 
       <Link
         className='
-          cursor-pointer text-[16px] font-normal leading-[22px] tracking-def text-bets-title-color
+          cursor-pointer text-[13px] font-normal leading-[22px] tracking-def text-bets-title-color
           text-right
         '
         href='/auth/recovery'

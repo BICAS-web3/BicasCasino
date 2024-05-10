@@ -9,7 +9,7 @@ import tableBg from '@/public/images/games_assets/plinko/plinkoBgImage3.webp'
 import helmet from '@/public/images/plinko_images/helmet.webp'
 import statue from '@/public/images/plinko_images/statue.webp'
 
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import { useMediaQuery } from 'usehooks-ts'
 
 import PlinkoPyramid from './plinko.pyramid'
 import { useSocket } from '@/components/providers/socket.provider'
@@ -1061,61 +1061,6 @@ const PlinkoGame = () => {
     // LayoutModel.$userInfo,
     GameModel.$gamesList
   ])
-  //   useEffect(() => {
-  //     if (result !== null && result?.type === 'Bet') {
-  //       const fullAmount = Number(result.amount) * result.num_games!
-  //       const bet_info = JSON.parse(result.bet_info)
-  //       setPath(bet_info.paths)
-  //       if (
-  //         Number(result.profit) > fullAmount ||
-  //         Number(result.profit) === fullAmount
-  //       ) {
-  //         setTimeout(() => {
-  //           setGameStatus(GameModel.GameStatus.Won)
-  //           playSounds !== 'off' && playWon()
-
-  //           const multiplier = Number(Number(result.profit) / fullAmount)
-  //           setWaitingResponse(false)
-  //           setWonStatus({
-  //             profit: Number(result.profit),
-  //             multiplier,
-  //             token: 'DRAX'
-  //           })
-  //           setIsPlaying(false)
-  //           setInGame(false)
-  //           setCoefficientData(prev => [
-  //             Number(result.profit) / fullAmount,
-  //             ...prev
-  //           ])
-  //         }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0))
-  //         // alert("win");
-  //       } else if (Number(result.profit) < fullAmount) {
-  //         setTimeout(() => {
-  //           setWaitingResponse(false)
-  //           setGameStatus(GameModel.GameStatus.Lost)
-  //           setIsPlaying(false)
-  //           setInGame(false)
-  //           playSounds !== 'off' && playLost()
-  //           setLostStatus(Number(result.profit) - fullAmount)
-  //           setCoefficientData(prev => [
-  //             Number(result.profit) / fullAmount,
-  //             ...prev
-  //           ])
-  //         }, 3000 + pickedValue * 350 + rowsAmount * (rowsAmount > 12 ? 175 : 8 ? 100 : 0))
-  //         // alert("lost");
-  //       } else {
-  //         setGameStatus(GameModel.GameStatus.Draw)
-  //         setIsPlaying(false)
-  //         setInGame(false)
-  //         setCoefficientData(prev => [
-  //           Number(result.profit) / fullAmount,
-  //           ...prev
-  //         ])
-  //         // alert("draw");
-  //       }
-  //       setResult(null)
-  //     }
-  //   }, [result?.timestamp, result, gameStatus])
 
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [isLoading, setIsLoading] = useState(true)

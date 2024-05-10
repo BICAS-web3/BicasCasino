@@ -44,5 +44,21 @@ module.exports = {
     return config
   },
   reactStrictMode: false,
-  experimental: {}
+  experimental: {},
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'game.greekkeepers.io',
+        port: '',
+        pathname: '**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'rew.greekkeepers.io',
+        port: '',
+        pathname: '**'
+      }
+    ]
+  }
 }

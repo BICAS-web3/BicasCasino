@@ -1,5 +1,5 @@
-import WheelGame from '@/components/custom/wheelGame'
 import { Metadata } from 'next'
+import WheelGame from './(components)/wheelGame'
 
 export const metadata: Metadata = {
   title: 'Games - Wheel',
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Wheel = () => {
-  return <WheelGame/>
+  return <WheelGame />
 }
 
 export default Wheel

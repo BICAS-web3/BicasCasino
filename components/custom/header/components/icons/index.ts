@@ -1,3 +1,19 @@
 export { default as WalletSVG } from './wallet.svg'
 export { default as BonusCoinSVG } from './bonusCoin.svg'
 export { default as DraxMiniSVG } from './draxMiniIco.svg'
+export { default as CopySVG } from './copy.svg'
+export { default as LoaderSVG } from './loader.svg'
+export { default as OpenLinkSVG } from './open-link.svg'
+export { default as EclipseSVG } from './eclipse.svg'
+export { default as LogoSVG } from './logo.svg'
+export { default as ChipSVG } from './chip.svg'
+export { default as CloseSVG } from './close.svg'
+export { default as TrashSVG } from './trash.svg'
+export { default as RefreshSVG } from './refresh.svg'
+export { default as BackSVG } from './back.svg'
+export { default as BilllineLogoSVG } from './billline.logo.svg'
+export { default as RedirectSVG } from './redirect.svg'
+
+import { BitcoinSVG, EthereumSVG, DogeSVG, LtcSVG, UsdtSVG } from './crypto'
+
+export { BitcoinSVG, EthereumSVG, DogeSVG, LtcSVG, UsdtSVG }

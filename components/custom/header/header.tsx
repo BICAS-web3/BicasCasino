@@ -1,18 +1,19 @@
-import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { useUnit } from 'effector-react'
 
 import { Separator } from '@/components/ui/separator'
+import { useSocket } from '@/components/providers/socket.provider'
 
 import BalanceSwitcher from './components/balance.switch'
 import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
-import { useEffect, useState } from 'react'
 
+import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
-import { useSocket } from '@/components/providers/socket.provider'
-import { useUnit } from 'effector-react'
-import { GameModel, RegistrModel, UserModel } from '@/states'
-import { setRefreshToken } from '@/states/registration_model.store'
+import { UserType } from '@/states/user_model.store'
+import { usePathname, useRouter } from 'next/navigation'
+
 const Header = () => {
   const [
     access_token,
@@ -22,7 +23,9 @@ const Header = () => {
     setSocketLogged,
     socketReset,
     setGamesList,
-    refresh_token
+    refresh_token,
+    setAccessToken,
+    setRefreshToken
   ] = useUnit([
     RegistrModel.$access_token,
     UserModel.setUserInfo,
@@ -31,17 +34,35 @@ const Header = () => {
     UserModel.setSocketLogged,
     UserModel.$socketReset,
     GameModel.setGamesList,
-    RegistrModel.$refresh_token
+    RegistrModel.$refresh_token,
+    RegistrModel.setAccessToken,
+    RegistrModel.setRefreshToken
   ])
+
+  const route = useRouter()
+  const location = usePathname()
+
+  useEffect(() => {
+    const access_token = localStorage.getItem('access')
+    const refresh_token = localStorage.getItem('refresh')
+    if (access_token) {
+      setAccessToken(access_token)
+      refresh_token && setRefreshToken(refresh_token)
+      if (location.includes('auth')) {
+        route.push('/')
+      }
+    } else {
+      // if (!location.includes('auth')) {
+      //   route.push('/auth/registration')
+      // }
+    }
+  }, [location])
   useEffect(() => {
     if (access_token) {
       ;(async () => {
         const response = await api.getUserInfo({ bareer: access_token })
         if (response.status === 'OK') {
-          setUserInfo((response as any).body)
-          console.log('2user info', response.body)
-        } else {
-          console.log('err', response.body)
+          setUserInfo((response as unknown as { body: UserType }).body)
         }
       })()
     }
@@ -49,12 +70,15 @@ const Header = () => {
 
   const [errorSeed, setErrorSeed] = useState(false)
 
+  // Server seed
   useEffect(() => {
     if (access_token) {
       ;(async () => {
         const response = await api.getServerSeed({ bareer: access_token })
-        console.log('server seed', response)
-        if (response.status === 'OK' && (response.body as any)?.seed) {
+        if (
+          response.status === 'OK' &&
+          (response.body as Record<string, string>)?.seed
+        ) {
           setSeed(true)
         } else {
           setSeed(false)
@@ -63,18 +87,17 @@ const Header = () => {
       })()
       ;(async () => {
         const response = await api.getClientSeed({ bareer: access_token })
-        console.log('client seed', response)
-        if (response.status === 'OK' && (response.body as any)?.seed) {
-          // setSeed((prev) => [...prev, response]);
+
+        if (
+          response.status === 'OK' &&
+          (response.body as Record<string, string>)?.seed
+        ) {
         } else {
           setErrorSeed(true)
         }
       })()
     }
   }, [access_token, errorSeed])
-
-  const server_seed = { type: 'NewServerSeed' }
-  const data = { type: 'Auth', token: access_token }
 
   const seed_data = {
     type: 'NewClientSeed',
@@ -86,32 +109,29 @@ const Header = () => {
   const [seeds, setSeed] = useState<boolean | null>(null)
   const socket = useSocket()
 
-  //?-----------------------------------------------------------------------------
+  const data = { type: 'Auth', token: access_token }
+
   useEffect(() => {
-    if (
-      // (!seeds || errorSeed) &&
-      socket &&
-      socket.readyState === WebSocket.OPEN &&
-      !socketAuth
-    ) {
-      socket.send(JSON.stringify({ type: 'GetUuid' }))
-      if (access_token) {
-        socket.send(JSON.stringify(data))
-        setSocketAuth(true)
-        setErrorSeed(false)
-        setSocketLogged(true)
-        socket.send(JSON.stringify(seed_data))
+    if (socket) {
+      const handleOpen = () => {
+        console.log('WebSocket connected')
+        socket.send(JSON.stringify({ type: 'GetUuid' }))
+        if (access_token) {
+          socket.send(JSON.stringify(data))
+          setSocketAuth(true)
+          setErrorSeed(false)
+          setSocketLogged(true)
+          socket.send(JSON.stringify(seed_data))
+        }
+      }
+
+      socket.addEventListener('open', handleOpen)
+
+      return () => {
+        socket.removeEventListener('open', handleOpen)
       }
     }
-  }, [
-    socket,
-    access_token,
-    // socket?.readyState,
-    seeds,
-    errorSeed,
-    socket?.OPEN,
-    socketAuth
-  ])
+  }, [socket, access_token])
 
   useEffect(() => {
     if (
@@ -120,7 +140,7 @@ const Header = () => {
       socket &&
       socket.readyState === WebSocket.OPEN
     ) {
-      socket.send(JSON.stringify(server_seed))
+      socket.send(JSON.stringify({ type: 'NewServerSeed' }))
     }
   }, [seeds, socket?.readyState, socketReset])
 
@@ -130,53 +150,49 @@ const Header = () => {
         const data = await api.getGames({ bareer: access_token })
         if (data.status === 'OK') {
           setGamesList((data.body as any).games)
-          console.log(data.body)
         }
       }
     })()
   }, [access_token])
-
-  const [otToken, setOtToken] = useState<any | undefined>()
 
   useEffect(() => {
     ;(async () => {
       if (access_token) {
         const response = await api.getOneTimeToken({ bareer: access_token })
         if (response.status === 'OK') {
-          setOtToken((response as any).body)
-          console.log('ONE TIME TOKEN---', response.body)
-        } else {
-          console.log('ONE TIME TOKEN ERROR', response.body)
+          // setOtToken((response as any).body)
         }
       }
     })()
   }, [access_token])
-  const sessionData = useSession()
-  console.log('session data:', sessionData.data)
 
   useEffect(() => {
-    ;(async () => {
-      if (refresh_token) {
-        const response = await api.refreshToken({
-          bareer: access_token,
-          refresh_token: refresh_token
-        })
-        if (response.status === 'OK') {
-          const token = response.body
-        }
-        // setRefreshToken(newRefreshToketn.)
+    const intervalId = setInterval(async () => {
+      const response = await api.refreshToken({
+        bareer: access_token,
+        refresh_token: refresh_token
+      })
+      if (response.status === 'OK') {
+        const token = response.body
       }
-    })()
+    }, 10 * 60 * 1000)
+
+    return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  // useEffect(() => alert(`${refresh_token}`), [])
+  const [opened] = useUnit([SidebarModel.$open])
+
   return (
-    <header className='flex justify-between items-center px-5 py-3 box-border sticky min-h-max top-0 z-[50] w-full bg-black'>
+    <header
+      className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
+        !opened ? 'px-3 sm:!pr-10' : 'px-3'
+      } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[55] w-full bg-[#0F0F0F]`}
+    >
       <Logo />
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />
         <Wallet />
-        <Separator orientation='vertical' className='min-h-10' />
+        <Separator orientation='vertical' className='min-h-10 inline' />
         <User />
       </div>
     </header>
@@ -184,3 +200,41 @@ const Header = () => {
 }
 
 export default Header
+// useEffect(() => {
+//   // alert(JSON.stringify(socket))
+//   if (
+//     // (!seeds || errorSeed) &&
+//     socket
+//   ) {
+//     socket.send(JSON.stringify({ type: 'GetUuid' }))
+//     if (access_token) {
+//       socket.send(JSON.stringify(data))
+//       setSocketAuth(true)
+//       setErrorSeed(false)
+//       setSocketLogged(true)
+//       socket.send(JSON.stringify(seed_data))
+//     }
+//   }
+// }, [
+//   socket,
+//   access_token,
+//   seeds,
+//   errorSeed,
+//   socket?.OPEN,
+//   socketAuth,
+//   WebSocket
+// ])
+// useEffect(() => {
+//   if (access_token) {
+//     if (socket) {
+//       if (socket.readyState === 1) {
+//         socket.send(JSON.stringify({ type: 'GetUuid' }))
+//         socket.send(JSON.stringify({ type: 'Auth', token: access_token }))
+//         setSocketAuth(true)
+//         setErrorSeed(false)
+//         setSocketLogged(true)
+//         socket.send(JSON.stringify(seed_data))
+//       }
+//     }
+//   }
+// }, [socket, access_token, WebSocket, socketAuth, seed_data])

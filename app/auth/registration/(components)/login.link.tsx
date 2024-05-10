@@ -7,6 +7,7 @@ const LoginLink = ({
   setIsSignup: (el: string) => void
   className?: string
 }) => {
+  const signIn = () => setIsSignup('in')
   return (
     <Link href='/auth/login' className={`flex items-center ${className}`}>
       <span
@@ -16,9 +17,9 @@ const LoginLink = ({
         Already have an account?
       </span>
       <span
-        className='cursor-pointer text-orange text-[16px] font-semibold leading-[22px] tracking-def mb-[3px]
+        className='cursor-pointer text-orange text-[13px] font-normal leading-[22px] tracking-def mb-[3px]
             '
-        onClick={() => setIsSignup('in')}
+        onClick={signIn}
       >
         &nbsp; Sign in
       </span>

@@ -18,7 +18,6 @@ next-env.d.ts
 .DS_Store
 .vscode
 *.pem
-.env
 package-lock.json
 
 # debug
@@ -34,3 +33,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+.env

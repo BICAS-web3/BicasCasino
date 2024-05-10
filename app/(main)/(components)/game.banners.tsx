@@ -2,17 +2,17 @@
 
 import { useRef } from 'react'
 
-import { Autoplay, EffectFade, Grid, Navigation } from 'swiper/modules'
+import { Autoplay, Grid, Navigation } from 'swiper/modules'
 import { SwiperSlide } from 'swiper/react'
 
 import { Button } from '@/components/ui/button'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { useMediaQuery } from 'usehooks-ts'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),
@@ -44,37 +44,39 @@ const GameBanners = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
   return (
-    <div className={`flex flex-col gap-[10px] overflow-hidden ${className}`}>
-      <div className='flex items-center gap-[10px] ml-auto text-[#7E7E7E] font-bold'>
-        Show all
-        <div className='flex gap-[5px]'>
-          <Button
-            size={'icon'}
-            id='swiper-button--prev-game'
-            ref={navigationPrevRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
-          >
-            <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
-          </Button>
-          <Button
-            size={'icon'}
-            id='swiper-button--next-game'
-            ref={navigationNextRef}
-            className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
-          >
-            <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
-          </Button>
+    <div
+      className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}
+    >
+      <div className='w-full flex items-center justify-center'>
+        <h2 className='font-bold sm:text-xl'>GreekKeepers originals</h2>
+        <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
+          Show all
+          <div className='flex gap-[5px]'>
+            <Button
+              size={'icon'}
+              id='swiper-button--prev-game'
+              ref={navigationPrevRef}
+              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            >
+              <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+            </Button>
+            <Button
+              size={'icon'}
+              id='swiper-button--next-game'
+              ref={navigationNextRef}
+              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+            >
+              <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+            </Button>
+          </div>
         </div>
       </div>
 
       <Carousel
         slides='auto'
         spacing={20}
-        containerClassName='w-full mb-2 h-[554px] sm:mb-5 gap-5'
+        containerClassName='w-full mb-10 sm:mb-2 h-max sm:h-[290px] sm:mb-5 gap-5'
         loop
-        grid={{
-          rows: isMobile ? 1 : 2
-        }}
         navigation={{
           prevEl: navigationPrevRef.current,
           nextEl: navigationNextRef.current
@@ -83,14 +85,20 @@ const GameBanners = ({ className }: { className?: string }) => {
           swiper.params.navigation.prevEl = navigationPrevRef.current
           swiper.params.navigation.nextEl = navigationNextRef.current
         }}
-        modules={[Navigation, Autoplay, Grid]}
+        modules={[Navigation, Autoplay]} // Grid
       >
         {games_banner.map((item, index) => (
           <SwiperSlide
             key={`swiper-slide-${item.id}--${index}`}
             style={{ width: 206 }}
+            className='pt-[10px]'
           >
-            <GameSlideItem image={item.image} link={item.link} />
+            <GameSlideItem
+              className='duration-500 hover:-translate-y-[8px] mt-2'
+              image={item.image}
+              title={item.title}
+              link={item.link}
+            />
           </SwiperSlide>
         ))}
       </Carousel>

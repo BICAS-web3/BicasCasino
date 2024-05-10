@@ -1,11 +1,14 @@
+import { UserType } from '@/states/user_model.store'
 import { createEffect, createEvent } from 'effector'
+import { JWT } from 'next-auth/jwt'
 
-export const BaseApiUrl = 'https:/rew.greekkeepers.io/api'
-export const BaseStaticUrl = 'https:/rew.greekkeepers.io/static'
+export const BaseApiUrl = '/api'
+export const BaseStaticUrl = '/static'
+export const P2WayUrl = 'https://stage.p2way.fyi'
 
 export type T_ErrorText = {
   error: string
-  prices: any
+  prices: unknown
 }
 
 export type T_InfoText = {
@@ -29,7 +32,7 @@ export type T_NetworkFullInfo = {
 
 export type T_Networks = {
   networks: Array<T_NetworkFullInfo>
-  prices: any
+  prices: unknown
 }
 
 export type T_Localization = {}
@@ -42,11 +45,11 @@ export type T_RpcUrl = {
 
 export type T_Rpcs = {
   rpcs: Array<T_RpcUrl>
-  prices: any
+  prices: unknown
 }
 
 export type T_NFTMarket = {
-  prices: any
+  prices: unknown
   nfts: Array<T_NFT_MarketResponse>
 }
 
@@ -62,12 +65,12 @@ export type T_BlockExplorerUrl = {
 
 export type T_BlockExplorers = {
   explorers: Array<T_BlockExplorerUrl>
-  prices: any
+  prices: unknown
 }
 
 export type T_Token = {
   id: number
-  prices: any
+  prices: unknown
   network_id: number
   name: string
   icon: string
@@ -76,12 +79,12 @@ export type T_Token = {
 
 export type T_Tokens = {
   tokens: Array<T_Token>
-  prices: any
+  prices: unknown
 }
 
 export type T_Game = {
   id: number
-  prices: any
+  prices: unknown
   network_id: number
   name: string
   address: string
@@ -90,7 +93,7 @@ export type T_Game = {
 
 export type T_Nickname = {
   id: number
-  prices: any
+  prices: unknown
   address: string
   nickname: string
 }
@@ -107,7 +110,7 @@ export type T_OneTimeToken = {
 
 export type T_Player = {
   id: number
-  prices: any
+  prices: unknown
   address: string
   wagered: number
   bets: number
@@ -169,20 +172,20 @@ export type T_BetInfo = {
 
 export type T_Bets = {
   bets: T_BetInfo[]
-  prices: any
+  prices: unknown
 }
 
 export type T_GameAbi = {
   signature: string
   types: string
-  prices: any
+  prices: unknown
   names: string
 }
 
 export type T_Totals = {
   bets_amount: number
   player_amount: number
-  prices: any
+  prices: unknown
   sum: number
 }
 
@@ -196,6 +199,7 @@ export type T_GetUserAmount = {
 }
 
 export type T_ApiResponse = {
+  json(): any
   status: string
   body:
     | T_ErrorText
@@ -215,6 +219,8 @@ export type T_ApiResponse = {
     | T_TokenPrice
     | T_NFTMarket
     | T_LoginReponse
+    | UserType
+    | JWT
 }
 
 export type T_InvoiceCreate = {
@@ -233,7 +239,7 @@ export type T_LoginReponse = {
   expires_in: number
   refresh_token: string
   token_type: string
-  prices: any
+  prices: unknown
 }
 
 export type T_GetUsername = {
@@ -253,11 +259,11 @@ export type T_SetUsername = {
 
 export type T_LatestGames = {
   games: string[]
-  prices: any
+  prices: unknown
 }
 
 export type T_PlayerTotals = {
-  prices: any
+  prices: unknown
   bets_amount: number
   total_wagered_sum: number | null
   won_bets: number | null
@@ -269,11 +275,11 @@ export type T_PlayerTotals = {
 
 export type T_TokenPrice = {
   token_price: number
-  prices: any
+  prices: unknown
 }
 
 export type T_OpenseaData = {
-  listings: any[]
+  listings: unknown[]
   next: string
 }
 
@@ -396,7 +402,7 @@ export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
 
 //?-----------------
 
-export const getDataFromOpensea = createEffect<string, any, string>(
+export const getDataFromOpensea = createEffect<string, unknown, string>(
   async next => {
     return fetch(
       `https://api.opensea.io/api/v2/listings/collection/greekkeepers/all`,
@@ -843,7 +849,55 @@ export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
 
 export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
   async form => {
-    return fetch(`${BaseApiUrl}/user/refresh/werfd`, {
+    return fetch(`${BaseApiUrl}/user/refresh/${form.refresh_token}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
+      }
+      // body: JSON.stringify({
+      //   refresh_token: form.refresh_token
+      // })
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+export const getTokensGeneral = createEffect<T_Header, T_ApiResponse, string>(
+  async () => {
+    return fetch(`${BaseApiUrl}/general/promtokens`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+        // Authorization: `Bearer ${form.bareer}`
+      }
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+interface IBilliane {
+  address: string
+  amount: string
+  city: string
+  country: string
+  currency: string
+  email: string
+  first_name: string
+  last_name: string
+  phone: string
+  post_code: string
+  region: string
+  bareer: string
+}
+
+export const getTokensBilliane = createEffect<IBilliane, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/invoice/billine/create`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -851,10 +905,234 @@ export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
         Authorization: `Bearer ${form.bareer}`
       },
       body: JSON.stringify({
-        refresh_token: form.refresh_token
+        address: form.address,
+        amount: form.amount,
+        city: form.city,
+        country: form.country,
+        currency: form.currency,
+        email: form.email,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        phone: form.phone,
+        post_code: form.post_code,
+        region: form.region
       })
     })
       .then(async res => await res.json())
       .catch(e => e)
   }
 )
+
+type T_TokenSettings = {
+  apiKey: string
+  token: string
+}
+
+export const getTokensSettings = createEffect<
+  T_TokenSettings,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(
+    `${P2WayUrl}/widget/getSettings?apiKey=${form.apiKey}&token=${form.token}`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_TokenSession = {
+  apiKey: string
+  userId: string
+  token: string
+  callbackUrl: string
+}
+
+export const createTokenSession = createEffect<
+  T_TokenSession,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/createSession`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_TokenOrder = {
+  sessionId: string
+  token: string
+  amount: number
+}
+
+export const createTokenOrder = createEffect<
+  T_TokenOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/createOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_DataOrder = {
+  orderId: string
+  token: string
+}
+
+export const cancelTokenOrder = createEffect<
+  T_DataOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/cancelOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export const confirmOrder = createEffect<T_DataOrder, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${P2WayUrl}/widget/confirmMoneyTransfer`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+        // Authorization: `Bearer ${form.bareer}`
+      },
+      body: JSON.stringify(form)
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+type T_ScreenShootOrder = {
+  orderId: string
+  bucketS3DocumentName: string
+}
+
+export const screenShootOrder = createEffect<
+  T_ScreenShootOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/addDocumentToOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export const getOrderInfo = createEffect<
+  { orderId: string },
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/getOrderById?orderId=${form.orderId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    }
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export type T_ImageFile = {
+  imageName: string
+  contentType: string
+}
+
+export const getImageFile = createEffect<T_ImageFile, T_ApiResponse, string>(
+  async form => {
+    return fetch(
+      `${P2WayUrl}/uploadFile/getUploadDocumentURL?documentName=${form.imageName}&contentType=${form.contentType}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+export type T_BilllineIframe = {
+  merchant: string
+  order: string
+  amount: string
+  currency: string
+  item_name: string
+  first_name: string
+  last_name: string
+  user_id: string
+  payment_url: string
+  country: string
+  ip: string
+  custom: ''
+  email: 'test@gmail.com'
+  phone: '+35988222763'
+  address: 'Avenue Marius Renard 21'
+  city: 'Anderlecht'
+  post_code: '1070'
+  region: 'stuttgart'
+  lang: 'en'
+}
+
+// export const getBilllineIframe = createEffect<
+//   T_BilllineIframe,
+//   T_ApiResponse,
+//   string
+// >(async form => {
+//   return fetch(
+//     `${P2WayUrl}/uploadFile/getUploadDocumentURL?documentName=${form.imageName}&contentType=${form.contentType}`,
+//     {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json'
+//       }
+//     }
+//   )
+//     .then(async res => await res.json())
+//     .catch(e => e)
+// })

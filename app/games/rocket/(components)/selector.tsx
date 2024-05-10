@@ -1,16 +1,22 @@
 import { FC } from 'react'
+import { DiceCloseSVG } from './icons'
 
 interface ISelector {
-  diceValue: any[]
+  diceValue: {
+    id: number
+    title: string
+    value: string
+    img_alt: string
+    img_src: typeof DiceCloseSVG
+  }[]
   onClick?: () => void
 }
 
-const Selector: FC<ISelector> = props => {
-  const { diceValue, onClick } = props
+const Selector: FC<ISelector> = ({ diceValue, onClick }) => {
   return (
     <div
       className={
-        'bg-[#151515] flex justify-center items-center gap-1.5 px-0  md:px-5 xl:px-2 py-4 relative z-[1] w-full xl:w-auto'
+        'bg-[#151515] flex justify-center items-center gap-1.5 px-[16px]  md:px-5 xl:px-2 py-4 relative z-[1] w-full xl:w-auto'
       }
     >
       {diceValue.map(dice => (
