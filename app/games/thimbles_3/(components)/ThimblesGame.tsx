@@ -14,6 +14,7 @@ import { ThimblesGameProps } from '@/types/games.types'
 import Image from 'next/image'
 import { handleGameResult } from '../utils'
 import Thimble from './Thimble'
+import useSound from 'use-sound'
 
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const socket = useSocket()
@@ -60,6 +61,10 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     GameModel.$showAnimation,
     GameModel.setShowAnimation
   ])
+  const [thimbleMix] = useSound('/music/thimble_mix.mp3')
+  const [thimbleLose] = useSound('/music/thimble_lose.mp3')
+  const [thimbleWin] = useSound('/music/thimble_win.mp3')
+  const [thimbleSelect] = useSound('/music/thimble_select.mp3')
   const [activeThimble, setActiveThimble] = useState<number | null>(null) //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0])
   const [openGame, setOpenGame] = useState<number | null>(1)
@@ -204,7 +209,9 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       setSelected,
       selected,
       setLostStatus,
-      setResult
+      setResult,
+      thimbleLose,
+      thimbleWin
     })
   }, [result?.timestamp, result, gameStatus])
 

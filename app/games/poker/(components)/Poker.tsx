@@ -111,7 +111,7 @@ export const Poker = ({}: PokerProps) => {
     false
   ])
   const [playDrawnCards] = useSound(
-    '/static/media/games_assets/poker/sounds/cardsEveryone.mp3'
+    'https://game.greekkeepers.io/static/media/games_assets/poker/sounds/cardsEveryone.mp3'
   )
 
   useEffect(() => {

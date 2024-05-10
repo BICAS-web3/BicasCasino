@@ -93,13 +93,6 @@ const MinesGame = () => {
   const [inGame, setInGame] = useState<boolean>(false)
   const [redrawTrigger, triggerRedraw] = useState<boolean>(true)
 
-  const [playTileClick] = useSound(
-    `/static/media/games_assets/mines/mineClick.mp3`,
-    {
-      playbackRate: (totalOpenedTiles + 1) / 25 + 0.5,
-      volume: 1
-    }
-  )
   useEffect(() => {
     useSubscibeBets({
       name: 'Mines',
@@ -243,7 +236,15 @@ const MinesGame = () => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Mines' })
   }, [])
 
-  const pickTiles = (index: number) =>
+  const [playTileClick] = useSound(
+    `https://game.greekkeepers.io/static/media/games_assets/mines/mineClick.mp3`,
+    {
+      playbackRate: (totalOpenedTiles + 1) / 25 + 0.5,
+      volume: 1
+    }
+  )
+
+  const pickTiles = (index: number) => {
     pickTileforMine({
       index,
       gameField,
@@ -255,6 +256,7 @@ const MinesGame = () => {
       totalOpenedTiles,
       triggerRedraw
     })
+  }
 
   return (
     <div
@@ -304,50 +306,3 @@ const MinesGame = () => {
 }
 
 export default MinesGame
-// useEffect(() => {
-//   if (false) {
-//     setBetData({
-//       type: 'ContinueGame',
-//       game_id: gamesList.find(item => item.name === 'Mines')?.id,
-//       coin_id: isDrax ? 2 : 1,
-//       user_id: userInfo?.id || 0,
-//       data: `{ "cashout":true, "tiles":[${pickedTiles}]}`
-//     })
-//   } else {
-//     setBetData({
-//       type: 'MakeBet',
-//       game_id: gamesList.find(item => item.name === 'Mines')?.id,
-//       coin_id: isDrax ? 2 : 1,
-//       user_id: userInfo?.id || 0,
-//       data: `{"num_mines":${pickedValue}, "cashout":true, "tiles": [${pickedTiles}]}`,
-//       amount: `${cryptoValue || 0}`,
-//       stop_loss: Number(stopLoss) || 0,
-//       stop_win: Number(stopGain) || 0,
-//       num_games: betsAmount
-//     })
-//   }
-// }, [
-//   stopGain,
-//   stopLoss,
-//   cryptoValue,
-//   isDrax,
-//   betsAmount,
-//   isCashout,
-//   pickedTiles,
-//   totalOpenedTiles
-// ])
-// useEffect(() => {
-//   if (keep && stopWinning === 'YES' && totalOpenedTiles === 0) {
-//     if (socket && access_token && socket.readyState === WebSocket.OPEN) {
-//       socket.send(
-//         JSON.stringify({
-//           type: 'ContinueGame',
-//           game_id: gamesList.find(item => item.name === 'Mines')?.id,
-//           coin_id: isDrax ? 2 : 1,
-//           user_id: userInfo?.id || 0,
-//           data: `{"cashout":true}`
-//         })
-//       )
-//     }
-//   }
-// }, [keep, stopWinning, isDrax, betsAmount, totalOpenedTiles, pickedTiles])

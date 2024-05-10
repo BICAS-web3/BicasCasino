@@ -21,11 +21,12 @@ export const PokerCard: FC<PokerCardProps> = props => {
   const [cardFlipped, setCardFlipped] = useState(false)
   const cardRef = useRef<HTMLElement | null>(null)
   const [cardWidth, setCardWidth] = useState(0)
+  const [musicType] = useUnit([GameModel.$playSounds])
 
   const [localFlip, setLocalFlip] = useState(false)
 
   const [playRedrawSound] = useSound(
-    `/static/media/games_assets/poker/sounds/redrawCard.mp3`,
+    `https://game.greekkeepers.io/static/media/games_assets/poker/sounds/redrawCard.mp3`,
     { volume: 1 }
   )
 
@@ -70,6 +71,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
       onClick={
         !isEmptyCard
           ? () => {
+              musicType !== 'off' && playRedrawSound()
               setCardFlipped(!cardFlipped)
               onClick()
             }

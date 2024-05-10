@@ -4,7 +4,14 @@ import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import GameMenu from './(components)/game.menu'
-import { MelBottomMenu } from './(components)/melBottomMenu/MelBottomMenu'
+import ReactHowler from 'react-howler'
+import {
+  Active2SVG,
+  ActiveGroupSVG,
+  Disabled2SVG,
+  DisabledGroupSVG,
+  Effects2SVG
+} from './(icons)'
 
 const GameLayout = ({ children }) => {
   const [
@@ -62,8 +69,45 @@ const GameLayout = ({ children }) => {
     }
   }, [gameStatus])
 
+  const [playSounds, switchSounds] = useUnit([
+    GameModel.$playSounds,
+    GameModel.switchSounds
+  ])
+
+  const musicsList = [
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/3.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/4.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/5.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/6.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/7.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/8.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/9.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/10.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/12.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/13.mp3',
+    'https://game.greekkeepers.io/static/media/games_assets/music/default_bg_music/14.mp3'
+  ]
+  const [currentSoundIndex, setCurrentSoundIndex] = useState(0)
+  const setNewMusic = () => {
+    setCurrentSoundIndex(prevIndex => (prevIndex + 1) % musicsList.length)
+  }
+  const soundChange = () => {
+    if (playSounds === 'off') {
+      switchSounds('on')
+    } else if (playSounds === 'on') {
+      switchSounds('effects')
+    } else if (playSounds === 'effects') {
+      switchSounds('off')
+    }
+  }
+
   return (
     <div className='w-full sm:p-10 sm:pb-5 flex flex-col min-h-[calc(100vh-112px)] sm:min-h-[calc(100vh-100px)] xl:min-h-[calc(100vh-110px)] 3xl:min-h-[calc(100vh-90px)] relative'>
+      <ReactHowler
+        src={musicsList[currentSoundIndex]}
+        playing={playSounds === 'on'}
+        onEnd={() => setNewMusic()}
+      />
       <div
         className={`relative flex flex-col ${
           isMines ? 'pb-[225px]' : 'pb-[165px]'
@@ -74,7 +118,27 @@ const GameLayout = ({ children }) => {
         }`}
       >
         {access_token && socketAuth ? children : <Preload />}
-        {/* <MelBottomMenu /> */}
+        <div
+          className='absolute bottom-5 right-5 p-3 rounded-sm cursor-pointer'
+          onClick={soundChange}
+        >
+          {playSounds === 'off' ? (
+            <>
+              <Disabled2SVG />
+              {/* <DisabledGroupSVG /> */}
+            </>
+          ) : playSounds === 'effects' ? (
+            <>
+              <Effects2SVG />
+              {/* <span>fx</span> */}
+            </>
+          ) : (
+            <>
+              <Active2SVG />
+              {/* <ActiveGroupSVG /> */}
+            </>
+          )}
+        </div>
       </div>
       <GameMenu />
     </div>

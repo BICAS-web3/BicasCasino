@@ -3,6 +3,7 @@ import { MutableRefObject, RefObject, useEffect, useState } from 'react'
 import { ThimbleSVG } from './icons'
 import { useUnit } from 'effector-react'
 import { GameModel } from '@/states'
+import useSound from 'use-sound'
 
 const Thimble = ({
   ind,
@@ -40,7 +41,7 @@ const Thimble = ({
       setLocalPlay(false)
     }
   }, [isPlaying])
-
+  const [thimbleSelect] = useSound('/music/thimble_select.mp3')
   return (
     <div
       key={ind}
@@ -49,6 +50,7 @@ const Thimble = ({
       onClick={() => {
         if (!showAnimation && !openGame && isPlaying) {
           setSelected(ind)
+          thimbleSelect()
         }
       }}
       ref={animatedRefs.current[ind]}

@@ -14,7 +14,6 @@ export const setGameFields = ({
   setGameField: Dispatch<SetStateAction<Tile[]>>
   setPickedTiles: Dispatch<SetStateAction<boolean[]>>
 }) => {
-  // alert(JSON.stringify(initialPickedTiles))
   let openedTiles = 0
   setGameField(initialGameField)
   setPickedTiles([
@@ -184,101 +183,9 @@ export const pickTileforMine = ({
     } else {
       setTotalOpenedTiles(totalOpenedTiles - 1)
     }
-    musicType !== 'off' && playTileClick()
+    // musicType !== 'off' && playTileClick()
+    playTileClick()
     pickedTiles[index] = !pickedTiles[index]
     triggerRedraw(true)
   }
 }
-
-// export function handleResult({
-//   result,
-//   setInGame,
-//   setWaitingResponse,
-//   setGameStatus,
-//   setWonStatus,
-//   setLostStatus,
-//   setKeep,
-//   setCoefficientData,
-//   setCryptoValue,
-//   setTotalOpenedTiles,
-//   triggerRedraw,
-//   setStopWinning,
-//   setGameField,
-//   setPickedTiles,
-//   gameField
-// }: IHandleResult) {
-//   if (!result) return
-//   if (result.type === 'State' && result.state) {
-//     // alert('State')
-//     const dataState = JSON.parse(result.state)
-//     setKeep(true)
-//     if (Number(result.amount) > 0) {
-//       setCryptoValue(Number(result.amount))
-//       const newGameField = gameField.map((value, index) => {
-//         if (dataState?.mines[index]) {
-//           return Tile.Bomb
-//         } else if (dataState?.state[index]) {
-//           return Tile.Coin
-//         } else {
-//           return value
-//         }
-//       })
-//       setWaitingResponse(false)
-//       setGameField(newGameField)
-//       setTotalOpenedTiles(0)
-//       setPickedTiles([...initialPickedTiles])
-//     }
-//   } else if (result.type === 'Bet' && result.state) {
-//     const fullAmount = Number(result.amount) * result.num_games!
-//     setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
-//     const data = JSON.parse(result!.state)
-//     const newGameField = gameField.map((value, index) => {
-//       if (data?.mines[index]) {
-//         return Tile.Bomb
-//       } else if (data?.state[index]) {
-//         return Tile.Coin
-//       } else {
-//         return value
-//       }
-//     })
-//     setWaitingResponse(false)
-//     setGameField(newGameField)
-//     setTotalOpenedTiles(0)
-//     setPickedTiles([...initialPickedTiles])
-//     setTimeout(() => {
-//       setInGame(false)
-//       triggerRedraw(true)
-//       setGameField(initialGameField)
-//       setPickedTiles(initialPickedTiles)
-//       // setGameFields({
-//       //   revealedTiles: initialPickedTiles,
-//       //   tilesPicked: [...initialPickedTiles],
-//       //   setGameField,
-//       //   setPickedTiles
-//       // })
-//     }, 2000)
-//     if (
-//       Number(result.profit) > Number(result.amount) ||
-//       Number(result.profit) === Number(result.amount)
-//     ) {
-//       setGameStatus(GameModel.GameStatus.Won)
-//       const multiplier = Number(Number(result.profit) / Number(result.amount))
-//       setWonStatus({
-//         profit: Number(result.profit),
-//         multiplier,
-//         token: 'DRAX'
-//       })
-//       setInGame(false)
-//     } else if (Number(result.profit) < Number(result.amount)) {
-//       setGameStatus(GameModel.GameStatus.Lost)
-//       // setStopWinning('NO')
-//       setInGame(false)
-//       setLostStatus(Number(result.profit) - Number(result.amount))
-//     } else {
-//       setGameStatus(GameModel.GameStatus.Draw)
-//       // setStopWinning('NO')
-//       setInGame(false)
-//     }
-//     // setKeep(false)
-//   }
-// }
