@@ -12,6 +12,7 @@ import Carousel from '@/components/custom/carousel/carousel'
 import { stringRemoveSpacing } from '@/lib/string'
 import { useRef } from 'react'
 import { main_banner } from './data'
+import { LeftArrow } from '@/public/icons/chest/leftArrow'
 import Image from 'next/image'
 
 export const Banner = () => {

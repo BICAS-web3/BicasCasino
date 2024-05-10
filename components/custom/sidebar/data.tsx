@@ -21,6 +21,7 @@ import {
   WheelSVG,
   PokerSVG
 } from './components/icons/games'
+import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
 import goalsImg from '@/public/images/sidebar-icons/goals.png'
 import Image from 'next/image'
 
@@ -66,6 +67,11 @@ export const STopMenu = [
         color: 'linear-gradient(40deg, #61194F 0%, #272229 100%)'
       }
     ]
+  },
+  {
+    icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
+    title: 'CHEST & CARD',
+    id: 'modal'
   },
   {
     icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
