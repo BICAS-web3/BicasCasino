@@ -18,11 +18,13 @@ const tabData = ['Buy', 'Redeem', 'Tips']
 const tabContent = [<TabBuy />, <TabRedeem />, <TabTips />]
 
 const Payment = () => {
-  const [totalVisibility, setTotalVisibility, isBillline] = useUnit([
-    PaymentModel.$totalVisibility,
-    PaymentModel.setTotalVisibility,
-    PaymentModel.$isBillline
-  ])
+  const [totalVisibility, setTotalVisibility, isBillline, setShowTransaction] =
+    useUnit([
+      PaymentModel.$totalVisibility,
+      PaymentModel.setTotalVisibility,
+      PaymentModel.$isBillline,
+      PaymentModel.setShowTransaction
+    ])
   const [tab, setTab] = useState(
     stringRemoveSpacing(tabData[0]).toLocaleLowerCase().toLocaleLowerCase()
   )
@@ -35,25 +37,37 @@ const Payment = () => {
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
       <DialogContent
         customClose
-        className={`gap-3 max-w-[525px] ${ tab !== 'tips' && 'h-full sm:max-h-[725px]' } flex flex-col overflow-auto bg-[#181818] px-[30px] py-5`}
+        className={`gap-3 max-w-[525px]  ${
+          tab !== 'tips'
+            ? 'max-h-[calc(100vh-112px)] h-full sm:max-h-[725px]'
+            : 'max-h-[calc(100vh-112px)] h-full sm:h-fit sm:max-h-[725px]'
+        } flex flex-col  bg-[#181818] px-[30px] py-5`}
       >
         <DialogHeader className='h-[55px]'>
-          <div className='flex justify-between items-center flex-row pr-2'>
+          <div className='flex justify-between items-center flex-row'>
             <div className='flex items-center gap-4 text-[#979797]'>
               <WalletSVG className='w-5 aspect-square object-contain' />
               <h5 className='tracking-[4%] font-semibold text-xl leading-7'>
                 Wallet
               </h5>
             </div>
-            <div className='flex items-center gap-4'>
-              <Button
-                className=''
-                size='icon'
-                variant='ghost'
-                onClick={handleClose}
+            <div className='flex items-center gap-4 sm:gap-[47px]'>
+              <span
+                onClick={() => setShowTransaction(true)}
+                className='underline cursor-pointer text-[15px] text-[#FFE09D]'
               >
-                <X className='w-5 h-5 aspect-square object-contain text-[#3E3E3E]' />
-              </Button>
+                Transactions
+              </span>
+              <div className='flex items-center gap-4'>
+                <Button
+                  className='relative translate-x-2.5 bg-transparent hover:bg-transparent group'
+                  size='icon'
+                  // variant='ghost'
+                  onClick={handleClose}
+                >
+                  <X className='w-5 h-5 duration-500 aspect-square object-contain text-[#3E3E3E] group-hover:text-[#979797]' />
+                </Button>
+              </div>
             </div>
           </div>
           <Separator />
@@ -61,7 +75,7 @@ const Payment = () => {
         {isBillline ? (
           <Billline />
         ) : (
-          <Tabs className='h-full flex flex-col' value={tab} >
+          <Tabs className='h-full flex flex-col' value={tab}>
             <div>
               <TabsList className='w-full border border-[#252525] bg-[#121212] py-[5px] h-[40px] px-[5px] rounded-full gap-2'>
                 {tabData.map((tabItem, index) => (

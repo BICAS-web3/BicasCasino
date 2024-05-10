@@ -19,7 +19,7 @@ import AppleTable from './appleTable'
 import WinMessage from '@/components/custom/winMessage'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
-import { GameStatus } from '@/states/game_model.store'
+import { GameStatus, setapplesPlay } from '@/states/game_model.store'
 import { IAppleData } from '@/types/games.types'
 
 const AppleGame = () => {
@@ -96,7 +96,7 @@ const AppleGame = () => {
     GameModel.setLostStatus,
     GameModel.setCoefficient,
     GameModel.setWaitingResponse,
-    GameModel.setIsPlaying,
+    GameModel.setapplesPlay,
     GameModel.$pickedSide,
     GameModel.setGameResult,
     GameModel.$reset,
@@ -106,7 +106,7 @@ const AppleGame = () => {
     UserModel.$socketLogged,
     UserModel.$isDrax,
     UserModel.$userInfo, //! ---- user data -----
-    GameModel.$isPlaying,
+    GameModel.$applesPlay,
     GameModel.$multiplier,
     WagerModel.setCryptoValue,
     GameModel.$stop,
@@ -118,6 +118,8 @@ const AppleGame = () => {
   useEffect(() => {
     setGameStatus(null)
   }, [])
+
+  // useEffect(() => alert(isPlaying), [isPlaying])
 
   useEffect(() => {
     useSubscibeBets({
@@ -145,7 +147,7 @@ const AppleGame = () => {
       setGameStatus,
       setWonStatus,
       setLostStatus,
-      setInGame,
+      () => {},
       setFirstBet,
       handleReset,
       setStop,
@@ -168,11 +170,6 @@ const AppleGame = () => {
     setCoefficient(1.98)
   }, [])
 
-  const [inGame, setInGame] = useState<boolean>(false)
-
-  useEffect(() => setInGame(true), [inGame])
-
-  useEffect(() => setInGame(isPlaying), [isPlaying])
   const [access_token] = useUnit([RegistrModel.$access_token])
   const handleReset = () => {
     setAppleGameResult([])
@@ -274,7 +271,7 @@ const AppleGame = () => {
     <div
       className='relative w-full h-full pt-12 py-[23px] sm:py-16 lg:py-[30px] px-2.5 sm:px-[30px] lg:px-0 rounded-none sm:rounded-t-[20px] flex-[1_1_auto]'
       style={{
-        background: `url('/images/apples/applesBg.webp') center center no-repeat`,
+        background: `url('/images/apples/applesBg.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >
@@ -286,14 +283,12 @@ const AppleGame = () => {
         <AppleTable
           appleData={appleData}
           chunkedApplesArr={chunkedApplesArr}
-          inGame={inGame}
           mines={mines}
           setAppleData={setAppleData}
           setAppleItem={setAppleItem}
           setAppleGameResult={setAppleGameResult}
           setApples={setApples}
           setMines={setMines}
-          setInGame={setInGame}
           setIsPlaying={setIsPlaying}
           setKeep={setKeep}
           setFirstBet={setFirstBet}

@@ -232,18 +232,18 @@ const Billline = () => {
         </div>
         <div className='w-full flex gap-[10px] flex-auto'>
           <div className={`w-full flex flex-col flex-auto gap-1`}>
-            <h3 className='text-[13px] text-[#979797] font-light leading-[17px] h-[18px]'>
+            <h3
+              className={`text-[13px] font-light leading-[17px] h-[18px] duration-500 ${
+                error ? 'text-[#FC3C37]' : 'text-[#979797]'
+              }`}
+            >
               *Amount
             </h3>
             <div
-              className={`relative flex flex-auto items-center h-full bg-[#121212] rounded-[8px] border px-[10px] gap-2  ${
-                error
-                  ? 'border-[#f55252] placeholder:text-[#f55252]'
-                  : 'border-[#252525] placeholder:text-[#979797]'
-              }`}
+              className={`relative flex flex-auto items-center h-full bg-[#121212] rounded-[8px] border px-[10px] gap-2 border-[#252525]`}
             >
               <input
-                className={`w-[calc(100%-70px)] flex items-center duration-500 justify-between flex-auto h-10 bg-transparent text-[#979797] text-sm font-light`}
+                className={`w-[calc(100%-70px)] flex items-center duration-500 justify-between flex-auto h-10 bg-transparent text-[#979797] placeholder:text-[#464646] text-sm font-light`}
                 value={amount}
                 onChange={el => {
                   const numb = el.target.value
@@ -255,7 +255,7 @@ const Billline = () => {
                   }
                 }}
                 type='text'
-                placeholder={error ? 'Empty!' : '10'}
+                placeholder='10'
               />
               <DraxMiniSVG width={24} height={24} />
             </div>

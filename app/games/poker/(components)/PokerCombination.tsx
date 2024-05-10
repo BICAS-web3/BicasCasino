@@ -1,32 +1,57 @@
+import { GameModel } from '@/states'
 import { PokerCombinationProps } from '@/types/games.types'
+import { useUnit } from 'effector-react'
+import { useEffect, useState } from 'react'
 
 export const PokerCombination = ({
   combinationName,
   tokenImage,
-  multiplier
+  multiplier,
+  className,
+  profit
 }: PokerCombinationProps) => {
+  const [apper, setApper] = useState(false)
+  const [invisible, setInvisible] = useState(false)
+  const [setGameStatus, setIsPlaying] = useUnit([
+    GameModel.setGameStatus,
+    GameModel.setPokerPlay
+  ])
+  useEffect(() => {
+    setTimeout(() => {
+      setApper(true)
+      setTimeout(() => {
+        setApper(false)
+        setInvisible(true)
+        setTimeout(() => {
+          setGameStatus(null)
+        }, 1000)
+      }, 1500)
+    }, 0)
+  }, [])
   return (
-    <article className='w-[220px] py-5 px-[15px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[3] min-w-max'>
-      <h3 className='text-center text-xl sm:text-2xl tmd:text-4xl font-black tracking-def bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] uppercase'>
-        {combinationName}
-      </h3>
-      <span className='text-xl sm:text-2xl tmd:text-4xl font-black leading-[90%] bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] text-transparent bg-clip-text'>
+    <article
+      className={`w-[250px] sm:w-[309px] bg-transparent duration-1000 py-4 sm:pt-[25px] sm:pb-5 absolute top-7 sm:top-[65px] 4xl:top-[114px] left-1/2 -translate-x-1/2 -translate-y-0 sm:translate-y-0 z-[3] flex flex-col items-center rounded-[12px] gap-2.5 sm:gap-[14px]  ${
+        apper ? 'opacity-[1] visible' : 'opacity-[0] invisible'
+      }`}
+    >
+      <span className='text-base sm:text-xl font-bold leading-[100%] sm:leading-[18px] bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] text-transparent bg-clip-text uppercase'>
         you win
       </span>
-      <div className='flex flex-col items-center'>
+      <h3 className='text-lg sm:text-2xl font-bold leading-[100%] sm:leading-[21px] bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] text-transparent bg-clip-text uppercase text-center'>
+        {combinationName}
+      </h3>
+
+      <div className='flex items-center flex-col gap-2'>
         <div className='flex items-center gap-2.5'>
           <div>{tokenImage}</div>
-          <div className='text-center text-sm sm:text-base tmd:text-lg font-black leading-[90%] text-[#eaeaea]'>
-            12
+          <div className='text-center text-sm sm:text-xl font-bold leading-[18px] text-white'>
+            {profit}
           </div>
         </div>
-        <div className='text-sm sm:text-base mt-3.5 leading-[90%] text-[#7e7e7e] font-bold text-center'>
+        {/* <div className='text-sm sm:text-base leading-[90%] text-[#7E7E7E] font-bold text-center'>
           {multiplier}x
-        </div>
+        </div> */}
       </div>
-      <button className='bg-[linear-gradient(114deg,_#f8eeb8_-4.17%,_#dbb370_59.03%,_#8e5b2d_112.39%)] text-[#0f0f0f] leading-normal font-extrabold text-sm sm:text-lg tracking-wide py-2 p-1.5 sm:py-3 sm:px-2.5 rounded-[5px] sm:rounded-[12px] w-44 sm:w-64 h-10 sm:h-[50px]'>
-        Bet on my winnings
-      </button>
     </article>
   )
 }

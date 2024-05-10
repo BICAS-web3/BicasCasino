@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import Model from '../(models)/coin'
 import { processBetResult } from '../(utils)'
 import Selector from './selector'
+import { useMediaQuery } from 'usehooks-ts'
 
 const CoinFlipGame = () => {
   const socket = useSocket()
@@ -64,6 +65,7 @@ const CoinFlipGame = () => {
     GameModel.$initialValue
   ])
 
+  const isMobile = useMediaQuery('(max-width:650px)')
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
   const [subscribed, setCubscribed] = useState(false)
@@ -138,7 +140,9 @@ const CoinFlipGame = () => {
     <div
       className='relative w-full h-full px-4 flex-[1_1_auto] flex flex-col'
       style={{
-        background: `url('/images/coinflip_images/bg.png') center center no-repeat`,
+        background: isMobile
+          ? `url('/images/coinflip_images/bg_mobile.png') center center no-repeat`
+          : `url('/images/coinflip_images/bg_2.png') center center no-repeat`,
         backgroundSize: 'cover'
       }}
     >

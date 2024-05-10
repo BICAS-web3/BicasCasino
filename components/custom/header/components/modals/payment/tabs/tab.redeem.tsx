@@ -91,69 +91,69 @@ const TabRedeem = () => {
               <span>Amount to Redeem</span>
               <span>Redeemable</span>
             </div>
-          <div className='flex items-center justify-between text-xs sm:text-base text-[#979797]'>
-            <span>(Min 20DC)</span>
-            <div className='flex gap-1 items-center'>
-              <span className='cursor-pointer underline text-orange max-w-60 truncate'>
-                {amount.toLocaleString('en-US')}DC
-              </span>
-              <span className='max-w-60 truncate'>
-                &asymp;{amount.toLocaleString('en-US')}$
-              </span>
+            <div className='flex items-center justify-between text-xs sm:text-base text-[#979797]'>
+              <span>(Min 20DC)</span>
+              <div className='flex gap-1 items-center'>
+                <span className='cursor-pointer underline text-orange max-w-60 truncate'>
+                  {amount.toLocaleString('en-US')}DC
+                </span>
+                <span className='max-w-60 truncate'>
+                  &asymp;{amount.toLocaleString('en-US')}$
+                </span>
+              </div>
+            </div>
+
+            <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
+              <Input
+                className='w-full flex-1 h-10 rounded-none'
+                value={amount === 0 ? '' : amount}
+                type='number'
+                step={0.01}
+                onChange={handleAmount}
+                placeholder='Amount to Redeem'
+              />
+              <div className='flex items-center justify-center h-10 aspect-square'>
+                <DraxMiniSVG className='w-5 h-5 aspect-square object-contain' />
+              </div>
             </div>
           </div>
 
-          <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
-            <Input
-              className='w-full flex-1 h-10 rounded-none'
-              value={amount === 0 ? '' : amount}
-              type='number'
-              step={0.01}
-              onChange={handleAmount}
-              placeholder='Amount to Redeem'
-            />
-            <div className='flex items-center justify-center h-10 aspect-square'>
-              <DraxMiniSVG className='w-5 h-5 aspect-square object-contain' />
+          <div className='flex flex-col mt-[10px] gap-1'>
+            <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
+              <span>{purchaseI.label} Address</span>
+            </div>
+
+            <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
+              <Input
+                className='w-full flex-1 h-10 rounded-none'
+                value={address}
+                type='string'
+                onChange={handleAddress}
+                placeholder={`Your ${purchaseI.label} address`}
+              />
             </div>
           </div>
-        </div>
 
-        <div className='flex flex-col mt-[10px] gap-1'>
-          <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-            <span>{purchaseI.label} Address</span>
-          </div>
+          <div className='flex flex-col mt-[10px] gap-1'>
+            <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
+              <span>Estimate Receive</span>
+              <span>≈{(amount / 12 - 428.5).toFixed(2)}USDT</span>
+            </div>
 
-          <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
-            <Input
-              className='w-full flex-1 h-10 rounded-none'
-              value={address}
-              type='string'
-              onChange={handleAddress}
-              placeholder={`Your ${purchaseI.label} address`}
-            />
-          </div>
-        </div>
-
-        <div className='flex flex-col mt-[10px] gap-1'>
-          <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-            <span>Estimate Receive</span>
-            <span>≈{(amount / 12 - 428.5).toFixed(2)}USDT</span>
-          </div>
-
-          <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
-            <Input
-              className='w-full flex-1 h-10 rounded-none'
-              value={estimate}
-              type='number'
-              step={0.01}
-              onChange={handleEstimate}
-              placeholder={`Estimate Receive`}
-            />
-            <div className='flex items-center justify-center h-10 aspect-square'>
-              {purchaseI.icon}
+            <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
+              <Input
+                className='w-full flex-1 h-10 rounded-none'
+                value={estimate}
+                type='number'
+                step={0.01}
+                onChange={handleEstimate}
+                placeholder={`Estimate Receive`}
+              />
+              <div className='flex items-center justify-center h-10 aspect-square'>
+                {purchaseI.icon}
+              </div>
             </div>
           </div>
-        </div>
         </div>
 
         <div className='flex flex-col gap-[10px]'>

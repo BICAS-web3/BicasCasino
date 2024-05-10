@@ -1,5 +1,6 @@
 import { setError } from '@/states/wager_model.store'
-import { FC } from 'react'
+import { FC, useRef, useState } from 'react'
+import { CheckSVG } from '../icons'
 
 interface IInput {
   value: string
@@ -22,17 +23,40 @@ const InputItem: FC<IInput> = ({
   setValue,
   setError
 }) => {
+  const nextInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && nextInputRef.current) {
+      nextInputRef.current.focus()
+    }
+  }
+
+  const [unfocus, setUnfocus] = useState(false)
   return (
-    <div className={`w-full flex flex-col flex-auto gap-1 ${className}`}>
-      <h3 className='text-[13px] text-[#979797] font-light leading-[17px] h-[18px]'>
+    <div
+      className={`w-full flex flex-col relative flex-auto gap-1 ${className}`}
+    >
+      <CheckSVG
+        className={`absolute bottom-2 right-2.5 duration-500 ${
+          unfocus ? 'text-[#29F061]' : 'text-transparent'
+        }`}
+      />
+      <h3
+        className={`text-[13px] font-light leading-[17px] h-[18px] duration-500 ${
+          error ? 'text-[#FC3C37]' : 'text-[#979797]'
+        }`}
+      >
         {title}
       </h3>
       <input
-        className={`w-full flex items-center duration-500 justify-between flex-auto h-10 bg-[#121212] rounded-[8px] border px-[10px] text-[#979797] text-sm font-light ${
-          error
-            ? 'border-[#f55252] placeholder:text-[#f55252]'
-            : 'border-[#252525] placeholder:text-[#979797]'
-        }`}
+        onKeyDown={handleKeyDown}
+        ref={nextInputRef}
+        onBlur={() => {
+          if (value) {
+            setUnfocus(true)
+          }
+        }}
+        className={`w-full flex items-center duration-500 justify-between flex-auto h-10 bg-[#121212] rounded-[8px] border px-[10px] text-[#979797] text-sm font-light border-[#252525] placeholder:text-[#464646]`}
         value={value}
         onChange={el => {
           setValue(el.target.value)
@@ -41,7 +65,7 @@ const InputItem: FC<IInput> = ({
           }
         }}
         type={type}
-        placeholder={error ? 'Empty!' : placeholder}
+        placeholder={placeholder}
       />
     </div>
   )

@@ -44,18 +44,18 @@ const WinMessage: FC<IWinMessage> = ({ cf, profit, resIco, multiplier }) => {
         height={270}
         src={'/images/apples/explosion.gif'}
         className={
-          'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+          'absolute top-1/2 left-1/2 scale-[1.4] -translate-x-1/2 -translate-y-1/2 z-[2]'
         }
         alt='explosion-gif'
       />
       <div
         className={cn(
-          'duration-700 text-center w-[180px] h-[180px] flex flex-col justify-center items-center rounded-[180px] border border-[#105453] bg-[rgba(6,40,54,1)] shadow-[0px_0px_24.6px_0px_rgba(25,102,101,0.89)]',
+          'duration-700 text-center w-[180px] h-[180px] flex flex-col justify-center items-center rounded-[180px] border border-[#1B9477] bg-[#0E1D2A]',
           apper ? 'opacity-[1] visible' : 'opacity-[0] invisible',
           invisible && 'z-[-1]'
         )}
       >
-        <h3 className='text-[#4ed26c] mb-4 text-2xl font-bold'>You win!</h3>
+        <h3 className='text-[#4ED26C] mb-4 text-2xl font-bold'>You win!</h3>
         <div className='flex items-center flex-col gap-1.5'>
           <span className='flex gap-2 text-white text-base font-medium'>
             {profit}

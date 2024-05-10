@@ -101,7 +101,9 @@ const Signin: FC<SigninProps> = () => {
           className='flex flex-col gap-[4px] sm:gap-[15px] relative'
         >
           <div>
-            <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Username</span>
+            <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+              Username
+            </span>
             <FormField
               control={form.control}
               name='username'
@@ -125,7 +127,9 @@ const Signin: FC<SigninProps> = () => {
             />
           </div>
           <div>
-          <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Password</span>
+            <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+              Password
+            </span>
             <FormField
               control={form.control}
               name='password'
@@ -148,7 +152,7 @@ const Signin: FC<SigninProps> = () => {
                           className='w-full h-full flex justify-center items-center p-0'
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <EyeClose /> : <EyeOpen />}
+                          {!showPassword ? <EyeClose /> : <EyeOpen />}
                         </Button>
                       }
                       {...field}

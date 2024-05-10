@@ -295,3 +295,20 @@ $btnsActive.on(setBtnsActive, (_, state) => state)
 $activeStep.on(setActiveStep, (_, state) => state)
 $userCount.on(setUserCount, (_, state) => state)
 $dilerCount.on(setDilerCount, (_, state) => state)
+
+//! THIMBLES
+
+export const $showAnimation = createStore<boolean>(false)
+
+export const setShowAnimation = createEvent<boolean>()
+$showAnimation.on(setShowAnimation, (_, state) => state)
+
+export const $pokerPlay = createStore<boolean>(false)
+export const setPokerPlay = createEvent<boolean>()
+
+$pokerPlay.on(setPokerPlay, (_, state) => state)
+
+export const $applesPlay = createStore<boolean>(false)
+export const setapplesPlay = createEvent<boolean>()
+
+$applesPlay.on(setapplesPlay, (_, state) => state)

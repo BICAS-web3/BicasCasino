@@ -12,12 +12,7 @@ import { useEffect } from 'react'
 import { getTokensGeneral } from '@/api'
 
 const MarqueeItem = dynamic(() => import('./marquee.item'), {
-  loading: () => (
-    <div className='flex'>
-      <Skeleton className='w-5 h-5 aspect-square object-contain' />
-      <Skeleton className='w-5 h-12' />
-    </div>
-  ),
+  loading: () => <Skeleton className='w-6 h-6 mx-[7.5px] rounded-full' />,
   ssr: false
 })
 

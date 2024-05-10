@@ -20,7 +20,7 @@ export const WheelSettings: FC<GameAutoProps> = () => {
   const [setLevel, level] = useUnit([GameModel.setLevel, GameModel.$level])
   return (
     <div
-      className={`durarion-300 ${
+      className={`duration-300 ${
         visible ? 'opacity-1 visible' : 'opacity-0 invisible h-0 !p-0'
       } col-start-1 col-end-3 m-[0_auto] w-full max-w-[330px] tbs:absolute tbs:top-[calc(-100%_-_80px)] bg-[#151515] tbs:right-[250px] rounded-[20px] border-[#3e3e3e] p-[10px_20px_20px_20px] box-border`}
     >

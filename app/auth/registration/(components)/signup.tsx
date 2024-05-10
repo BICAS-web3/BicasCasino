@@ -155,7 +155,9 @@ const SignUp: FC<SignupProps> = () => {
         >
           <div className='flex flex-col relative'>
             <div className='mb-[10px]'>
-              <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Username</span>
+              <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+                Username
+              </span>
               <FormField
                 control={form.control}
                 name='username'
@@ -179,7 +181,9 @@ const SignUp: FC<SignupProps> = () => {
               />
             </div>
             <div className='mb-[10px]'>
-              <span className="text-[13px] text-[#7E7E7E] font-normal block mb-[10px]">Password</span>
+              <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
+                Password
+              </span>
               <FormField
                 control={form.control}
                 name='password'
@@ -187,7 +191,7 @@ const SignUp: FC<SignupProps> = () => {
                   <FormItem className='relative'>
                     <FormControl>
                       <Input
-                        type={showPassword ? 'password' : 'text'}
+                        type={showPassword ? 'text' : 'password'}
                         disabled={isPending}
                         placeholder={errorData ? 'User exist' : 'Password'}
                         onFocus={errorFocus}
@@ -204,7 +208,7 @@ const SignUp: FC<SignupProps> = () => {
                             className='w-full h-full flex justify-center items-center p-0'
                             onClick={() => setShowPassword(!showPassword)}
                           >
-                            {showPassword ? <EyeClose /> : <EyeOpen />}
+                            {!showPassword ? <EyeClose /> : <EyeOpen />}
                           </Button>
                         }
                         {...field}
@@ -219,7 +223,7 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                <FormItem className='flex items-center flex-row mt-[0_!important] mb-[0_!important] gap-5'>
                   <FormControl>
                     <Checkbox
                       itemID='age'
@@ -238,7 +242,7 @@ const SignUp: FC<SignupProps> = () => {
               control={form.control}
               name='password'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-start mt-[0_!important] mb-[0_!important] gap-5'>
+                <FormItem className='flex items-center flex-row mb-[0_!important] gap-5 mt-5'>
                   <FormControl>
                     <Checkbox
                       onClick={resetCheckbox.bind('', setPolicyCheckbox)}
