@@ -22,16 +22,19 @@ import {
   PokerSVG
 } from './components/icons/games'
 import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
+import goalsImg from '@/public/images/sidebar-icons/goals.png'
 import Image from 'next/image'
 
 export const STopMenu = [
   {
     icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Home'
+    title: 'Home',
+    href: '/'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus'
+    title: 'Bonus',
+    href: 'bonus'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -40,11 +43,11 @@ export const STopMenu = [
       {
         icon: (
           <Image
-            src='/sidebar-icons/goals.png'
+            src='/images/sidebar-icons/goals.png'
             alt='icon goals'
-            width={16}
-            height={16}
-            className='w-5 h-5 object-contain aspect-square'
+            width={20}
+            height={20}
+            className='object-contain aspect-square'
           />
         ),
         title: 'Goals',
@@ -53,11 +56,11 @@ export const STopMenu = [
       {
         icon: (
           <Image
-            src='/sidebar-icons/wheel.png'
+            src='/images/sidebar-icons/wheel.png'
             alt='icon wheel'
-            width={16}
-            height={16}
-            className='w-5 h-5 object-contain aspect-square'
+            width={20}
+            height={20}
+            className='object-contain aspect-square'
           />
         ),
         title: 'Wheel',
@@ -72,7 +75,8 @@ export const STopMenu = [
   },
   {
     icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'VIP Club'
+    title: 'VIP Club',
+    href: 'vip'
   }
 ]
 
@@ -114,10 +118,10 @@ export const SGames = {
       title: 'Rocket',
       icon: <RocketSVG />
     },
-    // {
-    //   title: 'Wheel of Fortune',
-    //   icon: <WheelSVG />
-    // },
+    {
+      title: 'Wheel of Fortune',
+      icon: <WheelSVG />
+    },
     {
       title: 'Apples',
       icon: <AppleSVG />
@@ -156,7 +160,7 @@ export const SBottomMenu = [
   // },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT market'
+    title: 'NFT Market'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -175,7 +179,7 @@ export const SMobileMenu = [
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus',
+    title: 'Bonus'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -183,8 +187,8 @@ export const SMobileMenu = [
     buttons: [
       {
         icon: (
-          <Image
-            src='/sidebar-icons/goals.png'
+          <img
+            src={goalsImg.src}
             alt='icon goals'
             width={16}
             height={16}
@@ -211,7 +215,7 @@ export const SMobileMenu = [
   },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT market'
+    title: 'NFT Market'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,

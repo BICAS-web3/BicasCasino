@@ -3,23 +3,28 @@ import { Side } from '@/states/game_model.store'
 import { useUnit } from 'effector-react'
 
 const Selector = ({ className }: { className?: string }) => {
-  const [pickedSide, pickSide, active] = useUnit([
-    GameModel.$pickedSide,
+  const [pickSide, active, setInitialValue, initialValue] = useUnit([
     GameModel.pickSide,
-    GameModel.$active
+    GameModel.$active,
+    GameModel.setInitialValue,
+    GameModel.$initialValue
   ])
 
   const handleSide = (item: Side) => {
-    if (active) pickSide(item)
+    if (active) {
+      pickSide(item)
+      setInitialValue(item)
+    }
   }
+
   return (
     <div
       className={`flex w-full sm:w-[288px] xl:w-[385px] h-9 sm:h-8 rounded-[99px] border border-[#2E2E2E] text-sm font-bold p-[2px] gap-[5px] relative ${className}`}
     >
       <button
         onClick={handleSide.bind('', Side.Heads)}
-        className={`w-full flex items-center justify-center h-full rounded-[99px] border duration-500 ${
-          pickedSide === Side.Heads
+        className={`w-full flex items-center justify-center h-full rounded-[99px] border duration-500 uppercase ${
+          initialValue === Side.Heads
             ? 'border-[#2E2E2E] bg-[#2E2E2E]'
             : 'border-transparent'
         }`}
@@ -28,13 +33,13 @@ const Selector = ({ className }: { className?: string }) => {
       </button>
       <button
         onClick={handleSide.bind('', Side.Tails)}
-        className={`w-full flex items-center justify-center h-full rounded-[99px] border duration-500 ${
-          pickedSide === Side.Tails
+        className={`w-full flex items-center justify-center h-full rounded-[99px] border duration-500 uppercase ${
+          initialValue === Side.Tails
             ? 'border-[#2E2E2E] bg-[#2E2E2E]'
             : 'border-transparent'
         }`}
       >
-        tails
+        Tails
       </button>
     </div>
   )

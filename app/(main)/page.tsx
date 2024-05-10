@@ -33,14 +33,15 @@ import { Skeleton } from '@/components/ui/skeleton'
 import dynamic from 'next/dynamic'
 import Footer from '@/components/custom/footer'
 import { MobileList } from './(components)/mobileList'
+import { CustomBets } from '@/components/custom/customBets/CustomBets'
+import { Total } from '@/components/custom/total/Total'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
   description: 'GreekKeepers: WEB 3.0 Crypto Games'
 }
 const Home = () => (
-  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 mx-auto max-w-full overflow-hidden w-full h-full'>
-
+  <div className='flex flex-col px-0 sm:px-10 py-2 sm:py-5 !pb-0 mx-auto max-w-full overflow-hidden w-full h-full'>
     <MarqueeLine />
     <Preview className='mt-[15px]' />
     <div className='pt-[10px] relative top-[-20px]'>
@@ -48,7 +49,10 @@ const Home = () => (
         <Banner />
       </div>
       <GameBanners className='mt-[15px]' />
+      <h2 className='font-bold sm:hidden ml-4'>GreekKeepers originals</h2>
       <MobileList />
+      <Total />
+      <CustomBets title='Live Bets' isMainPage isGamePage={false} game={undefined} />
     </div>
     <Footer />
   </div>

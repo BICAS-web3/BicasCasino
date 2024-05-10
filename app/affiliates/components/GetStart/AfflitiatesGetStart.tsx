@@ -1,0 +1,48 @@
+import {FC} from 'react'
+import CopyIco from '@/public/images/payment/copyIco.svg'
+import { SubmitBtn } from '@/app/profile/components/submitBtn/SubmitBtn'
+
+interface AffiliatesGetStartProps {}
+
+export const AffiliatesGetStart:FC<AffiliatesGetStartProps> = () => {
+
+    const copy = () => {
+        // navigator.clipboard.writeText('')
+    }
+
+    const btnHandler = () => {}
+
+    return (
+        <div className='border border-[#3E3E3E] rounded-[5px]'>
+            <div className='p-[20px]'>
+                <p className="text-sm leading-[18px] font-bold max-w-[555px] block mb-[14px]">
+                    GreekKeppers offers state-of-the-art affiliate system. You will forever receive commission from every user you refer. You can derive your commission using the following formula:
+                </p>
+                <div className="flex flex-col gap-[4px] max-w-[390px]">
+                    <span className="text-sm font-bold leading-[18px] ">For original games:</span>
+                    <div className='bg-[#181818] rounded-[5px] box-border p-[12px_10px_12px_10px] text-[#7e7e7e] text-[11px] sm:text-[13px] leading-[18px] font-normal'>
+                        DC wagered * 1% * commission rate
+                    </div>
+                </div>
+                <div className="flex flex-col gap-[4px] max-w-[390px] mt-[14px]">
+                    <span className="text-sm font-bold leading-[18px] ">For 3rd party games:</span>
+                    <div className='bg-[#181818] rounded-[5px] box-border p-[12px_10px_12px_10px] text-[#7e7e7e] text-[11px] sm:text-[13px] leading-[18px] font-normal'>
+                        DC wagered * 2% * commission rate
+                    </div>
+                </div>
+                <p className="text-[14px] font-normal mt-[5px] text-[#7E7E7E] leading-[18px] max-w-[337px]">(Commission rate depends on your affiliate level, starting from 25%)</p>
+                <div className="max-w-[360px] mt-[14px]">
+                    <span>Referral Link</span>
+                    <div onClick={copy} className="flex cursor-pointer  box-border items-center p-[0_20px_0_10px] justify-between gap-[10px] rounded-[5px] bg-[#121212] border border-[#252525] h-[40px] ">
+                        <p className='text-nowrap text-ellipsis overflow-hidden'>
+                            https://greekepeers.vip/?c=c_kytmisha
+                        </p> <CopyIco className='min-w-[24px]' />
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-end items-center border border-[#3E3E3E] p-[20px]">
+                <SubmitBtn isWidth title='Download Banners' handler={btnHandler} />
+            </div>
+        </div>
+    )
+}

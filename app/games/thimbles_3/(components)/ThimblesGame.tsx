@@ -18,8 +18,6 @@ import Thimble from './Thimble'
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const socket = useSocket()
   const [
-    lost,
-    profit,
     setGameStatus,
     setLostStatus,
     setWonStatus,
@@ -35,13 +33,12 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     setResult,
     isDrax,
     userInfo,
-    multiplier,
     gamesList,
     socketReset,
-    access_token
+    access_token,
+    showAnimation,
+    setShowAnimation
   ] = useUnit([
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.setGameStatus,
     GameModel.setLostStatus,
     GameModel.setWonStatus,
@@ -57,22 +54,19 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     GameModel.setResult,
     UserModel.$isDrax,
     UserModel.$userInfo,
-    GameModel.$multiplier,
     GameModel.$gamesList,
     UserModel.$socketReset,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    GameModel.$showAnimation,
+    GameModel.setShowAnimation
   ])
   const [activeThimble, setActiveThimble] = useState<number | null>(null) //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0])
   const [openGame, setOpenGame] = useState<number | null>(1)
   const [startGame, setStartGame] = useState(false)
-  const [showAnimation, setShowAnimation] = useState(false)
   const [selected, setSelected] = useState<null | number>(null)
   const [subscribed, setCubscribed] = useState(false)
   const [selectedShow, setSelectedShow] = useState<number[] | null>(null)
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [openBall, setOpenBall] = useState(false)
   useEffect(() => {
@@ -84,8 +78,6 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       socket
     })
   }, [socket, socket?.readyState, gamesList.length, socketReset])
-
-  // useEffect(() => alert(gameStatus), [gameStatus])
 
   const [index, setIndex] = useState(1)
 
@@ -197,7 +189,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       setTimeout(() => {
         setStartGame(false)
         setShowAnimation(false)
-      }, 4000)
+      }, 4450)
     }
   }, [startGame])
 
@@ -227,14 +219,10 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         }, 2000)
       ]
   }, [selected])
+
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
+    setIsPlaying(false)
+  }, [])
 
   return (
     <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
@@ -243,7 +231,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         <Image
           width={1438}
           height={680}
-          src='/images/thimbles/thimblesBg.webp'
+          src='/images/thimbles/thimblesBg.png'
           className='w-full h-full object-cover rounded-[0] sm:rounded-[20px_20px_0_0] emd:rounded-[20px_0_0_0]'
           alt='thimbles-static-bg'
         />

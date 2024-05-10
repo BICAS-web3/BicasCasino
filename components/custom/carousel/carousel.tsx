@@ -8,6 +8,7 @@ import 'swiper/css/autoplay'
 // import 'swiper/css/effect-fade'
 import 'swiper/css/grid'
 import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
 
 import {
   AutoplayOptions,
@@ -71,7 +72,11 @@ export const Carousel = ({
       onSlideChange={onSlideChange}
     >
       {children}
-    </Swiper>
+      <div
+        className='-translate-x-1/2 left-1/2 absolute bottom-0 gap-1 xl:gap-2 duration-200 flex z-10'
+        id='custom_swiper_banner_pagination'
+      ></div>
+    </Swiper>{' '}
   </div>
 )
 

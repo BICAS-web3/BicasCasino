@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PaymentModel } from '@/states'
+import { HeaderM, PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -13,6 +13,7 @@ import {
   UserSVG,
 } from './icons/mobile'
 
+
 import Wallet from '@/components/custom/sidebar/components/icons/mobile/walIco.svg'
 
 type Props = {
@@ -24,15 +25,18 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
   const [gamesOpen, setGamesOpen] = useState(false)
   const isMobile = useMediaQuery('(max-width:768px)')
 
-  const [setVisibility, visibility] = useUnit([
+  const [setVisibility, visibility, setUserModal] = useUnit([
     PaymentModel.setTotalVisibility,
-    PaymentModel.$totalVisibility
+    PaymentModel.$totalVisibility,
+    HeaderM.setUserModalVisibility
   ])
 
   const handlePaymentAction = () => {
+    setUserModal(false)
     setVisibility(!visibility)
   }
   const handleGamesOpen = () => {
+    setUserModal(false)
     setGamesOpen(!gamesOpen)
   }
   return (
@@ -46,7 +50,6 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
         <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
       </Button>
       <Button variant='ghost' size='icon' onClick={handleGamesOpen}>
-        <GamesSVG className='object-contain text-[#7E7E7E]' />
         <GamesMobileMenu data={SGames} open={gamesOpen} />
       </Button>
       <Button variant='ghost' size='icon' onClick={handlePaymentAction}>

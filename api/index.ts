@@ -4,6 +4,7 @@ import { JWT } from 'next-auth/jwt'
 
 export const BaseApiUrl = '/api'
 export const BaseStaticUrl = '/static'
+export const P2WayUrl = 'https://stage.p2way.fyi'
 
 export type T_ErrorText = {
   error: string
@@ -878,3 +879,260 @@ export const getTokensGeneral = createEffect<T_Header, T_ApiResponse, string>(
       .catch(e => e)
   }
 )
+
+interface IBilliane {
+  address: string
+  amount: string
+  city: string
+  country: string
+  currency: string
+  email: string
+  first_name: string
+  last_name: string
+  phone: string
+  post_code: string
+  region: string
+  bareer: string
+}
+
+export const getTokensBilliane = createEffect<IBilliane, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/invoice/billine/create`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
+      },
+      body: JSON.stringify({
+        address: form.address,
+        amount: form.amount,
+        city: form.city,
+        country: form.country,
+        currency: form.currency,
+        email: form.email,
+        first_name: form.first_name,
+        last_name: form.last_name,
+        phone: form.phone,
+        post_code: form.post_code,
+        region: form.region
+      })
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+type T_TokenSettings = {
+  apiKey: string
+  token: string
+}
+
+export const getTokensSettings = createEffect<
+  T_TokenSettings,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(
+    `${P2WayUrl}/widget/getSettings?apiKey=${form.apiKey}&token=${form.token}`,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_TokenSession = {
+  apiKey: string
+  userId: string
+  token: string
+  callbackUrl: string
+}
+
+export const createTokenSession = createEffect<
+  T_TokenSession,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/createSession`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_TokenOrder = {
+  sessionId: string
+  token: string
+  amount: number
+}
+
+export const createTokenOrder = createEffect<
+  T_TokenOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/createOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+type T_DataOrder = {
+  orderId: string
+  token: string
+}
+
+export const cancelTokenOrder = createEffect<
+  T_DataOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/cancelOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export const confirmOrder = createEffect<T_DataOrder, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${P2WayUrl}/widget/confirmMoneyTransfer`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+        // Authorization: `Bearer ${form.bareer}`
+      },
+      body: JSON.stringify(form)
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+type T_ScreenShootOrder = {
+  orderId: string
+  bucketS3DocumentName: string
+}
+
+export const screenShootOrder = createEffect<
+  T_ScreenShootOrder,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/addDocumentToOrder`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify(form)
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export const getOrderInfo = createEffect<
+  { orderId: string },
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${P2WayUrl}/widget/getOrderById?orderId=${form.orderId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+      // Authorization: `Bearer ${form.bareer}`
+    }
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
+
+export type T_ImageFile = {
+  imageName: string
+  contentType: string
+}
+
+export const getImageFile = createEffect<T_ImageFile, T_ApiResponse, string>(
+  async form => {
+    return fetch(
+      `${P2WayUrl}/uploadFile/getUploadDocumentURL?documentName=${form.imageName}&contentType=${form.contentType}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+export type T_BilllineIframe = {
+  merchant: string
+  order: string
+  amount: string
+  currency: string
+  item_name: string
+  first_name: string
+  last_name: string
+  user_id: string
+  payment_url: string
+  country: string
+  ip: string
+  custom: ''
+  email: 'test@gmail.com'
+  phone: '+35988222763'
+  address: 'Avenue Marius Renard 21'
+  city: 'Anderlecht'
+  post_code: '1070'
+  region: 'stuttgart'
+  lang: 'en'
+}
+
+// export const getBilllineIframe = createEffect<
+//   T_BilllineIframe,
+//   T_ApiResponse,
+//   string
+// >(async form => {
+//   return fetch(
+//     `${P2WayUrl}/uploadFile/getUploadDocumentURL?documentName=${form.imageName}&contentType=${form.contentType}`,
+//     {
+//       method: 'GET',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json'
+//       }
+//     }
+//   )
+//     .then(async res => await res.json())
+//     .catch(e => e)
+// })

@@ -54,12 +54,16 @@ const WaitingModal = () => {
 
   const estimateData = [
     {
-      icon: <DraxMiniSVG className='w-6 h-6 aspect-square object-contain' />,
+      icon: (
+        <DraxMiniSVG className='w-[20px] h-[20px] aspect-square object-contain' />
+      ),
       title: 'DRAX Coin',
       count: purchase.toLocaleString('en-US')
     },
     {
-      icon: <BonusCoinSVG className='w-6 h-6 aspect-square object-contain' />,
+      icon: (
+        <BonusCoinSVG className='w-[20px] h-[20px] aspect-square object-contain' />
+      ),
       title: 'Bonus Coin',
       count: bonus.toLocaleString('en-US')
     }
@@ -93,22 +97,32 @@ const WaitingModal = () => {
     })
   }
 
-  const handleCreateInvoice = async () => {
-    const response = await api.invoiceCreate({
-      amount: purchase,
-      currency: coinList.title,
-      bareer: access_token
-    })
-    if (response.status === 'OK') {
-      setInvoiceCreate(response.body as any)
-      setAddress((response.body as any)?.pay_url)
-    } else {
-      console.error('Error:', response.body)
-    }
-  }
+  const [networkActive, setNetworkActive] = useState<'ETHEREUM' | 'TRON'>(
+    'ETHEREUM'
+  )
+
   useEffect(() => {
-    !!access_token && handleCreateInvoice()
-  }, [access_token, purchase, coinList])
+    if (access_token) {
+      ;(async () => {
+        const response = await api.invoiceCreate({
+          amount: purchase,
+          currency:
+            coinList.title === 'USDT' ||
+            coinList.title === 'USDC' ||
+            coinList.title === 'TUSD'
+              ? `${coinList.title}_${networkActive}`
+              : coinList.title,
+          bareer: access_token
+        })
+        if (response.status === 'OK') {
+          setInvoiceCreate(response.body as any)
+          setAddress((response.body as any)?.pay_url)
+        } else {
+          console.error('Error:', response.body)
+        }
+      })()
+    }
+  }, [access_token, purchase, coinList, networkActive])
 
   const handleGetList = async () => {
     const response: any = await api.getInvoicePrices({
@@ -138,6 +152,7 @@ const WaitingModal = () => {
     }
   }, [priceList, coinList])
 
+  const [ercActive, setErcActive] = useState(true)
   return (
     <>
       <DialogHeader>
@@ -160,7 +175,7 @@ const WaitingModal = () => {
           <h6 className='text-[#979797] text-sm sm:text-lg leading-6 font-semibold tracking-wider'>
             Estimate Receive
           </h6>
-          <div className='grid grid-cols-2 py-1.5 px-2.5 gap-1 bg-[#202020] border border-[#252525] rounded-lg min-h-14 box-border'>
+          <div className='grid grid-cols-2 h-[55px] p-[5px_10px] gap-1 bg-[#202020] border border-[#252525] rounded-lg min-h-14 box-border'>
             {estimateData.map((item, index) => (
               <div
                 key={`purcahse-modal--estimate-${stringRemoveSpacing(
@@ -169,7 +184,7 @@ const WaitingModal = () => {
                 className='text-[#979797] text-sm font-light leading-5 tracking-wider'
               >
                 {item.title}
-                <div className='flex gap-2 items-center text-[#979797] mt-2'>
+                <div className='flex gap-2 h-[20px] items-center text-[#979797] mt-1'>
                   {item.icon}
                   <span className='text-sm sm:text-lg'>{item.count}</span>
                 </div>
@@ -203,7 +218,7 @@ const WaitingModal = () => {
                   className='uppercase text-xs font-bold text-[#eaeaea]'
                 />
               </SelectTrigger>
-              <SelectContent className='gap-4'>
+              <SelectContent className='gap-4 bg-[#202020]'>
                 <ScrollArea className='h-[160px]' variant='ghost'>
                   {coins_list.map((item, index) => (
                     <SelectItem
@@ -225,10 +240,19 @@ const WaitingModal = () => {
 
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
-            {showNetworks && (
+            {(coinList.title === 'USDT' ||
+              coinList.title === 'USDC' ||
+              coinList.title === 'TUSD') && (
               <RadioGroup
                 defaultValue={networks_list[0].id}
-                onValueChange={value => console.log(value)}
+                onValueChange={value => {
+                  setNetworkActive(value as any)
+                  if (value === 'TRON') {
+                    setErcActive(false)
+                  } else {
+                    setErcActive(true)
+                  }
+                }}
                 className='flex flex-nowrap gap-2 justify-center w-full'
               >
                 {networks_list.map((networkItem, index) => (
@@ -279,12 +303,12 @@ const WaitingModal = () => {
             <Image
               src={`https://rew.greekkeepers.io/api/invoice/qr/${invoiceCreate.id}`}
               alt='qr-code / address'
-              width={200}
-              height={200}
+              width={184}
+              height={184}
               className='aspect-square object-contain'
             />
           ) : (
-            <Skeleton className='w-52 aspect-square object-contain' />
+            <Skeleton className='w-[184px] h-[184px] aspect-square object-contain' />
           )}
         </div>
 
@@ -300,7 +324,7 @@ const WaitingModal = () => {
           <Button className='flex-1 text-base font-semibold' variant='gray'>
             Waiting for payment
           </Button>
-          <Button className='min-w-36' variant='gray'>
+          <Button className='min-w-10 sm:min-w-36' variant='gray'>
             <LoaderSVG className='animate-spin duration-1000' />
           </Button>
         </div>

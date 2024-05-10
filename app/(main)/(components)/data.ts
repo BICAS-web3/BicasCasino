@@ -3,32 +3,38 @@ export const main_banner = [
     img: '/images/main_banner/banner1.png',
     title: 'Affiliate Program',
     btn: 'Join game',
-    text: 'Invite friends and get rewarded'
-  },
-  {
-    img: '/images/main_banner/banner2.png',
-    title: "NFT Market",
-    btn: 'Play now',
-    text: 'Our NFT holders get Up to 18% airdrop payout'
-  },
-  {
-    img: '/images/main_banner/banner3.png',
-    title: 'VIP CLUB',
-    btn: 'Claim your deposit bonus',
-    text: "Become a VIP and get benefits"
-  },
-  {
-    img: '/images/main_banner/banner4.png',
-    title: 'Poker Tournaments',
-    btn: 'Claim your deposit bonus',
-    text: "Every week in our telegram community"
-  },
-  {
-    img: '/images/main_banner/banner5.png',
-    title: 'Treasure Chest',
-    btn: 'Claim your deposit bonus',
-    text: "Open the chests and claim your treasures"
-  },
+    text: `Invite friends and get rewarded`
+  }
+  // {
+  //   img: '/images/main_banner/banner2.png',
+  //   title: 'NFT Market',
+  //   btn: 'Play now',
+  //   text: 'Our NFT holders get Up to 18% airdrop payout'
+  // },
+  // {
+  //   img: '/images/main_banner/banner3.png',
+  //   title: 'VIP CLUB',
+  //   btn: 'Claim your deposit bonus',
+  //   text: 'Become a VIP and get benefits'
+  // },
+  // {
+  //   img: '/images/main_banner/banner1.png',
+  //   title: 'Affiliate Program',
+  //   btn: 'Join game',
+  //   text: 'Invite friends and get rewarded'
+  // },
+  // {
+  //   img: '/images/main_banner/banner4.png',
+  //   title: 'Poker Tournaments',
+  //   btn: 'Claim your deposit bonus',
+  //   text: 'Every week in our telegram community'
+  // },
+  // {
+  //   img: '/images/main_banner/banner5.png',
+  //   title: 'Treasure Chest',
+  //   btn: 'Claim your deposit bonus',
+  //   text: 'Open the chests and claim your treasures'
+  // }
   // {
   //   img: '/images/main_banner/banner_1.png',
   //   title: 'exclusive Greekkeepers Games',
@@ -89,12 +95,12 @@ export const games_banner = [
   //   link: '/games/roulette',
   //   title: 'Roulette'
   // },
-  // {
-  //   image: '/images/new_banners/8.png',
-  //   id: '8',
-  //   link: '/games/wheel_of_fortune',
-  //   title: 'Wheel'
-  // },
+  {
+    image: '/images/new_banners/8.png',
+    id: '8',
+    link: '/games/wheel_of_fortune',
+    title: 'Wheel'
+  },
   {
     image: '/images/new_banners/9.png',
     id: '9',

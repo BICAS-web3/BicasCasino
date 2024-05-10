@@ -17,26 +17,31 @@ export const processBetResult = (
 ) => {
   if (result !== null && result?.type === 'Bet') {
     const fullAmount = Number(result.amount) * result.num_games!
-    setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+    setTimeout(() => {
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
+    }, 2200)
     if (
       Number(result.profit) > fullAmount ||
       Number(result.profit) === fullAmount
     ) {
       setGameStatus(GameModel.GameStatus.Won)
       const multiplier = Number(Number(result.profit) / fullAmount)
-      pickSide(pickedSide)
       setWonStatus({
         profit: Number(result.profit),
         multiplier,
         token: 'DRAX'
       })
+      pickSide(pickedSide)
       setIsPlaying(false)
       setInGame(false)
     } else if (Number(result.profit) < fullAmount) {
-      setGameStatus(GameModel.GameStatus.Lost)
       pickSide(pickedSide ^ 1)
       setIsPlaying(false)
       setInGame(false)
+      setGameStatus(GameModel.GameStatus.Lost)
       setLostStatus(Number(result.profit) - fullAmount)
     } else {
       setGameStatus(GameModel.GameStatus.Draw)

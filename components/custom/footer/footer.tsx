@@ -4,7 +4,7 @@ import Social from './components/Social'
 import { footer_text, games } from './data'
 
 const Footer = () => (
-  <div className='bg-[#181818] mb-[40px] sm:mb-0 flex flex-col justify-center items-center w-full p-5 sm:p-[2.5rem_2.5rem_10px_2.5rem] gap-y-3'>
+  <div className='bg-[#181818] rounded-[12px_12px_0_0] mb-[40px] sm:mb-0 flex flex-col justify-center items-center w-full p-5 sm:p-[2.5rem_2.5rem_10px_2.5rem] gap-y-3'>
     <div className='flex justify-center mb-[15px] items-center flex-wrap w-full h-max'>
       <div className='flex-1 hidden sm:flex flex-wrap pr-16 sm:h-full sm:gap-[5vw]'>
         {games.map((item, ind) => (
@@ -12,7 +12,7 @@ const Footer = () => (
             {item.list.map((link, index) => (
               <Link
                 key={`${link.title}_link-${index}`}
-                className='uppercase text-sm font-extrabold text-[#979797]'
+                className='uppercase hover:text-[#fff] text-sm font-extrabold text-[#979797]'
                 href={link.path}
               >
                 {link.title}

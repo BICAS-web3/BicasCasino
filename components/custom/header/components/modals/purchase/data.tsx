@@ -53,15 +53,15 @@ export const coins_list = [
     icon: <EthereumSVG className='aspect-square object-contain' />
   },
   {
-    title: 'USDT_ETHEREUM',
+    title: 'USDT',
     icon: <UsdtSVG className='aspect-square object-contain' />
   },
   {
-    title: 'USDC_TRON',
+    title: 'USDC',
     icon: <UsdtSVG className='aspect-square object-contain' />
   },
   {
-    title: 'TUSD_TRON',
+    title: 'TUSD',
     icon: <UsdtSVG className='aspect-square object-contain' />
   },
   { title: 'DAI_ETHEREUM', icon: <DogeSVG /> }

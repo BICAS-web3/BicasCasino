@@ -1,0 +1,10 @@
+ <svg
+              width='inherit'
+              height='inherit'
+              viewBox='0 0 26 26'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <circle cx='13' cy='13' r='13' fill='#EF8CFF' />
+              <circle cx='13' cy='13' r='8' fill='#983DC2' />
+            </svg>

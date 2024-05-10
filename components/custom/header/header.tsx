@@ -15,7 +15,6 @@ import { UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
 
 const Header = () => {
-  // const session = useSession()
   const [
     access_token,
     setUserInfo,
@@ -39,6 +38,7 @@ const Header = () => {
     RegistrModel.setAccessToken,
     RegistrModel.setRefreshToken
   ])
+
   const route = useRouter()
   const location = usePathname()
 
@@ -52,9 +52,9 @@ const Header = () => {
         route.push('/')
       }
     } else {
-      if (!location.includes('auth')) {
-        route.push('/auth/registration')
-      }
+      // if (!location.includes('auth')) {
+      //   route.push('/auth/registration')
+      // }
     }
   }, [location])
   useEffect(() => {
@@ -109,20 +109,29 @@ const Header = () => {
   const [seeds, setSeed] = useState<boolean | null>(null)
   const socket = useSocket()
 
+  const data = { type: 'Auth', token: access_token }
+
   useEffect(() => {
-    if (access_token) {
-      if (socket) {
-        if (socket!.readyState === 1) {
-          socket!.send(JSON.stringify({ type: 'GetUuid' }))
-          socket!.send(JSON.stringify({ type: 'Auth', token: access_token }))
+    if (socket) {
+      const handleOpen = () => {
+        console.log('WebSocket connected')
+        socket.send(JSON.stringify({ type: 'GetUuid' }))
+        if (access_token) {
+          socket.send(JSON.stringify(data))
           setSocketAuth(true)
           setErrorSeed(false)
           setSocketLogged(true)
-          socket!.send(JSON.stringify(seed_data))
+          socket.send(JSON.stringify(seed_data))
         }
       }
+
+      socket.addEventListener('open', handleOpen)
+
+      return () => {
+        socket.removeEventListener('open', handleOpen)
+      }
     }
-  }, [socket, access_token, WebSocket, socketAuth, seed_data])
+  }, [socket, access_token])
 
   useEffect(() => {
     if (
@@ -146,8 +155,6 @@ const Header = () => {
     })()
   }, [access_token])
 
-  // const [otToken, setOtToken] = useState<any | undefined>()
-
   useEffect(() => {
     ;(async () => {
       if (access_token) {
@@ -158,6 +165,7 @@ const Header = () => {
       }
     })()
   }, [access_token])
+
   useEffect(() => {
     const intervalId = setInterval(async () => {
       const response = await api.refreshToken({
@@ -172,18 +180,14 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  // useEffect(() => {
-  //   if ((session as any)?.error === 'RefreshAccessTokenError') {
-  //     signIn()
-  //   }
-  // }, [session])
-
-  const [opened] = useUnit([
-    SidebarModel.$open
-  ])
+  const [opened] = useUnit([SidebarModel.$open])
 
   return (
-    <header className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${!opened ? "px-3 sm:!pr-10" : "px-3"} sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[50] w-full bg-[#0F0F0F]`}>
+    <header
+      className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
+        !opened ? 'px-3 sm:!pr-10' : 'px-3'
+      } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[55] w-full bg-[#0F0F0F]`}
+    >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
         <BalanceSwitcher />
@@ -196,3 +200,41 @@ const Header = () => {
 }
 
 export default Header
+// useEffect(() => {
+//   // alert(JSON.stringify(socket))
+//   if (
+//     // (!seeds || errorSeed) &&
+//     socket
+//   ) {
+//     socket.send(JSON.stringify({ type: 'GetUuid' }))
+//     if (access_token) {
+//       socket.send(JSON.stringify(data))
+//       setSocketAuth(true)
+//       setErrorSeed(false)
+//       setSocketLogged(true)
+//       socket.send(JSON.stringify(seed_data))
+//     }
+//   }
+// }, [
+//   socket,
+//   access_token,
+//   seeds,
+//   errorSeed,
+//   socket?.OPEN,
+//   socketAuth,
+//   WebSocket
+// ])
+// useEffect(() => {
+//   if (access_token) {
+//     if (socket) {
+//       if (socket.readyState === 1) {
+//         socket.send(JSON.stringify({ type: 'GetUuid' }))
+//         socket.send(JSON.stringify({ type: 'Auth', token: access_token }))
+//         setSocketAuth(true)
+//         setErrorSeed(false)
+//         setSocketLogged(true)
+//         socket.send(JSON.stringify(seed_data))
+//       }
+//     }
+//   }
+// }, [socket, access_token, WebSocket, socketAuth, seed_data])

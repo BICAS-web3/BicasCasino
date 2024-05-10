@@ -66,11 +66,11 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
       </Form>
       <Link
         href='/auth/login'
-        className='text-[16px] font-normal leading-[22px] tracking-def
+        className='text-[13px] font-normal leading-[22px] tracking-def
           text-left text-bets-title-color flex'
       >
         Already have an account?
-        <p className='font-semibold text-orange'>&nbsp;Sign In</p>
+        <p className='font-normal text-orange'>&nbsp;Sign In</p>
       </Link>
     </div>
   )

@@ -47,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 }`}
             >
                 {!!startAdornment ? (
-                    <div className='w-[42px] h-[42px] aspect-square flex items-center justify-center'>
+                    <div className='w-6 sm:w-[42px] h-6 sm:h-[42px] aspect-square flex items-center justify-center'>
                         {startAdornment}
                     </div>
                 ) : null}
@@ -61,7 +61,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     {...props}
                 />
                 {!!endAdornment ? (
-                    <div className='w-[42px] h-[42px] aspect-square flex items-center justify-center'>
+                    <div className='w-6 sm:w-[42px] h-6 sm:h-[42px] aspect-square flex items-center justify-center'>
                         {endAdornment}
                     </div>
                 ) : null}

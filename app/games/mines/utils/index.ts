@@ -1,7 +1,7 @@
 import { GameModel } from '@/states'
 import { IHandleResult } from '@/types/games.types'
 import { Dispatch, SetStateAction } from 'react'
-import { Tile, initialPickedTiles, maxReveal } from '../data'
+import { Tile, initialGameField, maxReveal } from '../data'
 
 export const setGameFields = ({
   revealedTiles,
@@ -14,21 +14,39 @@ export const setGameFields = ({
   setGameField: Dispatch<SetStateAction<Tile[]>>
   setPickedTiles: Dispatch<SetStateAction<boolean[]>>
 }) => {
-  var openedTiles = 0
-  setGameField(
-    revealedTiles.map((value: boolean) => {
-      if (value) {
-        openedTiles += 1
-        return Tile.Coin
-      } else {
-        return Tile.Closed
-      }
-    })
-  )
-
-  if (tilesPicked) {
-    setPickedTiles(tilesPicked)
-  }
+  // alert(JSON.stringify(initialPickedTiles))
+  let openedTiles = 0
+  setGameField(initialGameField)
+  setPickedTiles([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ])
+  // if (tilesPicked) {
+  //   setPickedTiles(tilesPicked)
+  // }
 
   return openedTiles
 }
@@ -51,78 +69,88 @@ export function handleResult({
   gameField
 }: IHandleResult) {
   if (!result) return
-  if (result.type === 'State' && result.state) {
-    // alert(3)
-    const dataState = JSON.parse(result.state)
-    setKeep(true)
-    if (Number(result.amount) > 0) {
-      setCryptoValue(Number(result.amount))
-      const newGameField = gameField.map((value, index) => {
-        if (dataState?.mines[index]) {
-          return Tile.Bomb
-        } else if (dataState?.state[index]) {
-          return Tile.Coin
-        } else {
-          return value
-        }
-      })
-      setWaitingResponse(false)
-      setGameField(newGameField)
-      setTotalOpenedTiles(0)
-      setPickedTiles([...initialPickedTiles])
+  const fullAmount = Number(result.amount) * result.num_games!
+  setTimeout(() => {
+    setCoefficientData(prev => [
+      fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+      ...prev
+    ])
+  }, 1600)
+  const data = JSON.parse(result!.state as string)
+  const newGameField = gameField.map((value, index) => {
+    if (data?.mines[index]) {
+      return Tile.Bomb
+    } else if (data?.state[index]) {
+      return Tile.Coin
+    } else {
+      return value
     }
-  } else if (result.type === 'Bet' && result.state) {
-    const fullAmount = Number(result.amount) * result.num_games!
-    setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
-    // handlePayouts();
-    setTimeout(() => {
-      setInGame(false)
-      triggerRedraw(true)
-      setGameFields({
-        revealedTiles: initialPickedTiles,
-        tilesPicked: [...initialPickedTiles],
-        setGameField,
-        setPickedTiles
-      })
-    }, 2000)
-    const data = JSON.parse(result!.state)
-    const newGameField = gameField.map((value, index) => {
-      if (data?.mines[index]) {
-        return Tile.Bomb
-      } else if (data?.state[index]) {
-        return Tile.Coin
-      } else {
-        return value
-      }
+  })
+  setWaitingResponse(true)
+  Promise.all([
+    new Promise(resolve =>
+      setTimeout(() => resolve(setGameField(newGameField)), 1000)
+    ),
+    new Promise(resolve =>
+      setTimeout(() => resolve(setWaitingResponse(false)), 1000)
+    )
+  ])
+
+  setTotalOpenedTiles(0)
+  setTimeout(() => {
+    setInGame(false)
+    triggerRedraw(true)
+    setGameField(initialGameField)
+    setPickedTiles([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ])
+  }, 2500)
+  if (
+    Number(result.profit) > Number(result.amount) ||
+    Number(result.profit) === Number(result.amount)
+  ) {
+    setGameStatus(GameModel.GameStatus.Won)
+    const multiplier = Number(Number(result.profit) / Number(result.amount))
+    setWonStatus({
+      profit: Number(result.profit),
+      multiplier,
+      token: 'DRAX'
     })
-    setWaitingResponse(false)
-    setGameField(newGameField)
-    setTotalOpenedTiles(0)
-    setPickedTiles([...initialPickedTiles])
-    if (
-      Number(result.profit) > Number(result.amount) ||
-      Number(result.profit) === Number(result.amount)
-    ) {
-      setGameStatus(GameModel.GameStatus.Won)
-      setStopWinning('NO')
-      const multiplier = Number(Number(result.profit) / Number(result.amount))
-      setWonStatus({
-        profit: Number(result.profit),
-        multiplier,
-        token: 'DRAX'
-      })
-      setInGame(false)
-    } else if (Number(result.profit) < Number(result.amount)) {
+    setInGame(false)
+  } else if (Number(result.profit) < Number(result.amount)) {
+    setTimeout(() => {
+      setWaitingResponse(false)
       setGameStatus(GameModel.GameStatus.Lost)
-      setStopWinning('NO')
       setInGame(false)
       setLostStatus(Number(result.profit) - Number(result.amount))
-    } else {
-      setGameStatus(GameModel.GameStatus.Draw)
-      setStopWinning('NO')
-      setInGame(false)
-    }
-    setKeep(false)
+    }, 2500)
+  } else {
+    setGameStatus(GameModel.GameStatus.Draw)
+    setInGame(false)
   }
 }
 
@@ -161,3 +189,96 @@ export const pickTileforMine = ({
     triggerRedraw(true)
   }
 }
+
+// export function handleResult({
+//   result,
+//   setInGame,
+//   setWaitingResponse,
+//   setGameStatus,
+//   setWonStatus,
+//   setLostStatus,
+//   setKeep,
+//   setCoefficientData,
+//   setCryptoValue,
+//   setTotalOpenedTiles,
+//   triggerRedraw,
+//   setStopWinning,
+//   setGameField,
+//   setPickedTiles,
+//   gameField
+// }: IHandleResult) {
+//   if (!result) return
+//   if (result.type === 'State' && result.state) {
+//     // alert('State')
+//     const dataState = JSON.parse(result.state)
+//     setKeep(true)
+//     if (Number(result.amount) > 0) {
+//       setCryptoValue(Number(result.amount))
+//       const newGameField = gameField.map((value, index) => {
+//         if (dataState?.mines[index]) {
+//           return Tile.Bomb
+//         } else if (dataState?.state[index]) {
+//           return Tile.Coin
+//         } else {
+//           return value
+//         }
+//       })
+//       setWaitingResponse(false)
+//       setGameField(newGameField)
+//       setTotalOpenedTiles(0)
+//       setPickedTiles([...initialPickedTiles])
+//     }
+//   } else if (result.type === 'Bet' && result.state) {
+//     const fullAmount = Number(result.amount) * result.num_games!
+//     setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+//     const data = JSON.parse(result!.state)
+//     const newGameField = gameField.map((value, index) => {
+//       if (data?.mines[index]) {
+//         return Tile.Bomb
+//       } else if (data?.state[index]) {
+//         return Tile.Coin
+//       } else {
+//         return value
+//       }
+//     })
+//     setWaitingResponse(false)
+//     setGameField(newGameField)
+//     setTotalOpenedTiles(0)
+//     setPickedTiles([...initialPickedTiles])
+//     setTimeout(() => {
+//       setInGame(false)
+//       triggerRedraw(true)
+//       setGameField(initialGameField)
+//       setPickedTiles(initialPickedTiles)
+//       // setGameFields({
+//       //   revealedTiles: initialPickedTiles,
+//       //   tilesPicked: [...initialPickedTiles],
+//       //   setGameField,
+//       //   setPickedTiles
+//       // })
+//     }, 2000)
+//     if (
+//       Number(result.profit) > Number(result.amount) ||
+//       Number(result.profit) === Number(result.amount)
+//     ) {
+//       setGameStatus(GameModel.GameStatus.Won)
+//       const multiplier = Number(Number(result.profit) / Number(result.amount))
+//       setWonStatus({
+//         profit: Number(result.profit),
+//         multiplier,
+//         token: 'DRAX'
+//       })
+//       setInGame(false)
+//     } else if (Number(result.profit) < Number(result.amount)) {
+//       setGameStatus(GameModel.GameStatus.Lost)
+//       // setStopWinning('NO')
+//       setInGame(false)
+//       setLostStatus(Number(result.profit) - Number(result.amount))
+//     } else {
+//       setGameStatus(GameModel.GameStatus.Draw)
+//       // setStopWinning('NO')
+//       setInGame(false)
+//     }
+//     // setKeep(false)
+//   }
+// }

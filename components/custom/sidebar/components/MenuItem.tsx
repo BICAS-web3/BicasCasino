@@ -64,7 +64,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
               href={`/games/${stringRemoveSpacing(item.title)}`}
               className={cn(
                 'hover:text-white text-slate-50 flex items-center gap-2 w-full rounded-xl relative',
-                open ? '' : 'aspect-square h-[50px] w-[50px] flex-col gap-0',
+                open ? '' : 'aspect-square h-[50px] w-[50px] flex-col gap-0'
                 // data.title === 'Bonus' && 'bonus-block'
               )}
             >
@@ -75,19 +75,26 @@ const MenuItem = ({ href, data, open, className }: Props) => {
                 />
               )}
               <span className='relative z-10 min-w-[20px]'>
-                {
-                  item.title === 'Goals' ? 
-                    item.icon : (
-                      <div className='relative'>
-                        <img src={wheelIco.src} className='animate-spin max-w-[20px] max-h-[20px]' alt='img-wheel' />
-                        <img src={wheelBranch.src} className='absolute h-[13px] top-[38%] left-[50%] translate-x-[-50%] translate-y-[-50%]' alt='img-palka' />
-                      </div>
-                    )                  
-                }
+                {item.title === 'Goals' ? (
+                  item.icon
+                ) : (
+                  <div className='relative'>
+                    <img
+                      src={wheelIco.src}
+                      className='animate-spin max-w-[20px] max-h-[20px]'
+                      alt='img-wheel'
+                    />
+                    <img
+                      src={wheelBranch.src}
+                      className='absolute h-[13px] top-[25%] left-[50%] translate-x-[-50%] translate-y-[-50%]'
+                      alt='img-palka'
+                    />
+                  </div>
+                )}
               </span>
               <span
                 className={cn(
-                  'leading-5 font-bold tracking-wide relative z-10 uppercase',
+                  'leading-5 font-bold tracking-wide  relative z-10 uppercase',
                   open ? 'text-xs' : 'text-[9px] truncate w-full max-w-12'
                 )}
               >
@@ -117,7 +124,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           {data.icon}
           <span
             className={cn(
-              'leading-5 text-base font-bold tracking-wide uppercase',
+              'leading-5 text-base font-bold tracking-wide text-nowrap uppercase',
               open ? 'text-base' : 'text-[9px] truncate w-full max-w-12'
             )}
           >

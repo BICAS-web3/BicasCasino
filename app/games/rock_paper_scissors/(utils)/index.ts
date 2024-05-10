@@ -12,8 +12,7 @@ export const changeEnemyValue = ({
   pickedValue: GameModel.RPSValue
   gameStatus: GameStatus | null
 }) => {
-  if (gameStatus === GameModel.GameStatus.Draw) {
-  } else if (gameStatus === GameModel.GameStatus.Won) {
+  if (gameStatus === GameModel.GameStatus.Won) {
     if (pickedValue === GameModel.RPSValue.Paper) {
       setEnemyValue(ModelType.Rock)
     } else if (pickedValue === GameModel.RPSValue.Rock) {
@@ -21,7 +20,7 @@ export const changeEnemyValue = ({
     } else if (pickedValue === GameModel.RPSValue.Scissors) {
       setEnemyValue(ModelType.Paper)
     }
-  } else if (gameStatus === GameModel.GameStatus.Lost) {
+  } else {
     if (pickedValue === GameModel.RPSValue.Paper) {
       setEnemyValue(ModelType.Scissors)
     } else if (pickedValue === GameModel.RPSValue.Rock) {

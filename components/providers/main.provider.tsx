@@ -3,7 +3,6 @@
 import { SocketProvider } from '@/components/providers/socket.provider'
 import { ThemeProvider } from '@/components/providers/theme.provider'
 
-import Footer from '@/components/custom/footer'
 import Header from '@/components/custom/header'
 
 import Sidebar from '@/components/custom/sidebar'
@@ -28,9 +27,7 @@ const MainProvider = ({ children }: Props) => {
     setLoaded(true)
   }, [])
 
-  const [open] = useUnit([
-    SidebarModel.$open
-  ])
+  const [open] = useUnit([SidebarModel.$open])
 
   return (
     <StoreProvider>
@@ -42,13 +39,19 @@ const MainProvider = ({ children }: Props) => {
             ) : (
               <main className='min-h-screen flex flex-col relative '>
                 <Header />
-                <div className={`flex flex-col sm:flex-row flex-nowrap relative`}>
+                <div
+                  className={`flex flex-col sm:flex-row flex-nowrap relative`}
+                >
                   <Sidebar />
-                  <div className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${!open && 'tbbs:ml-[90px] mmd:ml-0'}`}>
+                  <div
+                    className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
+                      !open && 'tbbs:ml-[90px] mmd:ml-0'
+                    }`}
+                  >
                     {children}
                   </div>
                 </div>
-                <Toaster />
+                <Toaster position='top-right' />
               </main>
             )}
             <ModalProvider />

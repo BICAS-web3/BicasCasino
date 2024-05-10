@@ -56,10 +56,12 @@ export function handleResult({
       setIsPlaying?.(true)
     }
   } else if (result.type === 'Bet') {
-    // alert(1)
     if (title === 'rps' && setCoefficientData) {
       const fullAmount = Number(result.amount) * result.num_games!
-      setCoefficientData(prev => [Number(result.profit) / fullAmount, ...prev])
+      setCoefficientData(prev => [
+        fullAmount === 0 ? 0 : Number(result.profit) / fullAmount,
+        ...prev
+      ])
     }
     setKeep?.(false)
     setFirstBet?.(true)
@@ -68,12 +70,22 @@ export function handleResult({
     const parseArr = JSON.parse(result.profits)
     if (title === 'rocket') {
       const handleCall = () => {
+        // alert(1)
         for (let i = 0; i < parseArr?.length; i++) {
-          setTimeout(() => {
-            const outCome = Number(parseArr[i]) / fullAmount
-            setCoefficientData?.(prev => [outCome, ...prev])
-            setLocalNumber?.(outCome)
-          }, 700 * (i + 1))
+          Promise.all([
+            new Promise(resolve =>
+              setTimeout(() => {
+                const outCome = Number(parseArr[i]) / Number(result.amount)
+                resolve(setCoefficientData?.(prev => [outCome, ...prev]))
+              }, 700 * i)
+            ),
+            new Promise(resolve =>
+              setTimeout(() => {
+                const outCome = Number(parseArr[i]) / Number(result.amount)
+                resolve(setLocalNumber?.(outCome))
+              }, 700 * i)
+            )
+          ])
         }
       }
       handleCall()
@@ -83,6 +95,7 @@ export function handleResult({
       Number(result.profit) === Number(result.amount)
     ) {
       setGameStatus?.(GameModel.GameStatus.Won)
+
       const multiplier = Number(result.profit) / Number(result.amount)
       setWonStatus?.({
         profit: Number(result.profit),
@@ -101,7 +114,7 @@ export function handleResult({
           setFirstBet?.(true)
         }, 200)
       }
-    } else if (Number(result.profit) < Number(result.amount)) {
+    } else {
       setGameStatus?.(GameModel.GameStatus.Lost)
       setLostStatus?.(Number(result.profit) - Number(result.amount))
       if (title === 'rocket' || title === 'rps') {
@@ -117,20 +130,6 @@ export function handleResult({
           setKeep?.(false)
           setFirstBet?.(true)
         }, 200)
-      }
-    } else {
-      setGameStatus?.(GameModel.GameStatus.Draw)
-      if (title === 'poker') {
-        setTimeout(() => {
-          setInGame?.(false)
-          setIsPlaying?.(false)
-          setKeep?.(false)
-          setFirstBet?.(true)
-        }, 200)
-      }
-      if (title === 'rocket' || title === 'rps') {
-        setIsPlaying?.(false)
-        setInGame?.(false)
       }
     }
   }

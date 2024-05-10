@@ -11,7 +11,7 @@ const Navigation = ({ isSignup }: INavigation) => (
       className={`
                     transition-all duration-400 cursor-pointer flex h-[45px]
                     items-center justify-center w-[80px] text-[14px] font-normal
-                    leading-[19px] tracking-def border-b border-border-black
+                    leading-[19px] tracking-def border-b border-border-black text-[#7E7E7E]
                     ${
                       isSignup === 'up'
                         ? 'bg-[linear-gradient(180deg,_rgba(255,_183,_0,_0)_19.23%,_rgba(255,_183,_0,_0.15)_100%)] border-b !border-orange !text-white'
@@ -26,7 +26,7 @@ const Navigation = ({ isSignup }: INavigation) => (
       className={`
                   transition-all duration-400 cursor-pointer flex h-[45px]
                   items-center justify-center w-[80px] text-[14px] font-normal
-                  leading-[19px] tracking-def border-b border-border-black
+                  leading-[19px] tracking-def border-b border-border-black text-[#7E7E7E]
                   ${
                     isSignup === 'in'
                       ? 'bg-[linear-gradient(180deg,_rgba(255,_183,_0,_0)_19.23%,_rgba(255,_183,_0,_0.15)_100%)] border-b !border-orange !text-white'
