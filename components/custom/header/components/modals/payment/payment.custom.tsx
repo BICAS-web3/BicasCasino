@@ -50,207 +50,207 @@ const CustomPayment = ({ close }: { close: () => void }) => {
     success: boolean
     createdAt: string
   }>(null)
-  const [widgetSetting, setWidgetSetting] = useState<null | {
-    merchant: { settings: { amount: { min: number; max: number } } }
-  }>(null)
-  const [makeOrder, setMakeOrder] = useState<null | {
-    orderId: string
-    paymentDetails: {
-      type: string
-      value: string
-      paymentMethodName: string
-      ownerFirstName: string
-      ownerLastName: string
-      ownerPatronymic: string
-    }
-    amount: {
-      amount: number
-      amountText: string
-    }
-    orderCode: string
-  }>(null)
+  // const [widgetSetting, setWidgetSetting] = useState<null | {
+  //   merchant: { settings: { amount: { min: number; max: number } } }
+  // }>(null)
+  // const [makeOrder, setMakeOrder] = useState<null | {
+  //   orderId: string
+  //   paymentDetails: {
+  //     type: string
+  //     value: string
+  //     paymentMethodName: string
+  //     ownerFirstName: string
+  //     ownerLastName: string
+  //     ownerPatronymic: string
+  //   }
+  //   amount: {
+  //     amount: number
+  //     amountText: string
+  //   }
+  //   orderCode: string
+  // }>(null)
 
-  useEffect(() => {
-    if (access_token) {
-      ;(async () => {
-        const data = await getOneTimeToken({ bareer: access_token })
-        if (data.status === 'OK') {
-          setToken((data.body as any).token)
-        } else {
-          toast(`Error: ${JSON.stringify(data)}`)
-        }
-      })()
-    }
-  }, [access_token])
+  // useEffect(() => {
+  //   if (access_token) {
+  //     ;(async () => {
+  //       const data = await getOneTimeToken({ bareer: access_token })
+  //       if (data.status === 'OK') {
+  //         setToken((data.body as any).token)
+  //       } else {
+  //         toast(`Error: ${JSON.stringify(data)}`)
+  //       }
+  //     })()
+  //   }
+  // }, [access_token])
 
-  useEffect(() => {
-    if (token && key) {
-      ;(async () => {
-        const data = await getTokensSettings({ token, apiKey: key })
-        if ((data as any).merchant) {
-          setWidgetSetting(data as any)
-        } else {
-          toast(`Error getting settings ${(data as any).error}`)
-        }
-      })()
-    }
-  }, [token, key])
+  // useEffect(() => {
+  //   if (token && key) {
+  //     ;(async () => {
+  //       const data = await getTokensSettings({ token, apiKey: key })
+  //       if ((data as any).merchant) {
+  //         setWidgetSetting(data as any)
+  //       } else {
+  //         toast(`Error getting settings ${(data as any).error}`)
+  //       }
+  //     })()
+  //   }
+  // }, [token, key])
 
-  useEffect(() => {
-    if (key && token && userInfo?.id) {
-      ;(async () => {
-        const data = await createTokenSession({
-          apiKey: key,
-          token,
-          userId: `${userInfo?.id}`,
-          callbackUrl: 'https://rew.greekkeepers.io/api/p2way/callback'
-        })
-        if ((data as any).sessionId) {
-          setSessionInit((data as any).sessionId)
-        } else {
-          toast(`Error create session ${(data as any).error}`)
-        }
-      })()
-    }
-  }, [token, key, userInfo])
+  // useEffect(() => {
+  //   if (key && token && userInfo?.id) {
+  //     ;(async () => {
+  //       const data = await createTokenSession({
+  //         apiKey: key,
+  //         token,
+  //         userId: `${userInfo?.id}`,
+  //         callbackUrl: 'https://rew.greekkeepers.io/api/p2way/callback'
+  //       })
+  //       if ((data as any).sessionId) {
+  //         setSessionInit((data as any).sessionId)
+  //       } else {
+  //         toast(`Error create session ${(data as any).error}`)
+  //       }
+  //     })()
+  //   }
+  // }, [token, key, userInfo])
 
-  useEffect(() => {
-    if (key && token && sessionInit && amount && startPay) {
-      ;(async () => {
-        const data = await createTokenOrder({
-          amount: Number(amount),
-          sessionId: sessionInit,
-          token
-        })
-        if (data && (data as any)?.orderId) {
-          setStartPay(false)
-          setMakeOrder(data as any)
-        } else {
-          toast(
-            `${
-              (data as any).error === 'NO_PAYMENT_METHODS_AVAILABLE'
-                ? `${(data as any).error}, increase amount`
-                : (data as any).error
-            }`
-          )
-        }
-        setStartPay(false)
-      })()
-    }
-  }, [startPay])
+  // useEffect(() => {
+  //   if (key && token && sessionInit && amount && startPay) {
+  //     ;(async () => {
+  //       const data = await createTokenOrder({
+  //         amount: Number(amount),
+  //         sessionId: sessionInit,
+  //         token
+  //       })
+  //       if (data && (data as any)?.orderId) {
+  //         setStartPay(false)
+  //         setMakeOrder(data as any)
+  //       } else {
+  //         toast(
+  //           `${
+  //             (data as any).error === 'NO_PAYMENT_METHODS_AVAILABLE'
+  //               ? `${(data as any).error}, increase amount`
+  //               : (data as any).error
+  //           }`
+  //         )
+  //       }
+  //       setStartPay(false)
+  //     })()
+  //   }
+  // }, [startPay])
 
-  useEffect(() => {
-    if (makeOrder && token && send) {
-      ;(async () => {
-        const data = await confirmOrder({ orderId: makeOrder.orderId, token })
-        if ((data as any).success) {
-          setConf(true)
-          setConfirmData(data as any)
-        } else {
-          toast((data as any).error)
-        }
-      })()
-    }
-  }, [makeOrder, send])
+  // useEffect(() => {
+  //   if (makeOrder && token && send) {
+  //     ;(async () => {
+  //       const data = await confirmOrder({ orderId: makeOrder.orderId, token })
+  //       if ((data as any).success) {
+  //         setConf(true)
+  //         setConfirmData(data as any)
+  //       } else {
+  //         toast((data as any).error)
+  //       }
+  //     })()
+  //   }
+  // }, [makeOrder, send])
 
-  useEffect(() => {
-    if (makeOrder?.orderId && send && screen) {
-      ;(async () => {
-        const data = await screenShootOrder({
-          orderId: makeOrder.orderId,
-          bucketS3DocumentName: screen
-        })
-        if ((data as any).message === 'OK') {
-          toast('Добавляем скриншот')
-          setSend(false)
-          setScreen('')
-          setFinish(true)
-        } else {
-          toast((data as any).error)
-        }
-      })()
-    }
-  }, [makeOrder, send, screen])
+  // useEffect(() => {
+  //   if (makeOrder?.orderId && send && screen) {
+  //     ;(async () => {
+  //       const data = await screenShootOrder({
+  //         orderId: makeOrder.orderId,
+  //         bucketS3DocumentName: screen
+  //       })
+  //       if ((data as any).message === 'OK') {
+  //         toast('Добавляем скриншот')
+  //         setSend(false)
+  //         setScreen('')
+  //         setFinish(true)
+  //       } else {
+  //         toast((data as any).error)
+  //       }
+  //     })()
+  //   }
+  // }, [makeOrder, send, screen])
 
-  useEffect(() => {
-    if (finish && makeOrder) {
-      ;(async () => {
-        const data = await getOrderInfo({ orderId: makeOrder.orderId })
-        if ((data as any).orderId) {
-          toast('Ождиайте проверки и поступления!')
-          setPayProcess(false)
-          setDone(true)
-        }
-      })()
-    }
-  }, [finish])
+  // useEffect(() => {
+  //   if (finish && makeOrder) {
+  //     ;(async () => {
+  //       const data = await getOrderInfo({ orderId: makeOrder.orderId })
+  //       if ((data as any).orderId) {
+  //         toast('Ождиайте проверки и поступления!')
+  //         setPayProcess(false)
+  //         setDone(true)
+  //       }
+  //     })()
+  //   }
+  // }, [finish])
 
-  useEffect(() => {
-    if (conf) {
-      ;(async () => {
-        const data = await getImageFile({
-          contentType: fileType || 'image/png',
-          imageName: `${confirmData?.createdAt}_${userInfo?.id}_${makeOrder?.orderId}.png`
-        })
-        data && (data as any)?.url && setBucketUrl((data as any).url)
-      })()
-    }
-  }, [conf])
+  // useEffect(() => {
+  //   if (conf) {
+  //     ;(async () => {
+  //       const data = await getImageFile({
+  //         contentType: fileType || 'image/png',
+  //         imageName: `${confirmData?.createdAt}_${userInfo?.id}_${makeOrder?.orderId}.png`
+  //       })
+  //       data && (data as any)?.url && setBucketUrl((data as any).url)
+  //     })()
+  //   }
+  // }, [conf])
 
-  useEffect(() => {
-    if (bucketUrl && file) {
-      ;(async () => {
-        const ext = file.name.split('.').pop()
-        setFileType(file.type)
-        setFileExtension(ext)
-        const xhr = new XMLHttpRequest()
-        xhr.open('PUT', bucketUrl, true)
-        xhr.setRequestHeader('Content-Type', fileType || 'image/png')
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-              setScreen(
-                `${confirmData?.createdAt}_${userInfo?.id}_${makeOrder?.orderId}.png`
-              )
-            } else {
-              toast(xhr.status)
-            }
-          }
-        }
-        xhr.send(file)
-      })()
-    }
-  }, [bucketUrl, file])
+  // useEffect(() => {
+  //   if (bucketUrl && file) {
+  //     ;(async () => {
+  //       const ext = file.name.split('.').pop()
+  //       setFileType(file.type)
+  //       setFileExtension(ext)
+  //       const xhr = new XMLHttpRequest()
+  //       xhr.open('PUT', bucketUrl, true)
+  //       xhr.setRequestHeader('Content-Type', fileType || 'image/png')
+  //       xhr.onreadystatechange = function () {
+  //         if (xhr.readyState === XMLHttpRequest.DONE) {
+  //           if (xhr.status === 200) {
+  //             setScreen(
+  //               `${confirmData?.createdAt}_${userInfo?.id}_${makeOrder?.orderId}.png`
+  //             )
+  //           } else {
+  //             toast(xhr.status)
+  //           }
+  //         }
+  //       }
+  //       xhr.send(file)
+  //     })()
+  //   }
+  // }, [bucketUrl, file])
 
-  useEffect(() => {
-    if (cancelOrder && !confirmData?.success && makeOrder) {
-      ;(async () => {
-        const data = await cancelTokenOrder({
-          orderId: makeOrder?.orderId,
-          token
-        })
-        if ((data as any).message === 'OK') {
-          setCancelOrder(false)
-          setMakeOrder(null)
-          setFile(null)
-          setAmount('')
-          toast('Canceled!')
-        } else {
-          toast((data as any)?.error)
-        }
-      })()
-    }
-  }, [cancelOrder, makeOrder])
+  // useEffect(() => {
+  //   if (cancelOrder && !confirmData?.success && makeOrder) {
+  //     ;(async () => {
+  //       const data = await cancelTokenOrder({
+  //         orderId: makeOrder?.orderId,
+  //         token
+  //       })
+  //       if ((data as any).message === 'OK') {
+  //         setCancelOrder(false)
+  //         setMakeOrder(null)
+  //         setFile(null)
+  //         setAmount('')
+  //         toast('Canceled!')
+  //       } else {
+  //         toast((data as any)?.error)
+  //       }
+  //     })()
+  //   }
+  // }, [cancelOrder, makeOrder])
 
-  const [time, setTime] = useState(new Date())
+  // const [time, setTime] = useState(new Date())
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTime(new Date())
-    }, 1000)
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setTime(new Date())
+  //   }, 1000)
 
-    return () => clearInterval(intervalId)
-  }, [])
+  //   return () => clearInterval(intervalId)
+  // }, [])
 
   const { toggle, open, close: onClose, isOpen, dropdownRef } = useDropdown()
 
@@ -284,8 +284,8 @@ const CustomPayment = ({ close }: { close: () => void }) => {
       const token = otToken.token
 
       const params = { userId, apiKey, callbackUrl, token }
-
       window.initP2PWidget(params)
+      // alert(JSON.stringify(params))
     }
   }
 
@@ -298,19 +298,19 @@ const CustomPayment = ({ close }: { close: () => void }) => {
 
   return (
     <>
-      {/* <button
+      <button
         onClick={() => {
           console.log(2)
-          open()
-          // setLink((prev) => prev + 1);
+          // open()
+          // // setLink((prev) => prev + 1);
 
           init() // TODO: add a proper button, remove this line
         }}
         // className={s.wallet_btn}
       >
         open
-      </button> */}
-      <span className='fixed top-0 left-0  w-screen h-screen bg-black opacity-[0.4] z-[3]'></span>
+      </button>
+      {/* <span className='fixed top-0 left-0  w-screen h-screen bg-black opacity-[0.4] z-[3]'></span>
       <div className='overflow-y-auto sm:overflow-y-hidden w-screen sm:w-auto sm:h-auto h-screen z-[20] lg:w-[806px] lg:h-[470px] pt-8 py-4 px-5 lg:p-[30px] pb-6 lg:pb-10 sm:rounded-[20px] flex flex-col bg-[#181818] overflow-hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
         <EclipseSVG className='absolute top-0 left-0 h-full' />
         <div className='flex items-center justify-between relative z-[1] gap-[19px]'>
@@ -613,7 +613,7 @@ const CustomPayment = ({ close }: { close: () => void }) => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
     </>
   )
 }

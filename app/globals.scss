@@ -1735,3 +1735,7 @@ div {
     z-index: 20 !important;
   }
 }
+
+#send-money-widget-container {
+  z-index: 999999999999999999999999999999 !important;
+}

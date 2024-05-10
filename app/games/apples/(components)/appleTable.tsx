@@ -225,23 +225,23 @@ const AppleTable: FC<IAppleTable> = ({
                         appleGameResult?.length === 0 &&
                         isPlaying &&
                         !showResult &&
-                        'cursor-pointer rounded-[5px]  shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]', // hover:bg-[#293e3e]
+                        'cursor-pointer rounded-[5px] ', // hover:bg-[#293e3e] shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset]
                       picked &&
                         'bg-[#293e3e] cursor-default shadow-[0px_0px_6px_0px_#4fca88_inset]',
                       falseResult &&
                         showResult &&
                         currentIndex === appleData.length - 1 &&
                         localStatus === GameStatus.Lost &&
-                        'bg-[#b44646] shadow-none hover:shadow-[0px_0px_4px_0px_#b44646]',
+                        'bg-[#b44646] shadow-none hover:shadow-[0px_0px_4px_0px_#b44646] border-none',
                       !falseResult &&
                         resultExist &&
                         picked &&
-                        'bg-[#4e9f31] shadow-none hover:shadow-[0px_0px_4px_0px_#4e9f31]',
+                        'bg-[#4e9f31] shadow-none hover:shadow-[0px_0px_4px_0px_#4e9f31] border-none',
                       currentIndex === appleData.length &&
                         isPlaying &&
                         appleGameResult?.length === 0 &&
                         !showResult &&
-                        'cursor-pointer bg-[#0D2020] shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset] hover:shadow-[0px_0px_6px_0px_#4FCA88_inset] duration-500',
+                        'cursor-pointer bg-[#0D2020] border-none shadow-[0px_0px_2.29px_0px_#4FCA88A6_inset] sm:shadow-[0px_0px_4px_0px_rgba(79,202,136,0.65)inset] hover:shadow-[0px_0px_6px_0px_#4FCA88_inset] duration-500',
                       isPlaying &&
                         currentIndex < appleData.length &&
                         'cursor-auto'
@@ -249,12 +249,12 @@ const AppleTable: FC<IAppleTable> = ({
                   >
                     {resultExist && picked ? (
                       falseResult && localStatus === GameStatus.Lost ? (
-                        <AppleBgFalseSVG className='absolute w-full h-full object-cover left-0' />
+                        <AppleBgFalseSVG className='scale-[1.1] sm:scale-[1] absolute w-full h-full object-cover left-0' />
                       ) : (
-                        <AppleBgTrueSVG className='absolute w-full h-full object-cover left-0' />
+                        <AppleBgTrueSVG className='scale-[1.1] sm:scale-[1] absolute w-full h-full object-cover left-0' />
                       )
                     ) : (
-                      <AppleBgSVG className='absolute w-full h-full object-cover left-0' />
+                      <AppleBgSVG className='scale-[1.1] sm:scale-[1] absolute w-full h-full object-cover left-0' />
                     )}
                     <div className='w-full flex h-full justify-center items-center relative'>
                       <div
@@ -264,7 +264,10 @@ const AppleTable: FC<IAppleTable> = ({
                           showResult &&
                           localStatus === GameStatus.Lost
                             ? 'bg-[#300505] border-[#B44646]'
-                            : currentIndex === appleData.length && isPlaying
+                            : currentIndex === appleData.length &&
+                              isPlaying &&
+                              appleGameResult?.length === 0 &&
+                              !showResult
                             ? 'bg-[#165339] border-[#2A3D34]'
                             : picked
                             ? resultExist && falseResult
@@ -293,7 +296,10 @@ const AppleTable: FC<IAppleTable> = ({
                         ) : (
                           <AppleBgF
                             className={`duration-300 w-[9.15px] h-[9.15px] sm:w-[17px] sm:h-[17px] ${
-                              currentIndex === appleData.length && isPlaying
+                              currentIndex === appleData.length &&
+                              isPlaying &&
+                              appleGameResult?.length === 0 &&
+                              !showResult
                                 ? 'text-[#49B446]'
                                 : picked
                                 ? falseResult
