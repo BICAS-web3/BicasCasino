@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { stringRemoveSpacing } from '@/lib/string'
 import { cn } from '@/lib/utils'
+import { ChestModel } from '@/states'
 import { SidebarModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 
 import wheelIco from './icons/wheelAnim.png'
@@ -13,6 +15,7 @@ type ItemProps = {
   title: string
   icon: ReactNode
   color?: string
+  id?: string
 }
 
 type Props = {
@@ -26,6 +29,19 @@ type Props = {
 
 const MenuItem = ({ href, data, open, className }: Props) => {
   const params = usePathname()
+  const router = useRouter()
+
+  const [setOpen] = useUnit([
+    ChestModel.setModalVisibility
+  ])
+
+  const handleClick = (data) => {
+    if(data.id === 'modal') {
+      setOpen(true)
+    } else {
+      router.push(`/${href === 'home' ? '' : href}`)
+    }
+  }
 
   return (
     <>
@@ -89,7 +105,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
         </div>
       ) : (
         <Button
-          href={`/${href === 'home' ? '' : href}`}
+          onClick={() => handleClick(data)}
           className={cn(
             'w-full flex items-center flex-nowrap text-[#979797] relative overflow-hidden hover:text-white min-h-[50px] min-w-[50px]',
             open
