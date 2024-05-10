@@ -219,8 +219,7 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  const [opened] = useUnit([SidebarModel.$open])
-
+  // useEffect(() => alert(`${refresh_token}`), [])
   return (
     <header
       className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
