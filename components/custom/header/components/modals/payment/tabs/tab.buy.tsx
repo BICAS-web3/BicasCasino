@@ -46,7 +46,7 @@ const TabBuy = () => {
 
       const params = { userId, apiKey, callbackUrl, token }
       window.initP2PWidget(params)
-      // setTotalVisibility(false)
+      setTotalVisibility(false)
       // alert(JSON.stringify(params))
     }
   }
