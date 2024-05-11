@@ -47,6 +47,18 @@ const GamesMobileMenu = ({ data, open }: Props) => {
         <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
           {data.items.map((item, index) => (
             <DropdownMenuItem
+              onClick={() => {
+                const element = document.documentElement
+                if (element.requestFullscreen) {
+                  element.requestFullscreen()
+                } else if ((element as any).webkitRequestFullscreen) {
+                  /* Safari */
+                  ;(element as any).webkitRequestFullscreen()
+                } else if ((element as any).msRequestFullscreen) {
+                  /* IE11 */
+                  ;(element as any).msRequestFullscreen()
+                }
+              }}
               href={`/games/${stringRemoveSpacing(item.title)}`}
               className={cn(
                 'w-full flex gap-3 cursor-pointer justify-start items-center flex-nowrap bg-[#121212] relative min-h-12 overflow-hidden rounded-xl',
