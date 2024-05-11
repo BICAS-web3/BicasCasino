@@ -224,7 +224,7 @@ const WaitingModal = () => {
                     <SelectItem
                       value={item.title}
                       key={index}
-                      icon={item.icon}
+                      // icon={item.icon}
                       className='py-2 gap-2'
                     >
                       <span className='uppercase text-xs font-bold text-[#eaeaea]'>
