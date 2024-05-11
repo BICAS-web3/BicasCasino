@@ -140,7 +140,7 @@ const AppleTable: FC<IAppleTable> = ({
   }, [showResult])
 
   return (
-    <div className='scale-[1.2] exxs:scale-[1.3] sm:scale-[1] w-[269px] sm:w-[471px] h-[311px] sm:h-[544px] mt-14 mb-10 pt-[27px] sm:pt-12 pl-[29px] sm:pl-[55px] pr-[21px] sm:pr-[42px] pb-5 sm:pb-4 lg:mt-[17px] rounded-xl  relative'>
+    <div className='scale-[1.2] exxs:scale-[1.3] sm:scale-[1] w-[269px] sm:w-[471px] h-[311px] sm:h-[544px] mt-8 sm:mt-14 mb-10 pt-[27px] sm:pt-12 pl-[29px] sm:pl-[55px] pr-[21px] sm:pr-[42px] pb-5 sm:pb-4 lg:mt-[17px] rounded-xl  relative'>
       <Image
         // px-4 py-5 sm:px-6 sm:pt-8 sm:pb-5
         width={504}

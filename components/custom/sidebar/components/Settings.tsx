@@ -16,7 +16,7 @@ const SidebarSettings = ({ open, handleAction }: Props) => (
       open ? '' : 'sm:flex-col gap-4'
     )}
   >
-    <ThemeToggle disabled open={open} />
+    {/* <ThemeToggle disabled open={open} /> */}
     <LanguageToggle disabled={false} />
     <Button
       onClick={handleAction}

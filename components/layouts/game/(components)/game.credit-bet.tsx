@@ -41,7 +41,7 @@ const GameCreditBet = () => {
             {balance.toFixed(2)}
           </span>
           <span className='text-[10px] text-[#7e7e7e] leading-3 uppercase'>
-            {isDrax ? 'dc' : 'bd'}
+            {isDrax ? 'dc' : 'bc'}
           </span>
         </div>
         <div className='flex flex-nowrap gap-1 items-center justify-start'>
@@ -49,7 +49,7 @@ const GameCreditBet = () => {
             {cryptoValue}
           </span>
           <span className='text-[10px] text-[#7e7e7e] leading-3 uppercase'>
-            {isDrax ? 'dc' : 'bd'}
+            {isDrax ? 'dc' : 'bc'}
           </span>
         </div>
       </div>

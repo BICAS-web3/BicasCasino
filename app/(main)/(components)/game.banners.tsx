@@ -41,8 +41,6 @@ const GameBanners = ({ className }: { className?: string }) => {
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
 
-  const isMobile = useMediaQuery('(max-width:768px)')
-
   return (
     <div
       className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}
