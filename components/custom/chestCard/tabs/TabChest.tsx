@@ -3,12 +3,13 @@ import ShareIco from '@/public/images/chestCard/shareIco.svg'
 import ChestIco from '@/public/images/chestCard/chest.svg'
 import ChestMiniIco from '@/public/images/chestCard/chestMiniIco.svg'
 import Image from 'next/image'
+import chest from '@/public/images/chestCard/chestMain.png'
 
 interface TabChestProps {}
 
 export const TabChest:FC<TabChestProps> = () => {
     return (
-        <div className="">
+        <div className="relative">
             <div className='flex items-center justify-between'>
                 <span className='underline text-[13px] font-semibold leading-[18px] text-[#7e7e7e] cursor-pointer select-none'>History</span>
                 <div className='p-[4px] select-none cursor-pointer rounded-[5px] text-[13px] font-bold text-[#fff] leading-[18px] bg-[#2e2e2e] flex items-center gap-[4px]'>
@@ -17,9 +18,8 @@ export const TabChest:FC<TabChestProps> = () => {
                     (+1 <ChestMiniIco />)
                 </div>
             </div>
-            <div className='flex h-[160px] relative top-[-20px] items-center justify-center'>
-                {/* очко с картинкой какое-то... */}
-                {/* <ChestIco /> */}
+            <div className='flex h-[230px] xxs:h-[270px] relative top-[-80px] items-center justify-center'>
+                <img src={chest.src} className='absolute top-[120px] xxs:top-[70px] smm:top-[0px]' />
             </div>
             <p className='text-center text-[13px] font-semibold block mt-[30px]'>The treasure chest you have: 25</p>
             <div className='flex mt-[10px] gap-[10px]'>

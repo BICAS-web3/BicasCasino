@@ -9,6 +9,7 @@ import { UserModal } from '../custom/userModal/UserModal'
 import { useUnit } from 'effector-react'
 import { PaymentModel } from '@/states'
 import Transactions from '../custom/header/components/modals/payment/transactions'
+import { GamesPopup } from '../custom/sidebar/components/GamesPopup'
 
 // import Payment from '@/components/custom/Payment/Payment'
 
@@ -27,6 +28,7 @@ const ModalProvider = () => {
       <UserModal />
       <VaultModal />
       <VipModal />
+      <GamesPopup />
       {/* <Registration /> */}
     </>
   )
