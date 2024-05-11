@@ -1,18 +1,14 @@
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { HeaderM, PaymentModel, UserModel } from '@/states'
+import { HeaderM, ModalsModel, PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
-import { SGames } from '../data'
-import GamesMobileMenu from './games.mobile'
 import {
   BurgerMenuSVG,
   ChatSVG,
-  GamesSVG,
   UserSVG,
 } from './icons/mobile'
-
+import PlayIco from '@/public/images/misc/play.svg'
 
 import Wallet from '@/components/custom/sidebar/components/icons/mobile/walIco.svg'
 
@@ -22,22 +18,23 @@ type Props = {
 }
 
 const SidebarMobileSettings = ({ open, handleAction }: Props) => {
-  const [gamesOpen, setGamesOpen] = useState(false)
   const isMobile = useMediaQuery('(max-width:768px)')
 
-  const [setVisibility, visibility, setUserModal] = useUnit([
+  const [setVisibility, visibility, setUserModal, setGames, gamesState] = useUnit([
     PaymentModel.setTotalVisibility,
     PaymentModel.$totalVisibility,
-    HeaderM.setUserModalVisibility
+    HeaderM.setUserModalVisibility,
+    ModalsModel.setGamesModal,
+    ModalsModel.$gamesModal
   ])
 
   const handlePaymentAction = () => {
-    setUserModal(false)
+    setUserModal(false) 
     setVisibility(!visibility)
   }
   const handleGamesOpen = () => {
     setUserModal(false)
-    setGamesOpen(!gamesOpen)
+    setGames(!gamesState)
   }
   return (
     <div
@@ -46,23 +43,23 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
         open ? '' : 'gap-4'
       )}
     >
-      <Button onClick={handleAction} variant='ghost' size='icon'>
+      <div onClick={handleAction} className="w-[40px] bottom-svg flex items-center justify-center h-[40px]" >
         <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
-      </Button>
-      <Button variant='ghost' size='icon' onClick={handleGamesOpen}>
-        <GamesMobileMenu data={SGames} open={gamesOpen} />
-      </Button>
-      <Button variant='ghost' size='icon' onClick={handlePaymentAction}>
-        <div className='p-[5px] rounded-[30px] border border-[#202020] bg-[#121212] min-w-[60px] flex justify-center items-center'>
+      </div>
+      <div className="w-[40px] h-[40px] bottom-svg flex items-center justify-center" onClick={handleGamesOpen}>
+        <PlayIco className='object-contain text-[#7E7E7E]' />
+      </div>
+      <div className="w-[40px] h-[40px] flex items-center justify-center" onClick={handlePaymentAction}>
+        <div className='p-[5px] rounded-[30px] bottom-svg border border-[#202020] bg-[#121212] min-w-[60px] flex justify-center items-center'>
           <Wallet />
         </div>
-      </Button>
-      <Button onClick={handleAction} variant='ghost' size='icon'>
-        <UserSVG className='object-contain text-[#7E7E7E]' />
-      </Button>
-      <Button onClick={handleAction} variant='ghost' size='icon'>
-        <ChatSVG className='object-contain' />
-      </Button>
+      </div>
+      <div onClick={handleAction} className="w-[40px] bottom-svg flex items-center justify-center h-[40px]">
+        <UserSVG className=' text-[#7e7e7e]' />
+      </div>
+      <div onClick={handleAction} className="w-[40px] bottom-svg flex items-center justify-center h-[40px]">
+        <ChatSVG  />
+      </div>
     </div>
   )
 }

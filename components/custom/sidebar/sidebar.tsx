@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { SBottomMenu, SGames, SMobileMenu, STopMenu } from './data'
+import { MobMenu, SBottomMenu, SGames, SMobileMenu, STopMenu } from './data'
 
 import { stringRemoveSpacing } from '@/lib/string'
 import { SidebarModel } from '@/states'
@@ -47,6 +47,16 @@ const Sidebar = () => {
                 <MenuItem
                   open={open}
                   href={stringRemoveSpacing(item.title)}
+                  data={item}
+                  key={`sidebar-top-${stringRemoveSpacing(
+                    item.title
+                  )}-${index}`}
+                />
+              ))}
+              {MobMenu.map((item, index) => (
+                <MenuItem
+                  open={open}
+                  href={item.href || '/'}
                   data={item}
                   key={`sidebar-top-${stringRemoveSpacing(
                     item.title

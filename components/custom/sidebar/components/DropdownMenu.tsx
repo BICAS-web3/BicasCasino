@@ -12,6 +12,9 @@ import {
 import { stringRemoveSpacing } from '@/lib/string'
 import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
+import { GamesSVG } from './icons/top'
+import { useUnit } from 'effector-react'
+import { ModalsModel } from '@/states'
 
 export interface Item {
   title: string
@@ -28,78 +31,22 @@ type Props = {
 }
 const Menu = ({ data, open }: Props) => {
   const params = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const [setOpen, openGames] = useUnit([
+    ModalsModel.setGamesModal,
+    ModalsModel.$gamesModal
+  ])
 
   return (
-    <DropdownMenu onOpenChange={() => setIsOpen(!isOpen)} >
-      <DropdownMenuTrigger
-        className={cn(
-          'text-center py-2 min-h-[50px] min-w-[50px] w-full flex items-center flex-nowrap relative overflow-hidden text-[#979797] hover:text-white',
-          open ? 'px-4 justify-between' : 'px-0 justify-center',
-          open
-            ? 'justify-start open bg-[#121212] hover:bg-[#121212] gap-3 rounded-[20px]'
-            : 'justify-center flex-col gap-1 rounded-xl bg-transparent hover:bg-transparent'
-        )}
-      >
-        <span>{data.main.icon}</span>
-        <div className={`flex items-center ${!open && 'justify-center'} text-center transition-all duration-300 ${isOpen && open ? 'justify-between' : 'justify-start'} gap-4 w-full`}>
-          <span
-            className={cn(
-              'leading-5 text-center text-base font-bold tracking-wide text-nowrap truncate uppercase',
-              open ? 'text-base' : 'text-[9px]'
-            )}
-          >
-            {data.main.title}
-          </span>
-          {open ? <ChevronRight className={`w-5 transition-all duration-300 aspect-square`} /> : null}
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align='start'
-        side='right'
-        className={`${isOpen ? "sidebar-anim" : ""} flex flex-col justify-between w-56 bg-[#121212] border-none rounded-none`}
-      >
-        <ScrollArea className='h-[calc(100vh_-_148px)] w-full rounded-md pr-4'>
-          {data.items.map((item, index) => (
-            <DropdownMenuItem
-              href={`/games/${stringRemoveSpacing(item.title)}`}
-              className={cn(
-                'w-full flex gap-3 cursor-pointer justify-start items-center flex-nowrap bg-[#121212] relative min-h-12 overflow-hidden rounded-xl',
-                `/${stringRemoveSpacing(item.title)}` === params
-                  ? 'text-[#FFE09D] hover:text-white sidebar-item--active'
-                  : 'text-[#979797] hover:text-white'
-              )}
-              key={`sidebar-games-${stringRemoveSpacing(item.title)}-${index}`}
-            >
-              <span>{item.icon}</span>
-              <span className='leading-5 text-base font-bold tracking-wide w-full max-w-36 text-left truncate'>
-                {item.title}
-              </span>
-            </DropdownMenuItem>
-          ))}
-        </ScrollArea>
-        <div className='flex h-[72px] items-center p-2'>
-          <DropdownMenuItem
-            href={`/games/${stringRemoveSpacing(data.second.title)}`}
-            className={cn(
-              'w-full flex gap-3 cursor-pointer justify-start items-center flex-nowrap bg-[#121212] relative h-12 overflow-hidden rounded-xl',
-              `/${
-                data.second.title.toLocaleLowerCase() === 'home'
-                  ? ''
-                  : stringRemoveSpacing(data.second.title)
-              }` === params
-                ? 'text-[#FFE09D] hover:text-white sidebar-item--active'
-                : 'text-[#979797] hover:text-white'
-            )}
-          >
-            <span>{data.second.icon}</span>
-            <span className='leading-5 text-base font-bold tracking-wide w-full max-w-36 text-left truncate'>
-              {data.second.title}
-            </span>
-          </DropdownMenuItem>
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
+
+    <div onClick={() => setOpen(!openGames)} className={`text-center ${open ? 'bg-[#121212]' : 'bg-inherit rounded-none p-[0.5rem_0] justify-center'} py-2 min-h-[50px] cursor-pointer p-[0.5rem_1rem] font-bold uppercase min-w-[50px] rounded-[20px] w-full flex items-center flex-nowrap relative overflow-hidden bg-[#121212] text-[#979797] hover:text-white`}>
+      <div className={`flex items-center ${open ? 'flex-row gap-[0.75rem]' : 'flex-col text-[9px] gap-[0.5rem]'}`}>
+        <GamesSVG className='w-5 h-5 object-contain aspect-square' />
+        Games
+      </div>
+      {
+        open && <ChevronRight className={`w-5 ml-[10px] ${openGames ? 'ml-[auto]' : 'ml-0'} transition-all duration-300 aspect-square`} />
+      }
+    </div>
   )
 }
 
