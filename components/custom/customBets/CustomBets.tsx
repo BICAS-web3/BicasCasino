@@ -1,8 +1,9 @@
 'use client'
 import { CustomBetsItem } from './CustomBetsItem'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 // import { LiveBetsModel } from '../LiveBets'
 import { useUnit } from 'effector-react'
+import { GameModel, SessionModel, UserModel } from '@/states'
 // import { settingsModel } from "@/entities/settings";
 // import { T_BetInfo } from "@/shared/api";
 // import { sessionModel } from "@/entities/session";
@@ -10,6 +11,8 @@ import { useUnit } from 'effector-react'
 // import * as api from "@/shared/api/";
 // import { TOKENS } from "@/shared/tokens";
 // import * as GameModel from "@/widgets/GamePage/model";
+
+import * as api from '@/api'
 
 enum Page {
   AllBets = 0,
@@ -106,13 +109,24 @@ export interface CustomBetsProps {
   game: string | undefined
 }
 export const CustomBets: FC<CustomBetsProps> = props => {
-  // const [Bets, setBets, newBet] = useUnit([
-  //   LiveBetsModel.$Bets,
-  //   LiveBetsModel.setBets,
-  //   sessionModel.$newBet
-  // ])
-  // const [gamesList] = useUnit([GameModel.$gamesList])
-
+  const [Bets, setBets, newBet, userInfo] = useUnit([
+    GameModel.$Bets,
+    GameModel.setBets,
+    SessionModel.$newBet,
+    UserModel.$userInfo
+  ])
+  const [betsToDisplay, setBetsToDisplay] = useState<api.T_BetInfo[]>([])
+  const [gamesList] = useUnit([GameModel.$gamesList])
+  useEffect(() => {
+    if (newBet && newBet.user_id === userInfo?.id) {
+      const bets = betsToDisplay
+      bets.unshift(newBet)
+      if (bets.length > 10) {
+        bets.pop()
+      }
+      setBetsToDisplay(bets)
+    }
+  }, [newBet])
   return (
     <div className='w-full flex-col items-center sm:rounded-[12px] flex bg-black-def py-[45px]'>
       <div
@@ -149,7 +163,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             className='text-bets-title-color text-footer-text-xs hidden mmd:block sm:text-[14px]'
             data-id='address'
           >
-            Number <br/> of games
+            Number <br /> of games
           </span>
           <span
             className='text-bets-title-color mmd:pr-[25px] mmd:text-center text-footer-text-xs hidden sm:block sm:text-[14px]'
