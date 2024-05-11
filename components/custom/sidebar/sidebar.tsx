@@ -109,34 +109,34 @@ const Sidebar = () => {
               )}
             >
               <MenuItem
-                  open={open}
-                  href={stringRemoveSpacing('NFT Market')}
-                  data={
-                    {
-                      icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: open ? 'NFT Market' : 'NFT'
-                    }
-                  }
+                open={open}
+                href={stringRemoveSpacing('NFT Market')}
+                data={{
+                  icon: (
+                    <NftSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: open ? 'NFT Market' : 'NFT'
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={stringRemoveSpacing('NFT Market')}
-                  data={
-                    {
-                      icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: 'Affiliate'
-                    }
-                  }
+                open={open}
+                href={'/affiliates'}
+                data={{
+                  icon: (
+                    <AffilateSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Affiliate'
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={stringRemoveSpacing('NFT Market')}
-                  data={
-                    {
-                      icon: <SupportSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: 'Support'
-                    }
-                  }
+                open={open}
+                href={stringRemoveSpacing('NFT Market')}
+                data={{
+                  icon: (
+                    <SupportSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Support'
+                }}
               />
               {/* {SBottomMenu.map((item, index) => (
                 <MenuItem

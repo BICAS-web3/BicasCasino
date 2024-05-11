@@ -18,7 +18,7 @@ import { HeaderM, UserModel } from '@/states'
 const list = [
   {
     title: 'Profile',
-    href: '/',
+    href: '/profile',
     icon: <ProfileIco />
   },
   {
@@ -38,12 +38,12 @@ const list = [
   },
   {
     title: 'Vip',
-    href: '/',
+    href: '/vip',
     icon: <VipIco />
   },
   {
     title: 'Affiliate',
-    href: '/',
+    href: '/affiliates',
     icon: <AffiliateIco />
   },
   {

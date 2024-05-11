@@ -34,7 +34,7 @@ export const games = [
       },
       {
         title: 'affiliate',
-        path: ''
+        path: '/affiliates'
       },
       {
         title: 'nft market',
@@ -99,6 +99,4 @@ export const socials = [
   }
 ]
 
-export const footer_text = [
-  '©2024 GreekKeepers. All Rights Reserved.',
-]
+export const footer_text = ['©2024 GreekKeepers. All Rights Reserved.']
