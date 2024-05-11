@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { usePathname } from 'next/navigation'
 import { GameAuto } from './game.auto'
 import { WheelSettings } from './game.wheel'
+import { MinesSettings } from './game.mines'
 
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
@@ -22,13 +23,14 @@ const GameMenu = () => {
     <div
       className={`bg-[#151515]  border-b border-[#252525] sm:border-none ${
         minesGame && 'game-menu-mines'
-      } w-full py-5 px-4 absolute bottom-0 z-[2] sm:bottom-auto sm:relative grid flex-col tbs:flex tbs:flex-row items-end sm:rounded-b-[20px]`}
+      } w-full py-5 px-4 fixed bottom-[52px] z-[2] sm:bottom-auto sm:relative grid flex-col tbs:flex tbs:flex-row items-end sm:rounded-b-[20px]`}
     >
       <GameCreditBet />
       <GameWager />
       <GameAuto />
       {wheelGame && <WheelSettings />}
-      {minesGame && <GameAmount min={1} max={24} title='Number of mines' />}
+      {minesGame && <MinesSettings />}
+      {/* {minesGame && <GameAmount min={1} max={24} title='Number of mines' />} */}
       <GamePlayBlock />
     </div>
   )

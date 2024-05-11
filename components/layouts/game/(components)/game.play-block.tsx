@@ -63,7 +63,9 @@ const GamePlayBlock = () => {
     waitingResponse,
     minesSelected,
     minesDelay,
-    setMinesDelay
+    setMinesDelay,
+    setMinesVisible,
+    minesVisible
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -100,7 +102,9 @@ const GamePlayBlock = () => {
     GameModel.$waitingResponse,
     GameModel.$minesSelected,
     GameModel.$minesDelay,
-    GameModel.setMinesDelay
+    GameModel.setMinesDelay,
+    GameModel.setMinesVisible,
+    GameModel.$minesVisible
   ])
 
   const path = usePathname()
@@ -241,6 +245,11 @@ const GamePlayBlock = () => {
       setError(true)
       return
     }
+    if (cryptoValue < 10) {
+      toast('Minimum 10!')
+      setError(true)
+      return
+    }
     if (!cryptoValue) {
       toast('Error, place your bet!')
       setError(true)
@@ -291,6 +300,17 @@ const GamePlayBlock = () => {
           }}
         />
       )}
+      {isMines && (
+        <SettingSVG
+          className={`cursor-pointer duration-500 ${
+            minesVisible ? 'text-[#FFE09D] bg-transparent' : 'text-[#676767]'
+          }`}
+          onClick={() => {
+            setMinesVisible(!minesVisible)
+            setAuto(false)
+          }}
+        />
+      )}
       {!isPoker && !isMines && !isApple && !isThimbles && (
         <div
           className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
@@ -301,22 +321,14 @@ const GamePlayBlock = () => {
         >
           <span
             className={`uppercase text-[10px] font-semibold block ${
-              isPlaying
-                ? 'text-[#29F061]'
-                : autoVisibile
-                ? 'text-[#FFE09D]'
-                : 'text-[#7e7e7e]'
+              autoVisibile ? 'text-[#FFE09D]' : 'text-[#7e7e7e]'
             }`}
           >
             auto
           </span>
           <AutoBorder
             className={`absolute top-0 left-0 w-full h-full ${
-              isPlaying
-                ? 'fill-[#29F061]'
-                : autoVisibile
-                ? 'fill-[#FFE09D]'
-                : 'fill-[#7e7e7e]'
+              autoVisibile ? 'fill-[#FFE09D]' : 'fill-[#7e7e7e]'
             }`}
           />
         </div>

@@ -138,7 +138,33 @@ const MinesGame = () => {
 
   useEffect(() => {
     setTotalOpenedTiles(0)
-    setPickedTiles(initialPickedTiles)
+    setPickedTiles([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ])
     triggerRedraw(true)
   }, [pickedValue])
 
@@ -288,7 +314,7 @@ const MinesGame = () => {
       }}
     >
       <Coefficient common ballsArr={coefficientData} />
-      <div className='w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'>
+      <div className='scale-[1.25] sm:scale-[1] w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'>
         {redrawTrigger &&
           gameField &&
           pickedTiles &&

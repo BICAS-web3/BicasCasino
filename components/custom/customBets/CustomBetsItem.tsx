@@ -84,9 +84,11 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
   useEffect(() => {
     if (props?.game_name === 'CoinFlip') {
       setGameImg(coinFlipIcon)
-    } else if (props?.game_name === 'Dice') {
-      setGameImg(diceIcon)
-    } else if (props?.game_name === 'Mines') {
+    }
+    // else if (props?.game_name === 'Dice') {
+    //   setGameImg(diceIcon)
+    // }
+    else if (props?.game_name === 'Mines') {
       setGameImg(bombIcon)
     } else if (props?.game_name === 'RPS') {
       setGameImg(rpsIcon)
@@ -96,7 +98,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
       setGameImg(plincoIcon)
     } else if (props?.game_name === 'Slots') {
       setGameImg(slotsIcon)
-    } else if (props?.game_name === 'Rocket') {
+    } else if (props?.game_name === 'Dice') {
       setGameImg(rocketIcon)
     } else if (props?.game_name === 'Wheel') {
       setGameImg(wheelIcon)
@@ -126,12 +128,10 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           className='flex items-center justify-center no-underline gap-x-[5px]'
         >
           <span className='hidden mmd:block text-text-w-def text-[0.875rem] font-bold tracking-[0.56px] '>
-            {/* {props?.time.date} */}
-            23.03.2024
+            {props?.time.date}
           </span>
           <span className='text-[8px] text-[#7e7e7e] sm:text-text-w-def sm:text-[0.875rem] font-bold tracking-[0.56px]'>
-            {/* {props?.time.time} */}
-            15:05
+            {props?.time.time}
           </span>
         </Link>
       </div>
@@ -147,7 +147,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
             alt='game-ico-preview'
           />
           <span className='text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
-            {props?.game_name}
+            {props?.game_name === 'Dice' ? 'Rocket' : props?.game_name}
           </span>
         </Link>
       </div>
@@ -161,33 +161,37 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
             <BlockiesAva address={props?.username || 'retryu'} size={avaSize} />
           </div>
           <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem] '>
-            {/* {props?.player_name} */}
             {props?.username}
-            testName
           </span>
         </Link>
       </div>
       <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] tracking-[0.56px] font-medium'>
-        22
+        {props.bet.num_games}
       </div>
       <div className='hidden mmd:justify-center sm:flex items-center gap-x-[5px]'>
-        {
-          props.bet.coin_id === 1 ? (
-            <BonusTokenIco className='w-[20px] h-[20px]' />
-          ) : (
-            <DraxTokenIco className='w-[20px] h-[20px]' />
-          )
-        }
         <span className='text-text-w-def text-[0.875rem] tracking-[0.56px] font-medium'>
-          x{props?.amount}
-        </span>
+          {props?.amount}
+        </span>{' '}
+        {props.bet.coin_id === 1 ? (
+          <BonusTokenIco
+            width={20}
+            height={20}
+            className='min-w-[20px] min-h-[20px]'
+          />
+        ) : (
+          <DraxTokenIco
+            width={20}
+            height={20}
+            className='min-w-[20px] min-h-[20px]'
+          />
+        )}
       </div>
       <div className='hidden md:justify-center md:flex items-center '>
         <span className='text-[0.875rem] tracking-[0.56px] text-text-w-def font-medium'>
           {props?.multiplier}x
         </span>
       </div>
-      <div className='flex items-center justify-end'>
+      <div className='flex items-center gap-2 justify-end'>
         <span
           className={`text-[10px] mmd:text-[0.875rem] ml-[8px] font-bold tracking-[0.56px] ${
             props?.multiplier < 1 && 'text-[#f57731]'
@@ -195,13 +199,19 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         >
           {props?.profit}
         </span>
-        {
-          props.bet.coin_id === 1 ? (
-            <BonusTokenIco className='w-[20px] h-[20px]' />
-          ) : (
-            <DraxTokenIco className='w-[20px] h-[20px]' />
-          )
-        }
+        {props.bet.coin_id === 1 ? (
+          <BonusTokenIco
+            width={20}
+            height={20}
+            className='min-w-[20px] min-h-[20px]'
+          />
+        ) : (
+          <DraxTokenIco
+            width={20}
+            height={20}
+            className='min-w-[20px] min-h-[20px]'
+          />
+        )}
       </div>
     </div>
   )

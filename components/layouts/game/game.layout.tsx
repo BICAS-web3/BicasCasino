@@ -109,17 +109,15 @@ const GameLayout = ({ children }) => {
         onEnd={() => setNewMusic()}
       />
       <div
-        className={`relative flex flex-col ${
-          isMines ? 'pb-[225px]' : 'pb-[165px]'
-        } sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] ${
+        className={`relative flex flex-col pb-[160px] sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] ${
           isApples
-            ? 'min-h-[328px] max-h-max-content'
-            : 'min-h-[328px] max-h-max-content'
+            ? 'min-h-[650px] max-h-max-content'
+            : 'min-h-[430px] max-h-max-content'
         }`}
       >
         {access_token && socketAuth ? children : <Preload />}
         <div
-          className='absolute bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black'
+          className='absolute top-10 sm:top-auto sm:bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black'
           onClick={soundChange}
         >
           {playSounds === 'off' ? (

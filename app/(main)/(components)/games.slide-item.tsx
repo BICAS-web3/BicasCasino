@@ -6,10 +6,12 @@ interface Props {
   link: string
   title: string
   className?: string
+  onClick?: () => void
 }
 
-const GameSlideItem = ({ image, link, title, className }: Props) => (
+const GameSlideItem = ({ image, link, title, className, onClick }: Props) => (
   <Link
+    onClick={onClick}
     href={link}
     className={`flex flex-col rounded-[8px] overflow-hidden w-fit game_slide_wrap ${className}`}
   >
