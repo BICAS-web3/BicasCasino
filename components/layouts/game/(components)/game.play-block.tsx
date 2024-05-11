@@ -63,7 +63,9 @@ const GamePlayBlock = () => {
     waitingResponse,
     minesSelected,
     minesDelay,
-    setMinesDelay
+    setMinesDelay,
+    setMinesVisible,
+    minesVisible
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -100,7 +102,9 @@ const GamePlayBlock = () => {
     GameModel.$waitingResponse,
     GameModel.$minesSelected,
     GameModel.$minesDelay,
-    GameModel.setMinesDelay
+    GameModel.setMinesDelay,
+    GameModel.setMinesVisible,
+    GameModel.$minesVisible
   ])
 
   const path = usePathname()
@@ -241,6 +245,11 @@ const GamePlayBlock = () => {
       setError(true)
       return
     }
+    if (cryptoValue < 10) {
+      toast('Minimum 10!')
+      setError(true)
+      return
+    }
     if (!cryptoValue) {
       toast('Error, place your bet!')
       setError(true)
@@ -287,6 +296,17 @@ const GamePlayBlock = () => {
           }`}
           onClick={() => {
             setWheelVisible(!wheelVisible)
+            setAuto(false)
+          }}
+        />
+      )}
+      {isMines && (
+        <SettingSVG
+          className={`cursor-pointer duration-500 ${
+            minesVisible ? 'text-[#FFE09D] bg-transparent' : 'text-[#676767]'
+          }`}
+          onClick={() => {
+            setMinesVisible(!minesVisible)
             setAuto(false)
           }}
         />

@@ -35,6 +35,7 @@ export const $refund = createStore<boolean>(false)
 export const $gamesList = createStore<GamesList[]>([])
 export const $autoVisible = createStore<boolean>(false)
 export const $wheelVisible = createStore<boolean>(false)
+export const $minesVisible = createStore<boolean>(false)
 export const $coefficientData = createStore<number[]>([])
 // events
 export const setCoefficientData = createEvent<number[]>()
@@ -53,6 +54,7 @@ export const $keep = createStore(false)
 export const setKeep = createEvent<boolean>()
 export const setAutoVisible = createEvent<boolean>()
 export const setWheelVisible = createEvent<boolean>()
+export const setMinesVisible = createEvent<boolean>()
 $coefficientData.on(setCoefficientData, (_, state) => state)
 $keep.on(setKeep, (_, state) => state)
 // handlers
@@ -63,6 +65,7 @@ $playSounds.on(switchSounds, (old, state) => state)
 $gameStatus.on(setGameStatus, (_, status) => status)
 $autoVisible.on(setAutoVisible, (_, state) => state)
 $wheelVisible.on(setWheelVisible, (_, state) => state)
+$minesVisible.on(setMinesVisible, (_, state) => state)
 
 $profit.on(setWonStatus, (_, data) => data.profit).on(clearStatus, () => 0)
 $multiplier
