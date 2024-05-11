@@ -301,22 +301,14 @@ const GamePlayBlock = () => {
         >
           <span
             className={`uppercase text-[10px] font-semibold block ${
-              isPlaying
-                ? 'text-[#29F061]'
-                : autoVisibile
-                ? 'text-[#FFE09D]'
-                : 'text-[#7e7e7e]'
+              autoVisibile ? 'text-[#FFE09D]' : 'text-[#7e7e7e]'
             }`}
           >
             auto
           </span>
           <AutoBorder
             className={`absolute top-0 left-0 w-full h-full ${
-              isPlaying
-                ? 'fill-[#29F061]'
-                : autoVisibile
-                ? 'fill-[#FFE09D]'
-                : 'fill-[#7e7e7e]'
+              autoVisibile ? 'fill-[#FFE09D]' : 'fill-[#7e7e7e]'
             }`}
           />
         </div>
