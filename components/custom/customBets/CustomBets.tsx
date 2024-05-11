@@ -115,17 +115,34 @@ export const CustomBets: FC<CustomBetsProps> = props => {
     SessionModel.$newBet,
     UserModel.$userInfo
   ])
+
+  const data = {
+    id: 7183,
+    timestamp: 1715454813,
+    amount: '5.0000',
+    profit: '9.9000',
+    num_games: 1,
+    outcomes: '[0]',
+    profits: '[9.90]',
+    bet_info: '{"action":1}',
+    state: null,
+    uuid: '1a6bd12a-c549-42e3-b3f6-2ebc7dbe14a4',
+    game_id: 5,
+    user_id: 57,
+    username: 'yurii19931993@icloud.com',
+    coin_id: 1,
+    userseed_id: 6111,
+    serverseed_id: 178
+  }
   const [betsToDisplay, setBetsToDisplay] = useState<api.T_BetInfo[]>([])
   const [gamesList] = useUnit([GameModel.$gamesList])
   useEffect(() => {
-    if (newBet && newBet.user_id === userInfo?.id) {
-      const bets = betsToDisplay
-      bets.unshift(newBet)
-      if (bets.length > 10) {
-        bets.pop()
-      }
-      setBetsToDisplay(bets)
-    }
+    ;(async () => {
+      const new_bets = (await api.getAllLastBets()).body as api.T_Bets
+
+      new_bets && console.log(JSON.stringify(new_bets))
+      setBets(new_bets.bets)
+    })()
   }, [newBet])
   return (
     <div className='w-full flex-col items-center sm:rounded-[12px] flex bg-black-def py-[45px]'>
@@ -145,7 +162,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         <div
           className='px-[10px] 
         sm:px-[40px] grid xs:grid-cols-[25px_80px_85px_100px] 
-        grid-cols-[25px_65px_1fr_30px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
+        grid-cols-[25px_65px_1fr_70px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
         md:grid-cols-[40px_110px_1fr_60px_1fr_60px] 
         mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px] 
         gap-x-[5px] content-between mb-[7px] '
@@ -160,10 +177,10 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             Player
           </span>
           <span
-            className='text-bets-title-color text-footer-text-xs hidden mmd:block sm:text-[14px]'
-            data-id='address'
+            className='text-bets-title-color min-w-max text-footer-text-xs hidden mmd:block sm:text-[14px]'
+            // data-id='address'
           >
-            Number <br /> of games
+            Number of games
           </span>
           <span
             className='text-bets-title-color mmd:pr-[25px] mmd:text-center text-footer-text-xs hidden sm:block sm:text-[14px]'
@@ -185,8 +202,8 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           </span>
         </div>
         <div className='flex flex-col border-t-[1px] border-b-[1px] border-[#252525] '>
-          {testBets &&
-            testBets.map((bet, ind) => {
+          {Bets &&
+            Bets.map((bet, ind) => {
               const time = new Date(bet?.timestamp * 1000)
               const multiplier = Number(
                 parseFloat(
@@ -211,7 +228,9 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                       -2
                     )}`
                   }}
-                  game_name='Dice'
+                  game_name={
+                    gamesList.find(item => item.id === bet.game_id)?.name || ''
+                  }
                   bets={bet?.num_games}
                   multiplier={multiplier}
                   profit={Number(Number(bet?.profit).toFixed(2))}
