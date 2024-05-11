@@ -14,7 +14,8 @@ export const handleGameResult = ({
   setLostStatus,
   setResult,
   thimbleLose,
-  thimbleWin
+  thimbleWin,
+  playSounds
 }: {
   result: IResult | null
   setActiveThimble: Dispatch<SetStateAction<number | null>>
@@ -28,6 +29,7 @@ export const handleGameResult = ({
   setResult: Dispatch<SetStateAction<IResult | null>>
   thimbleLose: () => void
   thimbleWin: () => void
+  playSounds: string
 }) => {
   if (result !== null && result?.type === 'Bet') {
     const fullAmount = Number(result.amount) * result.num_games!
@@ -55,7 +57,11 @@ export const handleGameResult = ({
             300
           )
         ),
-        new Promise(resolve => setTimeout(() => resolve(thimbleWin()), 300)),
+        new Promise(resolve =>
+          setTimeout(() => {
+            playSounds !== 'off' && resolve(thimbleWin())
+          }, 300)
+        ),
         new Promise(resolve =>
           setTimeout(
             () =>
@@ -82,7 +88,11 @@ export const handleGameResult = ({
             300
           )
         ),
-        new Promise(resolve => setTimeout(() => resolve(thimbleLose()), 300)),
+        new Promise(resolve =>
+          setTimeout(() => {
+            playSounds !== 'off' && resolve(thimbleLose())
+          }, 300)
+        ),
         new Promise(resolve =>
           setTimeout(() => resolve(setIsPlaying(false)), 300)
         ),

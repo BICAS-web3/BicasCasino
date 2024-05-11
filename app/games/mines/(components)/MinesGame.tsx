@@ -46,7 +46,10 @@ const MinesGame = () => {
     musicType,
     pickedValue,
     access_token,
-    isPlaying
+    isPlaying,
+    setMinesSelected,
+    minesSelected,
+    minesDelay
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$lost,
@@ -76,8 +79,12 @@ const MinesGame = () => {
     GameModel.$playSounds,
     WagerModel.$pickedRows,
     RegistrModel.$access_token,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
+    GameModel.setMinesSelected,
+    GameModel.$minesSelected,
+    GameModel.$minesDelay
   ])
+  const [playSounds] = useUnit([GameModel.$playSounds])
   const [isCashout, setIsCashout] = useState(true)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [fullWon, setFullWon] = useState(0)
@@ -92,6 +99,8 @@ const MinesGame = () => {
   const [totalOpenedTiles, setTotalOpenedTiles] = useState(0)
   const [inGame, setInGame] = useState<boolean>(false)
   const [redrawTrigger, triggerRedraw] = useState<boolean>(true)
+  const [minesLose] = useSound('/music/mines_lose.mp3')
+  const [minesWin] = useSound('/music/mines_win.mp3')
 
   useEffect(() => {
     useSubscibeBets({
@@ -119,7 +128,10 @@ const MinesGame = () => {
       setPickedTiles,
       setStopWinning,
       setTotalOpenedTiles,
-      triggerRedraw
+      triggerRedraw,
+      minesLose,
+      minesWin,
+      playSounds
     })
     setResult(null)
   }, [result])
@@ -129,6 +141,14 @@ const MinesGame = () => {
     setPickedTiles(initialPickedTiles)
     triggerRedraw(true)
   }, [pickedValue])
+
+  useEffect(() => {
+    if (pickedTiles.find(el => el === true)) {
+      setMinesSelected(true)
+    } else {
+      setMinesSelected(false)
+    }
+  }, [pickedTiles.find(el => el === true)])
 
   useEffect(() => {
     if (stopWinning === 'NO') {
@@ -245,6 +265,7 @@ const MinesGame = () => {
   )
 
   const pickTiles = (index: number) => {
+    if (waitingResponse || minesDelay) return
     pickTileforMine({
       index,
       gameField,

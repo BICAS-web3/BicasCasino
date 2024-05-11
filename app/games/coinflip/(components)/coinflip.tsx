@@ -15,6 +15,7 @@ import Model from '../(models)/coin'
 import { processBetResult } from '../(utils)'
 import Selector from './selector'
 import { useMediaQuery } from 'usehooks-ts'
+import useSound from 'use-sound'
 
 const CoinFlipGame = () => {
   const socket = useSocket()
@@ -65,6 +66,9 @@ const CoinFlipGame = () => {
     GameModel.$initialValue
   ])
 
+  const [playSounds] = useUnit([GameModel.$playSounds])
+  const [coinflipLose] = useSound('/music/coinflip_lose.mp3')
+  const [coinflipWin] = useSound('/music/coinflip_win.mp3')
   const isMobile = useMediaQuery('(max-width:650px)')
   const [coefficientData, setCoefficientData] = useState<number[]>([])
   const [inGame, setInGame] = useState(false)
@@ -93,7 +97,10 @@ const CoinFlipGame = () => {
       setWonStatus,
       initialValue,
       setCoefficientData,
-      setResult
+      setResult,
+      coinflipLose,
+      coinflipWin,
+      playSounds
     )
   }, [result?.timestamp, result, gameStatus])
 

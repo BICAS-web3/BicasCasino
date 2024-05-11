@@ -22,8 +22,11 @@ import {
   BonusCoinSVG,
   DraxMiniSVG
 } from '@/components/custom/header/components/icons'
+import useSound from 'use-sound'
 
 const GamePlayBlock = () => {
+  const [pokerChange] = useSound('/music/poker_change.mp3')
+  const [playSounds] = useUnit([GameModel.$playSounds])
   const [
     error,
     setIsPlaying,
@@ -55,7 +58,12 @@ const GamePlayBlock = () => {
     pokerPlay,
     setPokerPlay,
     applesPlay,
-    setapplesPlay
+    setapplesPlay,
+    backCards,
+    waitingResponse,
+    minesSelected,
+    minesDelay,
+    setMinesDelay
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -87,7 +95,12 @@ const GamePlayBlock = () => {
     GameModel.$pokerPlay,
     GameModel.setPokerPlay,
     GameModel.$applesPlay,
-    GameModel.setapplesPlay
+    GameModel.setapplesPlay,
+    GameModel.$backCards,
+    GameModel.$waitingResponse,
+    GameModel.$minesSelected,
+    GameModel.$minesDelay,
+    GameModel.setMinesDelay
   ])
 
   const path = usePathname()
@@ -104,6 +117,18 @@ const GamePlayBlock = () => {
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
   const [pokerDelay, setPokerDelay] = useState(false)
+
+  useEffect(() => {
+    if (isMines && isPlaying) {
+      setMinesDelay(true)
+    }
+  }, [isPlaying])
+
+  useEffect(() => {
+    if (minesDelay) {
+      setTimeout(() => setMinesDelay(false), 2500)
+    }
+  }, [minesDelay])
 
   useEffect(() => {
     if (pokerDelay) {
@@ -187,7 +212,18 @@ const GamePlayBlock = () => {
     }
   }, [redrawCards, pokerPlay])
 
+  useEffect(() => {
+    if (backCards && playSounds !== 'off') {
+      pokerChange()
+    }
+  }, [backCards])
+
   const handlePlay = () => {
+    if (!minesSelected && isMines) {
+      toast('Select Field!')
+      return
+    }
+
     if (redrawCards && isPoker) {
       setRedrawCards(false)
       setBackCards(true)
@@ -210,6 +246,7 @@ const GamePlayBlock = () => {
       setError(true)
     } else {
       if (isPoker && !pokerPlay) {
+        playSounds !== 'off' && pokerChange()
         setPokerPlay(true)
       } else if (isApple) {
         if (!applesPlay) {
@@ -295,7 +332,9 @@ const GamePlayBlock = () => {
           (redrawCards && isPoker) ||
           (isPoker && pokerDelay) ||
           (isThimbles && isPlaying) ||
-          (isThimbles && showAnimation)
+          (isThimbles && showAnimation) ||
+          (isMines && waitingResponse) ||
+          (isMines && minesDelay)
         }
         onClick={handlePlay}
         variant='wagerPlay'

@@ -86,8 +86,10 @@ export interface IHandleResult {
   setStopWinning: Dispatch<SetStateAction<WinningType>>
   setGameField: Dispatch<SetStateAction<Tile[]>>
   setPickedTiles: Dispatch<SetStateAction<boolean[]>>
-
+  minesLose: () => void
+  minesWin: () => void
   gameField: Tile[]
+  playSounds: string
 }
 
 export interface IPlinkoPyramid {

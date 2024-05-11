@@ -65,7 +65,10 @@ export function handleResult({
   setStopWinning,
   setGameField,
   setPickedTiles,
-  gameField
+  gameField,
+  minesLose,
+  minesWin,
+  playSounds
 }: IHandleResult) {
   if (!result) return
   const fullAmount = Number(result.amount) * result.num_games!
@@ -140,13 +143,17 @@ export function handleResult({
       token: 'DRAX'
     })
     setInGame(false)
+    setTimeout(() => {
+      playSounds !== 'off' && minesWin()
+    }, 1000)
   } else if (Number(result.profit) < Number(result.amount)) {
     setTimeout(() => {
       setWaitingResponse(false)
       setGameStatus(GameModel.GameStatus.Lost)
+      playSounds !== 'off' && minesLose()
       setInGame(false)
       setLostStatus(Number(result.profit) - Number(result.amount))
-    }, 2500)
+    }, 1000)
   } else {
     setGameStatus(GameModel.GameStatus.Draw)
     setInGame(false)
@@ -183,8 +190,8 @@ export const pickTileforMine = ({
     } else {
       setTotalOpenedTiles(totalOpenedTiles - 1)
     }
-    // musicType !== 'off' && playTileClick()
-    playTileClick()
+    musicType !== 'off' && playTileClick()
+
     pickedTiles[index] = !pickedTiles[index]
     triggerRedraw(true)
   }

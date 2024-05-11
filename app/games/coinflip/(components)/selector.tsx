@@ -1,6 +1,7 @@
 import { GameModel } from '@/states'
 import { Side } from '@/states/game_model.store'
 import { useUnit } from 'effector-react'
+import useSound from 'use-sound'
 
 const Selector = ({ className }: { className?: string }) => {
   const [pickSide, active, setInitialValue, initialValue] = useUnit([
@@ -9,11 +10,14 @@ const Selector = ({ className }: { className?: string }) => {
     GameModel.setInitialValue,
     GameModel.$initialValue
   ])
+  const [playSounds] = useUnit([GameModel.$playSounds])
+  const [coinflipChange] = useSound('/music/coinflip_change.mp3')
 
   const handleSide = (item: Side) => {
     if (active) {
       pickSide(item)
       setInitialValue(item)
+      playSounds !== 'off' && coinflipChange()
     }
   }
 

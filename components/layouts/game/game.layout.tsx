@@ -119,24 +119,15 @@ const GameLayout = ({ children }) => {
       >
         {access_token && socketAuth ? children : <Preload />}
         <div
-          className='absolute bottom-5 right-5 p-3 rounded-sm cursor-pointer'
+          className='absolute bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black'
           onClick={soundChange}
         >
           {playSounds === 'off' ? (
-            <>
-              <Disabled2SVG />
-              {/* <DisabledGroupSVG /> */}
-            </>
+            <Disabled2SVG />
           ) : playSounds === 'effects' ? (
-            <>
-              <Effects2SVG />
-              {/* <span>fx</span> */}
-            </>
+            <Effects2SVG />
           ) : (
-            <>
-              <Active2SVG />
-              {/* <ActiveGroupSVG /> */}
-            </>
+            <Active2SVG />
           )}
         </div>
       </div>

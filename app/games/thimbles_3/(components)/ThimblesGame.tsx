@@ -15,6 +15,7 @@ import Image from 'next/image'
 import { handleGameResult } from '../utils'
 import Thimble from './Thimble'
 import useSound from 'use-sound'
+import ReactHowler from 'react-howler'
 
 export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const socket = useSocket()
@@ -61,10 +62,9 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
     GameModel.$showAnimation,
     GameModel.setShowAnimation
   ])
-  const [thimbleMix] = useSound('/music/thimble_mix.mp3')
+  const [playSounds] = useUnit([GameModel.$playSounds])
   const [thimbleLose] = useSound('/music/thimble_lose.mp3')
   const [thimbleWin] = useSound('/music/thimble_win.mp3')
-  const [thimbleSelect] = useSound('/music/thimble_select.mp3')
   const [activeThimble, setActiveThimble] = useState<number | null>(null) //0,1,2
   const [thimbles, setThimbles] = useState([0, 0, 0])
   const [openGame, setOpenGame] = useState<number | null>(1)
@@ -211,7 +211,8 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
       setLostStatus,
       setResult,
       thimbleLose,
-      thimbleWin
+      thimbleWin,
+      playSounds
     })
   }, [result?.timestamp, result, gameStatus])
 
@@ -233,6 +234,12 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
 
   return (
     <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
+      <ReactHowler
+        src={'/music/thimble_mix.mp3'}
+        playing={playSounds !== 'off' && showAnimation}
+        rate={1.5}
+        loop
+      />
       <Coefficient common ballsArr={coefficientData} />
       <div className='absolute w-full h-full left-0 top-0'>
         <Image

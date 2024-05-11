@@ -2,14 +2,18 @@ import { useUnit } from 'effector-react'
 import clsx from 'clsx'
 import { GameModel } from '@/states'
 import { PaperButton, RockButton, ScissorsButton } from '../(icons)'
+import useSound from 'use-sound'
 
 const RpsPicker = ({ className }: { className?: string }) => {
-  const [pickedValue, pickValue, active, isPlaying] = useUnit([
+  const [pickedValue, pickValue, active, isPlaying, playSounds] = useUnit([
     GameModel.$pickedValueRPS,
     GameModel.pickValueRPS,
     GameModel.$activeRPS,
-    GameModel.$isPlaying
+    GameModel.$isPlaying,
+    GameModel.$playSounds
   ])
+
+  const [rpsSwaapHand] = useSound('/music/rps_sweep_hand.mp3')
 
   const buttons = [
     { value: GameModel.RPSValue.Rock, Icon: RockButton },
@@ -19,6 +23,7 @@ const RpsPicker = ({ className }: { className?: string }) => {
 
   const selectHand = (value: GameModel.RPSValue) => {
     active && pickValue(value)
+    playSounds !== 'off' && rpsSwaapHand()
   }
 
   return (

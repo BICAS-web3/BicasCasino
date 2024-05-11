@@ -13,7 +13,10 @@ export const processBetResult = (
   setWonStatus: Dispatch<SetStateAction<WonStatus | null>>,
   pickedSide: number,
   setCoefficientData: Dispatch<SetStateAction<number[]>>,
-  setResult: Dispatch<SetStateAction<IResult | null>>
+  setResult: Dispatch<SetStateAction<IResult | null>>,
+  coinflipLose: () => void,
+  coinflipWin: () => void,
+  playSounds: string
 ) => {
   if (result !== null && result?.type === 'Bet') {
     const fullAmount = Number(result.amount) * result.num_games!
@@ -37,11 +40,17 @@ export const processBetResult = (
       pickSide(pickedSide)
       setIsPlaying(false)
       setInGame(false)
+      setTimeout(() => {
+        playSounds !== 'off' && coinflipWin()
+      }, 1300)
     } else if (Number(result.profit) < fullAmount) {
       pickSide(pickedSide ^ 1)
       setIsPlaying(false)
       setInGame(false)
       setGameStatus(GameModel.GameStatus.Lost)
+      setTimeout(() => {
+        playSounds !== 'off' && coinflipLose()
+      }, 1300)
       setLostStatus(Number(result.profit) - fullAmount)
     } else {
       setGameStatus(GameModel.GameStatus.Draw)

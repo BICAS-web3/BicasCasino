@@ -234,14 +234,20 @@ export type WinningType = 'YES' | 'NO' | 'X5'
 export const $manualSetting = createStore<ManualType>('MANUAL')
 export const $stopWinning = createStore<WinningType>('YES')
 export const $selectedLength = createStore<number>(0)
+export const $minesSelected = createStore<boolean>(false)
+export const $minesDelay = createStore<boolean>(false)
 
 export const setManualSetting = createEvent<ManualType>()
 export const setStopWinning = createEvent<WinningType>()
 export const setSelectedLength = createEvent<number>()
+export const setMinesSelected = createEvent<boolean>()
+export const setMinesDelay = createEvent<boolean>()
 
 $manualSetting.on(setManualSetting, (_, state) => state)
 $stopWinning.on(setStopWinning, (_, state) => state)
 $selectedLength.on(setSelectedLength, (_, state) => state)
+$minesSelected.on(setMinesSelected, (_, state) => state)
+$minesDelay.on(setMinesDelay, (_, state) => state)
 
 //! POKER
 export const $redrawCards = createStore<boolean>(false)

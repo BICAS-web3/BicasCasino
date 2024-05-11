@@ -12,6 +12,7 @@ import RpsPicker from './Picker'
 import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import Image from 'next/image'
+import useSound from 'use-sound'
 
 export enum ModelType {
   Paper = 'Paper',
@@ -65,6 +66,12 @@ const PRSGame = () => {
     GameModel.$startAnimation,
     GameModel.setStartAnimation
   ])
+
+  const [playSounds] = useUnit([GameModel.$playSounds])
+  const [rpsLose] = useSound('/music/rps_loss.mp3')
+  const [rpsScroll] = useSound('/music/rps_scroll.mp3')
+  const [rpsSwaapHand] = useSound('/music/rps_sweep_hand.mp3')
+  const [rpsWin] = useSound('/music/rps_win.mp3')
 
   const [openGame, setOpenGame] = useState(false)
 
@@ -137,6 +144,7 @@ const PRSGame = () => {
         Number(result.profit) === Number(result.amount)
       ) {
         setGameStatus?.(GameModel.GameStatus.Won)
+        playSounds !== 'off' && rpsWin()
         const multiplier = Number(result.profit) / Number(result.amount)
         setWonStatus?.({
           profit: Number(result.profit),
@@ -146,6 +154,7 @@ const PRSGame = () => {
         setIsPlaying?.(false)
       } else {
         setGameStatus?.(GameModel.GameStatus.Lost)
+        playSounds !== 'off' && rpsLose()
         setLostStatus?.(Number(result.profit) - Number(result.amount))
         setLostStatus?.(Number(result.profit) - fullAmount)
         setIsPlaying?.(false)

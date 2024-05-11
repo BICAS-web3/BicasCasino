@@ -89,6 +89,9 @@ export const Poker = ({}: PokerProps) => {
     GameModel.$pokerPlay
   ])
 
+  const [playSounds] = useUnit([GameModel.$playSounds])
+  const [pokerLose] = useSound('/music/poker_lose.mp3')
+  const [pokerWin] = useSound('/music/poker_win.mp3')
   const [betData, setBetData] = useState({})
   const [firstBet, setFirstBet] = useState(true)
   const [keep, setKeep] = useState(false)
@@ -156,6 +159,7 @@ export const Poker = ({}: PokerProps) => {
           Number(result.profit) === Number(result.amount)
         ) {
           setGameStatus(GameModel.GameStatus.Won)
+          playSounds !== 'off' && pokerWin()
           const multiplier = Number(
             Number(result.profit) / Number(result.amount)
           )
@@ -171,6 +175,7 @@ export const Poker = ({}: PokerProps) => {
           }, 200)
         } else if (Number(result.profit) < Number(result.amount)) {
           setGameStatus(GameModel.GameStatus.Lost)
+          playSounds !== 'off' && pokerLose()
           setLostStatus(Number(result.profit) - Number(result.amount))
           setTimeout(() => {
             setIsPlaying(false)
