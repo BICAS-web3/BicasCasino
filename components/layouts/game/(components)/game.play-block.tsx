@@ -245,8 +245,8 @@ const GamePlayBlock = () => {
       setError(true)
       return
     }
-    if (cryptoValue < 10) {
-      toast('Minimum 10!')
+    if (cryptoValue < 1) {
+      toast('Minimum 1!')
       setError(true)
       return
     }

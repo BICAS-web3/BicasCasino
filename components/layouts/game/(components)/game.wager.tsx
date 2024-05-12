@@ -55,8 +55,8 @@ const GameWager = () => {
   ])
 
   useEffect(() => {
-    setCryptoValue(10)
-    setCryptoInputValue('10')
+    setCryptoValue(1)
+    setCryptoInputValue('1')
   }, [path])
 
   useEffect(() => {

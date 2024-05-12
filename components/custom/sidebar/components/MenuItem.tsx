@@ -31,12 +31,11 @@ const MenuItem = ({ href, data, open, className }: Props) => {
   const params = usePathname()
   const router = useRouter()
 
-  const [setOpen] = useUnit([
-    ChestModel.setModalVisibility
-  ])
+  const [setOpen] = useUnit([ChestModel.setModalVisibility])
 
-  const handleClick = (data) => {
-    if(data.id === 'modal') {
+  const handleClick = data => {
+    if (href === '/404') return
+    if (data.id === 'modal') {
       setOpen(true)
     } else {
       router.push(`/${href === 'home' ? '' : href}`)
@@ -48,12 +47,17 @@ const MenuItem = ({ href, data, open, className }: Props) => {
       {data.buttons ? (
         <div
           className={cn(
-            'flex items-center justify-center flex-nowrap min-h-[50px] min-w-[50px]',
+            'flex items-center justify-center flex-nowrap min-h-[50px] min-w-[50px] relative',
             open
               ? 'px-3 gap-3  bg-[#121212] rounded-[20px] min-h-12'
               : 'p-0 gap-1  flex-col rounded-xl'
           )}
         >
+          {open && (
+            <span className='absolute right-4 top-0 text-[12px] text-[#979797] rotate-2 z-[20]'>
+              Soon!
+            </span>
+          )}
           {data.buttons.map((item, index) => (
             <Button
               size={open ? 'sm' : 'icon'}
@@ -61,10 +65,12 @@ const MenuItem = ({ href, data, open, className }: Props) => {
                 item.title
               )}_${index}`}
               style={{ background: open ? item.color : '#121212' }}
-              href={`/games/${stringRemoveSpacing(item.title)}`}
+              // href={`/games/${stringRemoveSpacing(item.title)}`}
               className={cn(
-                'hover:text-white text-slate-50 flex items-center gap-2 w-full rounded-xl relative',
-                open ? '' : 'aspect-square h-[50px] w-[50px] flex-col gap-0'
+                ' text-slate-50 cursor-default flex items-center gap-2 w-full rounded-xl relative',
+                open ? '' : 'aspect-square h-[50px] w-[50px] flex-col gap-0',
+                href === '/404' && 'cursor-default',
+                href !== '/404' && 'hover:text-white'
                 // data.title === 'Bonus' && 'bonus-block'
               )}
             >
@@ -105,9 +111,14 @@ const MenuItem = ({ href, data, open, className }: Props) => {
         </div>
       ) : (
         <Button
-          onClick={() => handleClick(data)}
+          onClick={() => {
+            if (href === '/404') {
+              return
+            }
+            handleClick(data)
+          }}
           className={cn(
-            'w-full flex items-center flex-nowrap text-[#979797] relative overflow-hidden hover:text-white min-h-[50px] min-w-[50px]',
+            'w-full flex items-center flex-nowrap text-[#979797] relative overflow-hidden  min-h-[50px] min-w-[50px]',
             open
               ? 'justify-start open rounded-[20px] gap-3 bg-[#121212]'
               : 'justify-center rounded-xl flex-col bg-transparent hover:bg-transparent gap-1',
@@ -116,11 +127,18 @@ const MenuItem = ({ href, data, open, className }: Props) => {
             //   : 'text-[#979797]',
             className,
             data.title === 'Bonus' && open && 'bonus-block',
-            data.title === 'Home' && 'home-btn'
+            data.title === 'Home' && 'home-btn',
+            href === '/404' && 'cursor-default',
+            href !== '/404' && 'hover:text-white'
           )}
           variant='secondary'
           size={open ? 'default' : 'icon'}
         >
+          {href === '/404' && open && (
+            <span className='absolute right-4 top-1 text-[12px] text-[#979797] rotate-2'>
+              Soon!
+            </span>
+          )}
           {data.icon}
           <span
             className={cn(

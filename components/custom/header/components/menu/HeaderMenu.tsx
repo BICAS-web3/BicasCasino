@@ -13,52 +13,53 @@ import SupportIco from '@/public/icons/supportIco.svg'
 
 import { useRouter } from 'next/navigation'
 import { useUnit } from 'effector-react'
-import { HeaderM, UserModel } from '@/states'
+import { HeaderM, ModalsModel, PaymentModel, UserModel } from '@/states'
+import Link from 'next/link'
 
 const list = [
   {
     title: 'Profile',
-    href: '/profile',
+    href: '',
     icon: <ProfileIco />
   },
   {
     title: 'Settings',
-    href: '/',
+    href: '/profile',
     icon: <SettingsIco />
   },
   {
     title: 'Notice',
-    href: '/',
+    href: '/404',
     icon: <NoticeIco />
   },
   {
     title: 'Vault',
-    href: '/',
+    href: '',
     icon: <VaultIco />
   },
   {
     title: 'Vip',
-    href: '/vip',
+    href: '',
     icon: <VipIco />
   },
   {
     title: 'Affiliate',
-    href: '/affiliates',
+    href: 'affiliates',
     icon: <AffiliateIco />
   },
   {
     title: 'Transactions',
-    href: '/',
+    href: '',
     icon: <TransactionIco />
   },
   {
     title: 'Share',
-    href: '/',
+    href: '/404',
     icon: <ShareIco />
   },
   {
     title: 'Live Support',
-    href: '/',
+    href: '/404',
     icon: <SupportIco />
   }
 ]
@@ -75,9 +76,20 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
     route.push('/auth/registration')
   }
 
-  const [visible, setVisible] = useUnit([
+  const [
+    visible,
+    setVisible,
+    setShowTransaction,
+    setUserModalVisibility,
+    setVipModal,
+    setVaultModal
+  ] = useUnit([
     HeaderM.$menuVisibility,
-    HeaderM.setMenuVisibility
+    HeaderM.setMenuVisibility,
+    PaymentModel.setShowTransaction,
+    HeaderM.setUserModalVisibility,
+    ModalsModel.setVipModal,
+    ModalsModel.setVaultModal
   ])
 
   useEffect(() => {
@@ -115,22 +127,80 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
         className='absolute top-[50%] translate-y-[-50%] right-[-100px] rounded-[50%] blur-[50px] w-[200px] h-[200px] bg-[#F3AC6B1A] mix-blend-hard-light '
       ></div>
       <div className='flex flex-col mt-[10px]'>
-        {list.map((item, ind) => (
-          <div
-            data-close
-            className='cursor-pointer p-[16px] h-[40px] hover:bg-[#D9D9D926] flex items-center gap-[5px]'
-          >
-            <div
-              data-close
-              className='w-[24px] h-[24px] flex items-center justify-center'
-            >
-              {item.icon}
-            </div>
-            <span data-close className='text-[14px] font-bold'>
-              {item.title}
-            </span>
-          </div>
-        ))}
+        {list.map((item, ind) => {
+          if (item.href === '/404') {
+            return (
+              <div
+                data-close
+                className='cursor-pointer p-[16px] h-[40px] hover:bg-[#D9D9D926] flex items-center gap-[5px] relative'
+              >
+                <span className='absolute right-4 top-1 text-[12px] text-[#979797] rotate-2'>
+                  Soon!
+                </span>
+                <div
+                  data-close
+                  className='w-[24px] h-[24px] flex items-center justify-center'
+                >
+                  {item.icon}
+                </div>
+                <span data-close className='text-[14px] font-bold'>
+                  {item.title}
+                </span>
+              </div>
+            )
+          } else if (
+            item.title === 'Transactions' ||
+            item.title === 'Profile' ||
+            item.title === 'Vip' ||
+            item.title === 'Vault'
+          ) {
+            return (
+              <div
+                onClick={() => {
+                  if (item.title === 'Transactions') {
+                    setShowTransaction(true)
+                  } else if (item.title === 'Profile') {
+                    setUserModalVisibility(true)
+                  } else if (item.title === 'Vip') {
+                    setVipModal(true)
+                  } else if (item.title === 'Vault') {
+                    setVaultModal(true)
+                  }
+                }}
+                data-close
+                className='cursor-pointer p-[16px] h-[40px] hover:bg-[#D9D9D926] flex items-center gap-[5px]'
+              >
+                <div
+                  data-close
+                  className='w-[24px] h-[24px] flex items-center justify-center'
+                >
+                  {item.icon}
+                </div>
+                <span data-close className='text-[14px] font-bold'>
+                  {item.title}
+                </span>
+              </div>
+            )
+          } else {
+            return (
+              <Link
+                href={item.href}
+                data-close
+                className='cursor-pointer p-[16px] h-[40px] hover:bg-[#D9D9D926] flex items-center gap-[5px]'
+              >
+                <div
+                  data-close
+                  className='w-[24px] h-[24px] flex items-center justify-center'
+                >
+                  {item.icon}
+                </div>
+                <span data-close className='text-[14px] font-bold'>
+                  {item.title}
+                </span>
+              </Link>
+            )
+          }
+        })}
       </div>
       <div
         onClick={handleLogout}

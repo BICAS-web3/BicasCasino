@@ -57,10 +57,10 @@ const Thimble = ({
     >
       {activeThimble === ind || openGame == ind ? (
         <ThimbleSVG
-          width={179}
-          height={144}
+          width={159}
+          height={124}
           className={`absolute select-none z-[2] transition-all duration-400 thible
-                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[179px] xl:h-[144px] min-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[179px] xl:min-h-[144px] bottom-[45px] sm:bottom-[94px] tbb:bottom-[80px]
+                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[159px] xl:h-[124px] min-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[159px] xl:min-h-[124px] bottom-[45px] sm:bottom-[94px] tbb:bottom-[80px]
                     ${
                       selectedShow?.includes(ind) &&
                       'bottom-[45px] sm:bottom-[105px]'
@@ -68,10 +68,10 @@ const Thimble = ({
         />
       ) : (
         <ThimbleSVG
-          width={179}
-          height={144}
+          width={159}
+          height={124}
           className={`select-none z-[3] absolute bottom-0 transition-all duration-400 
-                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[179px] xl:h-[144px] ￼in-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[179px] xl:min-h-[144px]
+                    w-[71px] h-[57px] sm:w-[127px] sm:h-[103px] xl:w-[159px] xl:h-[124px] ￼in-w-[71px] min-h-[57px] sm:min-w-[127px] sm:min-h-[103px] xl:min-w-[159px] xl:min-h-[124px]
                     ${
                       selectedShow?.includes(ind) &&
                       'bottom-[45px] sm:bottom-[105px]'
@@ -96,7 +96,7 @@ const Thimble = ({
       )}
       <img
         src='/images/thimbles/thimbleShadow.webp'
-        className='select-none w-[88px] sm:w-[180px] top-[0px] sm:top-[2px] relative'
+        className='select-none w-[88px] sm:w-[180px] top-[0px] sm:top-[17px] relative'
         alt='thimble-static-shadow'
       />
     </div>

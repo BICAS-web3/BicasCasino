@@ -47,7 +47,7 @@ export const STopMenu = [
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
     title: 'Bonus',
-    href: 'bonus'
+    href: '/404'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
@@ -173,30 +173,36 @@ export const SBottomMenu = [
   // },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT Market'
+    title: 'NFT Market',
+    href: '/404'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Affiliate'
+    title: 'Affiliate',
+    href: 'affiliates'
   },
   {
     icon: <SupportSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Support'
+    title: 'Support',
+    href: '/404'
   }
 ]
 
 export const SMobileMenu = [
   {
     icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Home'
+    title: 'Home',
+    href: '/'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Bonus'
+    title: 'Bonus',
+    href: '/404'
   },
   {
     icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
     title: 'double',
+    href: '/404',
     buttons: [
       {
         icon: (
@@ -228,14 +234,17 @@ export const SMobileMenu = [
   },
   {
     icon: <NftSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'NFT Market'
+    title: 'NFT Market',
+    href: '/404'
   },
   {
     icon: <AffilateSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Affiliate'
+    title: 'Affiliate',
+    href: 'affiliates'
   },
   {
     icon: <SupportSVG className='w-5 h-5 object-contain aspect-square' />,
-    title: 'Support'
+    title: 'Support',
+    href: '/404'
   }
 ]

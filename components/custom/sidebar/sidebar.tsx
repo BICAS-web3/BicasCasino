@@ -46,7 +46,7 @@ const Sidebar = () => {
               {SMobileMenu.map((item, index) => (
                 <MenuItem
                   open={open}
-                  href={stringRemoveSpacing(item.title)}
+                  href={item.href}
                   data={item}
                   key={`sidebar-top-${stringRemoveSpacing(
                     item.title
@@ -110,7 +110,8 @@ const Sidebar = () => {
             >
               <MenuItem
                 open={open}
-                href={stringRemoveSpacing('NFT Market')}
+                // href={stringRemoveSpacing('NFT Market')}
+                href='/404'
                 data={{
                   icon: (
                     <NftSVG className='w-5 h-5 object-contain aspect-square' />
@@ -120,7 +121,7 @@ const Sidebar = () => {
               />
               <MenuItem
                 open={open}
-                href={'/affiliates'}
+                href={'affiliates'}
                 data={{
                   icon: (
                     <AffilateSVG className='w-5 h-5 object-contain aspect-square' />
@@ -130,7 +131,8 @@ const Sidebar = () => {
               />
               <MenuItem
                 open={open}
-                href={stringRemoveSpacing('NFT Market')}
+                // href={stringRemoveSpacing('NFT Market')}
+                href='/404'
                 data={{
                   icon: (
                     <SupportSVG className='w-5 h-5 object-contain aspect-square' />

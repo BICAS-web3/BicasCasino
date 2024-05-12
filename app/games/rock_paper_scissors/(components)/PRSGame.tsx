@@ -219,7 +219,7 @@ const PRSGame = () => {
                 height={248}
                 src={'/images/rps/papper.png'}
                 alt='img'
-                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -230,7 +230,7 @@ const PRSGame = () => {
                 height={248}
                 src={'/images/rps/rock.png'}
                 alt='img'
-                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -241,7 +241,7 @@ const PRSGame = () => {
                 height={248}
                 src={'/images/rps/scissor.png'}
                 alt='img'
-                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'left-hand' : 'levitate'
                 }`}
               />
@@ -255,7 +255,7 @@ const PRSGame = () => {
                 <Image
                   width={248}
                   height={248}
-                  className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                     startAnimation ? 'right-hand' : 'levitate_enemy'
                   }`}
                   src={'/images/rps/papper.png'}
@@ -266,7 +266,7 @@ const PRSGame = () => {
               <Image
                 width={248}
                 height={248}
-                className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                   startAnimation ? 'right-hand' : 'levitate_enemy'
                 }`}
                 src={'/images/rps/rock.png'}
@@ -279,7 +279,7 @@ const PRSGame = () => {
                 <Image
                   width={248}
                   height={248}
-                  className={`w-[70px] h-[70px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
+                  className={`w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[173px] md:h-[173px] 2xl:w-[248px] 2xl:h-[248px] ${
                     startAnimation ? 'right-hand' : 'levitate_enemy'
                   }`}
                   src={'/images/rps/scissor.png'}
