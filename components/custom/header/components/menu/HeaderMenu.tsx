@@ -114,12 +114,12 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
       >
         <div
           data-close
-          className='w-[32px] h-[32px] rounded-[50%] text-[14px] font-bold flex items-center justify-center bg-[#F57731]'
+          className='min-w-[32px] h-[32px] rounded-[50%] text-[14px] font-bold flex items-center justify-center bg-[#F57731]'
         >
           GK
         </div>
-        <span data-close className='text-[#eaeaea] text-[17px] font-bold'>
-          {userInfo?.username}
+        <span data-close className='text-[#eaeaea] text-[17px] font-bold overflow-hidden w-full text-ellipsis'>
+          {userInfo?.username}asda
         </span>
       </div>
       <div

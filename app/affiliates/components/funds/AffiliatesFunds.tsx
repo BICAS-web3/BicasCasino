@@ -17,19 +17,19 @@ export const AffiliatesFunds:FC<AffiliatesFundsProps> = () => {
                 <div className="bg-inherit sm:bg-[#181818] gap-[15px] w-full sm:w-fit p-[0px] sm:p-[20px_30px] rounded-[5px] flex items-center justify-between min-h-[115px]">
                     <div className="flex flex-col justify-between items-center gap-[10px] text-center">
                         <span className="text-[13px] sm:text-[14px] font-bold leading-[18px] text-[#676767]">Total <br /> Commission</span>
-                        <div className='flex items-center gap-[10px]text-[13px ]sm:text-[16px] font-medium leading-[24px]'>
+                        <div className='flex items-center gap-[10px] text-[13px] sm:text-[16px] font-medium leading-[24px]'>
                             <DCoin className='sm:w-[24px] sm:h-[24px] h-[20px] w-[20px]' /> 0.000
                         </div>
                     </div>
                     <div className="flex flex-col justify-between items-center gap-[10px] text-center">
                         <span className="text-[13px] sm:text-[14px] font-bold leading-[18px] text-[#676767]">Available <br /> Commission</span>
-                        <div className='flex items-center gap-[10px] text-[13px ]sm:text-[16px] font-medium leading-[24px]'>
+                        <div className='flex items-center gap-[10px] text-[13px] sm:text-[16px] font-medium leading-[24px]'>
                             <DCoin className='sm:w-[24px] sm:h-[24px] h-[20px] w-[20px]' /> 0.000
                         </div>
                     </div>
                     <div className="flex flex-col justify-between items-center gap-[10px] text-center">
                         <span className="text-[13px] sm:text-[14px] font-bold leading-[18px] text-[#676767]">Cashout <br /> History</span>
-                        <div className='flex items-center gap-[10px] text-[13px ]sm:text-[16px] font-medium leading-[24px]'>
+                        <div className='flex items-center gap-[10px] text-[13px] sm:text-[16px] font-medium leading-[24px]'>
                             <DCoin className='sm:w-[24px] sm:h-[24px] h-[20px] w-[20px]' /> 0.000
                         </div>
                     </div>

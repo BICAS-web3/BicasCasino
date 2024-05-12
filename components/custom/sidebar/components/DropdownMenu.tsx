@@ -38,13 +38,13 @@ const Menu = ({ data, open }: Props) => {
 
   return (
 
-    <div onClick={() => setOpen(!openGames)} className={`text-center ${open ? 'bg-[#121212]' : 'bg-inherit rounded-none p-[0.5rem_0] justify-center'} py-2 min-h-[50px] cursor-pointer p-[0.5rem_1rem] font-bold uppercase min-w-[50px] rounded-[20px] w-full flex items-center flex-nowrap relative overflow-hidden bg-[#121212] text-[#979797] hover:text-white`}>
-      <div className={`flex items-center ${open ? 'flex-row gap-[0.75rem]' : 'flex-col text-[9px] gap-[0.5rem]'}`}>
-        <GamesSVG className='w-5 h-5 object-contain aspect-square' />
+    <div data-games={true} onClick={() => setOpen(!openGames)} className={`text-center ${open ? 'bg-[#121212]' : 'bg-inherit rounded-none p-[0.5rem_0] justify-center'} py-2 min-h-[50px] cursor-pointer p-[0.5rem_1rem] font-bold uppercase min-w-[50px] rounded-[20px] w-full flex items-center flex-nowrap relative overflow-hidden bg-[#121212] text-[#979797] hover:text-white`}>
+      <div data-games={true} className={`flex items-center ${open ? 'flex-row gap-[0.75rem]' : 'flex-col text-[9px] gap-[0.5rem]'}`}>
+        <GamesSVG data-games={true} className='w-5 h-5 object-contain aspect-square' />
         Games
       </div>
       {
-        open && <ChevronRight className={`w-5 ml-[10px] ${openGames ? 'ml-[auto]' : 'ml-0'} transition-all duration-300 aspect-square`} />
+        open && <ChevronRight data-games={true} className={`w-5 ml-[10px] ${openGames ? 'ml-[auto]' : 'ml-0'} transition-all duration-300 aspect-square`} />
       }
     </div>
   )

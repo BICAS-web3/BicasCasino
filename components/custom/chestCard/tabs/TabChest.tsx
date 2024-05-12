@@ -18,8 +18,8 @@ export const TabChest:FC<TabChestProps> = () => {
                     (+1 <ChestMiniIco />)
                 </div>
             </div>
-            <div className='flex h-[230px] xxs:h-[270px] relative top-[-80px] items-center justify-center'>
-                <img src={chest.src} className='absolute top-[120px] xxs:top-[70px] smm:top-[0px]' />
+            <div className='flex h-[230px] xxs:h-[270px] relative top-[-50px] items-center justify-center'>
+                <img src={chest.src} className='absolute top-[60px] xxs:top-[40px] smm:top-[-20px]' />
             </div>
             <p className='text-center text-[13px] font-semibold block mt-[30px]'>The treasure chest you have: 25</p>
             <div className='flex mt-[10px] gap-[10px]'>
