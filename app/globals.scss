@@ -22,21 +22,21 @@
   position: relative;
 
   svg {
-    transition: all .3s;
+    transition: all 0.3s;
     path {
-      transition: all .3s;
+      transition: all 0.3s;
     }
   }
 
   &::after {
     opacity: 0;
     visibility: hidden;
-    transition: all .3s;
+    transition: all 0.3s;
     content: '';
     width: 15px;
     height: 15px;
     filter: blur(10px);
-    background: #FFE09DCC;
+    background: #ffe09dcc;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -44,7 +44,8 @@
   }
 
   &:hover {
-    &::after, &:active {
+    &::after,
+    &:active {
       opacity: 1;
       visibility: visible;
     }
@@ -54,7 +55,7 @@
 .bottom-svg:hover {
   svg {
     path {
-      fill: #FFE09D;
+      fill: #ffe09d;
     }
   }
 }
@@ -344,14 +345,14 @@ input::-webkit-inner-spin-button {
   margin-top: 15px;
 }
 
-
-@media screen and (max-width:350px) {
+@media screen and (max-width: 350px) {
   .swiper-tab-chest-img {
     max-height: 210px;
     width: 60%;
   }
 
-  .prev-arr-chest, .next-arr-chest {
+  .prev-arr-chest,
+  .next-arr-chest {
     top: 30%;
   }
 }
@@ -427,6 +428,7 @@ body {
   --sb-size: 6px;
   scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   scrollbar-gutter: stable;
+  color: white;
 }
 
 body::-webkit-scrollbar {
@@ -550,7 +552,7 @@ body::-webkit-scrollbar-thumb {
   filter: blur(30px);
 }
 
-.tabCardSlide > svg{
+.tabCardSlide > svg {
   width: 100%;
   height: 100%;
 }
