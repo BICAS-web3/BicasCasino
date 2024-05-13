@@ -71,7 +71,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
       onClick={
         !isEmptyCard
           ? () => {
-              musicType !== 'off' && playRedrawSound()
+              musicType !== 'off' && isPlaying && playRedrawSound()
               setCardFlipped(!cardFlipped)
               onClick()
             }

@@ -38,7 +38,7 @@ export const Total: FC<TotalProps1> = props => {
           const totals = response.body as Api.T_Totals
 
           setTotals({
-            total_wagered: (totals.sum ? Number(totals.sum) : 0).toFixed(2),
+            total_wagered: (totals?.sum ? Number(totals?.sum) : 0).toFixed(2),
             total_users: totals.player_amount.toString(),
             total_bets: totals.bets_amount.toString()
           })
