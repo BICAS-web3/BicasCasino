@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, MutableRefObject, useEffect, useRef } from 'react'
 import { SGames } from '../data'
 import { stringRemoveSpacing } from '@/lib/string'
 import { cn } from '@/lib/utils'
@@ -14,10 +14,33 @@ interface GamesPopupProps {}
 export const GamesPopup: FC<GamesPopupProps> = ({}) => {
   const isMobile = useMediaQuery('(max-width:650px)')
   const params = usePathname()
-  const [open, isGames] = useUnit([SidebarModel.$open, ModalsModel.$gamesModal])
+  const [open, isGames, setOpen] = useUnit([SidebarModel.$open, ModalsModel.$gamesModal, ModalsModel.setGamesModal])
+
+  const useOutsideAlerter = () => {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        const closableElements = document.querySelectorAll('[data-games]');
+        const isClickInsideClosable = Array.from(closableElements).some(element => element.contains(event.target));
+        
+        if (!isClickInsideClosable) {
+          setOpen(false)
+        } else {
+
+        }
+      }
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+  }
+  
+  useOutsideAlerter();
 
   return (
     <div
+      data-games
       className={`fixed ${
         open ? 'left-0 sm:left-[257px]' : 'left-0 sm:left-[90px]'
       } ${
