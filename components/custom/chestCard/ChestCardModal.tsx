@@ -36,8 +36,8 @@ export const ChestCardModal:FC<ChestCardModalProps> = () => {
 
     return (
         <Dialog open={visibility} onOpenChange={() => setVisibility(false)} >
-            <DialogContent className='gap-0 !flex flex-col max-w-[525px] h-full max-h-[700px] bg-[#181818] p-[5px_18px_8px_18px]' customClose>
-                <div className='flex justify-between items-center pb-[5px] flex-row pr-2'>
+<DialogContent className='gap-0 !flex chestModal flex-col max-w-[525px] h-full max-h-[700px] bg-[#181818] p-[5px_18px_8px_18px]' customClose>
+                <div className='flex justify-between items-center pt-[5px] pb-[5px] flex-row pr-2'>
                     <div className='flex items-center gap-[10px] text-[#979797]'>
                         <ChestIco className='w-5 aspect-square object-contain' />
                         <h5 className='text-[17px] tracking-[4%] leading-[23px] text-[#979797] mt-[2px] font-bold'>
@@ -45,14 +45,7 @@ export const ChestCardModal:FC<ChestCardModalProps> = () => {
                         </h5>
                         </div>
                         <div className='flex items-center gap-4'>
-                        <Button
-                            className=''
-                            size='icon'
-                            variant='ghost'
-                            onClick={() => setVisibility(false)}
-                        >
-                            <X className='w-5 h-5 aspect-square object-contain text-[#3E3E3E]' />
-                        </Button>
+                        <X onClick={() => setVisibility(false)} className='w-[24px] h-[24px] relative left-[10px] cursor-pointer aspect-square object-contain text-[#3E3E3E]' />
                     </div>
                 </div>
                 <Separator className='mt-[0]' />

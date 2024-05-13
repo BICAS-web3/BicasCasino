@@ -53,6 +53,7 @@ export const GamesPopup: FC<GamesPopupProps> = ({}) => {
         {SGames.items.map((item, index) => (
           <Link
             onClick={() => {
+              setOpen(false)
               if (isMobile) {
                 const element = document.documentElement
                 if (element.requestFullscreen) {

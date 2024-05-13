@@ -13,6 +13,9 @@ import SidebarMobileSettings from './components/settings.mobile'
 import { useMediaQuery } from 'usehooks-ts'
 import { useEffect } from 'react'
 import { AffilateSVG, NftSVG, SupportSVG } from './components/icons/bottom'
+import { BonusSVG, HomeSVG, VipSVG } from './components/icons/top'
+import Image from 'next/image'
+import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -77,7 +80,7 @@ const Sidebar = () => {
           className={cn(
             `bg-[#181818] fixed mmd:sticky z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
             open
-              ? 'w-[90px] sm:w-[257px] h-[calc(100vh_-_60px)] sm:h-[calc(100vh_-_60px)]'
+              ? 'w-[90px] sm:w-[259px] h-[calc(100vh_-_60px)] sm:h-[calc(100vh_-_60px)]'
               : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
           )}
         >
@@ -88,16 +91,83 @@ const Sidebar = () => {
             )}
           >
             <div className={cn('flex flex-col', open ? 'gap-[5px]' : '')}>
-              {STopMenu.map((item, index) => (
-                <MenuItem
+              <MenuItem
                   open={open}
-                  href={item.href || '/'}
-                  data={item}
-                  key={`sidebar-top-${stringRemoveSpacing(
-                    item.title
-                  )}-${index}`}
-                />
-              ))}
+                  href={'/'}
+                  data={{
+                    icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
+                    title: 'Home',
+                  }}
+              />
+              <MenuItem
+                  open={open}
+                  href={'/404'}
+                  data={
+                    {
+                      icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: 'Bonus',
+                    }
+                  }
+              />
+              <MenuItem
+                  open={open}
+                  href={'/404'}
+                  data={
+                    {
+                      icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: 'double',
+                      buttons: [
+                        {
+                          icon: (
+                            <Image
+                              src='/images/sidebar-icons/goals.png'
+                              alt='icon goals'
+                              width={20}
+                              height={20}
+                              className='object-contain aspect-square'
+                            />
+                          ),
+                          title: 'Goals',
+                          color: 'linear-gradient(40deg, #44278A 0%, #24232E 100%)'
+                        },
+                        {
+                          icon: (
+                            <Image
+                              src='/images/sidebar-icons/wheel.png'
+                              alt='icon wheel'
+                              width={20}
+                              height={20}
+                              className='object-contain aspect-square'
+                            />
+                          ),
+                          title: 'Wheel',
+                          color: 'linear-gradient(40deg, #61194F 0%, #272229 100%)'
+                        }
+                      ]
+                    }
+                  }
+              />
+              <MenuItem
+                  open={open}
+                  href={'/vip'}
+                  data={
+                    {
+                      icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
+                      title: open ? 'CHEST & CARD' : 'CHEST',
+                      id: 'modal'
+                    }
+                  }
+              />
+              <MenuItem
+                  open={open}
+                  href={'/vip'}
+                  data={
+                    {
+                      icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
+                      title: 'VIP Club',
+                    }
+                  }
+              />
             </div>
 
             <Menu data={SGames} open={open} />
@@ -110,7 +180,6 @@ const Sidebar = () => {
             >
               <MenuItem
                 open={open}
-                // href={stringRemoveSpacing('NFT Market')}
                 href='/404'
                 data={{
                   icon: (
@@ -132,7 +201,7 @@ const Sidebar = () => {
               <MenuItem
                 open={open}
                 // href={stringRemoveSpacing('NFT Market')}
-                href='/404'
+                href='support'
                 data={{
                   icon: (
                     <SupportSVG className='w-5 h-5 object-contain aspect-square' />

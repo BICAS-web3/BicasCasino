@@ -52,7 +52,7 @@ export const Total: FC<TotalProps1> = props => {
   return (
     <>
       <div
-        className='flex flex-col gap-[10px] mb-[40px] box-border px-[16px]
+        className='flex flex-col gap-[10px] sm:mt-[30px] mb-[16px] sm:mb-[40px] box-border px-[16px] sm:px-0
         sm:flex-row
       '
       >

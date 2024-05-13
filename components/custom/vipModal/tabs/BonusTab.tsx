@@ -36,12 +36,12 @@ export const BonusTab:FC<BonusTabProps> = () => {
                 <span className="text-[16px] text-[#979797] font-semiboldd">Title</span>
                 <span className="text-[16px] text-[#979797] font-semiboldd">Operation</span>
             </div>
-            <div className='flex flex-col gap-[10px] mt-[10px]'>
+            <div className='flex flex-col gap-[14px] mt-[10px]'>
                 {
                     bonusList.map((item, ind) => (
-                        <div className='flex items-center justify-between'>
-                            <span>{item.title}</span>
-                            <button className="bg-[#202020] border w-[120px] h-[40px] border-[#363636] rounded-[5px] flex items-center justify-center text-[#7E7E7E] text-[16x] font-medium">Claim</button>
+                        <div className='flex items-center justify-between gap-[10px]'>
+                            <span className='text-[16px] text-[#979797] font-semibold'>{item.title}</span>
+                            <button className="bg-[#202020] border min-w-[120px] h-[40px] border-[#363636] rounded-[5px] flex items-center justify-center text-[#7E7E7E] text-[16x] font-medium">Claim</button>
                         </div>
                     ))
                 }

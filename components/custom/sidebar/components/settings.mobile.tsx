@@ -46,8 +46,8 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
       <div onClick={handleAction} className="w-[40px] bottom-svg flex items-center justify-center h-[40px]" >
         <BurgerMenuSVG className='object-contain text-[#7E7E7E]' />
       </div>
-      <div className="w-[40px] h-[40px] bottom-svg flex items-center justify-center" onClick={handleGamesOpen}>
-        <PlayIco className='object-contain text-[#7E7E7E]' />
+      <div data-games={true} className="w-[40px] h-[40px] bottom-svg flex items-center justify-center" onClick={handleGamesOpen}>
+        <PlayIco data-games={true} className='object-contain text-[#7E7E7E]' />
       </div>
       <div className="w-[40px] h-[40px] flex items-center justify-center" onClick={handlePaymentAction}>
         <div className='p-[5px] rounded-[30px] bottom-svg border border-[#202020] bg-[#121212] min-w-[60px] flex justify-center items-center'>

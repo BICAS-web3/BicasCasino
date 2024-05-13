@@ -313,8 +313,10 @@ const GamePlayBlock = () => {
       )}
       {!isPoker && !isMines && !isApple && !isThimbles && (
         <div
+          data-game-auto
           className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
           onClick={() => {
+            console.log('CLICK', autoVisibile)
             setAuto(!autoVisibile)
             setWheelVisible(false)
           }}
