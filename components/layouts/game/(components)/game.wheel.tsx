@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { GameModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface GameAutoProps {}
 
@@ -18,6 +19,7 @@ export const WheelSettings: FC<GameAutoProps> = () => {
   const ButtonTupe = ['Easy', 'Medium', 'Hard']
   type ButtonTupe = ['Easy', 'Medium', 'Hard']
   const [setLevel, level] = useUnit([GameModel.setLevel, GameModel.$level])
+  const { t } = useTranslation()
   return (
     <div
       className={`duration-300 ${
@@ -25,7 +27,9 @@ export const WheelSettings: FC<GameAutoProps> = () => {
       } col-start-1 col-end-3 m-[0_auto] w-full max-w-[330px] tbs:absolute tbs:top-[calc(-100%_-_80px)] bg-[#151515] tbs:right-[250px] rounded-[20px] border-[#3e3e3e] p-[10px_20px_20px_20px] box-border`}
     >
       <div className='flex mb-[20px] flex-col gap-1 w-full game-amount'>
-        <h3 className='text-[#7E7E7E] text-sm font-semibold'>Difficulty</h3>
+        <h3 className='text-[#7E7E7E] text-sm font-semibold'>
+          {t(`pages.games.Difficulty`)}
+        </h3>
         <div className='flex p-[2px] border border-[#2E2E2E] justify-between rounded-[99px]'>
           {ButtonTupe.map(type => (
             <button
@@ -35,14 +39,14 @@ export const WheelSettings: FC<GameAutoProps> = () => {
               )}
               onClick={() => setLevel(type)}
             >
-              {type}
+              {t(`pages.games.${type}`)}
             </button>
           ))}
         </div>
       </div>
       <div className='flex mb-[20px] flex-col gap-1 w-full game-amount'>
         <h3 className='text-[#7E7E7E] text-sm font-semibold'>
-          Number of Angles
+          {t(`pages.games.Number of Angles`)}
         </h3>
         <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
           <span>10</span>

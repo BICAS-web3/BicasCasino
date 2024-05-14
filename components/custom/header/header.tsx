@@ -13,6 +13,7 @@ import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
 import { UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 const Header = () => {
   const [

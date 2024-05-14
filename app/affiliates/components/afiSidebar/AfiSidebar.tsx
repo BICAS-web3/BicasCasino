@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useTranslation } from 'react-i18next'
 
 const seidebarBtns = [
   {
@@ -25,14 +26,15 @@ const seidebarBtns = [
   {
     title: 'Campaigns',
     value: 'campaigns'
-  },
+  }
 ]
 
 interface AfiSidebarProps {
   setTab: (v) => void
 }
 
-export const AfiSidebar: FC<AfiSidebarProps> = ({setTab}) => {
+export const AfiSidebar: FC<AfiSidebarProps> = ({ setTab }) => {
+  const { t } = useTranslation()
   return (
     <div className='w-full max-w-[200px] h-fit bg-[#121212] rounded-[5px]'>
       <TabsList className='flex-col h-fit w-full bg-inherit items-start p-0'>
@@ -48,7 +50,7 @@ export const AfiSidebar: FC<AfiSidebarProps> = ({setTab}) => {
                   className='p-[8px] bg-[#151515]'
                   value={item.value}
                 >
-                  {item.title}
+                  {t(`pages.affiliates.navigation.${item.title}`)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -68,7 +70,7 @@ export const AfiSidebar: FC<AfiSidebarProps> = ({setTab}) => {
                             
                         '
             >
-              {item.title}
+              {t(`pages.affiliates.navigation.${item.title}`)}
             </TabsTrigger>
           ))}
         </div>

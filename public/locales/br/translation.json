@@ -1,0 +1,284 @@
+{
+  "pages": {
+    "main": {
+      "Live": "Negociação ao vivo",
+      "preview": {
+        "hello": "Olá",
+        "about_deposit": "Bônus no primeiro depósito",
+        "reward": "RECOMPENSA",
+        "btn": "Deposite e jogue"
+      },
+      "banners": {
+        "affiliate": {
+          "title": "Programa de Afiliados",
+          "text_1": "Convide amigos e",
+          "text_2": "seja recompensado"
+        },
+        "nft": {
+          "title": "Mercado NFT",
+          "text_1": "Nossos detentores de NFT",
+          "text_2": "recebem",
+          "text_3": "Até 18%",
+          "text_4": "pagamento de queda de ar"
+        },
+        "club": {
+          "title": "Clube VIP",
+          "text_1": "Seja um VIP",
+          "text_2": "e obtenha benefícios"
+        },
+        "poker": {
+          "title": "Torneios de Poker",
+          "text_1": "Toda semana",
+          "text_2": "em nossa comunidade no telegrama"
+        },
+        "chest": {
+          "title": "Baú do Tesouro",
+          "text_1": "Abra os baús",
+          "text_2": "e reivindique seus tesouros"
+        }
+      },
+      "games": {
+        "title": "Originais GreekKeepers",
+        "show": "Mostrar tudo",
+        "titles": {
+          "Rocket": "Foguete",
+          "Coinflip": "Cara ou coroa",
+          "Mines": "Minas",
+          "Wheel": "Roda",
+          "RPS": "Pedra, papel ou tesoura",
+          "Apples": "Maçãs",
+          "Poker": "Pôquer",
+          "Thimbles": "Dedais"
+        }
+      },
+      "totals": {
+        "wager": "APOSTA TOTAL",
+        "bets": "TOTAL DE APOSTAS",
+        "users": "TOTAL DE USUÁRIOS"
+      },
+      "live_bets": {
+        "title": "Apostas ao vivo",
+        "titles": {
+          "Time": "Tempo",
+          "Game": "Jogo",
+          "Player": "Jogador",
+          "Number of games": "Número de jogos",
+          "Wager": "Aposta",
+          "Multiplier": "Multiplicador",
+          "Profit": "Lucro"
+        },
+        "games": {
+          "Thimbles": "Jogo dos dedais",
+          "Apples": "Maçãs",
+          "Rocket": "Foguete",
+          "Poker": "Pôquer",
+          "Mines": "Minas",
+          "RPS": "Jokenpô",
+          "CoinFlip": "Cara ou coroa"
+        }
+      }
+    },
+    "auth": {},
+    "games": {
+      "info": "Informação",
+      "auto": "Automático",
+      "refund": "Reembolso",
+      "redraw": "Redesenhar",
+      "Play": "Jogar",
+      "Number of games": "Número de jogos",
+      "Stop Gain": "Parar Ganhos",
+      "No limit": "Sem limite",
+      "Stop Loss": "Parar Perdas",
+      "credit": "Crédito",
+      "bet": "Aposta",
+      "mines": "Número de minas:",
+      "min": "min",
+      "/2": "/2",
+      "x2": "x2",
+      "max": "Máx",
+      "Wager": "Aposta",
+      "Max: 50": "Máximo: 50",
+      "Difficulty": "Dificuldade",
+      "angles": "Número de Ângulos",
+      "Easy": "Fácil",
+      "Medium": "Médio",
+      "Hard": "Difícil",
+      "Tails": "Coroa",
+      "Heads": "Cabeça"
+    },
+    "vip": {
+      "title": "Regras VIP",
+      "under_title": "Clube VIP",
+      "titles": {
+        "Vip LVL": "Nível VIP",
+        "Wager Amount": "Valor da Aposta",
+        "Login Bonus": "Bônus de Login",
+        "Weekly Bonus": "Bônus Semanal",
+        "Monthly Bonus": "Bônus Mensal",
+        "Rakeback": "Comissão",
+        "Cash Back": "Devolução de Dinheiro",
+        "Level Up Bonus": "Bônus de Subida de Nível",
+        "Welcome Bonus": "Bônus de Boas-Vindas"
+      },
+      "level": "Nível"
+    },
+    "affiliates": {
+      "title": "Afiliados",
+      "navigation": {
+        "Get Start": "Começar",
+        "Funds": "Fundos",
+        "Referred Users": "Usuários Referidos",
+        "Campaigns": "Campanhas"
+      },
+      "start": {
+        "text": "A GreekKeppers oferece um sistema de afiliados de última geração. Você receberá comissão para sempre de cada usuário que indicar. Você pode calcular sua comissão usando a seguinte fórmula:",
+        "for_games": "Para jogos originais:",
+        "games_text": "DC apostado * 1% * taxa de comissão",
+        "for_party": "Para jogos de terceiros:",
+        "wagered_text": "DC apostado * 2% * taxa de comissão",
+        "comission": "(A taxa de comissão depende do seu nível de afiliado, começando em 25%)",
+        "referal": "Link de Referência",
+        "btn": "Baixar Banners"
+      },
+      "funds": {
+        "Balance": "Saldo",
+        "Total": {
+          "text_1": "Total",
+          "text_2": "Comissão"
+        },
+        "Available": {
+          "text_1": "Disponível",
+          "text_2": "Comissão"
+        },
+        "Cashout": {
+          "text_1": "Saque",
+          "text_2": "Histórico"
+        },
+        "Min Transfer": "Transferência Mínima",
+        "Avaliable": "Disponível",
+        "text": "(Transferir comissão de afiliado para o saldo do jogo)",
+        "btn": "Sacar para Saldo do Jogo"
+      },
+      "users": {
+        "title": "Nome da Campanha",
+        "sorted": "Ordenado por",
+        "Username": "Nome de Usuário",
+        "Registered": "Registrado",
+        "Wager": "Aposta",
+        "Commission": "Comissão",
+        "No Data": "Sem Dados"
+      },
+      "campaigns": {
+        "Hist": "Hist",
+        "Commission Rate": "Taxa de Comissão",
+        "Referalls": "Indicações",
+        "Total Commission": "Comissão Total",
+        "Available": "Disponível",
+        "Transfered": "Transferido",
+        "Total": "Total",
+        "Commission": "Comissão",
+        "text": "(A aposta só pode vir de usuários que compraram ou configuraram e-mail)",
+        "btn": "Criar Nova Campanha",
+        "Level": "Nível"
+      }
+    },
+    "settings": {
+      "title": "Configurações",
+      "navigation": {
+        "Profile": "Perfil",
+        "Email": "Email",
+        "Password": "Senha",
+        "Preferences": "Preferências"
+      },
+      "Profile": {
+        "Username": "Nome de Usuário",
+        "text_1": "(O nome de usuário e o e-mail são as únicas credenciais para login)",
+        "username": "Nome de usuário",
+        "btn": "Atualizar"
+      },
+      "email": {
+        "current": "email atual",
+        "user": "Email do usuário",
+        "text": "(não recebeu? por favor, verifique o email de lixo eletrônico)",
+        "send": "Enviar",
+        "btn": "Enviar",
+        "code": "código"
+      },
+      "password": {
+        "password": "senha",
+        "Current": "Senha atual",
+        "current": "senha atual",
+        "New": "Nova senha",
+        "new": "nova senha",
+        "Confirm": "Confirmar senha",
+        "confirm": "confirmar senha",
+        "btn": "Enviar"
+      },
+      "Preferences": {
+        "Sound": "Som",
+        "purchase": "Ocultar minha mensagem de compra",
+        "redeem": "Ocultar minha mensagem de resgate",
+        "hide_message": "Não mostrar todas as mensagens de compra e resgate",
+        "amount": "Ocultar o valor da minha compra",
+        "hide_redeem": "Ocultar o valor do meu resgate",
+        "total": "Ocultar meu total apostado do público",
+        "ghost": "Modo fantasma (ocultar minhas apostas)",
+        "refuse_req": "Sempre recusar solicitação de amizade",
+        "chatroom": "Não me @me na sala de bate-papo",
+        "notification": "Ocultar notificação instantânea superior",
+        "text": "* Você pode ver suas informações ocultas, mas os outros não podem *"
+      }
+    }
+  },
+  "sidebar": {
+    "title": "Jogos",
+    "titles": {
+      "Home": "Início",
+      "Bonus": "Bônus",
+      "double": {
+        "Goals": "Gols",
+        "Wheel": "Roda"
+      },
+      "CHEST & CARD": "Baú e Carta",
+      "VIP Club": "Clube VIP",
+      "NFT Market": "Mercado NFT",
+      "Affiliate": "Afiliado",
+      "Support": "Suporte"
+    },
+    "games": {
+      "Coinflip": "Cara ou coroa",
+      "Rock paper scissors": "Pedra, papel ou tesoura",
+      "Mines": "Minas",
+      "Poker": "Pôquer",
+      "Rocket": "Foguete",
+      "Wheel of Fortune": "Roda da fortuna",
+      "Apples": "Maçãs",
+      "Thimbles 3": "Dedais 3"
+    },
+    "LeaderBoard": "Placar de Líderes"
+  },
+  "game_menu": {
+    "btn_play": ""
+  },
+  "header": {
+    "wallet": "Carteira"
+  },
+  "footer": {
+    "join": "Junte-se à nossa comunidade",
+    "undertitle": "©2024 GreekKeepers. Todos os direitos reservados.",
+    "titles": {
+      "GAMES": "JOGOS",
+      "SWAP": "TROCA",
+      "PROFILE": "PERFIL",
+      "LEADER BOARD": "PLACAR DE LÍDERES",
+      "AFFILIATE": "AFILIADO",
+      "NFT MARKET": "MERCADO NFT",
+      "HOW TO PLAY": "COMO JOGAR",
+      "SUPPORT": "SUPORTE"
+    }
+  },
+  "modals": {},
+  "common": {
+    "soon": "Em breve!"
+  }
+}

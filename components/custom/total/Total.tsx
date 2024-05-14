@@ -7,6 +7,7 @@ import trophy from '@/public/total/trophy.webp'
 import { useUnit } from 'effector-react'
 import { TotalItem } from './TotalItem'
 import * as Api from '@/api'
+import { useTranslation } from 'react-i18next'
 
 const triplex = (n: string): string =>
   n.replace(/(?!^)(\d{3})(?=(\d{3})*$)/g, ' $1')
@@ -49,6 +50,8 @@ export const Total: FC<TotalProps1> = props => {
     // return () => clearInterval(interval) // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, [])
 
+  const { t } = useTranslation()
+
   return (
     <>
       <div
@@ -57,18 +60,18 @@ export const Total: FC<TotalProps1> = props => {
       '
       >
         <TotalItem
-          description='total wagered'
+          description={t('pages.main.totals.wager')}
           image={locker}
           dollar
           statistics={totals.total_wagered}
         />
         <TotalItem
-          description='total bets'
+          description={t('pages.main.totals.bets')}
           image={star}
           statistics={totals.total_bets}
         />
         <TotalItem
-          description='total users'
+          description={t('pages.main.totals.users')}
           image={trophy}
           statistics={totals.total_users}
         />

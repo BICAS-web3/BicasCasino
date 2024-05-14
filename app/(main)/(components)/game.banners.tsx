@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
+import { useTranslation } from 'react-i18next'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),
@@ -40,15 +41,15 @@ const Carousel = dynamic(
 const GameBanners = ({ className }: { className?: string }) => {
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
-
+  const { t } = useTranslation()
   return (
     <div
       className={`flex-col gap-2.5 hidden sm:flex overflow-hidden ${className}`}
     >
       <div className='w-full flex items-center justify-center'>
-        <h2 className='font-bold sm:text-xl'>GreekKeepers originals</h2>
+        <h2 className='font-bold sm:text-xl'>{t('pages.main.games.title')}</h2>
         <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
-          Show all
+          {t('pages.main.games.show')}
           <div className='flex gap-[5px]'>
             <Button
               size={'icon'}

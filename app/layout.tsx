@@ -1,5 +1,6 @@
 import MainProvider from '@/components/providers/main.provider'
 import './globals.scss'
+import { appWithTranslation } from 'next-i18next'
 
 import { Nunito_Sans, Source_Sans_3 } from 'next/font/google'
 import localFont from 'next/font/local'

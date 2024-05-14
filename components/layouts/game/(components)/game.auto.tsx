@@ -3,6 +3,7 @@ import { GameModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface GameAutoProps {}
 
@@ -24,6 +25,8 @@ export const GameAuto: FC<GameAutoProps> = () => {
     pickValue(1)
   }, [path])
 
+  const { t } = useTranslation()
+
   return (
     <div
       className={`duration-300 z-[3] ${
@@ -32,7 +35,7 @@ export const GameAuto: FC<GameAutoProps> = () => {
     >
       <div className='flex mb-[20px] flex-col gap-1 w-full game-amount'>
         <h3 className='text-[#7E7E7E] text-sm font-semibold'>
-          Number of games
+          {t('pages.games.Number of games')}
         </h3>
         <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
           <span>{pickedValue}</span>
@@ -50,15 +53,15 @@ export const GameAuto: FC<GameAutoProps> = () => {
       <div className='grid grid-cols-2 gap-[10px]'>
         <div className='flex flex-col gap-[5px]'>
           <span className='text-[#7E7E7E] text-[13px] font-medium'>
-            Stop Gain
+            {t('pages.games.Stop Gain')}
           </span>
           <div className='h-[36px] p-[0_10px] rounded-[30px] border border-[#2e2e2e] flex items-center text-[#7e7e7e] text-[12px] font-bold'>
-            No limit
+            {t('pages.games.No limit')}
           </div>
         </div>
         <div className='flex flex-col gap-[5px]'>
           <span className='text-[#7E7E7E] text-[13px] font-medium'>
-            Stop Loss
+            {t('pages.games.Stop Loss')}
           </span>
           <div className='h-[36px] pl-[10px] rounded-[30px] border border-[#2e2e2e] flex items-center justify-between text-[#7e7e7e] text-[12px] font-bold'>
             <input

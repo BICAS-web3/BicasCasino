@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { changePassword } from '@/api'
 import { useUnit } from 'effector-react'
 import { RegistrModel } from '@/states'
+import { useTranslation } from 'react-i18next'
 
 interface SettingsPasswordProps {}
 
@@ -37,39 +38,43 @@ export const SettingsPassword: FC<SettingsPasswordProps> = () => {
     }
   }
 
+  const { t } = useTranslation()
   return (
     <div className='border border-[#3E3E3E] rounded-[5px]'>
       <div className='p-[20px] flex flex-col gap-[20px]'>
         <InputBlock
-          type='password'
+          type={t(`pages.settings.password.password`)}
           value={currentPassword}
           setValue={setCurrentPassword}
-          placeholder='Current password'
+          placeholder={t(`pages.settings.password.Current`)}
           disabled={false}
-          title='current password'
+          title={t(`pages.settings.password.current`)}
           isNecessarily={true}
         />
         <InputBlock
-          type='password'
+          type={t(`pages.settings.password.password`)}
           value={newPassword}
           setValue={setNewPassword}
-          placeholder='New password'
+          placeholder={t(`pages.settings.password.New`)}
           disabled={false}
-          title='new password'
+          title={t(`pages.settings.password.new`)}
           isNecessarily={true}
         />
         <InputBlock
-          type='password'
+          type={t(`pages.settings.password.password`)}
           value={confirmPassword}
           setValue={setConfirmPassword}
-          placeholder='Confirm password'
+          placeholder={t(`pages.settings.password.Confirm`)}
           disabled={false}
-          title='confirm password'
+          title={t(`pages.settings.password.confirm`)}
           isNecessarily={true}
         />
       </div>
       <div className='flex items-center justify-end p-[20px] border-[#3E3E3E] border-t-[1px]'>
-        <SubmitBtn title='Submit' handler={btnHandler} />
+        <SubmitBtn
+          title={t(`pages.settings.password.btn`)}
+          handler={btnHandler}
+        />
       </div>
     </div>
   )

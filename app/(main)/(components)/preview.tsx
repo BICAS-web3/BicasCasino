@@ -5,6 +5,7 @@ import { PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useMediaQuery } from 'usehooks-ts'
 
 const Preview = ({ className }: { className?: string }) => {
@@ -20,6 +21,7 @@ const Preview = ({ className }: { className?: string }) => {
   const handleAction = () => {
     setVisibility(!visibility)
   }
+  const { t } = useTranslation()
   return (
     <article
       className={cn(
@@ -38,14 +40,14 @@ const Preview = ({ className }: { className?: string }) => {
       }}
     >
       <h2 className='text-center z-20 lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
-        Hello {userInfo?.username || ''} <br />
-        Bonus on the first deposit
+        {t('pages.main.preview.hello')} {userInfo?.username || ''} <br />
+        {t('pages.main.preview.about_deposit')}
       </h2>
       <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
         +$100
         <br />{' '}
         <span className='-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[68px] font-black relative text-[#B4E915]'>
-          Reward
+          {t('pages.main.preview.reward')}
         </span>
       </h1>
       <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
@@ -58,14 +60,14 @@ const Preview = ({ className }: { className?: string }) => {
           }}
           className='w-1/2 sm:w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
         >
-          Deposit and play
+          {t('pages.main.preview.btn')}
         </Button>
-        <Button
+        {/* <Button
           variant='secondary'
           className='w-1/2 sm:w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#363636]'
         >
           Free Play
-        </Button>
+        </Button> */}
       </div>
     </article>
   )

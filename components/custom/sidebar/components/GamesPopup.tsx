@@ -8,35 +8,43 @@ import { useUnit } from 'effector-react'
 import { ModalsModel, SidebarModel } from '@/states'
 import Link from 'next/link'
 import { useMediaQuery } from 'usehooks-ts'
+import { useTranslation } from 'react-i18next'
 
 interface GamesPopupProps {}
 
 export const GamesPopup: FC<GamesPopupProps> = ({}) => {
   const isMobile = useMediaQuery('(max-width:650px)')
   const params = usePathname()
-  const [open, isGames, setOpen] = useUnit([SidebarModel.$open, ModalsModel.$gamesModal, ModalsModel.setGamesModal])
+  const [open, isGames, setOpen] = useUnit([
+    SidebarModel.$open,
+    ModalsModel.$gamesModal,
+    ModalsModel.setGamesModal
+  ])
 
   const useOutsideAlerter = () => {
     useEffect(() => {
       function handleClickOutside(event) {
-        const closableElements = document.querySelectorAll('[data-games]');
-        const isClickInsideClosable = Array.from(closableElements).some(element => element.contains(event.target));
-        
+        const closableElements = document.querySelectorAll('[data-games]')
+        const isClickInsideClosable = Array.from(closableElements).some(
+          element => element.contains(event.target)
+        )
+
         if (!isClickInsideClosable) {
           setOpen(false)
         } else {
-
         }
       }
-  
-      document.addEventListener("mousedown", handleClickOutside);
+
+      document.addEventListener('mousedown', handleClickOutside)
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [])
   }
-  
-  useOutsideAlerter();
+
+  useOutsideAlerter()
+
+  const { t } = useTranslation()
 
   return (
     <div
@@ -77,7 +85,7 @@ export const GamesPopup: FC<GamesPopupProps> = ({}) => {
           >
             <span>{item.icon}</span>
             <span className='leading-5 text-base font-bold tracking-wide w-full max-w-36 text-left truncate'>
-              {item.title}
+              {t(`sidebar.games.${item.title}`)}
             </span>
           </Link>
         ))}
@@ -91,7 +99,7 @@ export const GamesPopup: FC<GamesPopupProps> = ({}) => {
         >
           <LeaderboardSVG className='w-5 h-5 object-contain aspect-square' />
           <span className='leading-5 text-base font-bold tracking-wide w-full max-w-36 text-left truncate'>
-            LeaderBoard
+            {t('sidebar.LeaderBoard')}
           </span>
         </div>
       </div>

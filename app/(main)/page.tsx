@@ -49,10 +49,15 @@ const Home = () => (
         <Banner />
       </div>
       <GameBanners className='mt-[15px]' />
-      <h2 className='font-bold sm:hidden ml-4'>GreekKeepers originals</h2>
+
       <MobileList />
       <Total />
-      <CustomBets title='Live Bets' isMainPage isGamePage={false} game={undefined} />
+      <CustomBets
+        title='Live Bets'
+        isMainPage
+        isGamePage={false}
+        game={undefined}
+      />
     </div>
     <Footer />
   </div>

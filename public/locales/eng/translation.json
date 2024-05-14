@@ -1,0 +1,285 @@
+{
+  "pages": {
+    "main": {
+      "Live": "Live Trading",
+      "preview": {
+        "hello": "Hello",
+        "about_deposit": "Bonus on the first deposit",
+        "reward": "REWARD",
+        "btn": "Deposit and play "
+      },
+      "banners": {
+        "affiliate": {
+          "title": "Affiliate Program",
+          "text_1": "Invite friends and",
+          "text_2": "get rewarded"
+        },
+        "nft": {
+          "title": "NFT Market",
+          "text_1": "Our NFT holders",
+          "text_2": "get",
+          "text_3": "Up to 18%",
+          "text_4": "airdrop payout"
+        },
+        "club": {
+          "title": "VIP CLUB",
+          "text_1": "Become a VIP",
+          "text_2": "and get benefits"
+        },
+        "poker": {
+          "title": "Poker Tournaments",
+          "text_1": "Every week",
+          "text_2": "in our telegram community"
+        },
+        "chest": {
+          "title": "Treasure Chest",
+          "text_1": "Open the chests",
+          "text_2": "and claim your treasures"
+        }
+      },
+      "games": {
+        "title": "GreekKeepers originals",
+        "show": "Show all",
+        "titles": {
+          "Rocket": "Rocket",
+          "Coinflip": "Coinflip",
+          "Mines": "Mines",
+          "Wheel": "Wheel",
+          "RPS": "RPS",
+          "Apples": "Apples",
+          "Poker": "Poker",
+          "Thimbles": "Thimbles"
+        }
+      },
+      "totals": {
+        "wager": "TOTAL WAGERED",
+        "bets": "TOTAL BETS",
+        "users": "TOTAL USERS"
+      },
+      "live_bets": {
+        "title": "Live Bets",
+        "titles": {
+          "Time": "Time",
+          "Game": "Game",
+          "Player": "Player",
+          "Number of games": "Number of games",
+          "Wager": "Wager",
+          "Multiplier": "Multiplier",
+          "Profit": "Profit"
+        },
+        "games": {
+          "Thimbles": "Thimbles",
+          "Apples": "Apples",
+          "Rocket": "Rocket",
+          "Poker": "Poker",
+          "Mines": "Mines",
+          "RPS": "RPS",
+          "CoinFlip": "CoinFlip"
+        }
+      }
+    },
+    "auth": {},
+    "games": {
+      "info": "Some info",
+      "auto": "auto",
+      "refund": "Refund",
+      "redraw": "Redraw",
+      "Play": "Play",
+      "Number of games": "Number of games",
+      "Stop Gain": "Stop Gain",
+      "No limit": "No limit",
+      "Stop Loss": "Stop Loss",
+      "credit": "credit",
+      "bet": "bet",
+      "mines": "Number of mines:",
+      "min": "min",
+      "max": "max",
+      "/2": "/2",
+      "x2": "x2",
+      "Wager": "Wager",
+      "Max: 50": "Max: 50",
+      "Difficulty": "Difficulty",
+      "angles": "Number of Angles",
+      "Easy": "Easy",
+      "Medium": "Medium",
+      "Hard": "Hard",
+      "Tails": "Tails",
+      "Heads": "Heads"
+    },
+    "vip": {
+      "title": "VIP Rules",
+      "under_title": "VIP Club",
+      "titles": {
+        "Vip LVL": "Vip LVL",
+        "Wager Amount": "Wager Amount",
+        "Login Bonus": "Login Bonus",
+        "Weekly Bonus": "Weekly Bonus",
+        "Monthly Bonus": "Monthly Bonus",
+        "Rakeback": "Rakeback",
+        "Cash Back": "Cash Back",
+        "Level Up Bonus": "Level Up Bonus",
+        "Welcome Bonus": "Welcome Bonus"
+      },
+      "level": "Level"
+    },
+    "affiliates": {
+      "title": "Affiliates",
+      "navigation": {
+        "Get Start": "Get Start",
+        "Funds": "Funds",
+        "Referred Users": "Referred Users",
+        "Campaigns": "Campaigns"
+      },
+      "start": {
+        "text": "GreekKeppers offers state-of-the-art affiliate system. You will forever receive commission from every user you refer. You can derive your commission using the following formula:",
+        "for_games": "For original games:",
+        "games_text": "DC wagered * 1% * commission rate",
+        "for_party": "For 3rd party games:",
+        "wagered_text": "DC wagered * 2% * commission rate",
+        "comission": "(Commission rate depends on your affiliate level, starting from 25%)",
+        "referal": "Referral Link",
+        "btn": "Download Banners"
+      },
+      "funds": {
+        "Balance": "Balance",
+        "Total": {
+          "text_1": "Total",
+          "text_2": "Commission"
+        },
+        "Available": {
+          "text_1": "Available",
+          "text_2": "Commission"
+        },
+        "Cashout": {
+          "text_1": "Cashout",
+          "text_2": "History"
+        },
+        "Min Transfer": "Min Transfer",
+        "Avaliable": "Avaliable",
+        "text": "(Transfer affiliate commission to your game balance)",
+        "btn": "Cashout To Game Balance"
+      },
+      "users": {
+        "title": "Campaign name",
+        "sorted": "Sorted by",
+        "Username": "Username",
+        "Registered": "Registered",
+        "Wager": "Wager",
+        "Commission": "Commission",
+        "No Data": "No Data"
+      },
+      "campaigns": {
+        "Hist": "Hist",
+        "Commission Rate": "Commission Rate",
+        "Referalls": "Referalls",
+        "Total Commission": "Total Commission",
+        "Available": "Available",
+        "Transfered": "Transfered",
+        "Total": "Total",
+        "Commission": "Commission",
+        "text": "(Wager can only come from users who have purchased or set up email)",
+        "btn": "Create New Campaign",
+        "Level": "Level"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "navigation": {
+        "Profile": "Profile",
+        "Email": "Email",
+        "Password": "Password",
+        "Preferences": "Preferences"
+      },
+      "Profile": {
+        "Username": "Username",
+        "text_1": "(The username and email are the only credentials for login)",
+        "username": "username",
+        "btn": "Update"
+      },
+      "email": {
+        "current": "current email",
+        "user": "User email",
+        "text": "{'(haven't receive? please check junk email)'}",
+        "send": "Send",
+        "btn": "Submit",
+        "code": "code"
+      },
+      "password": {
+        "password": "password",
+        "Current": "Current password",
+        "current": "current password",
+        "New": "New password",
+        "new": "new password",
+        "Confirm": "Confirm password",
+        "confirm": "confirm password",
+        "btn": "Submit"
+      },
+      "Preferences": {
+        "Sound": "Sound",
+        "purchase": "Hide my purchase message",
+        "redeem": "Hide my redeem message",
+        "hide_message": "Don't show all buy&redeem message",
+        "amount": "Hide my buy amount",
+        "hide_redeem": "Hide my redeem amount",
+        "total": "Hide my total wagered from public",
+        "ghost": "Ghost mode (make my bets hidden)",
+        "refuse_req": "Always refuse friend request",
+        "chatroom": "Don't @me in chatroom",
+        "notification": "Hide top instant notification",
+        "text": "* You can see your hidden info, but others can't *"
+      }
+    }
+  },
+  "sidebar": {
+    "title": "Games",
+    "titles": {
+      "Home": "Home",
+      "Bonus": "Bonus",
+      "double": {
+        "Goals": "Goals",
+        "Wheel": "Wheel"
+      },
+      "CHEST & CARD": "CHEST & CARD",
+      "VIP Club": "VIP Club",
+      "NFT Market": "NFT Market",
+      "Affiliate": "Affiliate",
+      "Support": "Support"
+    },
+    "games": {
+      "Coinflip": "Coinflip",
+      "Rock paper scissors": "Rock paper scissors",
+      "Mines": "Mines",
+      "Poker": "Poker",
+      "Rocket": "Rocket",
+      "Wheel of Fortune": "Wheel of Fortune",
+      "Apples": "Apples",
+      "Thimbles 3": "Thimbles 3"
+    },
+    "LeaderBoard": "LeaderBoard"
+  },
+  "game_menu": {
+    "btn_play": ""
+  },
+  "header": {
+    "wallet": "Wallet"
+  },
+  "footer": {
+    "join": "Join our Community",
+    "undertitle": "©2024 GreekKeepers. All Rights Reserved.",
+    "titles": {
+      "GAMES": "GAMES",
+      "SWAP": "SWAP",
+      "PROFILE": "PROFILE",
+      "LEADER BOARD": "LEADER BOARD",
+      "AFFILIATE": "AFFILIATE",
+      "NFT MARKET": "NFT MARKET",
+      "HOW TO PLAY": "HOW TO PLAY",
+      "SUPPORT": "SUPPORT"
+    }
+  },
+  "modals": {},
+  "toast": {},
+  "common": {
+    "soon": "Soon!"
+  }
+}

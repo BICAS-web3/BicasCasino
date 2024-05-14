@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useTranslation } from 'react-i18next'
 
 const seidebarBtns = [
   {
@@ -18,10 +19,10 @@ const seidebarBtns = [
     title: 'Email',
     value: 'email'
   },
-  {
-    title: 'Two Factor',
-    value: 'auth2'
-  },
+  // {
+  //   title: 'Two Factor',
+  //   value: 'auth2'
+  // },
   {
     title: 'Password',
     value: 'password'
@@ -29,19 +30,19 @@ const seidebarBtns = [
   {
     title: 'Preferences',
     value: 'preferences'
-  },
-  {
-    title: 'Verify',
-    value: 'verify'
-  },
-  {
-    title: 'Bonus Drop',
-    value: 'bonusDrop'
-  },
-  {
-    title: 'Responsible Gambling',
-    value: 'respGambl'
   }
+  // {
+  //   title: 'Verify',
+  //   value: 'verify'
+  // },
+  // {
+  //   title: 'Bonus Drop',
+  //   value: 'bonusDrop'
+  // },
+  // {
+  //   title: 'Responsible Gambling',
+  //   value: 'respGambl'
+  // }
 ]
 
 interface ProfileSidebarProps {
@@ -49,6 +50,7 @@ interface ProfileSidebarProps {
 }
 
 export const ProfileSidebar: FC<ProfileSidebarProps> = ({ setTab }) => {
+  const { t } = useTranslation()
   return (
     <div className='w-full max-w-[200px] h-fit bg-[#121212] rounded-[5px]'>
       <TabsList className='flex-col h-fit w-full bg-inherit items-start p-0'>
@@ -64,7 +66,7 @@ export const ProfileSidebar: FC<ProfileSidebarProps> = ({ setTab }) => {
                   className='p-[8px] bg-[#151515]'
                   value={item.value}
                 >
-                  {item.title}
+                  {t(`pages.settings.navigation.${item.title}`)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -84,7 +86,7 @@ export const ProfileSidebar: FC<ProfileSidebarProps> = ({ setTab }) => {
                             
                         '
             >
-              {item.title}
+              {t(`pages.settings.navigation.${item.title}`)}
             </TabsTrigger>
           ))}
         </div>

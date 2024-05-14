@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { useUnit } from 'effector-react'
 import { RegistrModel, UserModel } from '@/states'
 import { changeName } from '@/api'
+import { useTranslation } from 'react-i18next'
 
 interface SettingsProfileProps {}
 
@@ -27,6 +28,7 @@ export const SettingsProfile: FC<SettingsProfileProps> = () => {
       }
     }
   }
+  const { t } = useTranslation()
 
   return (
     <div className='border border-[#3E3E3E] rounded-[5px] '>
@@ -34,20 +36,23 @@ export const SettingsProfile: FC<SettingsProfileProps> = () => {
         <InputBlock
           placeholder={userInfo?.username || ''}
           disabled={true}
-          title='Username'
-          subTitle='(The username and email are the only credentials for login)'
+          title={t(`pages.settings.Profile.Username`)}
+          subTitle={t(`pages.settings.Profile.text_1`)}
         />
         <InputBlock
-          placeholder='username'
+          placeholder={t(`pages.settings.Profile.username`)}
           disabled={false}
-          title='Username'
+          title={t(`pages.settings.Profile.Username`)}
           isNecessarily={true}
           value={username}
           setValue={setUsername}
         />
       </div>
       <div className='flex items-center justify-end p-[20px] border-[#3E3E3E] border-t-[1px]'>
-        <SubmitBtn title='Update' handler={btnHandler} />
+        <SubmitBtn
+          title={t(`pages.settings.Profile.btn`)}
+          handler={btnHandler}
+        />
       </div>
     </div>
   )

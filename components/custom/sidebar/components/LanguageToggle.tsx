@@ -7,11 +7,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import i18n from '@/i18n'
+import { useTranslation } from 'react-i18next'
 
 type LanguageProps = {
   disabled: boolean
 }
 export function LanguageToggle({ disabled = true }: LanguageProps) {
+  const lngs = {
+    eng: { nativeName: 'English' },
+    uk: { nativeName: 'Ukraine' },
+    ru: { nativeName: 'Russian' },
+    br: { nativeName: 'Brasil' }
+  }
+
+  const { t } = useTranslation(['translation', 'common'])
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,13 +32,18 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
           size='icon'
           disabled={disabled}
         >
-          EN
+          {/* {i18n.resolvedLanguage === lng && EN} */}EN
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
-        <DropdownMenuItem>English</DropdownMenuItem>
-        <DropdownMenuItem>Ukranian</DropdownMenuItem>
-        <DropdownMenuItem>Russian</DropdownMenuItem>
+        {Object.keys(lngs).map((lng, index) => (
+          <DropdownMenuItem
+            className='cursor-pointera'
+            onClick={() => i18n.changeLanguage(lng)}
+          >
+            {(lngs as any)[lng].nativeName}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   )

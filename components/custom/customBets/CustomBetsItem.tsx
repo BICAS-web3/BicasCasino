@@ -28,6 +28,7 @@ import { useUnit } from 'effector-react'
 // import * as BalanceModel from '@/widgets/BalanceSwitcher/model'
 
 import raceIson from '@/public/images/race_icons/bets_icon.webp'
+import { useTranslation } from 'react-i18next'
 // import { sessionModel } from '@/entities/session'
 // import * as GameModel from '@/widgets/GamePage/model'
 export interface CustomBetsItemProps {
@@ -115,6 +116,8 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     }
   })
 
+  const { t } = useTranslation()
+
   return (
     <div
       className={`${
@@ -147,7 +150,9 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
             alt='game-ico-preview'
           />
           <span className='text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
-            {props?.game_name === 'Dice' ? 'Rocket' : props?.game_name}
+            {props?.game_name === 'Dice'
+              ? t('pages.main.live_bets.games.Rocket')
+              : t(`pages.main.live_bets.games.${props?.game_name}`)}
           </span>
         </Link>
       </div>

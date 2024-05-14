@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEffect } from 'react'
 import { getTokensGeneral } from '@/api'
+import { useTranslation } from 'react-i18next'
 
 const MarqueeItem = dynamic(() => import('./marquee.item'), {
   loading: () => <Skeleton className='w-6 h-6 mx-[7.5px] rounded-full' />,
@@ -23,6 +24,7 @@ export const MarqueeLine = () => {
       console.log('tokensData::', data)
     })()
   }, [])
+  const { t } = useTranslation()
   return (
     <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5 ml-0'>
       <Marquee
@@ -55,7 +57,8 @@ export const MarqueeLine = () => {
         DraXma
       </div>
       <div className='min-w-40 hidden sm:flex justify-center items-center gap-[5px] bg-[#7E15E6] h-full px-5 rounded-[99px]'>
-        <span className='bg-[#F57731] w-2 h-2 rounded-full' /> Live Trading
+        <span className='bg-[#F57731] w-2 h-2 rounded-full' />{' '}
+        {t('pages.main.Live')}
       </div>
     </div>
   )

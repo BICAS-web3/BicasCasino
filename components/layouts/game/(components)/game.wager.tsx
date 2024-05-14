@@ -9,6 +9,7 @@ import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
 const bets = ['min', '/2', 'x2', 'max']
@@ -158,6 +159,8 @@ const GameWager = () => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <div className='w-full sm:w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
       <div className='flex items-center justify-between flex-nowrap'>
@@ -166,7 +169,7 @@ const GameWager = () => {
             key={`game-wager--${stringRemoveSpacing(title)}-${index}`}
             className='text-sm font-semibold leading-5 tracking-wide text-[#7e7e7e]'
           >
-            {title}
+            {t(`pages.games.${title}`)}
           </span>
         ))}
       </div>
@@ -209,7 +212,7 @@ const GameWager = () => {
             } ${index === 0 ? 'border-l border-l-[#363636]' : ''}`}
             onClick={() => handleBet(bet)}
           >
-            {bet}
+            {t(`pages.games.${bet}`)}
           </Button>
         ))}
       </div>

@@ -118,8 +118,11 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
         >
           GK
         </div>
-        <span data-close className='text-[#eaeaea] text-[17px] font-bold overflow-hidden w-full text-ellipsis'>
-          {userInfo?.username}asda
+        <span
+          data-close
+          className='text-[#eaeaea] text-[17px] font-bold overflow-hidden w-full text-ellipsis'
+        >
+          {userInfo?.username}
         </span>
       </div>
       <div
