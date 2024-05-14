@@ -99,6 +99,7 @@ module.exports = {
         med: '1550px',
         mde: '1600px',
         mad: '1130px',
+        mda: '1040px',
         xsl: '1450px'
       },
       borderRadius: {

@@ -9,7 +9,7 @@ import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
 
-import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
+import { ChatM, GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
 import { UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
@@ -180,7 +180,26 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  const [opened] = useUnit([SidebarModel.$open])
+  const [opened, setChat, chat] = useUnit([SidebarModel.$open, ChatM.setChatVisibility, ChatM.$chatVisibility])
+
+  const handleChatClick = () => {
+
+    setChat(!chat)
+  }
+
+  useEffect(() => {
+    const content = document.getElementById('mainContent')
+    
+    // if(chat) {
+    //   content?.classList.add('contentWidth')
+    // } else if (chat && opened) {
+    //   content?.classList.add('contentWidth')
+    //   content?.classList.add('contentWidthClosed')
+    // } else {
+    //   content?.classList.remove('contentWidth')
+    // }
+
+  }, [chat])
 
   return (
     <header
@@ -190,6 +209,7 @@ const Header = () => {
     >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
+        <div onClick={handleChatClick}>chat</div>
         <BalanceSwitcher />
         <Wallet />
         <Separator orientation='vertical' className='min-h-10 inline' />

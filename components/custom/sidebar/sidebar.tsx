@@ -32,7 +32,7 @@ const Sidebar = () => {
           className={cn(
             `bg-[#181818] fixed sm:sticky z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
             open
-              ? 'sm:w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_60px)]'
+              ? 'sm:min-w-[257px] sm:max-w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_60px)]'
               : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
           )}
         >
@@ -77,8 +77,8 @@ const Sidebar = () => {
           className={cn(
             `bg-[#181818] fixed mmd:sticky z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
             open
-              ? 'w-[90px] sm:w-[257px] h-[calc(100vh_-_60px)] sm:h-[calc(100vh_-_60px)]'
-              : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
+              ? 'min-w-[90px] sm:min-w-[257px] max-w-[90px] sm:max-w-[257px] h-[calc(100vh_-_60px)] sm:h-[calc(100vh_-_60px)]'
+              : 'sm:min-w-[90px] sm:max-w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
           )}
         >
           <div

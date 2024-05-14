@@ -52,6 +52,30 @@
   }
 }
 
+/////////
+
+.mainContent {
+  width: 100%;
+
+  @media screen and (max-width: 1280px) {
+    margin-left: 85px;
+  }
+}
+
+.contentWidth {
+  width: calc(100% - 670px);
+
+  &Closed {
+    width: calc(100% - 470px);
+  }
+
+  @media screen and (max-width: 1280px) {
+    width: calc(100% - 438px);
+  } 
+}
+
+/////////////
+
 .bottom-svg:hover {
   svg {
     path {

@@ -16,7 +16,9 @@ import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
 import Preload from '@/components/custom/preload'
 import { useUnit } from 'effector-react'
-import { SidebarModel } from '@/states'
+import { ChatM, SidebarModel } from '@/states'
+import { Chat } from '../custom/chat/Chat'
+import { MainWrap } from '../MainWrap'
 
 type Props = {
   children: React.ReactNode
@@ -27,7 +29,7 @@ const MainProvider = ({ children }: Props) => {
     setLoaded(true)
   }, [])
 
-  const [open] = useUnit([SidebarModel.$open])
+  const [open, chatVisibility] = useUnit([SidebarModel.$open, ChatM.$chatVisibility])
 
   return (
     <StoreProvider>
@@ -42,14 +44,11 @@ const MainProvider = ({ children }: Props) => {
                 <div
                   className={`flex flex-col sm:flex-row flex-nowrap relative`}
                 >
+                  <Chat />
                   <Sidebar />
-                  <div
-                    className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
-                      !open && 'tbbs:ml-[90px] mmd:ml-0'
-                    }`}
-                  >
+                  <MainWrap>
                     {children}
-                  </div>
+                  </MainWrap>
                 </div>
                 <Toaster position='top-right' />
               </main>
