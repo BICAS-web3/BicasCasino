@@ -44,7 +44,7 @@
         "titles": {
           "Rocket": "Ракета",
           "Coinflip": "Монетка",
-          "Mines": "Шахти",
+          "Mines": "Міни",
           "Wheel": "Колесо",
           "RPS": "Камінь-ножиці-папір",
           "Apples": "Яблука",
@@ -73,7 +73,7 @@
           "Apples": "Яблука",
           "Rocket": "Ракета",
           "Poker": "Покер",
-          "Mines": "Шахти",
+          "Mines": "Міни",
           "RPS": "КНБ",
           "CoinFlip": "Кидання монети"
         }
@@ -240,16 +240,16 @@
         "Goals": "Голи",
         "Wheel": "Колесо"
       },
-      "CHEST & CARD": "Скарбниця та карта",
+      "CHEST & CARD": "Скарбниця",
       "VIP Club": "VIP Клуб",
       "NFT Market": "Ринок NFT",
-      "Affiliate": "Партнерська програма",
+      "Affiliate": "Партнерство",
       "Support": "Підтримка"
     },
     "games": {
       "Coinflip": "Монетка",
       "Rock paper scissors": "Камінь, ножиці, папір",
-      "Mines": "Шахти",
+      "Mines": "Міни",
       "Poker": "Покер",
       "Rocket": "Ракета",
       "Wheel of Fortune": "Колесо фортуни",

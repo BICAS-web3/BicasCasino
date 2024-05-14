@@ -13,6 +13,7 @@ import SidebarMobileSettings from './components/settings.mobile'
 import { useMediaQuery } from 'usehooks-ts'
 import { useEffect } from 'react'
 import { AffilateSVG, NftSVG, SupportSVG } from './components/icons/bottom'
+import { LanguageToggle } from './components/LanguageToggle'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -66,6 +67,11 @@ const Sidebar = () => {
             </div>
           </div>
           <div className='flex flex-1' />
+          {open && (
+            <div className='mt-auto w-full p-5 flex justify-end'>
+              <LanguageToggle disabled={false} />
+            </div>
+          )}
           <SidebarMobileSettings
             open={open}
             handleAction={() => setOpen(!open)}

@@ -18,7 +18,8 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
     eng: { nativeName: 'English' },
     uk: { nativeName: 'Ukraine' },
     ru: { nativeName: 'Russian' },
-    br: { nativeName: 'Brasil' }
+    br: { nativeName: 'Brasil' },
+    sp: { nativeName: 'Spain' }
   }
 
   const { t } = useTranslation(['translation', 'common'])
@@ -32,13 +33,17 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
           size='icon'
           disabled={disabled}
         >
-          {/* {i18n.resolvedLanguage === lng && EN} */}EN
+          {i18n.resolvedLanguage === 'eng' && 'EN'}
+          {i18n.resolvedLanguage === 'br' && 'BR'}
+          {i18n.resolvedLanguage === 'ru' && 'RU'}
+          {i18n.resolvedLanguage === 'uk' && 'UK'}
+          {i18n.resolvedLanguage === 'sp' && 'ES'}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         {Object.keys(lngs).map((lng, index) => (
           <DropdownMenuItem
-            className='cursor-pointera'
+            className='cursor-pointer'
             onClick={() => i18n.changeLanguage(lng)}
           >
             {(lngs as any)[lng].nativeName}
