@@ -152,7 +152,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           <span className='text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
             {props?.game_name === 'Dice'
               ? t('pages.main.live_bets.games.Rocket')
-              : t(`pages.main.live_bets.games.${props?.game_name}`)}
+              : t(`pages.main.live_bets.games.${props?.game_name || 'Poker'}`)}
           </span>
         </Link>
       </div>

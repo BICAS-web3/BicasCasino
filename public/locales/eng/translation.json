@@ -79,7 +79,44 @@
         }
       }
     },
-    "auth": {},
+    "auth": {
+      "textes": {
+        "error_data": "Wrong data",
+        "Username": "Username",
+        "username": "Username",
+        "exist": "User exist",
+        "Password": "Password",
+        "password": "Password",
+        "have": "Already have an account?"
+      },
+      "btns": {
+        "up": "Sign Up",
+        "process": "In process",
+        "in": "Sign in",
+        "forgot": "Forgot Password?",
+        "reset": "Reset Password"
+      },
+      "titles": {
+        "Registration": "Registration",
+        "Password recovery": "Password recovery"
+      },
+      "banner": {
+        "title": {
+          "text_1": "Welcome to ",
+          "text_2": "GreekKeepers"
+        },
+        "subtitle": "Start your gaming journey right now!"
+      },
+      "signup": {
+        "age_text": " I am at least 18 years old and not a resident of the restricted states.",
+        "privacy": {
+          "text_1": "I accept the GreekKeepers",
+          "text_2": "Terms of Use",
+          "text_3": "and",
+          "text_4": "Privacy Policy."
+        }
+      }
+    },
     "games": {
       "info": "Some info",
       "auto": "auto",
@@ -278,8 +315,171 @@
       "SUPPORT": "SUPPORT"
     }
   },
-  "modals": {},
-  "toast": {},
+  "modals": {
+    "wallet": {
+      "billine": {
+        "title": "Few quick steps to deposit:",
+        "first": "*First Name",
+        "last": "*Last Name",
+        "name": "Your Name",
+        "mail": "*Email",
+        "mail_address": "Email address",
+        "phone": "*Phone",
+        "phone_number": "Phone number",
+        "country": "Country",
+        "city": "*City",
+        "region": "*Region",
+        "cpf": "CPF, for PIX",
+        "optional": "optional",
+        "address": "*Address",
+        "street_address": "Street, Apt/Suite",
+        "code": "*Zip/Postal code",
+        "amount": "*Amount",
+        "currency": "*Currency",
+        "proceed": "Proceed"
+      },
+      "payment": {
+        "buy": {
+          "title": "Buy/Bank card",
+          "subtitle": {
+            "text_1": "DRAX tokens",
+            "text_2": " won through play can be redeemed for",
+            "text_3": " BTC, LTC",
+            "text_4": " and more"
+          },
+          "crypto": {
+            "text_1": "Choose payment system:",
+            "text_2": "or buy with",
+            "route_1": {
+              "title": "Bank card",
+              "text": "You can buy DRAX coins by Visa or Mastercard"
+            },
+            "route_2": {
+              "title": "Crypto payments",
+              "text": "You also can buy DRAX coinsby crypto-currency"
+            }
+          },
+          "fiat": {
+            "text_1": "Choose payment system:",
+            "text_2": "Ukraine / LA (Visa/Mastercard)",
+            "text_3": "Ukraine (Visa/Mastercard)"
+          },
+          "limit": "Maximum purchase of $5000 USD per day"
+        },
+        "redeem": {
+          "amount": "Amount to Redeem",
+          "subtitle": "Redeemable",
+          "min": "Min",
+          "address": "Address",
+          "to": {
+            "text_1": "Your",
+            "text_2": "address"
+          },
+          "estimate": "Estimate Receive",
+          "desclaimer": "Disclaimer:",
+          "text": "The exact amount you receive is subject to real-time exchange rate and the actual send amount at the time arrival.",
+          "redeem": "Redeem"
+        },
+        "tips": {
+          "Username": "Username",
+          "your": "Your username",
+          "tips_amount": "Tip amount",
+          "amount": "Amount",
+          "btn": "Send",
+          "text": "Your remaining balance must be greater or equal to 20 DC"
+        },
+        "Wallet": "Wallet",
+        "Transactions": "Transactions",
+        "Buy": "Buy",
+        "Redeem": "Redeem",
+        "Tips": "Tips",
+        "security": "Security question",
+        "full": "Full your email address",
+        "input_password": "Input your account password",
+        "forgot": "Forget password?",
+        "Cancel": "Cancel",
+        "Confirm": "Confirm"
+      },
+      "purchase": {
+        "amount": "Invoice amount",
+        "rate": "Exchange rate",
+        "payment": "Payment amount",
+        "time": "Date / Time",
+        "id": "Payment ID:",
+        "detected": {
+          "title": "Payment detected",
+          "pending": "Pending confirmation",
+          "text": "The payment will be considered successful when transaction is confirmed on the network"
+        },
+        "success": {
+          "title": "Success!",
+          "Done": "Done",
+          "text": "The payment will be considered successful when transaction is confirmed on the network"
+        },
+        "waiting": {
+          "Purchase": "Purchase",
+          "subtitle": "Estimate Receive",
+          "drax": "DRAX Coin",
+          "bonus": "Bonus Coin",
+          "send": "Send Amount",
+          "amount": "amount",
+          "Disclaimer": "Disclaimer:",
+          "text": "The exact amount you receive is subject to real-time exchange rate and the actual send amount at the time arrival.",
+          "waiting": "Waiting for payment",
+          "send_address": "Send Address"
+        }
+      }
+    },
+    "back": "Back",
+    "continue": "Continue",
+    "bonus": "bonus coins",
+    "drax": "DRAX Coins",
+    "balance": {
+      "bonus": "Your Bonus Coins Balance",
+      "coin": "Your Drax Coins Balance",
+      "redeem": "Your Redeemable Balance",
+      "text": "All Drax coins must be played at least once to become redeemable. For every DC 10 redeemed, you will receive 10$"
+    },
+    "user": {
+      "Profile": "Profile",
+      "Settings": "Settings",
+      "Notice": "Notice",
+      "Vault": "Vault",
+      "Vip": "Vip",
+      "Affiliate": "Affiliate",
+      "Transactions": "Transactions",
+      "Share": "Share",
+      "Live Support": "Live Support",
+      "soon": "Soon!",
+      "out": "Log Out"
+    },
+    "profile": {
+      "UserInfo": "UserInfo",
+      "UserName": "UserName",
+      "level": "Level:",
+      "bronze": "bronze league",
+      "bonus": "BonusCoins",
+      "drax": "DraxCoins",
+      "wins": "wins"
+    }
+  },
+  "toast": {
+    "success": "Success!",
+    "error": "Error!",
+    "password_1": "Fill current password!",
+    "password_2": "Fill new password!",
+    "password_3": "Confirm new password!",
+    "password_4": "Passwords don't matches!",
+    "full_name": "Fill username!",
+    "fill_all": "Fill all fields!",
+    "email": "Error with email!",
+    "select": "Select Field!",
+    "top_up": "Top up balance!",
+    "min": "Minimum 1!",
+    "place": "Error, place your bet!",
+    "in_game": "You are in game!",
+    "captcha": "Error, Cannot verify captcha!"
+  },
   "common": {
     "soon": "Soon!"
   }

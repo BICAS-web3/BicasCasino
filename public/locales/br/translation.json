@@ -79,7 +79,44 @@
         }
       }
     },
-    "auth": {},
+    "auth": {
+      "textes": {
+        "error_data": "Dados incorretos",
+        "Username": "Nome de usuário",
+        "username": "Nome de usuário",
+        "exist": "Usuário já existe",
+        "Password": "Senha",
+        "password": "Senha",
+        "have": "Já tem uma conta?"
+      },
+      "btns": {
+        "up": "Inscrever-se",
+        "process": "Em processo",
+        "in": "Entrar",
+        "forgot": "Esqueceu a senha?",
+        "reset": "Redefinir senha"
+      },
+      "titles": {
+        "Registration": "Registro",
+        "Password recovery": "Recuperação de senha"
+      },
+      "banner": {
+        "title": {
+          "text_1": "Bem-vindo ao ",
+          "text_2": "GreekKeepers"
+        },
+        "subtitle": "Inicie sua jornada de jogos agora mesmo!"
+      },
+      "signup": {
+        "age_text": " Tenho pelo menos 18 anos e não sou residente dos estados restritos.",
+        "privacy": {
+          "text_1": "Eu aceito os",
+          "text_2": "Termos de Uso",
+          "text_3": "e",
+          "text_4": "Política de Privacidade do GreekKeepers."
+        }
+      }
+    },
     "games": {
       "info": "Informação",
       "auto": "Automático",
@@ -278,8 +315,172 @@
       "SUPPORT": "SUPORTE"
     }
   },
-  "modals": {},
+  "modals": {
+    "wallet": {
+      "billine": {
+        "title": "Alguns passos rápidos para depositar:",
+        "first": "*Primeiro Nome",
+        "last": "*Último Nome",
+        "name": "Seu Nome",
+        "mail": "*Email",
+        "mail_address": "Endereço de e-mail",
+        "phone": "*Telefone",
+        "phone_number": "Número de telefone",
+        "country": "País",
+        "city": "*Cidade",
+        "region": "*Região",
+        "cpf": "CPF, para PIX",
+        "optional": "opcional",
+        "address": "*Endereço",
+        "street_address": "Rua, Apt/Suíte",
+        "code": "*Código Postal",
+        "amount": "*Quantidade",
+        "currency": "*Moeda",
+        "proceed": "Prosseguir"
+      },
+      "payment": {
+        "buy": {
+          "title": "Comprar/Cartão bancário",
+          "subtitle": {
+            "text_1": "Tokens DRAX",
+            "text_2": " ganhos através do jogo podem ser trocados por",
+            "text_3": " BTC, LTC",
+            "text_4": " e mais"
+          },
+          "crypto": {
+            "text_1": "Escolha o sistema de pagamento:",
+            "text_2": "ou compre com",
+            "route_1": {
+              "title": "Cartão bancário",
+              "text": "Você pode comprar moedas DRAX com Visa ou Mastercard"
+            },
+            "route_2": {
+              "title": "Pagamentos com criptomoedas",
+              "text": "Você também pode comprar moedas DRAX com criptomoedas"
+            }
+          },
+          "fiat": {
+            "text_1": "Escolha o sistema de pagamento:",
+            "text_2": "Ucrânia / LA (Visa/Mastercard)",
+            "text_3": "Ucrânia (Visa/Mastercard)"
+          },
+          "limit": "Compra máxima de $5000 USD por dia"
+        },
+        "redeem": {
+          "amount": "Quantidade a resgatar",
+          "subtitle": "Resgatável",
+          "min": "Mínimo",
+          "address": "Endereço",
+          "to": {
+            "text_1": "Seu",
+            "text_2": "endereço"
+          },
+          "estimate": "Receber Estimativa",
+          "desclaimer": "Aviso Legal:",
+          "text": "A quantidade exata que você recebe está sujeita à taxa de câmbio em tempo real e à quantidade real enviada no momento da chegada.",
+          "redeem": "Resgatar"
+        },
+        "tips": {
+          "Username": "Nome de usuário",
+          "your": "Seu nome de usuário",
+          "tips_amount": "Valor da gorjeta",
+          "amount": "Quantidade",
+          "btn": "Enviar",
+          "text": "Seu saldo restante deve ser maior ou igual a 20 DC"
+        },
+        "Wallet": "Carteira",
+        "Transactions": "Transações",
+        "Buy": "Comprar",
+        "Redeem": "Resgatar",
+        "Tips": "Gorjetas",
+        "security": "Pergunta de segurança",
+        "full": "Seu endereço de email completo",
+        "input_password": "Digite a senha da sua conta",
+        "forgot": "Esqueceu a senha?",
+        "Cancel": "Cancelar",
+        "Confirm": "Confirmar"
+      },
+      "purchase": {
+        "amount": "Valor da fatura",
+        "rate": "Taxa de câmbio",
+        "payment": "Valor do pagamento",
+        "time": "Data / Hora",
+        "id": "ID do pagamento:",
+        "detected": {
+          "title": "Pagamento detectado",
+          "pending": "Aguardando confirmação",
+          "text": "O pagamento será considerado bem-sucedido quando a transação for confirmada na rede"
+        },
+        "success": {
+          "title": "Sucesso!",
+          "Done": "Concluído",
+          "text": "O pagamento será considerado bem-sucedido quando a transação for confirmada na rede"
+        },
+        "waiting": {
+          "Purchase": "Compra",
+          "subtitle": "Receber Estimativa",
+          "drax": "Moeda DRAX",
+          "bonus": "Moeda de Bônus",
+          "send": "Enviar Quantidade",
+          "amount": "quantidade",
+          "Disclaimer": "Aviso Legal:",
+          "text": "A quantidade exata que você recebe está sujeita à taxa de câmbio em tempo real e à quantidade real enviada no momento da chegada.",
+          "waiting": "Aguardando pagamento",
+          "send_address": "Endereço de Envio"
+        }
+      }
+    },
+    "back": "Voltar",
+    "continue": "Continuar",
+    "bonus": "moedas de bônus",
+    "drax": "Moedas DRAX",
+    "balance": {
+      "bonus": "Seu saldo de moedas de bônus",
+      "coin": "Seu saldo de moedas Drax",
+      "redeem": "Seu saldo resgatável",
+      "text": "Todas as moedas Drax devem ser jogadas pelo menos uma vez para se tornarem resgatáveis. Para cada 10 DC resgatados, você receberá 10$"
+    },
+    "user": {
+      "Profile": "Perfil",
+      "Settings": "Configurações",
+      "Notice": "Aviso",
+      "Vault": "Cofre",
+      "Vip": "VIP",
+      "Affiliate": "Afiliado",
+      "Transactions": "Transações",
+      "Share": "Compartilhar",
+      "Live Support": "Suporte ao Vivo",
+      "soon": "Em Breve!",
+      "out": "Sair"
+    },
+    "profile": {
+      "UserInfo": "Informações do Usuário",
+      "UserName": "Nome de Usuário",
+      "level": "Nível:",
+      "bronze": "Liga Bronze",
+      "bonus": "Moedas de Bônus",
+      "drax": "Moedas Drax",
+      "wins": "Vitórias"
+    }
+  },
   "common": {
     "soon": "Em breve!"
+  },
+  "toast": {
+    "success": "Sucesso!",
+    "error": "Erro!",
+    "password_1": "Preencha a senha atual!",
+    "password_2": "Preencha a nova senha!",
+    "password_3": "Confirme a nova senha!",
+    "password_4": "As senhas não coincidem!",
+    "full_name": "Preencha o nome de usuário!",
+    "fill_all": "Preencha todos os campos!",
+    "email": "Erro com o e-mail!",
+    "select": "Selecione um campo!",
+    "top_up": "Recarregue o saldo!",
+    "min": "Mínimo 1!",
+    "place": "Erro, faça sua aposta!",
+    "in_game": "Você está no jogo!",
+    "captcha": "Erro, não é possível verificar o captcha!"
   }
 }

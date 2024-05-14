@@ -137,7 +137,7 @@ const GameWager = () => {
   const handleBet = value => {
     // alert(3)
     if (isPlaying) {
-      toast('You are in game!')
+      toast(t(`toast.in_game`))
       return
     }
     if (value === 'min') {

@@ -14,16 +14,17 @@ export const SettingsPassword: FC<SettingsPasswordProps> = () => {
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const { t } = useTranslation()
 
   const btnHandler = async () => {
     if (!currentPassword) {
-      toast('Fill current password!')
+      toast(t(`toast.password_1`))
     } else if (!newPassword) {
-      toast('Fill new password!')
+      toast(t(`toast.password_2`))
     } else if (!confirmPassword) {
-      toast('Confirm new password!!')
+      toast(t(`toast.password_3`))
     } else if (newPassword !== confirmPassword) {
-      toast("Passwords don't matches!")
+      toast(t(`toast.password_4`))
     } else {
       const data = await changePassword({
         bareer: access_token,
@@ -31,14 +32,13 @@ export const SettingsPassword: FC<SettingsPasswordProps> = () => {
         old_password: currentPassword
       })
       if (data.status === 'OK') {
-        toast('Success!')
+        toast(t(`toast.success`))
       } else {
-        toast('Error!')
+        toast(t(`toast.error`))
       }
     }
   }
 
-  const { t } = useTranslation()
   return (
     <div className='border border-[#3E3E3E] rounded-[5px]'>
       <div className='p-[20px] flex flex-col gap-[20px]'>

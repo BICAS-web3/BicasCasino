@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { useUnit } from 'effector-react'
 import { HeaderM, ModalsModel, PaymentModel, UserModel } from '@/states'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const list = [
   {
@@ -34,12 +35,12 @@ const list = [
   },
   {
     title: 'Vault',
-    href: '',
+    href: '/404',
     icon: <VaultIco />
   },
   {
     title: 'Vip',
-    href: '',
+    href: '/404',
     icon: <VipIco />
   },
   {
@@ -49,7 +50,7 @@ const list = [
   },
   {
     title: 'Transactions',
-    href: '',
+    href: '/404',
     icon: <TransactionIco />
   },
   {
@@ -101,6 +102,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
   }, [])
 
   const [userInfo] = useUnit([UserModel.$userInfo])
+  const { t } = useTranslation()
   return (
     <div
       data-close
@@ -138,7 +140,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
                 className='cursor-pointer p-[16px] h-[40px] hover:bg-[#D9D9D926] flex items-center gap-[5px] relative'
               >
                 <span className='absolute right-4 top-1 text-[12px] text-[#979797] rotate-2'>
-                  Soon!
+                  {t(`modals.user.soon`)}
                 </span>
                 <div
                   data-close
@@ -147,7 +149,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
                   {item.icon}
                 </div>
                 <span data-close className='text-[14px] font-bold'>
-                  {item.title}
+                  {t(`modals.user.${item.title}`)}
                 </span>
               </div>
             )
@@ -180,7 +182,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
                   {item.icon}
                 </div>
                 <span data-close className='text-[14px] font-bold'>
-                  {item.title}
+                  {t(`modals.user.${item.title}`)}
                 </span>
               </div>
             )
@@ -198,7 +200,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
                   {item.icon}
                 </div>
                 <span data-close className='text-[14px] font-bold'>
-                  {item.title}
+                  {t(`modals.user.${item.title}`)}
                 </span>
               </Link>
             )
@@ -210,7 +212,7 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
         data-close
         className='p-[10px_16px_16px_20px] cursor-pointer mt-[10px] border-t border-[#EAEAEA0D] flex items-center gap-[5px]'
       >
-        <LogoutIco /> Log Out
+        <LogoutIco /> {t(`modals.user.out`)}
       </div>
     </div>
   )

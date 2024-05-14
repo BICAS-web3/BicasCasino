@@ -1,31 +1,8 @@
-import {
-  cancelTokenOrder,
-  confirmOrder,
-  createTokenOrder,
-  createTokenSession,
-  getImageFile,
-  getOneTimeToken,
-  getOrderInfo,
-  getTokensBilliane,
-  getTokensSettings,
-  screenShootOrder
-} from '@/api'
+import { getOneTimeToken } from '@/api'
+import { useDropdown } from '@/lib/hooks/useDropdown'
 import { RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import {
-  ChipSVG,
-  CloseSVG,
-  CopySVG,
-  EclipseSVG,
-  LogoSVG,
-  RefreshSVG,
-  TrashSVG
-} from '../../icons'
-import Logo from '../../logo'
-import { LoaderIcon } from 'lucide-react'
-import { useDropdown } from '@/lib/hooks/useDropdown'
 
 const CustomPayment = ({ close }: { close: () => void }) => {
   const key = process.env.NEXT_PUBLIC_P2WAY_KEY

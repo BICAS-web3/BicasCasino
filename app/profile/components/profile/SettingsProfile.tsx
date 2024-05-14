@@ -15,20 +15,20 @@ export const SettingsProfile: FC<SettingsProfileProps> = () => {
     UserModel.$userInfo,
     RegistrModel.$access_token
   ])
+  const { t } = useTranslation()
 
   const btnHandler = async () => {
     if (!username) {
-      toast('Fill username!')
+      toast(t(`toast.full_name`))
     } else {
       const data = await changeName({ bareer: access_token, name: username })
       if (data.status === 'OK') {
-        toast('Success!')
+        toast(t(`toast.success`))
       } else {
-        toast('Error!')
+        toast(t(`toast.error`))
       }
     }
   }
-  const { t } = useTranslation()
 
   return (
     <div className='border border-[#3E3E3E] rounded-[5px] '>

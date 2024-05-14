@@ -26,7 +26,7 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger className='z-[150]' asChild>
         <Button
           variant='ghost'
           className='p-0 border border-[#202020] text-[#7E7E7E] rounded-xl font-bold'
@@ -40,7 +40,7 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
           {i18n.resolvedLanguage === 'sp' && 'ES'}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end'>
+      <DropdownMenuContent className=' z-[111]' align='end'>
         {Object.keys(lngs).map((lng, index) => (
           <DropdownMenuItem
             className='cursor-pointer'

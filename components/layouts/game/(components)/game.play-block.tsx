@@ -225,7 +225,7 @@ const GamePlayBlock = () => {
 
   const handlePlay = () => {
     if (!minesSelected && isMines) {
-      toast('Select Field!')
+      toast(t(`toast.select`))
       return
     }
 
@@ -242,17 +242,17 @@ const GamePlayBlock = () => {
       setPokerDelay(true)
     }
     if (cryptoValue > balance) {
-      toast('Top up balance!')
+      toast(t(`toast.top_up`))
       setError(true)
       return
     }
     if (cryptoValue < 1) {
-      toast('Minimum 1!')
+      toast(t(`toast.min`))
       setError(true)
       return
     }
     if (!cryptoValue) {
-      toast('Error, place your bet!')
+      toast(t(`toast.place`))
       setError(true)
     } else {
       if (isPoker && !pokerPlay) {
