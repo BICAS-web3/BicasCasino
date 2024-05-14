@@ -36,7 +36,7 @@ export function LanguageToggle({ disabled = true }: LanguageProps) {
           {i18n.resolvedLanguage === 'eng' && 'EN'}
           {i18n.resolvedLanguage === 'br' && 'BR'}
           {i18n.resolvedLanguage === 'ru' && 'RU'}
-          {i18n.resolvedLanguage === 'uk' && 'UK'}
+          {i18n.resolvedLanguage === 'uk' && 'UA'}
           {i18n.resolvedLanguage === 'sp' && 'ES'}
         </Button>
       </DropdownMenuTrigger>
