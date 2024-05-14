@@ -38,6 +38,7 @@
         }
       },
       "games": {
+        "originals": "Оригиналы GK",
         "title": "Оригинальные игры GreekKeepers",
         "show": "Показать все",
         "titles": {

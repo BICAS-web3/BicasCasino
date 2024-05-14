@@ -38,6 +38,7 @@
         }
       },
       "games": {
+        "originals": "GK Originals",
         "title": "GreekKeepers originals",
         "show": "Show all",
         "titles": {

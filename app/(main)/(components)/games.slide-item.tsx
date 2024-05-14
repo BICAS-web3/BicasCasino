@@ -35,7 +35,10 @@ const GameSlideItem = ({ image, link, title, className, onClick }: Props) => {
       </div>
       {/* footer */}
       <div className='w-full items-center flex justify-between px-[10px] py-4 bg-[#181818]'>
-        <span className='text-[#7E7E7E]'>GK Originals</span>
+        <span className='text-[#7E7E7E]'>
+          {' '}
+          {t(`pages.main.games.originals`)}
+        </span>
       </div>
     </Link>
   )
