@@ -56,7 +56,7 @@ export const Total: FC<TotalProps1> = props => {
     <>
       <div
         className='flex flex-col gap-[10px] mb-[40px] box-border px-[16px]
-        sm:flex-row
+        sm:flex-row sm:px-0
       '
       >
         <TotalItem
