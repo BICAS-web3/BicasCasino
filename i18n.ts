@@ -18,7 +18,7 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     debug: true,
-    fallbackLng: 'ru', // Устанавливаем английский как язык по умолчанию
+    fallbackLng: 'eng', // Устанавливаем английский как язык по умолчанию
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage']
