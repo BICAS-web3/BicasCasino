@@ -395,7 +395,7 @@ export const VipTable:FC<VipTableProps> = () => {
             {
                 slides.map((item, ind) => (
                     <SwiperSlide  key={ind} className='vip_swiper_slide h-full flex flex-col gap-[2px]' >
-                        <div className="bg-[#181818] h-[80px] flex text-center p-[0_2px] prewrap items-center justify-center text-[18px] font-semibold text-[#7E7E7E]">
+                        <div className="bg-[#181818] h-[80px] flex text-center p-[0_2px] prewrap items-center justify-center text-[18px] font-normal text-[#7E7E7E]">
                             {item.title}
                         </div>
                         <div className='flex flex-col h-full gap-[3px] mt-[3px]'>
@@ -406,7 +406,7 @@ export const VipTable:FC<VipTableProps> = () => {
                                             item2.ico && item2.ico
                                         }
                                         {
-                                            item2.title && <span className='text-[15px] font-semibold'>{item2.title}</span>
+                                            item2.title && <span className='text-[15px] font-normal'>{item2.title}</span>
                                         }
                                     </div>
                                 ))
