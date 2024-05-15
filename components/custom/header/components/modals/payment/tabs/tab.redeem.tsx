@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button'
 import RedeemConfirmModal from '../redeem.confirm'
 import { useUnit } from 'effector-react'
 import { PaymentModel } from '@/states'
+import { useTranslation } from 'react-i18next'
 
 type CryptoProps = {
   id: string
@@ -57,6 +58,8 @@ const TabRedeem = () => {
     setAmount(+(+e.target.value * 12 + 428.5).toFixed(2))
   }
 
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col justify-between gap-3 h-full'>
       <div className='w-full flex justify-center items-center'>
@@ -88,11 +91,11 @@ const TabRedeem = () => {
         <div className=''>
           <div className='flex flex-col gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-              <span>Amount to Redeem</span>
-              <span>Redeemable</span>
+              <span>{t(`modals.wallet.payment.redeem.amount`)}</span>
+              <span>{t(`modals.wallet.payment.redeem.subtitle`)}</span>
             </div>
             <div className='flex items-center justify-between text-xs sm:text-base text-[#979797]'>
-              <span>(Min 20DC)</span>
+              <span>({t(`modals.wallet.payment.redeem.min`)} 20DC)</span>
               <div className='flex gap-1 items-center'>
                 <span className='cursor-pointer underline text-orange max-w-60 truncate'>
                   {amount.toLocaleString('en-US')}DC
@@ -110,7 +113,7 @@ const TabRedeem = () => {
                 type='number'
                 step={0.01}
                 onChange={handleAmount}
-                placeholder='Amount to Redeem'
+                placeholder={t(`modals.wallet.payment.redeem.amount`)}
               />
               <div className='flex items-center justify-center h-10 aspect-square'>
                 <DraxMiniSVG className='w-5 h-5 aspect-square object-contain' />
@@ -120,7 +123,9 @@ const TabRedeem = () => {
 
           <div className='flex flex-col mt-[10px] gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-              <span>{purchaseI.label} Address</span>
+              <span>
+                {purchaseI.label} {t(`modals.wallet.payment.redeem.address`)}
+              </span>
             </div>
 
             <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
@@ -129,14 +134,16 @@ const TabRedeem = () => {
                 value={address}
                 type='string'
                 onChange={handleAddress}
-                placeholder={`Your ${purchaseI.label} address`}
+                placeholder={`${t(`modals.wallet.payment.redeem.to.text_1`)} ${
+                  purchaseI.label
+                } ${t(`modals.wallet.payment.redeem.to.text_2`)} `}
               />
             </div>
           </div>
 
           <div className='flex flex-col mt-[10px] gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-              <span>Estimate Receive</span>
+              <span>{t(`modals.wallet.payment.redeem.estimate`)}</span>
               <span>≈{(amount / 12 - 428.5).toFixed(2)}USDT</span>
             </div>
 
@@ -147,7 +154,7 @@ const TabRedeem = () => {
                 type='number'
                 step={0.01}
                 onChange={handleEstimate}
-                placeholder={`Estimate Receive`}
+                placeholder={t(`modals.wallet.payment.redeem.estimate`)}
               />
               <div className='flex items-center justify-center h-10 aspect-square'>
                 {purchaseI.icon}
@@ -158,10 +165,11 @@ const TabRedeem = () => {
 
         <div className='flex flex-col gap-[10px]'>
           <div className='flex flex-col p-[10px] w-full bg-[#212121] rounded-lg'>
-            <h6 className='text-sm text-[#979797] font-medium'>Disclaimer:</h6>
+            <h6 className='text-sm text-[#979797] font-medium'>
+              {t(`modals.wallet.payment.redeem.desclaimer`)}
+            </h6>
             <p className='text-sm text-[#979797] font-medium'>
-              The exact amount you receive is subject to real-time exchange rate
-              and the actual send amount at the time arrival.
+              {t(`modals.wallet.payment.redeem.text`)}
             </p>
           </div>
 
@@ -169,7 +177,7 @@ const TabRedeem = () => {
             onClick={() => setRedeemConfirm(true)}
             className='w-full max-w-full text-sm border border-[#907640] bg-[#201F1C] hover:bg-[#252019] transition-all duration-300 text-[#FFE09D] font-bold'
           >
-            Redeem
+            {t(`modals.wallet.payment.redeem.redeem`)}
           </Button>
         </div>
       </div>

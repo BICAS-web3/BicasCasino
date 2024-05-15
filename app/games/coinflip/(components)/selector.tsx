@@ -1,6 +1,7 @@
 import { GameModel } from '@/states'
 import { Side } from '@/states/game_model.store'
 import { useUnit } from 'effector-react'
+import { useTranslation } from 'react-i18next'
 import useSound from 'use-sound'
 
 const Selector = ({ className }: { className?: string }) => {
@@ -21,6 +22,8 @@ const Selector = ({ className }: { className?: string }) => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <div
       className={`flex w-full sm:w-[288px] xl:w-[385px] h-9 sm:h-8 rounded-[99px] border border-[#2E2E2E] text-sm font-bold p-[2px] gap-[5px] relative ${className}`}
@@ -33,7 +36,7 @@ const Selector = ({ className }: { className?: string }) => {
             : 'border-transparent'
         }`}
       >
-        Heads
+        {t(`pages.games.Heads`)}
       </button>
       <button
         onClick={handleSide.bind('', Side.Tails)}
@@ -43,7 +46,7 @@ const Selector = ({ className }: { className?: string }) => {
             : 'border-transparent'
         }`}
       >
-        Tails
+        {t(`pages.games.Tails`)}
       </button>
     </div>
   )

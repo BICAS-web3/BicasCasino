@@ -3,7 +3,7 @@ import CoinFlipGame from './(components)/coinflip'
 
 export const metadata: Metadata = {
   title: 'Games - CoinFlip',
-  description: 'CoinFlip game page '
+  description: 'CoinFlip game page'
 }
 
 const CoinFlip = () => {

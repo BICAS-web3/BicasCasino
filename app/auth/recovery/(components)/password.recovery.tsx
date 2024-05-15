@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useTranslation } from 'react-i18next'
 
 interface PasswordRecoveryProps {}
 
@@ -26,6 +27,8 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
       email: ''
     }
   })
+
+  const { t } = useTranslation()
 
   return (
     <div className='flex flex-col sm:gap-[20px] gap-[10px] mt-[10px] sm:mt-[20px]'>
@@ -41,7 +44,7 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
               <FormItem className='relative'>
                 <FormControl>
                   <Input
-                    placeholder='Password'
+                    placeholder={t(`pages.auth.textes.Password`)}
                     type='email'
                     className={`duration-200 ${
                       false && 'placeholder:text-[red]'
@@ -60,7 +63,7 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
             type='submit'
             variant='auth'
           >
-            Reset Password
+            {t(`pages.auth.btns.reset`)}
           </Button>
         </form>
       </Form>
@@ -69,8 +72,10 @@ const PasswordRecovery: FC<PasswordRecoveryProps> = () => {
         className='text-[13px] font-normal leading-[22px] tracking-def
           text-left text-bets-title-color flex'
       >
-        Already have an account?
-        <p className='font-normal text-orange'>&nbsp;Sign In</p>
+        {t(`pages.auth.textes.have`)}
+        <p className='font-normal text-orange'>
+          &nbsp;{t(`pages.auth.btns.in`)}
+        </p>
       </Link>
     </div>
   )

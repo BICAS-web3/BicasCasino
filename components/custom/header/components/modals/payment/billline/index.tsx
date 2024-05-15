@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { BilllineLogoSVG, DraxMiniSVG, RedirectSVG } from '../../../icons'
 import BackItem from '../../conponents/back.item'
 import InputItem from './components/input'
+import { useTranslation } from 'react-i18next'
 
 const Billline = () => {
   const [setIsBillline, access_token] = useUnit([
@@ -69,10 +70,10 @@ const Billline = () => {
       !zipCode
     ) {
       setError(true)
-      toast('Fill all fields!')
+      toast(t(`toast.fill_all`))
     } else {
       if (!validateEmail(email)) {
-        toast('Error with email!')
+       toast(t(`toast.email`))
       } else {
         const data = await getTokensBilliane({
           amount,
@@ -91,7 +92,7 @@ const Billline = () => {
         if (data.status === 'OK') {
           setResponseData((data.body as any).data)
         } else {
-          toast('Error!')
+          toast(t(`toast.error`))
         }
       }
     }
@@ -128,30 +129,31 @@ const Billline = () => {
     }
   }, [responseData])
 
+  const { t } = useTranslation()
+
   return (
     <div className='w-full h-full flex-auto flex flex-col gap-[18px]'>
       <div className='w-full flex justify-between items-center'>
         <BackItem onClick={() => setIsBillline(false)} />
-        {/* <BilllineLogoSVG /> */}
       </div>
       <div className='w-full flex flex-col gap-[14px] items-center'>
         <h2 className='text-center text-[19px] text-[#7E7E7E] font-medium'>
-          Few quick steps to deposit:
+          {t(`modals.wallet.billine.title`)}
         </h2>
         <div className='w-full flex gap-[10px] flex-auto'>
           <InputItem
             value={name}
             setValue={setName}
-            title='*First Name'
-            placeholder='Your Name'
+            title={t(`modals.wallet.billine.first`)}
+            placeholder={t(`modals.wallet.billine.name`)}
             setError={setError}
             error={error && !name}
           />
           <InputItem
             value={lastName}
             setValue={setlastName}
-            title='*Last Name'
-            placeholder='Your Name'
+            title={t(`modals.wallet.billine.last`)}
+            placeholder={t(`modals.wallet.billine.name`)}
             setError={setError}
             error={error && !lastName}
           />
@@ -160,16 +162,16 @@ const Billline = () => {
           <InputItem
             value={email}
             setValue={setEmail}
-            title='*Email'
-            placeholder='Email address'
+            title={t(`modals.wallet.billine.mail`)}
+            placeholder={t(`modals.wallet.billine.mail_address`)}
             setError={setError}
             error={error && !email}
           />
           <InputItem
             value={phone}
             setValue={setPhone}
-            title='*Phone'
-            placeholder='Phone number'
+            title={t(`modals.wallet.billine.phone`)}
+            placeholder={t(`modals.wallet.billine.phone_number`)}
             setError={setError}
             error={error && !phone}
           />
@@ -178,15 +180,15 @@ const Billline = () => {
           <InputItem
             value={country}
             setValue={setCountry}
-            title='*Country'
-            placeholder='Country'
+            title={`*${t(`modals.wallet.billine.country`)}`}
+            placeholder={t(`modals.wallet.billine.country`)}
             setError={setError}
             error={error && !country}
           />
           <InputItem
             value={city}
             setValue={setCity}
-            title='*City'
+            title={t(`modals.wallet.billine.city`)}
             placeholder=''
             setError={setError}
             error={error && !city}
@@ -197,7 +199,7 @@ const Billline = () => {
           <InputItem
             value={region}
             setValue={setRegion}
-            title='*Region'
+            title={t(`modals.wallet.billine.region`)}
             placeholder=''
             setError={setError}
             error={error && !region}
@@ -205,7 +207,7 @@ const Billline = () => {
           <InputItem
             value={cpf}
             setValue={setCpf}
-            title='CPF, for PIX'
+            title={t(`modals.wallet.billine.cpf`)}
             placeholder='optional'
             setError={() => {}}
             error={false}
@@ -216,15 +218,15 @@ const Billline = () => {
           <InputItem
             value={address}
             setValue={setAddress}
-            title='*Address'
-            placeholder='Street, Apt/Suite'
+            title={t(`modals.wallet.billine.address`)}
+            placeholder={t(`modals.wallet.billine.street_address`)}
             setError={setError}
             error={error && !address}
           />
           <InputItem
             value={zipCode}
             setValue={setZipCode}
-            title='*Zip/Postal code'
+            title={t(`modals.wallet.billine.code`)}
             placeholder=''
             setError={setError}
             error={error && !zipCode}
@@ -237,7 +239,7 @@ const Billline = () => {
                 error ? 'text-[#FC3C37]' : 'text-[#979797]'
               }`}
             >
-              *Amount
+              {t(`modals.wallet.billine.amount`)}
             </h3>
             <div
               className={`relative flex flex-auto items-center h-full bg-[#121212] rounded-[8px] border px-[10px] gap-2 border-[#252525]`}
@@ -263,7 +265,7 @@ const Billline = () => {
           <InputItem
             value={currency}
             setValue={setCurrency}
-            title='*Currency'
+            title={t(`modals.wallet.billine.currency`)}
             placeholder=''
             setError={setError}
             error={error && !currency}
@@ -287,7 +289,7 @@ const Billline = () => {
             : 'bg-[#2520194D] border-[#907640] text-[#FFE09D] hover:bg-[#252019]'
         } `}
       >
-        Proceed{' '}
+        {t(`modals.wallet.billine.proceed`)}{' '}
         <RedirectSVG
           className={
             !name ||

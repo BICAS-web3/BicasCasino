@@ -159,10 +159,10 @@ const RocketGame = () => {
 
   useEffect(() => {
     if (rocketStar && localNumber !== null && localNumber <= 0) {
-      rocketCrash()
+      playSounds !== 'off' && rocketCrash()
     }
     if (rocketStar && localNumber !== null && localNumber > 0) {
-      rocketWin()
+      playSounds !== 'off' && rocketWin()
     }
   }, [rocketStar, localNumber !== null, localNumber])
 
@@ -170,7 +170,11 @@ const RocketGame = () => {
   useEffect(() => {
     if (inGame) {
       Promise.all([
-        new Promise(resolve => setTimeout(() => resolve(rocketStart()), 1500)),
+        new Promise(resolve =>
+          setTimeout(() => {
+            playSounds !== 'off' && resolve(rocketStart())
+          }, 1500)
+        ),
         new Promise(resolve => setTimeout(() => resolve(setBgPlay(true)), 2000))
       ])
     } else {
@@ -220,7 +224,6 @@ const RocketGame = () => {
     >
       <div className='stars'></div>
       <div className='twinkling'></div>
-      {/* <div className='clouds'></div> */}
       <ReactHowler
         src={'/music/rocket_fly_2.mp3'}
         playing={bgPlay && playSounds !== 'off'}
@@ -269,7 +272,7 @@ const RocketGame = () => {
             }`}
             src={'/images/rocket/rocket.webp'}
             alt='rocket'
-          />{' '}
+          />
           <div
             className={`absolute mx-auto w-[5.0625rem] h-[7rem] rocket_fire animate-[fire-img_0.7s_steps(1)_infinite] left-1/2 -translate-x-[45%] top-[calc(100%-52px)] sm:top-[calc(100%-70px)] ${
               inGame && 'animate-[fire_img_0.35s_steps(1)_infinite]'
@@ -283,51 +286,3 @@ const RocketGame = () => {
 }
 
 export default RocketGame
-{
-  /* <video
-          onPlay={imageError}
-          onError={imageError}
-          ref={rocketRef}
-          className={`object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0] absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto] ${
-            !inGame && 'hidden'
-          }`}
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src={'/videos/rocket/bg.mp4'} type='video/mp4' />
-        </video>
-        <video
-          onError={imageError}
-          onPlay={imageError}
-          ref={bgRef}
-          className={`object-cover rounded-[0] sm:rounded-[20px_20px_0_0] lg:rounded-[20px_0_0_0] absolute top-0 left-0 w-full h-full min-h-full flex-[1_1_auto] ${
-            inGame && 'hidden'
-          }`}
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src={'/videos/rocket/bg_1.mp4'} type='video/mp4' />
-        </video> */
-}
-// <div
-//   className={`text-xs sm:text-sm xl:text-lg font-extrabold rounded-[5px] w-12 xl:w-[60px] h-6 xl:h-10 flex justify-center items-center absolute left-1/2 -translate-x-1/2 top-[75px] sm:top-[115px] text-[2.8125rem] sm:text-[4.375rem] z-[5] ${
-//     localNumber > 0 ? 'text-[#34b113]' : 'text-[#e15f02]'
-//   }`}
-// >
-//   {/* {localNumber?.toFixed(2)}x */}
-//   {springProps.number.to(n => n.toFixed(2))}
-// </div>
-
-// useEffect(() => {
-//   setActivePicker(true)
-//   setInGame(false)
-//   if (gameStatus == GameModel.GameStatus.Won) {
-//     pickSide(pickedSide)
-//   } else if (gameStatus == GameModel.GameStatus.Lost) {
-//     pickSide(pickedSide ^ 1)
-//   }
-// }, [gameStatus])

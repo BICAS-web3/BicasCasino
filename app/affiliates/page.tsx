@@ -7,12 +7,13 @@ import { AffiliatesGetStart } from './components/GetStart/AfflitiatesGetStart'
 import { AffiliatesFunds } from './components/funds/AffiliatesFunds'
 import { AffiliatesUsers } from './components/users/AffiliatesUsers'
 import { AffiliatesCampaigns } from './components/campaigns/AffiliatesCampaigns'
+import { useTranslation } from 'react-i18next'
 
 interface AffiliatesProps {}
 
 const Affiliates: FC<AffiliatesProps> = () => {
   const [tab, setTab] = useState('getStart')
-
+  const { t } = useTranslation()
   return (
     <Tabs
       className='p-[1.25rem_2.5rem] box-border h-full'
@@ -22,7 +23,7 @@ const Affiliates: FC<AffiliatesProps> = () => {
       <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <AffiliatesIco />
-          Affiliates
+          {t(`pages.affiliates.title`)}
         </span>
         <div className='flex flex-col emd:flex-row gap-[1.25rem] emd:gap-[2.5rem] mt-[20px] h-[calc(100%_-_2.5rem)] box-border'>
           <AfiSidebar setTab={setTab} />

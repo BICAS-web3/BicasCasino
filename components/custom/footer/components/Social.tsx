@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { socials } from '../data'
+import { useTranslation } from 'react-i18next'
 
 const Social = () => {
+  const { t } = useTranslation()
   return (
     <div className='flex flex-col gap-y-6 '>
       <h6 className='text-[#979797] tracking-[1px] text-center font-normal'>
-        Join our Community
+        {t('footer.join')}
       </h6>
       <div className='grid w-auto justify-evenly gap-x-5 gap-y-3 sm:gap-3 grid-cols-4'>
         {socials.map((item, index) => (

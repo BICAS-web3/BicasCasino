@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { useMediaQuery } from 'usehooks-ts'
 import { GameModel, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
+import { useSpring, animated } from 'react-spring'
 
 import * as api from '@/api'
 import { BalanceHover } from './balance.hover'
@@ -34,6 +35,16 @@ export interface IAmount {
   }[]
 }
 const BalanceSwitcher = () => {
+  const [springProps, setSpringProps] = useSpring(() => ({
+    number: 0
+  }))
+  const [springCoin, setSpringCoin] = useSpring(() => ({
+    number: 0
+  }))
+  const [springBonus, setSpringBonus] = useSpring(() => ({
+    number: 0
+  }))
+
   const isMobile = useMediaQuery('(max-width: 730px)')
 
   const [
@@ -114,6 +125,27 @@ const BalanceSwitcher = () => {
     )
   }
 
+  useEffect(() => {
+    if (balanceValue !== null) {
+      setSpringProps({ number: balanceValue })
+    }
+  }, [balanceValue])
+
+  useEffect(() => {
+    if (balance) {
+      setSpringCoin({
+        number: Number(
+          balance.amounts.find(item => item.name === 'Drax')?.amount
+        )
+      })
+      setSpringBonus({
+        number: Number(
+          balance.amounts.find(item => item.name === 'DraxBonus')?.amount
+        )
+      })
+    }
+  }, [balance])
+
   return (
     <div
       className={cn(
@@ -137,26 +169,18 @@ const BalanceSwitcher = () => {
           <div className='flex items-center gap-1 pr-2'>
             {isMobile ? (
               isDrax === item.isDrax && (
-                <span className='text-xs sm:text-sm leading-4  w-max'>
-                  {balance !== null ? balanceValue : zero.toFixed(3)}
-                </span>
+                <animated.span className='text-xs sm:text-sm leading-4  w-max'>
+                  {springProps.number.to(n => n.toFixed(0))}
+                </animated.span>
               )
+            ) : item.isDrax ? (
+              <animated.span className='text-xs sm:text-[14px] leading-4 w-max'>
+                {springCoin.number.to(n => n.toFixed(0))}
+              </animated.span>
             ) : (
-              <span className='text-xs sm:text-[14px] leading-4 w-max'>
-                {item.isDrax
-                  ? balance !== null
-                    ? Number(
-                        balance.amounts.find(item => item.name === 'Drax')
-                          ?.amount
-                      ).toFixed(2)
-                    : zero.toFixed(3)
-                  : balance !== null
-                  ? Number(
-                      balance.amounts.find(item => item.name === 'DraxBonus')
-                        ?.amount
-                    ).toFixed(2)
-                  : zero.toFixed(3)}
-              </span>
+              <animated.span className='text-xs sm:text-[14px] leading-4 w-max'>
+                {springBonus.number.to(n => n.toFixed(0))}
+              </animated.span>
             )}
             <span className='text-xs sm:text-[12px] leading-4'>
               {item.token}

@@ -10,6 +10,7 @@ import { useUnit } from 'effector-react'
 import { X } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const RedeemConfirmModal = () => {
   const useremail = 'example@gmail.com'
@@ -25,6 +26,9 @@ const RedeemConfirmModal = () => {
   const handleClose = () => {
     setRedeemConfirm(false)
   }
+
+  const { t } = useTranslation()
+
   return (
     <Dialog open={redeemConfirm} onOpenChange={handleClose}>
       <DialogContent
@@ -35,7 +39,7 @@ const RedeemConfirmModal = () => {
           <div className='flex justify-between items-center flex-row pr-2'>
             <div className='flex items-center gap-4 text-[#979797]'>
               <h5 className='tracking-[4%] font-semibold text-xl leading-7'>
-                Security question
+                {t(`modals.wallet.payment.security`)}
               </h5>
             </div>
             <div className='flex items-center gap-4'>
@@ -55,7 +59,7 @@ const RedeemConfirmModal = () => {
           <div className='flex flex-col gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
               <span>
-                Full your email address ({useremail.slice(0, 4)}
+                {t(`modals.wallet.payment.full`)} ({useremail.slice(0, 4)}
                 {useremail
                   .slice(4)
                   .split(/[A-Za-z]/)
@@ -70,13 +74,13 @@ const RedeemConfirmModal = () => {
                 value={user.email}
                 type='email'
                 onChange={e => setUser({ ...user, email: e.target.value })}
-                placeholder='Full your email address'
+                placeholder={t(`modals.wallet.payment.full`)}
               />
             </div>
           </div>
           <div className='flex flex-col gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
-              <span>Input your account password</span>
+              <span>{t(`modals.wallet.payment.input_password`)}</span>
             </div>
 
             <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
@@ -94,7 +98,7 @@ const RedeemConfirmModal = () => {
               href='#'
               className='text-sm leading-5 underline text-[#979797]'
             >
-              Forget password?
+              {t(`modals.wallet.payment.forgot`)}
             </Link>
             <div className='flex items-center gap-4'>
               <Button
@@ -102,7 +106,7 @@ const RedeemConfirmModal = () => {
                 size='sm'
                 className='bg-[#202020] border text-base font-bold text-[#7E7E7E] border-[#363636] rounded-md'
               >
-                Cancel
+                {t(`modals.wallet.payment.Cancel`)}
               </Button>
               <Button
                 variant='ghost'
@@ -112,7 +116,7 @@ const RedeemConfirmModal = () => {
                 size='sm'
                 className='bg-[#231F18] border  text-base font-bold text-[#FFE09D] border-[#907640] rounded-md'
               >
-                Confirm
+                {t(`modals.wallet.payment.Confirm`)}
               </Button>
             </div>
           </div>

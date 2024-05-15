@@ -16,6 +16,7 @@ import { AffilateSVG, NftSVG, SupportSVG } from './components/icons/bottom'
 import { BonusSVG, HomeSVG, VipSVG } from './components/icons/top'
 import Image from 'next/image'
 import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
+import { LanguageToggle } from './components/LanguageToggle'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -69,6 +70,11 @@ const Sidebar = () => {
             </div>
           </div>
           <div className='flex flex-1' />
+          {open && (
+            <div className='mt-auto w-full p-5 flex justify-end'>
+              <LanguageToggle disabled={false} />
+            </div>
+          )}
           <SidebarMobileSettings
             open={open}
             handleAction={() => setOpen(!open)}

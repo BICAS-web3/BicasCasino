@@ -14,6 +14,7 @@ import {
 import { useState } from 'react'
 
 import { tips_data } from '../data'
+import { useTranslation } from 'react-i18next'
 
 const TabTips = () => {
   const [amount, setAmount] = useState<number>(0.2454)
@@ -39,6 +40,8 @@ const TabTips = () => {
   const handleUserName = e => {
     setUsername(e.target.value)
   }
+
+  const { t } = useTranslation()
 
   return (
     <div className='flex flex-col gap-3'>
@@ -70,7 +73,9 @@ const TabTips = () => {
 
       <div className='flex flex-col gap-5'>
         <div className='flex flex-col gap-1'>
-          <h6 className='text-base text-[#979797] font-semibold'>Username</h6>
+          <h6 className='text-base text-[#979797] font-semibold'>
+            {t(`modals.wallet.payment.tips.Username`)}
+          </h6>
 
           <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
             <Input
@@ -78,13 +83,15 @@ const TabTips = () => {
               value={Username}
               type='string'
               onChange={handleUserName}
-              placeholder={`Your username`}
+              placeholder={t(`modals.wallet.payment.tips.your`)}
             />
           </div>
         </div>
 
         <div className='flex flex-col gap-1'>
-          <h6 className='text-base text-[#979797] font-semibold'>Tip amount</h6>
+          <h6 className='text-base text-[#979797] font-semibold'>
+            {t(`modals.wallet.payment.tips.tips_amount`)}
+          </h6>
           <div className='flex items-center pr-4 flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
             <Input
               className='w-full flex-1 h-10 rounded-none'
@@ -92,7 +99,7 @@ const TabTips = () => {
               type='number'
               step={0.01}
               onChange={handleAmount}
-              placeholder={`Amount`}
+              placeholder={t(`modals.wallet.payment.tips.amount`)}
             />
             <div className='flex items-center justify-center h-5 aspect-square'>
               {purchaseI.icon}
@@ -101,11 +108,11 @@ const TabTips = () => {
         </div>
 
         <Button className='w-full max-w-full text-sm border border-[#907640] bg-[#252019] hover:bg-[#25201950] transition-all duration-300 text-[#FFE09D] font-bold'>
-          Send {amount}
+          {t(`modals.wallet.payment.tips.btn`)} {amount}
         </Button>
 
         <p className='text-sm text-[#979797] font-medium text-center'>
-          Your remaining balance must be greater or equal to 20 DC
+          {t(`modals.wallet.payment.tips.text`)}
         </p>
       </div>
     </div>

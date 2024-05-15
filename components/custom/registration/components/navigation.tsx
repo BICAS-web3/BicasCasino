@@ -1,42 +1,42 @@
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 interface INavigation {
   isSignup: 'up' | 'in' | 'recovery'
 }
 
-const Navigation = ({ isSignup }: INavigation) => (
-  <div className='mt-[20px] flex'>
-    <Link
-      href={'/auth/registration'}
-      className={`
-                    transition-all duration-400 cursor-pointer flex h-[45px]
-                    items-center justify-center w-[80px] text-[14px] font-normal
+const Navigation = ({ isSignup }: INavigation) => {
+  const { t } = useTranslation()
+  return (
+    <div className='mt-[20px] flex'>
+      <Link
+        href={'/auth/registration'}
+        className={`transition-all duration-400 cursor-pointer flex h-[45px]
+                    items-center justify-center px-2 min-w-[80px] text-[14px] font-normal
                     leading-[19px] tracking-def border-b border-border-black text-[#7E7E7E]
                     ${
                       isSignup === 'up'
                         ? 'bg-[linear-gradient(180deg,_rgba(255,_183,_0,_0)_19.23%,_rgba(255,_183,_0,_0.15)_100%)] border-b !border-orange !text-white'
                         : ''
-                    }
-                  `}
-    >
-      Sign Up
-    </Link>
-    <Link
-      href='/auth/login'
-      className={`
-                  transition-all duration-400 cursor-pointer flex h-[45px]
-                  items-center justify-center w-[80px] text-[14px] font-normal
+                    }`}
+      >
+        {t(`pages.auth.btns.up`)}
+      </Link>
+      <Link
+        href='/auth/login'
+        className={`transition-all duration-400 cursor-pointer flex h-[45px]
+                  items-center justify-center px-2 min-w-[80px] text-[14px] font-normal
                   leading-[19px] tracking-def border-b border-border-black text-[#7E7E7E]
                   ${
                     isSignup === 'in'
                       ? 'bg-[linear-gradient(180deg,_rgba(255,_183,_0,_0)_19.23%,_rgba(255,_183,_0,_0.15)_100%)] border-b !border-orange !text-white'
                       : ''
-                  }
-                `}
-    >
-      Sign In
-    </Link>
-  </div>
-)
+                  }`}
+      >
+        {t(`pages.auth.btns.in`)}
+      </Link>
+    </div>
+  )
+}
 
 export default Navigation

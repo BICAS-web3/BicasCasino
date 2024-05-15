@@ -35,6 +35,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { InvoiceCreate, InvoicePriceItem, Rate } from '@/types/payment.types'
 import Image from 'next/image'
+import { useTranslation } from 'react-i18next'
 
 const WaitingModal = () => {
   const [address, setAddress] = useState('')
@@ -153,6 +154,9 @@ const WaitingModal = () => {
   }, [priceList, coinList])
 
   const [ercActive, setErcActive] = useState(true)
+
+  const { t } = useTranslation()
+
   return (
     <>
       <DialogHeader>
@@ -160,7 +164,7 @@ const WaitingModal = () => {
           <div className='flex items-center gap-4 text-[#979797]'>
             <WalletSVG className='w-5 aspect-square object-contain' />
             <h5 className='tracking-[4%] font-semibold text-xl leading-7'>
-              Purchase
+              {t(`modals.wallet.purchase.waiting.Purchase`)}
             </h5>
           </div>
           <Button size='icon' variant='ghost' onClick={handleClose}>
@@ -173,7 +177,7 @@ const WaitingModal = () => {
       <div className='flex flex-col gap-5'>
         <div className='flex flex-col gap-1'>
           <h6 className='text-[#979797] text-sm sm:text-lg leading-6 font-semibold tracking-wider'>
-            Estimate Receive
+            {t(`modals.wallet.purchase.waiting.subtitle`)}
           </h6>
           <div className='grid grid-cols-2 h-[55px] p-[5px_10px] gap-1 bg-[#202020] border border-[#252525] rounded-lg min-h-14 box-border'>
             {estimateData.map((item, index) => (
@@ -183,7 +187,7 @@ const WaitingModal = () => {
                 )}-${index}`}
                 className='text-[#979797] text-sm font-light leading-5 tracking-wider'
               >
-                {item.title}
+                {t(`modals.wallet.purchase.waiting.${item.title}`)}
                 <div className='flex gap-2 h-[20px] items-center text-[#979797] mt-1'>
                   {item.icon}
                   <span className='text-sm sm:text-lg'>{item.count}</span>
@@ -196,7 +200,7 @@ const WaitingModal = () => {
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
             <h6 className='text-base font-semibold text-[#979797]'>
-              Send Amount
+              {t(`modals.wallet.purchase.waiting.send`)}
             </h6>
             <h6 className='text-base font-semibold text-[#979797]'>
               &asymp;{purchase.toLocaleString('en-US')}USDT
@@ -208,7 +212,7 @@ const WaitingModal = () => {
               value={amount || 0}
               readOnly
               type='number'
-              placeholder='amount'
+              placeholder={t(`modals.wallet.purchase.waiting.amount`)}
             />
             <Select onValueChange={handleSelect}>
               <SelectTrigger className='w-40 h-10 rounded-none bg-[#202020]'>
@@ -277,7 +281,7 @@ const WaitingModal = () => {
             )}
             <div className='w-full flex gap-1 items-center justify-center text-base font-semibold text-[#979797]'>
               <span>{coinList.title.split('_')[0]}</span>
-              <span>Send Address</span>
+              <span>{t(`modals.wallet.purchase.waiting.send_address`)}</span>
             </div>
           </div>
 
@@ -313,16 +317,17 @@ const WaitingModal = () => {
         </div>
 
         <div className='flex flex-col p-2.5 w-full bg-[#212121] rounded-lg'>
-          <h6 className='text-sm text-[#979797] font-medium'>Disclaimer:</h6>
+          <h6 className='text-sm text-[#979797] font-medium'>
+            {t(`modals.wallet.purchase.waiting.Disclaimer`)}
+          </h6>
           <p className='text-sm text-[#979797] font-medium'>
-            The exact amount you receive is subject to real-time exchange rate
-            and the actual send amount at the time arrival.
+            {t(`modals.wallet.purchase.waiting.text`)}
           </p>
         </div>
 
         <div className='flex flex-nowrap gap-5'>
           <Button className='flex-1 text-base font-semibold' variant='gray'>
-            Waiting for payment
+            {t(`modals.wallet.purchase.waiting.waiting`)}
           </Button>
           <Button className='min-w-10 sm:min-w-36' variant='gray'>
             <LoaderSVG className='animate-spin duration-1000' />

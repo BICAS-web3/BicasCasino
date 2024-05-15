@@ -13,6 +13,7 @@ import { GameModel, SessionModel, UserModel } from '@/states'
 // import * as GameModel from "@/widgets/GamePage/model";
 
 import * as api from '@/api'
+import { useTranslation } from 'react-i18next'
 
 enum Page {
   AllBets = 0,
@@ -144,6 +145,9 @@ export const CustomBets: FC<CustomBetsProps> = props => {
       setBets(new_bets.bets)
     })()
   }, [newBet])
+
+  const { t } = useTranslation()
+
   return (
     <div className='w-full flex-col items-center sm:rounded-[12px] flex bg-black-def py-[45px]'>
       <div
@@ -153,7 +157,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           {(props?.isMainPage || props?.isGamePage) && (
             <div className='w-[9px] h-[9px] bg-bets-gr rounded-full mr-[10px] animate-pulse'></div>
           )}
-          {props?.title}
+          {t('pages.main.live_bets.title')}
         </h2>
         <div className='flex items-center gap-[12px] w-[180px] sm:w-[240px]'>
           <div className='h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[12px] uppercase text-[#181818] text-[12px] sm:text-[14px] font-bold bg-[#FFE09D]'>all bets</div>
@@ -170,37 +174,34 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         gap-x-[5px] content-between mb-[7px] '
         >
           <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
-            Time
+            {t('pages.main.live_bets.titles.Time')}
           </span>
           <span className='text-bets-title-color pr-[15px] sm:pr-0 text-center mmd:text-start text-footer-text-xs sm:text-[14px]'>
-            Game
+            {t('pages.main.live_bets.titles.Game')}
           </span>
           <span className='text-bets-title-color emd:pr-[50px] emd:text-center text-footer-text-xs sm:text-[14px]'>
-            Player
+            {t('pages.main.live_bets.titles.Player')}
           </span>
-          <span
-            className='text-bets-title-color min-w-max text-footer-text-xs hidden mmd:block sm:text-[14px]'
-            // data-id='address'
-          >
-            Number of games
+          <span className='text-bets-title-color min-w-max text-footer-text-xs hidden mmd:block sm:text-[14px]'>
+            {t('pages.main.live_bets.titles.Number of games')}
           </span>
           <span
             className='text-bets-title-color mmd:pr-[25px] mmd:text-center text-footer-text-xs hidden sm:block sm:text-[14px]'
             data-id='wager'
           >
-            Wager
+            {t('pages.main.live_bets.titles.Wager')}
           </span>
           <span
             className='text-bets-title-color md:pl-[15px] md:text-center text-footer-text-xs hidden md:block sm:text-[14px]'
             data-id='multiplier'
           >
-            Multiplier
+            {t('pages.main.live_bets.titles.Multiplier')}
           </span>
           <span
             className='text-bets-title-color text-footer-text-xs flex justify-end sm:text-[14px]'
             data-id='profit'
           >
-            Profit
+            {t('pages.main.live_bets.titles.Profit')}
           </span>
         </div>
         <div className='flex flex-col border-t-[1px] border-b-[1px] border-[#252525] '>

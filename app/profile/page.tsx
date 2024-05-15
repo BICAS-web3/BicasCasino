@@ -12,12 +12,13 @@ import { SettingsVerify } from './components/verify/SettingsVerify'
 import { VerifyWarn } from './components/verifyWarn/VerifyWarn'
 import { SettingsBonusdrop } from './components/bonusDrop/SettingsBonusdrop'
 import { SettingsExclusion } from './components/exclusion/SettingsExclusion'
+import { useTranslation } from 'react-i18next'
 
 interface ProfileProps {}
 
 const Profile: FC<ProfileProps> = () => {
   const [tab, setTab] = useState('profile')
-
+  const { t } = useTranslation()
   return (
     <Tabs
       className='p-[1.25rem_2.5rem] box-border h-full'
@@ -27,7 +28,7 @@ const Profile: FC<ProfileProps> = () => {
       <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <SettingsIco />
-          Settings
+          {t(`pages.settings.Preferences.title`)}
         </span>
         <div className='flex flex-col tb:flex-row gap-[1.25rem] tb:gap-[2.5rem] mt-[20px] h-[calc(100%_-_2.5rem)] box-border'>
           <ProfileSidebar setTab={setTab} />

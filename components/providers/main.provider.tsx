@@ -9,8 +9,11 @@ import Sidebar from '@/components/custom/sidebar'
 
 import ModalProvider from './modal.provider'
 import StoreProvider from './store.provider'
+// import './i18n'
 
-import { useLayoutEffect, useState } from 'react'
+import '@/i18n'
+
+import { Suspense, useLayoutEffect, useState } from 'react'
 
 import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
@@ -30,35 +33,37 @@ const MainProvider = ({ children }: Props) => {
   const [open] = useUnit([SidebarModel.$open])
 
   return (
-    <StoreProvider>
-      <SocketProvider>
-        <ThemeProvider attribute='class' defaultTheme='system'>
-          <SessionProvider>
-            {!loaded ? (
-              <Preload />
-            ) : (
-              <main className='min-h-screen flex flex-col relative '>
-                <Header />
-                <div
-                  className={`flex flex-col sm:flex-row flex-nowrap relative`}
-                >
-                  <Sidebar />
+    <Suspense fallback={<Preload />}>
+      <StoreProvider>
+        <SocketProvider>
+          <ThemeProvider attribute='class' defaultTheme='system'>
+            <SessionProvider>
+              {!loaded ? (
+                <Preload />
+              ) : (
+                <main className='min-h-screen flex flex-col relative '>
+                  <Header />
                   <div
-                    className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
-                      !open && 'tbbs:ml-[90px] mmd:ml-0'
-                    }`}
+                    className={`flex flex-col sm:flex-row flex-nowrap relative`}
                   >
-                    {children}
+                    <Sidebar />
+                    <div
+                      className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
+                        !open && 'tbbs:ml-[90px] mmd:ml-0'
+                      }`}
+                    >
+                      {children}
+                    </div>
                   </div>
-                </div>
-                <Toaster position='top-right' />
-              </main>
-            )}
-            <ModalProvider />
-          </SessionProvider>
-        </ThemeProvider>
-      </SocketProvider>
-    </StoreProvider>
+                  <Toaster position='top-right' />
+                </main>
+              )}
+              <ModalProvider />
+            </SessionProvider>
+          </ThemeProvider>
+        </SocketProvider>
+      </StoreProvider>
+    </Suspense>
   )
 }
 

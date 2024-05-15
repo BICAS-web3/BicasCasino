@@ -26,11 +26,11 @@ import goalsImg from '@/public/images/sidebar-icons/goals.png'
 import Image from 'next/image'
 
 export const MobMenu = [
-  {
-    icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
-    title: 'CHEST & CARD',
-    id: 'modal'
-  },
+  // {
+  //   icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
+  //   title: 'CHEST & CARD',
+  //   id: 'modal'
+  // },
   {
     icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
     title: 'VIP Club',
@@ -81,11 +81,11 @@ export const STopMenu = [
       }
     ]
   },
-  {
-    icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
-    title: 'CHEST & CARD',
-    id: 'modal'
-  },
+  // {
+  //   icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
+  //   title: 'CHEST & CARD',
+  //   id: 'modal'
+  // },
   {
     icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
     title: 'VIP Club',

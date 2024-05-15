@@ -1,5 +1,7 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import copyIco from '@/public/payment/copyIco.png'
+import { Button } from '@/components/ui/button'
+import { EyeClose, EyeOpen } from '@/app/auth/(icons)'
 
 interface InputBlockProps {
   title: string
@@ -8,6 +10,9 @@ interface InputBlockProps {
   isNecessarily?: boolean
   disabled?: boolean
   copy?: boolean
+  value?: string
+  setValue?: (el: string) => void
+  type?: string
 }
 
 export const InputBlock: FC<InputBlockProps> = ({
@@ -16,8 +21,12 @@ export const InputBlock: FC<InputBlockProps> = ({
   placeholder,
   disabled,
   isNecessarily,
-  copy
+  copy,
+  value,
+  setValue,
+  type = 'string'
 }) => {
+  const [showPassword, setShowPassword] = useState(false)
   return (
     <div className='flex flex-col justify-between gap-[4px]'>
       <span className='text-white text-[14px] font-bold leading-[18px]'>
@@ -30,7 +39,11 @@ export const InputBlock: FC<InputBlockProps> = ({
       )}
       <div className='relative w-full max-w-[480px]'>
         <input
-          type='text'
+          value={value}
+          onChange={el => setValue?.(el.target.value)}
+          type={
+            type === 'password' ? (showPassword ? 'text' : 'password') : type
+          }
           disabled={disabled}
           placeholder={placeholder}
           className={`
@@ -48,6 +61,16 @@ export const InputBlock: FC<InputBlockProps> = ({
             alt='copy'
             className='absolute top-[10px] right-[20px] cursor-pointer'
           />
+        )}
+        {type === 'password' && (
+          <Button
+            variant='noneBg'
+            type='button'
+            className='h-full flex justify-center items-center p-0 absolute top-1/2 -translate-y-1/2 right-5 w-fit'
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {!showPassword ? <EyeClose /> : <EyeOpen />}
+          </Button>
         )}
       </div>
     </div>

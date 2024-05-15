@@ -4,6 +4,7 @@ import { GameModel, WagerModel } from '@/states'
 import { IGameAmount } from '@/types/games.types'
 import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const MinesSettings = () => {
   const changeInputValue = value => {
@@ -23,6 +24,8 @@ export const MinesSettings = () => {
     pickValue(1)
   }, [])
 
+  const { t } = useTranslation()
+
   return (
     <div
       className={`duration-300 ${
@@ -31,7 +34,7 @@ export const MinesSettings = () => {
     >
       <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64 game-amount'>
         <h3 className='text-[#7E7E7E] text-sm font-semibold'>
-          Number of mines: {pickedValue}
+          {t(`pages.games.mines`)} {pickedValue}
         </h3>
         <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
           <span>{pickedValue}</span>
