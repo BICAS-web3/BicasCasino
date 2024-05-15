@@ -15,6 +15,7 @@ import { Tile, initialGameField, initialPickedTiles } from '../data'
 import { handleResult, pickTileforMine } from '../utils'
 import SelectedMine from './selected.mine'
 import './styles.scss'
+import ReactHowler from 'react-howler'
 const MinesGame = () => {
   const socket = useSocket()
   const [
@@ -313,6 +314,14 @@ const MinesGame = () => {
         backgroundSize: 'cover'
       }}
     >
+      {waitingResponse && (
+        <ReactHowler
+          src={'/music/mines_animation.mp3'}
+          playing={playSounds !== 'off'}
+          rate={1}
+          loop
+        />
+      )}
       <Coefficient common ballsArr={coefficientData} />
       <div className='scale-[1.25] sm:scale-[1] w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'>
         {redrawTrigger &&

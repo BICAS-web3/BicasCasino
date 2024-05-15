@@ -13,6 +13,7 @@ import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import Image from 'next/image'
 import useSound from 'use-sound'
+import ReactHowler from 'react-howler'
 
 export enum ModelType {
   Paper = 'Paper',
@@ -206,6 +207,14 @@ const PRSGame = () => {
 
   return (
     <div className='h-full w-full relative pt-9  flex-[1_1_auto] flex flex-col'>
+      {startAnimation && (
+        <ReactHowler
+          src={'/music/rps_animation.mp3'}
+          playing={playSounds !== 'off'}
+          rate={1}
+          loop
+        />
+      )}
       <div className='w-full h-full absolute top-0 left-0 bottom-0 right-0 -z-[1]'>
         <Image src={bg} className='w-full object-cover h-full' alt='table-bg' />
       </div>

@@ -77,7 +77,10 @@ export const handleGameResult = (
   setStart: Dispatch<SetStateAction<boolean>>,
   setWaitingResponse: Dispatch<SetStateAction<boolean>>,
   setResult: Dispatch<SetStateAction<IResult | null>>,
-  setCoefficientData: Dispatch<SetStateAction<number[]>>
+  setCoefficientData: Dispatch<SetStateAction<number[]>>,
+  applesLose: () => void,
+  applesWin: () => void,
+  playSounds: string
 ) => {
   if (result) {
     if (result.type === 'State' && result.state) {
@@ -120,6 +123,7 @@ export const handleGameResult = (
         Number(result.profit) === Number(result.amount)
       ) {
         setGameStatus(GameModel.GameStatus.Won)
+        playSounds !== 'off' && applesWin()
         const multiplier = Number(Number(result.profit) / Number(result.amount))
         setWonStatus({
           profit: Number(result.profit),
@@ -131,6 +135,7 @@ export const handleGameResult = (
         setApples(JSON.parse(result.state).picked_tiles)
         setMines(dataState)
         setGameStatus(GameModel.GameStatus.Lost)
+        playSounds !== 'off' && applesLose()
         setLostStatus(Number(result.profit) - Number(result.amount))
       }
     }
