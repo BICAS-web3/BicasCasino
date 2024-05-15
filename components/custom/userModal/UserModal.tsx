@@ -73,7 +73,7 @@ export const UserModal: FC<UserModalProps> = () => {
       >
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-[10px] text-[#979797] text-[17px] font-bold'>
-            <ModalIco />
+            <ModalIco className='min-w-[24px]' />
 
             {t(`modals.profile.UserInfo`)}
           </div>
@@ -84,7 +84,7 @@ export const UserModal: FC<UserModalProps> = () => {
         </div>
         <div className='grid mt-[20px] grid-cols-2 gap-[5px]'>
           <div className='flex gap-[15px]'>
-            <div className='w-full max-w-[100px] h-[100px] flex items-center justify-center rounded-[50%] bg-[#F57731]'>
+            <div className='w-full min-w-[70px] sm:min-w-[100px] max-w-[70px] sm:max-w-[100px] h-[70px] sm:h-[100px] flex items-center justify-center rounded-[50%] bg-[#F57731]'>
               GK
             </div>
             <div className='flex flex-col justify-between items-start'>
@@ -92,9 +92,9 @@ export const UserModal: FC<UserModalProps> = () => {
                 {/* {t(`modals.profile.UserName`)} */}
                 {userInfo?.username}
               </span>
-              <div className='bg-[#121212] h-[30px] rounded-[50px] p-[10px_16px] gap-[5px] w-full max-w-max items-center flex justify-center'>
+              <div className='bg-[#121212] h-[30px] rounded-[50px] p-[8px_10px] min-w-[120px] sm:p-[10px_16px] gap-[5px] w-full max-w-max items-center flex justify-center'>
                 <img src={lvlImg.src} alt='lvl' className='' />
-                <span className='text-[12px] font-bold'>
+                <span className='text-[12px] text-nowrap font-bold'>
                   {t(`modals.profile.level`)} 2
                 </span>
               </div>
@@ -135,7 +135,7 @@ export const UserModal: FC<UserModalProps> = () => {
           </div>
         </div>
         <div className='grid mt-[20px] grid-cols-2 gap-[10px]'>
-          <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
+          <div className='bg-[#121212] flex-col min-h-[60px] flex justify-center items-center p-[0_10px]'>
             <span className='text-[#fff] text-[15px] font-bold'>
               {betData?.won_bets || 0}
             </span>
@@ -143,7 +143,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {t(`modals.profile.wins`)}
             </span>
           </div>
-          <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
+          <div className='bg-[#121212] flex-col min-h-[60px] flex justify-center items-center p-[0_10px]'>
             <span className='text-[#fff] text-[15px] font-bold'>
               {betData?.lost_bets || 0}
             </span>
@@ -151,7 +151,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {t(`modals.profile.losses`)}
             </span>
           </div>
-          <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
+          <div className='bg-[#121212] flex-col min-h-[60px] flex justify-center items-center p-[0_10px]'>
             <span className='text-[#fff] text-[15px] font-bold'>
               {betData?.bets_amount || 0}
             </span>
@@ -159,7 +159,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {t(`modals.profile.bets`)}
             </span>
           </div>
-          <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
+          <div className='bg-[#121212] flex-col min-h-[60px] flex justify-center items-center p-[0_10px]'>
             <span className='text-[#fff] text-[15px] font-bold'>
               {Number(betData?.total_wagered_sum || 0).toFixed(3)}
             </span>
