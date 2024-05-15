@@ -147,7 +147,7 @@ const WaitingModal = () => {
         purchase /
         (priceList
           .find((item: InvoicePriceItem) => item.monetary === coinList.title)
-          ?.rates.find((el: Rate) => el.fiatCurrency === 'USD').rate || 10)
+          ?.rates.find((el: Rate) => el.fiatCurrency === 'USD').rate || 1)
       // alert(JSON.stringify(amount))
       setAmount(amount)
     }
