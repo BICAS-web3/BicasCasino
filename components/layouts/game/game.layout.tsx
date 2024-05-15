@@ -103,10 +103,6 @@ const GameLayout = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    setGamesClose(false)
-  }, [])
-
   return (
     <div className='w-full sm:p-10 sm:pb-5 flex flex-col min-h-[calc(100vh-112px)] sm:min-h-[calc(100vh-100px)] xl:min-h-[calc(100vh-110px)] 3xl:min-h-[calc(100vh-90px)] relative'>
       <ReactHowler

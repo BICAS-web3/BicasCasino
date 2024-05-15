@@ -14,10 +14,11 @@ export const GameAuto: FC<GameAutoProps> = () => {
 
   const [inpValue, setInpValue] = useState(1.98)
 
-  const [visible, pickValue, pickedValue] = useUnit([
+  const [visible, pickValue, pickedValue, setVisible] = useUnit([
     GameModel.$autoVisible,
     WagerModel.pickValue,
-    WagerModel.$pickedValue
+    WagerModel.$pickedValue,
+    GameModel.setAutoVisible
   ])
 
   const path = usePathname()
@@ -25,10 +26,33 @@ export const GameAuto: FC<GameAutoProps> = () => {
     pickValue(1)
   }, [path])
 
+  // const gameRef = useRef
+
+  const useOutsideAlerter = () => {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        const closableElements = document.querySelectorAll('[data-game-auto]');
+        const isClickInsideClosable = Array.from(closableElements).some(element => element.contains(event.target));
+        
+        if (!isClickInsideClosable) {
+          setVisible(false)
+        }
+      }
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+  }
+  
+  useOutsideAlerter();
   const { t } = useTranslation()
 
   return (
     <div
+      // ref={gameRef}
+      data-game-auto
       className={`duration-300 z-[3] ${
         visible ? 'opacity-1 visible' : 'opacity-0 invisible h-0 !p-0'
       } col-start-1 col-end-3 m-[0_auto] w-full max-w-[330px] tbs:absolute tbs:top-[calc(-100%_-_80px)] bg-[#151515] tbs:right-[50px] rounded-[20px] border-[#3e3e3e] p-[10px_20px_20px_20px] box-border`}

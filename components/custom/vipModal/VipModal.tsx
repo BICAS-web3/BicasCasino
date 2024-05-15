@@ -34,7 +34,7 @@ export const VipModal:FC<VipModal> = () => {
     return (
         <Dialog open={visibility} onOpenChange={() => setVisibility(false)} >
             <DialogContent className='gap-0 !flex flex-col max-w-[525px] !h-fit bg-[#181818] p-[5px_18px_18px_18px]' customClose>
-                <div className='flex justify-between items-center pb-[5px] flex-row pr-2'>
+                <div className='flex justify-between items-center pt-[12px] pb-[5px] flex-row pr-2'>
                     <div className='flex items-center gap-[10px] text-[#979797]'>
                         <VaultIco className='w-5 aspect-square object-contain' />
                         <h5 className='text-[17px] tracking-[4%] leading-[23px] text-[#979797] mt-[2px] font-bold'>
@@ -43,14 +43,7 @@ export const VipModal:FC<VipModal> = () => {
                         </div>
                         <div className='flex items-center gap-4'>
                             <span className='underline text-[#FFE09D] text-[15px] font-medium cursor-pointer'>Transactions</span>
-                            <Button
-                                className=''
-                                size='icon'
-                                variant='ghost'
-                                onClick={() => setVisibility(false)}
-                            >
-                                <X className='w-5 h-5 aspect-square object-contain text-[#3E3E3E]' />
-                            </Button>
+                            <X onClick={() => setVisibility(false)} className='w-[24px] relative left-[10px] h-[24px] cursor-pointer aspect-square object-contain text-[#3E3E3E]' />
                     </div>
                 </div>
                 <Separator className='mt-[0]' />
@@ -60,7 +53,7 @@ export const VipModal:FC<VipModal> = () => {
                                 {tabData.map((tabItem, index) => (
                                     <TabsTrigger
                                         value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
-                                        className='rounded-full min-h-10 text-lg data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
+                                        className='rounded-full !text-[15px] sm:!text-[18px] min-h-10 text-lg data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
                                         key={`payment-modal-title--${stringRemoveSpacing(
                                         tabItem.toLocaleLowerCase()
                                         )}-${index}`}

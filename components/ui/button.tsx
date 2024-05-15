@@ -22,6 +22,8 @@ const buttonVariants = cva(
                 link: 'text-primary underline-offset-4 hover:underline',
                 gray: 'bg-[#20202080] border border-[#363636]',
                 gold: 'bg-[linear-gradient(113.81deg,#F8EEB8_-4.17%,#DBB370_59.03%,#8E5B2D_112.39%)]',
+                supportLink:
+                    'cursor-pointer rounded-[12px] border border-[#2e2e2e] bg-[rgba(24,_24,_24,_0.6)] flex items-center justify-center w-[160px] sm:w-[200px] text-[0.875rem] sm:text-[1rem] leading-[19.6px] sm:leading-[22.4px] h-[40px] font-bold tracking-[0.64px]',
                 auth: `text-[16px] h-[40px] border border-orange cursor-pointer flex
             justify-center items-center rounded-[8px] w-full text-orange
             font-bold leading-[16px] tracking-def text-center transition-all duration-300

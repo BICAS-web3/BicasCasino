@@ -52,6 +52,17 @@
   }
 }
 
+.chestModal {
+  // overflow: hidden;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    appearance: none !important;
+    width: 0 !important;
+    background: red !important;
+  }
+}
+
 .bottom-svg:hover {
   svg {
     path {
