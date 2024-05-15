@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { GameModel, HeaderM, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import ModalIco from '@/public/images/userModal/modalIco.svg'
@@ -13,6 +13,7 @@ import BonusIco from '@/public/images/userModal/bonusIco.svg'
 import DraxIco from '@/public/images/userModal/draxIco.svg'
 import { IAmount } from '../header/components/balance.switch'
 import { useTranslation } from 'react-i18next'
+import { getUserBetData } from '@/api'
 
 interface UserModalProps {}
 
@@ -34,6 +35,30 @@ export const UserModal: FC<UserModalProps> = () => {
   }
 
   const { t } = useTranslation()
+
+  const [userInfo] = useUnit([UserModel.$userInfo])
+
+  const [betData, setBetData] = useState<null | {
+    type: string
+    bets_amount: number
+    lost_bets: number
+    won_bets: number
+    total_wagered_sum: string
+    gross_profit: string
+    net_profit: string
+    highest_win: string
+  }>(null)
+
+  useEffect(() => {
+    if (userInfo?.id) {
+      ;(async () => {
+        const data = await getUserBetData({ id: userInfo.id })
+        if (data.status === 'OK') {
+          setBetData((data as any).body)
+        }
+      })()
+    }
+  }, [userInfo])
 
   return (
     <Dialog open={visibility} onOpenChange={() => setVisibility(false)}>
@@ -59,7 +84,8 @@ export const UserModal: FC<UserModalProps> = () => {
             </div>
             <div className='flex flex-col justify-between items-start'>
               <span className='text-[17px] font-bold'>
-                {t(`modals.profile.UserName`)}
+                {/* {t(`modals.profile.UserName`)} */}
+                {userInfo?.username}
               </span>
               <div className='bg-[#121212] h-[30px] rounded-[50px] p-[10px_16px] gap-[5px] w-full max-w-[125px] items-center flex justify-center'>
                 <img src={lvlImg.src} alt='lvl' className='' />
@@ -79,7 +105,7 @@ export const UserModal: FC<UserModalProps> = () => {
                 <LikeIco />0
               </div>
             </div>
-            <div className='rounded-[50px] flex gap-[5px] w-fit bg-[#121212] border border-[#212121] p-[4px]'>
+            {/* <div className='rounded-[50px] flex gap-[5px] w-fit bg-[#121212] border border-[#212121] p-[4px]'>
               <div
                 onClick={() => changeToken(false)}
                 className={`flex cursor-pointer gap-[10px] ${
@@ -98,32 +124,43 @@ export const UserModal: FC<UserModalProps> = () => {
                 <DraxIco />
                 {t(`modals.profile.drax`)}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className='grid mt-[20px] grid-cols-2 gap-[10px]'>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
-            <span className='text-[#fff] text-[15px] font-bold'>3</span>
+            <span className='text-[#fff] text-[15px] font-bold'>
+              {betData?.won_bets || 0}
+            </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
               {t(`modals.profile.wins`)}
             </span>
           </div>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
-            <span className='text-[#fff] text-[15px] font-bold'>3</span>
+            <span className='text-[#fff] text-[15px] font-bold'>
+              {betData?.lost_bets || 0}
+            </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {t(`modals.profile.wins`)}
+              {/* {t(`modals.profile.wins`)} */}
+              Losses
             </span>
           </div>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
-            <span className='text-[#fff] text-[15px] font-bold'>3</span>
+            <span className='text-[#fff] text-[15px] font-bold'>
+              {betData?.bets_amount || 0}
+            </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {t(`modals.profile.wins`)}
+              {/* {t(`modals.profile.wins`)} */}
+              Bets
             </span>
           </div>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
-            <span className='text-[#fff] text-[15px] font-bold'>3</span>
+            <span className='text-[#fff] text-[15px] font-bold'>
+              {Number(betData?.total_wagered_sum || 0).toFixed(3)}
+            </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {t(`modals.profile.wins`)}
+              {/* {t(`modals.profile.wins`)} */}
+              Wagered
             </span>
           </div>
         </div>
