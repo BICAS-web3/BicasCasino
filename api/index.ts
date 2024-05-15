@@ -568,20 +568,15 @@ export type T_Datas = {
 }
 
 export type T_GetUserBets = {
-  address: string
+  address: string | number
   starting_id?: number | null
 }
 
 export const getUserBets = createEffect<T_GetUserBets, T_ApiResponse, string>(
   async form => {
-    return fetch(
-      `${BaseApiUrl}/bets/user/${form.address}/${
-        form.starting_id != null ? form.starting_id : ''
-      }`,
-      {
-        method: 'GET'
-      }
-    )
+    return fetch(`${BaseApiUrl}/bets/user/${form.address}`, {
+      method: 'GET'
+    })
       .then(async res => await res.json())
       .catch(e => e)
   }
@@ -610,7 +605,7 @@ export const getUserBetsInc = createEffect<
   string
 >(async form => {
   return fetch(
-    `${BaseApiUrl}/bets/user/inc/${form.address}/${
+    `${BaseApiUrl}/bets/user/i${form.address}nc/${form.address}/${
       form.starting_id != null ? form.starting_id : ''
     }`,
     {

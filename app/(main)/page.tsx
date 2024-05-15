@@ -35,7 +35,6 @@ import Footer from '@/components/custom/footer'
 import { MobileList } from './(components)/mobileList'
 import { CustomBets } from '@/components/custom/customBets/CustomBets'
 import { Total } from '@/components/custom/total/Total'
-import { LeaderBoard } from '@/components/custom/leaderboard/LeaderBoard'
 
 export const metadata: Metadata = {
   title: 'GreekKeepers: WEB 3.0 Crypto Games',
@@ -54,9 +53,12 @@ const Home = () => (
       <MobileList />
       <Total />
 
-      <CustomBets title='Live Bets' isMainPage isGamePage={false} game={undefined} />
-      <LeaderBoard />
-
+      <CustomBets
+        title='Live Bets'
+        isMainPage
+        isGamePage={false}
+        game={undefined}
+      />
     </div>
     <Footer />
   </div>

@@ -145,10 +145,10 @@ const WaitingModal = () => {
     if (priceList) {
       const amount =
         purchase /
-        priceList
+        (priceList
           .find((item: InvoicePriceItem) => item.monetary === coinList.title)
-          ?.rates.find((el: Rate) => el.fiatCurrency === 'USD').rate
-
+          ?.rates.find((el: Rate) => el.fiatCurrency === 'USD').rate || 1)
+      // alert(JSON.stringify(amount))
       setAmount(amount)
     }
   }, [priceList, coinList])
@@ -209,7 +209,7 @@ const WaitingModal = () => {
           <div className='flex gap-0 rounded-lg overflow-hidden border border-[#202020]'>
             <Input
               className='w-full flex-1 bg-[#121212] h-10 rounded-none'
-              value={amount || 0}
+              value={amount}
               readOnly
               type='number'
               placeholder={t(`modals.wallet.purchase.waiting.amount`)}

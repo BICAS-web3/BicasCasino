@@ -136,7 +136,25 @@ export const CustomBets: FC<CustomBetsProps> = props => {
     serverseed_id: 178
   }
   const [betsToDisplay, setBetsToDisplay] = useState<api.T_BetInfo[]>([])
-  const [gamesList] = useUnit([GameModel.$gamesList])
+  const [userBets, setUserBets] = useState(null)
+
+  useEffect(() => {
+    if (userInfo?.id) {
+      ;(async () => {
+        const data = await api.getUserBets({ address: userInfo.id })
+        // data && alert(JSON.stringify(data))
+        if (data.status === 'OK') {
+          setUserBets((data as any).body.bets)
+        }
+      })()
+    }
+  }, [userInfo])
+
+  const [gamesList, setShowAllBets, showAllBets] = useUnit([
+    GameModel.$gamesList,
+    UserModel.setShowAllBets,
+    UserModel.$showAllBets
+  ])
   useEffect(() => {
     ;(async () => {
       const new_bets = (await api.getAllLastBets()).body as api.T_Bets
@@ -160,8 +178,26 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           {t('pages.main.live_bets.title')}
         </h2>
         <div className='flex items-center gap-[12px] w-[180px] sm:w-[240px]'>
-          <div className='h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[12px] uppercase text-[#181818] text-[12px] sm:text-[14px] font-bold bg-[#FFE09D]'>all bets</div>
-          <div className='h-[40px] w-full flex items-center uppercase justify-center cursor-pointer rounded-[12px] text-[12px] sm:text-[14px] font-bold bg-[#202020] text-[#7E7E7E]'>my bets</div>
+          <button
+            onClick={() => setShowAllBets(true)}
+            className={`duration-500 h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[12px] uppercase text-[#181818] text-[12px] sm:text-[14px] font-bold ${
+              showAllBets
+                ? 'bg-[#FFE09D] text-[#181818]'
+                : 'bg-[#202020] text-[#7E7E7E]'
+            }`}
+          >
+            all bets
+          </button>
+          <button
+            onClick={() => setShowAllBets(false)}
+            className={`duration-500 h-[40px] w-full flex items-center uppercase justify-center cursor-pointer rounded-[12px] text-[12px] sm:text-[14px] font-bold ${
+              !showAllBets
+                ? 'bg-[#FFE09D] text-[#181818]'
+                : 'bg-[#202020] text-[#7E7E7E]'
+            }`}
+          >
+            my bets
+          </button>
         </div>
       </div>
       <div className='w-full mt-[35px]'>
@@ -206,7 +242,12 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         </div>
         <div className='flex flex-col border-t-[1px] border-b-[1px] border-[#252525] '>
           {Bets &&
-            Bets.map((bet, ind) => {
+            (showAllBets
+              ? Bets
+              : userBets
+              ? userBets
+              : Bets.filter(item => item.user_id === userInfo?.id)
+            ).map((bet, ind) => {
               const time = new Date(bet?.timestamp * 1000)
               const multiplier = Number(
                 parseFloat(

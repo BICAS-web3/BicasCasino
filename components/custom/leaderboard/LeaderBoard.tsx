@@ -1,50 +1,57 @@
-"use client"
-import { FC, useEffect, useState } from "react";
+'use client'
+import { FC, useEffect, useState } from 'react'
 
-import { useUnit } from "effector-react";
+import { useUnit } from 'effector-react'
 
-import clsx from "clsx";
-
+import clsx from 'clsx'
 
 // import * as Api from "@/api";
 
-import s from "./styles.module.scss";
-import { LeaderBoardItem } from "./LeaderBoardItem";
-import { useMediaQuery } from "usehooks-ts";
+import s from './styles.module.scss'
+import { LeaderBoardItem } from './LeaderBoardItem'
+import { useMediaQuery } from 'usehooks-ts'
+import { SettingModel } from '@/states'
+import { T_LeaderBoardResponse, getLeaderboard } from '@/api'
 
 interface LeaderBoardProps {}
 
 export const LeaderBoard: FC<LeaderBoardProps> = () => {
-//   const [apiResponse] = useUnit([settingsModel.$AvailableLeaderbord]);
-  // const [list, setList] = useState<any | Api.T_LeaderBoardResponse[]>(
-  //   apiResponse
-  // );
+  const [setLeaders, leaders] = useUnit([
+    SettingModel.setAvailableLeader,
+    SettingModel.$AvailableLeaderbord
+  ])
 
-  const [list, setList] = useState([])
+  const [activeButton, setActiveButton] = useState<string | null>(
+    'All Time_volume'
+  )
 
-//   useEffect(() => {
-//     setList(apiResponse);
-//   }, [apiResponse]);
-  const isMobile = useMediaQuery("(max-width: 650px)");
+  const setDefaultValue = async () => {
+    const data = (await getLeaderboard({ time: 'all', return: 'volume' }))
+      .body as any
 
-//   useEffect(() => {
-//     window.innerWidth <= 650 &&
-//       setList(
-//         apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
-//       );
-//   }, [apiResponse]);
+    data && alert(JSON.stringify(data))
+    setLeaders(data.leaderboard)
+  }
 
-  const fullList = list?.length > 5;
+  useEffect(() => {
+    setDefaultValue()
+  }, [])
 
-  // const setListSize = () => {
-  //   if (isMobile && !fullList) {
-  //     setList(apiResponse);
-  //   } else {
-  //     setList(
-  //       apiResponse && Array.isArray(apiResponse) && apiResponse?.slice(0, 5)
-  //     );
-  //   }
-  // };
+  const handleButtonClick = async (period: string) => {
+    setActiveButton(period)
+
+    const toRequest =
+      period === 'All Time_profit' || 'All Time_volume'
+        ? period.toLowerCase().split(' ')[0] + '_' + period.split('_')[1]
+        : period
+
+    // const data = (
+    //   await getLeaderboard({
+    //     time: toRequest.split('_')[0]?.toLowerCase(),
+    //     return: toRequest.split('_')[1]?.toLowerCase()
+    //   })
+    // ).body as uany
+  }
 
   return (
     <div className={s.leader_board_wrap}>
@@ -72,8 +79,44 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         ) : (
           <span className={s.no_data}>No Data yet</span>
         )} */}
-        <LeaderBoardItem ind={1} player="anton" user_id="1" username="antonweb" nickname="asdasd" total={22} />
-        <LeaderBoardItem ind={2} player="anton" user_id="2" username="antonweb" nickname="asdasd" total={22} />
+
+        {Array.isArray(leaders) &&
+          leaders &&
+          leaders
+            ?.slice(0, 3)
+            ?.map((item: T_LeaderBoardResponse, i: number) => {
+              // let image
+              // switch (i) {
+              //   case 0:
+              //     image = gold
+              //     break
+              //   case 1:
+              //     image = silver
+              //     break
+              //   case 2:
+              //     image = bronze
+              //     break
+              //   default:
+              //     break
+              // }
+              return (
+                <LeaderBoardItem
+                  // description={item.nickname || truncatedAddress}
+                  // dunkin='Dunkin Caps'
+                  // image={image}
+                  // dollar
+                  // statistics={item.total.toFixed(2)}
+                  // id={i}
+                  // address={item.player}
+                  ind={i}
+                  player={item.username}
+                  nickname={item.username}
+                  total={Number(item.total || 0)}
+                  username={item.username}
+                  user_id={item.user_id}
+                />
+              )
+            })}
       </div>
       {/* {apiResponse?.length > 5 && (
         <div className={s.leaderBoard_loadMore_btn_block}>
@@ -83,13 +126,17 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         </div>
       )} */}
       <div className={s.leaderBoard_loadMore_btn_block}>
-          <button onClick={() => {
+        <button
+          onClick={() => {
             // setListSize()
             null
-          }} className={s.leaderBoard_loadMore_btn}>
-            Load {fullList ? "Less" : "More"}
-          </button>
-        </div>
+          }}
+          className={s.leaderBoard_loadMore_btn}
+        >
+          {/* Load {fullList ? 'Less' : 'More'} */}
+          btn
+        </button>
+      </div>
     </div>
-  );
-};
+  )
+}

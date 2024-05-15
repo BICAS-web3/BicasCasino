@@ -52,3 +52,9 @@ export const setBalanceTotal = createEvent<number>()
 
 $isDrax.on(setIsDrax, (_, state) => state)
 $balance.on(setBalance, (_, state) => state)
+
+export const $showAllBets = createStore<boolean>(true)
+
+export const setShowAllBets = createEvent<boolean>()
+
+$showAllBets.on(setShowAllBets, (_, state) => state)
