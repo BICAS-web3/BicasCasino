@@ -17,6 +17,7 @@ import { BonusSVG, HomeSVG, VipSVG } from './components/icons/top'
 import Image from 'next/image'
 import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
 import { LanguageToggle } from './components/LanguageToggle'
+import { LeaderboardSVG } from './components/icons/games'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -67,6 +68,16 @@ const Sidebar = () => {
                   )}-${index}`}
                 />
               ))}
+              <MenuItem
+                open={open}
+                href={'leaderboard'}
+                data={{
+                  icon: (
+                    <LeaderboardSVG className='w-5 min-w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Leaderboard'
+                }}
+              />
             </div>
           </div>
           <div className='flex flex-1' />
@@ -98,81 +109,83 @@ const Sidebar = () => {
           >
             <div className={cn('flex flex-col', open ? 'gap-[5px]' : '')}>
               <MenuItem
-                  open={open}
-                  href={'/'}
-                  data={{
-                    icon: <HomeSVG className='w-5 h-5 object-contain aspect-square' />,
-                    title: 'Home',
-                  }}
+                open={open}
+                href={'/'}
+                data={{
+                  icon: (
+                    <HomeSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Home'
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={'/404'}
-                  data={
-                    {
-                      icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: 'Bonus',
-                    }
-                  }
+                open={open}
+                href={'/404'}
+                data={{
+                  icon: (
+                    <BonusSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Bonus'
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={'/404'}
-                  data={
+                open={open}
+                href={'/404'}
+                data={{
+                  icon: (
+                    <BonusSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'double',
+                  buttons: [
                     {
-                      icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: 'double',
-                      buttons: [
-                        {
-                          icon: (
-                            <Image
-                              src='/images/sidebar-icons/goals.png'
-                              alt='icon goals'
-                              width={20}
-                              height={20}
-                              className='object-contain aspect-square'
-                            />
-                          ),
-                          title: 'Goals',
-                          color: 'linear-gradient(40deg, #44278A 0%, #24232E 100%)'
-                        },
-                        {
-                          icon: (
-                            <Image
-                              src='/images/sidebar-icons/wheel.png'
-                              alt='icon wheel'
-                              width={20}
-                              height={20}
-                              className='object-contain aspect-square'
-                            />
-                          ),
-                          title: 'Wheel',
-                          color: 'linear-gradient(40deg, #61194F 0%, #272229 100%)'
-                        }
-                      ]
+                      icon: (
+                        <Image
+                          src='/images/sidebar-icons/goals.png'
+                          alt='icon goals'
+                          width={20}
+                          height={20}
+                          className='object-contain aspect-square'
+                        />
+                      ),
+                      title: 'Goals',
+                      color: 'linear-gradient(40deg, #44278A 0%, #24232E 100%)'
+                    },
+                    {
+                      icon: (
+                        <Image
+                          src='/images/sidebar-icons/wheel.png'
+                          alt='icon wheel'
+                          width={20}
+                          height={20}
+                          className='object-contain aspect-square'
+                        />
+                      ),
+                      title: 'Wheel',
+                      color: 'linear-gradient(40deg, #61194F 0%, #272229 100%)'
                     }
-                  }
+                  ]
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={'/vip'}
-                  data={
-                    {
-                      icon: <ChestIco className='w-5 h-5 object-contain aspect-square' />,
-                      title: open ? 'CHEST & CARD' : 'CHEST',
-                      id: 'modal'
-                    }
-                  }
+                open={open}
+                href={'/404'}
+                data={{
+                  icon: (
+                    <ChestIco className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: open ? 'CHEST & CARD' : 'CHEST',
+                  id: 'modal'
+                }}
               />
               <MenuItem
-                  open={open}
-                  href={'vip'}
-                  data={
-                    {
-                      icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
-                      title: 'VIP Club',
-                    }
-                  }
+                open={open}
+                href={'vip'}
+                data={{
+                  icon: (
+                    <VipSVG className='w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'VIP Club'
+                }}
               />
             </div>
 
@@ -202,6 +215,16 @@ const Sidebar = () => {
                     <AffilateSVG className='w-5 h-5 object-contain aspect-square' />
                   ),
                   title: 'Affiliate'
+                }}
+              />
+              <MenuItem
+                open={open}
+                href={'leaderboard'}
+                data={{
+                  icon: (
+                    <LeaderboardSVG className='w-5 min-w-5 h-5 object-contain aspect-square' />
+                  ),
+                  title: 'Leaderboard'
                 }}
               />
               <MenuItem

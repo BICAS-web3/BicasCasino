@@ -32,7 +32,10 @@ const MenuItem = ({ href, data, open, className }: Props) => {
   const params = usePathname()
   const router = useRouter()
 
-  const [setOpen, closeSidebar] = useUnit([ChestModel.setModalVisibility, SidebarModel.setOpen])
+  const [setOpen, closeSidebar] = useUnit([
+    ChestModel.setModalVisibility,
+    SidebarModel.setOpen
+  ])
 
   const handleClick = data => {
     if (href === '/404') return
@@ -64,7 +67,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           {data.buttons.map((item, index) => (
             <Button
               onClick={() => {
-                if(window.innerWidth < 650) {
+                if (window.innerWidth < 650) {
                   closeSidebar(false)
                 }
               }}
@@ -151,8 +154,10 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           {data.icon}
           <span
             className={cn(
-              'leading-5 text-base font-bold tracking-wide text-nowrap uppercase',
-              open ? 'text-base' : 'text-[9px] truncate w-full max-w-12'
+              'leading-5 text-base font-bold  tracking-wide text-nowrap uppercase',
+              open
+                ? 'text-base truncate'
+                : 'text-[9px] truncate w-full max-w-12'
             )}
           >
             {t(`sidebar.titles.${data.title}`)}

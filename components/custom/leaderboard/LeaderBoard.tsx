@@ -29,7 +29,7 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
     const data = (await getLeaderboard({ time: 'all', return: 'volume' }))
       .body as any
 
-    data && alert(JSON.stringify(data))
+    // data && alert(JSON.stringify(data))
     setLeaders(data.leaderboard)
   }
 
