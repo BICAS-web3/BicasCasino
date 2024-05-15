@@ -13,15 +13,15 @@ export const games = [
   {
     list: [
       {
-        title: 'games',
+        title: 'GAMES',
         path: '/games/GamesPage'
       },
       {
-        title: 'swap',
+        title: 'SWAP',
         path: ''
       },
       {
-        title: 'profile',
+        title: 'PROFILE',
         path: ''
       }
     ]
@@ -29,15 +29,15 @@ export const games = [
   {
     list: [
       {
-        title: 'leader board',
+        title: 'LEADER BOARD',
         path: '/leaderboard'
       },
       {
-        title: 'affiliate',
+        title: 'AFFILIATE',
         path: '/affiliates'
       },
       {
-        title: 'nft market',
+        title: 'NFT MARKET',
         path: ''
       }
     ]
@@ -45,11 +45,11 @@ export const games = [
   {
     list: [
       {
-        title: 'how to play',
+        title: 'HOW TO PLAY',
         path: ''
       },
       {
-        title: 'support',
+        title: 'SUPPORT',
         path: ''
       }
     ]

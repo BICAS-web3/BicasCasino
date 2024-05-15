@@ -1,22 +1,20 @@
 'use client'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules'
-import { SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/autoplay'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import { SwiperSlide } from 'swiper/react'
 // import 'swiper/css/effect-fade'
+import 'swiper/css/effect-fade'
 import 'swiper/css/grid'
 import 'swiper/css/pagination'
-import 'swiper/css/effect-fade'
 
 import Carousel from '@/components/custom/carousel/carousel'
 import { stringRemoveSpacing } from '@/lib/string'
-import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { main_banner } from './data'
-import { LeftArrow } from '@/public/icons/chest/leftArrow'
-import Image from 'next/image'
 
 export const Banner = () => {
-  const paginationREF = useRef(null)
+  const { t } = useTranslation()
   return (
     <Carousel
       pagination={{
@@ -69,10 +67,11 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              Affiliate Program
+              {t('pages.main.banners.affiliate.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Invite friends and <br /> get rewarded
+              {t('pages.main.banners.affiliate.text_1')} <br />{' '}
+              {t('pages.main.banners.affiliate.text_2')}
             </p>
           </SwiperSlide>
 
@@ -93,11 +92,15 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              NFT Market
+              {t('pages.main.banners.nft.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Our NFT holders <br /> get{' '}
-              <span className='font-bold'>Up to 18%</span> <br /> airdrop payout
+              {t('pages.main.banners.nft.text_1')} <br />{' '}
+              {t('pages.main.banners.nft.text_2')}
+              <span className='font-bold'>
+                {t('pages.main.banners.nft.text_3')}
+              </span>{' '}
+              <br /> {t('pages.main.banners.nft.text_4')}
             </p>
           </SwiperSlide>
           <SwiperSlide
@@ -117,10 +120,11 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              VIP CLUB
+              {t('pages.main.banners.club.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Become a VIP <br /> and get benefits
+              {t('pages.main.banners.club.text_1')} <br />{' '}
+              {t('pages.main.banners.club.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
@@ -140,10 +144,11 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              Affiliate Program
+              {t('pages.main.banners.affiliate.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Invite friends and <br /> get rewarded
+              {t('pages.main.banners.affiliate.text_1')} <br />{' '}
+              {t('pages.main.banners.affiliate.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
@@ -163,10 +168,11 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              Poker Tournaments
+              {t('pages.main.banners.poker.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Every week <br /> in our telegram community
+              {t('pages.main.banners.poker.text_1')} <br />{' '}
+              {t('pages.main.banners.poker.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
@@ -186,10 +192,11 @@ export const Banner = () => {
               height={240}
             />
             <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
-              Treasure Chest
+              {t('pages.main.banners.chest.title')}
             </span>
             <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
-              Open the chests <br /> and claim your treasures
+              {t('pages.main.banners.chest.text_1')} <br />{' '}
+              {t('pages.main.banners.chest.text_2')}
             </p>
           </SwiperSlide>
         </>

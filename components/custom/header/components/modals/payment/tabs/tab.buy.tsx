@@ -8,6 +8,7 @@ import { useUnit } from 'effector-react'
 import { PaymentModel, RegistrModel, UserModel } from '@/states'
 import Arr from '@/public/images/payment/rightArr.svg'
 import { getOneTimeToken } from '@/api'
+import { useTranslation } from 'react-i18next'
 
 const TabBuy = () => {
   const [isCrypto, setIsCrypto] = useState(false)
@@ -50,7 +51,7 @@ const TabBuy = () => {
       // alert(JSON.stringify(params))
     }
   }
-
+  const { t } = useTranslation()
   return (
     <div
       ref={dropdownRef}
@@ -64,18 +65,24 @@ const TabBuy = () => {
               className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center'
             >
               <Arr className='rotate-[180deg]' />
-              Back
+              {t(`modals.back`)}
             </div>
             <span className='text-[18px] font-light text-[#7E7E7E]'>
               Buy/Bank card
+              {t(`modals.wallet.payment.buy.title`)}
             </span>
           </div>
         )}
         <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5'>
           <span className='text-[10px] sm:text-xs sm:text-sm'>
-            <span className='font-extrabold text-[#ffe09d]'>DRAX tokens </span>
-            won through play can be redeemed for
-            <p className='text-[#f7931a] inline'> BTC, LTC</p> and more
+            <span className='font-extrabold text-[#ffe09d]'>
+              {t(`modals.wallet.payment.buy.subtitle.text_1`)}{' '}
+            </span>
+            {t(`modals.wallet.payment.buy.subtitle.text_2`)}
+            <p className='text-[#f7931a] inline'>
+              {t(`modals.wallet.payment.buy.subtitle.text_3`)}
+            </p>
+            {t(`modals.wallet.payment.buy.subtitle.text_4`)}
           </span>
 
           <Image
@@ -89,21 +96,21 @@ const TabBuy = () => {
         {!isCrypto && !isFiat && (
           <>
             <span className='text-center text-[14px] font-normal'>
-              Choose payment system:
+              {t(`modals.wallet.payment.buy.crypto.text_1`)}
             </span>
             <CryptoRoute
-              title='Bank card'
-              text='You can buy DRAX coins by Visa or Mastercard'
+              title={t(`modals.wallet.payment.buy.crypto.route_1.title`)}
+              text={t(`modals.wallet.payment.buy.crypto.route_1.text`)}
               onClick={() => setIsFiat(true)}
             />
             <span className='uppercase text-[#7E7E7E] text-[11px] font-normal text-center leading-[14px]'>
-              or buy with
+              {t(`modals.wallet.payment.buy.crypto.text_2`)}
             </span>
             <CryptoRoute
               isCrypto
               onClick={() => setIsCrypto(true)}
-              title='Crypto payments'
-              text='You also can buy DRAX coinsby crypto-currency'
+              title={t(`modals.wallet.payment.buy.crypto.route_2.title`)}
+              text={t(`modals.wallet.payment.buy.crypto.route_2.text`)}
             />
           </>
         )}
@@ -111,14 +118,14 @@ const TabBuy = () => {
         {isFiat && (
           <>
             <span className='text-center text-[14px] font-normal'>
-              Choose payment system:
+              {t(`modals.wallet.payment.buy.fiat.text_1`)}
             </span>
             <div
               onClick={() => setIsBillline(true)}
               className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'
             >
               <span className='text-[#979797] font-normal text-[15px]'>
-                Ukraine / LA (Visa/Mastercard)
+                {t(`modals.wallet.payment.buy.fiat.text_2`)}
               </span>
               <Arr />
             </div>
@@ -127,7 +134,7 @@ const TabBuy = () => {
               className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'
             >
               <span className='text-[#979797] font-normal text-[15px]'>
-                Ukraine (Visa/Mastercard){' '}
+                {t(`modals.wallet.payment.buy.fiat.text_3`)}
               </span>
               <Arr />
             </div>
@@ -141,7 +148,7 @@ const TabBuy = () => {
           isFiat && 'border-t-[1px] border-[#252525] pt-[10px]'
         } flex items-center justify-center text-[12px] font-normal text-center`}
       >
-        Maximum purchase of $5000 USD per day
+        {t(`modals.wallet.payment.buy.limit`)}
       </span>
     </div>
   )

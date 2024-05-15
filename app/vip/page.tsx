@@ -1,5 +1,5 @@
-"use client"
-import {FC} from 'react'
+'use client'
+import { FC } from 'react'
 import VipIco from '@/public/images/vip/pageIco.svg'
 import { VipTable } from './components/VipTable'
 import { useRouter } from 'next/navigation'

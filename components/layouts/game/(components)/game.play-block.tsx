@@ -23,6 +23,7 @@ import {
   DraxMiniSVG
 } from '@/components/custom/header/components/icons'
 import useSound from 'use-sound'
+import { useTranslation } from 'react-i18next'
 
 const GamePlayBlock = () => {
   const [pokerChange] = useSound('/music/poker_change.mp3')
@@ -224,7 +225,7 @@ const GamePlayBlock = () => {
 
   const handlePlay = () => {
     if (!minesSelected && isMines) {
-      toast('Select Field!')
+      toast(t(`toast.select`))
       return
     }
 
@@ -241,17 +242,17 @@ const GamePlayBlock = () => {
       setPokerDelay(true)
     }
     if (cryptoValue > balance) {
-      toast('Top up balance!')
+      toast(t(`toast.top_up`))
       setError(true)
       return
     }
     if (cryptoValue < 1) {
-      toast('Minimum 1!')
+      toast(t(`toast.min`))
       setError(true)
       return
     }
     if (!cryptoValue) {
-      toast('Error, place your bet!')
+      toast(t(`toast.place`))
       setError(true)
     } else {
       if (isPoker && !pokerPlay) {
@@ -276,7 +277,7 @@ const GamePlayBlock = () => {
   const minesClick = () => {
     setStopWinning('YES')
   }
-
+  const { t } = useTranslation()
   return (
     <div className='w-full sm:w-auto flex gap-[13px] sm:gap-5 row-start-4 m-[0_auto] mt-[20px] sm:mt-0 col-start-1 col-end-3 items-center justify-end -order-5 sm:order-none'>
       <TooltipProvider>
@@ -285,7 +286,7 @@ const GamePlayBlock = () => {
             <Info className='w-6 h-6 aspect-square cursor-pointer text-[#676767]' />
           </TooltipTrigger>
           <TooltipContent>
-            <p>Some info</p>
+            <p>{t('pages.games.info')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -326,7 +327,7 @@ const GamePlayBlock = () => {
               autoVisibile ? 'text-[#FFE09D]' : 'text-[#7e7e7e]'
             }`}
           >
-            auto
+            {t('pages.games.auto')}
           </span>
           <AutoBorder
             className={`absolute top-0 left-0 w-full h-full ${
@@ -359,10 +360,10 @@ const GamePlayBlock = () => {
         }`}
       >
         {isPoker && pokerPlay ? (
-          'Redraw'
+          `${t('pages.games.redraw')}`
         ) : applesPlay && isApple ? (
           <>
-            Refund ${appleWager.toFixed(2)}
+            {t('pages.games.refund')} ${appleWager.toFixed(2)}
             {cryptoValue &&
               (isDrax ? (
                 <DraxMiniSVG width={20} height={20} />
@@ -371,12 +372,12 @@ const GamePlayBlock = () => {
               ))}
           </>
         ) : (
-          'Play'
+          `${t('pages.games.Play')}`
         )}
       </Button>
       {isMines && keep && (
         <Button onClick={minesClick} variant='wagerPlay' className='uppercase'>
-          Refund
+          {t('pages.games.refund')}
         </Button>
       )}
     </div>

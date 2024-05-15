@@ -2,6 +2,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 import React, { useEffect, useRef } from 'react'
 import getConfig from 'next/config'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 
 export interface CaptchaProps {
   show: boolean
@@ -26,7 +27,7 @@ export const Captcha: React.FunctionComponent<CaptchaProps> = ({
     }
   }, [startCaptcha])
 
-  // useEffect(() => toast('Event has been created.'), [])
+  const { t } = useTranslation()
 
   return (
     <>
@@ -39,7 +40,7 @@ export const Captcha: React.FunctionComponent<CaptchaProps> = ({
         onExpire={() => onToken('')}
         onError={err => {
           onToken('')
-          toast('Error, Cannot verify captcha.')
+          toast(t(`toast.captcha`))
           console.error(err)
         }}
       />

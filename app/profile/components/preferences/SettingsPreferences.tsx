@@ -1,6 +1,7 @@
 import { FormField } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
 import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const list = [
   {
@@ -8,43 +9,43 @@ const list = [
     enabled: true
   },
   {
-    title: 'Hide my purchase message',
+    title: 'purchase',
     enabled: false
   },
   {
-    title: 'Hide my redeem message',
+    title: 'redeem',
     enabled: false
   },
   {
-    title: "Don't show all buy&redeem message",
+    title: 'hide_message',
     enabled: false
   },
   {
-    title: 'Hide my buy amount',
+    title: 'amount',
     enabled: true
   },
   {
-    title: 'Hide my redeem amount',
+    title: 'hide_redeem',
     enabled: false
   },
   {
-    title: 'Hide my total wagered from public',
+    title: 'total',
     enabled: false
   },
   {
-    title: 'Ghost mode (make my bets hidden)',
+    title: 'ghost',
     enabled: true
   },
   {
-    title: 'Always refuse friend request',
+    title: 'refuse_req',
     enabled: true
   },
   {
-    title: "Don't @me in chatroom",
+    title: 'chatroom',
     enabled: true
   },
   {
-    title: 'Hide top instant notification',
+    title: 'notification',
     enabled: true
   }
 ]
@@ -68,6 +69,7 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
     setActiveList(updatedList)
   }
 
+  const { t } = useTranslation()
   return (
     <div className='border border-[#3E3E3E] rounded-[5px]'>
       <div className='flex flex-col items-center justify-center p-[20px] gap-[22px]'>
@@ -81,7 +83,7 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
                 item.enabled ? 'text-[#979797]' : 'text-[#464646]'
               } leading-[18px] text-[14px] font-medium`}
             >
-              {item.title}
+              {t(`pages.settings.Preferences.${item.title}`)}
             </span>
             <div
               className={`w-[30px] cursor-pointer h-[16px] relative rounded-[15px] ${
@@ -103,7 +105,7 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
         ))}
       </div>
       <div className='flex items-center text-center justify-center border-t-[1px] border-[#3E3E3E] p-[25px] text-[14px] font-normal text-[#7E7E7E]'>
-        * You can see your hidden info, but others can't *
+        {t(`pages.settings.Preferences.text`)}
       </div>
     </div>
   )

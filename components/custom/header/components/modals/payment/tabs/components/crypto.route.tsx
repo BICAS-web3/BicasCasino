@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface ICryptoRoute {
   title: string
@@ -15,6 +16,7 @@ const CryptoRoute: FC<ICryptoRoute> = ({
   isCrypto,
   onClick
 }) => {
+  const { t } = useTranslation()
   return (
     <div
       className={`flex flex-col relative rounded-[8px] overflow-hidden p-5 pb-6 w-full ${
@@ -45,7 +47,7 @@ const CryptoRoute: FC<ICryptoRoute> = ({
         }`}
         onClick={onClick}
       >
-        Continue
+        {t(`modals.continue`)}
       </button>
     </div>
   )

@@ -385,6 +385,12 @@ export type T_ChangeName = {
   bareer: string
 }
 
+export type T_ChangePassword = {
+  new_password: string
+  old_password: string
+  bareer: string
+}
+
 export const submitErrorFX = createEffect<T_SubmitError, T_ApiResponse, string>(
   async form => {
     return fetch(`${BaseApiUrl}/general/error`, {
@@ -711,12 +717,33 @@ export const changeName = createEffect<T_ChangeName, T_ApiResponse, string>(
         'Content-Type': 'application/json',
         Authorization: `Bearer ${form.bareer}`
       },
-      body: JSON.stringify(form)
+      body: JSON.stringify({ nickname: form.name })
     })
       .then(async res => await res.json())
       .catch(e => e)
   }
 )
+
+export const changePassword = createEffect<
+  T_ChangePassword,
+  T_ApiResponse,
+  string
+>(async form => {
+  return fetch(`${BaseApiUrl}/user/password`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${form.bareer}`
+    },
+    body: JSON.stringify({
+      new_password: form.new_password,
+      old_password: form.old_password
+    })
+  })
+    .then(async res => await res.json())
+    .catch(e => e)
+})
 
 export const getUserInfo = createEffect<T_UserInfo, T_ApiResponse, string>(
   async form => {

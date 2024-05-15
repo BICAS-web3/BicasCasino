@@ -10,6 +10,7 @@ import { ReactNode } from 'react'
 
 import wheelIco from './icons/wheelAnim.png'
 import wheelBranch from './icons/wheelStatic.png'
+import { useTranslation } from 'react-i18next'
 
 type ItemProps = {
   title: string
@@ -42,6 +43,8 @@ const MenuItem = ({ href, data, open, className }: Props) => {
     }
   }
 
+  const { t } = useTranslation()
+
   return (
     <>
       {data.buttons ? (
@@ -55,7 +58,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
         >
           {open && (
             <span className='absolute right-4 top-0 text-[12px] text-[#979797] rotate-2 z-[20]'>
-              Soon!
+              {t('common.soon')}
             </span>
           )}
           {data.buttons.map((item, index) => (
@@ -109,7 +112,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
                   open ? 'text-xs' : 'text-[9px] truncate w-full max-w-12'
                 )}
               >
-                {item.title}
+                {t(`sidebar.titles.double.${item.title}`)}
               </span>
             </Button>
           ))}
@@ -142,7 +145,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
         >
           {href === '/404' && open && (
             <span className='absolute right-4 top-1 text-[12px] text-[#979797] rotate-2'>
-              Soon!
+              {t('common.soon')}
             </span>
           )}
           {data.icon}
@@ -152,7 +155,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
               open ? 'text-base' : 'text-[9px] truncate w-full max-w-12'
             )}
           >
-            {data.title}
+            {t(`sidebar.titles.${data.title}`)}
           </span>
         </Button>
       )}

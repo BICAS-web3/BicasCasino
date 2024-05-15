@@ -119,7 +119,7 @@ const GameLayout = ({ children }) => {
       >
         {access_token && socketAuth ? children : <Preload />}
         <div
-          className='absolute top-10 sm:top-auto sm:bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black'
+          className='absolute top-10 sm:top-auto sm:bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black z-[2]'
           onClick={soundChange}
         >
           {playSounds === 'off' ? (

@@ -20,6 +20,7 @@ import { format } from 'date-fns'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { copyToClipboard, stringRemoveSpacing } from '@/lib/string'
+import { useTranslation } from 'react-i18next'
 
 const data = [
   {
@@ -49,12 +50,15 @@ const DetectedModal = () => {
   const handleClose = () => {
     setPurcahseVisibility(false)
   }
+
+  const { t } = useTranslation()
+
   return (
     <>
       <DialogHeader className='relative gap-5 items-center'>
         <div className='flex justify-center items-center flex-row'>
           <h5 className='tracking-[4%] text-[#FFA800] font-semibold text-xl leading-7'>
-            Payment detected
+            {t(`modals.wallet.purchase.detected.title`)}
           </h5>
           <Button
             size='icon'
@@ -82,6 +86,7 @@ const DetectedModal = () => {
           <div className='flex items-center justify-between'>
             <h5 className='text-base font-semibold text-[#979797]'>
               Payment ID:
+              {t(`modals.wallet.purchase.id`)}
             </h5>
           </div>
 
@@ -113,7 +118,7 @@ const DetectedModal = () => {
                   )}-${index}`}
                 >
                   <TableCell className='font-medium text-[#979797]'>
-                    {row.title}
+                    {t(`modals.wallet.purchase.${row.title}`)}
                   </TableCell>
                   <TableCell
                     className={`text-right text-base ${
@@ -131,15 +136,14 @@ const DetectedModal = () => {
         </div>
         <div className='flex flex-nowrap gap-5'>
           <Button className='flex-1 text-base font-semibold bg-[#252019] text-[#FFA800] hover:bg-[#2520201950]'>
-            Pending confirmation
+            {t(`modals.wallet.purchase.detected.pending`)}
           </Button>
           <Button className='min-w-36 bg-[#252019] text-[#FFA800] hover:bg-[#2520201950]'>
             <LoaderSVG className='animate-spin duration-1000' />
           </Button>
         </div>
         <p className='text-xs text-center leading-4 text-[#979797]'>
-          The payment will be considered successful when transaction
-          is confirmed on the network
+          {t(`modals.wallet.purchase.detected.text`)}
         </p>
       </div>
     </>

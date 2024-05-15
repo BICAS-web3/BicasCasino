@@ -32,6 +32,7 @@ import { EyeClose, EyeOpen } from '../../(icons)'
 
 import * as api from '@/api'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 interface SignupProps {}
 
@@ -137,6 +138,8 @@ const SignUp: FC<SignupProps> = () => {
     func(prev => !prev)
   }
 
+  const { t } = useTranslation()
+
   return (
     <Form {...form}>
       <div className='sm:mt-[20px] mt-[10px] flex flex-col justify-between'>
@@ -156,7 +159,7 @@ const SignUp: FC<SignupProps> = () => {
           <div className='flex flex-col relative'>
             <div className='mb-[10px]'>
               <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
-                Username
+                {t(`pages.auth.textes.Username`)}
               </span>
               <FormField
                 control={form.control}
@@ -166,7 +169,11 @@ const SignUp: FC<SignupProps> = () => {
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        placeholder={errorData ? 'User exist' : 'Username'}
+                        placeholder={
+                          errorData
+                            ? t(`pages.auth.textes.exist`)
+                            : t(`pages.auth.textes.Username`)
+                        }
                         onFocus={errorFocus}
                         className={`duration-200 ${
                           errorData && 'placeholder:text-[red]'
@@ -182,18 +189,22 @@ const SignUp: FC<SignupProps> = () => {
             </div>
             <div className='mb-[10px]'>
               <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
-                Password
+                {t(`pages.auth.textes.Password`)}
               </span>
               <FormField
                 control={form.control}
-                name='password'
+                name={'password'}
                 render={({ field }) => (
                   <FormItem className='relative'>
                     <FormControl>
                       <Input
                         type={showPassword ? 'text' : 'password'}
                         disabled={isPending}
-                        placeholder={errorData ? 'User exist' : 'Password'}
+                        placeholder={
+                          errorData
+                            ? t(`pages.auth.textes.exist`)
+                            : t(`pages.auth.textes.Password`)
+                        }
                         onFocus={errorFocus}
                         className={`duration-200 ${
                           errorData
@@ -232,8 +243,7 @@ const SignUp: FC<SignupProps> = () => {
                     />
                   </FormControl>
                   <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
-                    I am at least 18 years old and not a resident of the
-                    restricted states.
+                    {t(`pages.auth.signup.age_text`)}
                   </FormLabel>
                 </FormItem>
               )}
@@ -250,8 +260,13 @@ const SignUp: FC<SignupProps> = () => {
                     />
                   </FormControl>
                   <FormLabel className='text-[12px] font-normal leading-[16px] tracking-def mt-[0_!important] mb-[0_!important] cursor-pointer text-bets-title-color'>
-                    I accept the GreekKeepers <span>Terms of Use</span> and
-                    <span className='text-orange'> Privacy Policy.</span>
+                    {t(`pages.auth.signup.privacy.text_1`)}{' '}
+                    <span>{t(`pages.auth.signup.privacy.text_2`)}</span>{' '}
+                    {t(`pages.auth.signup.privacy.text_3`)}
+                    <span className='text-orange'>
+                      {' '}
+                      {t(`pages.auth.signup.privacy.text_4`)}
+                    </span>
                   </FormLabel>
                 </FormItem>
               )}
@@ -269,7 +284,7 @@ const SignUp: FC<SignupProps> = () => {
             type='submit'
             variant='auth'
           >
-            {isPending ? 'In process' : 'Sign Up'}
+            {isPending ? t(`pages.auth.btns.process`) : t(`pages.auth.btns.up`)}
           </Button>
           <LoginLink className='mt-2.5' setIsSignup={setIsSignup} />
         </form>

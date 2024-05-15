@@ -1,12 +1,13 @@
-import {FC} from 'react'
+import { FC } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Scrollbar } from "swiper/modules";
-import "swiper/scss";
-import "swiper/css/effect-fade";
+import { Scrollbar } from 'swiper/modules'
+import 'swiper/scss'
+import 'swiper/css/effect-fade'
 import DisabledIco from '@/public/images/vip/vipDisabled.svg'
 import ActiveIco from '@/public/images/vip/vipActive.svg'
 import MinusIco from '@/public/images/vip/minusIco.svg'
 import ArrowIco from '@/public/images/vip/arrow.svg'
+import { useTranslation } from 'react-i18next'
 
 const slides = [
     {

@@ -17,6 +17,7 @@ import { format } from 'date-fns'
 
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { copyToClipboard, stringRemoveSpacing } from '@/lib/string'
+import { useTranslation } from 'react-i18next'
 
 const data = [
   {
@@ -46,12 +47,15 @@ const SuccessModal = () => {
   const handleClose = () => {
     setPurcahseVisibility(false)
   }
+
+  const { t } = useTranslation()
+
   return (
     <>
       <DialogHeader className='relative gap-5 items-center'>
         <div className='flex justify-center items-center flex-row'>
           <h5 className='tracking-[4%] text-[#20E793] font-semibold text-xl leading-7'>
-            Success!
+            {t(`modals.wallet.purchase.success.title`)}
           </h5>
           <Button
             size='icon'
@@ -78,7 +82,7 @@ const SuccessModal = () => {
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
             <h5 className='text-base font-semibold text-[#979797]'>
-              Payment ID:
+              {t(`modals.wallet.purchase.id`)}
             </h5>
           </div>
 
@@ -110,7 +114,7 @@ const SuccessModal = () => {
                   )}-${index}`}
                 >
                   <TableCell className='font-medium text-[#979797]'>
-                    {row.title}
+                    {t(`modals.wallet.purchase.${row.title}`)}
                   </TableCell>
                   <TableCell
                     className={`text-right text-base ${
@@ -131,7 +135,7 @@ const SuccessModal = () => {
             onClick={handleClose}
             className='flex-1 text-base font-semibold bg-[#1C2519] text-[#20E793] hover:bg-[#1C2519]'
           >
-            Done
+            {t(`modals.wallet.purchase.success.Done`)}
           </Button>
           <Button
             onClick={handleClose}
@@ -141,8 +145,7 @@ const SuccessModal = () => {
           </Button>
         </div>
         <p className='text-xs text-center leading-4 text-[#979797]'>
-          The payment will be considered successful when transaction
-          is confirmed on the network
+          {t(`modals.wallet.purchase.success.pending`)}
         </p>
       </div>
     </>

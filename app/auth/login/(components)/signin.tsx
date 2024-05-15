@@ -22,6 +22,7 @@ import { EyeClose, EyeOpen } from '../../(icons)'
 
 import * as api from '@/api'
 import { useRouter } from 'next/navigation'
+import { useTranslation } from 'react-i18next'
 
 interface SigninProps {}
 
@@ -93,6 +94,8 @@ const Signin: FC<SigninProps> = () => {
 
   const disableError = () => setErrorData(false)
 
+  const { t } = useTranslation()
+
   return (
     <div className='flex flex-col gap-[10px] sm:gap-[20px] mt-[10px] sm:mt-[20px]'>
       <Form {...form}>
@@ -102,7 +105,7 @@ const Signin: FC<SigninProps> = () => {
         >
           <div>
             <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
-              Username
+              {t(`pages.auth.textes.Username`)}
             </span>
             <FormField
               control={form.control}
@@ -112,7 +115,11 @@ const Signin: FC<SigninProps> = () => {
                   <FormControl>
                     <Input
                       onFocus={disableError}
-                      placeholder={errorData ? 'Wrong data' : 'Username'}
+                      placeholder={
+                        errorData
+                          ? t(`pages.auth.textes.error_data`)
+                          : t(`pages.auth.textes.Username`)
+                      }
                       className={`duration-200 z-[1] relative' ${
                         errorData && 'placeholder:text-[red]'
                       }`}
@@ -128,7 +135,7 @@ const Signin: FC<SigninProps> = () => {
           </div>
           <div>
             <span className='text-[13px] text-[#7E7E7E] font-normal block mb-[10px]'>
-              Password
+              {t(`pages.auth.textes.Password`)}
             </span>
             <FormField
               control={form.control}
@@ -137,7 +144,11 @@ const Signin: FC<SigninProps> = () => {
                 <FormItem className='relative'>
                   <FormControl>
                     <Input
-                      placeholder={errorData ? 'Wrong data' : 'Password'}
+                      placeholder={
+                        errorData
+                          ? t(`pages.auth.textes.error_data`)
+                          : t(`pages.auth.textes.Password`)
+                      }
                       onFocus={disableError}
                       className={`duration-200 z-[1] relative' ${
                         errorData && 'placeholder:text-[red]'
@@ -169,19 +180,16 @@ const Signin: FC<SigninProps> = () => {
             type='submit'
             variant='auth'
           >
-            {isPending ? 'In process' : 'Sign In'}
+            {isPending ? `pages.auth.btns.process` : t(`pages.auth.btns.in`)}
           </Button>
         </form>
       </Form>
 
       <Link
-        className='
-          cursor-pointer text-[13px] font-normal leading-[22px] tracking-def text-bets-title-color
-          text-right
-        '
+        className=' cursor-pointer text-[13px] font-normal leading-[22px] tracking-def text-bets-title-color text-right'
         href='/auth/recovery'
       >
-        Forgot Password?
+        {t(`pages.auth.btns.forgot`)}
       </Link>
     </div>
   )

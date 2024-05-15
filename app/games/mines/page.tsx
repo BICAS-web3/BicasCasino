@@ -3,7 +3,7 @@ import MinesGame from './(components)/MinesGame'
 
 export const metadata: Metadata = {
   title: 'Games - Mines',
-  description: 'Mines game page '
+  description: 'Mines game page'
 }
 
 const Wheel = () => {

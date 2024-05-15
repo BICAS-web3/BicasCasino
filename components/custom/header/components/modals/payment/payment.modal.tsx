@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { WalletSVG } from '../../icons'
 import { TabBuy, TabRedeem, TabTips } from './tabs'
 import Billline from './billline'
+import { useTranslation } from 'react-i18next'
 
 const tabData = ['Buy', 'Redeem', 'Tips']
 const tabContent = [<TabBuy />, <TabRedeem />, <TabTips />]
@@ -33,6 +34,8 @@ const Payment = () => {
     setTotalVisibility(false)
   }
 
+  const { t } = useTranslation()
+
   return (
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
       <DialogContent
@@ -48,16 +51,16 @@ const Payment = () => {
             <div className='flex items-center gap-4 text-[#979797]'>
               <WalletSVG className='w-5 aspect-square object-contain' />
               <h5 className='tracking-[4%] font-semibold text-xl leading-7'>
-                Wallet
+                {t(`modals.wallet.payment.Wallet`)}
               </h5>
             </div>
             <div className='flex items-center gap-4 sm:gap-[47px]'>
-              <span
+              {/* <span
                 onClick={() => setShowTransaction(true)}
                 className='underline cursor-pointer text-[15px] text-[#FFE09D]'
               >
-                Transactions
-              </span>
+                {t(`modals.wallet.payment.Transactions`)}
+              </span> */}
               <div className='flex items-center gap-4'>
                 <Button
                   className='relative translate-x-2.5 bg-transparent hover:bg-transparent group'
@@ -89,7 +92,7 @@ const Payment = () => {
                       setTab(stringRemoveSpacing(tabItem).toLocaleLowerCase())
                     }
                   >
-                    {tabItem}
+                    {t(`modals.wallet.payment.${tabItem}`)}
                   </TabsTrigger>
                 ))}
               </TabsList>
