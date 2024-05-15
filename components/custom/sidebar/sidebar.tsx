@@ -166,7 +166,7 @@ const Sidebar = () => {
               />
               <MenuItem
                   open={open}
-                  href={'/vip'}
+                  href={'vip'}
                   data={
                     {
                       icon: <VipSVG className='w-5 h-5 object-contain aspect-square' />,
