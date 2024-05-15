@@ -125,6 +125,41 @@ const slides = [
         ]
     },
     {
+        title: 'Daily Bonus',
+        list: [
+            {
+                ico: <MinusIco />
+            },
+            {
+                ico: <MinusIco />
+            },
+            {
+                ico: <MinusIco />
+            },
+            {
+                ico: <MinusIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+            {
+                ico: <ArrowIco />
+            },
+        ]
+    },
+    {
         title: 'Weekly Bonus',
         list: [
             {
@@ -349,7 +384,7 @@ export const VipTable:FC<VipTableProps> = () => {
                     }
                 }} 
                 className='vip_swiper mt-[20px]' 
-                spaceBetween={2} 
+                spaceBetween={3} 
                 modules={[Scrollbar]} 
                 scrollbar={{
                     el: ".scroll-bar-vip",
@@ -362,7 +397,7 @@ export const VipTable:FC<VipTableProps> = () => {
                         <div className="bg-[#181818] h-[80px] flex text-center p-[0_2px] prewrap items-center justify-center text-[18px] font-semibold text-[#7E7E7E]">
                             {item.title}
                         </div>
-                        <div className='flex flex-col h-full'>
+                        <div className='flex flex-col h-full gap-[3px] mt-[3px]'>
                             {
                                 item.list.map((item2, ind2) => (
                                     <div key={ind2} data-bg={ind2 % 2===0} className={`flex min-h-[70px] gap-[5px] h-full items-center justify-center ${ind2 % 2===0 ? 'bg-[#1A1A1A]' : "bg-[#181818]"}`}>
