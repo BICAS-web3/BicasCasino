@@ -52,24 +52,23 @@ export const Banner = () => {
         <>
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}f`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 p-[30px_20px] min-h-[136px] sm:min-h-[240px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src='/images/main_banner/banner1.png'
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.affiliate.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.affiliate.text_1')} <br />{' '}
               {t('pages.main.banners.affiliate.text_2')}
             </p>
@@ -77,24 +76,23 @@ export const Banner = () => {
 
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 min-h-[136px] sm:min-h-[240px] p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src='/images/main_banner/banner2.png'
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.nft.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.nft.text_1')} <br />{' '}
               {t('pages.main.banners.nft.text_2')}
               <span className='font-bold'>
@@ -105,96 +103,92 @@ export const Banner = () => {
           </SwiperSlide>
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 min-h-[136px] sm:min-h-[240px] p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src={'/images/main_banner/banner3.png'}
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.club.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.club.text_1')} <br />{' '}
               {t('pages.main.banners.club.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 min-h-[136px] sm:min-h-[240px] p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src='/images/main_banner/banner1.png'
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.affiliate.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.affiliate.text_1')} <br />{' '}
               {t('pages.main.banners.affiliate.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 min-h-[136px] sm:min-h-[240px] p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src='/images/main_banner/banner4.png'
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.poker.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.poker.text_1')} <br />{' '}
               {t('pages.main.banners.poker.text_2')}
             </p>
           </SwiperSlide>
           <SwiperSlide
             style={{
-              minHeight: 240,
               width: 507,
               backgroundSize: 'cover'
             }}
             key={`banner-item_${stringRemoveSpacing(item.title)}_${i}`}
-            className='rounded-xl max-h-40 p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
+            className='rounded-xl max-h-40 min-h-[136px] sm:min-h-[240px] p-[30px_20px] overflow-hidden xxs:max-h-48 relative smm:max-h-56 mb-8'
           >
             <img
               src='/images/main_banner/banner5.png'
               alt='imag'
-              className='h-[240px] object-cover w-full min-w-[490px] ob absolute right-0 top-0'
+              className='h-[160px] sm:h-[240px] object-cover w-full sm:min-w-[490px] ob absolute right-0 top-0'
               width={507}
               height={240}
             />
-            <span className='relative mb-[20px] block z-[10] text-[28px] sm:text-[34px] font-bold'>
+            <span className='relative mb-[10px] block z-[10] text-[22px] sm:text-[34px] font-bold'>
               {t('pages.main.banners.chest.title')}
             </span>
-            <p className='relative z-[10] text-[20px] sm:text-[24px] font-normal'>
+            <p className='relative z-[10] text-[18px] sm:text-[24px] font-normal'>
               {t('pages.main.banners.chest.text_1')} <br />{' '}
               {t('pages.main.banners.chest.text_2')}
             </p>

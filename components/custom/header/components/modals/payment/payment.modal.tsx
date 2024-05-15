@@ -40,10 +40,10 @@ const Payment = () => {
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
       <DialogContent
         customClose
-        className={`gap-3 max-w-[525px]  ${
+        className={`gap-3 rounded-none !w-full !h-full max-w-[525px]  ${
           tab !== 'tips'
-            ? 'max-h-[calc(100vh-112px)] h-full sm:max-h-[725px]'
-            : 'max-h-[calc(100vh-112px)] h-full sm:h-fit sm:max-h-[725px]'
+            ? 'max-h-[100%] h-full sm:max-h-[725px]'
+            : 'max-h-[100%] h-full sm:h-fit sm:max-h-[725px]'
         } flex flex-col  bg-[#181818] px-[30px] py-5`}
       >
         <DialogHeader className='h-[55px]'>
