@@ -32,7 +32,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
   const params = usePathname()
   const router = useRouter()
 
-  const [setOpen] = useUnit([ChestModel.setModalVisibility])
+  const [setOpen, closeSidebar] = useUnit([ChestModel.setModalVisibility, SidebarModel.setOpen])
 
   const handleClick = data => {
     if (href === '/404') return
@@ -63,6 +63,11 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           )}
           {data.buttons.map((item, index) => (
             <Button
+              onClick={() => {
+                if(window.innerWidth < 650) {
+                  closeSidebar(false)
+                }
+              }}
               size={open ? 'sm' : 'icon'}
               key={`sidebar-buttons--${stringRemoveSpacing(
                 item.title
@@ -115,6 +120,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
       ) : (
         <Button
           onClick={() => {
+            closeSidebar(false)
             if (href === '/404') {
               return
             }

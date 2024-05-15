@@ -151,16 +151,18 @@ export const CustomBets: FC<CustomBetsProps> = props => {
   return (
     <div className='w-full flex-col items-center sm:rounded-[12px] flex bg-black-def py-[45px]'>
       <div
-        className={`flex justify-between items-center w-[calc(100%_-_60px)] px-[30px] ${
-          props?.isMainPage && 'justify-center'
-        }`}
+        className={`flex justify-between items-center w-full px-[10px] sm:px-[40px]`}
       >
-        <h2 className='flex items-center justify-center w-full text-text-w-def tracking-[0.96px] font-semibold text-[1.25rem]'>
+        <h2 className='flex items-center text-text-w-def tracking-[0.96px] font-semibold text-[16px] sm:text-[1.25rem]'>
           {(props?.isMainPage || props?.isGamePage) && (
             <div className='w-[9px] h-[9px] bg-bets-gr rounded-full mr-[10px] animate-pulse'></div>
           )}
           {t('pages.main.live_bets.title')}
         </h2>
+        <div className='flex items-center gap-[12px] w-[180px] sm:w-[240px]'>
+          <div className='h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[12px] uppercase text-[#181818] text-[12px] sm:text-[14px] font-bold bg-[#FFE09D]'>all bets</div>
+          <div className='h-[40px] w-full flex items-center uppercase justify-center cursor-pointer rounded-[12px] text-[12px] sm:text-[14px] font-bold bg-[#202020] text-[#7E7E7E]'>my bets</div>
+        </div>
       </div>
       <div className='w-full mt-[35px]'>
         <div
