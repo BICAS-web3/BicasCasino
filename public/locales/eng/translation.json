@@ -460,7 +460,10 @@
       "bronze": "bronze league",
       "bonus": "BonusCoins",
       "drax": "DraxCoins",
-      "wins": "wins"
+      "wins": "wins",
+      "losses": "Losses",
+      "bets": "Bets",
+      "wagered": "Wagered"
     }
   },
   "toast": {

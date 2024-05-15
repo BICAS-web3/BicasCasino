@@ -21,6 +21,7 @@ import { useSubscibeBets } from '@/lib/utils/subscibe'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { GameStatus, setapplesPlay } from '@/states/game_model.store'
 import { IAppleData } from '@/types/games.types'
+import useSound from 'use-sound'
 
 const AppleGame = () => {
   const socket = useSocket()
@@ -119,8 +120,6 @@ const AppleGame = () => {
     setGameStatus(null)
   }, [])
 
-  // useEffect(() => alert(isPlaying), [isPlaying])
-
   useEffect(() => {
     useSubscibeBets({
       name: 'Apples',
@@ -134,6 +133,10 @@ const AppleGame = () => {
   const [firstBet, setFirstBet] = useState(true)
   const [mines, setMines] = useState<boolean[][]>([])
   const [appleItem, setAppleItem] = useState<number[]>([])
+
+  const [playSounds] = useUnit([GameModel.$playSounds])
+  const [applesLose] = useSound('/music/apples_lose.mp3')
+  const [applesWin] = useSound('/music/apples_win.mp3')
 
   useEffect(() => {
     handleGameResult(
@@ -157,7 +160,10 @@ const AppleGame = () => {
       setStart,
       setWaitingResponse,
       setResult,
-      setCoefficientData
+      setCoefficientData,
+      applesLose,
+      applesWin,
+      playSounds
     )
   }, [result, start])
   useEffect(() => {

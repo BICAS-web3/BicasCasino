@@ -460,7 +460,10 @@
       "bronze": "Liga de Bronce",
       "bonus": "Monedas de Bono",
       "drax": "Monedas Drax",
-      "wins": "Victorias"
+      "wins": "Victorias",
+      "losses": "Derrotas",
+      "bets": "Apuestas",
+      "wagered": "Apostado"
     }
   },
   "common": {

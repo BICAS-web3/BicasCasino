@@ -14,6 +14,7 @@ import DraxIco from '@/public/images/userModal/draxIco.svg'
 import { IAmount } from '../header/components/balance.switch'
 import { useTranslation } from 'react-i18next'
 import { getUserBetData } from '@/api'
+import Link from 'next/link'
 
 interface UserModalProps {}
 
@@ -60,8 +61,12 @@ export const UserModal: FC<UserModalProps> = () => {
     }
   }, [userInfo])
 
+  const handleClose = () => {
+    setVisibility(false)
+  }
+
   return (
-    <Dialog open={visibility} onOpenChange={() => setVisibility(false)}>
+    <Dialog open={visibility} onOpenChange={handleClose}>
       <DialogContent
         className='gap-0 !flex flex-col max-w-[560px] !h-fit bg-[#191919] p-[10px_20px_30px_20px]'
         customClose
@@ -73,7 +78,7 @@ export const UserModal: FC<UserModalProps> = () => {
             {t(`modals.profile.UserInfo`)}
           </div>
           <X
-            onClick={() => setVisibility(false)}
+            onClick={handleClose}
             className='cursor-pointer w-5 h-5 aspect-square object-contain text-[#3E3E3E]'
           />
         </div>
@@ -87,10 +92,10 @@ export const UserModal: FC<UserModalProps> = () => {
                 {/* {t(`modals.profile.UserName`)} */}
                 {userInfo?.username}
               </span>
-              <div className='bg-[#121212] h-[30px] rounded-[50px] p-[10px_16px] gap-[5px] w-full max-w-[125px] items-center flex justify-center'>
+              <div className='bg-[#121212] h-[30px] rounded-[50px] p-[10px_16px] gap-[5px] w-full max-w-max items-center flex justify-center'>
                 <img src={lvlImg.src} alt='lvl' className='' />
                 <span className='text-[12px] font-bold'>
-                  {t(`modals.profile.level`)}: 2
+                  {t(`modals.profile.level`)} 2
                 </span>
               </div>
               <span className='text-[#FFE09D] text-[10px] font-semibold uppercase'>
@@ -100,10 +105,12 @@ export const UserModal: FC<UserModalProps> = () => {
           </div>
           <div className='flex flex-col items-end justify-between'>
             <div className='flex justify-end items-center gap-[10px]'>
-              <PenIco />
-              <div className='bg-[#121212] rounded-[20px] gap-[10px] h-[40px] p-[0_20px] flex items-center justify-center'>
+              <Link href={'/profile'} onClick={handleClose}>
+                <PenIco />
+              </Link>
+              {/* <div className='bg-[#121212] rounded-[20px] gap-[10px] h-[40px] p-[0_20px] flex items-center justify-center'>
                 <LikeIco />0
-              </div>
+              </div> */}
             </div>
             {/* <div className='rounded-[50px] flex gap-[5px] w-fit bg-[#121212] border border-[#212121] p-[4px]'>
               <div
@@ -141,8 +148,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {betData?.lost_bets || 0}
             </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {/* {t(`modals.profile.wins`)} */}
-              Losses
+              {t(`modals.profile.losses`)}
             </span>
           </div>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
@@ -150,8 +156,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {betData?.bets_amount || 0}
             </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {/* {t(`modals.profile.wins`)} */}
-              Bets
+              {t(`modals.profile.bets`)}
             </span>
           </div>
           <div className='bg-[#121212] flex-col h-[60px] flex justify-center items-center p-[0_10px]'>
@@ -159,8 +164,7 @@ export const UserModal: FC<UserModalProps> = () => {
               {Number(betData?.total_wagered_sum || 0).toFixed(3)}
             </span>
             <span className='text-[#7e7e7e] text-[15px] font-medium uppercase'>
-              {/* {t(`modals.profile.wins`)} */}
-              Wagered
+              {t(`modals.profile.wagered`)}
             </span>
           </div>
         </div>
