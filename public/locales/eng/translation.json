@@ -253,6 +253,7 @@
         "btn": "Submit"
       },
       "Preferences": {
+        "title": "Settings",
         "Sound": "Sound",
         "purchase": "Hide my purchase message",
         "redeem": "Hide my redeem message",
@@ -426,7 +427,9 @@
           "Disclaimer": "Disclaimer:",
           "text": "The exact amount you receive is subject to real-time exchange rate and the actual send amount at the time arrival.",
           "waiting": "Waiting for payment",
-          "send_address": "Send Address"
+          "send_address": "Send Address",
+          "DRAX Coin": "DRAX Coin",
+          "Bonus Coin": "Bonus Coin"
         }
       }
     },

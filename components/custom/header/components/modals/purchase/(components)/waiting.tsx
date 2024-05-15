@@ -82,9 +82,9 @@ const WaitingModal = () => {
           case 'USDT':
             setShowNetworks(true)
             break
-          case 'USDC':
-            setShowNetworks(true)
-            break
+          // case 'USDC':
+          //   setShowNetworks(true)
+          //   break
           case 'TUSD':
             setShowNetworks(true)
             break
@@ -109,7 +109,7 @@ const WaitingModal = () => {
           amount: purchase,
           currency:
             coinList.title === 'USDT' ||
-            coinList.title === 'USDC' ||
+            // coinList.title === 'USDC' ||
             coinList.title === 'TUSD'
               ? `${coinList.title}_${networkActive}`
               : coinList.title,
@@ -222,13 +222,13 @@ const WaitingModal = () => {
                   className='uppercase text-xs font-bold text-[#eaeaea]'
                 />
               </SelectTrigger>
-              <SelectContent className='gap-4 bg-[#202020]'>
+              <SelectContent className='gap-4 bg-[#202020] z-[5555]'>
                 <ScrollArea className='h-[160px]' variant='ghost'>
                   {coins_list.map((item, index) => (
                     <SelectItem
                       value={item.title}
                       key={index}
-                      // icon={item.icon}
+                      icon={item.icon}
                       className='py-2 gap-2'
                     >
                       <span className='uppercase text-xs font-bold text-[#eaeaea]'>
@@ -245,7 +245,7 @@ const WaitingModal = () => {
         <div className='flex flex-col gap-1'>
           <div className='flex items-center justify-between'>
             {(coinList.title === 'USDT' ||
-              coinList.title === 'USDC' ||
+              // coinList.title === 'USDC' ||
               coinList.title === 'TUSD') && (
               <RadioGroup
                 defaultValue={networks_list[0].id}

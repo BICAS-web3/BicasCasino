@@ -1,4 +1,15 @@
-import { BitcoinSVG, DogeSVG, EthereumSVG, LtcSVG, UsdtSVG } from '../../icons'
+import {
+  BNBSVG,
+  BUSDSVG,
+  BitcoinSVG,
+  DogeSVG,
+  EthereumSVG,
+  LTC_LITECOIN,
+  LtcSVG,
+  TONSVG,
+  TRX_TRONSVG,
+  UsdtSVG
+} from '../../icons'
 
 export const crypto_data = [
   {
@@ -56,20 +67,60 @@ export const coins_list = [
     title: 'USDT',
     icon: <UsdtSVG className='aspect-square object-contain' />
   },
+  // {
+  //   title: 'USDC',
+  //   icon: <UsdtSVG className='aspect-square object-contain' />
+  // },
+  // {
+  //   title: 'TUSD',
+  //   icon: <UsdtSVG className='aspect-square object-contain' />
+  // },
   {
-    title: 'USDC',
-    icon: <UsdtSVG className='aspect-square object-contain' />
+    title: 'DAI_ETHEREUM',
+    icon: <DogeSVG className='aspect-square object-contain' />
   },
   {
-    title: 'TUSD',
-    icon: <UsdtSVG className='aspect-square object-contain' />
+    title: 'TRX_TRON',
+    icon: (
+      <TRX_TRONSVG
+        width={24}
+        height={24}
+        className='aspect-square object-contain'
+      />
+    )
   },
-  { title: 'DAI_ETHEREUM', icon: <DogeSVG /> }
-  // { title: 'TRX_TRON', icon: trxIco },
-  // { title: 'LTC_LITECOIN', icon: ltcIco },
-  // { title: 'BNB_BSC', icon: bnb },
-  // { title: 'BUSD_BSC', icon: busd },
-  // { title: 'TON_TON', icon: ton }
+  {
+    title: 'LTC_LITECOIN',
+    icon: (
+      <LTC_LITECOIN
+        width={24}
+        height={24}
+        className='aspect-square object-contain'
+      />
+    )
+  },
+  {
+    title: 'BNB_BSC',
+    icon: (
+      <BNBSVG width={24} height={24} className='aspect-square object-contain' />
+    )
+  },
+  // {
+  //   title: 'BUSD_BSC',
+  //   icon: (
+  //     <BUSDSVG
+  //       width={24}
+  //       height={24}
+  //       className='aspect-square object-contain'
+  //     />
+  //   )
+  // },
+  {
+    title: 'TON_TON',
+    icon: (
+      <TONSVG width={24} height={24} className='aspect-square object-contain' />
+    )
+  }
 ]
 
 export const networks_list = [

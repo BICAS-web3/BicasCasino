@@ -13,6 +13,11 @@ export { default as RefreshSVG } from './refresh.svg'
 export { default as BackSVG } from './back.svg'
 export { default as BilllineLogoSVG } from './billline.logo.svg'
 export { default as RedirectSVG } from './redirect.svg'
+export { default as LTC_LITECOIN } from './LTC_LITECOIN.svg'
+export { default as BNBSVG } from './bnb.svg'
+export { default as TONSVG } from './ton.svg'
+export { default as TRX_TRONSVG } from './TRX_TRON.svg'
+export { default as BUSDSVG } from './busd.svg'
 
 import { BitcoinSVG, EthereumSVG, DogeSVG, LtcSVG, UsdtSVG } from './crypto'
 

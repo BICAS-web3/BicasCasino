@@ -253,6 +253,7 @@
         "btn": "Enviar"
       },
       "Preferences": {
+        "title": "Ajustes",
         "Sound": "Sonido",
         "purchase": "Ocultar mi mensaje de compra",
         "redeem": "Ocultar mi mensaje de canje",
@@ -426,7 +427,9 @@
           "Disclaimer": "Descargo de responsabilidad:",
           "text": "La cantidad exacta que recibirá está sujeta al tipo de cambio en tiempo real y a la cantidad real enviada en el momento de la llegada.",
           "waiting": "Esperando el pago",
-          "send_address": "Dirección de Envío"
+          "send_address": "Dirección de Envío",
+          "DRAX Coin": "Moneda DRAX",
+          "Bonus Coin": "Moneda de Bono"
         }
       }
     },
