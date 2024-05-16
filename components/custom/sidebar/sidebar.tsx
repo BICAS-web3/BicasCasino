@@ -11,13 +11,14 @@ import MenuItem from './components/MenuItem'
 import SidebarSettings from './components/Settings'
 import SidebarMobileSettings from './components/settings.mobile'
 import { useMediaQuery } from 'usehooks-ts'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AffilateSVG, NftSVG, SupportSVG } from './components/icons/bottom'
 import { BonusSVG, HomeSVG, VipSVG } from './components/icons/top'
 import Image from 'next/image'
 import ChestIco from '@/public/images/chestCard/sidebarIco.svg'
 import { LanguageToggle } from './components/LanguageToggle'
 import { LeaderboardSVG } from './components/icons/games'
+import { usePathname } from 'next/navigation'
 
 const Sidebar = () => {
   const [open, setOpen] = useUnit([SidebarModel.$open, SidebarModel.setOpen])
@@ -29,16 +30,29 @@ const Sidebar = () => {
     }
   }, [])
 
+  const [isGamePage, setIsGamePage] = useState(false)
+
+  const location = usePathname()
+
+  useEffect(() => {
+    if (location.includes('games')) {
+      setIsGamePage(true)
+    } else {
+      setIsGamePage(false)
+    }
+  }, [location])
+
   return (
     <>
       {isMobile ? (
         <div
           id='sidebar'
           className={cn(
-            `bg-[#181818] fixed sm:sticky z-[55] sm:z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
+            `bg-[#181818]  sm:sticky z-[55] sm:z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
             open
               ? 'sm:w-[257px] h-[calc(100vh_-_56px)] sm:h-[calc(100vh_-_60px)]'
-              : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]'
+              : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]',
+            open || !isGamePage ? 'fixed' : 'relative'
           )}
         >
           <div
