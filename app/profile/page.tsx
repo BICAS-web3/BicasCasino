@@ -21,11 +21,11 @@ const Profile: FC<ProfileProps> = () => {
   const { t } = useTranslation()
   return (
     <Tabs
-      className='p-[1.25rem_2.5rem] box-border h-full'
+      className='sm:p-[1.25rem_2.5rem] box-border h-full'
       defaultValue='profile'
       value={tab}
     >
-      <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] rounded-[20px] bg-[#151515]'>
+      <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] sm:rounded-[20px] bg-[#151515]'>
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <SettingsIco />
           {t(`pages.settings.Preferences.title`)}
