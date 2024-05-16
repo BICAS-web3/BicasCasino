@@ -44,8 +44,8 @@ const Header = () => {
   const location = usePathname()
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access')
-    const refresh_token = localStorage.getItem('refresh')
+    const access_token = localStorage.getItem('access_token')
+    const refresh_token = localStorage.getItem('refresh_token')
     if (access_token) {
       setAccessToken(access_token)
       refresh_token && setRefreshToken(refresh_token)

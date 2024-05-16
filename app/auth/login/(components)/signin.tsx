@@ -36,7 +36,7 @@ const Signin: FC<SigninProps> = () => {
   ])
 
   useEffect(() => {
-    const exist = localStorage.getItem('auth')
+    const exist = localStorage.getItem('auth_token')
     if (exist) {
       setAccessToken(exist)
       setAuth(true)
