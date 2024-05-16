@@ -40,8 +40,8 @@ export const Total: FC<TotalProps1> = props => {
 
           setTotals({
             total_wagered: (totals?.sum ? Number(totals?.sum) : 0).toFixed(2),
-            total_users: totals.player_amount.toString(),
-            total_bets: totals.bets_amount.toString()
+            total_users: totals?.player_amount?.toString(),
+            total_bets: totals?.bets_amount?.toString()
           })
         })
       }, 20000)
