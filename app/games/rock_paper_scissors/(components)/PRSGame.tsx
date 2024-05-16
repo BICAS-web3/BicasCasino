@@ -3,7 +3,7 @@
 import Coefficient from '@/components/custom/coefficient'
 import { useSocket } from '@/components/providers/socket.provider'
 import { sendSocketData } from '@/lib/utils/game.send'
-import bg from '@/public/images/rps/bg.png'
+import bg from '@/public/images/rps/bg_2.png'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'

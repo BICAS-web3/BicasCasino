@@ -91,7 +91,11 @@ export const GamesPopup: FC<GamesPopupProps> = ({}) => {
           </Link>
         ))}
       </div>
-      <div className='flex h-[72px] items-center'>
+      <Link
+        onClick={() => setOpen(false)}
+        href={'/leaderboard'}
+        className='flex h-[72px] items-center'
+      >
         <div
           // href={`/games/${stringRemoveSpacing(data.second.title)}`}
           className={cn(
@@ -103,7 +107,7 @@ export const GamesPopup: FC<GamesPopupProps> = ({}) => {
             {t('sidebar.LeaderBoard')}
           </span>
         </div>
-      </div>
+      </Link>
     </div>
   )
 }

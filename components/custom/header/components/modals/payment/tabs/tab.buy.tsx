@@ -68,7 +68,6 @@ const TabBuy = () => {
               {t(`modals.back`)}
             </div>
             <span className='text-[18px] font-light text-[#7E7E7E]'>
-              Buy/Bank card
               {t(`modals.wallet.payment.buy.title`)}
             </span>
           </div>
@@ -103,9 +102,13 @@ const TabBuy = () => {
               text={t(`modals.wallet.payment.buy.crypto.route_1.text`)}
               onClick={() => setIsFiat(true)}
             />
-            <span className='uppercase text-[#7E7E7E] text-[11px] font-normal text-center leading-[14px]'>
-              {t(`modals.wallet.payment.buy.crypto.text_2`)}
-            </span>
+            <div className='w-fill flex items-center gap-5'>
+              <span className='flex flex-auto h-[1px] w-full bg-[#252525]'></span>
+              <span className='uppercase min-w-max text-[#7E7E7E] text-[11px] font-normal text-center leading-[14px]'>
+                {t(`modals.wallet.payment.buy.crypto.text_2`)}
+              </span>
+              <span className='flex flex-auto h-[1px] w-full bg-[#252525]'></span>
+            </div>
             <CryptoRoute
               isCrypto
               onClick={() => setIsCrypto(true)}

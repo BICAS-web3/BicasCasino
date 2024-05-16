@@ -186,7 +186,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 : 'bg-[#202020] text-[#7E7E7E]'
             }`}
           >
-            all bets
+            {t('pages.main.live_bets.all')}
           </button>
           <button
             onClick={() => setShowAllBets(false)}
@@ -196,7 +196,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 : 'bg-[#202020] text-[#7E7E7E]'
             }`}
           >
-            my bets
+            {t('pages.main.live_bets.my')}
           </button>
         </div>
       </div>

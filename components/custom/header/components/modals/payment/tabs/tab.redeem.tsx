@@ -71,7 +71,7 @@ const TabRedeem = () => {
               className='uppercase text-xs font-bold text-[#eaeaea]'
             />
           </SelectTrigger>
-          <SelectContent className='gap-4 bg-[#202020]'>
+          <SelectContent className='gap-4 bg-[#202020] z-[5555]'>
             {crypto_data.map((item, index) => (
               <SelectItem
                 value={item.id}

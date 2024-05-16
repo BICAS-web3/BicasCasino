@@ -1,16 +1,13 @@
-import { FC } from 'react'
-
-import Image from 'next/image'
+import { FC, useEffect, useState } from 'react'
 
 import LinkIco from '@/public/images/leaderBoard_images/linkIco.svg'
 
 // import { shortenAddress, useMediaQuery } from "@/shared/tools";
-import { T_LeaderBoardResponse } from '@/api'
-import s from './styles.module.scss'
+import { T_LeaderBoardResponse, getUserBetData } from '@/api'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { BlockiesAva } from '../BlockiesAva/BlockiesAva'
-import { useMediaQuery } from 'usehooks-ts'
+import s from './styles.module.scss'
 
 interface LeaderBoardItemProps extends T_LeaderBoardResponse {
   ind: number
@@ -22,9 +19,23 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
   nickname,
   player,
   total,
-  ind
+  ind,
+  user_id
 }) => {
-  const isMobile = useMediaQuery('(max-width: 1200px)')
+  const [won, setWon] = useState(0)
+
+  useEffect(() => {
+    if (user_id) {
+      ;(async () => {
+        const data = await getUserBetData({ id: Number(user_id) })
+
+        if (data.status === 'OK') {
+          setWon((data as any).body?.won_bets)
+        }
+      })()
+    }
+  }, [user_id])
+
   return (
     <Link href={`/account/${player}`} className={s.leader_board_list_item}>
       <div className={s.leader_board_list_item_rank_block}>
@@ -55,9 +66,7 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
       </div>
 
       <div className={s.leader_board_list_item_address_block}>
-        <span className={s.leader_board_list_item_address}>
-          {isMobile ? player : player}
-        </span>
+        <span className={s.leader_board_list_item_address}>{won}</span>
       </div>
       <div className={s.leader_board_list_item_volume_block}>
         <span className={s.leader_board_list_item_volume}>

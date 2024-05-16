@@ -59,6 +59,8 @@
       },
       "live_bets": {
         "title": "Live Bets",
+        "all": "all bets",
+        "my": "my bets",
         "titles": {
           "Time": "Time",
           "Game": "Game",
@@ -267,6 +269,18 @@
         "notification": "Hide top instant notification",
         "text": "* You can see your hidden info, but others can't *"
       }
+    },
+    "leaderboard": {
+      "title": "Leader Board",
+      "Rank": "Rank",
+      "Player": "Player",
+      "Wons": "Wons",
+      "Volume": "Volume",
+      "Daily": "Daily",
+      "Weekly": "Weekly",
+      "Monthly": "Monthly",
+      "All Time": "All Time",
+      "Cross Profit": "Cross Profit"
     }
   },
   "sidebar": {
@@ -282,6 +296,7 @@
       "CHEST & CARD": "CHEST & CARD",
       "VIP Club": "VIP Club",
       "NFT Market": "NFT Market",
+      "NFT": "NFT",
       "Affiliate": "Affiliate",
       "Support": "Support"
     },

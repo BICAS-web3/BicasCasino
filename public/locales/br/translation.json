@@ -59,6 +59,8 @@
       },
       "live_bets": {
         "title": "Apostas ao vivo",
+        "all": "todas as apostas",
+        "my": "minhas apostas",
         "titles": {
           "Time": "Tempo",
           "Game": "Jogo",
@@ -267,6 +269,18 @@
         "notification": "Ocultar notificação instantânea superior",
         "text": "* Você pode ver suas informações ocultas, mas os outros não podem *"
       }
+    },
+    "leaderboard": {
+      "title": "Classificação",
+      "Rank": "Classificação",
+      "Player": "Jogador",
+      "Wons": "Vitórias",
+      "Volume": "Volume",
+      "Daily": "Diário",
+      "Weekly": "Semanal",
+      "Monthly": "Mensal",
+      "All Time": "De todos os tempos",
+      "Cross Profit": "Lucro Bruto"
     }
   },
   "sidebar": {
@@ -282,6 +296,7 @@
       "CHEST & CARD": "Baú e Carta",
       "VIP Club": "Clube VIP",
       "NFT Market": "Mercado NFT",
+      "NFT": "NFT",
       "Affiliate": "Afiliado",
       "Support": "Suporte"
     },

@@ -47,8 +47,10 @@ const Affiliates: FC<AffiliatesProps> = () => {
             </div>
           </div>
         </div>
-    </Tabs>
-    <Footer />
+      </Tabs>
+      <div className='w-full px-0 sm:px-[2.5rem]'>
+        <Footer />
+      </div>
     </>
   )
 }

@@ -66,7 +66,8 @@ const GamePlayBlock = () => {
     minesDelay,
     setMinesDelay,
     setMinesVisible,
-    minesVisible
+    minesVisible,
+    showNotification
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -105,7 +106,8 @@ const GamePlayBlock = () => {
     GameModel.$minesDelay,
     GameModel.setMinesDelay,
     GameModel.setMinesVisible,
-    GameModel.$minesVisible
+    GameModel.$minesVisible,
+    UserModel.$showNotification
   ])
 
   const path = usePathname()
@@ -225,7 +227,7 @@ const GamePlayBlock = () => {
 
   const handlePlay = () => {
     if (!minesSelected && isMines) {
-      toast(t(`toast.select`))
+      showNotification && toast(t(`toast.select`))
       return
     }
 
@@ -242,17 +244,17 @@ const GamePlayBlock = () => {
       setPokerDelay(true)
     }
     if (cryptoValue > balance) {
-      toast(t(`toast.top_up`))
+      showNotification && toast(t(`toast.top_up`))
       setError(true)
       return
     }
     if (cryptoValue < 1) {
-      toast(t(`toast.min`))
+      showNotification && toast(t(`toast.min`))
       setError(true)
       return
     }
     if (!cryptoValue) {
-      toast(t(`toast.place`))
+      showNotification && toast(t(`toast.place`))
       setError(true)
     } else {
       if (isPoker && !pokerPlay) {

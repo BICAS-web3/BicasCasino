@@ -45,16 +45,16 @@ $socketReset.on(setSocketReset, state => state + 1)
 export const $isDrax = createStore<boolean>(false)
 export const $balance = createStore<number>(0)
 export const $balanceTotal = createStore<any>(null)
+export const $showAllBets = createStore<boolean>(true)
+export const $showNotification = createStore<boolean>(true)
 
 export const setIsDrax = createEvent<boolean>()
 export const setBalance = createEvent<number>()
 export const setBalanceTotal = createEvent<number>()
+export const setShowNotification = createEvent<boolean>()
+export const setShowAllBets = createEvent<boolean>()
 
 $isDrax.on(setIsDrax, (_, state) => state)
 $balance.on(setBalance, (_, state) => state)
-
-export const $showAllBets = createStore<boolean>(true)
-
-export const setShowAllBets = createEvent<boolean>()
-
 $showAllBets.on(setShowAllBets, (_, state) => state)
+$showNotification.on(setShowNotification, (_, state) => state)

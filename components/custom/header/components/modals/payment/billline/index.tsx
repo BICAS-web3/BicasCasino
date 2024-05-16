@@ -1,5 +1,5 @@
 import { getTokensBilliane } from '@/api'
-import { PaymentModel, RegistrModel } from '@/states'
+import { PaymentModel, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -9,9 +9,10 @@ import InputItem from './components/input'
 import { useTranslation } from 'react-i18next'
 
 const Billline = () => {
-  const [setIsBillline, access_token] = useUnit([
+  const [setIsBillline, access_token, showNotification] = useUnit([
     PaymentModel.setIsBillline,
-    RegistrModel.$access_token
+    RegistrModel.$access_token,
+    UserModel.$showNotification
   ])
 
   const [name, setName] = useState('')
@@ -70,10 +71,10 @@ const Billline = () => {
       !zipCode
     ) {
       setError(true)
-      toast(t(`toast.fill_all`))
+      showNotification && toast(t(`toast.fill_all`))
     } else {
       if (!validateEmail(email)) {
-       toast(t(`toast.email`))
+        showNotification && toast(t(`toast.email`))
       } else {
         const data = await getTokensBilliane({
           amount,
@@ -92,7 +93,7 @@ const Billline = () => {
         if (data.status === 'OK') {
           setResponseData((data.body as any).data)
         } else {
-          toast(t(`toast.error`))
+          showNotification && toast(t(`toast.error`))
         }
       }
     }

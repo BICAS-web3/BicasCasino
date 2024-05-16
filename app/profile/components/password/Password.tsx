@@ -4,13 +4,16 @@ import { SubmitBtn } from '../submitBtn/SubmitBtn'
 import { toast } from 'sonner'
 import { changePassword } from '@/api'
 import { useUnit } from 'effector-react'
-import { RegistrModel } from '@/states'
+import { RegistrModel, UserModel } from '@/states'
 import { useTranslation } from 'react-i18next'
 
 interface SettingsPasswordProps {}
 
 export const SettingsPassword: FC<SettingsPasswordProps> = () => {
-  const [access_token] = useUnit([RegistrModel.$access_token])
+  const [access_token, showNotification] = useUnit([
+    RegistrModel.$access_token,
+    UserModel.$showNotification
+  ])
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -18,13 +21,13 @@ export const SettingsPassword: FC<SettingsPasswordProps> = () => {
 
   const btnHandler = async () => {
     if (!currentPassword) {
-      toast(t(`toast.password_1`))
+      showNotification &&toast(t(`toast.password_1`))
     } else if (!newPassword) {
-      toast(t(`toast.password_2`))
+      showNotification &&toast(t(`toast.password_2`))
     } else if (!confirmPassword) {
-      toast(t(`toast.password_3`))
+     showNotification && toast(t(`toast.password_3`))
     } else if (newPassword !== confirmPassword) {
-      toast(t(`toast.password_4`))
+     showNotification && toast(t(`toast.password_4`))
     } else {
       const data = await changePassword({
         bareer: access_token,
@@ -32,9 +35,9 @@ export const SettingsPassword: FC<SettingsPasswordProps> = () => {
         old_password: currentPassword
       })
       if (data.status === 'OK') {
-        toast(t(`toast.success`))
+       showNotification && toast(t(`toast.success`))
       } else {
-        toast(t(`toast.error`))
+       showNotification && toast(t(`toast.error`))
       }
     }
   }

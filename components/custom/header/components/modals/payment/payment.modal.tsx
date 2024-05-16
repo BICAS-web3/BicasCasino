@@ -80,11 +80,11 @@ const Payment = () => {
         ) : (
           <Tabs className='h-full flex flex-col' value={tab}>
             <div>
-              <TabsList className='w-full border border-[#252525] bg-[#121212] py-[5px] h-[40px] px-[5px] rounded-full gap-2'>
+              <TabsList className='w-full border border-[#252525] bg-[#121212] py-[5px] h-[50px] px-[5px] rounded-full gap-2'>
                 {tabData.map((tabItem, index) => (
                   <TabsTrigger
                     value={stringRemoveSpacing(tabItem).toLocaleLowerCase()}
-                    className='rounded-full 0 text-[16px] font-medium h-[30px] !p-0 data-[state=active]:font-bold data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
+                    className='rounded-full 0 text-base font-normal h-10 !p-0 data-[state=active]:font-bold data-[state=active]:bg-[#202020] hover:bg-[#181818] w-full'
                     key={`payment-modal-title--${stringRemoveSpacing(
                       tabItem.toLocaleLowerCase()
                     )}-${index}`}

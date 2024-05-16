@@ -233,7 +233,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   }, [])
 
   return (
-    <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
+    <section className='pb-5 sm:pb-0 h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
       <ReactHowler
         src={'/music/thimble_mix.mp3'}
         playing={playSounds !== 'off' && showAnimation}

@@ -14,6 +14,7 @@ import * as Api from '@/api'
 import s from './style.module.scss'
 import { TotalItem } from './TotalItem'
 import { SettingModel } from '@/states'
+import { useTranslation } from 'react-i18next'
 
 const UserBoard: FC<{}> = () => {
   const [setLeaders, leaders] = useUnit([
@@ -52,6 +53,7 @@ const UserBoard: FC<{}> = () => {
     setLeaders((data as any).leaderboard)
   }
 
+  const { t } = useTranslation()
   return (
     <div className='flex flex-col gap-10'>
       <div className={s.total_container}>
@@ -75,11 +77,6 @@ const UserBoard: FC<{}> = () => {
                   break
               }
 
-              // const truncatedAddress = `${item.player.slice(
-              //   0,
-              //   7
-              // )}...${item.player.slice(36, 42)}`
-
               return (
                 <TotalItem
                   description={item.username}
@@ -95,7 +92,7 @@ const UserBoard: FC<{}> = () => {
       </div>
       <div className={s.period}>
         <div className={s.period_column}>
-          <div className={s.period_title}>Volume</div>
+          <div className={s.period_title}>{t('pages.leaderboard.Volume')}</div>
           <ul className={s.period_list}>
             {Api.TypeLeadboardApi.slice(0, 4).map((btn, i) => (
               <li key={i} className={s.period_item}>
@@ -107,14 +104,16 @@ const UserBoard: FC<{}> = () => {
                   )}
                   onClick={() => handleButtonClick(btn)}
                 >
-                  {btn.split('_')[0]}
+                  {t(`pages.leaderboard.${btn.split('_')[0]}`)}
                 </button>
               </li>
             ))}
           </ul>
         </div>
         <div className={s.period_column}>
-          <div className={s.period_title}>Cross Profit</div>
+          <div className={s.period_title}>
+            {t('pages.leaderboard.Cross Profit')}
+          </div>
           <ul className={s.period_list}>
             {Api.TypeLeadboardApi.slice(4).map((btn, i) => (
               <li key={i} className={s.period_item}>
@@ -126,7 +125,7 @@ const UserBoard: FC<{}> = () => {
                   )}
                   onClick={() => handleButtonClick(btn)}
                 >
-                  {btn.split('_')[0]}
+                  {t(`pages.leaderboard.${btn.split('_')[0]}`)}
                 </button>
               </li>
             ))}

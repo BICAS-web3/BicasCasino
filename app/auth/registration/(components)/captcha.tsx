@@ -3,6 +3,8 @@ import React, { useEffect, useRef } from 'react'
 import getConfig from 'next/config'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
+import { useUnit } from 'effector-react'
+import { UserModel } from '@/states'
 
 export interface CaptchaProps {
   show: boolean
@@ -20,7 +22,7 @@ export const Captcha: React.FunctionComponent<CaptchaProps> = ({
   }
 
   const captchaRef = useRef<HCaptcha>(null)
-
+  const [showNotification] = useUnit([UserModel.$showNotification])
   useEffect(() => {
     if (startCaptcha) {
       captchaRef.current?.execute()
@@ -40,7 +42,7 @@ export const Captcha: React.FunctionComponent<CaptchaProps> = ({
         onExpire={() => onToken('')}
         onError={err => {
           onToken('')
-          toast(t(`toast.captcha`))
+          showNotification && toast(t(`toast.captcha`))
           console.error(err)
         }}
       />

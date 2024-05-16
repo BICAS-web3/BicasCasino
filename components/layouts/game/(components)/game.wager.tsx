@@ -34,7 +34,8 @@ const GameWager = () => {
     setApplesWagerr,
     isDrax,
     setGameStatus,
-    setIsPlaying
+    setIsPlaying,
+    showNotification
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -52,7 +53,8 @@ const GameWager = () => {
     GameModel.setApplesWagerr,
     UserModel.$isDrax,
     GameModel.setGameStatus,
-    GameModel.setIsPlaying
+    GameModel.setIsPlaying,
+    UserModel.$showNotification
   ])
 
   useEffect(() => {
@@ -137,7 +139,7 @@ const GameWager = () => {
   const handleBet = value => {
     // alert(3)
     if (isPlaying) {
-      toast(t(`toast.in_game`))
+      showNotification && toast(t(`toast.in_game`))
       return
     }
     if (value === 'min') {

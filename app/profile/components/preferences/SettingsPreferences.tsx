@@ -1,6 +1,6 @@
-import { FormField } from '@/components/ui/form'
-import { Switch } from '@/components/ui/switch'
-import { FC, useState } from 'react'
+import { GameModel, UserModel } from '@/states'
+import { useUnit } from 'effector-react'
+import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const list = [
@@ -9,55 +9,53 @@ const list = [
     enabled: true
   },
   {
-    title: 'purchase',
-    enabled: false
-  },
-  {
-    title: 'redeem',
-    enabled: false
-  },
-  {
-    title: 'hide_message',
-    enabled: false
-  },
-  {
-    title: 'amount',
-    enabled: true
-  },
-  {
-    title: 'hide_redeem',
-    enabled: false
-  },
-  {
-    title: 'total',
-    enabled: false
-  },
-  {
-    title: 'ghost',
-    enabled: true
-  },
-  {
-    title: 'refuse_req',
-    enabled: true
-  },
-  {
-    title: 'chatroom',
-    enabled: true
-  },
-  {
     title: 'notification',
-    enabled: true
+    enabled: false
   }
 ]
 
 interface SettingsPreferencesProps {}
 
 export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
+  const [switchSounds, playSounds, setShowNotification, showNotification] =
+    useUnit([
+      GameModel.switchSounds,
+      GameModel.$playSounds,
+      UserModel.setShowNotification,
+      UserModel.$showNotification
+    ])
   const [activeList, setActiveList] = useState(list)
+
+  useEffect(() => {
+    setActiveList(prevActiveList =>
+      prevActiveList.map(item =>
+        item.title === 'Sound'
+          ? { ...item, enabled: playSounds === 'on' }
+          : item
+      )
+    )
+  }, [playSounds])
+
+  useEffect(() => {
+    setActiveList(prevActiveList =>
+      prevActiveList.map(item =>
+        item.title !== 'Sound' ? { ...item, enabled: !showNotification } : item
+      )
+    )
+  }, [showNotification])
 
   const switchHandler = (title: string) => {
     const updatedList = activeList.map(item => {
       if (item.title === title) {
+        if (title === 'Sound') {
+          if (item.enabled) {
+            switchSounds('off')
+          } else {
+            switchSounds('on')
+          }
+        } else {
+          setShowNotification(!showNotification)
+        }
         return {
           ...item,
           enabled: !item.enabled
@@ -110,3 +108,39 @@ export const SettingsPreferences: FC<SettingsPreferencesProps> = () => {
     </div>
   )
 }
+// {
+//   title: 'purchase',
+//   enabled: false
+// },
+// {
+//   title: 'redeem',
+//   enabled: false
+// },
+// {
+//   title: 'hide_message',
+//   enabled: false
+// },
+// {
+//   title: 'amount',
+//   enabled: true
+// },
+// {
+//   title: 'hide_redeem',
+//   enabled: false
+// },
+// {
+//   title: 'total',
+//   enabled: false
+// },
+// {
+//   title: 'ghost',
+//   enabled: true
+// },
+// {
+//   title: 'refuse_req',
+//   enabled: true
+// },
+// {
+//   title: 'chatroom',
+//   enabled: true
+// },
