@@ -72,8 +72,8 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
 
   const handleLogout = () => {
     setVisible(false)
-    localStorage.removeItem('access')
-    localStorage.removeItem('refresh')
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
     route.push('/auth/registration')
   }
 
