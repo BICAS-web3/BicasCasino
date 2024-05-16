@@ -45,7 +45,7 @@ const Thimble = ({
   return (
     <div
       key={ind}
-      className={`sm:top-5 flex flex-col justify-center items-center transition-all duration-500 relative
+      className={`sm:top-5 mb-5 sm:mb-0 flex flex-col justify-center items-center transition-all duration-500 relative
                 ${showAnimation && `thimble_wrap_${ind + 1}`}`}
       onClick={() => {
         if (!showAnimation && !openGame && isPlaying) {
@@ -96,7 +96,7 @@ const Thimble = ({
       )}
       <img
         src='/images/thimbles/thimbleShadow.webp'
-        className='select-none w-[88px] sm:w-[180px] top-[0px] sm:top-[17px] relative'
+        className='select-none w-[88px] sm:w-[180px] top-[10px] sm:top-[17px] relative'
         alt='thimble-static-shadow'
       />
     </div>
