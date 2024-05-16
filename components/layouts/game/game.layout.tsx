@@ -117,11 +117,7 @@ const GameLayout = ({ children }) => {
         onEnd={() => setNewMusic()}
       />
       <div
-        className={`relative flex flex-col sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] ${
-          isApples
-            ? 'min-h-[650px] max-h-max-content'
-            : 'min-h-[430px] max-h-max-content'
-        }`}
+        className={`relative flex flex-col sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] max-h-max-content min-h-[300px]`}
       >
         {access_token && socketAuth ? children : <Preload />}
         <div
