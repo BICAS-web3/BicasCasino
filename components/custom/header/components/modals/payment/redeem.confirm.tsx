@@ -33,7 +33,7 @@ const RedeemConfirmModal = () => {
     <Dialog open={redeemConfirm} onOpenChange={handleClose}>
       <DialogContent
         customClose
-        className='gap-5 max-w-[510px] bg-[#181818] px-[30px] py-5'
+        className='gap-5 max-w-[510px] bg-[#181818] px-[20px] py-5'
       >
         <DialogHeader>
           <div className='flex justify-between items-center flex-row pr-2'>

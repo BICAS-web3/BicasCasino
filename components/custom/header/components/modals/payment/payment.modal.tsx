@@ -44,7 +44,7 @@ const Payment = () => {
           tab !== 'tips'
             ? 'max-h-[100%] h-full sm:max-h-[725px]'
             : 'max-h-[100%] h-full sm:h-fit sm:max-h-[725px]'
-        } flex flex-col  bg-[#181818] px-[30px] py-5`}
+        } flex flex-col  bg-[#181818] px-[18px] py-5`}
       >
         <DialogHeader className='h-[55px]'>
           <div className='flex justify-between items-center flex-row'>

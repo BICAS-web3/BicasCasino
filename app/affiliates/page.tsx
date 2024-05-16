@@ -10,12 +10,15 @@ import { AffiliatesCampaigns } from './components/campaigns/AffiliatesCampaigns'
 import Footer from '@/components/custom/footer'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/navigation'
 
 interface AffiliatesProps {}
 
 const Affiliates: FC<AffiliatesProps> = () => {
   const [tab, setTab] = useState('getStart')
   const { t } = useTranslation()
+  const router = useRouter()
+
   return (
     <>
       <Tabs
@@ -23,7 +26,7 @@ const Affiliates: FC<AffiliatesProps> = () => {
         defaultValue='getStart'
         value={tab}
       >
-        <X className='absolute top-[40px] right-[60px] text-[#363636] cursor-pointer'></X>
+        <X onClick={() => router.push('/')} className='absolute top-[40px] right-[60px] text-[#363636] cursor-pointer'></X>
         <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] mb-[40px] sm:rounded-[20px] bg-[#151515]'>
           <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
             <AffiliatesIco />

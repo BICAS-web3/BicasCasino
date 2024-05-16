@@ -52,7 +52,7 @@ export const AffiliatesGetStart: FC<AffiliatesGetStartProps> = () => {
       </div>
       <div className='flex justify-end items-center border border-[#3E3E3E] p-[20px]'>
         <SubmitBtn
-          isWidth
+          isWidth={window.innerWidth < 650}
           title={t(`pages.affiliates.start.btn`)}
           handler={btnHandler}
         />

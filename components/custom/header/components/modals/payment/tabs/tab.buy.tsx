@@ -73,7 +73,7 @@ const TabBuy = () => {
           </div>
         )}
         <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5'>
-          <span className='text-[10px] sm:text-xs sm:text-sm'>
+          <span className='text-[10px] sm:text-xs'>
             <span className='font-extrabold text-[#ffe09d]'>
               {t(`modals.wallet.payment.buy.subtitle.text_1`)}{' '}
             </span>
