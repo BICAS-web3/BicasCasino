@@ -54,7 +54,7 @@ const SignUp: FC<SignupProps> = () => {
   ])
 
   useEffect(() => {
-    const exist = localStorage.getItem('auth_token')
+    const exist = localStorage.getItem('auth')
     if (exist) {
       setAccessToken(exist)
       setAuth(true)

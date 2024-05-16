@@ -49,11 +49,11 @@ const Header = () => {
     if (access_token) {
       setAccessToken(access_token)
       refresh_token && setRefreshToken(refresh_token)
-      if (location.includes('auth_token')) {
+      if (location.includes('auth')) {
         route.push('/')
       }
     } else {
-      if (!location.includes('auth_token')) {
+      if (!location.includes('auth')) {
         route.push('/auth/registration')
       }
     }
