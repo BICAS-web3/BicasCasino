@@ -31,7 +31,7 @@ const Preview = ({ className }: { className?: string }) => {
       )}
       style={{
         backgroundImage: isMobile
-          ? `url('/images/main_banner/0xbanner.png')`
+          ? `url('/images/main_banner/0banner.png')`
           : isTablet
           ? `url('/images/main_banner/1xbanner.png')`
           : `url('/images/main_banner/2xbanner.png')`,
