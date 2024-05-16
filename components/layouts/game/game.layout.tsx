@@ -1,5 +1,11 @@
 import Preload from '@/components/custom/preload'
-import { GameModel, ModalsModel, RegistrModel, SidebarModel, UserModel } from '@/states'
+import {
+  GameModel,
+  ModalsModel,
+  RegistrModel,
+  SidebarModel,
+  UserModel
+} from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -104,14 +110,14 @@ const GameLayout = ({ children }) => {
   }
 
   return (
-    <div className='w-full sm:p-10 sm:pb-5 flex flex-col min-h-[calc(100vh-112px)] sm:min-h-[calc(100vh-100px)] xl:min-h-[calc(100vh-110px)] 3xl:min-h-[calc(100vh-90px)] relative'>
+    <div className='w-full sm:p-10 sm:pb-5 flex flex-col flex-[1_1_auto] sm:min-h-[calc(100vh-100px)] xl:min-h-[calc(100vh-110px)] 3xl:min-h-[calc(100vh-90px)] relative'>
       <ReactHowler
         src={musicsList[currentSoundIndex]}
         playing={playSounds === 'on'}
         onEnd={() => setNewMusic()}
       />
       <div
-        className={`relative flex flex-col pb-[160px] sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] ${
+        className={`relative flex flex-col pb-[216px] sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] ${
           isApples
             ? 'min-h-[650px] max-h-max-content'
             : 'min-h-[430px] max-h-max-content'
@@ -119,7 +125,7 @@ const GameLayout = ({ children }) => {
       >
         {access_token && socketAuth ? children : <Preload />}
         <div
-          className='absolute top-10 sm:top-auto sm:bottom-5 right-5 p-3 rounded-[10px] shadow-[0px_0px_2px_white] cursor-pointer bg-black z-[2]'
+          className='absolute w-8 h-8 flex justify-center items-center rounded-[5px] bg-[#181818B2] top-10 sm:top-auto sm:bottom-5 right-5 cursor-pointer z-[2] hover:shadow-[0px_0px_6.2px_0px_#FFFFFF80] duration-500'
           onClick={soundChange}
         >
           {playSounds === 'off' ? (
