@@ -113,11 +113,11 @@ const SignUp: FC<SignupProps> = () => {
             (userResponse.body as Record<string, string>).refresh_token
           )
           localStorage.setItem(
-            'access',
+            'access_token',
             (userResponse.body as Record<string, string>).access_token
           )
           localStorage.setItem(
-            'refresh',
+            'refresh_token',
             (userResponse.body as Record<string, string>).access_token
           )
 

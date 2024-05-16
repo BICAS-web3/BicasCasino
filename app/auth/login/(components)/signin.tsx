@@ -75,11 +75,11 @@ const Signin: FC<SigninProps> = () => {
       if (data?.status === 'OK') {
         setAccessToken((data.body as Record<string, string>).access_token)
         localStorage.setItem(
-          'access',
+          'access_token',
           (data.body as Record<string, string>).access_token
         )
         localStorage.setItem(
-          'refresh',
+          'refresh_token',
           (data.body as Record<string, string>).access_token
         )
         setRefreshToken((data.body as Record<string, string>).refresh_token)
