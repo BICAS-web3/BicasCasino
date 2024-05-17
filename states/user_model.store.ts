@@ -27,6 +27,7 @@ export type UserType = {
   id: number
   registration_time: number
   username: string
+  user_level: number
 }
 
 export const $userInfo = createStore<UserType | null>(null)

@@ -15,6 +15,9 @@ import { toast } from 'sonner'
 const bets = ['min', '/2', 'x2', 'max']
 const titles = ['Wager', 'Max: 50']
 
+const BONUS_MAX = 50000
+const COIN_MAX = 500
+
 const GameWager = () => {
   const path = usePathname()
   const [
@@ -130,7 +133,7 @@ const GameWager = () => {
       setCryptoValue(0)
       return
     }
-    if (num > 50) {
+    if (num > (isDrax ? COIN_MAX : BONUS_MAX)) {
       return
     }
     setCryptoInputValue(numb)
@@ -145,16 +148,16 @@ const GameWager = () => {
     if (value === 'min') {
       setCryptoInputValue('1')
     } else if (value === 'max') {
-      if (balance > 50) {
-        setCryptoInputValue('50')
+      if (balance > (isDrax ? COIN_MAX : BONUS_MAX)) {
+        setCryptoInputValue(`${isDrax ? COIN_MAX : BONUS_MAX}`)
       } else {
         setCryptoInputValue(balance.toString())
       }
     } else if (cryptoInputValue.length && value === '/2') {
       setCryptoInputValue((Number(cryptoInputValue) / 2).toString())
     } else if (cryptoInputValue.length && value === 'x2') {
-      if (Number(cryptoInputValue) * 2 > 50) {
-        setCryptoInputValue('50')
+      if (Number(cryptoInputValue) * 2 > (isDrax ? COIN_MAX : BONUS_MAX)) {
+        setCryptoInputValue(`${isDrax ? COIN_MAX : BONUS_MAX}`)
       } else {
         setCryptoInputValue((Number(cryptoInputValue) * 2).toString())
       }
@@ -162,6 +165,13 @@ const GameWager = () => {
   }
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (Number(cryptoInputValue) > balance) {
+      setCryptoValue(balance)
+      setCryptoInputValue(`${balance}`)
+    }
+  }, [isDrax])
 
   return (
     <div className='w-full sm:w-fit my-0 mx-auto col-start-1 col-end-3 row-start-1 flex flex-col gap-2'>
@@ -171,7 +181,14 @@ const GameWager = () => {
             key={`game-wager--${stringRemoveSpacing(title)}-${index}`}
             className='text-sm font-semibold leading-5 tracking-wide text-[#7e7e7e]'
           >
-            {t(`pages.games.${title}`)}
+            {title.includes('50')
+              ? t(
+                  `pages.games.${title}`.replace(
+                    '50',
+                    `${isDrax ? COIN_MAX : BONUS_MAX}`
+                  )
+                )
+              : t(`pages.games.${title}`)}
           </span>
         ))}
       </div>
