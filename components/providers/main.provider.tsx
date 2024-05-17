@@ -55,7 +55,7 @@ const MainProvider = ({ children }: Props) => {
                       {children}
                     </div>
                   </div>
-                  <Toaster position='top-right' />
+                  <Toaster position='top-right' duration={2000} />
                 </main>
               )}
               <ModalProvider />

@@ -11,7 +11,7 @@ import User from './components/user'
 
 import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
 import * as api from '@/api'
-import { UserType } from '@/states/user_model.store'
+import { $seeds, UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 
@@ -26,7 +26,12 @@ const Header = () => {
     setGamesList,
     refresh_token,
     setAccessToken,
-    setRefreshToken
+    setRefreshToken,
+    seeds,
+    setSeed,
+    errorSeed,
+    setErrorSeed,
+    updateUserInfo
   ] = useUnit([
     RegistrModel.$access_token,
     UserModel.setUserInfo,
@@ -37,7 +42,12 @@ const Header = () => {
     GameModel.setGamesList,
     RegistrModel.$refresh_token,
     RegistrModel.setAccessToken,
-    RegistrModel.setRefreshToken
+    RegistrModel.setRefreshToken,
+    UserModel.$seeds,
+    UserModel.setSeed,
+    UserModel.$errorSeed,
+    UserModel.setErrorSeed,
+    UserModel.$updateUserInfo
   ])
 
   const route = useRouter()
@@ -67,9 +77,7 @@ const Header = () => {
         }
       })()
     }
-  }, [access_token])
-
-  const [errorSeed, setErrorSeed] = useState(false)
+  }, [access_token, updateUserInfo])
 
   // Server seed
   useEffect(() => {
@@ -106,8 +114,6 @@ const Header = () => {
       Math.random() +
       'Insane 1wereesawesewrsjvhgvhhvvhewrreewrdefwrefdsewrwsswqerewreesdfedr0wereewrwr0%rawefewerretwrreewrewrtedsf ewedswin seed'
   }
-
-  const [seeds, setSeed] = useState<boolean | null>(null)
   const socket = useSocket()
 
   const data = { type: 'Auth', token: access_token }
@@ -139,11 +145,12 @@ const Header = () => {
       seeds === false &&
       seeds !== null &&
       socket &&
-      socket.readyState === WebSocket.OPEN
+      socket.readyState === WebSocket.OPEN &&
+      socketAuth
     ) {
       socket.send(JSON.stringify({ type: 'NewServerSeed' }))
     }
-  }, [seeds, socket?.readyState, socketReset])
+  }, [seeds, socket?.readyState, socketReset, socketAuth])
 
   useEffect(() => {
     ;(async () => {

@@ -76,7 +76,7 @@ const BalanceSwitcher = () => {
           balance?.amounts.find(el => el.name === 'Drax')?.amount
         )
         const bets = await api.GetTotalsFx()
-        bets && alert(JSON.stringify(bets))
+        // bets && alert(JSON.stringify(bets))
         setRedeemable(value)
       })()
     }

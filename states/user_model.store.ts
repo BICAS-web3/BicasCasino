@@ -32,7 +32,7 @@ export type UserType = {
 
 export const $userInfo = createStore<UserType | null>(null)
 
-export const setUserInfo = createEvent<UserType>()
+export const setUserInfo = createEvent<UserType | null>()
 
 $isPartner.on(setIsPartner, (_, state) => state)
 
@@ -49,6 +49,9 @@ export const $balanceTotal = createStore<any>(null)
 export const $showAllBets = createStore<boolean>(true)
 export const $showNotification = createStore<boolean>(true)
 export const $redeemable = createStore<number>(0)
+export const $seeds = createStore<boolean | null>(null)
+export const $errorSeed = createStore<boolean>(false)
+export const $updateUserInfo = createStore<number>(0)
 
 export const setIsDrax = createEvent<boolean>()
 export const setBalance = createEvent<number>()
@@ -56,9 +59,15 @@ export const setBalanceTotal = createEvent<number>()
 export const setShowNotification = createEvent<boolean>()
 export const setShowAllBets = createEvent<boolean>()
 export const setRedeemable = createEvent<number>()
+export const setSeed = createEvent<boolean | null>()
+export const setErrorSeed = createEvent<boolean>()
+export const setUpdateUserInfo = createEvent<number>()
 
 $isDrax.on(setIsDrax, (_, state) => state)
 $balance.on(setBalance, (_, state) => state)
 $showAllBets.on(setShowAllBets, (_, state) => state)
 $showNotification.on(setShowNotification, (_, state) => state)
 $redeemable.on(setRedeemable, (_, state) => state)
+$seeds.on(setSeed, (_, state) => state)
+$errorSeed.on(setErrorSeed, (_, state) => state)
+$updateUserInfo.on(setUpdateUserInfo, (_, state) => state)

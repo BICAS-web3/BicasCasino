@@ -167,10 +167,8 @@ const GameWager = () => {
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (Number(cryptoInputValue) > balance) {
-      setCryptoValue(balance)
-      setCryptoInputValue(`${balance}`)
-    }
+    setCryptoInputValue('1')
+    setCryptoValue(1)
   }, [isDrax])
 
   return (

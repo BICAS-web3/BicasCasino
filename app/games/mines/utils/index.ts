@@ -190,7 +190,7 @@ export const pickTileforMine = ({
         new Promise(resolve =>
           setTimeout(
             () => resolve(setTotalOpenedTiles(totalOpenedTiles + 1)),
-            3
+            10
           )
         )
       ])
@@ -199,7 +199,7 @@ export const pickTileforMine = ({
         new Promise(resolve =>
           setTimeout(
             () => resolve(setTotalOpenedTiles(totalOpenedTiles - 1)),
-            3
+            10
           )
         )
       ])
@@ -208,20 +208,20 @@ export const pickTileforMine = ({
     if (pickedTiles[index] === true) {
       Promise.all([
         new Promise(resolve =>
-          setTimeout(() => resolve((pickedTiles[index] = false)), 3)
+          setTimeout(() => resolve((pickedTiles[index] = false)), 10)
         )
       ])
     } else {
       Promise.all([
         new Promise(resolve =>
-          setTimeout(() => resolve((pickedTiles[index] = true)), 3)
+          setTimeout(() => resolve((pickedTiles[index] = true)), 10)
         )
       ])
     }
     // pickedTiles[index] = !pickedTiles[index]
     // alert(1)
     Promise.all([
-      new Promise(resolve => setTimeout(() => resolve(triggerRedraw(true)), 3))
+      new Promise(resolve => setTimeout(() => resolve(triggerRedraw(true)), 10))
     ])
   }
 }
