@@ -22,19 +22,14 @@ const SelectedMine = ({ type, waitingResponse, index }: ISelectedMine) => {
 
       case Tile.Bomb:
         return (
-          // <Image
-          //   className={
-          //     'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] duration-500 absolute z-[1]'
-          //   }
-          //   width={80}
-          //   height={80}
-          //   alt='mine money'
-          //   src={'/icons/mines/mine.bomb.svg'}
-          // />
-          <MineBombSVG
+          <Image
             className={
               'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] duration-500 absolute z-[1]'
             }
+            width={80}
+            height={80}
+            alt='mine money'
+            src={'/icons/mines/mine.bomb.svg'}
           />
         )
 
