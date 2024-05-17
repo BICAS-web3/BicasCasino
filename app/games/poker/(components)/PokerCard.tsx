@@ -94,7 +94,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`/images/cards/back.png`}
+                src={`https://game.greekkeepers.io/cards/back.png`}
                 alt='card-image'
                 width={200}
                 height={278}
@@ -117,10 +117,10 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 onLoad={() => setImageLoading(false)}
                 src={
                   card === 0 && coat === 0
-                    ? `/images/cards/back.png`
-                    : `/images/cards/${coat}/${card}.svg`
+                    ? `https://game.greekkeepers.io/cards/back.png`
+                    : `https://game.greekkeepers.io/cards/${coat}/${card}.svg`
                 }
-                // src={`/images/cards/${coat}/${card}.svg`}
+                // src={`https://game.greekkeepers.io/cards/${coat}/${card}.svg`}
                 alt='card-image'
                 width={200}
                 height={278}
@@ -147,8 +147,8 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 onLoad={() => setImageLoading(false)}
                 src={
                   card === 0 && coat === 0
-                    ? `/images/cards/back.png`
-                    : `/images/cards/${coat}/${card}.svg`
+                    ? `https://game.greekkeepers.io/cards/back.png`
+                    : `https://game.greekkeepers.io/cards/${coat}/${card}.svg`
                 }
                 alt='card-image'
                 width={200}
@@ -171,7 +171,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
             >
               <Image
                 onLoad={() => setImageLoading(false)}
-                src={`/images/cards/back.png`}
+                src={`https://game.greekkeepers.io/cards/back.png`}
                 alt='card-image'
                 width={200}
                 height={278}
