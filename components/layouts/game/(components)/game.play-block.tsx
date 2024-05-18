@@ -24,6 +24,7 @@ import {
 } from '@/components/custom/header/components/icons'
 import useSound from 'use-sound'
 import { useTranslation } from 'react-i18next'
+import InfoIcon from '@/public/images/misc/infoIcon.svg'
 
 const GamePlayBlock = () => {
   const [pokerChange] = useSound('/music/poker_change.mp3')
@@ -285,7 +286,7 @@ const GamePlayBlock = () => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className='flex justify-center items-center'>
-            <Info className='w-6 h-6 aspect-square cursor-pointer text-[#676767]' />
+            <InfoIcon className='w-6 h-6 aspect-square cursor-pointer text-[#676767]' />
           </TooltipTrigger>
           <TooltipContent>
             <p>{t('pages.games.info')}</p>

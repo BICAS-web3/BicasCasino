@@ -24,13 +24,6 @@ const PaymentCrypto = () => {
   }, [])
   const { t } = useTranslation()
   return (
-    // <ScrollArea
-    //   className='h-[45vh] w-full rounded-md border border-none'
-    //   variant='ghost'
-    // >
-
-    // </ScrollArea>
-
     <div className='payment-crypto-list w-full rounded-md border border-none overflow-auto'>
       <div className='grid grid-cols-2 gap-[10px] h-full'>
         {draxTypesList.map((item, ind) => (

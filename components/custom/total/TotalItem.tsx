@@ -12,7 +12,7 @@ export const TotalItem: FC<TotalItemProps> = props => {
     <div
       className={`
         box-border flex relative flex-col 
-        items-center rounded-[20px] bg-[#151515]
+        items-center rounded-[12px] sm:rounded-[20px] bg-[#151515]
         w-full sm:h-[263px] h-[126px] pb-[0px] sm:pb-[50px]
     `}
     >

@@ -9,11 +9,12 @@ const Social = () => {
       <h6 className='text-[#979797] tracking-[1px] text-center font-normal'>
         {t('footer.join')}
       </h6>
-      <div className='grid w-auto justify-evenly gap-x-5 gap-y-3 sm:gap-3 grid-cols-4'>
+      <div className='grid w-auto justify-evenly gap-x-6 gap-y-4 sm:gap-3 grid-cols-4'>
         {socials.map((item, index) => (
           <Link
             href={item.href}
             target='_blank'
+            className='flex justify-center'
             key={`${item.title}_${index}`}
             rel='noopener noreferrer'
           >

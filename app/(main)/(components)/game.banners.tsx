@@ -93,6 +93,7 @@ const GameBanners = ({ className }: { className?: string }) => {
             className='pt-[10px]'
           >
             <GameSlideItem
+              players={(index * 100) - (index * 3 / 2)}
               className='duration-500 hover:-translate-y-[8px] mt-2'
               image={item.image}
               title={item.title}
