@@ -170,58 +170,22 @@ export const pickTileforMine = ({
   playTileClick,
   triggerRedraw,
   pickedValue
-}: {
-  index: number
-  pickedTiles: boolean[]
-  totalOpenedTiles: number
-  setTotalOpenedTiles: Dispatch<SetStateAction<number>>
-  musicType: string
-  gameField: Tile[]
-  playTileClick: () => void
-  triggerRedraw: Dispatch<SetStateAction<boolean>>
-  pickedValue: number
 }) => {
-  if (gameField[index] == Tile.Closed) {
+  if (gameField[index] === Tile.Closed) {
     if (!pickedTiles[index]) {
       if (totalOpenedTiles >= maxReveal[pickedValue]) {
         return
       }
-      Promise.all([
-        new Promise(resolve =>
-          setTimeout(
-            () => resolve(setTotalOpenedTiles(totalOpenedTiles + 1)),
-            10
-          )
-        )
-      ])
+      setTotalOpenedTiles(prev => prev + 1)
+      pickedTiles[index] = true
     } else {
-      Promise.all([
-        new Promise(resolve =>
-          setTimeout(
-            () => resolve(setTotalOpenedTiles(totalOpenedTiles - 1)),
-            10
-          )
-        )
-      ])
+      setTotalOpenedTiles(prev => prev - 1)
+      pickedTiles[index] = false
     }
-    musicType !== 'off' && playTileClick()
-    if (pickedTiles[index] === true) {
-      Promise.all([
-        new Promise(resolve =>
-          setTimeout(() => resolve((pickedTiles[index] = false)), 10)
-        )
-      ])
-    } else {
-      Promise.all([
-        new Promise(resolve =>
-          setTimeout(() => resolve((pickedTiles[index] = true)), 10)
-        )
-      ])
+
+    if (musicType !== 'off') {
+      playTileClick()
     }
-    // pickedTiles[index] = !pickedTiles[index]
-    // alert(1)
-    Promise.all([
-      new Promise(resolve => setTimeout(() => resolve(triggerRedraw(true)), 10))
-    ])
+    triggerRedraw(true)
   }
 }

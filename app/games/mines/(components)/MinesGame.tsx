@@ -9,7 +9,7 @@ import { useGetState } from '@/lib/utils/useGetState'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useSound from 'use-sound'
 import { Tile, initialGameField, initialPickedTiles } from '../data'
 import { handleResult, pickTileforMine } from '../utils'
@@ -292,23 +292,8 @@ const MinesGame = () => {
   )
   const [isMouseDown, setIsMouseDown] = useState(false)
 
-  const pickTiles = (index: number) => {
-    if (waitingResponse || minesDelay) return
-    pickTileforMine({
-      index,
-      gameField,
-      musicType,
-      pickedTiles,
-      pickedValue,
-      playTileClick,
-      setTotalOpenedTiles,
-      totalOpenedTiles,
-      triggerRedraw
-    })
-  }
-
-  const handleMouseMove = (index: number) => {
-    if (isMouseDown) {
+  const pickTiles = useCallback(
+    index => {
       if (waitingResponse || minesDelay) return
       pickTileforMine({
         index,
@@ -321,8 +306,52 @@ const MinesGame = () => {
         totalOpenedTiles,
         triggerRedraw
       })
-    }
-  }
+    },
+    [
+      waitingResponse,
+      minesDelay,
+      gameField,
+      musicType,
+      pickedTiles,
+      pickedValue,
+      playTileClick,
+      setTotalOpenedTiles,
+      totalOpenedTiles,
+      triggerRedraw
+    ]
+  )
+
+  const handleMouseMove = useCallback(
+    index => {
+      if (isMouseDown) {
+        if (waitingResponse || minesDelay) return
+        pickTileforMine({
+          index,
+          gameField,
+          musicType,
+          pickedTiles,
+          pickedValue,
+          playTileClick,
+          setTotalOpenedTiles,
+          totalOpenedTiles,
+          triggerRedraw
+        })
+      }
+    },
+    [
+      isMouseDown,
+      waitingResponse,
+      minesDelay,
+      gameField,
+      musicType,
+      pickedTiles,
+      pickedValue,
+      playTileClick,
+      setTotalOpenedTiles,
+      totalOpenedTiles,
+      triggerRedraw
+    ]
+  )
 
   return (
     <div
