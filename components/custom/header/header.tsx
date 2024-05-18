@@ -63,9 +63,9 @@ const Header = () => {
         route.push('/')
       }
     } else {
-      // if (!location.includes('auth')) {
-      //   route.push('/auth/registration')
-      // }
+      if (!location.includes('auth')) {
+        route.push('/auth/registration')
+      }
     }
   }, [location])
   useEffect(() => {
