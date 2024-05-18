@@ -207,7 +207,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         grid-cols-[25px_65px_1fr_70px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
         md:grid-cols-[40px_110px_1fr_60px_1fr_60px] 
         mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px] 
-        gap-x-[15px] content-between mb-[7px] '
+        gap-x-[15px] xxs:gap-x-[25px] content-between mb-[7px] '
         >
           <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             {t('pages.main.live_bets.titles.Time')}
@@ -286,26 +286,6 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 />
               )
             })}
-            <CustomBetsItem
-                  game_id={2}
-                  user_id={2}
-                  bet={2}
-                  trx_url=''
-                  key={2}
-                  time={{
-                    date: `sasdasd`,
-                    time: 'sasdasda'
-                  }}
-                  game_name={'game'}
-                  bets={2}
-                  multiplier={2}
-                  profit={2}
-                  id={2}
-                  num_games={2}
-                  username={'asd'}
-                  amount={'asd'}
-                  coin_id={2}
-                />
         </div>
       </div>
     </div>
