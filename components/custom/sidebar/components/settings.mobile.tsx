@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { HeaderM, ModalsModel, PaymentModel, UserModel } from '@/states'
+import { HeaderM, ModalsModel, PaymentModel, SidebarModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
 import { useState } from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -20,12 +20,13 @@ type Props = {
 const SidebarMobileSettings = ({ open, handleAction }: Props) => {
   const isMobile = useMediaQuery('(max-width:768px)')
 
-  const [setVisibility, visibility, setUserModal, setGames, gamesState] = useUnit([
+  const [setVisibility, visibility, setUserModal, setGames, gamesState,setSidebar] = useUnit([
     PaymentModel.setTotalVisibility,
     PaymentModel.$totalVisibility,
     HeaderM.setUserModalVisibility,
     ModalsModel.setGamesModal,
-    ModalsModel.$gamesModal
+    ModalsModel.$gamesModal,
+    SidebarModel.setOpen
   ])
 
   const handlePaymentAction = () => {
@@ -35,9 +36,9 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
   const handleGamesOpen = () => {
     setUserModal(false)
 
-
     if(open && window.innerWidth < 650) {
-      return null
+      setSidebar(false)
+      setGames(!gamesState)
     } else {
       setGames(!gamesState)
     }
