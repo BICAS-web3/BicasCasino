@@ -119,9 +119,9 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       className={`${
         props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
-      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
+      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] xxs:gap-x-[25px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
     >
-      <div className='flex items-center '>
+      <div className='flex items-center overflow-hidden'>
         <Link
           href={props?.trx_url}
           target='_blank'
@@ -168,7 +168,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
       <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] tracking-[0.56px] font-medium'>
         {props.bet.num_games}
       </div>
-      <div className='hidden mmd:justify-center sm:flex items-center gap-x-[5px]'>
+      <div className='hidden mmd:justify-center sm:flex items-center gap-x-[5px] overflow-hidden'>
         <span className='text-text-w-def text-[0.875rem] tracking-[0.56px] font-medium'>
           {props?.amount}
         </span>{' '}
