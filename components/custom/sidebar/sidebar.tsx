@@ -56,9 +56,9 @@ const Sidebar = () => {
         <div
           id='sidebar'
           className={cn(
-            `bg-[#181818]  sm:sticky z-[55] sm:z-50 left-0 bottom-0 sm:top-[59px] flex flex-col w-full border-r-[1px] border-[#252525]`,
+            `bg-[#181818]  sm:sticky z-[55] sm:z-50 left-0 bottom-0 sm:top-[59px]  flex flex-col w-full border-r-[1px] border-[#252525]`,
             open
-              ? 'sm:w-[257px] h-[calc(100vh-56px)] sm:h-[calc(100vh-60px)]'
+              ? 'sm:w-[257px] h-[calc(100vh-56px)] sm:h-[calc(100vh-60px)] safe-area-padding-top'
               : 'sm:w-[90px] h-max sm:h-[calc(100vh_-_60px)]',
             open || !isGamePage ? 'fixed' : 'relative'
           )}

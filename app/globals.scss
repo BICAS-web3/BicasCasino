@@ -1874,3 +1874,10 @@ div {
 #send-money-widget-container {
   z-index: 999999999999999999999999999999 !important;
 }
+
+.safe-area-padding-top {
+  padding-top: env(
+    safe-area-inset-top,
+    20px
+  ); // 20px - fallback для других устройств
+}
