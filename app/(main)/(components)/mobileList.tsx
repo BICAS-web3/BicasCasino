@@ -19,6 +19,7 @@ export const MobileList: FC<MobileListProps> = () => {
       <div className='grid grid-cols-2 mt-[10px] p-[16px] gap-[16px] sm:hidden game_mob_list pt-0'>
         {games_banner.map((item, index) => (
           <GameSlideItem
+            players={Number(item?.id) || 1}
             onClick={() => {
               if (isMobile) {
                 const element = document.documentElement
