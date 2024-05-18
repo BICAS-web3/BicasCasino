@@ -8,20 +8,17 @@ import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
-import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
+import ReactHowler from 'react-howler'
 import useSound from 'use-sound'
-import { Tile, initialGameField, initialPickedTiles } from '../data'
-import { handleResult, pickTileforMine } from '../utils'
+import { Tile, initialGameField, initialPickedTiles, maxReveal } from '../data'
+import { handleResult } from '../utils'
 import SelectedMine from './selected.mine'
 import './styles.scss'
-import ReactHowler from 'react-howler'
 const MinesGame = () => {
   const socket = useSocket()
   const [
     betsAmount,
-    lost,
-    profit,
     gameStatus,
     cryptoValue,
     setGameStatus,
@@ -53,8 +50,6 @@ const MinesGame = () => {
     minesDelay
   ] = useUnit([
     WagerModel.$pickedValue,
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$gameStatus,
     WagerModel.$cryptoValue,
     GameModel.setGameStatus,
@@ -88,9 +83,6 @@ const MinesGame = () => {
   const [playSounds] = useUnit([GameModel.$playSounds])
   const [isCashout, setIsCashout] = useState(true)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
   const [taken, setTaken] = useState(false)
   const [betData, setBetData] = useState({})
   const [subscribed, setCubscribed] = useState(false)
@@ -186,15 +178,6 @@ const MinesGame = () => {
   }, [stopWinning])
 
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
-
-  useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
       setIsCashout(true)
       setCopySelectedArr([])
@@ -208,15 +191,6 @@ const MinesGame = () => {
       setTaken(true)
     }
   }, [betsAmount, cryptoValue, isPlaying])
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => {
     setBetData({
@@ -295,17 +269,23 @@ const MinesGame = () => {
   const pickTiles = useCallback(
     index => {
       if (waitingResponse || minesDelay) return
-      pickTileforMine({
-        index,
-        gameField,
-        musicType,
-        pickedTiles,
-        pickedValue,
-        playTileClick,
-        setTotalOpenedTiles,
-        totalOpenedTiles,
-        triggerRedraw
-      })
+      if (gameField[index] === Tile.Closed) {
+        if (!pickedTiles[index]) {
+          if (totalOpenedTiles >= maxReveal[pickedValue]) {
+            return
+          }
+          setTotalOpenedTiles(prev => prev + 1)
+          pickedTiles[index] = true
+        } else {
+          setTotalOpenedTiles(prev => prev - 1)
+          pickedTiles[index] = false
+        }
+
+        if (musicType !== 'off') {
+          playTileClick()
+        }
+        triggerRedraw(true)
+      }
     },
     [
       waitingResponse,
@@ -325,17 +305,23 @@ const MinesGame = () => {
     index => {
       if (isMouseDown) {
         if (waitingResponse || minesDelay) return
-        pickTileforMine({
-          index,
-          gameField,
-          musicType,
-          pickedTiles,
-          pickedValue,
-          playTileClick,
-          setTotalOpenedTiles,
-          totalOpenedTiles,
-          triggerRedraw
-        })
+        if (gameField[index] === Tile.Closed) {
+          if (!pickedTiles[index]) {
+            if (totalOpenedTiles >= maxReveal[pickedValue]) {
+              return
+            }
+            setTotalOpenedTiles(prev => prev + 1)
+            pickedTiles[index] = true
+          } else {
+            setTotalOpenedTiles(prev => prev - 1)
+            pickedTiles[index] = false
+          }
+
+          if (musicType !== 'off') {
+            playTileClick()
+          }
+          triggerRedraw(true)
+        }
       }
     },
     [
