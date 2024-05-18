@@ -384,13 +384,14 @@ const MinesGame = () => {
               <div
                 key={index}
                 onClick={pickTiles.bind('', index)}
-                onMouseEnter={() => handleMouseMove(index)}
+                onMouseEnter={handleMouseMove.bind('', index)}
                 className={cn(
                   'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] cursor-pointer duration-500 relative ',
                   isPicked && inGame && !copySelectedArr.includes(index) && ''
                 )}
               >
                 <svg
+                  key={index}
                   width='91'
                   height='90'
                   viewBox='0 0 91 90'
@@ -429,7 +430,7 @@ const MinesGame = () => {
                 </svg>
 
                 <SelectedMine
-                  className={isPicked ? 'z-[1]' : 'z-[0]'}
+                  key={index}
                   index={index}
                   type={isPicked ? Tile.Selected : value}
                   waitingResponse={waitingResponse}

@@ -1,4 +1,10 @@
-export const Green = ({ className }: { className?: string }) => {
+export const Green = ({
+  className,
+  onMouseEnter
+}: {
+  className?: string
+  onMouseEnter?: () => void
+}) => {
   return (
     <svg
       width='93'
@@ -7,6 +13,7 @@ export const Green = ({ className }: { className?: string }) => {
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       className={className}
+      onMouseEnter={onMouseEnter}
     >
       <mask id='path-1-inside-1_5952_46152' fill='white'>
         <path d='M2.14941 10C2.14941 4.47715 6.62657 0 12.1494 0H82.1494C87.6723 0 92.1494 4.47715 92.1494 10V80C92.1494 85.5229 87.6723 90 82.1494 90H12.1494C6.62657 90 2.14941 85.5229 2.14941 80V10Z' />
