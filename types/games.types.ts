@@ -69,6 +69,7 @@ export interface ISelectedMine {
   type: Tile
   waitingResponse: boolean
   index: number
+  className?: string
 }
 
 export interface IHandleResult {

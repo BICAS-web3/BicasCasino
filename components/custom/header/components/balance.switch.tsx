@@ -54,7 +54,8 @@ const BalanceSwitcher = () => {
     userInfo,
     result,
     setBalanceValue,
-    balanceValue
+    balanceValue,
+    setRedeemable
   ] = useUnit([
     UserModel.$isDrax,
     UserModel.setIsDrax,
@@ -62,10 +63,24 @@ const BalanceSwitcher = () => {
     UserModel.$userInfo,
     GameModel.$result,
     UserModel.setBalance,
-    UserModel.$balance
+    UserModel.$balance,
+    UserModel.setRedeemable
   ])
 
   const [balance, setBalance] = useState<null | IAmount>(null)
+
+  useEffect(() => {
+    if (isDrax && userInfo?.id && balance !== null) {
+      ;(async () => {
+        const value = Number(
+          balance?.amounts.find(el => el.name === 'Drax')?.amount
+        )
+        const bets = await api.GetTotalsFx()
+        // bets && alert(JSON.stringify(bets))
+        setRedeemable(value)
+      })()
+    }
+  }, [isDrax, balance, userInfo])
 
   useEffect(() => {
     if (access_token && userInfo) {

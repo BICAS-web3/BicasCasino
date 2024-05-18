@@ -233,7 +233,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   }, [])
 
   return (
-    <section className='pb-5 sm:pb-0 h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
+    <section className='h-full flex flex-col items-center flex-[1_1_auto] thimbles_table_wrap'>
       <ReactHowler
         src={'/music/thimble_mix.mp3'}
         playing={playSounds !== 'off' && showAnimation}
@@ -251,7 +251,7 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
         />
       </div>
       <div className='sm:w-full w-[calc(100%_-_60px)] h-full z-[5] relative flex justify-center items-end p-[0_30px] sm:p-[0] flex-[1_1_auto]'>
-        <div className='gap-[20px] sm:gap-[35px] mb-[50px] sm:mb-[73px] relative flex'>
+        <div className='gap-[20px] sm:gap-[35px] mb-[30px] sm:mb-[73px] relative flex'>
           {thimbles.map((_, ind) => (
             <Thimble
               openBall={ind === index && openBall}

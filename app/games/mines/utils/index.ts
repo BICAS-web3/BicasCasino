@@ -186,13 +186,42 @@ export const pickTileforMine = ({
       if (totalOpenedTiles >= maxReveal[pickedValue]) {
         return
       }
-      setTotalOpenedTiles(totalOpenedTiles + 1)
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(
+            () => resolve(setTotalOpenedTiles(totalOpenedTiles + 1)),
+            10
+          )
+        )
+      ])
     } else {
-      setTotalOpenedTiles(totalOpenedTiles - 1)
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(
+            () => resolve(setTotalOpenedTiles(totalOpenedTiles - 1)),
+            10
+          )
+        )
+      ])
     }
     musicType !== 'off' && playTileClick()
-
-    pickedTiles[index] = !pickedTiles[index]
-    triggerRedraw(true)
+    if (pickedTiles[index] === true) {
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve((pickedTiles[index] = false)), 10)
+        )
+      ])
+    } else {
+      Promise.all([
+        new Promise(resolve =>
+          setTimeout(() => resolve((pickedTiles[index] = true)), 10)
+        )
+      ])
+    }
+    // pickedTiles[index] = !pickedTiles[index]
+    // alert(1)
+    Promise.all([
+      new Promise(resolve => setTimeout(() => resolve(triggerRedraw(true)), 10))
+    ])
   }
 }

@@ -13,9 +13,17 @@ import SupportIco from '@/public/icons/supportIco.svg'
 
 import { useRouter } from 'next/navigation'
 import { useUnit } from 'effector-react'
-import { HeaderM, ModalsModel, PaymentModel, UserModel } from '@/states'
+import {
+  HeaderM,
+  ModalsModel,
+  PaymentModel,
+  RegistrModel,
+  UserModel,
+  WagerModel
+} from '@/states'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
+import { useSocket } from '@/components/providers/socket.provider'
 
 const list = [
   {
@@ -69,29 +77,60 @@ interface HeaderMenuProps {}
 
 export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
   const route = useRouter()
-
-  const handleLogout = () => {
-    setVisible(false)
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('refresh_token')
-    route.push('/auth/registration')
-  }
-
+  const socket = useSocket()
   const [
     visible,
     setVisible,
     setShowTransaction,
     setUserModalVisibility,
     setVipModal,
-    setVaultModal
+    setVaultModal,
+    setCryptoValue,
+    setSocketAuth,
+    setAccessToken,
+    setRefreshToken,
+    setUserInfo,
+    setSocketReset,
+    setSeed,
+    setErrorSeed,
+    setSocketLogged,
+    setConnect
   ] = useUnit([
     HeaderM.$menuVisibility,
     HeaderM.setMenuVisibility,
     PaymentModel.setShowTransaction,
     HeaderM.setUserModalVisibility,
     ModalsModel.setVipModal,
-    ModalsModel.setVaultModal
+    ModalsModel.setVaultModal,
+    WagerModel.setCryptoValue,
+    UserModel.setSocketAuth,
+    RegistrModel.setAccessToken,
+    RegistrModel.setRefreshToken,
+    UserModel.setUserInfo,
+    UserModel.setSocketReset,
+    UserModel.setSeed,
+    UserModel.setErrorSeed,
+    UserModel.setSocketLogged,
+    UserModel.setConnect
   ])
+
+  const handleLogout = () => {
+    socket?.close()
+    setVisible(false)
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+    setSocketAuth(false)
+    setCryptoValue(1)
+    setAccessToken('')
+    setRefreshToken('')
+    setUserInfo(null)
+    setSeed(null)
+    setErrorSeed(false)
+    setSocketLogged(false)
+    setConnect(false)
+    // setSocketReset()
+    route.push('/auth/registration')
+  }
 
   useEffect(() => {
     window.addEventListener('click', (e: any) => {

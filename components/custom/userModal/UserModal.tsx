@@ -95,7 +95,7 @@ export const UserModal: FC<UserModalProps> = () => {
               <div className='bg-[#121212] h-[30px] rounded-[50px] p-[8px_10px] min-w-[120px] sm:p-[10px_16px] gap-[5px] w-full max-w-max items-center flex justify-center'>
                 <img src={lvlImg.src} alt='lvl' className='' />
                 <span className='text-[12px] text-nowrap font-bold'>
-                  {t(`modals.profile.level`)} 2
+                  {t(`modals.profile.level`)} {userInfo?.user_level}
                 </span>
               </div>
               <span className='text-[#FFE09D] text-[10px] font-semibold uppercase'>

@@ -33,7 +33,7 @@ function MainLayout({ children }) {
       >
         <MainProvider>{children}</MainProvider>
         <script
-          src='https://stage.p2way.fyi/widget/getWidgetFile?file=index.js'
+          src='https://p2way.fyi/widget/getWidgetFile?file=index.js'
           defer
         ></script>
       </body>

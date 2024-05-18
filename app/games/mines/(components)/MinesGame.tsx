@@ -290,6 +290,7 @@ const MinesGame = () => {
       volume: 1
     }
   )
+  const [isMouseDown, setIsMouseDown] = useState(false)
 
   const pickTiles = (index: number) => {
     if (waitingResponse || minesDelay) return
@@ -304,6 +305,23 @@ const MinesGame = () => {
       totalOpenedTiles,
       triggerRedraw
     })
+  }
+
+  const handleMouseMove = (index: number) => {
+    if (isMouseDown) {
+      if (waitingResponse || minesDelay) return
+      pickTileforMine({
+        index,
+        gameField,
+        musicType,
+        pickedTiles,
+        pickedValue,
+        playTileClick,
+        setTotalOpenedTiles,
+        totalOpenedTiles,
+        triggerRedraw
+      })
+    }
   }
 
   return (
@@ -323,7 +341,11 @@ const MinesGame = () => {
         />
       )}
       <Coefficient common ballsArr={coefficientData} />
-      <div className='scale-[1.25] sm:scale-[1] w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'>
+      <div
+        onMouseDown={() => setIsMouseDown(true)}
+        onMouseUp={() => setIsMouseDown(false)}
+        className='scale-[1.25] sm:scale-[1] w-[226px] h-[226px] p-1.5 xl:p-4 gap-1.5 mt-0 sm:mt-[22px] sm:gap-2.5 sm:p-2.5 sm:w-[329px] sm:h-[325px] xl:w-[496px] xl:h-[496px] 3xl:mt-[14px] xl:gap-4 grid grid-cols-5 grid-rows-5 xl:mt-11 mx-auto bg-[#0f0f0f] rounded-[12px] 3xl:w-[553px] 3xl:h-[546px]'
+      >
         {redrawTrigger &&
           gameField &&
           pickedTiles &&
@@ -333,22 +355,52 @@ const MinesGame = () => {
               <div
                 key={index}
                 onClick={pickTiles.bind('', index)}
+                onMouseEnter={() => handleMouseMove(index)}
                 className={cn(
-                  'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] cursor-pointer duration-500 relative',
+                  'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] cursor-pointer duration-500 relative ',
                   isPicked && inGame && !copySelectedArr.includes(index) && ''
                 )}
               >
-                <Image
-                  width={80}
-                  height={80}
+                <svg
+                  width='91'
+                  height='90'
+                  viewBox='0 0 91 90'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
                   className={cn(
-                    'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] duration-500 absolute top-0 left-0',
+                    'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] duration-500 absolute top-0 left-0  mine_hover',
                     isPicked ? 'z-[0]' : 'z-[1]'
                   )}
-                  src={'/icons/mines/mines.svg'}
-                  alt=''
-                />
+                >
+                  <mask id='path-1-inside-1_10900_43116' fill='white'>
+                    <path d='M0.149414 10C0.149414 4.47715 4.62657 0 10.1494 0H80.1494C85.6723 0 90.1494 4.47715 90.1494 10V80C90.1494 85.5229 85.6723 90 80.1494 90H10.1494C4.62657 90 0.149414 85.5229 0.149414 80V10Z' />
+                  </mask>
+                  <path
+                    d='M0.149414 10C0.149414 4.47715 4.62657 0 10.1494 0H80.1494C85.6723 0 90.1494 4.47715 90.1494 10V80C90.1494 85.5229 85.6723 90 80.1494 90H10.1494C4.62657 90 0.149414 85.5229 0.149414 80V10Z'
+                    fill='url(#paint0_linear_10900_43116)'
+                  />
+                  <path
+                    d='M0.149414 10C0.149414 3.92487 5.07428 -1 11.1494 -1H79.1494C85.2245 -1 90.1494 3.92487 90.1494 10C90.1494 5.02944 85.6723 1 80.1494 1H10.1494C4.62657 1 0.149414 5.02944 0.149414 10ZM90.1494 90H0.149414H90.1494ZM0.149414 90V0V90ZM90.1494 0V90V0Z'
+                    fill='#464646'
+                    mask='url(#path-1-inside-1_10900_43116)'
+                  />
+                  <defs>
+                    <linearGradient
+                      id='paint0_linear_10900_43116'
+                      x1='45.1494'
+                      y1='0'
+                      x2='45.1494'
+                      y2='90'
+                      gradientUnits='userSpaceOnUse'
+                    >
+                      <stop stop-color='#333333' />
+                      <stop offset='1' stop-color='#1D1D1D' />
+                    </linearGradient>
+                  </defs>
+                </svg>
+
                 <SelectedMine
+                  className={isPicked ? 'z-[1]' : 'z-[0]'}
                   index={index}
                   type={isPicked ? Tile.Selected : value}
                   waitingResponse={waitingResponse}
@@ -362,3 +414,15 @@ const MinesGame = () => {
 }
 
 export default MinesGame
+{
+  /* <Image
+                  width={80}
+                  height={80}
+                  className={cn(
+                    'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] duration-500 absolute top-0 left-0',
+                    isPicked ? 'z-[0]' : 'z-[1]'
+                  )}
+                  src={'/icons/mines/mines.svg'}
+                  alt=''
+                /> */
+}

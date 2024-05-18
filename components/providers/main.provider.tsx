@@ -44,7 +44,7 @@ const MainProvider = ({ children }: Props) => {
                 <main className='min-h-screen flex flex-col relative '>
                   <Header />
                   <div
-                    className={`flex flex-col sm:flex-row flex-nowrap relative`}
+                    className={`flex flex-col-reverse sm:flex-row flex-nowrap relative flex-[1_1_auto]`}
                   >
                     <Sidebar />
                     <div
@@ -55,7 +55,7 @@ const MainProvider = ({ children }: Props) => {
                       {children}
                     </div>
                   </div>
-                  <Toaster position='top-right' />
+                  <Toaster position='top-right' duration={2000} />
                 </main>
               )}
               <ModalProvider />

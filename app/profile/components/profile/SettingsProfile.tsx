@@ -11,10 +11,18 @@ interface SettingsProfileProps {}
 
 export const SettingsProfile: FC<SettingsProfileProps> = () => {
   const [username, setUsername] = useState('')
-  const [userInfo, access_token, showNotification] = useUnit([
+  const [
+    userInfo,
+    access_token,
+    showNotification,
+    setUpdateUserInfo,
+    updateUserInfo
+  ] = useUnit([
     UserModel.$userInfo,
     RegistrModel.$access_token,
-    UserModel.$showNotification
+    UserModel.$showNotification,
+    UserModel.setUpdateUserInfo,
+    UserModel.$updateUserInfo
   ])
   const { t } = useTranslation()
 
@@ -25,6 +33,7 @@ export const SettingsProfile: FC<SettingsProfileProps> = () => {
       const data = await changeName({ bareer: access_token, name: username })
       if (data.status === 'OK') {
         showNotification && toast(t(`toast.success`))
+        setUpdateUserInfo(updateUserInfo + 1)
       } else {
         showNotification && toast(t(`toast.error`))
       }
