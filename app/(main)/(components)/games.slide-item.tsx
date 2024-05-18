@@ -5,12 +5,13 @@ import { useTranslation } from 'react-i18next'
 interface Props {
   image: string
   link: string
+  players: number
   title: string
   className?: string
   onClick?: () => void
 }
 
-const GameSlideItem = ({ image, link, title, className, onClick }: Props) => {
+const GameSlideItem = ({ image, link, title, className, players, onClick }: Props) => {
   const { t } = useTranslation()
   if (title === 'Wheel') {
     return (
@@ -29,7 +30,9 @@ const GameSlideItem = ({ image, link, title, className, onClick }: Props) => {
           />
           <div className='flex items-center gap-1 bg-black/60 relative w-max px-2 py-[2px] rounded-[13px] text-xs text-white z-10'>
             <UsersSVG />
-            <span>330</span>
+            <span>
+              {Math.ceil(players)}
+            </span>
           </div>
           <span className='z-10 absolute text-red uppercase text-[20px] font-bold self-start bottom-[10px]'>
             {t(`pages.main.games.titles.${title}`)}
@@ -60,7 +63,7 @@ const GameSlideItem = ({ image, link, title, className, onClick }: Props) => {
           />
           <div className='flex items-center gap-1 bg-black/60 relative w-max px-2 py-[2px] rounded-[13px] text-xs text-white z-10'>
             <UsersSVG />
-            <span>330</span>
+            <span>{Math.ceil(players)}</span>
           </div>
           <span className='z-10 absolute text-red uppercase text-[20px] font-bold self-start bottom-[10px]'>
             {t(`pages.main.games.titles.${title}`)}

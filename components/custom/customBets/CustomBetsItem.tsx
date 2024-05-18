@@ -119,13 +119,13 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       className={`${
         props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
-      } h-[50px] border-b-[1px] border-[#252525] px-[8.5px] sm:px-[40px] gap-x-[5px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
+      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
     >
       <div className='flex items-center '>
         <Link
           href={props?.trx_url}
           target='_blank'
-          className='flex items-center justify-center no-underline gap-x-[5px]'
+          className='flex items-center ml-[1px] justify-center no-underline gap-x-[5px]'
         >
           <span className='hidden mmd:block text-text-w-def text-[0.875rem] font-bold tracking-[0.56px] '>
             {props?.time.date}

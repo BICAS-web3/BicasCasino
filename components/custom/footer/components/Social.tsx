@@ -14,6 +14,7 @@ const Social = () => {
           <Link
             href={item.href}
             target='_blank'
+            className='flex justify-center'
             key={`${item.title}_${index}`}
             rel='noopener noreferrer'
           >
