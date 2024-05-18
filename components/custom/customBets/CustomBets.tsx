@@ -203,7 +203,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
       <div className='w-full mt-[35px]'>
         <div
           className='px-[10px] 
-        sm:px-[40px] grid xs:grid-cols-[25px_80px_85px_100px] 
+        sm:px-[40px] flex justify-between sm:grid xs:grid-cols-[25px_80px_85px_100px] 
         grid-cols-[25px_65px_1fr_70px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
         md:grid-cols-[40px_110px_1fr_60px_1fr_60px] 
         mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px] 
@@ -286,6 +286,26 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 />
               )
             })}
+            <CustomBetsItem
+                  game_id={123123123}
+                  user_id={123123123}
+                  bet={123123}
+                  trx_url=''
+                  key={123123123}
+                  time={{
+                    date: `123123123123`,
+                    time: `123123123123`
+                  }}
+                  game_name={'asdasdasdasd'}
+                  bets={12312312312}
+                  multiplier={123123123123}
+                  profit={123123123123}
+                  id={123123123}
+                  num_games={123123123}
+                  username={'asdasdasdasd'}
+                  amount={'112312312'}
+                  coin_id={1}
+                />
         </div>
       </div>
     </div>

@@ -34,7 +34,13 @@ const SidebarMobileSettings = ({ open, handleAction }: Props) => {
   }
   const handleGamesOpen = () => {
     setUserModal(false)
-    setGames(!gamesState)
+
+
+    if(open && window.innerWidth < 650) {
+      return null
+    } else {
+      setGames(!gamesState)
+    }
   }
   return (
     <div

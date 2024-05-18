@@ -1,6 +1,7 @@
 'use client'
 import DraxTokenIco from '@/public/images/misc/drax.svg'
 import BonusTokenIco from '@/public/images/misc/bonus.svg'
+import bonusTokenIco from '@/public/images/misc/bonus.png'
 
 import diceIcon from '@/public/images/live_bets/diceIco.webp'
 import coinFlipIcon from '@/public/images/live_bets/coinflipIco.webp'
@@ -119,9 +120,9 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       className={`${
         props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
-      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] xxs:gap-x-[25px] grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
+      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] xxs:gap-x-[25px] flex justify-between sm:grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
     >
-      <div className='flex items-center overflow-hidden'>
+      <div className='flex items-center overflow-hidden min-w-[25px]'>
         <Link
           href={props?.trx_url}
           target='_blank'
@@ -135,32 +136,32 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='flex justify-center mmd:justify-start pl-[10px] sm:pl-[22px] mmd:pl-0 items-center'>
+      <div className='flex w-full justify-center min-w-[65px] overflow-hidden text-ellipsis mmd:justify-start pl-[10px] sm:pl-[22px] mmd:pl-0 items-center'>
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
-          className='flex items-center justify-center'
+          className='flex w-full items-center justify-center'
         >
           <img
             src={gameImg.src}
-            className='w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
+            className='min-w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
             alt='game-ico-preview'
           />
-          <span className='text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
+          <span className='text-[10px] text-text-w-def overflow-hidden text-ellipsis tracking-[0.56px] font-medium mmd:text-[0.875rem]'>
             {props?.game_name === 'Dice' ? 'Rocket' : props?.game_name}
           </span>
         </Link>
       </div>
-      <div className='flex emd:justify-center items-center '>
+      <div className='flex emd:justify-center items-center w-full overflow-hidden text-ellipsis'>
         <Link
           href={`/account/${props?.user_id}`}
           target='_blank'
-          className='flex justify-center items-center no-underline'
+          className='flex justify-center w-full items-center no-underline'
         >
           <div className='mt-[6px]'>
             <BlockiesAva address={props?.username || 'retryu'} size={avaSize} />
           </div>
-          <span className='ml-[10px] text-[10px] text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem] '>
+          <span className='ml-[10px] text-[10px] text-ellipsis overflow-hidden text-text-w-def tracking-[0.56px] font-medium mmd:text-[0.875rem] '>
             {props?.username}
           </span>
         </Link>
@@ -172,12 +173,13 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         <span className='text-text-w-def text-[0.875rem] tracking-[0.56px] font-medium'>
           {props?.amount}
         </span>{' '}
-        {props.bet.coin_id === 1 ? (
-          <BonusTokenIco
+        <BonusTokenIco
             width={20}
             height={20}
             className='min-w-[20px] min-h-[20px]'
           />
+        {props.coin_id === 1 ? (
+          <img src={bonusTokenIco.src} className='min-w-[20px] h-[20px]' />
         ) : (
           <DraxTokenIco
             width={20}
@@ -191,20 +193,16 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           {props?.multiplier}x
         </span>
       </div>
-      <div className='flex items-center gap-2 justify-end'>
+      <div className='flex items-center gap-2 justify-end w-full overflow-hidden text-ellipsis'>
         <span
-          className={`text-[10px] mmd:text-[0.875rem] ml-[8px] font-bold tracking-[0.56px] ${
+          className={`text-[10px] mmd:text-[0.875rem] ml-[8px] text-ellipsis overflow-hidden font-bold tracking-[0.56px] ${
             props?.multiplier < 1 && 'text-[#f57731]'
           } text-bets-gr`}
         >
           {props?.profit}
         </span>
         {props.coin_id === 1 ? (
-          <BonusTokenIco
-            width={20}
-            height={20}
-            className='min-w-[20px] min-h-[20px]'
-          />
+          <img src={bonusTokenIco.src} className='min-w-[20px] h-[20px]' />
         ) : (
           <DraxTokenIco
             width={20}
