@@ -24,7 +24,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
   const [currentLevel, setCurrentLevel] = useState('')
 
   const [animationFinished, setAnimationFinished] = useState<boolean>(true)
-  const [path, setPath] = useState<boolean[] | undefined>(undefined)
+  // const [path, setPath] = useState<boolean[] | undefined>(undefined)
   const [balls, setBalls] = useState<any[]>([])
 
   const [ballTop, setBallTop] = useState<number>(-90)
@@ -48,7 +48,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
                 left: `calc(50% + ${ballLeft}px)`
               }}
             >
-              <BallSVG />
+              <BallSVG className='w-[10px] h-[10px] sm:w-5 sm:h-5' />
             </div>
           )
         }) as any[]
@@ -72,7 +72,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
         sidesMove = 17.5
       } else {
         setBallLeft(-3.5)
-        setFirstMove(81)
+        setFirstMove(79)
         movingDeep = 11
         lastMove = 5
         sidesMove = 9
@@ -122,11 +122,11 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
     const normalMultipliersArray = newMultipliers.normalMultipliers[rowCount]
     const hardMultipliersArray = newMultipliers.hardMultipliers[rowCount]
 
-    if (lvl == 'easy') {
+    if (lvl == 'Easy') {
       props.setMultipliers(easyMultipliersArray)
-    } else if (lvl == 'normal') {
+    } else if (lvl == 'Medium') {
       props.setMultipliers(normalMultipliersArray)
-    } else if (lvl == 'hard') {
+    } else if (lvl == 'Hard') {
       props.setMultipliers(hardMultipliersArray)
     }
   }
@@ -209,14 +209,14 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       return
     }
     {
-      if (path || props.inGame) {
+      if (props.inGame) {
         arr.forEach((_, i) => setAnimation(i))
       }
     }
   }, [resetColor])
   useEffect(() => {
     setResetColor(prev => !prev)
-  }, [path, rowCount, props.inGame])
+  }, [rowCount, props.inGame])
 
   useEffect(() => {
     let intervalId: any
@@ -293,6 +293,7 @@ const PlinkoPyramid: FC<IPlinkoPyramid> = props => {
       }
       return multipliersColorCenter
     }
+
     const multiplierElements = props.multipliers.map((value, i) => {
       const color = multipliersBackground(i).replace(/\s/g, '')
       return (

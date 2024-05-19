@@ -119,10 +119,10 @@ export const SGames = {
       title: 'Mines',
       icon: <MinesSVG />
     },
-    // {
-    //   title: 'Plinko',
-    //   icon: <PlinkoSVG />
-    // },
+    {
+      title: 'Plinko',
+      icon: <PlinkoSVG />
+    },
     {
       title: 'Poker',
       icon: <PokerSVG />

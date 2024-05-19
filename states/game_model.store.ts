@@ -321,3 +321,7 @@ export const $applesPlay = createStore<boolean>(false)
 export const setapplesPlay = createEvent<boolean>()
 
 $applesPlay.on(setapplesPlay, (_, state) => state)
+
+export const $plinkoVisible = createStore<boolean>(false)
+export const setPlinkoVisible = createEvent<boolean>()
+$plinkoVisible.on(setPlinkoVisible, (_, state) => state)

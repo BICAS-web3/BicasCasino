@@ -27,10 +27,10 @@ export const games_banner = [
     title: 'Mines'
   },
   {
-    image: '/images/new_banners/8.png',
+    image: '/images/new_banners/4.png',
     id: '8',
-    link: '/games/wheel_of_fortune',
-    title: 'Wheel'
+    link: '/games/plinko',
+    title: 'Plinko'
   },
   {
     image: '/images/new_banners/9.png',
@@ -73,7 +73,14 @@ export const games_banner = [
     id: '15',
     link: '/games/thimbles_3',
     title: 'Thimbles'
+  },
+  {
+    image: '/images/new_banners/8.png',
+    id: '8',
+    link: '/games/wheel_of_fortune',
+    title: 'Wheel'
   }
+
   // {
   //   image: '/images/new_banners/16.png',
   //   id: '16',

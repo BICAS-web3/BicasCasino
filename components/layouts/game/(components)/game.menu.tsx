@@ -6,18 +6,19 @@ const GameCreditBet = dynamic(() => import('./game.credit-bet'), {
   loading: () => <Skeleton className='w-10 h-4' />
 })
 
-import GamePlayBlock from './game.play-block'
-import GameWager from './game.wager'
-import GameAmount from './game.amount'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePathname } from 'next/navigation'
 import { GameAuto } from './game.auto'
-import { WheelSettings } from './game.wheel'
 import { MinesSettings } from './game.mines'
+import GamePlayBlock from './game.play-block'
+import GameWager from './game.wager'
+import { WheelSettings } from './game.wheel'
+import { PlinkoSettings } from './game.plinko'
 
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
   const wheelGame = usePathname().includes('wheel_of_fortune')
+  const plinkoGame = usePathname().includes('plinko')
 
   return (
     <div
@@ -30,6 +31,7 @@ const GameMenu = () => {
       <GameAuto />
       {wheelGame && <WheelSettings />}
       {minesGame && <MinesSettings />}
+      {plinkoGame && <PlinkoSettings />}
       {/* {minesGame && <GameAmount min={1} max={24} title='Number of mines' />} */}
       <GamePlayBlock />
     </div>
