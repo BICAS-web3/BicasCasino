@@ -63,10 +63,10 @@ export const AfiSidebar: FC<AfiSidebarProps> = ({ setTab }) => {
               value={item.value}
               onClick={() => setTab(item.value)}
               className='
-                            bg-[#121212] h-[50px] justify-start p-[0_16px] data-[state=active]:border-l-[1px] data-[state=active]:border-[#FFE09D] box-border border-[#121212] border-l-[1px]
+                            bg-[#121212] h-[50px] rounded-0 justify-start p-[0_16px] data-[state=active]:border-l-[1px] data-[state=active]:border-[#FFE09D] box-border border-[#121212] border-l-[1px]
                             w-full text-start text-[#7E7E7E] text-[14px] font-bold leading-[18px] data-[state=active]:text-[#fff] relative overflow-hidden
-                            after:bg-[rgba(198,_149,_81,_.9)] after:rounded-[50%] after:w-[13px] after:h-[13px] after:left-[-5px] after:blur-[4px] after:absolute after:hidden data-[state=active]:after:block after:top-[50%] after:translate-y-[-50%]
-                            before:left-[-12px] before:rounded-[50%] before:bg-[rgba(198,_149,_81,_.9)] before:absolute before:blur-[20px] before:hidden data-[state=active]:before:block before:w-[20px] before:h-[20px]'
+                            after:bg-[rgba(198,_149,_81,_.9)] after:rounded-[50%] last:rounded-b-sm first:rounded-t-sm after:w-[13px] after:h-[13px] after:left-[-5px] after:blur-[4px] after:absolute after:hidden data-[state=active]:after:block after:top-[50%] after:translate-y-[-50%]
+                            before:left-[-12px]  before:bg-[rgba(198,_149,_81,_.9)] before:absolute before:blur-[20px] before:hidden data-[state=active]:before:block before:w-[20px] before:h-[20px]'
             >
               {t(`pages.affiliates.navigation.${item.title}`)}
             </TabsTrigger>

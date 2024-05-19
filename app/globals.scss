@@ -1876,8 +1876,5 @@ div {
 }
 
 .safe-area-padding-top {
-  padding-top: env(
-    safe-area-inset-top,
-    60px
-  ); // 20px - fallback для других устройств
+  padding-top: env(safe-area-inset-top, 85px);
 }

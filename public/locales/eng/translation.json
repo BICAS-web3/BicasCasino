@@ -211,9 +211,9 @@
         "No Data": "No Data"
       },
       "campaigns": {
-        "Hist": "Hist",
+        "Hist": "Hits",
         "Commission Rate": "Commission Rate",
-        "Referalls": "Referalls",
+        "Referalls": "Referrals",
         "Total Commission": "Total Commission",
         "Available": "Available",
         "Transfered": "Transfered",
