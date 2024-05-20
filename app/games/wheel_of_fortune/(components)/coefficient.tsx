@@ -28,26 +28,24 @@ const Coefficient = ({ coefficientData }: { coefficientData: any }) => {
               item < 1.3 &&
               'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
             level === 'Medium' &&
-              item > 0 &&
-              item < 1.6 &&
+              item === 1.5 &&
               'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
             level === 'Medium' &&
               item == 2 &&
               'text-[#fbc02e] shadow-[0px_0px_10px_rgba(251,192,46,0.3)]',
             (pickedValue === 10 || pickedValue === 20 || pickedValue === 30) &&
               level === 'Medium' &&
-              item < 1.6 &&
-              item > 0 &&
-              'text-[#458bf5] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
+              item === 0 &&
+              'text-[white] shadow-[0px_0px_10px_rgba(69,139,245,0.3)]',
             (pickedValue === 10 || pickedValue === 20 || pickedValue === 30) &&
               level === 'Medium' &&
+              item > 1.7 &&
               item < 2 &&
-              item > 1.6 &&
               'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
-            (pickedValue === 40 || pickedValue === 50) &&
+            (pickedValue === 40 || pickedValue === 50 || pickedValue === 20) &&
               level === 'Medium' &&
               item == 3 &&
-              'text-[#fb2e90] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
+              'text-[#3ecf55] shadow-[0px_0px_10px_rgba(245,87,162,0.3)]',
             (pickedValue === 10 || pickedValue === 20 || pickedValue === 30) &&
               level === 'Medium' &&
               item == 3 &&

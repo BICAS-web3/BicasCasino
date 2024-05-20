@@ -131,10 +131,10 @@ export const SGames = {
       title: 'Rocket',
       icon: <RocketSVG />
     },
-    // {
-    //   title: 'Wheel of Fortune',
-    //   icon: <WheelSVG />
-    // },
+    {
+      title: 'Wheel of Fortune',
+      icon: <WheelSVG />
+    },
     {
       title: 'Apples',
       icon: <AppleSVG />

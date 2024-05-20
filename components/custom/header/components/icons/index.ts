@@ -18,6 +18,7 @@ export { default as BNBSVG } from './bnb.svg'
 export { default as TONSVG } from './ton.svg'
 export { default as TRX_TRONSVG } from './TRX_TRON.svg'
 export { default as BUSDSVG } from './busd.svg'
+export { default as ChatSVG } from './chat.svg'
 
 import { BitcoinSVG, EthereumSVG, DogeSVG, LtcSVG, UsdtSVG } from './crypto'
 

@@ -9,11 +9,18 @@ import Wallet from './components/wallet'
 import Logo from './components/logo'
 import User from './components/user'
 
-import { GameModel, RegistrModel, SidebarModel, UserModel } from '@/states'
+import {
+  ChatM,
+  GameModel,
+  RegistrModel,
+  SidebarModel,
+  UserModel
+} from '@/states'
 import * as api from '@/api'
 import { $seeds, UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
+import { ChatSVG } from './components/icons'
 
 const Header = () => {
   const [
@@ -64,7 +71,7 @@ const Header = () => {
       }
     } else {
       if (!location.includes('auth')) {
-         route.push('/auth/registration')
+        route.push('/auth/registration')
       }
     }
   }, [location])
@@ -129,6 +136,7 @@ const Header = () => {
           setErrorSeed(false)
           setSocketLogged(true)
           socket.send(JSON.stringify(seed_data))
+          socket.send(JSON.stringify({ type: 'SubscribeChatRoom', room: 17 }))
         }
       }
 
@@ -188,12 +196,34 @@ const Header = () => {
     return () => clearInterval(intervalId)
   }, [refresh_token])
 
-  const [opened] = useUnit([SidebarModel.$open])
+  const [opened, setChat, chat, messageData] = useUnit([
+    SidebarModel.$open,
+    ChatM.setChatVisibility,
+    ChatM.$chatVisibility,
+    ChatM.$messageData
+  ])
+
+  const handleChatClick = () => {
+    setChat(!chat)
+  }
+
+  useEffect(() => {
+    const content = document.getElementById('mainContent')
+
+    // if(chat) {
+    //   content?.classList.add('contentWidth')
+    // } else if (chat && opened) {
+    //   content?.classList.add('contentWidth')
+    //   content?.classList.add('contentWidthClosed')
+    // } else {
+    //   content?.classList.remove('contentWidth')
+    // }
+  }, [chat])
 
   return (
     <header
       className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
-        !opened ? 'px-3 sm:!pr-10' : 'px-3'
+        !opened ? 'px-3 sm:!pr-8' : 'pl-3 sm:!pr-[30px]'
       } sm:px-5 py-3 box-border sticky max-h-14 sm:max-h-16 top-0 z-[55] w-full bg-[#0F0F0F]`}
     >
       <Logo />
@@ -201,6 +231,15 @@ const Header = () => {
         <BalanceSwitcher />
         <Wallet />
         <Separator orientation='vertical' className='min-h-10 inline' />
+        <div
+          onClick={handleChatClick}
+          className='hidden sm:flex items-center justify-center w-10 h-10 bg-[#191919] rounded-full cursor-pointer relative border border-[#202020]'
+        >
+          <ChatSVG />
+          {messageData.length > 0 && (
+            <div className='rounded-[50%] w-[5.6px] h-[5.6px] right-[3px] bottom-[3px] absolute bg-[#4ED26C] animate-pulse'></div>
+          )}
+        </div>
         <User />
       </div>
     </header>
