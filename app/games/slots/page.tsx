@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { SlotsGame } from './components/SlotsGame'
 
 export const metadata: Metadata = {
   title: 'Games - Slots',
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Slots = () => {
-  return <div>Slots</div>
+  return <SlotsGame />
 }
 
 export default Slots
