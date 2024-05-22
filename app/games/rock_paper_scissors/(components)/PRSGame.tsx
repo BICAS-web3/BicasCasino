@@ -70,8 +70,6 @@ const PRSGame = () => {
 
   const [playSounds] = useUnit([GameModel.$playSounds])
   const [rpsLose] = useSound('/music/rps_loss.mp3')
-  const [rpsScroll] = useSound('/music/rps_scroll.mp3')
-  const [rpsSwaapHand] = useSound('/music/rps_sweep_hand.mp3')
   const [rpsWin] = useSound('/music/rps_win.mp3')
 
   const [openGame, setOpenGame] = useState(false)

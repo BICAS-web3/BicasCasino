@@ -7,6 +7,7 @@ interface ICryptoRoute {
   className?: string
   onClick?: () => void
   isCrypto?: boolean
+  isBuy?: boolean
 }
 
 const CryptoRoute: FC<ICryptoRoute> = ({
@@ -14,7 +15,8 @@ const CryptoRoute: FC<ICryptoRoute> = ({
   title,
   className,
   isCrypto,
-  onClick
+  onClick,
+  isBuy
 }) => {
   const { t } = useTranslation()
   return (
@@ -26,14 +28,20 @@ const CryptoRoute: FC<ICryptoRoute> = ({
       {isCrypto ? (
         <img
           className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full  h-full object-cover'
-          src='/images/payment/crypto.png'
-          alt=''
+          src={
+            isBuy
+              ? '/images/payment/buy_crypto.png'
+              : '/images/payment/crypto.png'
+          }
+          alt='crypto'
         />
       ) : (
         <img
           className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full  h-full object-cover'
-          src='/images/payment/card.png'
-          alt=''
+          src={
+            isBuy ? '/images/payment/buy_card.png' : '/images/payment/card.png'
+          }
+          alt='card'
         />
       )}
 

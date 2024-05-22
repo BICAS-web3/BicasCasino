@@ -21,6 +21,7 @@ import {
   UserModel,
   WagerModel
 } from '@/states'
+import ReactHowler from 'react-howler'
 
 const PlinkoGame = () => {
   const isMobile = useMediaQuery('(max-width: 1280px)')
@@ -125,14 +126,14 @@ const PlinkoGame = () => {
             multiplier,
             token: 'DRAX'
           })
-          playWon()
+          playSounds !== 'off' && playWon()
           setIsPlaying(false)
           setInGame(false)
           setPath(undefined)
         }, rows_amount * 400 + ballAmount * 400 + (ballAmount > 20 ? 1000 : 500))
       } else if (Number(result.profit) < fullAmount) {
         setTimeout(() => {
-          playLost()
+         playSounds !== 'off' &&  playLost()
           setIsPlaying(false)
           setInGame(false)
           setGameStatus(GameModel.GameStatus.Lost)
@@ -166,17 +167,6 @@ const PlinkoGame = () => {
     setIsPlaying(inGame)
   }, [inGame])
 
-  // useEffect(() => {
-
-  useEffect(() => {
-    //setActivePicker(true);
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      //pickSide(pickedSide);
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      //pickSide(pickedSide ^ 1);
-    }
-  }, [gameStatus])
   const [multipliers, setMultipliers] = useState<number[]>([])
 
   const [ballsArr, setBallsArr] = useState<{ value: number; index: number }[]>(
@@ -195,17 +185,7 @@ const PlinkoGame = () => {
       }, 700)
     }
   }, [ballsArr, path])
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0)
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
+
   const [imageLoading_1, setImageLoading_1] = useState(true)
   const [imageLoading_2, setImageLoading_2] = useState(true)
   const [imageLoading_3, setImageLoading_3] = useState(true)
@@ -222,13 +202,13 @@ const PlinkoGame = () => {
     }
   }, [imageLoading_1, imageLoading_2, imageLoading_3])
 
+  const [betData, setBetData] = useState({})
+
   useEffect(() => {
     if (isPlaying) {
-      setInGame(true)
+      setInGame
     }
   }, [isPlaying])
-
-  const [betData, setBetData] = useState({})
 
   const [access_token] = useUnit([RegistrModel.$access_token])
   const subscribe = {
@@ -290,8 +270,16 @@ const PlinkoGame = () => {
     }
   }, [])
 
+  //
+
   return (
     <div className='w-full h-full relative flex-[1_1_auto] flex flex-col justify-center'>
+      <ReactHowler
+        src={'/music/plinco_process.mp3'}
+        playing={playSounds !== 'off' && isPlaying}
+        rate={1}
+        loop
+      />
       <Coefficient ballsArr={coefficientData} common />{' '}
       <div className='w-full h-full absolute right-0 bottom-0 left-0 top-0 z-[-1]'>
         <Image

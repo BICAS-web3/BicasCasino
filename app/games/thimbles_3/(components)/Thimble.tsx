@@ -41,6 +41,7 @@ const Thimble = ({
       setLocalPlay(false)
     }
   }, [isPlaying])
+  const [playSounds] = useUnit([GameModel.$playSounds])
   const [thimbleSelect] = useSound('/music/thimble_select.mp3')
   return (
     <div
@@ -50,7 +51,7 @@ const Thimble = ({
       onClick={() => {
         if (!showAnimation && !openGame && isPlaying) {
           setSelected(ind)
-          thimbleSelect()
+          playSounds !== 'off' && thimbleSelect()
         }
       }}
       ref={animatedRefs.current[ind]}

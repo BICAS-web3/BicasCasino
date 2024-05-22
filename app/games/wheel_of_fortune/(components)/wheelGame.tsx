@@ -106,7 +106,7 @@ const WheelGame = () => {
             const outCome = arr[i]
 
             setCoefficientData(prev => [outCome, ...prev])
-          }, 2000 * (i + 1))
+          }, 1500 * (i + 1))
         }
       }
       handlePayouts(coeff.profit, coeff.amount)

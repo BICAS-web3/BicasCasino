@@ -14,18 +14,40 @@ import { WalletSVG } from '../../icons'
 import { TabBuy, TabRedeem, TabTips } from './tabs'
 import Billline from './billline'
 import { useTranslation } from 'react-i18next'
-
+import TabWithdraw from './tabs/tab.withdraw'
+import Arr from '@/public/images/payment/rightArr.svg'
 const tabData = ['Buy', 'Redeem', 'Tips']
-const tabContent = [<TabBuy />, <TabRedeem />, <TabTips />]
+const tabContent = [<TabBuy />, <TabWithdraw />, <TabTips />]
 
 const Payment = () => {
-  const [totalVisibility, setTotalVisibility, isBillline, setShowTransaction] =
-    useUnit([
-      PaymentModel.$totalVisibility,
-      PaymentModel.setTotalVisibility,
-      PaymentModel.$isBillline,
-      PaymentModel.setShowTransaction
-    ])
+  const [
+    totalVisibility,
+    setTotalVisibility,
+    isBillline,
+    setShowTransaction,
+    withdrewCrypto,
+    withdrewFiat,
+    setWithdrewCrypto,
+    setWithdrewFiat,
+    buyCrypto,
+    buyFiat,
+    setBuyCrypto,
+    setBuyFiat
+  ] = useUnit([
+    PaymentModel.$totalVisibility,
+    PaymentModel.setTotalVisibility,
+    PaymentModel.$isBillline,
+    PaymentModel.setShowTransaction,
+    PaymentModel.$withdrewCrypto,
+    PaymentModel.$withdrewFiat,
+    PaymentModel.setWithdrewCrypto,
+    PaymentModel.setWithdrewFiat,
+
+    PaymentModel.$buyCrypto,
+    PaymentModel.$buyFiat,
+    PaymentModel.setBuyCrypto,
+    PaymentModel.setBuyFiat
+  ])
   const [tab, setTab] = useState(
     stringRemoveSpacing(tabData[0]).toLocaleLowerCase().toLocaleLowerCase()
   )
@@ -35,6 +57,18 @@ const Payment = () => {
   }
 
   const { t } = useTranslation()
+
+  const handleBack = () => {
+    if (withdrewFiat) {
+      setWithdrewFiat(false)
+    } else if (withdrewCrypto) {
+      setWithdrewCrypto(false)
+    } else if (buyCrypto) {
+      setBuyCrypto(false)
+    } else if (buyFiat) {
+      setBuyFiat(false)
+    }
+  }
 
   return (
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
@@ -65,7 +99,6 @@ const Payment = () => {
                 <Button
                   className='relative translate-x-2.5 bg-transparent hover:bg-transparent group'
                   size='icon'
-                  // variant='ghost'
                   onClick={handleClose}
                 >
                   <X className='w-5 h-5 duration-500 aspect-square object-contain text-[#3E3E3E] group-hover:text-[#979797]' />
@@ -79,7 +112,7 @@ const Payment = () => {
           <Billline />
         ) : (
           <Tabs className='h-full flex flex-col' value={tab}>
-            <div>
+            {!withdrewCrypto && !withdrewFiat && !buyCrypto && !buyFiat ? (
               <TabsList className='w-full border border-[#252525] bg-[#121212] py-[5px] h-[50px] px-[5px] rounded-full gap-2'>
                 {tabData.map((tabItem, index) => (
                   <TabsTrigger
@@ -96,7 +129,22 @@ const Payment = () => {
                   </TabsTrigger>
                 ))}
               </TabsList>
-            </div>
+            ) : (
+              <div className='flex items-center justify-between'>
+                <div
+                  onClick={handleBack}
+                  className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center'
+                >
+                  <Arr className='rotate-[180deg]' />
+                  {t(`modals.back`)}
+                </div>
+                <span className='text-[18px] font-light text-[#7E7E7E]'>
+                  {tab === 'redeem'
+                    ? 'Withdraw/Bank card'
+                    : t(`modals.wallet.payment.buy.title`)}
+                </span>
+              </div>
+            )}
             {tabData.map((tabItem, index) => (
               <TabsContent
                 key={`payment-modal-content--${stringRemoveSpacing(
