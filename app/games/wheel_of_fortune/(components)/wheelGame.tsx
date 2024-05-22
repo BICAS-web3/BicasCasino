@@ -103,7 +103,7 @@ const WheelGame = () => {
 
         for (let i = 0; i < arr?.length; i++) {
           setTimeout(() => {
-            const outCome = arr[i]
+            const outCome = arr[i] / amount
 
             setCoefficientData(prev => [outCome, ...prev])
           }, 1500 * (i + 1))
@@ -138,7 +138,7 @@ const WheelGame = () => {
           setIsPlaying(false)
           setCoeff({
             profit: (result as any).profits,
-            amount: fullAmount
+            amount: Number(result.amount)
           })
         }, 2000)
       } else if (Number(result.profit) < fullAmount) {

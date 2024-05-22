@@ -254,7 +254,7 @@ const GamePlayBlock = () => {
     if (isPoker && !pokerPlay) {
       setPokerDelay(true)
     }
-    if (cryptoValue > balance) {
+    if (cryptoValue * betsAmount > balance) {
       showNotification && toast(t(`toast.top_up`))
       setError(true)
       return

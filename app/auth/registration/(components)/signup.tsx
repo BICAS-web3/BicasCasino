@@ -33,6 +33,7 @@ import { EyeClose, EyeOpen } from '../../(icons)'
 import * as api from '@/api'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 interface SignupProps {}
 
@@ -80,6 +81,14 @@ const SignUp: FC<SignupProps> = () => {
   }, [error])
   const route = useRouter()
   const handleSubmitUp = (values: z.infer<typeof registrSchema>) => {
+    const usernameRegex = /^[^\u0400-\u04FF]+$/
+    if (
+      !usernameRegex.test(values.username) ||
+      !usernameRegex.test(values.password)
+    ) {
+      toast.error('Please use only Latin characters for the username')
+      return
+    }
     setrtTransition(async () => {
       const { username, password } = values
       console.log(`${BaseApiUrl}/user/register`)
