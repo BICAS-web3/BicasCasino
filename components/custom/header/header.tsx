@@ -198,10 +198,26 @@ const Header = () => {
     >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
-        <BalanceSwitcher />
-        <Wallet />
+        {/* <BalanceSwitcher />
+        <Wallet /> */}
+        <div className='text-[16px] font-semibold text-[#7e7e7e] cursor-pointer'
+           onClick={() => {
+            route.push('/auth/login')
+          }}
+        >
+          Sign In
+        </div>
+        <div className="rounded-[50px] text-[16px] font-semibold min-w-[105px] h-[40px] flex items-center justify-center cursor-pointer border border-[#202020] box-border"
+          style={{background: 'conic-gradient(from 0deg at 50% 50%, #13BD3A 0deg, #09A52C 360deg)'}}
+          onClick={() => {
+            route.push('/auth/registration')
+          }}
+        >
+          Sign Up
+        </div>
         <Separator orientation='vertical' className='min-h-10 inline' />
-        <User />
+        {/* <User /> */}
+        <div>chat</div>
       </div>
     </header>
   )
