@@ -15,6 +15,8 @@ import {
   FormItem,
   FormMessage
 } from '@/components/ui/form'
+import { toast } from 'sonner'
+
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 // import { signIn } from 'next-auth/react'
@@ -67,6 +69,14 @@ const Signin: FC<SigninProps> = () => {
 
   const route = useRouter()
   const handleSubmitIn = (values: z.infer<typeof loginSchema>) => {
+    const usernameRegex = /^[^\u0400-\u04FF]+$/
+    if (
+      !usernameRegex.test(values.username) ||
+      !usernameRegex.test(values.password)
+    ) {
+      toast.error('Please use only Latin characters for the username')
+      return
+    }
     setrtTransition(async () => {
       const data = await api.loginUser({
         login: values.username,
