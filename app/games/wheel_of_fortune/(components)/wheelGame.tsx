@@ -103,10 +103,10 @@ const WheelGame = () => {
 
         for (let i = 0; i < arr?.length; i++) {
           setTimeout(() => {
-            const outCome = arr[i] / amount
+            const outCome = arr[i]
 
             setCoefficientData(prev => [outCome, ...prev])
-          }, 2000 * (i + 1))
+          }, 1500 * (i + 1))
         }
       }
       handlePayouts(coeff.profit, coeff.amount)
@@ -136,7 +136,6 @@ const WheelGame = () => {
             token: 'DRAX'
           })
           setIsPlaying(false)
-          setInGame(false)
           setCoeff({
             profit: (result as any).profits,
             amount: fullAmount
@@ -147,7 +146,6 @@ const WheelGame = () => {
           setGameStatus(GameModel.GameStatus.Lost)
           pickSide(pickedSide ^ 1)
           setIsPlaying(false)
-          setInGame(false)
           setLostStatus(Number(result.profit) - fullAmount)
           setCoeff({
             profit: (result as any).profits,
@@ -157,19 +155,10 @@ const WheelGame = () => {
       } else {
         setGameStatus(GameModel.GameStatus.Draw)
         setIsPlaying(false)
-        setInGame(false)
       }
       setResult(null)
     }
   }, [result?.timestamp, result, gameStatus])
-
-  useEffect(() => {
-    if (isPlaying) {
-      setInGame(true)
-    }
-  }, [isPlaying])
-
-  const [inGame, setInGame] = useState<boolean>(false)
 
   const [numSectors, setNumSectors] = useState(0)
 
@@ -177,38 +166,11 @@ const WheelGame = () => {
     setNumSectors(pickedValue / 10)
   }, [pickedValue])
 
-  useEffect(() => {
-    setIsPlaying(inGame)
-  }, [inGame])
-
   const [localNumber, setLocalNumber] = useState<number | null>(null)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
 
   const [outcomes, setOutcomes] = useState<number[]>([])
 
-  useEffect(() => {
-    setActivePicker(true)
-    setInGame(false)
-    if (gameStatus == GameModel.GameStatus.Won) {
-      pickSide(pickedSide)
-    } else if (gameStatus == GameModel.GameStatus.Lost) {
-      pickSide(pickedSide ^ 1)
-    }
-  }, [gameStatus])
-
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0)
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
-
-  const [count, setCount] = useState(10)
   const [levelCoef, setLevelCoef] = useState<IWheelCoef[]>([
     { value: 0.0, color: WHITE_COLOR },
     { value: 1.2, color: BLUE_COLOR },
@@ -412,7 +374,16 @@ const WheelGame = () => {
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount
     })
-  }, [stopGain, stopLoss, pickedSide, cryptoValue, betsAmount, isDrax])
+  }, [
+    stopGain,
+    stopLoss,
+    pickedSide,
+    cryptoValue,
+    betsAmount,
+    isDrax,
+    numSectors,
+    level
+  ])
 
   const [subscribed, setCubscribed] = useState(false)
 
@@ -440,17 +411,20 @@ const WheelGame = () => {
     return () => useUnSubscribe({ gamesList, socket, name: 'Wheel' })
   }, [])
 
+  const [customKey, setCustomKey] = useState(0)
+
+  useEffect(() => {
+    if (isPlaying) {
+      setCustomKey(prev => prev + 1)
+    }
+  }, [isPlaying])
+
   return (
-    <section
-      onClick={() => {
-        setCount(prev => prev + 2)
-      }}
-      className='w-full h-full relative flex flex-col overflow-hidden flex-[1_1_auto] items-center justify-center'
-    >
+    <section className='w-full h-full relative flex flex-col overflow-hidden flex-[1_1_auto] items-center justify-center'>
       <ReactHowler
         src={'/music/wheel.mp3'}
         playing={
-          (inGame ||
+          (isPlaying ||
             (outcomes.length > 0 && lastNum !== null && lastNum > -1)) &&
           playSounds !== 'off'
         }
@@ -474,7 +448,7 @@ const WheelGame = () => {
               className={cn(
                 'relative left-1/2 -translate-x-1/2 -translate-y-[9px] ] w-[5px] h-[10px] sm:h-[14px] sm:w-[7px]  xl:w-auto',
 
-                inGame ||
+                isPlaying ||
                   (outcomes.length > 0 && lastNum !== null && lastNum > -1)
                   ? '-top-2 sm:top-[1px] xl:top-[6.5px] -rotate-[30deg] animate-[pick-animation_0.15s_infinite_steps(2)]'
                   : '-top-[7px] sm:top-0'
@@ -565,31 +539,38 @@ const WheelGame = () => {
           ))}
           <div
             className={cn(
-              'wheel_wrapp',
-              `wheel_wrapp_${pickedValue}`,
-              lastNum !== null &&
-                lastNum !== -1 &&
-                `wheel_wrapp_${pickedValue}_${lastNum}`,
-              inGame && 'animate-[rotate-2_2s_ease-in,rotate_7000s_2s_linear]'
+              'w-fit h-fit',
+              isPlaying && 'animate-[rotate-2_2s_ease-in]'
             )}
           >
-            <WheelCircle
-              inSpeen={inSpeen}
-              setInSpeen={setInSpeen}
-              localNumber={localNumber || 0}
-              count={pickedValue}
-              segColors={segColors}
-              winningSegment=''
-              onFinished={(winner: any) => console.log(winner)}
-              primaryColor='black'
-              primaryColoraround='#ffffffb4'
-              contrastColor='white'
-              buttonText='Spin'
-              isOnlyOnce={false}
-              size={isMobile ? 110 : isDesktop ? 145 : 200}
-              upDuration={50}
-              downDuration={2000}
-            />
+            {' '}
+            <div
+              className={cn(
+                'wheel_wrapp',
+                `wheel_wrapp_${pickedValue}`,
+                lastNum !== null &&
+                  lastNum !== -1 &&
+                  `wheel_wrapp_${pickedValue}_${lastNum}`
+              )}
+            >
+              <WheelCircle
+                inSpeen={inSpeen}
+                setInSpeen={setInSpeen}
+                localNumber={localNumber || 0}
+                count={pickedValue}
+                segColors={segColors}
+                winningSegment=''
+                onFinished={(winner: any) => console.log(winner)}
+                primaryColor='black'
+                primaryColoraround='#ffffffb4'
+                contrastColor='white'
+                buttonText='Spin'
+                isOnlyOnce={false}
+                size={isMobile ? 110 : isDesktop ? 145 : 200}
+                upDuration={50}
+                downDuration={2000}
+              />
+            </div>
           </div>
         </div>
         <div

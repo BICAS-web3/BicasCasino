@@ -120,7 +120,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
     <div
       className={`${
         props?.id % 2 !== 0 && 'bg-[#1a1a1a]'
-      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] xxs:gap-x-[25px] flex justify-between sm:grid grid-cols-[25px_65px_1fr_30px] sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
+      } h-[50px] border-b-[1px] border-[#252525] px-[10px] sm:px-[40px] gap-x-[15px] xxs:gap-x-[25px] grid-cols-[0.7fr_1fr_1fr_1fr] grid  sm:grid-cols-[40px_110px_1fr_40px_70px] md:grid-cols-[40px_110px_1fr_60px_1fr_60px] mmd:grid-cols-[120px_106px_0.8fr_80px_0.8fr_0.7fr_55px] 2xl:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]`}
     >
       <div className='flex items-center overflow-hidden min-w-[25px]'>
         <Link
@@ -136,11 +136,11 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='flex w-full justify-center min-w-[65px] overflow-hidden text-ellipsis mmd:justify-start pl-[10px] sm:pl-[22px] mmd:pl-0 items-center'>
+      <div className='flex w-full justify-start min-w-[65px] overflow-hidden text-ellipsis mmd:justify-start pl-0 sm:pl-[22px] mmd:pl-0 items-center'>
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
-          className='flex w-full items-center justify-center'
+          className='flex w-full items-center justify-start'
         >
           <img
             src={gameImg.src}
@@ -156,7 +156,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         <Link
           href={`/account/${props?.user_id}`}
           target='_blank'
-          className='flex justify-center w-full items-center no-underline'
+          className='flex justify-start emd:justify-start emd:pl-16 2xl:pl-20 w-full items-center no-underline'
         >
           <div className='mt-[6px]'>
             <BlockiesAva address={props?.username || 'retryu'} size={avaSize} />
@@ -166,18 +166,13 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] tracking-[0.56px] font-medium'>
+      <div className='hidden mmd:flex items-center text-bets-title-color text-[0.875rem] emd:pl-5 tracking-[0.56px] font-medium'>
         {props.bet.num_games}
       </div>
-      <div className='hidden mmd:justify-center sm:flex items-center gap-x-[5px] overflow-hidden'>
+      <div className='hidden mmd:justify-end mmd:pr-[50px] sm:flex items-center gap-x-[5px] overflow-hidden'>
         <span className='text-text-w-def text-[0.875rem] tracking-[0.56px] font-medium'>
           {props?.amount}
         </span>{' '}
-        <BonusTokenIco
-            width={20}
-            height={20}
-            className='min-w-[20px] min-h-[20px]'
-          />
         {props.coin_id === 1 ? (
           <img src={bonusTokenIco.src} className='min-w-[20px] h-[20px]' />
         ) : (
@@ -195,7 +190,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
       </div>
       <div className='flex items-center gap-2 justify-end w-full overflow-hidden text-ellipsis'>
         <span
-          className={`text-[10px] mmd:text-[0.875rem] ml-[8px] text-ellipsis overflow-hidden font-bold tracking-[0.56px] ${
+          className={`text-[10px] mmd:text-[0.875rem] text-ellipsis overflow-hidden font-bold tracking-[0.56px] ${
             props?.multiplier < 1 && 'text-[#f57731]'
           } text-bets-gr`}
         >

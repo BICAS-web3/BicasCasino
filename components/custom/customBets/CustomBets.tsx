@@ -180,7 +180,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
         <div className='flex items-center gap-[12px] w-[180px] sm:w-[240px]'>
           <button
             onClick={() => setShowAllBets(true)}
-            className={`duration-500 h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[12px] uppercase text-[#181818] text-[12px] sm:text-[14px] font-bold ${
+            className={`duration-500 h-[30px] sm:h-[40px] w-full flex items-center justify-center cursor-pointer rounded-[5px] sm:rounded-[12px] uppercase text-[#181818] text-[11px] sm:text-[14px] font-bold ${
               showAllBets
                 ? 'bg-[#FFE09D] text-[#181818]'
                 : 'bg-[#202020] text-[#7E7E7E]'
@@ -190,7 +190,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
           </button>
           <button
             onClick={() => setShowAllBets(false)}
-            className={`duration-500 h-[40px] w-full flex items-center uppercase justify-center cursor-pointer rounded-[12px] text-[12px] sm:text-[14px] font-bold ${
+            className={`duration-500 h-[30px] sm:h-[40px] w-full flex items-center uppercase justify-center cursor-pointer rounded-[5px] sm:rounded-[12px] text-[11px] sm:text-[14px] font-bold ${
               !showAllBets
                 ? 'bg-[#FFE09D] text-[#181818]'
                 : 'bg-[#202020] text-[#7E7E7E]'
@@ -203,26 +203,26 @@ export const CustomBets: FC<CustomBetsProps> = props => {
       <div className='w-full mt-[35px]'>
         <div
           className='px-[10px] 
-        sm:px-[40px] flex justify-between sm:grid xs:grid-cols-[25px_80px_85px_100px] 
-        grid-cols-[25px_65px_1fr_70px] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
+        sm:px-[40px] grid xs:grid-cols-[25px_80px_85px_100px] 
+        grid-cols-[0.7fr_1fr_1fr_1fr] sm:sm:grid-cols-[40px_110px_1fr_40px_70px] 
         md:grid-cols-[40px_110px_1fr_60px_1fr_60px] 
-        mmd:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px] 
+        mmd:grid-cols-[120px_106px_0.8fr_80px_0.8fr_0.7fr_55px] 2xl:grid-cols-[160px_110px_1fr_100px_1fr_1fr_60px]
         gap-x-[15px] xxs:gap-x-[25px] content-between mb-[7px] '
         >
           <span className='text-bets-title-color text-footer-text-xs sm:text-[14px]'>
             {t('pages.main.live_bets.titles.Time')}
           </span>
-          <span className='text-bets-title-color pr-[15px] sm:pr-0 text-center mmd:text-start text-footer-text-xs sm:text-[14px]'>
+          <span className='text-bets-title-color  sm:pr-0 emd:pl-8 text-start sm:text-center mmd:text-start text-footer-text-xs sm:text-[14px]'>
             {t('pages.main.live_bets.titles.Game')}
           </span>
-          <span className='text-bets-title-color emd:pr-[50px] emd:text-center text-footer-text-xs sm:text-[14px]'>
+          <span className='text-bets-title-color emd:pr-[50px] emd:pl-16 2xl:pl-20 emd:text-start text-footer-text-xs sm:text-[14px]'>
             {t('pages.main.live_bets.titles.Player')}
           </span>
-          <span className='text-bets-title-color min-w-max text-footer-text-xs hidden mmd:block sm:text-[14px]'>
-            {t('pages.main.live_bets.titles.Number of games')}
+          <span className='text-bets-title-color min-w-max text-footer-text-xs emd:pl-5 hidden mmd:block sm:text-[14px]'>
+            {t('pages.main.live_bets.titles.Number_of_games')}
           </span>
           <span
-            className='text-bets-title-color mmd:pr-[25px] mmd:text-center text-footer-text-xs hidden sm:block sm:text-[14px]'
+            className='text-bets-title-color mmd:pr-[50px] mmd:text-end text-footer-text-xs hidden sm:block sm:text-[14px]'
             data-id='wager'
           >
             {t('pages.main.live_bets.titles.Wager')}
@@ -286,26 +286,6 @@ export const CustomBets: FC<CustomBetsProps> = props => {
                 />
               )
             })}
-            <CustomBetsItem
-                  game_id={123123123}
-                  user_id={123123123}
-                  bet={123123}
-                  trx_url=''
-                  key={123123123}
-                  time={{
-                    date: `123123123123`,
-                    time: `123123123123`
-                  }}
-                  game_name={'asdasdasdasd'}
-                  bets={12312312312}
-                  multiplier={123123123123}
-                  profit={123123123123}
-                  id={123123123}
-                  num_games={123123123}
-                  username={'asdasdasdasd'}
-                  amount={'112312312'}
-                  coin_id={1}
-                />
         </div>
       </div>
     </div>

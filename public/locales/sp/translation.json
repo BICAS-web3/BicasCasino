@@ -49,6 +49,7 @@
           "RPS": "Piedra, Papel o Tijeras",
           "Apples": "Manzanas",
           "Poker": "Póker",
+          "Plinko": "Plinko",
           "Thimbles": "Capuchas"
         }
       },
@@ -75,11 +76,17 @@
           "Apples": "Manzanas",
           "Rocket": "Cohete",
           "Poker": "Póker",
+          "Plinko": "Plinko",
           "Mines": "Minas",
           "RPS": "PPT",
           "CoinFlip": "Cara o Cruz"
         }
       }
+    },
+    "chat": {
+      "chat": "Charlar",
+      "online": "En línea",
+      "send_message": "Enviar un mensaje"
     },
     "auth": {
       "textes": {
@@ -125,7 +132,7 @@
       "refund": "Reembolso",
       "redraw": "Rehacer",
       "Play": "Jugar",
-      "Number of games": "Número de juegos",
+      "Number_of_games": "Número de juegos",
       "Stop Gain": "Detener Ganancias",
       "No limit": "Sin límite",
       "Stop Loss": "Detener Pérdidas",
@@ -305,6 +312,7 @@
       "Rock paper scissors": "Piedra, Papel o Tijeras",
       "Mines": "Minas",
       "Poker": "Póker",
+      "Plinko": "Plinko",
       "Rocket": "Cohete",
       "Wheel of Fortune": "Ruleta de la Fortuna",
       "Apples": "Manzanas",

@@ -259,7 +259,7 @@ const RocketGame = () => {
 
         <div
           onClick={() => setRestartGif(prev => prev + 1)}
-          className={`bottom-auto top-[200px] sm:top-auto sm:bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
+          className={`bottom-auto scale-[0.86] top-[200px] sm:top-auto sm:bottom-[45px] w-[97px] h-[132px] lg:bottom-[115px] xl:bottom-[180px] sm:w-[133px] sm:h-[203px] absolute left-1/2 -translate-x-1/2 z-[3] ${
             rocketStar && ' animate-[rocket-box_0.44s]'
           }`}
         >

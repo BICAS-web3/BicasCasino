@@ -59,7 +59,7 @@ export const GameAuto: FC<GameAutoProps> = () => {
     >
       <div className='flex mb-[20px] flex-col gap-1 w-full game-amount'>
         <h3 className='text-[#7E7E7E] text-sm font-semibold'>
-          {t('pages.games.Number of games')}
+          {t('pages.games.Number_of_games')}
         </h3>
         <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
           <span>{pickedValue}</span>

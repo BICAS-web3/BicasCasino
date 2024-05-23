@@ -49,7 +49,8 @@
           "RPS": "Pedra, papel ou tesoura",
           "Apples": "Maçãs",
           "Poker": "Pôquer",
-          "Thimbles": "Dedais"
+          "Thimbles": "Dedais",
+          "Plinko": "Plinko"
         }
       },
       "totals": {
@@ -77,9 +78,15 @@
           "Poker": "Pôquer",
           "Mines": "Minas",
           "RPS": "Jokenpô",
-          "CoinFlip": "Cara ou coroa"
+          "CoinFlip": "Cara ou coroa",
+          "Plinko": "Plinko"
         }
       }
+    },
+    "chat": {
+      "chat": "Bater papo",
+      "online": "On-line",
+      "send_message": "Envie uma mensagem"
     },
     "auth": {
       "textes": {
@@ -125,7 +132,7 @@
       "refund": "Reembolso",
       "redraw": "Redesenhar",
       "Play": "Jogar",
-      "Number of games": "Número de jogos",
+      "Number_of_games": "Número de jogos",
       "Stop Gain": "Parar Ganhos",
       "No limit": "Sem limite",
       "Stop Loss": "Parar Perdas",
@@ -209,7 +216,7 @@
         "No Data": "Sem Dados"
       },
       "campaigns": {
-        "Hist": "Hist",
+        "Hist": "Hits",
         "Commission Rate": "Taxa de Comissão",
         "Referalls": "Indicações",
         "Total Commission": "Comissão Total",
@@ -305,6 +312,7 @@
       "Rock paper scissors": "Pedra, papel ou tesoura",
       "Mines": "Minas",
       "Poker": "Pôquer",
+      "Plinko": "Plinko",
       "Rocket": "Foguete",
       "Wheel of Fortune": "Roda da fortuna",
       "Apples": "Maçãs",

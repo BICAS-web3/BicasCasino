@@ -15,9 +15,13 @@ import { useState } from 'react'
 
 import { tips_data } from '../data'
 import { useTranslation } from 'react-i18next'
+import { payoutWithdraw } from '@/api'
+import { toast } from 'sonner'
+import { useUnit } from 'effector-react'
+import { RegistrModel, UserModel } from '@/states'
 
 const TabTips = () => {
-  const [amount, setAmount] = useState<number>(0.2454)
+  const [amount, setAmount] = useState<number>(0)
   const [Username, setUsername] = useState<string>('')
   const [purchaseI, setPurchaseI] = useState({
     id: '1',
@@ -43,8 +47,29 @@ const TabTips = () => {
 
   const { t } = useTranslation()
 
+  const [access_token, showNotification] = useUnit([
+    RegistrModel.$access_token,
+    UserModel.$showNotification
+  ])
+
+  const handlePayment = async () => {
+    if (!amount || !Username) {
+      showNotification && toast(t(`toast.fill_all`))
+    } else {
+      const data = await payoutWithdraw({
+        amount: `${amount}`,
+        bareer: access_token,
+        additional_data: JSON.stringify({ amount, Username, type: 'tips' })
+      })
+      if (data.status === 'OK') {
+        toast(t(`toast.success`))
+      } else {
+        showNotification && toast(t(`toast.error`))
+      }
+    }
+  }
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-3 h-full'>
       <div className='w-full flex justify-center items-center'>
         <Select onValueChange={handleSelect}>
           <SelectTrigger className='w-[240px] h-10 bg-[#202020] rounded-lg'>
@@ -71,7 +96,7 @@ const TabTips = () => {
         </Select>
       </div>
 
-      <div className='flex flex-col gap-5'>
+      <div className='flex flex-col gap-5 h-full'>
         <div className='flex flex-col gap-1'>
           <h6 className='text-base text-[#979797] font-semibold'>
             {t(`modals.wallet.payment.tips.Username`)}
@@ -95,7 +120,7 @@ const TabTips = () => {
           <div className='flex items-center pr-4 flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>
             <Input
               className='w-full flex-1 h-10 rounded-none'
-              value={amount}
+              value={amount === 0 ? '' : amount}
               type='number'
               step={0.01}
               onChange={handleAmount}
@@ -107,7 +132,10 @@ const TabTips = () => {
           </div>
         </div>
 
-        <Button className='w-full max-w-full text-sm border border-[#907640] bg-[#252019] hover:bg-[#25201950] transition-all duration-300 text-[#FFE09D] font-bold'>
+        <Button
+          onClick={handlePayment}
+          className='w-full max-w-full mt-auto text-sm border border-[#907640] bg-[#252019] hover:bg-[#25201950] transition-all duration-300 text-[#FFE09D] font-bold'
+        >
           {t(`modals.wallet.payment.tips.btn`)} {amount}
         </Button>
 

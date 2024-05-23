@@ -197,7 +197,7 @@ export const Poker = ({}: PokerProps) => {
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards)
-    playDrawnCards()
+    playSounds !== 'off' && playDrawnCards()
   }, [gameState])
 
   useEffect(() => {

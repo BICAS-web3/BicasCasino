@@ -119,7 +119,7 @@ const GameLayout = ({ children }) => {
       <div
         className={`relative flex flex-col sm:pb-0 flex-[1_1_auto] sm:rounded-[20px_20px_0_0] overflow-hidden sm:max-h-max sm:min-h-[594px] xl:min-h-[618px] 3xl:min-h-[680px] max-h-max-content min-h-[300px]`}
       >
-        {access_token && socketAuth ? children : <Preload />}
+        {/* {access_token && socketAuth ? children : <Preload />} */}
         <div
           className='absolute w-8 h-8 flex justify-center items-center rounded-[5px] bg-[#181818B2] top-10 sm:top-auto sm:bottom-5 right-5 cursor-pointer z-[2] hover:shadow-[0px_0px_6.2px_0px_#FFFFFF80] duration-500'
           onClick={soundChange}

@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { BitcoinSVG, DraxMiniSVG, RedirectSVG } from '../../../icons'
 import { crypto_data } from '../data'
-import { BitcoinSVG, DraxMiniSVG } from '../../../icons'
 
+import { getUserAmounts, payoutWithdraw } from '@/api'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -11,12 +13,11 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import RedeemConfirmModal from '../redeem.confirm'
+import { PaymentModel, RegistrModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
-import { PaymentModel } from '@/states'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
+import RedeemConfirmModal from '../redeem.confirm'
 
 type CryptoProps = {
   id: string
@@ -28,8 +29,8 @@ type CryptoProps = {
 }
 
 const TabRedeem = () => {
-  const [amount, setAmount] = useState<number>(9601)
-  const [estimate, setEstimate] = useState<number>(amount / 12 - 428.5)
+  const [amount, setAmount] = useState<number>(0)
+  const [estimate, setEstimate] = useState<number>(0)
   const [address, setAddress] = useState<string>('')
   const [purchaseI, setPurchaseI] = useState<CryptoProps>({
     id: '1',
@@ -55,10 +56,61 @@ const TabRedeem = () => {
   }
   const handleEstimate = e => {
     setEstimate(+e.target.value)
-    setAmount(+(+e.target.value * 12 + 428.5).toFixed(2))
+    // setAmount(+(+e.target.value * 12 + 428.5).toFixed(2))
+    setAmount(e.target.value)
   }
 
   const { t } = useTranslation()
+
+  const [access_token, showNotification, balance, userInfo] = useUnit([
+    RegistrModel.$access_token,
+    UserModel.$showNotification,
+    UserModel.$balance,
+    UserModel.$userInfo
+  ])
+
+  const [balanceValue, setBalanceValue] = useState(0)
+
+  useEffect(() => {
+    if (access_token && userInfo) {
+      ;(async () => {
+        const data = await getUserAmounts({
+          bareer: access_token,
+          userId: userInfo?.id
+        })
+        if (data.status === 'OK') {
+          setBalanceValue(
+            Number(
+              (data.body as any).amounts.find(
+                (item: any) => item.name === 'Drax'
+              )?.amount
+            )
+          )
+        }
+      })()
+    }
+  }, [access_token, userInfo?.id])
+
+  const handlePayment = async () => {
+    if (!estimate || !address || !amount) {
+      showNotification && toast(t(`toast.fill_all`))
+    } else {
+      if (Number(amount) > balanceValue) {
+        showNotification && toast(t(`Top up balance!`))
+        return
+      }
+      const data = await payoutWithdraw({
+        amount: `${amount}`,
+        bareer: access_token,
+        additional_data: JSON.stringify({ address, estimate })
+      })
+      if (data.status === 'OK') {
+        toast(t(`toast.success`))
+      } else {
+        showNotification && toast(t(`toast.error`))
+      }
+    }
+  }
 
   return (
     <div className='flex flex-col justify-between gap-3 h-full'>
@@ -172,13 +224,29 @@ const TabRedeem = () => {
               {t(`modals.wallet.payment.redeem.text`)}
             </p>
           </div>
-
-          <Button
+          {/* <Button
             onClick={() => setRedeemConfirm(true)}
             className='w-full max-w-full text-sm border border-[#907640] bg-[#201F1C] hover:bg-[#252019] transition-all duration-300 text-[#FFE09D] font-bold'
           >
             {t(`modals.wallet.payment.redeem.redeem`)}
-          </Button>
+          </Button>{' '} */}
+          <button
+            onClick={handlePayment}
+            className={`mt-auto w-full text-center border flex items-center justify-center gap-[10px] rounded-[8px] h-11 font-bold duration-500 ${
+              !estimate || !address || !amount
+                ? 'bg-[#191919] border-[#363636] text-[#7E7E7E]'
+                : 'bg-[#2520194D] border-[#907640] text-[#FFE09D] hover:bg-[#252019]'
+            } `}
+          >
+            {t(`modals.wallet.billine.proceed`)}{' '}
+            <RedirectSVG
+              className={
+                !estimate || !address || !amount
+                  ? 'text-[#7E7E7E] duration-500'
+                  : 'text-[#FFE09D] duration-500'
+              }
+            />
+          </button>
         </div>
       </div>
       <RedeemConfirmModal />

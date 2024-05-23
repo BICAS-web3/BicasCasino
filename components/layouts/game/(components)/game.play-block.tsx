@@ -68,7 +68,9 @@ const GamePlayBlock = () => {
     setMinesDelay,
     setMinesVisible,
     minesVisible,
-    showNotification
+    showNotification,
+    plinkoVisible,
+    setPlinkoVisible
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -108,7 +110,9 @@ const GamePlayBlock = () => {
     GameModel.setMinesDelay,
     GameModel.setMinesVisible,
     GameModel.$minesVisible,
-    UserModel.$showNotification
+    UserModel.$showNotification,
+    GameModel.$plinkoVisible,
+    GameModel.setPlinkoVisible
   ])
 
   const path = usePathname()
@@ -121,6 +125,7 @@ const GamePlayBlock = () => {
   const [coinflipGame, setCoinflipGame] = useState(false)
   const [isPoker, setIsPoker] = useState(false)
   const [isThimbles, setIsThimbles] = useState(false)
+  const [isPlinko, setIsPlinko] = useState(false)
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
@@ -197,6 +202,11 @@ const GamePlayBlock = () => {
       setIsThimbles(true)
     } else {
       setIsThimbles(false)
+    }
+    if (path.includes('plinko')) {
+      setIsPlinko(true)
+    } else {
+      setIsPlinko(false)
     }
   }, [path])
 
@@ -315,7 +325,18 @@ const GamePlayBlock = () => {
           }}
         />
       )}
-      {!isPoker && !isMines && !isApple && !isThimbles && (
+      {isPlinko && (
+        <SettingSVG
+          className={`cursor-pointer duration-500 ${
+            plinkoVisible ? 'text-[#FFE09D] bg-transparent' : 'text-[#676767]'
+          }`}
+          onClick={() => {
+            setPlinkoVisible(!plinkoVisible)
+            setAuto(false)
+          }}
+        />
+      )}
+      {!isPoker && !isMines && !isApple && !isThimbles && !isPlinko && (
         <div
           data-game-auto
           className={`h-[30px] flex items-center justify-center cursor-pointer min-w-[52px] relative`}
@@ -352,7 +373,8 @@ const GamePlayBlock = () => {
           (isThimbles && isPlaying) ||
           (isThimbles && showAnimation) ||
           (isMines && waitingResponse) ||
-          (isMines && minesDelay)
+          (isMines && minesDelay) ||
+          (isPlinko && isPlaying)
         }
         onClick={handlePlay}
         variant='wagerPlay'

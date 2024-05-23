@@ -1,0 +1,93 @@
+import { Slider } from '@/components/ui/slider'
+import { cn } from '@/lib/utils'
+import { GameModel, WagerModel } from '@/states'
+// import { IGameAmount } from '@/types/games.types'
+import { useUnit } from 'effector-react'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+
+export const PlinkoSettings = () => {
+  const [pickedValue, pickValue, visible, pickRows, pickedRows] = useUnit([
+    WagerModel.$pickedValue,
+    WagerModel.pickValue,
+    GameModel.$plinkoVisible,
+    GameModel.pickRows,
+    GameModel.$pickedRows
+  ])
+
+  const changeInputValue = value => {
+    pickValue(value[0])
+  }
+  const changeInputRows = value => {
+    pickRows(value[0])
+  }
+
+  useEffect(() => {
+    pickValue(1)
+  }, [])
+  useEffect(() => {
+    pickRows(10)
+  }, [])
+
+  const { t } = useTranslation()
+  const ButtonTupe = ['Easy', 'Medium', 'Hard']
+  type ButtonTupe = ['Easy', 'Medium', 'Hard']
+  const [setLevel, level] = useUnit([GameModel.setLevel, GameModel.$level])
+  return (
+    <div
+      className={`duration-300 ${
+        visible ? 'opacity-1 visible' : 'opacity-0 invisible h-0 !p-0'
+      } col-start-1 col-end-3 m-[0_auto] w-full max-w-[330px] tbs:absolute tbs:top-[calc(-100%_-_150px)] bg-[#151515] tbs:right-[250px] rounded-[20px] border-[#3e3e3e] p-6 box-border`}
+    >
+      <div className='flex mb-[20px] flex-col gap-1 w-full game-amount'>
+        <h3 className='text-[#7E7E7E] text-sm font-semibold'>
+          {t(`pages.games.Difficulty`)}
+        </h3>
+        <div className='flex p-[2px] border border-[#2E2E2E] justify-between rounded-[99px]'>
+          {ButtonTupe.map(type => (
+            <button
+              className={cn(
+                'flex items-center h-8 justify-center w-full text-[13px] rounded-[99px] duration-500',
+                level == type && 'bg-[#282828]'
+              )}
+              onClick={() => setLevel(type)}
+            >
+              {t(`pages.games.${type}`)}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64 game-amount'>
+        <h3 className='text-[#7E7E7E] text-sm font-semibold'>
+          Number of balls: {pickedValue}
+        </h3>
+        <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
+          <span>{pickedValue}</span>
+          <Slider
+            min={1}
+            max={60}
+            className='w-full'
+            onValueChange={changeInputValue}
+          />
+          <span>{60}</span>
+        </div>
+      </div>
+
+      <div className='flex flex-col gap-1 w-full max-w-full sm:max-w-64 game-amount'>
+        <h3 className='text-[#7E7E7E] text-sm font-semibold'>
+          Number of rows: {pickedRows}
+        </h3>
+        <div className='flex gap-3 items-center py-2 px-2.5 border border-[#2E2E2E] rounded-[99px] h-9'>
+          <span>{pickedRows}</span>
+          <Slider
+            min={10}
+            max={16}
+            className='w-full'
+            onValueChange={changeInputRows}
+          />
+          <span>{16}</span>
+        </div>
+      </div>
+    </div>
+  )
+}

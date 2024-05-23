@@ -8,20 +8,17 @@ import { useUnSubscribe } from '@/lib/utils/unsubscube'
 import { useGetState } from '@/lib/utils/useGetState'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import ReactHowler from 'react-howler'
 import useSound from 'use-sound'
-import { Tile, initialGameField, initialPickedTiles } from '../data'
-import { handleResult, pickTileforMine } from '../utils'
+import { Tile, initialGameField, initialPickedTiles, maxReveal } from '../data'
+import { handleResult } from '../utils'
 import SelectedMine from './selected.mine'
 import './styles.scss'
-import ReactHowler from 'react-howler'
 const MinesGame = () => {
   const socket = useSocket()
   const [
     betsAmount,
-    lost,
-    profit,
     gameStatus,
     cryptoValue,
     setGameStatus,
@@ -53,8 +50,6 @@ const MinesGame = () => {
     minesDelay
   ] = useUnit([
     WagerModel.$pickedValue,
-    GameModel.$lost,
-    GameModel.$profit,
     GameModel.$gameStatus,
     WagerModel.$cryptoValue,
     GameModel.setGameStatus,
@@ -88,9 +83,6 @@ const MinesGame = () => {
   const [playSounds] = useUnit([GameModel.$playSounds])
   const [isCashout, setIsCashout] = useState(true)
   const [coefficientData, setCoefficientData] = useState<number[]>([])
-  const [fullWon, setFullWon] = useState(0)
-  const [fullLost, setFullLost] = useState(0)
-  const [totalValue, setTotalValue] = useState(0.1)
   const [taken, setTaken] = useState(false)
   const [betData, setBetData] = useState({})
   const [subscribed, setCubscribed] = useState(false)
@@ -186,15 +178,6 @@ const MinesGame = () => {
   }, [stopWinning])
 
   useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
-
-  useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Lost) {
       setIsCashout(true)
       setCopySelectedArr([])
@@ -208,15 +191,6 @@ const MinesGame = () => {
       setTaken(true)
     }
   }, [betsAmount, cryptoValue, isPlaying])
-
-  useEffect(() => {
-    if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon(prev => prev + profit)
-    } else if (gameStatus === GameModel.GameStatus.Lost) {
-      setFullLost(prev => prev + lost)
-    }
-    setTotalValue(fullWon - fullLost)
-  }, [GameModel.GameStatus, profit, lost])
 
   useEffect(() => {
     setBetData({
@@ -292,10 +266,30 @@ const MinesGame = () => {
   )
   const [isMouseDown, setIsMouseDown] = useState(false)
 
-  const pickTiles = (index: number) => {
-    if (waitingResponse || minesDelay) return
-    pickTileforMine({
-      index,
+  const pickTiles = useCallback(
+    index => {
+      if (waitingResponse || minesDelay) return
+      if (gameField[index] === Tile.Closed) {
+        if (!pickedTiles[index]) {
+          if (totalOpenedTiles >= maxReveal[pickedValue]) {
+            return
+          }
+          setTotalOpenedTiles(prev => prev + 1)
+          pickedTiles[index] = true
+        } else {
+          setTotalOpenedTiles(prev => prev - 1)
+          pickedTiles[index] = false
+        }
+
+        if (musicType !== 'off') {
+          playTileClick()
+        }
+        triggerRedraw(true)
+      }
+    },
+    [
+      waitingResponse,
+      minesDelay,
       gameField,
       musicType,
       pickedTiles,
@@ -304,25 +298,46 @@ const MinesGame = () => {
       setTotalOpenedTiles,
       totalOpenedTiles,
       triggerRedraw
-    })
-  }
+    ]
+  )
 
-  const handleMouseMove = (index: number) => {
-    if (isMouseDown) {
-      if (waitingResponse || minesDelay) return
-      pickTileforMine({
-        index,
-        gameField,
-        musicType,
-        pickedTiles,
-        pickedValue,
-        playTileClick,
-        setTotalOpenedTiles,
-        totalOpenedTiles,
-        triggerRedraw
-      })
-    }
-  }
+  const handleMouseMove = useCallback(
+    index => {
+      if (isMouseDown) {
+        if (waitingResponse || minesDelay) return
+        if (gameField[index] === Tile.Closed) {
+          if (!pickedTiles[index]) {
+            if (totalOpenedTiles >= maxReveal[pickedValue]) {
+              return
+            }
+            setTotalOpenedTiles(prev => prev + 1)
+            pickedTiles[index] = true
+          } else {
+            setTotalOpenedTiles(prev => prev - 1)
+            pickedTiles[index] = false
+          }
+
+          if (musicType !== 'off') {
+            playTileClick()
+          }
+          triggerRedraw(true)
+        }
+      }
+    },
+    [
+      isMouseDown,
+      waitingResponse,
+      minesDelay,
+      gameField,
+      musicType,
+      pickedTiles,
+      pickedValue,
+      playTileClick,
+      setTotalOpenedTiles,
+      totalOpenedTiles,
+      triggerRedraw
+    ]
+  )
 
   return (
     <div
@@ -355,13 +370,14 @@ const MinesGame = () => {
               <div
                 key={index}
                 onClick={pickTiles.bind('', index)}
-                onMouseEnter={() => handleMouseMove(index)}
+                onMouseEnter={handleMouseMove.bind('', index)}
                 className={cn(
                   'w-[38px] h-[38px] sm:w-[53px] sm:h-[53px] xl:w-20 xl:h-20 3xl:w-[90px] 3xl:h-[90px] cursor-pointer duration-500 relative ',
                   isPicked && inGame && !copySelectedArr.includes(index) && ''
                 )}
               >
                 <svg
+                  key={index}
                   width='91'
                   height='90'
                   viewBox='0 0 91 90'
@@ -400,7 +416,7 @@ const MinesGame = () => {
                 </svg>
 
                 <SelectedMine
-                  className={isPicked ? 'z-[1]' : 'z-[0]'}
+                  key={index}
                   index={index}
                   type={isPicked ? Tile.Selected : value}
                   waitingResponse={waitingResponse}

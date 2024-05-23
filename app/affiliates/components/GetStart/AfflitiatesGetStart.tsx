@@ -1,17 +1,45 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CopyIco from '@/public/images/payment/copyIco.svg'
 import { SubmitBtn } from '@/app/profile/components/submitBtn/SubmitBtn'
 import { useTranslation } from 'react-i18next'
+import { useUnit } from 'effector-react'
+import { RegistrModel, UserModel } from '@/states'
+import { getLink } from '@/api'
+import { toast } from 'sonner'
 
 interface AffiliatesGetStartProps {}
 
 export const AffiliatesGetStart: FC<AffiliatesGetStartProps> = () => {
   const copy = () => {
-    // navigator.clipboard.writeText('')
+    navigator.clipboard.writeText(
+      link || 'https://greekepeers.vip/?c=c_kytmisha'
+    )
+    toast('Copy!')
   }
 
-  const btnHandler = () => {}
   const { t } = useTranslation()
+  const [userInfo, access_token] = useUnit([
+    UserModel.$userInfo,
+    RegistrModel.$access_token
+  ])
+  const [link, setLink] = useState('')
+
+  useEffect(() => {
+    if (access_token && userInfo?.username) {
+      ;(async () => {
+        const response = await getLink({
+          bareer: access_token,
+          user_name: userInfo.username
+        })
+        if (response.status === 'OK') {
+          setLink((response.body as any)?.message)
+        } else {
+          toast('Error!')
+        }
+      })()
+    }
+  }, [access_token, userInfo?.username])
+
   return (
     <div className='border border-[#3E3E3E] rounded-[5px]'>
       <div className='p-[20px]'>
@@ -44,18 +72,26 @@ export const AffiliatesGetStart: FC<AffiliatesGetStartProps> = () => {
             className='flex cursor-pointer  box-border items-center p-[0_20px_0_10px] justify-between gap-[10px] rounded-[5px] bg-[#121212] border border-[#252525] h-[40px] '
           >
             <p className='text-nowrap text-ellipsis overflow-hidden'>
-              https://greekepeers.vip/?c=c_kytmisha
+              {link || ' https://greekepeers.vip/?c=c_kytmisha'}
             </p>{' '}
             <CopyIco className='min-w-[24px]' />
           </div>
         </div>
       </div>
       <div className='flex justify-end items-center border border-[#3E3E3E] p-[20px]'>
-        <SubmitBtn
-          isWidth={window.innerWidth < 650}
-          title={t(`pages.affiliates.start.btn`)}
-          handler={btnHandler}
-        />
+        <a
+          type='download'
+          className={`
+            rounded-[5px] border border-[#907640] flex items-center justify-center text-[#FFE09D] text-[14px] sm:text-[16px] font-regular w-full ${
+              window.innerWidth < 650 ? '!max-w-[200px]' : 'max-w-[120px]'
+            } ${
+            false ? '!max-w-[100%]' : 'max-w-[120px]'
+          } p-[0px_10px] sm:w-full sm:max-w-[250px] min-h-[40px] bg-[#252019]
+        `}
+          href='/data/Banners-Affiliate.rar'
+        >
+          {t(`pages.affiliates.start.btn`)}
+        </a>
       </div>
     </div>
   )

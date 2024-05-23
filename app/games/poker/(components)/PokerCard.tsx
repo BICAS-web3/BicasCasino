@@ -118,7 +118,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 src={
                   card === 0 && coat === 0
                     ? `https://game.greekkeepers.io/cards/back.png`
-                    : `https://game.greekkeepers.io/cards/${coat}/${card}.svg`
+                    : `https://game.greekkeepers.io/cards/${coat}/${card}.png`
                 }
                 // src={`https://game.greekkeepers.io/cards/${coat}/${card}.svg`}
                 alt='card-image'
@@ -148,7 +148,7 @@ export const PokerCard: FC<PokerCardProps> = props => {
                 src={
                   card === 0 && coat === 0
                     ? `https://game.greekkeepers.io/cards/back.png`
-                    : `https://game.greekkeepers.io/cards/${coat}/${card}.svg`
+                    : `https://game.greekkeepers.io/cards/${coat}/${card}.png`
                 }
                 alt='card-image'
                 width={200}

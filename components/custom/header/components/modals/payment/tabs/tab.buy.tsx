@@ -11,8 +11,14 @@ import { getOneTimeToken } from '@/api'
 import { useTranslation } from 'react-i18next'
 
 const TabBuy = () => {
-  const [isCrypto, setIsCrypto] = useState(false)
-  const [isFiat, setIsFiat] = useState(false)
+  const [isCrypto, setIsCrypto] = useUnit([
+    PaymentModel.$buyCrypto,
+    PaymentModel.setBuyCrypto
+  ])
+  const [isFiat, setIsFiat] = useUnit([
+    PaymentModel.$buyFiat,
+    PaymentModel.setBuyFiat
+  ])
   const { open, close, isOpen, dropdownRef } = useDropdown()
 
   const [setIsBillline, setTotalVisibility] = useUnit([
@@ -58,20 +64,6 @@ const TabBuy = () => {
       className='flex h-full flex-col gap-2 justify-between'
     >
       <div className='flex flex-col gap-3'>
-        {isFiat && (
-          <div className='flex items-center justify-between'>
-            <div
-              onClick={() => setIsFiat(false)}
-              className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center'
-            >
-              <Arr className='rotate-[180deg]' />
-              {t(`modals.back`)}
-            </div>
-            <span className='text-[18px] font-light text-[#7E7E7E]'>
-              {t(`modals.wallet.payment.buy.title`)}
-            </span>
-          </div>
-        )}
         <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5'>
           <span className='text-[10px] sm:text-xs'>
             <span className='font-extrabold text-[#ffe09d]'>
@@ -98,6 +90,7 @@ const TabBuy = () => {
               {t(`modals.wallet.payment.buy.crypto.text_1`)}
             </span>
             <CryptoRoute
+              isBuy
               title={t(`modals.wallet.payment.buy.crypto.route_1.title`)}
               text={t(`modals.wallet.payment.buy.crypto.route_1.text`)}
               onClick={() => setIsFiat(true)}
@@ -110,6 +103,7 @@ const TabBuy = () => {
               <span className='flex flex-auto h-[1px] w-full bg-[#252525]'></span>
             </div>
             <CryptoRoute
+              isBuy
               isCrypto
               onClick={() => setIsCrypto(true)}
               title={t(`modals.wallet.payment.buy.crypto.route_2.title`)}

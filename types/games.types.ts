@@ -70,6 +70,7 @@ export interface ISelectedMine {
   waitingResponse: boolean
   index: number
   className?: string
+  onMouseEnter?: () => void
 }
 
 export interface IHandleResult {

@@ -4,7 +4,7 @@ import { FC } from 'react'
 const RowItem: FC<IRowItem> = props => {
   const { isMobile, value, color, ball, animationDelay, index } = props
   return (
-    <div className='text-[0.625 py-[10px] mr-[1px] text-white w-[34px] h-6 flex justify-center items-center relative z-[1] top-0 before:content-[""] before:absolute before:h-full before:w-full before:bg-[rgba(15,15,15,0.25)] before:z-[2] shadow-[0px_1px_0.5px_0px_rgba(15,15,15,0.25),-1px_0px_1px_0px_rgba(45,40,31,0.25),3px_-2px_3px_0px_rgba(15,15,15,0.25)]'>
+    <div className='text-sm py-[10px]  mr-[1px] text-white w-[17px] h-[30px] sm:w-[34px] sm:h-6 flex justify-center items-center relative z-[1] top-0 before:content-[""] before:absolute before:h-full before:w-full before:bg-[rgba(15,15,15,0.25)] before:z-[2] shadow-[0px_1px_0.5px_0px_rgba(15,15,15,0.25),-1px_0px_1px_0px_rgba(45,40,31,0.25),3px_-2px_3px_0px_rgba(15,15,15,0.25)]'>
       {isMobile ? (
         // <MobileRowSVG
         //   className={
