@@ -380,11 +380,13 @@
             "text_2": "or buy with",
             "route_1": {
               "title": "Bank card",
-              "text": "You can buy DRAX coins by Visa or Mastercard"
+              "text": "You can withdraw DRAX coins by Visa or Mastercard",
+              "text2": "You can buy DRAX coins to your bank card (Visa or Mastercard)"
             },
             "route_2": {
               "title": "Crypto payments",
-              "text": "You also can buy DRAX coinsby crypto-currency"
+              "text": "You also can buy DRAX coinsby crypto-currency",
+              "text2": "You can also withdraw DRAX coins to your crypto wallet"
             }
           },
           "fiat": {
@@ -406,7 +408,7 @@
           "estimate": "Estimate Receive",
           "desclaimer": "Disclaimer:",
           "text": "The exact amount you receive is subject to real-time exchange rate and the actual send amount at the time arrival.",
-          "redeem": "Redeem"
+          "redeem": "Withdraw"
         },
         "tips": {
           "Username": "Username",
@@ -418,8 +420,8 @@
         },
         "Wallet": "Wallet",
         "Transactions": "Transactions",
-        "Buy": "Buy",
-        "Redeem": "Redeem",
+        "Buy": "Deposit",
+        "Redeem": "Withdraw",
         "Tips": "Tips",
         "security": "Security question",
         "full": "Full your email address",

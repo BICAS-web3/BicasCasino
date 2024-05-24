@@ -377,11 +377,13 @@
             "text_2": "ou compre com",
             "route_1": {
               "title": "Cartão bancário",
-              "text": "Você pode comprar moedas DRAX com Visa ou Mastercard"
+              "text": "Você pode comprar moedas DRAX com Visa ou Mastercard",
+              "text2": "Você pode comprar moedas DRAX com seu cartão bancário (Visa ou Mastercard)"
             },
             "route_2": {
               "title": "Pagamentos com criptomoedas",
-              "text": "Você também pode comprar moedas DRAX com criptomoedas"
+              "text": "Você também pode comprar moedas DRAX com criptomoedas",
+              "text2": "Você também pode retirar moedas DRAX para sua carteira criptografada"
             }
           },
           "fiat": {

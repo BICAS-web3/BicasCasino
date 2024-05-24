@@ -629,7 +629,7 @@ export const GetNftMarket = createEffect<number, T_ApiResponse, string>(
   async id => {
     return fetch(
       // `https://game.greekkeepers.io/nft/metadata/${form.lvl}/${form.id}.json`,
-      `https://game.greekkeepers.io/nft/metadata/${id}.json`,
+      `${BaseApiUrl}/nft/metadata/${id}.json`,
       {
         method: 'GET'
       }

@@ -10,8 +10,6 @@ import Arr from '@/public/images/payment/rightArr.svg'
 import { getOneTimeToken } from '@/api'
 import { useTranslation } from 'react-i18next'
 import TabRedeem from './tab.redeem'
-import InputItem from '../billline/components/input'
-import { Button } from '@/components/ui/button'
 import FiatRedeem from './components/fiat.redeem'
 
 const TabWithdraw = () => {
@@ -116,7 +114,7 @@ const TabWithdraw = () => {
                 title={
                   'To ' + t(`modals.wallet.payment.buy.crypto.route_1.title`)
                 }
-                text={t(`modals.wallet.payment.buy.crypto.route_1.text`)}
+                text={t(`modals.wallet.payment.buy.crypto.route_1.text2`)}
                 onClick={() => setIsFiat(true)}
               />
               <div className='w-fill flex items-center gap-5'>
@@ -132,7 +130,7 @@ const TabWithdraw = () => {
                 title={
                   'To ' + t(`modals.wallet.payment.buy.crypto.route_2.title`)
                 }
-                text={t(`modals.wallet.payment.buy.crypto.route_2.text`)}
+                text={t(`modals.wallet.payment.buy.crypto.route_2.text2`)}
               />
             </>
           )}
