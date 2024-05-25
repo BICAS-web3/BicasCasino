@@ -270,7 +270,7 @@ const GamePlayBlock = () => {
               coin_id: 1,
               game_id: 1,
               id: 1,
-              outcomes: isThimbles ? '[0]' : '{"action":1}',
+              outcomes: isThimbles ? '[0]' : `{"action":${getRandomNumber()}}`,
               payouts: `[${getRandomNumber()}]`,
               profits: win ? '[2]' : '[0]',
               serverseed_id: 1,
@@ -471,7 +471,14 @@ const GamePlayBlock = () => {
           (isThimbles && showAnimation) ||
           (isMines && waitingResponse) ||
           (isMines && minesDelay) ||
-          (isPlinko && isPlaying)
+          (isPlinko && isPlaying) ||
+          (!access_token &&
+            !isCoinflip &&
+            !isRPS &&
+            !isMines &&
+            !isRocket &&
+            !isPoker &&
+            !isThimbles)
         }
         onClick={handlePlay}
         variant='wagerPlay'
@@ -481,7 +488,17 @@ const GamePlayBlock = () => {
             : 'border-[#FFE7B4] text-[#FFE7B4]'
         }`}
       >
-        {isPoker && pokerPlay ? (
+        {!access_token &&
+        !isCoinflip &&
+        !isRPS &&
+        !isMines &&
+        !isRocket &&
+        !isPoker &&
+        !isThimbles ? (
+          'Registration!'
+        ) : !access_token ? (
+          'Demo play'
+        ) : isPoker && pokerPlay ? (
           `${t('pages.games.redraw')}`
         ) : applesPlay && isApple ? (
           <>
