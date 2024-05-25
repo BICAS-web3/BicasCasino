@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { CarsRace } from './components/CarsRace'
 
 export const metadata: Metadata = {
   title: 'Games - Cars',
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const Cars = () => {
-  return <div>Cars</div>
+  return <CarsRace gameText='text' />
 }
 
 export default Cars
