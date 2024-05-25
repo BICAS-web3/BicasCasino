@@ -1,6 +1,7 @@
 import { createEffect, createEvent, createStore, sample } from 'effector'
 
 import * as api from '@/api'
+import { initialPickedTiles } from '@/app/games/mines/data'
 
 export enum GameStatus {
   Won,
@@ -37,7 +38,10 @@ export const $autoVisible = createStore<boolean>(false)
 export const $wheelVisible = createStore<boolean>(false)
 export const $minesVisible = createStore<boolean>(false)
 export const $coefficientData = createStore<number[]>([])
+export const $selected = createStore<number | null>(null)
+
 // events
+export const setSelected = createEvent<number | null>()
 export const setCoefficientData = createEvent<number[]>()
 export const setIsPlaying = createEvent<boolean>()
 export const setWaitingResponse = createEvent<boolean>()
@@ -66,6 +70,7 @@ $gameStatus.on(setGameStatus, (_, status) => status)
 $autoVisible.on(setAutoVisible, (_, state) => state)
 $wheelVisible.on(setWheelVisible, (_, state) => state)
 $minesVisible.on(setMinesVisible, (_, state) => state)
+$selected.on(setSelected, (_, state) => state)
 
 $profit.on(setWonStatus, (_, data) => data.profit).on(clearStatus, () => 0)
 $multiplier
@@ -239,18 +244,21 @@ export const $stopWinning = createStore<WinningType>('YES')
 export const $selectedLength = createStore<number>(0)
 export const $minesSelected = createStore<boolean>(false)
 export const $minesDelay = createStore<boolean>(false)
+export const $pickedTiles = createStore<boolean[]>([...initialPickedTiles])
 
 export const setManualSetting = createEvent<ManualType>()
 export const setStopWinning = createEvent<WinningType>()
 export const setSelectedLength = createEvent<number>()
 export const setMinesSelected = createEvent<boolean>()
 export const setMinesDelay = createEvent<boolean>()
+export const setPickedTiles = createEvent<boolean[]>()
 
 $manualSetting.on(setManualSetting, (_, state) => state)
 $stopWinning.on(setStopWinning, (_, state) => state)
 $selectedLength.on(setSelectedLength, (_, state) => state)
 $minesSelected.on(setMinesSelected, (_, state) => state)
 $minesDelay.on(setMinesDelay, (_, state) => state)
+$pickedTiles.on(setPickedTiles, (_, state) => state)
 
 //! POKER
 export const $redrawCards = createStore<boolean>(false)
@@ -325,3 +333,8 @@ $applesPlay.on(setapplesPlay, (_, state) => state)
 export const $plinkoVisible = createStore<boolean>(false)
 export const setPlinkoVisible = createEvent<boolean>()
 $plinkoVisible.on(setPlinkoVisible, (_, state) => state)
+
+export const $demoCards = createStore<string>('')
+export const setDemoCards = createEvent<string>()
+
+$demoCards.on(setDemoCards, (_, state) => state)

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { MutableRefObject, RefObject, useEffect, useState } from 'react'
 import { ThimbleSVG } from './icons'
 import { useUnit } from 'effector-react'
-import { GameModel } from '@/states'
+import { GameModel, RegistrModel } from '@/states'
 import useSound from 'use-sound'
 
 const Thimble = ({
@@ -26,7 +26,10 @@ const Thimble = ({
   animatedRefs: MutableRefObject<RefObject<HTMLDivElement>[]>
   openBall?: boolean
 }) => {
-  const [setIsPlaying] = useUnit([GameModel.setIsPlaying])
+  const [setIsPlaying, access_token] = useUnit([
+    GameModel.setIsPlaying,
+    RegistrModel.$access_token
+  ])
   const [localPlay, setLocalPlay] = useState(false)
   useEffect(() => {
     setLocalPlay(false)
@@ -50,6 +53,10 @@ const Thimble = ({
                 ${showAnimation && `thimble_wrap_${ind + 1}`}`}
       onClick={() => {
         if (!showAnimation && !openGame && isPlaying) {
+          setSelected(ind)
+
+          playSounds !== 'off' && thimbleSelect()
+        } else if (!access_token) {
           setSelected(ind)
           playSounds !== 'off' && thimbleSelect()
         }
