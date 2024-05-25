@@ -29,7 +29,59 @@ const UserBoard: FC<{}> = () => {
   const setDefaultValue = async () => {
     const data = (await Api.getLeaderboard({ time: 'all', return: 'volume' }))
       .body as unknown as Api.T_Lider
-    setLeaders((data as any).leaderboard)
+    // setLeaders((data as any).leaderboard)
+    setLeaders([
+      {
+        user_id: '1',
+        username: 'Ader',
+        total: 23435
+      },
+      {
+        user_id: '1',
+        username: 'Mark',
+        total: 22455
+      },
+      {
+        user_id: '1',
+        username: '@ewrgf',
+        total: 22234
+      },
+      {
+        user_id: '1',
+        username: 'boy666',
+        total: 20435
+      },
+      {
+        user_id: '1',
+        username: 'cryptoman',
+        total: 19334
+      },
+      {
+        user_id: '1',
+        username: 'Nika@34',
+        total: 16343
+      },
+      {
+        user_id: '1',
+        username: 'fedggr',
+        total: 15435
+      },
+      {
+        user_id: '1',
+        username: 'hunter',
+        total: 12324
+      },
+      {
+        user_id: '1',
+        username: 'Naruto',
+        total: 12213
+      },
+      {
+        user_id: '1',
+        username: 'reg34gf',
+        total: 10324
+      }
+    ])
   }
 
   useEffect(() => {
@@ -50,7 +102,62 @@ const UserBoard: FC<{}> = () => {
         return: toRequest.split('_')[1]?.toLowerCase()
       })
     ).body as unknown as Api.T_Lider
-    setLeaders((data as any).leaderboard)
+    if (period === 'All Time_profit' || period === 'All Time_volume') {
+      setLeaders([
+        {
+          user_id: '1',
+          username: 'Ader',
+          total: 23435
+        },
+        {
+          user_id: '1',
+          username: 'Mark',
+          total: 22455
+        },
+        {
+          user_id: '1',
+          username: '@ewrgf',
+          total: 22234
+        },
+        {
+          user_id: '1',
+          username: 'boy666',
+          total: 20435
+        },
+        {
+          user_id: '1',
+          username: 'cryptoman',
+          total: 19334
+        },
+        {
+          user_id: '1',
+          username: 'Nika@34',
+          total: 16343
+        },
+        {
+          user_id: '1',
+          username: 'fedggr',
+          total: 15435
+        },
+        {
+          user_id: '1',
+          username: 'hunter',
+          total: 12324
+        },
+        {
+          user_id: '1',
+          username: 'Naruto',
+          total: 12213
+        },
+        {
+          user_id: '1',
+          username: 'reg34gf',
+          total: 10324
+        }
+      ])
+    } else {
+      setLeaders((data as any).leaderboard)
+    }
   }
 
   const { t } = useTranslation()
@@ -83,7 +190,7 @@ const UserBoard: FC<{}> = () => {
                   dunkin='Dunkin Caps'
                   image={image}
                   dollar
-                  statistics={Number(item.total).toFixed(2)}
+                  statistics={Number(item.total)}
                   id={i}
                   address={item.username}
                 />

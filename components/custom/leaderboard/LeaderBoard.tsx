@@ -22,7 +22,60 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
   const setDefaultValue = async () => {
     const data = (await getLeaderboard({ time: 'all', return: 'volume' }))
       .body as any
-    setLeaders(data.leaderboard)
+
+    // setLeaders(data.leaderboard)
+    setLeaders([
+      {
+        user_id: '1',
+        username: 'Ader',
+        total: 23435
+      },
+      {
+        user_id: '1',
+        username: 'Mark',
+        total: 22455
+      },
+      {
+        user_id: '1',
+        username: '@ewrgf',
+        total: 22234
+      },
+      {
+        user_id: '1',
+        username: 'boy666',
+        total: 20435
+      },
+      {
+        user_id: '1',
+        username: 'cryptoman',
+        total: 19334
+      },
+      {
+        user_id: '1',
+        username: 'Nika@34',
+        total: 16343
+      },
+      {
+        user_id: '1',
+        username: 'fedggr',
+        total: 15435
+      },
+      {
+        user_id: '1',
+        username: 'hunter',
+        total: 12324
+      },
+      {
+        user_id: '1',
+        username: 'Naruto',
+        total: 12213
+      },
+      {
+        user_id: '1',
+        username: 'reg34gf',
+        total: 10324
+      }
+    ])
   }
 
   useEffect(() => {
