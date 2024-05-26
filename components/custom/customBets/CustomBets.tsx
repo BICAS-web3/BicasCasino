@@ -219,7 +219,7 @@ export const CustomBets: FC<CustomBetsProps> = props => {
             {t('pages.main.live_bets.titles.Player')}
           </span>
           <span className='text-bets-title-color min-w-max text-footer-text-xs emd:pl-5 hidden mmd:block sm:text-[14px]'>
-            {t('pages.main.live_bets.titles.Number of games')}
+            {t('pages.main.live_bets.titles.Number_of_games')}
           </span>
           <span
             className='text-bets-title-color mmd:pr-[50px] mmd:text-end text-footer-text-xs hidden sm:block sm:text-[14px]'

@@ -8,12 +8,14 @@ import React, {
   useMemo
 } from 'react'
 import { useUnit } from 'effector-react'
-import { GameModel, SessionModel, UserModel } from '@/states'
+import { ChatM, GameModel, SessionModel, UserModel } from '@/states'
 
 const SocketContext = createContext<WebSocket | null>(null)
 
 export const useSocket = () => useContext(SocketContext)
-
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
 export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [
     newBet,
@@ -25,7 +27,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     setSocketAuth,
     setSocketLogged,
     socketAuth,
-    userInfo
+    userInfo,
+    setMessageData,
+    messageData
   ] = useUnit([
     GameModel.newBet,
     SessionModel.setNewBet,
@@ -36,7 +40,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
     UserModel.setSocketAuth,
     UserModel.setSocketLogged,
     UserModel.$socketAuth,
-    UserModel.$userInfo
+    UserModel.$userInfo,
+    ChatM.setMessageData,
+    ChatM.$messageData
   ])
 
   const [reset, setReset] = useState(false)
@@ -81,6 +87,9 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
         if (data && (data?.coin_id || data?.coin_id === 0)) {
           setTokenId(data.coin_id)
         }
+      }
+      if (data.type === 'ChatMessage') {
+        setMessageData({ ...data, time: formatTime(new Date()) })
       }
       if (data.type == 'Ping') {
         return

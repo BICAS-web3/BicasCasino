@@ -87,7 +87,33 @@ export const ThimblesGame: FC<ThimblesGameProps> = () => {
   const [index, setIndex] = useState(1)
 
   useEffect(() => {
-    if (gameStatus === 0 && selected !== null) {
+    if (
+      (gameStatus === 0 && selected !== null) ||
+      (!access_token && selected)
+    ) {
+      if (!access_token) {
+        const win = Math.random() < 0.7
+        setResult({
+          amount: '1',
+          profit: win ? '2' : '0',
+          num_games: betsAmount,
+          bet_info: '{ car: 2 }',
+          coin_id: 1,
+          game_id: 1,
+          id: 1,
+          outcomes: '[0]',
+          payouts: '[1]',
+          profits: win ? '[2]' : '[0]',
+          serverseed_id: 1,
+          timestamp: 1,
+          type: 'Bet',
+          user_id: 3,
+          userseed_id: 3,
+          uuid: '',
+          state:
+            '{"state":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false],"mines":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"game_num":1,"current_multiplier":"1.0312"}'
+        })
+      }
       setIndex(selected)
     } else if (gameStatus === 1 && selected !== null) {
       selected === 1 ? setIndex(0) : setIndex(1)

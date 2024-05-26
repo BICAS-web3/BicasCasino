@@ -14,6 +14,7 @@ import GamePlayBlock from './game.play-block'
 import GameWager from './game.wager'
 import { WheelSettings } from './game.wheel'
 import { PlinkoSettings } from './game.plinko'
+import { GameRollOver } from './game.rollover'
 
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
@@ -34,6 +35,7 @@ const GameMenu = () => {
       {plinkoGame && <PlinkoSettings />}
       {/* {minesGame && <GameAmount min={1} max={24} title='Number of mines' />} */}
       <GamePlayBlock />
+      {/* <GameRollOver /> */}
     </div>
   )
 }

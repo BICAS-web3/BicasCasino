@@ -83,6 +83,11 @@
         }
       }
     },
+    "chat": {
+      "chat": "Chat Room",
+      "online": "Online",
+      "send_message": "Send message"
+    },
     "auth": {
       "textes": {
         "error_data": "Wrong data",
@@ -127,7 +132,7 @@
       "refund": "Refund",
       "redraw": "Redraw",
       "Play": "Play",
-      "Number of games": "Number of games",
+      "Number_of_games": "Number of games",
       "Stop Gain": "Stop Gain",
       "No limit": "No limit",
       "Stop Loss": "Stop Loss",
@@ -320,6 +325,9 @@
   },
   "header": {
     "wallet": "Wallet"
+  },
+  "chat": {
+    "chat": "chat"
   },
   "footer": {
     "join": "Join our Community",

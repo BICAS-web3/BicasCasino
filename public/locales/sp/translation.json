@@ -83,6 +83,11 @@
         }
       }
     },
+    "chat": {
+      "chat": "Charlar",
+      "online": "En línea",
+      "send_message": "Enviar un mensaje"
+    },
     "auth": {
       "textes": {
         "error_data": "Datos incorrectos",
@@ -127,7 +132,7 @@
       "refund": "Reembolso",
       "redraw": "Rehacer",
       "Play": "Jugar",
-      "Number of games": "Número de juegos",
+      "Number_of_games": "Número de juegos",
       "Stop Gain": "Detener Ganancias",
       "No limit": "Sin límite",
       "Stop Loss": "Detener Pérdidas",

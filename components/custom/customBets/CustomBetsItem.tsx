@@ -136,11 +136,11 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
           </span>
         </Link>
       </div>
-      <div className='flex w-full  justify-start min-w-[65px] overflow-hidden text-ellipsis mmd:justify-start pl-0 sm:pl-[22px] mmd:pl-0 items-center'>
+      <div className='flex w-full justify-start min-w-[65px] overflow-hidden text-ellipsis mmd:justify-start pl-0 sm:pl-[22px] mmd:pl-0 items-center'>
         <Link
           href={`/games/${props?.game_name}`}
           target='_blank'
-          className='flex w-full items-center justify-start emd:pl-8'
+          className='flex w-full items-center justify-start'
         >
           <img
             src={gameImg.src}

@@ -56,7 +56,9 @@ export const Poker = ({}: PokerProps) => {
     setCryptoValue,
     profit,
     multiplier,
-    isPlaying
+    isPlaying,
+    demoCards,
+    setDemoCards
   ] = useUnit([
     WagerModel.$pickedValue,
     PokerModel.$gameState,
@@ -86,7 +88,9 @@ export const Poker = ({}: PokerProps) => {
     WagerModel.setCryptoValue,
     GameModel.$profit,
     GameModel.$multiplier,
-    GameModel.$pokerPlay
+    GameModel.$pokerPlay,
+    GameModel.$demoCards,
+    GameModel.setDemoCards
   ])
 
   const [playSounds] = useUnit([GameModel.$playSounds])
@@ -197,7 +201,7 @@ export const Poker = ({}: PokerProps) => {
 
   useEffect(() => {
     setActiveCards(gameState ? gameState : initialArrayOfCards)
-    playDrawnCards()
+    playSounds !== 'off' && playDrawnCards()
   }, [gameState])
 
   useEffect(() => {
@@ -272,6 +276,58 @@ export const Poker = ({}: PokerProps) => {
 
   useEffect(() => {
     if (finishGame) {
+      if (!access_token) {
+        const generateRandomCard = () => {
+          const number = Math.floor(Math.random() * 13) + 1
+          const suit = Math.floor(Math.random() * 4)
+          return {
+            number: number > 13 ? 13 : number,
+            suit: suit > 3 ? 3 : suit
+          }
+        }
+
+        const replaceCards = (currentCards, toReplace) => {
+          const newCards = currentCards.map((card, index) => {
+            if (toReplace[index]) {
+              return generateRandomCard()
+            }
+            return card
+          })
+
+          return JSON.stringify({ cards_in_hand: newCards })
+        }
+        const currentCards = JSON.parse(demoCards).cards_in_hand
+        const updatedCardsString = replaceCards(
+          currentCards,
+          cardsState.map(el => (el ? true : false))
+        )
+        setFinishGame(false)
+        setRedrawCards(true)
+
+        // alert(updatedCardsString)
+        setResult({
+          amount: '1',
+          profit: '1',
+          num_games: betsAmount,
+          bet_info: '{ car: 2 }',
+          coin_id: 1,
+          game_id: 1,
+          id: 1,
+          outcomes: '{"action":1}',
+
+          payouts: '',
+          profits: '',
+          serverseed_id: 1,
+          timestamp: 1,
+          type: 'Bet',
+          user_id: 3,
+          userseed_id: 3,
+          uuid: '',
+          state: updatedCardsString
+        })
+        setDemoCards('')
+        return
+      }
       socket?.send(
         JSON.stringify({
           type: 'ContinueGame',

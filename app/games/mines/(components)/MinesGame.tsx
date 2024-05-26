@@ -47,7 +47,9 @@ const MinesGame = () => {
     isPlaying,
     setMinesSelected,
     minesSelected,
-    minesDelay
+    minesDelay,
+    pickedTiles,
+    setPickedTiles
   ] = useUnit([
     WagerModel.$pickedValue,
     GameModel.$gameStatus,
@@ -78,7 +80,9 @@ const MinesGame = () => {
     GameModel.$isPlaying,
     GameModel.setMinesSelected,
     GameModel.$minesSelected,
-    GameModel.$minesDelay
+    GameModel.$minesDelay,
+    GameModel.$pickedTiles,
+    GameModel.setPickedTiles
   ])
   const [playSounds] = useUnit([GameModel.$playSounds])
   const [isCashout, setIsCashout] = useState(true)
@@ -88,7 +92,7 @@ const MinesGame = () => {
   const [subscribed, setCubscribed] = useState(false)
   const [copySelectedArr, setCopySelectedArr] = useState<number[]>([])
   const [gameField, setGameField] = useState<Tile[]>(initialGameField)
-  const [pickedTiles, setPickedTiles] = useState([...initialPickedTiles])
+  // const [pickedTiles, setPickedTiles] = useState([...initialPickedTiles])
   const [totalOpenedTiles, setTotalOpenedTiles] = useState(0)
   const [inGame, setInGame] = useState<boolean>(false)
   const [redrawTrigger, triggerRedraw] = useState<boolean>(true)

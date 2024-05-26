@@ -1183,3 +1183,48 @@ export const getUserBetData = createEffect<
     .then(async res => await res.json())
     .catch(e => e)
 })
+
+type T_Withdraw = {
+  bareer: string
+  additional_data: string
+  amount: string
+}
+
+export const payoutWithdraw = createEffect<T_Withdraw, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/payout/create`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
+      },
+      body: JSON.stringify({
+        additional_data: form.additional_data,
+        amount: form.amount
+      })
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)
+
+type T_GetLink = {
+  bareer: string
+  user_name: string
+}
+
+export const getLink = createEffect<T_GetLink, T_ApiResponse, string>(
+  async form => {
+    return fetch(`${BaseApiUrl}/user/referal/${form.user_name}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${form.bareer}`
+      }
+    })
+      .then(async res => await res.json())
+      .catch(e => e)
+  }
+)

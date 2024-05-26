@@ -1,76 +1,59 @@
-"use client"
-import { FC, useEffect, useState } from "react";
-import cityStartImg from "@/public/images/cars/bgStart.webp";
-import cityMainImg from "@/public/images/cars/cityMain.webp";
-import moonImg from "@/public/images/cars/moonBg.webp";
-import staticBg from "@/public/images/cars/staticBg.webp";
-import { Car1 } from "@/public/SVGs/Car1";
-import mountainsBg from "@/public/images/cars/mountainsBg.webp";
-import { Car2 } from "@/public/SVGs/Car2";
-import stopLine from "@/public/images/cars/stopLine.webp";
-import { UserModel } from "@/states";
+'use client'
+import { FC, useEffect, useState } from 'react'
+import cityStartImg from '@/public/images/cars/bgStart.webp'
+import cityMainImg from '@/public/images/cars/cityMain.webp'
+import moonImg from '@/public/images/cars/moonBg.webp'
+import staticBg from '@/public/images/cars/staticBg.webp'
+import { Car1 } from '@/public/SVGs/Car1'
+import mountainsBg from '@/public/images/cars/mountainsBg.webp'
+import { Car2 } from '@/public/SVGs/Car2'
+import stopLine from '@/public/images/cars/stopLine.webp'
+import { UserModel } from '@/states'
 
 //?-------------------------------------
 // import { SidePickerModel } from "../CoinFlipSidePicker";
-import { useUnit } from "effector-react";
+import { useUnit } from 'effector-react'
 // import { WagerModel as WagerButtonModel } from "../Wager";
-import { WagerModel } from "@/states";
+import { WagerModel } from '@/states'
 // import { CustomWagerRangeInputModel } from "../CustomWagerRangeInput";
-import { GameModel } from "@/states";
-import useSound from "use-sound";
-// import {
-//   useAccount,
-//   useContractEvent,
-//   useContractRead,
-//   useContractWrite,
-//   useNetwork,
-//   usePrepareContractWrite,
-//   useWaitForTransaction,
-// } from "wagmi";
-import { SessionModel } from "@/states";
-import { useMediaQuery } from "usehooks-ts";
-// import { WagerGainLossModel } from "../WagerGainLoss";
-// import { useFeeData } from "wagmi";
-// import { ProfitModel } from "../ProfitBlock";
-import * as CarModel from "./model";
-// import { RaceWin } from "@/shared/ui/RaceWin";
-import ReactHowler from "react-howler";
-// import * as BalanceModel from "@/widgets/BalanceSwitcher/model";
-// import * as LayoutModel from "@/widgets/Layout/model";
-// import * as BetsModel from "@/widgets/LiveBets/model";
-import { useSocket } from "@/components/providers/socket.provider";
-import { RegistrModel } from "@/states"; 
+import { GameModel } from '@/states'
+import useSound from 'use-sound'
+
+import { SessionModel } from '@/states'
+import { useMediaQuery } from 'usehooks-ts'
+import * as CarModel from './model'
+import ReactHowler from 'react-howler'
+import { useSocket } from '@/components/providers/socket.provider'
+import { RegistrModel } from '@/states'
 
 interface CarsRaceProps {
-  gameText: string;
+  gameText: string
 }
 
 export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
-  const [startGame, setStartGame] = useState(false);
-  const [wheelStart, setWheelStart] = useState(false);
-  const [showFinish, setShowFinish] = useState(false);
+  const [startGame, setStartGame] = useState(false)
+  const [wheelStart, setWheelStart] = useState(false)
+  const [showFinish, setShowFinish] = useState(false)
 
-  const [bgWidth, setBgWidth] = useState<any>();
+  const [bgWidth, setBgWidth] = useState<any>()
 
   useEffect(() => {
-    const el = document.getElementById("cars_bg_wrap");
+    const el = document.getElementById('cars_bg_wrap')
 
     const handleResize = () => {
-      setBgWidth(el?.offsetWidth);
-    };
+      setBgWidth(el?.offsetWidth)
+    }
 
-    handleResize();
+    handleResize()
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
-  const [imageLoading, setIMageLoading] = useState(true);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [
     lost,
     profit,
@@ -105,10 +88,8 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     setGameResult,
     reset,
     setReset,
-    // result,
-    // setResult,
-    // isDrax,
-    // userInfo,
+    result,
+    setResult,
     isDrax,
     userInfo
   ] = useUnit([
@@ -145,80 +126,153 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
     CarModel.setGameResult,
     CarModel.$reset,
     CarModel.setReset,
-    // BetsModel.$result,
-    // BetsModel.setResult,
-    // BalanceModel.$isDrax,
-    // LayoutModel.$userInfo,
+    GameModel.$result,
+    GameModel.setResult,
     UserModel.$isDrax,
     UserModel.$userInfo
-  ]);
+  ])
 
+  useEffect(() => {
+    if (result !== null && result?.type === 'Bet') {
+      const fullAmount = Number(result.amount) * result.num_games!
+      const numArr = JSON.parse(result.profits)
+      const handlePayouts = () => {
+        for (let i = 0; i < numArr?.length; i++) {
+          setTimeout(() => {
+            const outCome = Number(numArr[i]) / Number(result.amount)
+            setCoefficientData(prev => [outCome, ...prev])
+          }, 700 * (i + 1))
+        }
+      }
+      Promise.all([
+        new Promise(resolve => setTimeout(() => resolve(handlePayouts()), 6000))
+      ])
+      if (
+        Number(result.profit) > Number(result.amount) ||
+        Number(result.profit) === Number(result.amount)
+      ) {
+        const multiplier = Number(Number(result.profit) / Number(result.amount))
+        Promise.all([
+          new Promise(resolve =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Won)),
+              6000
+            )
+          ),
+          new Promise(resolve =>
+            setTimeout(
+              () =>
+                resolve(
+                  setWonStatus({
+                    profit: Number(result.profit),
+                    multiplier,
+                    token: 'DRAX'
+                  })
+                ),
+              6000
+            )
+          ),
+          new Promise(resolve =>
+            setTimeout(() => resolve(setIsPlaying(false)), 6000)
+          )
+          // new Promise((resolve) =>
+          //   setTimeout(() => resolve(setInGame(false)), 6000)
+          // ),
+        ])
+      } else if (Number(result.profit) < Number(result.amount)) {
+        Promise.all([
+          new Promise(resolve =>
+            setTimeout(
+              () => resolve(setGameStatus(GameModel.GameStatus.Lost)),
+              6000
+            )
+          ),
+          new Promise(resolve =>
+            setTimeout(() => resolve(setIsPlaying(false)), 6000)
+          ),
+          // new Promise((resolve) =>
+          //   setTimeout(() => resolve(setInGame(false)), 6000)
+          // ),
+          new Promise(resolve =>
+            setTimeout(
+              () =>
+                resolve(
+                  setLostStatus(Number(result.profit) - Number(result.amount))
+                ),
+              6000
+            )
+          )
+        ])
+      } else {
+        setGameStatus(GameModel.GameStatus.Draw)
+        setIsPlaying(false)
+        setInGame(false)
+      }
+      setResult(null)
+    }
+  }, [result?.timestamp, result, gameStatus])
   // useEffect(() => {
-  //   if (result !== null && result?.type === "Bet") {
-  //     const fullAmount = Number(result.amount) * result.num_games!;
-  //     const numArr = JSON.parse(result.profits);
+  //   if (result !== null && result?.type === 'Bet') {
+  //     const fullAmount = Number(result.amount) * result.num_games!
+  //     const numArr = JSON.parse(result.profits)
   //     const handlePayouts = () => {
   //       for (let i = 0; i < numArr?.length; i++) {
   //         setTimeout(() => {
-  //           const outCome = Number(numArr[i]) / Number(result.amount);
-  //           setCoefficientData((prev) => [outCome, ...prev]);
-  //         }, 700 * (i + 1));
+  //           const outCome = Number(numArr[i]) / Number(result.amount)
+  //           setCoefficientData(prev => [outCome, ...prev])
+  //         }, 700 * (i + 1))
   //       }
-  //     };
+  //     }
   //     Promise.all([
-  //       new Promise((resolve) =>
-  //         setTimeout(() => resolve(handlePayouts()), 6000)
-  //       ),
-  //     ]);
+  //       new Promise(resolve => setTimeout(() => resolve(handlePayouts()), 6000))
+  //     ])
   //     if (
   //       Number(result.profit) > Number(result.amount) ||
   //       Number(result.profit) === Number(result.amount)
   //     ) {
-  //       const multiplier = Number(
-  //         Number(result.profit) / Number(result.amount)
-  //       );
+  //       const multiplier = Number(Number(result.profit) / Number(result.amount))
   //       Promise.all([
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(
   //             () => resolve(setGameStatus(GameModel.GameStatus.Won)),
   //             6000
   //           )
   //         ),
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(
   //             () =>
   //               resolve(
   //                 setWonStatus({
   //                   profit: Number(result.profit),
   //                   multiplier,
-  //                   token: "DRAX",
+  //                   token: 'DRAX'
   //                 })
   //               ),
   //             6000
   //           )
   //         ),
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(() => resolve(setIsPlaying(false)), 6000)
-  //         ),
+  //         )
   //         // new Promise((resolve) =>
   //         //   setTimeout(() => resolve(setInGame(false)), 6000)
   //         // ),
-  //       ]);
+  //       ])
   //     } else if (Number(result.profit) < Number(result.amount)) {
   //       Promise.all([
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(
   //             () => resolve(setGameStatus(GameModel.GameStatus.Lost)),
   //             6000
   //           )
   //         ),
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(() => resolve(setIsPlaying(false)), 6000)
   //         ),
   //         // new Promise((resolve) =>
   //         //   setTimeout(() => resolve(setInGame(false)), 6000)
   //         // ),
-  //         new Promise((resolve) =>
+  //         new Promise(resolve =>
   //           setTimeout(
   //             () =>
   //               resolve(
@@ -226,70 +280,69 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   //               ),
   //             6000
   //           )
-  //         ),
-  //       ]);
+  //         )
+  //       ])
   //     } else {
-  //       setGameStatus(GameModel.GameStatus.Draw);
-  //       setIsPlaying(false);
-  //       setInGame(false);
+  //       setGameStatus(GameModel.GameStatus.Draw)
+  //       setIsPlaying(false)
+  //       setInGame(false)
   //     }
-  //     setResult(null);
+  //     setResult(null)
   //   }
-  // }, [result?.timestamp, result, gameStatus]);
+  // }, [result?.timestamp, result, gameStatus])
 
-  const [raceWin] = useSound("/music/race_win.mp3", { volume: 1 });
-  const [raceLose] = useSound("/music/race_lose.mp3", { volume: 1 });
+  const [raceWin] = useSound('/music/race_win.mp3', { volume: 1 })
+  const [raceLose] = useSound('/music/race_lose.mp3', { volume: 1 })
 
-  const [isPlaying] = useUnit([GameModel.$isPlaying]);
+  const [isPlaying] = useUnit([GameModel.$isPlaying])
 
-  const [coefficientData, setCoefficientData] = useState<number[]>([]);
+  const [coefficientData, setCoefficientData] = useState<number[]>([])
 
   // useEffect(() => {
   //   setCoefficient(1.98);
   // }, []);
 
-  const [inGame, setInGame] = useState<boolean>(false);
+  const [inGame, setInGame] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsPlaying(inGame);
-  }, [inGame]);
+    setIsPlaying(inGame)
+  }, [inGame])
 
-  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0));
+  const [prevGasPrice, setPrevGasPrice] = useState<bigint>(BigInt(0))
 
-  const [watchAllowance, setWatchAllowance] = useState<boolean>(false);
+  const [watchAllowance, setWatchAllowance] = useState<boolean>(false)
 
+  const [fees, setFees] = useState<bigint>(BigInt(0))
 
-  const [fees, setFees] = useState<bigint>(BigInt(0));
-
-  const [value, setValue] = useState<bigint>(BigInt(0));
+  const [value, setValue] = useState<bigint>(BigInt(0))
 
   useEffect(() => {
     const newValue =
       fees +
       (pickedToken &&
-        pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
+      pickedToken.contract_address ==
+        '0x0000000000000000000000000000000000000000'
         ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
-        : BigInt(0));
+          BigInt(100000000000)
+        : BigInt(0))
     setValue(
       fees +
-      (pickedToken &&
+        (pickedToken &&
         pickedToken.contract_address ==
-        "0x0000000000000000000000000000000000000000"
-        ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
-        BigInt(100000000000)
-        : BigInt(0))
-    );
+          '0x0000000000000000000000000000000000000000'
+          ? BigInt(Math.floor(cryptoValue * 10000000) * betsAmount) *
+            BigInt(100000000000)
+          : BigInt(0))
+    )
 
-    setBetValue(newValue + BigInt(400000) * prevGasPrice);
-  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice]);
+    setBetValue(newValue + BigInt(400000) * prevGasPrice)
+  }, [fees, pickedToken, cryptoValue, betsAmount, prevGasPrice])
 
   useEffect(() => {
     if (wagered) {
       if (inGame) {
       } else {
-        const total_value = cryptoValue * betsAmount;
+        const total_value = cryptoValue * betsAmount
         if (
           cryptoValue != 0 &&
           currentBalance &&
@@ -298,7 +351,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           if (
             (!allowance || (allowance && allowance <= cryptoValue)) &&
             pickedToken?.contract_address !=
-            "0x0000000000000000000000000000000000000000"
+              '0x0000000000000000000000000000000000000000'
           ) {
             // if (setAllowance) {
             //   setAllowance();
@@ -313,9 +366,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           }
         }
       }
-      setWagered(false);
+      setWagered(false)
     }
-  }, [wagered]);
+  }, [wagered])
 
   // useEffect(() => {
   //   setActivePicker(true);
@@ -327,29 +380,29 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   //   }
   // }, [gameStatus]);
 
-  const [taken, setTaken] = useState(false);
+  const [taken, setTaken] = useState(false)
   useEffect(() => {
     if (cryptoValue && isPlaying && !taken && betsAmount) {
-      setTaken(true);
+      setTaken(true)
     }
-  }, [betsAmount, cryptoValue, isPlaying]);
+  }, [betsAmount, cryptoValue, isPlaying])
 
-  const [fullWon, setFullWon] = useState(0);
-  const [fullLost, setFullLost] = useState(0);
-  const [totalValue, setTotalValue] = useState(0.1);
+  const [fullWon, setFullWon] = useState(0)
+  const [fullLost, setFullLost] = useState(0)
+  const [totalValue, setTotalValue] = useState(0.1)
   useEffect(() => {
     if (gameStatus === GameModel.GameStatus.Won) {
-      setFullWon((prev) => prev + profit);
+      setFullWon(prev => prev + profit)
 
-      setGameResult([carNumber, carNumber === 1 ? 2 : 1]);
-      raceWin();
+      setGameResult([carNumber, carNumber === 1 ? 2 : 1])
+      raceWin()
     } else if (gameStatus === GameModel.GameStatus.Lost) {
-      raceLose();
-      setFullLost((prev) => prev + lost);
-      setGameResult([carNumber === 1 ? 2 : 1, carNumber]);
+      raceLose()
+      setFullLost(prev => prev + lost)
+      setGameResult([carNumber === 1 ? 2 : 1, carNumber])
     }
-    setTotalValue(fullWon - fullLost);
-  }, [GameModel.GameStatus, profit, lost]);
+    setTotalValue(fullWon - fullLost)
+  }, [GameModel.GameStatus, profit, lost])
 
   // useEffect(() => {
   //   if (startGame) {
@@ -362,126 +415,126 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
   //   }
   // }, [startGame]);
 
-  const [raceSound, setRaceSound] = useState(false);
+  const [raceSound, setRaceSound] = useState(false)
 
-  const [carStart] = useSound("/music/car_start.mp3", { volume: 1 });
+  const [carStart] = useSound('/music/car_start.mp3', { volume: 1 })
 
-  const [carInProgress, setCarInProgress] = useState(false);
+  const [carInProgress, setCarInProgress] = useState(false)
   useEffect(() => {
     if (isPlaying) {
-      if (playSounds !== "off") {
-        carStart();
+      if (playSounds !== 'off') {
+        carStart()
       }
 
       Promise.all([
-        new Promise((resolve) =>
+        new Promise(resolve =>
           setTimeout(() => resolve(setRaceSound(true)), 300)
         ),
-        new Promise((resolve) =>
+        new Promise(resolve =>
           setTimeout(() => resolve(setCarInProgress(true)), 3000)
         ),
-        new Promise((resolve) =>
+        new Promise(resolve =>
           setTimeout(() => resolve(setWheelStart(true)), 1500)
         ),
-        new Promise((resolve) =>
+        new Promise(resolve =>
           setTimeout(() => resolve(setStartGame(true)), 1500)
-        ),
-      ]);
+        )
+      ])
     } else {
-      setTimeout(() => setRaceSound(false), 4500);
+      setTimeout(() => setRaceSound(false), 4500)
     }
-  }, [isPlaying]);
+  }, [isPlaying])
 
-  const [randomeMove, setRandomMove] = useState<number | null>(null);
+  const [randomeMove, setRandomMove] = useState<number | null>(null)
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
+    let intervalId: NodeJS.Timeout | null = null
 
     const generateRandomNumber = () => {
       if (gameResult.length === 0 && startGame) {
-        const randomValue = Math.random() * 4 - 2;
-        const roundedRandomValue = Math.round(randomValue);
+        const randomValue = Math.random() * 4 - 2
+        const roundedRandomValue = Math.round(randomValue)
 
-        setRandomMove(roundedRandomValue);
+        setRandomMove(roundedRandomValue)
       } else {
-        setRandomMove(null);
+        setRandomMove(null)
       }
-    };
+    }
 
     if (gameResult.length === 0 && startGame) {
       setTimeout(() => {
-        generateRandomNumber();
-        intervalId = setInterval(generateRandomNumber, 3000);
-      }, 7000);
+        generateRandomNumber()
+        intervalId = setInterval(generateRandomNumber, 3000)
+      }, 7000)
     } else {
-      setRandomMove(0);
+      setRandomMove(0)
     }
 
     return () => {
       if (intervalId) {
-        clearInterval(intervalId);
+        clearInterval(intervalId)
       }
-    };
-  }, [gameResult, startGame]);
+    }
+  }, [gameResult, startGame])
 
   useEffect(() => {
     if (reset) {
-      setGameResult([]);
-      setStartGame(false);
-      setWheelStart(false);
-      setShowFinish(false);
-      setCarInProgress(false);
-      setReset(false);
-      setStopAnimation(false);
+      setGameResult([])
+      setStartGame(false)
+      setWheelStart(false)
+      setShowFinish(false)
+      setCarInProgress(false)
+      setReset(false)
+      setStopAnimation(false)
     }
-  }, [reset]);
+  }, [reset])
 
   useEffect(() => {
     if (gameResult.length > 0) {
-      setShowFinish(true);
-      setTimeout(() => setStopAnimation(true), 2500);
+      setShowFinish(true)
+      setTimeout(() => setStopAnimation(true), 2500)
     }
-  }, [gameResult.length]);
+  }, [gameResult.length])
 
-  const isDesktop = useMediaQuery("(min-width: 1280px)");
-  const isSmall = useMediaQuery("(max-width: 420px)");
-  const [stepValue, setStepValue] = useState(90);
+  const isDesktop = useMediaQuery('(min-width: 1280px)')
+  const isSmall = useMediaQuery('(max-width: 420px)')
+  const [stepValue, setStepValue] = useState(90)
 
   useEffect(() => {
     if (isDesktop) {
-      setStepValue(150);
+      setStepValue(150)
     } else {
-      setStepValue(50);
+      setStepValue(50)
     }
-  }, [isDesktop]);
+  }, [isDesktop])
 
-  const [stopAnimation, setStopAnimation] = useState(false);
+  const [stopAnimation, setStopAnimation] = useState(false)
 
-  const [gamesList] = useUnit([GameModel.$gamesList]);
-  const [betData, setBetData] = useState({});
+  const [gamesList] = useUnit([GameModel.$gamesList])
+  const [betData, setBetData] = useState({})
 
-  const [access_token] = useUnit([RegistrModel.$access_token]);
+  const [access_token] = useUnit([RegistrModel.$access_token])
   const subscribe = {
-    type: "SubscribeBets",
-    payload: [gamesList.find((item) => item.name === "Race")?.id],
-  };
+    type: 'SubscribeBets',
+    payload: [gamesList.find(item => item.name === 'Race')?.id]
+  }
   useEffect(() => {
     setBetData({
-      type: "MakeBet",
-      game_id: gamesList.find((item) => item.name === "Race")?.id,
+      type: 'MakeBet',
+      game_id: gamesList.find(item => item.name === 'Race')?.id,
       coin_id: isDrax ? 2 : 1,
       user_id: userInfo?.id || 0,
       data: `{"car":${carNumber}}`,
       amount: `${cryptoValue || 0}`,
       stop_loss: Number(stopLoss) || 0,
       stop_win: Number(stopGain) || 0,
-      num_games: betsAmount,
-    });
-  }, [stopGain, stopLoss, cryptoValue, betsAmount, isDrax]);
+      num_games: betsAmount
+    })
+  }, [stopGain, stopLoss, cryptoValue, betsAmount, isDrax])
 
-  const socket = useSocket();
+  const socket = useSocket()
 
-  const [subscribed, setCubscribed] = useState(false);
+  const [subscribed, setCubscribed] = useState(false)
 
   useEffect(() => {
     if (
@@ -491,39 +544,39 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
       socket.readyState === WebSocket.OPEN
     ) {
       if (!subscribed) {
-        socket.send(JSON.stringify(subscribe));
-        setCubscribed(true);
+        socket.send(JSON.stringify(subscribe))
+        setCubscribed(true)
       }
-      socket.send(JSON.stringify(betData));
+      socket.send(JSON.stringify(betData))
     }
-  }, [socket, isPlaying, access_token]);
+  }, [socket, isPlaying, access_token])
 
   useEffect(() => {
     return () => {
       socket?.send(
         JSON.stringify({
-          type: "UnsubscribeBets",
-          payload: [gamesList.find((item) => item.name === "CarRace")?.id],
+          type: 'UnsubscribeBets',
+          payload: [gamesList.find(item => item.name === 'CarRace')?.id]
         })
-      );
-    };
-  }, []);
+      )
+    }
+  }, [])
 
   useEffect(() => {
     if (isPlaying) {
-      setStartGame(true);
-      setWheelStart(true);
+      setStartGame(true)
+      setWheelStart(true)
     }
-  }, [isPlaying]);
+  }, [isPlaying])
 
   // useEffect(() => alert(startGame), [startGame]);
 
   return (
     <section
-      className="w-full h-full relative overflow-hidden"
-    // onClick={() => {
-    //   setInGame(true);
-    // }}
+      className='w-full h-full relative overflow-hidden'
+      // onClick={() => {
+      //   setInGame(true);
+      // }}
     >
       {/* <WagerLowerBtnsBlock
         game="Cars"
@@ -534,27 +587,32 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
         <RaceWin className={s.win_index} />
       )} */}
       <ReactHowler
-        src={"/music/car_process.mp3"}
-        playing={raceSound && playSounds !== "off"}
+        src={'/music/car_process.mp3'}
+        playing={raceSound && playSounds !== 'off'}
         loop
       />
-      <div 
-        className="
+      <div
+        className='
           rounded-[0] sm:rounded-[20px_0_0_0] w-full h-full absolute right-0 top-0 left-0 bottom-0
           overflow-hidden 
-        "
-        id="cars_bg_wrap">
-        <img src={staticBg.src} alt="static-bg" className="
+        '
+        id='cars_bg_wrap'
+      >
+        <img
+          src={staticBg.src}
+          alt='static-bg'
+          className='
           absolute w-full min-h-[max-content] left-0 bottom-0 top-0 right-0 
-        " />
+        '
+        />
         <img
           src={moonImg.src}
-          className="
+          className='
             absolute w-[1078px] sm:w-[1438px] h-full top-0 left-0 right-0 bottom-0
-          "
-          alt="static-moon"
+          '
+          alt='static-moon'
         />
-        <div 
+        <div
           // className={clsx(s.start_bg_img, startGame && s.start_bg_img_hide)}
           className={`
             min-w-[1078px] sm:min-w-[1438px] 3xl:w-full 3xl:min-w-[100%] 4xl:w-full
@@ -565,17 +623,17 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           <img
             onLoad={() => setIsLoading(false)}
             src={cityStartImg.src}
-            className="
+            className='
               w-full h-full absolute top-0 6xl:object-cover
-            "
-            alt="start-bg-img"
+            '
+            alt='start-bg-img'
           />
           <img
             src={stopLine.src}
-            className="
+            className='
               absolute left-[250px] xs:left-[300px] sm:left-[350px] bottom-[-35px] sm:bottom-[-15px] h-[100px] sm:h-[auto]
-            "
-            alt="stop-line"
+            '
+            alt='stop-line'
           />
         </div>
         <img
@@ -588,7 +646,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             min-w-[1078px] sm:min-w-[1478px] 3xl:min-w-[100%] left-0 top-0 h-full w-full absoluite z-[8]
             ${startGame && 'main_mountains_bg_hide'}
           `}
-          alt="mountains-bg"
+          alt='mountains-bg'
         />
         <img
           src={cityMainImg.src}
@@ -603,7 +661,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             ${startGame && 'main_city_bg_img_start'}
             ${stopAnimation && 'stop_animation'}
           `}
-          alt="main-city-bg"
+          alt='main-city-bg'
         />
         <img
           src={mountainsBg.src}
@@ -618,7 +676,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             ${stopAnimation && 'stop_animation'}
             ${startGame && 'mountains_second_start'}
           `}
-          alt="mountains-bg"
+          alt='mountains-bg'
         />
         <div
           // className={clsx(
@@ -632,11 +690,11 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
         >
           <img
             src={stopLine.src}
-            className="
+            className='
               right-[50px] xs:right-[100px] emd:right-[180px] mmd:right-[250px]
               bottom-[-35px] sm:bottom-[-15px] absolute
-            "
-            alt="stop-line"
+            '
+            alt='stop-line'
           />
         </div>
         <img
@@ -652,7 +710,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             ${startGame && 'main_city_bg_copy_start'}
           `}
           src={cityMainImg.src}
-          alt="main-city-bg-2"
+          alt='main-city-bg-2'
         />
         <img
           src={mountainsBg.src}
@@ -666,23 +724,25 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             ${stopAnimation && 'stop_animation'}
             ${startGame && 'mountains_bg_copy_start'}
           `}
-          alt="mountains-copy"
+          alt='mountains-copy'
         />
       </div>
-      <div className="
+      <div
+        className='
         w-full h-full relative
-      ">
+      '
+      >
         <div
           style={{
             left:
               startGame &&
-                gameResult.length === 0 &&
-                randomeMove !== 0 &&
-                (randomeMove === 1 || randomeMove === -1)
+              gameResult.length === 0 &&
+              randomeMove !== 0 &&
+              (randomeMove === 1 || randomeMove === -1)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
                 : isSmall
-                  ? "15px"
-                  : "50px",
+                ? '15px'
+                : '50px'
           }}
           // className={clsx(
           //   s.car1_wrap,
@@ -693,7 +753,10 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           className={`
             car_wrap car1_wrap
             absolute transition-all duration-300 left-[15px] sx:left-[50px] h-[66px] w-[215px] bottom-[10px] sm:bottom-[auto] sm:w-[auto] sm:h-[auto] z-[17]
-            ${carInProgress && 'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'}
+            ${
+              carInProgress &&
+              'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'
+            }
             ${`car_wrap_animation_${gameResult[0]}`}
             ${startGame && 'car_inGame'}
           `}
@@ -704,17 +767,20 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           style={{
             left:
               startGame &&
-                gameResult.length === 0 &&
-                randomeMove !== 0 &&
-                (randomeMove === 2 || randomeMove === -2)
+              gameResult.length === 0 &&
+              randomeMove !== 0 &&
+              (randomeMove === 2 || randomeMove === -2)
                 ? `${randomeMove > 0 ? stepValue : -stepValue}px`
                 : isSmall
-                  ? "30px"
-                  : "70px",
+                ? '30px'
+                : '70px'
           }}
           className={`
           absolute transition-all duration-300 w-[200px] h-[62px] bottom-[45px] 
-          ${carInProgress && 'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'}
+          ${
+            carInProgress &&
+            'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'
+          }
           ${`car_wrap_animation_${gameResult[1]}`}
           ${startGame && 'car_inGame'}
         `}
@@ -722,39 +788,6 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           <Car2 gameStarted={wheelStart} />
         </div>
       </div>
-      <div className="balls_arr">
-        {coefficientData.map((item, i) => (
-          <div
-            className={`
-              multiplier_value ${item > 0 ? 'multiplier_positive' : 'multiplier_negative'}
-            `}
-            key={i}
-          >
-            {item?.toFixed(2)}x
-          </div>
-        ))}
-      </div>
-      <div className='total_container'>
-        <span className={'total_won'}>{fullWon.toFixed(2)}</span>
-        <span className={'total_lost'}>{fullLost.toFixed(2)}</span>
-        <div>
-          Total:{" "}
-          <span
-            // className={clsx(
-            //   totalValue > 0 && s.total_won,
-            //   totalValue < 0 && s.total_lost
-            // )}
-            className={`
-              ${ totalValue > 0 && 'total_won'}
-              ${ totalValue < 0 && 'total_lost'}
-            `}
-          >
-            {Math.abs(totalValue).toFixed(2)}
-          </span>
-        </div>
-      </div>
-
-      {/* {isLoading && <Preload index={s.load_index} className={s.load_index} />} */}
     </section>
-  );
-};
+  )
+}

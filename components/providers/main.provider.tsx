@@ -19,7 +19,9 @@ import { Toaster } from '@/components/ui/sonner'
 import { SessionProvider } from 'next-auth/react'
 import Preload from '@/components/custom/preload'
 import { useUnit } from 'effector-react'
-import { SidebarModel } from '@/states'
+import { ChatM, SidebarModel } from '@/states'
+import { Chat } from '../custom/chat/Chat'
+import { MainWrap } from '../MainWrap'
 
 type Props = {
   children: React.ReactNode
@@ -46,6 +48,7 @@ const MainProvider = ({ children }: Props) => {
                   <div
                     className={`flex flex-col-reverse sm:flex-row flex-nowrap relative flex-[1_1_auto]`}
                   >
+                    <Chat />
                     <Sidebar />
                     <div
                       className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
