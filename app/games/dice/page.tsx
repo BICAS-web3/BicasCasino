@@ -1,12 +1,10 @@
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Games - Dice',
-  description: 'Dice game page '
-}
+"use client"
+import { DiceGame } from './components/DiceGame'
 
 const Dice = () => {
-  return <div>Dice</div>
+  return <div>
+    hello world
+  </div>
 }
 
 export default Dice

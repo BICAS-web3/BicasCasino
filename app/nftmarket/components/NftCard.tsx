@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import Image from "next/image";
+import Image from "next/image";git branch -d dice_new
 
 export interface NFTCardProps {
   img: string;
