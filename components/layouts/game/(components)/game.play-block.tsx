@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { GameModel, UserModel, WagerModel } from '@/states'
+import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
 
 import {
@@ -70,7 +70,14 @@ const GamePlayBlock = () => {
     minesVisible,
     showNotification,
     plinkoVisible,
-    setPlinkoVisible
+    setPlinkoVisible,
+    access_token,
+    setCoefficientData,
+    setWonStatus,
+    pickSide,
+    setResult,
+    setDemoCards,
+    pickedTiles
   ] = useUnit([
     WagerModel.$error,
     GameModel.setIsPlaying,
@@ -112,7 +119,14 @@ const GamePlayBlock = () => {
     GameModel.$minesVisible,
     UserModel.$showNotification,
     GameModel.$plinkoVisible,
-    GameModel.setPlinkoVisible
+    GameModel.setPlinkoVisible,
+    RegistrModel.$access_token,
+    GameModel.setCoefficientData,
+    GameModel.setWonStatus,
+    GameModel.pickSide,
+    GameModel.setResult,
+    GameModel.setDemoCards,
+    GameModel.$pickedTiles
   ])
 
   const path = usePathname()
@@ -236,7 +250,90 @@ const GamePlayBlock = () => {
     }
   }, [backCards])
 
+  const [coinflipWin] = useSound('/music/coinflip_win.mp3')
   const handlePlay = () => {
+    if (!access_token) {
+      if (!access_token && isThimbles) setIsPlaying(true)
+      if (isCoinflip || isRPS || isMines || isRocket) {
+        setIsPlaying(true)
+        const win = Math.random() < 0.6
+        function getRandomNumber() {
+          return Math.floor(Math.random() * 3)
+        }
+        setTimeout(
+          () => {
+            setResult({
+              amount: '1',
+              profit: win ? '2' : '0',
+              num_games: betsAmount,
+              bet_info: '{ car: 2 }',
+              coin_id: 1,
+              game_id: 1,
+              id: 1,
+              outcomes: isThimbles ? '[0]' : `{"action":${getRandomNumber()}}`,
+              payouts: `[${getRandomNumber()}]`,
+              profits: win ? '[2]' : '[0]',
+              serverseed_id: 1,
+              timestamp: 1,
+              type: 'Bet',
+              user_id: 3,
+              userseed_id: 3,
+              uuid: '',
+              state: `{"state":[${pickedTiles}],"mines":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"game_num":1,"current_multiplier":"1.0312"}`
+            })
+          },
+          isRPS ? 1500 : 1
+        )
+      }
+      if (isPoker && !pokerPlay) {
+        playSounds !== 'off' && pokerChange()
+        setPokerPlay(true)
+        if (!access_token) {
+          function generateRandomCards(numCards) {
+            const cards: { number: number; suit: number }[] = []
+
+            for (let i = 0; i < numCards; i++) {
+              const number = Math.floor(Math.random() * 13) + 1
+              const suit = Math.floor(Math.random() * 4)
+
+              const card = {
+                number: number > 13 ? 13 : number,
+                suit: suit > 3 ? 3 : suit
+              }
+              cards.push(card)
+            }
+
+            return JSON.stringify({ cards_in_hand: cards })
+          }
+          const cards = generateRandomCards(5)
+          setDemoCards(cards)
+          setResult({
+            amount: '1',
+            profit: '',
+            num_games: betsAmount,
+            bet_info: '{ car: 2 }',
+            coin_id: 1,
+            game_id: 1,
+            id: 1,
+            outcomes: isThimbles ? '[0]' : '{"action":1}',
+            payouts: '',
+            profits: '',
+            serverseed_id: 1,
+            timestamp: 1,
+            type: 'State',
+            user_id: 3,
+            userseed_id: 3,
+            uuid: '',
+            state: cards
+          })
+        }
+      }
+      if (pokerPlay && isPoker) {
+        setFinishGame(true)
+        return
+      }
+      return
+    }
     if (!minesSelected && isMines) {
       showNotification && toast(t(`toast.select`))
       return
@@ -374,7 +471,14 @@ const GamePlayBlock = () => {
           (isThimbles && showAnimation) ||
           (isMines && waitingResponse) ||
           (isMines && minesDelay) ||
-          (isPlinko && isPlaying)
+          (isPlinko && isPlaying) ||
+          (!access_token &&
+            !isCoinflip &&
+            !isRPS &&
+            !isMines &&
+            !isRocket &&
+            !isPoker &&
+            !isThimbles)
         }
         onClick={handlePlay}
         variant='wagerPlay'
@@ -384,7 +488,17 @@ const GamePlayBlock = () => {
             : 'border-[#FFE7B4] text-[#FFE7B4]'
         }`}
       >
-        {isPoker && pokerPlay ? (
+        {!access_token &&
+        !isCoinflip &&
+        !isRPS &&
+        !isMines &&
+        !isRocket &&
+        !isPoker &&
+        !isThimbles ? (
+          'Registration!'
+        ) : !access_token ? (
+          'Demo play'
+        ) : isPoker && pokerPlay ? (
           `${t('pages.games.redraw')}`
         ) : applesPlay && isApple ? (
           <>

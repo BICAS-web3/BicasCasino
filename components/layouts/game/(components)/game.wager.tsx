@@ -5,7 +5,13 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stringRemoveSpacing } from '@/lib/string'
-import { GameModel, SettingModel, UserModel, WagerModel } from '@/states'
+import {
+  GameModel,
+  RegistrModel,
+  SettingModel,
+  UserModel,
+  WagerModel
+} from '@/states'
 import { useUnit } from 'effector-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -38,7 +44,8 @@ const GameWager = () => {
     isDrax,
     setGameStatus,
     setIsPlaying,
-    showNotification
+    showNotification,
+    access_token
   ] = useUnit([
     SettingModel.$AvailableTokens,
     WagerModel.$cryptoValue,
@@ -57,7 +64,8 @@ const GameWager = () => {
     UserModel.$isDrax,
     GameModel.setGameStatus,
     GameModel.setIsPlaying,
-    UserModel.$showNotification
+    UserModel.$showNotification,
+    RegistrModel.$access_token
   ])
 
   useEffect(() => {
@@ -192,6 +200,7 @@ const GameWager = () => {
       </div>
       <div className='rounded-[20px] border h-9 pl-2.5 flex items-center border-[#363636]'>
         <Input
+          disabled={!access_token}
           type='number'
           ref={wagerInputRef}
           placeholder='0.0000'
@@ -220,6 +229,7 @@ const GameWager = () => {
         />
         {bets.map((bet, index) => (
           <Button
+            disabled={!access_token}
             variant='wager'
             key={`game-wager-bet--${stringRemoveSpacing(bet)}-${index}`}
             className={`h-full ${

@@ -69,9 +69,7 @@ export const LeaderBoardItem: FC<LeaderBoardItemProps> = ({
         <span className={s.leader_board_list_item_address}>{won}</span>
       </div>
       <div className={s.leader_board_list_item_volume_block}>
-        <span className={s.leader_board_list_item_volume}>
-          {Number(total).toFixed(2)}
-        </span>
+        <span className={s.leader_board_list_item_volume}>{Number(total)}</span>
       </div>
     </Link>
   )

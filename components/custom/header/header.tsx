@@ -223,7 +223,7 @@ const Header = () => {
     //   content?.classList.remove('contentWidth')
     // }
   }, [chat])
-
+  const { t } = useTranslation()
   return (
     <header
       className={`flex justify-between border-b-[1px] border-[#252525] items-centers h-[60px] ${
@@ -232,34 +232,37 @@ const Header = () => {
     >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
-      <Wallet />
-        { logged && (
+        <Wallet />
+        {logged && (
           <>
             <BalanceSwitcher />
             <Wallet />
           </>
-        ) }
-        {
-          !logged && (
-            <>
-              <div className='text-[16px] font-semibold text-[#7e7e7e] cursor-pointer'
-           onClick={() => {
-            route.push('/auth/login')
-          }}
-        >
-          Sign In
-        </div>
-        <div className="rounded-[50px] text-[16px] font-semibold min-w-[105px] h-[40px] flex items-center justify-center cursor-pointer border border-[#202020] box-border"
-          style={{background: 'conic-gradient(from 0deg at 50% 50%, #13BD3A 0deg, #09A52C 360deg)'}}
-          onClick={() => {
-            route.push('/auth/registration')
-          }}
-        >
-          Sign Up
-        </div>
-            </>
-          ) 
-        }
+        )}
+        {!logged && (
+          <>
+            <div
+              className='text-[16px] font-semibold text-[#7e7e7e] cursor-pointer'
+              onClick={() => {
+                route.push('/auth/login')
+              }}
+            >
+              {t(`pages.auth.btns.in`)}
+            </div>
+            <div
+              className='rounded-[50px] text-[16px] font-semibold min-w-[105px] h-[40px] flex items-center justify-center cursor-pointer border border-[#202020] box-border'
+              style={{
+                background:
+                  'conic-gradient(from 0deg at 50% 50%, #13BD3A 0deg, #09A52C 360deg)'
+              }}
+              onClick={() => {
+                route.push('/auth/registration')
+              }}
+            >
+              {t(`pages.auth.btns.up`)}
+            </div>
+          </>
+        )}
         <Separator orientation='vertical' className='min-h-10 inline' />
         <div
           onClick={handleChatClick}
@@ -270,7 +273,7 @@ const Header = () => {
             <div className='rounded-[50%] w-[5.6px] h-[5.6px] right-[3px] bottom-[3px] absolute bg-[#4ED26C] animate-pulse'></div>
           )}
         </div>
-        { logged && <User /> }
+        {logged && <User />}
       </div>
     </header>
   )
