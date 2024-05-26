@@ -9,7 +9,6 @@ import mountainsBg from '@/public/images/cars/mountainsBg.webp'
 import { Car2 } from '@/public/SVGs/Car2'
 import stopLine from '@/public/images/cars/stopLine.webp'
 import { UserModel } from '@/states'
-
 //?-------------------------------------
 // import { SidePickerModel } from "../CoinFlipSidePicker";
 import { useUnit } from 'effector-react'
@@ -573,7 +572,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
 
   return (
     <section
-      className='w-full h-full relative overflow-hidden'
+      className='w-full h-full relative overflow-hidden flex-[1_1_auto]'
       // onClick={() => {
       //   setInGame(true);
       // }}
@@ -602,7 +601,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           src={staticBg.src}
           alt='static-bg'
           className='
-          absolute w-full min-h-[max-content] left-0 bottom-0 top-0 right-0 
+          absolute w-full h-full left-0 bottom-0 top-0 right-0 
         '
         />
         <img
@@ -729,7 +728,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
       </div>
       <div
         className='
-        w-full h-full relative
+        w-full h-full absolute top-0 left-0
       '
       >
         <div
@@ -752,7 +751,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           // )}
           className={`
             car_wrap car1_wrap
-            absolute transition-all duration-300 left-[15px] sx:left-[50px] h-[66px] w-[215px] bottom-[10px] sm:bottom-[auto] sm:w-[auto] sm:h-[auto] z-[17]
+            absolute transition-all duration-300 left-[35px] sx:left-[60px] h-[66px] w-[215px] bottom-[10px] sm:bottom-[90px] sm:w-[auto] sm:h-[auto] z-[10]
             ${
               carInProgress &&
               'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'
@@ -776,6 +775,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
                 : '70px'
           }}
           className={`
+          car_wrap car2_wrap z-[10]
           absolute transition-all duration-300 w-[200px] h-[62px] bottom-[45px] 
           ${
             carInProgress &&
