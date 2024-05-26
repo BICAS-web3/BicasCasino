@@ -2,9 +2,7 @@
 import { DiceGame } from './components/DiceGame'
 
 const Dice = () => {
-  return <div>
-    hello world
-  </div>
+  return <DiceGame gameText='asd' />
 }
 
 export default Dice

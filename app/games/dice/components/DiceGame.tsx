@@ -567,137 +567,134 @@ export const DiceGame: FC<DiceProps> = ({ gameText }) => {
       setTotalValue(fullWon - fullLost);
     }, [GameModel.GameStatus, profit, lost]);
     return (
-        <div className="">
-            dice
+      <>
+        {" "}
+        {/* {error && (
+          <ErrorCheck
+            text="Something went wrong, please contact customer support."
+            btnTitle="Contact us"
+          />
+        )} */}
+        <div className={s.dice}>
+          {" "}
+          {/* <WagerLowerBtnsBlock
+            className={s.dice_btns}
+            game="dice"
+            text={gameText}
+          /> */}
+          <div className={s.model}>
+            <Suspense fallback={<div>...</div>}>
+              <DiceCanvas setIsLoading={setModelLoading} inGame={inGame} />
+            </Suspense>
+          </div>
+          <div className={s.dice_container}>
+            {" "}
+            {preloading && <Preload />}
+            <Image
+              onLoad={() => setIMageLoading(false)}
+              className={s.cube}
+              src={dice_cube}
+              alt="cube"
+            />
+            <div className={s.dice_table_background}>
+              <Image
+                onLoad={() => setIMageLoading(false)}
+                className={s.dice_table_background_img}
+                src={bgImage}
+                alt="test"
+              />
+            </div>
+            <div className={clsx(s.total_container)}>
+              <span className={s.total_won}>{fullWon.toFixed(2)}</span>
+              <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
+              <div>
+                Total:{" "}
+                <span
+                  className={clsx(
+                    totalValue > 0 && s.total_won,
+                    totalValue < 0 && s.total_lost
+                  )}
+                >
+                  {Math.abs(totalValue).toFixed(2)}
+                </span>
+              </div>
+            </div>
+            <div className={clsx(s.balls_arr)}>
+              {coefficientData.map((item, i) => (
+                <div
+                  className={clsx(
+                    s.multiplier_value,
+                    item > 0 ? s.multiplier_positive : s.multiplier_negative
+                  )}
+                  key={i}
+                >
+                  {item?.toFixed(2)}x
+                </div>
+              ))}
+            </div>
+            <div className={s.range_wrapper}>
+              {" "}
+              <div className={s.range_container}>
+                {/* <span className={s.roll_range_value}>{RollValue}</span>
+                <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span> */}
+                <span className={s.roll_range_value}>1</span>
+                <span className={s.roll_range_min}>1</span>
+                <div className={s.custom_range_input_body}></div>
+                <input
+                //   className={clsx(
+                //     s.dice_range,
+                //     rollOver ? s.dice_over : s.dice_under
+                //   )}
+                  className={clsx(
+                    s.dice_range,
+                    s.dice_over
+                  )}
+                  type="range"
+                  min={1}
+                  max={100}
+                  value={20}
+                  onChange={onChange}
+                  ref={rangeRef}
+                  step={0.1}
+                />
+                <span className={s.roll_range_max}>100</span>
+              </div>
+            </div>
+            {/* <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
+              <Image
+                src={playSounds ? soundIco : soundOffIco}
+                alt={playSounds ? "sound-on" : "sound-off"}
+              />
+            </button> */}
+          </div>
+          <div className={s.dice_value_container}>
+            {diceValue.map((dice) => (
+              <div key={dice.id} className={s.dice_under_conteiner}>
+                <h3 className={s.dice_under_title}>
+                  {dice.title}{" "}
+                  {/* {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>} */}
+                </h3>
+                <div className={clsx(s.dice_under_data)}>
+                  <span className={s.dice_under_value}>{dice.value}</span>
+                  <div
+                    className={clsx(
+                      s.dice_under_img,
+                      dice.title === "Roll" && s.dice_under_data_medium
+                    )}
+                  >
+                    {/* <img
+                      onClick={() => {
+                        dice.title === "Roll" && changeBetween();
+                      }}
+                      src={dice.img_src}
+                      alt={'sad'}
+                    /> */}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-    //   <>
-    //     {" "}
-    //     {/* {error && (
-    //       <ErrorCheck
-    //         text="Something went wrong, please contact customer support."
-    //         btnTitle="Contact us"
-    //       />
-    //     )} */}
-    //     <div className={s.dice}>
-    //       {" "}
-    //       {/* <WagerLowerBtnsBlock
-    //         className={s.dice_btns}
-    //         game="dice"
-    //         text={gameText}
-    //       /> */}
-    //       <div className={s.model}>
-    //         <Suspense fallback={<div>...</div>}>
-    //           <DiceCanvas setIsLoading={setModelLoading} inGame={inGame} />
-    //         </Suspense>
-    //       </div>
-    //       <div className={s.dice_container}>
-    //         {" "}
-    //         {preloading && <Preload />}
-    //         <Image
-    //           onLoad={() => setIMageLoading(false)}
-    //           className={s.cube}
-    //           src={dice_cube}
-    //           alt="cube"
-    //         />
-    //         <div className={s.dice_table_background}>
-    //           <Image
-    //             onLoad={() => setIMageLoading(false)}
-    //             className={s.dice_table_background_img}
-    //             src={bgImage}
-    //             alt="test"
-    //           />
-    //         </div>
-    //         <div className={clsx(s.total_container)}>
-    //           <span className={s.total_won}>{fullWon.toFixed(2)}</span>
-    //           <span className={s.total_lost}>{fullLost.toFixed(2)}</span>
-    //           <div>
-    //             Total:{" "}
-    //             <span
-    //               className={clsx(
-    //                 totalValue > 0 && s.total_won,
-    //                 totalValue < 0 && s.total_lost
-    //               )}
-    //             >
-    //               {Math.abs(totalValue).toFixed(2)}
-    //             </span>
-    //           </div>
-    //         </div>
-    //         <div className={clsx(s.balls_arr)}>
-    //           {coefficientData.map((item, i) => (
-    //             <div
-    //               className={clsx(
-    //                 s.multiplier_value,
-    //                 item > 0 ? s.multiplier_positive : s.multiplier_negative
-    //               )}
-    //               key={i}
-    //             >
-    //               {item?.toFixed(2)}x
-    //             </div>
-    //           ))}
-    //         </div>
-    //         <div className={s.range_wrapper}>
-    //           {" "}
-    //           <div className={s.range_container}>
-    //             {/* <span className={s.roll_range_value}>{RollValue}</span>
-    //             <span className={s.roll_range_min}>{rollOver ? 5 : 0.1}</span> */}
-    //             <span className={s.roll_range_value}>1</span>
-    //             <span className={s.roll_range_min}>1</span>
-    //             <div className={s.custom_range_input_body}></div>
-    //             <input
-    //             //   className={clsx(
-    //             //     s.dice_range,
-    //             //     rollOver ? s.dice_over : s.dice_under
-    //             //   )}
-    //               className={clsx(
-    //                 s.dice_range,
-    //                 s.dice_over
-    //               )}
-    //               type="range"
-    //               min={1}
-    //               max={100}
-    //               value={20}
-    //               onChange={onChange}
-    //               ref={rangeRef}
-    //               step={0.1}
-    //             />
-    //             <span className={s.roll_range_max}>100</span>
-    //           </div>
-    //         </div>
-    //         {/* <button onClick={() => switchSounds()} className={s.dice_sound_btn}>
-    //           <Image
-    //             src={playSounds ? soundIco : soundOffIco}
-    //             alt={playSounds ? "sound-on" : "sound-off"}
-    //           />
-    //         </button> */}
-    //       </div>
-    //       <div className={s.dice_value_container}>
-    //         {diceValue.map((dice) => (
-    //           <div key={dice.id} className={s.dice_under_conteiner}>
-    //             <h3 className={s.dice_under_title}>
-    //               {dice.title}{" "}
-    //               {/* {dice.title === "Roll" ? rollOver ? "Over" : "Under" : <></>} */}
-    //             </h3>
-    //             <div className={clsx(s.dice_under_data)}>
-    //               <span className={s.dice_under_value}>{dice.value}</span>
-    //               <div
-    //                 className={clsx(
-    //                   s.dice_under_img,
-    //                   dice.title === "Roll" && s.dice_under_data_medium
-    //                 )}
-    //               >
-    //                 <Image
-    //                   onClick={() => {
-    //                     dice.title === "Roll" && changeBetween();
-    //                   }}
-    //                   src={dice.img_src}
-    //                   alt={dice.img_src}
-    //                 />
-    //               </div>
-    //             </div>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </>
+      </>
     );
   };
