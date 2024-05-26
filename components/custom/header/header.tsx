@@ -232,7 +232,6 @@ const Header = () => {
     >
       <Logo />
       <div className='flex items-center gap-2 sm:gap-4'>
-        <Wallet />
         {logged && (
           <>
             <BalanceSwitcher />
@@ -264,15 +263,17 @@ const Header = () => {
           </>
         )}
         <Separator orientation='vertical' className='min-h-10 inline' />
-        <div
-          onClick={handleChatClick}
-          className='hidden sm:flex items-center justify-center w-10 h-10 bg-[#191919] rounded-full cursor-pointer relative border border-[#202020]'
-        >
-          <ChatSVG />
-          {messageData.length > 0 && (
-            <div className='rounded-[50%] w-[5.6px] h-[5.6px] right-[3px] bottom-[3px] absolute bg-[#4ED26C] animate-pulse'></div>
-          )}
-        </div>
+        {logged && (
+          <div
+            onClick={handleChatClick}
+            className='hidden sm:flex items-center justify-center w-10 h-10 bg-[#191919] rounded-full cursor-pointer relative border border-[#202020]'
+          >
+            <ChatSVG />
+            {messageData.length > 0 && (
+              <div className='rounded-[50%] w-[5.6px] h-[5.6px] right-[3px] bottom-[3px] absolute bg-[#4ED26C] animate-pulse'></div>
+            )}
+          </div>
+        )}
         {logged && <User />}
       </div>
     </header>
