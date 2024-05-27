@@ -114,16 +114,16 @@ export const Car1: FC<Car1Props> = ({ gameStarted }) => {
       </svg>
       <WheelIco
         className={`
-          bottom-[2px] right-[22.1px] sm:bottom-[10px] sm:right-[27px] w-[34.58px] h-[34.17px]
-          ${gameStarted && 'start_anim'}
-          sm:w-[46px] sm:h-[46px] absolute
+          car1WheelRight
+          ${gameStarted && 'start_anim'} absolute
+          car_wheel 
         `}
       />
       <WheelIco
         className={`
-        left-[24.5px] bottom-[2px] sm:left-[30px] sm:bottom-[10px] w-[34.58px] h-[34.17px]=
-        ${gameStarted && 'start_anim'}
-        sm:w-[46px] sm:h-[46px] absolute
+        car1WheelLeft
+        ${gameStarted && 'start_anim'} absolute
+        car_wheel 
         `}
       />
     </>

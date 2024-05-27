@@ -125,15 +125,13 @@ export const Car2: FC<Car2Props> = ({ gameStarted }) => {
         //   s.car_wheel
         // )}
         className={`
-          bottom-[2px] right-[20px] sm:bottom-[6px] sm:right-[24px]
-          w-[32.28px] h-[31.9px] sm:w-[46px] sm:h-[46px] absolute
+          car2WheelRight car_wheel  absolute
           ${gameStarted && 'start_anim'}
         `}
       />
       <WheelIco
         className={`
-        left-[22px] bottom-[2px] sm:bottom-[6px] sm:left-[27.4px]
-        w-[32.28px] h-[31.9px] sm:w-[46px] sm:h-[46px] absolute
+        car2WheelLeft car_wheel absolute
         ${gameStarted && 'start_anim'}
       `}
       />
