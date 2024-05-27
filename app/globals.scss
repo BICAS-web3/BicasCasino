@@ -1918,3 +1918,48 @@ div {
     z-index: 1;
   }
 }
+
+.dice_range {
+  height: 6px;
+  border-radius: 5px;
+  width: 230px;
+  position: relative;
+  -webkit-appearance: none;
+  @media (min-width: 700px) {
+    width: 436px;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #d9d9d9;
+    border-radius: 100%;
+    position: relative;
+    z-index: 4;
+    cursor: pointer;
+  }
+  &::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: #d9d9d9;
+    border-radius: 100%;
+    cursor: pointer;
+    position: relative;
+    z-index: 4;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 6px;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    z-index: 3;
+    width: var(--range-width, 0);
+  }
+  &::-moz-range-progress {
+    height: 6px;
+    border-radius: 5px;
+  }
+}
