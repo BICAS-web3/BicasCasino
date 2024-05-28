@@ -115,7 +115,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
               6000
             )
           ),
-          new Promise(resolve => setTimeout(() => resolve(raceWin()), 9000)),
+          new Promise(resolve =>
+            setTimeout(() => playSounds !== 'off' && resolve(raceWin()), 9000)
+          ),
           new Promise(resolve =>
             setTimeout(
               () =>
@@ -151,7 +153,9 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
               6000
             )
           ),
-          new Promise(resolve => setTimeout(() => resolve(raceLose()), 9000)),
+          new Promise(resolve =>
+            setTimeout(() => playSounds !== 'off' && resolve(raceLose()), 9000)
+          ),
           new Promise(resolve =>
             setTimeout(
               () =>
@@ -203,13 +207,13 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
 
   const [raceSound, setRaceSound] = useState(false)
 
-  const [carStart] = useSound('/music/car_start.mp3', { volume: 1 })
+  // const [carStart] = useSound('/music/car_start.mp3', { volume: 1 })
 
   const [carInProgress, setCarInProgress] = useState(false)
   useEffect(() => {
     if (isPlaying) {
       if (playSounds !== 'off') {
-        carStart()
+        // carStart()
       }
       Promise.all([
         new Promise(resolve =>
