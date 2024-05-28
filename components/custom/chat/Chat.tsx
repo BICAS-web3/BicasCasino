@@ -45,7 +45,7 @@ export const Chat: FC<ChatProps> = () => {
     setVisibility(false)
   }
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   return (
     <div
@@ -55,10 +55,14 @@ export const Chat: FC<ChatProps> = () => {
     >
       <div className='flex justify-between items-center gap-[10px] p-[0_16px]'>
         <div className='flex gap-[10px] items-center'>
-          <span className='text-[18px] font-medium text-[#fff]'>{t('pages.chat.chat')}</span>
+          <span className='text-[18px] font-medium text-[#fff]'>
+            {t('pages.chat.chat')}
+          </span>
           <span className='gap-[5px] flex items-center'>
             <div className='rounded-[50%] w-[10px] h-[10px] bg-[#4ED26C] animate-pulse'></div>
-            <span className='text-[16px] font-light'>{t('pages.chat.online')}: 858</span>
+            <span className='text-[16px] font-light'>
+              {t('pages.chat.online')}: 858
+            </span>
           </span>
         </div>
         <X
@@ -83,7 +87,10 @@ export const Chat: FC<ChatProps> = () => {
           <div className='flex gap-[10px] items-center'>
             {/* <GifIco className='cursor-pointer w-[24px] h-[20px]' />
             <SmileIco className='hidden sm:block cursor-pointer w-[20px] h-[20px]' /> */}
-            <TgIco className='w-[20px] h-[20px] block sm:hidden' />
+            <TgIco
+              onClick={handleSendMessage}
+              className='w-[20px] h-[20px] block sm:hidden'
+            />
           </div>
         </div>
         <div

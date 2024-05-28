@@ -122,7 +122,7 @@ const GameLayout = ({ children }) => {
         {children}
         {/* {access_token && socketAuth ? children : <Preload />} */}
         <div
-          className='absolute w-8 h-8 flex justify-center items-center rounded-[5px] bg-[#181818B2] top-10 sm:top-auto sm:bottom-5 right-5 cursor-pointer z-[2] hover:shadow-[0px_0px_6.2px_0px_#FFFFFF80] duration-500'
+          className='absolute w-8 h-8 flex justify-center items-center rounded-[5px] bg-[#181818B2] top-10 sm:top-auto sm:bottom-5 right-5 cursor-pointer z-[11] hover:shadow-[0px_0px_6.2px_0px_#FFFFFF80] duration-500'
           onClick={soundChange}
         >
           {playSounds === 'off' ? (

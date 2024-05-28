@@ -50,7 +50,8 @@
           "Apples": "Manzanas",
           "Poker": "Póker",
           "Plinko": "Plinko",
-          "Thimbles": "Capuchas"
+          "Thimbles": "Capuchas",
+          "Cars": "Coches"
         }
       },
       "totals": {
@@ -79,7 +80,8 @@
           "Plinko": "Plinko",
           "Mines": "Minas",
           "RPS": "PPT",
-          "CoinFlip": "Cara o Cruz"
+          "CoinFlip": "Cara o Cruz",
+          "Cars": "Coches"
         }
       }
     },
@@ -316,7 +318,8 @@
       "Rocket": "Cohete",
       "Wheel of Fortune": "Ruleta de la Fortuna",
       "Apples": "Manzanas",
-      "Thimbles 3": "Capuchas 3"
+      "Thimbles 3": "Capuchas 3",
+      "Cars": "Coches"
     },
     "LeaderBoard": "Tabla de líderes"
   },

@@ -50,7 +50,8 @@
           "Apples": "Apples",
           "Poker": "Poker",
           "Thimbles": "Thimbles",
-          "Plinko": "Plinko"
+          "Plinko": "Plinko",
+          "Cars": "Cars"
         }
       },
       "totals": {
@@ -79,7 +80,8 @@
           "Mines": "Mines",
           "RPS": "RPS",
           "CoinFlip": "CoinFlip",
-          "Plinko": "Plinko"
+          "Plinko": "Plinko",
+          "Cars": "Cars"
         }
       }
     },
@@ -313,6 +315,7 @@
       "Mines": "Mines",
       "Poker": "Poker",
       "Plinko": "Plinko",
+      "Cars": "Cars",
       "Rocket": "Rocket",
       "Wheel of Fortune": "Wheel of Fortune",
       "Apples": "Apples",

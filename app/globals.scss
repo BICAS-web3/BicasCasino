@@ -1923,7 +1923,7 @@ div {
   @media screen and (max-width: 650px) {
     width: 200px;
     height: 62px;
-    bottom: 45px !important;
+    bottom: 72px !important;
   }
 }
 
@@ -2099,7 +2099,6 @@ div {
   }
 }
 
-
 @keyframes startMountainsHide {
   0% {
     left: 0;
@@ -2243,6 +2242,7 @@ div {
     width: 215px;
     height: 66px;
     z-index: 17;
+    bottom: 20px !important;
   }
 
   @media screen and (max-width: 420px) {
@@ -2264,7 +2264,7 @@ div {
   @media screen and (max-width: 650px) {
     width: 200px;
     height: 62px;
-    bottom: 45px !important;
+    bottom: 72px !important;
   }
 }
 
@@ -2431,7 +2431,6 @@ div {
   animation-play-state: paused;
 }
 
-
 .main_city_bg_img_start {
   animation: cityMainStart 5s linear infinite;
 }
@@ -2452,7 +2451,6 @@ div {
   @media screen and (min-width: 650px) {
     bottom: 6px;
     right: 27px;
-
   }
 }
 
@@ -2490,7 +2488,7 @@ div {
   }
 }
 
-.car_wheel  {
+.car_wheel {
   width: 46px !important;
   height: 46px !important;
 
@@ -2499,4 +2497,3 @@ div {
     height: 34.17px !important;
   }
 }
-

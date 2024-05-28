@@ -25,11 +25,13 @@ import {
 import useSound from 'use-sound'
 import { useTranslation } from 'react-i18next'
 import InfoIcon from '@/public/images/misc/infoIcon.svg'
+import * as CarModel from '@/app/games/cars/components/model'
 
 const GamePlayBlock = () => {
   const [pokerChange] = useSound('/music/poker_change.mp3')
   const [playSounds] = useUnit([GameModel.$playSounds])
   const [
+    carResult,
     error,
     setIsPlaying,
     cryptoValue,
@@ -77,8 +79,10 @@ const GamePlayBlock = () => {
     pickSide,
     setResult,
     setDemoCards,
-    pickedTiles
+    pickedTiles,
+    setCarReset
   ] = useUnit([
+    CarModel.$gameResult,
     WagerModel.$error,
     GameModel.setIsPlaying,
     WagerModel.$cryptoValue,
@@ -126,7 +130,8 @@ const GamePlayBlock = () => {
     GameModel.pickSide,
     GameModel.setResult,
     GameModel.setDemoCards,
-    GameModel.$pickedTiles
+    GameModel.$pickedTiles,
+    CarModel.setReset
   ])
 
   const path = usePathname()
@@ -140,6 +145,7 @@ const GamePlayBlock = () => {
   const [isPoker, setIsPoker] = useState(false)
   const [isThimbles, setIsThimbles] = useState(false)
   const [isPlinko, setIsPlinko] = useState(false)
+  const [isCar, setIsCar] = useState(false)
 
   const [rocketDelay, setRocketDelay] = useState(0)
   const [rocketInGame, setRocketInGame] = useState(false)
@@ -221,6 +227,11 @@ const GamePlayBlock = () => {
       setIsPlinko(true)
     } else {
       setIsPlinko(false)
+    }
+    if (path.includes('cars')) {
+      setIsCar(true)
+    } else {
+      setIsCar(false)
     }
   }, [path])
 
@@ -348,6 +359,10 @@ const GamePlayBlock = () => {
       setFinishGame(true)
       return
     }
+    if (isCar && carResult?.length !== 0) {
+      setCarReset(true)
+      return
+    }
     if (isPoker && !pokerPlay) {
       setPokerDelay(true)
     }
@@ -472,12 +487,14 @@ const GamePlayBlock = () => {
           (isMines && waitingResponse) ||
           (isMines && minesDelay) ||
           (isPlinko && isPlaying) ||
+          (isCar && isPlaying) ||
           (!access_token &&
             !isCoinflip &&
             !isRPS &&
             !isMines &&
             !isRocket &&
             !isPoker &&
+            !isCar &&
             !isThimbles)
         }
         onClick={handlePlay}
@@ -493,11 +510,14 @@ const GamePlayBlock = () => {
         !isRPS &&
         !isMines &&
         !isRocket &&
+        !isCar &&
         !isPoker &&
         !isThimbles ? (
           'Registration!'
         ) : !access_token ? (
           'Demo play'
+        ) : isCar && carResult?.length > 0 ? (
+          'Reset'
         ) : isPoker && pokerPlay ? (
           `${t('pages.games.redraw')}`
         ) : applesPlay && isApple ? (

@@ -50,7 +50,8 @@
           "Apples": "Maçãs",
           "Poker": "Pôquer",
           "Thimbles": "Dedais",
-          "Plinko": "Plinko"
+          "Plinko": "Plinko",
+          "Cars": "Carros"
         }
       },
       "totals": {
@@ -79,7 +80,8 @@
           "Mines": "Minas",
           "RPS": "Jokenpô",
           "CoinFlip": "Cara ou coroa",
-          "Plinko": "Plinko"
+          "Plinko": "Plinko",
+          "Cars": "Carros"
         }
       }
     },
@@ -313,6 +315,7 @@
       "Mines": "Minas",
       "Poker": "Pôquer",
       "Plinko": "Plinko",
+      "Cars": "Carros",
       "Rocket": "Foguete",
       "Wheel of Fortune": "Roda da fortuna",
       "Apples": "Maçãs",
