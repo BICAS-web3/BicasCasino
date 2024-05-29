@@ -14,6 +14,8 @@ import dynamic from 'next/dynamic'
 import { games_banner } from './data'
 import GameSlideItem from './games.slide-item'
 import { useTranslation } from 'react-i18next'
+import arr from '@/public/images/misc/swiperArr.png'
+import Arr from '@/public/images/misc/swiperArr.svg'
 
 const Carousel = dynamic(
   () => import('@/components/custom/carousel/carousel'),
@@ -57,7 +59,7 @@ const GameBanners = ({ className }: { className?: string }) => {
               ref={navigationPrevRef}
               className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
             >
-              <ChevronLeft className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+              <Arr className='rotate-[180deg]' />
             </Button>
             <Button
               size={'icon'}
@@ -65,7 +67,7 @@ const GameBanners = ({ className }: { className?: string }) => {
               ref={navigationNextRef}
               className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
             >
-              <ChevronRight className='duration-500 text-[#464646] group-hover:text-[#979797]' />
+              <Arr className='' />
             </Button>
           </div>
         </div>
