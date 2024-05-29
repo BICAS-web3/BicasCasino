@@ -50,7 +50,8 @@
           "Apples": "Яблука",
           "Poker": "Покер",
           "Plinko": "Плінко",
-          "Thimbles": "Наперстки"
+          "Thimbles": "Наперстки",
+          "Cars": "Гонки"
         }
       },
       "totals": {
@@ -79,7 +80,8 @@
           "Plinko": "Плінко",
           "Mines": "Міни",
           "RPS": "КНБ",
-          "CoinFlip": "Монета"
+          "CoinFlip": "Монета",
+          "Cars": "Гонки"
         }
       }
     },
@@ -316,7 +318,8 @@
       "Rocket": "Ракета",
       "Wheel of Fortune": "Колесо фортуни",
       "Apples": "Яблука",
-      "Thimbles 3": "Наперстки 3"
+      "Thimbles 3": "Наперстки 3",
+      "Cars": "Гонки"
     },
     "LeaderBoard": "Таблиця лідерів"
   },

@@ -79,14 +79,14 @@ export const games_banner = [
     id: '8',
     link: '/games/wheel_of_fortune',
     title: 'Wheel'
-  }
+  },
 
-  // {
-  //   image: '/images/new_banners/16.png',
-  //   id: '16',
-  //   link: '/games/cars_2',
-  //   title: 'Cars'
-  // }
+  {
+    image: '/images/new_banners/16.png',
+    id: '16',
+    link: '/games/cars',
+    title: 'Cars'
+  }
 ]
 
 export const marquee_data = [

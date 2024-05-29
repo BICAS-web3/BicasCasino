@@ -1983,3 +1983,581 @@ div {
   }
 }
 
+.car2_wrap {
+  @media screen and (max-width: 650px) {
+    width: 200px;
+    height: 62px;
+    bottom: 72px !important;
+  }
+}
+
+.car1_wrap,
+.car2_wrap {
+  position: absolute;
+  transition: all 3s;
+  @media screen and (max-width: 650px) {
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@keyframes endCityBgFinish {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes endCityBgFinish {
+    0% {
+      right: -1478px;
+    }
+    100% {
+      right: 0;
+    }
+  }
+}
+@media (max-width: 650px) {
+  @keyframes endCityBgFinish {
+    0% {
+      right: -1078px;
+    }
+    100% {
+      right: 0;
+    }
+  }
+}
+
+@keyframes mainBgCopyFinish {
+  0% {
+    left: auto;
+  }
+
+  100% {
+    left: -1438px;
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes mainBgCopyStart {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes mainBgCopyStart {
+    0% {
+      left: 1438px;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@keyframes cityMainStart {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@keyframes cityMainFinish {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -1438px;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes cityMainStart {
+    0% {
+      left: 1438px;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+
+  @keyframes cityMainFinish {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes cityMainStart {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+
+  @keyframes cityMainFinish {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+@keyframes startImgHide {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes startImgHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes startImgHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+@keyframes mainBgCopyStart {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@keyframes startMountainsHide {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes startMountainsHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes startMountainsHide {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+@keyframes mountainsSecondStart {
+  0% {
+    left: 100%;
+  }
+
+  100% {
+    left: -100%;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes mountainsSecondStart {
+    0% {
+      left: 1438px;
+    }
+
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes mountainsSecondStart {
+    0% {
+      left: 1078px;
+    }
+
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+@keyframes mountainsSecondFinish {
+  0% {
+    left: 0;
+  }
+
+  75% {
+    left: -65%;
+  }
+
+  100% {
+    left: -65%;
+  }
+}
+
+@keyframes mountainsBgCopy {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes mountainsBgCopy {
+    0% {
+      left: 1438px;
+    }
+    100% {
+      left: -1438px;
+    }
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes mountainsBgCopy {
+    0% {
+      left: 1078px;
+    }
+    100% {
+      left: -1078px;
+    }
+  }
+}
+
+//wheel anim
+
+.car1_wrap,
+.car2_wrap {
+  position: absolute;
+  transition: all 3s;
+  @media screen and (max-width: 650px) {
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.car1_rightWheel {
+  bottom: 10px;
+  right: 27px;
+
+  @media screen and (max-width: 650px) {
+    bottom: 2px;
+    right: 22.1px;
+  }
+}
+
+.car1_wrap {
+  bottom: 10px;
+  left: 50px;
+  z-index: 10;
+
+  @media screen and (max-width: 650px) {
+    width: 215px;
+    height: 66px;
+    z-index: 17;
+    bottom: 20px !important;
+  }
+
+  @media screen and (max-width: 420px) {
+    left: 15px;
+  }
+}
+
+.car2_wrap {
+  bottom: 80px;
+  left: 70px;
+  z-index: 15;
+
+  @media screen and (max-width: 420px) {
+    left: 30px;
+  }
+}
+
+.car2_wrap {
+  @media screen and (max-width: 650px) {
+    width: 200px;
+    height: 62px;
+    bottom: 72px !important;
+  }
+}
+
+.car1_rightWheel,
+.car1_leftWheel {
+  @media screen and (max-width: 650px) {
+    width: 34.58px !important;
+    height: 34.17px !important;
+  }
+}
+
+.car1_leftWheel {
+  left: 30px;
+  bottom: 10px;
+
+  @media screen and (max-width: 650px) {
+    left: 24.5px;
+    bottom: 2px;
+  }
+}
+
+.car2_leftWheel,
+.car2_rightWheel {
+  @media screen and (max-width: 650px) {
+    width: 32.28px !important;
+    height: 31.9px !important;
+  }
+}
+
+.car2_leftWheel {
+  left: 27.4px;
+  bottom: 6px;
+
+  @media screen and (max-width: 650px) {
+    left: 22px;
+    bottom: 2px;
+  }
+}
+
+.car2_rightWheel {
+  bottom: 6px;
+  right: 24px;
+
+  @media screen and (max-width: 650px) {
+    bottom: 2px;
+    right: 20px;
+  }
+}
+
+.car_wheel {
+  width: 46px;
+  height: 46px;
+  position: absolute;
+}
+
+.start_anim {
+  animation: wheelAnim 0.5s linear infinite;
+}
+
+@keyframes wheelAnim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.car_inGame {
+  animation: car_in_game 2s forwards;
+}
+.car_wrap_animation {
+  &_1 {
+    animation: car_finish 3.3s 2.25s forwards;
+  }
+  &_2 {
+    animation: car_finish 4.8s 2.25s forwards;
+  }
+}
+
+@keyframes car_in_game {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(200px);
+  }
+}
+
+@keyframes car_finish {
+  0% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+@media (max-width: 1800px) {
+  @keyframes car_in_game {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(120px);
+    }
+  }
+
+  @keyframes car_finish {
+    0% {
+      transform: translateX(120px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+}
+@media (max-width: 1500px) {
+  @keyframes car_in_game {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(80px);
+    }
+  }
+
+  @keyframes car_finish {
+    0% {
+      transform: translateX(80px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+}
+@media (max-width: 650px) {
+  @keyframes car_in_game {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(20px);
+    }
+  }
+
+  @keyframes car_finish {
+    0% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(150vw);
+    }
+  }
+}
+.finish_city_bg_img_finish {
+  animation: endCityBgFinish 2.5s linear forwards;
+}
+
+.mountains_second_start {
+  animation: mountainsSecondStart 6.4s linear infinite;
+}
+
+.stop_animation {
+  animation-play-state: paused;
+}
+
+.main_city_bg_img_start {
+  animation: cityMainStart 5s linear infinite;
+}
+
+.main_mountains_bg_hide {
+  animation: startMountainsHide 3.2s linear forwards;
+}
+
+.start_bg_img_hide {
+  animation: startImgHide 2.5s linear forwards;
+}
+
+.car1WheelRight {
+  // bottom-[-28px] right-[22.1px] sm:bottom-[10px] sm:right-[27px] w-[34.58px] h-[34.17px]
+  bottom: 2px;
+  right: 21.1px;
+
+  @media screen and (min-width: 650px) {
+    bottom: 6px;
+    right: 27px;
+  }
+}
+
+.car1WheelLeft {
+  // left-[24.5px] bottom-[2px] sm:left-[30px] sm:bottom-[10px] w-[34.58px] h-[34.17px]=
+  left: 24.5px;
+  bottom: 2px;
+  @media screen and (min-width: 650px) {
+    left: 30px;
+    bottom: 6px;
+  }
+}
+
+.car2WheelRight {
+  // bottom-[2px] right-[20px] sm:bottom-[6px] sm:right-[24px]
+  // w-[32.28px] h-[31.9px]
+  bottom: 2px;
+  right: 20px;
+
+  @media screen and (min-width: 650px) {
+    bottom: -22px;
+    right: -45px;
+  }
+}
+
+.car2WheelLeft {
+  // left-[22px] bottom-[2px] sm:bottom-[6px] sm:left-[27.4px]
+  //       w-[32.28px] h-[31.9px]
+  bottom: 2px;
+  left: 22px;
+
+  @media screen and (min-width: 650px) {
+    left: 27.4px;
+    bottom: -22px;
+  }
+}
+
+.car_wheel {
+  width: 46px !important;
+  height: 46px !important;
+
+  @media screen and (max-width: 650px) {
+    width: 34.58px !important;
+    height: 34.17px !important;
+  }
+}

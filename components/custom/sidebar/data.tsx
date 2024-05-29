@@ -143,10 +143,10 @@ export const SGames = {
     //   title: 'Race',
     //   icon: <RaceSVG />
     // },
-    // {
-    //   title: 'Cars',
-    //   icon: <CarsSVG />
-    // },
+    {
+      title: 'Cars',
+      icon: <CarsSVG />
+    },
     {
       title: 'Thimbles 3',
       icon: <ThimblesSVG />
