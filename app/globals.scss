@@ -1841,6 +1841,38 @@ input[type='number'] {
   );
   border-image-slice: 1;
   border-radius: 5px;
+  position: relative;
+  transition: all .3s;
+
+
+  &::after {
+    transition: all .3s;
+    position: absolute;
+    content: '';
+    width: 100%;
+    background: #00FFB266;
+    filter: blur(15px);
+    height: 43px;
+    left: 0;
+    top: 54%;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:active {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+      filter: blur(10px);
+    }
+  }
 }
 .btn_2 {
   border: 1px solid;
@@ -1851,6 +1883,38 @@ input[type='number'] {
   );
   border-image-slice: 1;
   border-radius: 5px;
+  position: relative;
+  transition: all .3s;
+
+
+  &::after {
+    transition: all .3s;
+    position: absolute;
+    content: '';
+    width: 100%;
+    background: #B65AFF66;
+    filter: blur(15px);
+    height: 43px;
+    left: 0;
+    top: 54%;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:active {
+    &::after {
+      opacity: 1;
+      visibility: visible;
+      filter: blur(10px);
+    }
+  }
 }
 
 .thible {
@@ -1918,3 +1982,4 @@ div {
     z-index: 1;
   }
 }
+

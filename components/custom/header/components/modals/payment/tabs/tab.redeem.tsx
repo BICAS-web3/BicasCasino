@@ -224,12 +224,6 @@ const TabRedeem = () => {
               {t(`modals.wallet.payment.redeem.text`)}
             </p>
           </div>
-          {/* <Button
-            onClick={() => setRedeemConfirm(true)}
-            className='w-full max-w-full text-sm border border-[#907640] bg-[#201F1C] hover:bg-[#252019] transition-all duration-300 text-[#FFE09D] font-bold'
-          >
-            {t(`modals.wallet.payment.redeem.redeem`)}
-          </Button>{' '} */}
           <button
             onClick={handlePayment}
             className={`mt-auto w-full text-center border flex items-center justify-center gap-[10px] rounded-[8px] h-11 font-bold duration-500 ${

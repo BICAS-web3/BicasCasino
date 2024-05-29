@@ -70,6 +70,8 @@ const Payment = () => {
     }
   }
 
+  console.log(withdrewCrypto, withdrewFiat)
+
   return (
     <Dialog open={totalVisibility} onOpenChange={handleClose}>
       <DialogContent
@@ -139,9 +141,9 @@ const Payment = () => {
                   {t(`modals.back`)}
                 </div>
                 <span className='text-[18px] font-light text-[#7E7E7E]'>
-                  {tab === 'redeem'
-                    ? 'Withdraw/Bank card'
-                    : t(`modals.wallet.payment.buy.title`)}
+                  {tab === 'redeem' && withdrewFiat
+                    ? 'Withdraw/Bank card' : tab === 'redeem' && withdrewCrypto ? 'Withdraw crypto' : t(`modals.wallet.payment.buy.title`)}
+                    
                 </span>
               </div>
             )}

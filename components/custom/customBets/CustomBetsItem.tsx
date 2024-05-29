@@ -144,7 +144,7 @@ export const CustomBetsItem: FC<CustomBetsItemProps> = props => {
         >
           <img
             src={gameImg.src}
-            className='min-w-[20px] h-[20px] sm:w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
+            className='min-w-[20px] h-[20px] sm:min-w-[30px] sm:h-[30px] rounded-[6px] sm:rounded-[10px] mr-[5px] '
             alt='game-ico-preview'
           />
           <span className='text-[10px] text-text-w-def overflow-hidden text-ellipsis tracking-[0.56px] font-medium mmd:text-[0.875rem]'>

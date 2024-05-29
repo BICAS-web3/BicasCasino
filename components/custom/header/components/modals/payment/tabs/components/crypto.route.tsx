@@ -50,7 +50,9 @@ const CryptoRoute: FC<ICryptoRoute> = ({
         {text}
       </p>
       <button
-        className={`relative py-2 px-[53px] w-fit h-fit mt-[38px] text-[12px] text-white overflow-hidden ${
+        className={`relative py-2 px-[53px] w-fit h-fit mt-[38px] text-[12px] text-white overflow-hidden
+          
+        ${
           isCrypto ? 'btn_2' : 'btn'
         }`}
         onClick={onClick}

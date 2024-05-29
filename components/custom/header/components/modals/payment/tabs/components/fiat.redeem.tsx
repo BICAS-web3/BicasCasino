@@ -108,7 +108,7 @@ const FiatRedeem = () => {
       />
       <div className='mt-5 p-2.5 pr-5 rounded-lg bg-[#212121] flex flex-col gap-[10px]'>
         <p className='text-[13px] text-[#979797] leading-[17px]'>
-          Disclaimer:1) The exact amount you receive is subject to real-time
+          Disclaimer: <br />1) The exact amount you receive is subject to real-time
           exchange rate and the actual send amount at the time arrival.
         </p>
         <div className='w-full h-[1px] bg-[#363636]'></div>

@@ -78,11 +78,9 @@ export const Chat: FC<ChatProps> = () => {
             onChange={el => setMessage(el.target.value)}
             type='text'
             placeholder={t('pages.chat.send_message')}
-            className=' text-[#494949] w-full placeholder:text-[#494949] text-[16px] font-normal bg-inherit '
+            className='w-full text-[#fff] placeholder:text-[#494949] text-[16px] font-normal bg-inherit '
           />
           <div className='flex gap-[10px] items-center'>
-            {/* <GifIco className='cursor-pointer w-[24px] h-[20px]' />
-            <SmileIco className='hidden sm:block cursor-pointer w-[20px] h-[20px]' /> */}
             <TgIco className='w-[20px] h-[20px] block sm:hidden' />
           </div>
         </div>

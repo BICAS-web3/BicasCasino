@@ -398,6 +398,7 @@
           "amount": "Amount to Redeem",
           "subtitle": "Redeemable",
           "min": "Min",
+          "text2": "or withdraw with",
           "address": "Address",
           "to": {
             "text_1": "Your",
