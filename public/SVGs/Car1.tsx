@@ -5,10 +5,9 @@ import WheelIco from '@/public/images/cars/car1Wheel.svg'
 
 interface Car1Props {
   gameStarted: boolean
-  isSelected?: boolean
 }
 
-export const Car1: FC<Car1Props> = ({ gameStarted, isSelected }) => {
+export const Car1: FC<Car1Props> = ({ gameStarted }) => {
   return (
     <>
       <svg
@@ -107,16 +106,11 @@ export const Car1: FC<Car1Props> = ({ gameStarted, isSelected }) => {
           d='M51.5884 63.5261C51.5884 64.5529 52.4236 65.3882 53.4504 65.3882C54.4772 65.3882 55.3125 64.5529 55.3125 63.5261C55.3125 62.4993 54.4772 61.6641 53.4504 61.6641C52.4236 61.6641 51.5884 62.4993 51.5884 63.5261Z'
           fill='#333333'
         />
-        {isSelected && (
-          <>
-            {' '}
-            <circle cx='52.8989' cy='21.8364' r='11.102' fill='#D9D9D9' />
-            <path
-              d='M54.7629 16.9939V27.375H52.2589V19.3357H52.1981L49.8765 20.755V18.5855L52.4363 16.9939H54.7629Z'
-              fill='black'
-            />
-          </>
-        )}
+        <circle cx='52.8989' cy='21.8364' r='11.102' fill='#D9D9D9' />
+        <path
+          d='M54.7629 16.9939V27.375H52.2589V19.3357H52.1981L49.8765 20.755V18.5855L52.4363 16.9939H54.7629Z'
+          fill='black'
+        />
       </svg>
       <WheelIco
         className={`

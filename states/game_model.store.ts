@@ -338,3 +338,9 @@ export const $demoCards = createStore<string>('')
 export const setDemoCards = createEvent<string>()
 
 $demoCards.on(setDemoCards, (_, state) => state)
+
+export const $carVisible = createStore<boolean>(false)
+
+export const setCarVisible = createEvent<boolean>()
+
+$carVisible.on(setCarVisible, (_, state) => state)

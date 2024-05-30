@@ -25,7 +25,8 @@ import {
 import useSound from 'use-sound'
 import { useTranslation } from 'react-i18next'
 import InfoIcon from '@/public/images/misc/infoIcon.svg'
-import * as CarModel from '@/app/games/cars/components/model'
+import * as CarModel from '@/states/car.store'
+import { useMediaQuery } from 'usehooks-ts'
 
 const GamePlayBlock = () => {
   const [pokerChange] = useSound('/music/poker_change.mp3')
@@ -80,7 +81,9 @@ const GamePlayBlock = () => {
     setResult,
     setDemoCards,
     pickedTiles,
-    setCarReset
+    setCarReset,
+    carVisible,
+    setCarVisible
   ] = useUnit([
     CarModel.$gameResult,
     WagerModel.$error,
@@ -131,11 +134,13 @@ const GamePlayBlock = () => {
     GameModel.setResult,
     GameModel.setDemoCards,
     GameModel.$pickedTiles,
-    CarModel.setReset
+    CarModel.setReset,
+    GameModel.$carVisible,
+    GameModel.setCarVisible
   ])
 
   const path = usePathname()
-
+  const isMobile = useMediaQuery('(max-width: 1280px)')
   const [isCoinflip, setIsCoinflip] = useState(false)
   const [isRocket, setIsRocket] = useState(false)
   const [isApple, setIsApple] = useState(false)
@@ -444,6 +449,17 @@ const GamePlayBlock = () => {
           }`}
           onClick={() => {
             setPlinkoVisible(!plinkoVisible)
+            setAuto(false)
+          }}
+        />
+      )}
+      {isCar && isMobile && (
+        <SettingSVG
+          className={`cursor-pointer duration-500 ${
+            carVisible ? 'text-[#FFE09D] bg-transparent' : 'text-[#676767]'
+          }`}
+          onClick={() => {
+            setCarVisible(!carVisible)
             setAuto(false)
           }}
         />

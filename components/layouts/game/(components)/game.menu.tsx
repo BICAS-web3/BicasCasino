@@ -15,12 +15,14 @@ import GameWager from './game.wager'
 import { WheelSettings } from './game.wheel'
 import { PlinkoSettings } from './game.plinko'
 import { GameRollOver } from './game.rollover'
-
+import CarSelector from './carSelector'
+import { useMediaQuery } from 'usehooks-ts'
 const GameMenu = () => {
   const minesGame = usePathname().includes('mines')
   const wheelGame = usePathname().includes('wheel_of_fortune')
   const plinkoGame = usePathname().includes('plinko')
-
+  const carGame = usePathname().includes('cars')
+  const isMobile = useMediaQuery('(max-width: 1280px)')
   return (
     <div
       className={`bg-[#151515]  border-b border-[#252525] sm:border-none ${
@@ -33,6 +35,8 @@ const GameMenu = () => {
       {wheelGame && <WheelSettings />}
       {minesGame && <MinesSettings />}
       {plinkoGame && <PlinkoSettings />}
+      
+      {carGame &&  <CarSelector />}
       {/* {minesGame && <GameAmount min={1} max={24} title='Number of mines' />} */}
       <GamePlayBlock />
       {/* <GameRollOver /> */}

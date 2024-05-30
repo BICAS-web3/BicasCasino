@@ -15,9 +15,10 @@ import { FC, useEffect, useState } from 'react'
 import ReactHowler from 'react-howler'
 import useSound from 'use-sound'
 import { useMediaQuery } from 'usehooks-ts'
-import * as CarModel from './model'
+import * as CarModel from '../../../../states/car.store'
 import { cn } from '@/lib/utils'
 import s from './styles.module.scss'
+import { SelectorSVG } from './icons'
 interface CarsRaceProps {
   gameText: string
 }
@@ -142,7 +143,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             )
           ),
           new Promise(resolve =>
-            setTimeout(() => resolve(setIsPlaying(false)), 9000)
+            setTimeout(() => resolve(setIsPlaying(false)), 11000)
           )
         ])
       } else if (Number(result.profit) < Number(result.amount)) {
@@ -167,7 +168,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             setTimeout(() => resolve(setInGame(false)), 6000)
           ),
           new Promise(resolve =>
-            setTimeout(() => resolve(setIsPlaying(false)), 9000)
+            setTimeout(() => resolve(setIsPlaying(false)), 11000)
           ),
           new Promise(resolve =>
             setTimeout(
@@ -446,7 +447,6 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
       </div>
       <div className='w-full h-full absolute top-0 left-0'>
         <div
-          onClick={() => setCarNumber(1)}
           style={{
             left:
               startGame &&
@@ -468,10 +468,12 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
             startGame && 'car_inGame'
           }  ${`car_wrap_animation_${gameResult[0]}`} `}
         >
-          <Car1 isSelected={carNumber === 1} gameStarted={wheelStart} />
+          {carNumber === 1 && !isPlaying && (
+            <SelectorSVG className='h-4 w-4 sm:w-[33px] sm:h-[33px] absolute left-[85%] sm:left-1/2 -translate-x-1/2 -top-12 text-[#8A8A8A]' />
+          )}
+          <Car1 gameStarted={wheelStart} />
         </div>
         <div
-          onClick={() => setCarNumber(2)}
           style={{
             left:
               startGame &&
@@ -485,7 +487,7 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           }}
           className={`
           car_wrap car2_wrap z-[10] cursor-pointer
-          absolute transition-all duration-300 w-[200px] h-[62px] !bottom-[72px] !sm:bottom-[45px] 
+          absolute transition-all duration-300 w-[200px] h-[62px] bottom-[72px] sm:!bottom-[45px] 
           ${
             carInProgress &&
             'translate-x-[20px] sm:translate-x-[80px] mmd:translate-x-[120px] 3xl:translate-x-[200px]'
@@ -494,7 +496,10 @@ export const CarsRace: FC<CarsRaceProps> = ({ gameText }) => {
           ${startGame && 'car_inGame'}
         `}
         >
-          <Car2 isSelected={carNumber === 2} gameStarted={wheelStart} />
+          {carNumber === 2 && !isPlaying && (
+            <SelectorSVG className='h-4 w-4 sm:w-[33px] sm:h-[33px] absolute left-[85%] sm:left-[60%] -translate-x-1/2 -top-12 text-[#78B7DE]' />
+          )}
+          <Car2 gameStarted={wheelStart} />
         </div>
       </div>
     </section>
