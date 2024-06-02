@@ -24,6 +24,7 @@ import {
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import { useSocket } from '@/components/providers/socket.provider'
+import { removeCookie } from '@/lib/cookies'
 
 const list = [
   {
@@ -114,11 +115,11 @@ export const HeaderMenu: FC<HeaderMenuProps> = ({}) => {
     UserModel.setConnect
   ])
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     socket?.close()
     setVisible(false)
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('refresh_token')
+    await removeCookie({ key: 'access_token' })
+    await removeCookie({ key: 'refresh_token' })
     setSocketAuth(false)
     setCryptoValue(1)
     setAccessToken('')

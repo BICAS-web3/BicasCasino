@@ -2,8 +2,8 @@ import { UserType } from '@/states/user_model.store'
 import { createEffect, createEvent } from 'effector'
 import { JWT } from 'next-auth/jwt'
 
-export const BaseApiUrl = '/api'
-export const BaseStaticUrl = '/static'
+export const BaseApiUrl = 'https://game.greekkeepers.io/api'
+export const BaseStaticUrl = 'https://game.greekkeepers.io/static'
 export const P2WayUrl = 'https://p2way.fyi'
 
 export type T_ErrorText = {
@@ -231,7 +231,6 @@ export type T_InvoiceCreate = {
 
 export type T_RefreshToken = {
   refresh_token: string
-  bareer: string
 }
 
 export type T_LoginReponse = {
@@ -877,15 +876,7 @@ export const getInvoicePrices = createEffect<T_Header, T_ApiResponse, string>(
 export const refreshToken = createEffect<T_RefreshToken, T_ApiResponse, string>(
   async form => {
     return fetch(`${BaseApiUrl}/user/refresh/${form.refresh_token}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${form.bareer}`
-      }
-      // body: JSON.stringify({
-      //   refresh_token: form.refresh_token
-      // })
+      method: 'POST'
     })
       .then(async res => await res.json())
       .catch(e => e)

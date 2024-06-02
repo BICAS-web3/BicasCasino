@@ -25,6 +25,8 @@ import { EyeClose, EyeOpen } from '../../(icons)'
 import * as api from '@/api'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
+import { setCookie } from '@/lib/cookies'
+import { parseJWT } from '@/lib/parseJWT'
 
 interface SigninProps {}
 
@@ -83,16 +85,13 @@ const Signin: FC<SigninProps> = () => {
         password: values.password
       })
       if (data?.status === 'OK') {
-        setAccessToken((data.body as Record<string, string>).access_token)
-        localStorage.setItem(
-          'access_token',
-          (data.body as Record<string, string>).access_token
-        )
-        localStorage.setItem(
-          'refresh_token',
-          (data.body as Record<string, string>).access_token
-        )
-        setRefreshToken((data.body as Record<string, string>).refresh_token)
+        const body = (data.body as Record<string, any>)
+        const accessTokenContent = parseJWT({ token: body.access_token })
+        const refreshTokenContent = parseJWT({ token: body.refresh_token })
+        await setCookie({ key: 'access_token', value: body.access_token,expires:+(accessTokenContent.exp+"000") })
+        await setCookie({ key: 'refresh_token', value: body.refresh_token,expires:+(refreshTokenContent.exp+"000") })
+        setAccessToken(body.access_token)
+        setRefreshToken(body.refresh_token)
         setAuth(true)
         route.push('/')
       } else if ((data.body as Record<string, string>)?.status !== 'OK') {
