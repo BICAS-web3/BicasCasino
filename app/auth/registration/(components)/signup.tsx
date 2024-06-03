@@ -34,6 +34,8 @@ import * as api from '@/api'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
+import { setCookie } from '@/lib/cookies'
+import { parseJWT } from '@/lib/parseJWT'
 
 interface SignupProps {}
 
@@ -115,21 +117,17 @@ const SignUp: FC<SignupProps> = () => {
           password: password
         })
         if (userResponse.status === 'OK') {
+          const body = (userResponse.body as Record<string, any>)
           setAccessToken(
-            (userResponse.body as Record<string, string>).access_token
+            body.access_token
           )
           setRefreshToken(
-            (userResponse.body as Record<string, string>).refresh_token
+            body.refresh_token
           )
-          localStorage.setItem(
-            'access_token',
-            (userResponse.body as Record<string, string>).access_token
-          )
-          localStorage.setItem(
-            'refresh_token',
-            (userResponse.body as Record<string, string>).access_token
-          )
-
+          const accessTokenContent = parseJWT({ token: body.access_token })
+          const refreshTokenContent = parseJWT({ token: body.refresh_token })
+          await setCookie({ key: 'access_token', value: body.access_token,expires:accessTokenContent.exp })
+          await setCookie({ key: 'refresh_token', value: body.refresh_token,expires:refreshTokenContent.exp })
           route.push('/')
         }
       } else {
