@@ -21,6 +21,8 @@ import { $seeds, UserType } from '@/states/user_model.store'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import { ChatSVG } from './components/icons'
+import { getCookie, removeCookie, setCookie } from '@/lib/cookies'
+import { parseJWT } from '@/lib/parseJWT'
 
 const Header = () => {
   const [
@@ -63,8 +65,9 @@ const Header = () => {
   const [logged, setLogged] = useState(false)
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token')
-    const refresh_token = localStorage.getItem('refresh_token')
+   (async () => {
+    const access_token = await getCookie({ key: 'access_token' })
+    const refresh_token = await getCookie({ key: 'refresh_token' })
     if (access_token) {
       setAccessToken(access_token)
       refresh_token && setRefreshToken(refresh_token)
@@ -72,12 +75,27 @@ const Header = () => {
       if (location.includes('auth')) {
         route.push('/')
       }
-    } else {
+    } else if (refresh_token) {
+      const response = await api.refreshToken({ refresh_token })
+      if (response?.status === 'OK') {
+        const body = (response.body as Record<string, any>)
+        const accessTokenContent = parseJWT({token:body.access_token})
+        const refreshTokenContent = parseJWT({token:body.refresh_token})
+        await setCookie({ key: 'access_token', value: body.access_token, expires: +(accessTokenContent.exp+"000") }) 
+        await setCookie({ key: 'refresh_token', value: body.refresh_token, expires: +(refreshTokenContent.exp+"000") })
+        setAccessToken(body.access_token)
+        setRefreshToken(body.refresh_token)
+        setLogged(true)
+        if (location.includes('auth')) {
+          route.push('/')
+        }
+      }
+    }else {
       setLogged(false)
-      // if (!location.includes('auth')) {
-      //   route.push('/auth/registration')
-      // }
+      setAccessToken('')
+      setRefreshToken('')
     }
+   })()
   }, [location])
   useEffect(() => {
     if (access_token) {
@@ -175,30 +193,25 @@ const Header = () => {
     })()
   }, [access_token])
 
-  useEffect(() => {
-    ;(async () => {
-      if (access_token) {
-        const response = await api.getOneTimeToken({ bareer: access_token })
-        if (response.status === 'OK') {
-          // setOtToken((response as any).body)
-        }
-      }
-    })()
-  }, [access_token])
+  // useEffect(() => {
+  //   (async () => {
+  //     if (access_token) {
+  //       const response = await api.getOneTimeToken({ bareer: access_token })
+  //       if (response.status === 'OK') {
+  //         // setOtToken((response as any).body)
+  //       }
+  //     }
+  //   })()
+  // }, [access_token])
 
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const response = await api.refreshToken({
-        bareer: access_token,
-        refresh_token: refresh_token
-      })
-      if (response.status === 'OK') {
-        const token = response.body
-      }
-    }, 10 * 60 * 1000)
-
-    return () => clearInterval(intervalId)
-  }, [refresh_token])
+  // useEffect(() => {
+  //     const response = await api.refreshToken({
+  //       refresh_token: refresh_token
+  //     })
+  //     if (response.status === 'OK') {
+  //       const token = response.body
+  //     }
+  // }, [refresh_token])
 
   const [opened, setChat, chat, messageData] = useUnit([
     SidebarModel.$open,
