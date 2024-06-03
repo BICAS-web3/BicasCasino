@@ -34,7 +34,7 @@ const RocketGame = () => {
     pickSide,
     setCoefficient,
     setIsPlaying,
-    isPlaying,
+    isPlaying, //!
     result,
     setResult,
     isDrax,
