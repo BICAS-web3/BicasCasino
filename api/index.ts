@@ -2,8 +2,8 @@ import { UserType } from '@/states/user_model.store'
 import { createEffect, createEvent } from 'effector'
 import { JWT } from 'next-auth/jwt'
 
-export const BaseApiUrl = '/api'
-export const BaseStaticUrl = '/static'
+export const BaseApiUrl = 'https://game.greekkeepers.io//api'
+export const BaseStaticUrl = 'https://game.greekkeepers.io//static'
 export const P2WayUrl = 'https://p2way.fyi'
 
 export type T_ErrorText = {

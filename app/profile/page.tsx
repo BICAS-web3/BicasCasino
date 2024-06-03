@@ -1,4 +1,5 @@
 'use client'
+
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { FC, useEffect, useState } from 'react'
 import { ProfileSidebar } from './components/profileSidebar/ProfileSidebar'
@@ -12,6 +13,7 @@ import { SettingsVerify } from './components/verify/SettingsVerify'
 import { VerifyWarn } from './components/verifyWarn/VerifyWarn'
 import { SettingsBonusdrop } from './components/bonusDrop/SettingsBonusdrop'
 import { SettingsExclusion } from './components/exclusion/SettingsExclusion'
+import { SettingsAvatar } from './components/avatar/SettingsAvatar' 
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -30,9 +32,9 @@ const Profile: FC<ProfileProps> = () => {
       value={tab}
     >
       <X
-            className='absolute top-[15px] right-[15px] sm:top-[40px] sm:right-[60px] text-[#363636] cursor-pointer'
-            onClick={() => router.push('/')}
-          ></X>
+        className='absolute top-[15px] right-[15px] sm:top-[40px] sm:right-[60px] text-[#363636] cursor-pointer'
+        onClick={() => router.push('/')}
+      ></X>
       <div className='h-full p-[1.25rem] tb:p-[1.25rem_2.5rem] sm:rounded-[20px] bg-[#151515]'>
         <span className='flex gap-[5px] text-[16px] font-extrabold leading-[20.5px] tracking-[4%] items-center'>
           <SettingsIco />
@@ -65,6 +67,9 @@ const Profile: FC<ProfileProps> = () => {
             </TabsContent>
             <TabsContent value='respGambl' className='!mt-0'>
               <SettingsExclusion />
+            </TabsContent>
+            <TabsContent value='avatar' className='!mt-0'> 
+              <SettingsAvatar />
             </TabsContent>
           </div>
         </div>

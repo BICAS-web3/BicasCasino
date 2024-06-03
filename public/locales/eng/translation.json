@@ -243,7 +243,9 @@
         "Username": "Username",
         "text_1": "(The username and email are the only credentials for login)",
         "username": "username",
-        "btn": "Update"
+        "btn": "Update",
+        "select": "Select Photo",
+        "load": "Loading"
       },
       "email": {
         "current": "current email",
@@ -521,3 +523,5 @@
     "soon": "Soon!"
   }
 }
+
+
