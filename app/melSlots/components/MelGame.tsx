@@ -1,12 +1,13 @@
 'use client'
 import { useSocket } from '@/components/providers/socket.provider'
 import { useUnSubscribe } from '@/lib/utils/unsubscube'
+import bg from '@/public/images/mell/bg.png'
 import BuyBorder from '@/public/images/mell/buyTableBorder.svg'
 import historyBorder from '@/public/images/mell/historyBorder.png'
 import melBg from '@/public/images/mell/mellBg.png'
-import SlotsBorder from '@/public/images/mell/slotsBorder.svg'
 import { GameModel, RegistrModel, UserModel, WagerModel } from '@/states'
 import { useUnit } from 'effector-react'
+import Image from 'next/image'
 import { FC, useEffect, useState } from 'react'
 import { AutoPlaySettings } from './AutoPlaySettings/AutoPlaySettings'
 import { BuyFree } from './BuyFree/BuyFree'
@@ -15,6 +16,25 @@ import { MobileRules } from './MobileRules/MobileRules'
 import { Settings } from './Settings/Settings'
 import { HistoryItem } from './historyBlock/HistoryItem'
 import { MelBottomMenu } from './melBottomMenu/MelBottomMenu'
+
+const testData = [
+  [
+    [1, 3, 4, 2, 0],
+    [3, 1, 6, 4, 4],
+    [1, 6, 4, 7, 8],
+    [5, 2, 6, 6, 0],
+    [4, 5, 7, 11, 1],
+    [2, 6, 2, 3, 14]
+  ]
+]
+
+function transformData(data: number[][][]): number[][][] {
+  return data.map(screen =>
+    screen.slice(0, 5).map(item => [...item, Math.floor(Math.random() * 15)])
+  )
+}
+
+const newData = transformData(testData)
 
 interface MelGameProps {}
 
@@ -124,7 +144,6 @@ export const MelGame: FC<MelGameProps> = () => {
   useEffect(() => {
     if (result) {
       if (result.type === 'State' && result.state) {
-        // const dataState = JSON.parse(result.state).state
         setCryptoValue(Number(result.amount))
         if (result?.amount && start) {
           setIsPlaying(true)
@@ -284,15 +303,37 @@ export const MelGame: FC<MelGameProps> = () => {
                 <HistoryItem />
               </div>
             </div>
-            <div className='w-full h-[84vw] sm:h-full grid grid-cols-6 p-[80px_70px] sm:p-[30px_110px_30px_130px] z-[10]'>
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>5</span>
-              <span>6</span>
+            <div className='w-full h-full z-[1] relative px-[70px] py-10'>
+              {newData.map((screen, i) => (
+                <div className='flex flex-col gap-[10px]' key={i + 4}>
+                  {screen.map((item, j) => (
+                    <div className=' w-full flex justify-between' key={j}>
+                      {item.map((number, i) => (
+                        <div
+                          key={i + number}
+                          className='relative z-[1] w-auto h-auto flex-auto '
+                        >
+                          <Image
+                            width={97}
+                            height={90}
+                            src={`/images/melslots/${number}.png`}
+                            alt=''
+                            className='max-h-[91px]'
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
-            <SlotsBorder className='absolute p-[20px] top-0 left-0 w-full' />
+            <Image
+              width={870}
+              height={606}
+              alt='bg'
+              src={bg}
+              className='absolute p-[20px] top-0 left-0 w-full'
+            />
           </div>
         </div>
         <div className='flex sm:hidden p-[0_10px] relative z-[2] bottom-[130px] items-end'>
