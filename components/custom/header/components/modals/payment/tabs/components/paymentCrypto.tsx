@@ -48,7 +48,7 @@ const PaymentCrypto = () => {
                 </span>
               </div>
               <Button
-                className='w-full h-[30px] max-w-full text-[16px] border border-[#907640] bg-[#201F1C] hover:bg-[#252019] transition-all duration-300 text-[#FFE09D] font-bold'
+                className='w-full h-[30px] max-w-full text-[16px] border border-[#907640] bg-[#201F1C] hover:bg-[#907640] transition-all duration-300 text-[#FFE09D] font-normal '
                 onClick={() => handlePurchase(item.usdPrice, item.bonusCoins)}
               >
                 ${item.usdPrice}

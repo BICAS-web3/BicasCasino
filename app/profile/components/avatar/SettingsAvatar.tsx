@@ -55,7 +55,7 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({ currentAvatarUrl, onAv
           {isUploading ? (
             <div className='flex items-center'>
               <AiOutlineLoading className='mr-2 animate-spin' />
-              {t('Profile.load')}
+              {t('modals.profile.load')}
             </div>
           ) : (
             t('Profile.select')

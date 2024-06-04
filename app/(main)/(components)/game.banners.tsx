@@ -52,12 +52,12 @@ const GameBanners = ({ className }: { className?: string }) => {
         <h2 className='font-bold sm:text-xl'>{t('pages.main.games.title')}</h2>
         <div className='flex items-center gap-2.5 ml-auto text-[#7E7E7E] font-bold'>
           {t('pages.main.games.show')}
-          <div className='flex gap-[5px]'>
+          <div className='flex  '>
             <Button
               size={'icon'}
               id='swiper-button--prev-game'
               ref={navigationPrevRef}
-              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+              className='flex items-center justify-center w-[40px] h-[26px] duration-500 group rounded-e-[0px] rounded-s-[20.25px] bg-[#212121] hover:bg-[#282828] cursor-pointer '
             >
               <Arr className='rotate-[180deg]' />
             </Button>
@@ -65,7 +65,7 @@ const GameBanners = ({ className }: { className?: string }) => {
               size={'icon'}
               id='swiper-button--next-game'
               ref={navigationNextRef}
-              className='flex items-center justify-center w-[26px] h-[26px] duration-500 group rounded-[5px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
+              className='flex items-center justify-center w-[40px] h-[26px] duration-500 group rounded-s-[0px] rounded-e-[20.25px] bg-[#212121] hover:bg-[#282828] cursor-pointer'
             >
               <Arr className='' />
             </Button>
