@@ -57,6 +57,7 @@
     "next-auth": "^5.0.0-beta.16",
     "next-i18next": "^15.3.0",
     "next-themes": "^0.3.0",
+    "pixi.js": "^8.1.5",
     "postcss": "^8.4.35",
     "preact": "^10.20.2",
     "react": "^18.2.0",
