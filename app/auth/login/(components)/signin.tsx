@@ -39,15 +39,15 @@ const Signin: FC<SigninProps> = () => {
     RegistrModel.setRefreshToken
   ])
 
-  useEffect(() => {
-    const exist = localStorage.getItem('auth')
-    if (exist) {
-      setAccessToken(exist)
-      setAuth(true)
-    } else {
-      setAuth(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const exist = localStorage.getItem('auth')
+  //   if (exist) {
+  //     setAccessToken(exist)
+  //     setAuth(true)
+  //   } else {
+  //     setAuth(false)
+  //   }
+  // }, [])
 
   const [showPassword, setShowPassword] = useState(false)
 
@@ -85,11 +85,19 @@ const Signin: FC<SigninProps> = () => {
         password: values.password
       })
       if (data?.status === 'OK') {
-        const body = (data.body as Record<string, any>)
+        const body = data.body as Record<string, any>
         const accessTokenContent = parseJWT({ token: body.access_token })
         const refreshTokenContent = parseJWT({ token: body.refresh_token })
-        await setCookie({ key: 'access_token', value: body.access_token,expires:+(accessTokenContent.exp+"000") })
-        await setCookie({ key: 'refresh_token', value: body.refresh_token,expires:+(refreshTokenContent.exp+"000") })
+        await setCookie({
+          key: 'access_token',
+          value: body.access_token,
+          expires: +(accessTokenContent.exp + '000')
+        })
+        await setCookie({
+          key: 'refresh_token',
+          value: body.refresh_token,
+          expires: +(refreshTokenContent.exp + '000')
+        })
         setAccessToken(body.access_token)
         setRefreshToken(body.refresh_token)
         setAuth(true)
