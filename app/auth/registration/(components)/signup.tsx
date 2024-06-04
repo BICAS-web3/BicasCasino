@@ -56,15 +56,15 @@ const SignUp: FC<SignupProps> = () => {
     RegistrModel.setRefreshToken
   ])
 
-  useEffect(() => {
-    const exist = localStorage.getItem('auth')
-    if (exist) {
-      setAccessToken(exist)
-      setAuth(true)
-    } else {
-      setAuth(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const exist = localStorage.getItem('auth')
+  //   if (exist) {
+  //     setAccessToken(exist)
+  //     setAuth(true)
+  //   } else {
+  //     setAuth(false)
+  //   }
+  // }, [])
 
   const [ageCheckbox, setAgeCheckbox] = useState(false)
   const [policyCheckbox, setPolicyCheckbox] = useState(false)
@@ -111,26 +111,31 @@ const SignUp: FC<SignupProps> = () => {
         .catch(e => e)
 
       if (data.status === 'OK') {
-        setAuth(true)
         const userResponse = await api.loginUser({
           login: username,
           password: password
         })
-        if (userResponse.status === 'OK') {
-          const body = (userResponse.body as Record<string, any>)
-          setAccessToken(
-            body.access_token
-          )
-          setRefreshToken(
-            body.refresh_token
-          )
+        if (userResponse?.status === 'OK') {
+          const body = userResponse.body as Record<string, any>
           const accessTokenContent = parseJWT({ token: body.access_token })
           const refreshTokenContent = parseJWT({ token: body.refresh_token })
-          await setCookie({ key: 'access_token', value: body.access_token,expires:accessTokenContent.exp })
-          await setCookie({ key: 'refresh_token', value: body.refresh_token,expires:refreshTokenContent.exp })
+          await setCookie({
+            key: 'access_token',
+            value: body.access_token,
+            expires: +(accessTokenContent.exp + '000')
+          })
+          await setCookie({
+            key: 'refresh_token',
+            value: body.refresh_token,
+            expires: +(refreshTokenContent.exp + '000')
+          })
+          setAccessToken(body.access_token)
+          setRefreshToken(body.refresh_token)
+          setAuth(true)
           route.push('/')
         }
       } else {
+        setAuth(false)
         setErrorData(true)
       }
     })
