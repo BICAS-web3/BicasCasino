@@ -3,8 +3,8 @@ import { AiOutlineLoading } from 'react-icons/ai'
 import { useTranslation } from 'react-i18next'
 
 interface SettingsAvatarProps {
-  currentAvatarUrl: string
-  onAvatarChange: (newAvatarUrl: string) => void
+  currentAvatarUrl?: string
+  onAvatarChange?: (newAvatarUrl: string) => void
 }
 
 export const SettingsAvatar: FC<SettingsAvatarProps> = ({
@@ -26,7 +26,7 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
         console.log('New avatar URL:', newUrl)
         setIsUploading(false)
         setNewAvatarUrl(newUrl)
-        onAvatarChange(newUrl)
+        onAvatarChange?.(newUrl)
       }, 2000)
     }
   }

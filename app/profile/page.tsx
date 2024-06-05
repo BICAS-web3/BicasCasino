@@ -13,7 +13,7 @@ import { SettingsVerify } from './components/verify/SettingsVerify'
 import { VerifyWarn } from './components/verifyWarn/VerifyWarn'
 import { SettingsBonusdrop } from './components/bonusDrop/SettingsBonusdrop'
 import { SettingsExclusion } from './components/exclusion/SettingsExclusion'
-import { SettingsAvatar } from './components/avatar/SettingsAvatar' 
+import { SettingsAvatar } from './components/avatar/SettingsAvatar'
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -68,7 +68,7 @@ const Profile: FC<ProfileProps> = () => {
             <TabsContent value='respGambl' className='!mt-0'>
               <SettingsExclusion />
             </TabsContent>
-            <TabsContent value='avatar' className='!mt-0'> 
+            <TabsContent value='avatar' className='!mt-0'>
               <SettingsAvatar />
             </TabsContent>
           </div>
