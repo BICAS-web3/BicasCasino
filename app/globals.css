@@ -77,6 +77,7 @@ input::-webkit-inner-spin-button {
     --radius: 0.5rem;
   }
 
+  
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -753,3 +754,4 @@ body::-webkit-scrollbar-thumb {
 .affiliates_swiper_slide2 {
   min-width: 90px !important;
 }
+

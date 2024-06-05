@@ -142,11 +142,11 @@ const TabRedeem = () => {
       <div className='flex h-full justify-between flex-col gap-5'>
         <div className=''>
           <div className='flex flex-col gap-1'>
-            <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
+            <div className='flex items-center justify-between text-sm sm:text-base font-light text-[#979797]'>
               <span>{t(`modals.wallet.payment.redeem.amount`)}</span>
               <span>{t(`modals.wallet.payment.redeem.subtitle`)}</span>
             </div>
-            <div className='flex items-center justify-between text-xs sm:text-base text-[#979797]'>
+            <div className='flex items-center justify-between font-light text-xs sm:text-base text-[#979797]'>
               <span>({t(`modals.wallet.payment.redeem.min`)} 20DC)</span>
               <div className='flex gap-1 items-center'>
                 <span className='cursor-pointer underline text-orange max-w-60 truncate'>
@@ -174,7 +174,7 @@ const TabRedeem = () => {
           </div>
 
           <div className='flex flex-col mt-[10px] gap-1'>
-            <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
+            <div className='flex items-center justify-between text-sm sm:text-base font-light text-[#979797]'>
               <span>
                 {purchaseI.label} {t(`modals.wallet.payment.redeem.address`)}
               </span>
@@ -196,7 +196,7 @@ const TabRedeem = () => {
           <div className='flex flex-col mt-[10px] gap-1'>
             <div className='flex items-center justify-between text-sm sm:text-base font-semibold text-[#979797]'>
               <span>{t(`modals.wallet.payment.redeem.estimate`)}</span>
-              <span>≈{(amount / 12 - 428.5).toFixed(2)}USDT</span>
+               
             </div>
 
             <div className='flex flex-nowrap bg-[#121212] rounded-lg border border-[#252525]'>

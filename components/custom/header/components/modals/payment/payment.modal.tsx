@@ -103,7 +103,7 @@ const Payment = () => {
                   size='icon'
                   onClick={handleClose}
                 >
-                  <X className='w-5 h-5 duration-500 aspect-square object-contain text-[#3E3E3E] group-hover:text-[#979797]' />
+                  <X className='w-5 h-5 duration-500 aspect-square object-contain text-[#3E3E3E] group-hover:text-[#979797] transition-transform group-hover:rotate-180' />
                 </Button>
               </div>
             </div>
@@ -133,13 +133,13 @@ const Payment = () => {
               </TabsList>
             ) : (
               <div className='flex items-center justify-between'>
-                <div
-                  onClick={handleBack}
-                  className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center'
-                >
-                  <Arr className='rotate-[180deg]' />
-                  {t(`modals.back`)}
-                </div>
+              <div
+                   onClick={handleBack}
+                    className='text-[#7E7E7E] text-[18px] cursor-pointer font-medium flex gap-[15px] items-center hover:text-gray-400'
+                    >
+                      <Arr className='rotate-[180deg]' />
+                      {t(`modals.back`)}
+              </div>
                 <span className='text-[18px] font-light text-[#7E7E7E]'>
                   {tab === 'redeem' && withdrewFiat
                     ? 'Withdraw/Bank card' : tab === 'redeem' && withdrewCrypto ? 'Withdraw crypto' : t(`modals.wallet.payment.buy.title`)}

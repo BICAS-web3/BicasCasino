@@ -8,7 +8,7 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}'
   ],
-  prefix: '',
+  
   theme: {
     container: {
       center: true,
@@ -136,6 +136,18 @@ module.exports = {
       }
     }
   },
-
-  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar')]
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwind-scrollbar'),
+    function ({ addUtilities }) {
+      addUtilities({
+        '.gradient-conic': {
+          background: 'conic-gradient(#8752FC,#6F35E3 )',
+        },
+        '.hover\\:gradient-conic-hover:hover': {
+          background: 'conic-gradient(#733EE8,#5B21CF)',
+        },
+      });
+    },
+  ],
 }

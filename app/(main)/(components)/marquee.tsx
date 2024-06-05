@@ -26,7 +26,7 @@ export const MarqueeLine = () => {
   }, [])
   const { t } = useTranslation()
   return (
-    <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5 ml-0'>
+    <div className='relative w-full sm:w-full bg-[#212121] sm:rounded-[99px] max-h-[50px] flex items-center justify-between py-[1px] sm:py-0.5 sm:pl-0.5'>
       <Marquee
         pauseOnHover
         autoFill
@@ -46,19 +46,23 @@ export const MarqueeLine = () => {
           </span>
         ))}
       </Marquee>
-      <div className='flex justify-center items-center gap-[5px] min-w-32 sm:min-w-40'>
-        <ChevronsUp className='text-[#A7F7D1] w-5 h-5' />
-        <Image
-          src='/images/marquee/draxma.png'
-          alt='draxma'
-          width={24}
-          height={24}
-        />
-        DraXma
-      </div>
-      <div className='min-w-40 hidden sm:flex justify-center items-center gap-[5px] bg-[#7E15E6] h-full px-5 rounded-[99px]'>
-        <span className='bg-[#F57731] w-2 h-2 rounded-full' />{' '}
-        {t('pages.main.Live')}
+      <div className='relative flex items-center '>
+        <div className='flex justify-center items-center mr-[-20px] bg-[#212121] min-w-[70px] sm:min-w-[70px] h-[40px] z-10 rounded-[99px]'>
+          <ChevronsUp className='text-[#A7F7D1] w-5 h-5 ml-5' />
+          <Image
+            src='/images/marquee/draxma.png'
+            alt='draxma'
+            width={24}
+            height={24}
+          /> 
+          <span className='text-[#ffffff] mr-5'>DraXma</span>
+        </div>
+        <div className='ml-[-10px]'>
+          <div className='flex justify-center items-center bg-[#23302A] min-w-[60px] h-[40px] px-5 rounded-[99px] z-0'>
+            <span className='bg-[#F57731] w-2 h-2 rounded-full  mr-2 ml-5' />{' '}
+            {t('pages.main.Live')}
+          </div>
+        </div>
       </div>
     </div>
   )

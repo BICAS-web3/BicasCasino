@@ -38,9 +38,9 @@ const GameCreditBet = () => {
       </div>
       <div className='flex flex-col gap-1 min-w-[80px]'>
         <div className='flex flex-nowrap gap-1 items-center justify-start'>
-          <span className='leading-4 text-[#7e7e7e] tracking-[4%] text-sm font-medium nowrap'>
-            {balance.toFixed(2)}
-          </span>
+        <span className='leading-4 text-[#7e7e7e] tracking-[4%] text-sm font-medium inline-block w-[100px]'>
+          {balance.toFixed(2)}
+        </span>
           <span className='text-[10px] text-[#7e7e7e] leading-3 uppercase'>
             {isDrax ? 'dc' : 'bc'}
           </span>

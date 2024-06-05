@@ -5,7 +5,7 @@
       "preview": {
         "hello": "Hello",
         "about_deposit": "Bonus on the first deposit",
-        "reward": "REWARD",
+        "reward": "IN BONUS COINS",
         "btn": "Deposit and play "
       },
       "banners": {
@@ -384,11 +384,11 @@
             "text_1": "Choose payment system:",
             "text_2": "or buy with",
             "route_1": {
-              "title": "Bank card",
+              "title": "To Bank card",
               "text": "You can buy DRAX coins by Visa or Mastercard"
             },
             "route_2": {
-              "title": "Crypto payments",
+              "title": "To Crypto payments",
               "text": "You also can buy DRAX coinsby crypto-currency"
             }
           },
@@ -424,8 +424,8 @@
         },
         "Wallet": "Wallet",
         "Transactions": "Transactions",
-        "Buy": "Buy",
-        "Redeem": "Redeem",
+        "Buy": "Deposit",
+        "Redeem": "Withdraw",
         "Tips": "Tips",
         "security": "Security question",
         "full": "Full your email address",
