@@ -30,7 +30,12 @@ const seidebarBtns = [
   {
     title: 'Preferences',
     value: 'preferences'
+  },
+  {
+    title: 'Avatar',
+    value: 'avatar'
   }
+  
   // {
   //   title: 'Verify',
   //   value: 'verify'
@@ -83,6 +88,7 @@ export const ProfileSidebar: FC<ProfileSidebarProps> = ({ setTab }) => {
                             after:bg-[rgba(198,_149,_81,_.9)]  after:w-[13px] after:h-[13px] after:left-[-5px] after:blur-[4px] after:absolute after:hidden data-[state=active]:after:block after:top-[50%] after:translate-y-[-50%]
                             before:left-[-12px]  before:bg-[rgba(198,_149,_81,_.9)] before:absolute before:blur-[20px] before:hidden data-[state=active]:before:block before:w-[20px] before:h-[20px] rounded-[0]'
             >
+              
               {t(`pages.settings.navigation.${item.title}`)}
             </TabsTrigger>
           ))}

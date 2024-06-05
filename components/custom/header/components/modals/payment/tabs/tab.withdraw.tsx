@@ -114,7 +114,7 @@ const TabWithdraw = () => {
               </span>
               <CryptoRoute
                 title={
-                  'To ' + t(`modals.wallet.payment.buy.crypto.route_1.title`)
+                    t(`modals.wallet.payment.buy.crypto.route_1.title`)
                 }
                 text={t(`modals.wallet.payment.buy.crypto.route_1.text`)}
                 onClick={() => setIsFiat(true)}
@@ -130,7 +130,7 @@ const TabWithdraw = () => {
                 isCrypto
                 onClick={() => setIsCrypto(true)}
                 title={
-                  'To ' + t(`modals.wallet.payment.buy.crypto.route_2.title`)
+                   t(`modals.wallet.payment.buy.crypto.route_2.title`)
                 }
                 text={t(`modals.wallet.payment.buy.crypto.route_2.text`)}
               />

@@ -45,7 +45,7 @@ export const STopMenu = [
     href: '/'
   },
   {
-    icon: <BonusSVG className='w-5 h-5 object-contain aspect-square' />,
+    icon: <BonusSVG className='w-5 h-5 object-contain aspect-square ' />,
     title: 'Bonus',
     href: '/404'
   },

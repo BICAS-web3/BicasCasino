@@ -5,7 +5,7 @@
       "preview": {
         "hello": "Olá",
         "about_deposit": "Bônus no primeiro depósito",
-        "reward": "RECOMPENSA",
+        "reward": "EN MONEDAS DE BONO",
         "btn": "Deposite e jogue"
       },
       "banners": {
@@ -379,11 +379,11 @@
             "text_1": "Escolha o sistema de pagamento:",
             "text_2": "ou compre com",
             "route_1": {
-              "title": "Cartão bancário",
+              "title": "Para o cartão bancário",
               "text": "Você pode comprar moedas DRAX com Visa ou Mastercard"
             },
             "route_2": {
-              "title": "Pagamentos com criptomoedas",
+              "title": "Para o Pagamentos com criptomoedas",
               "text": "Você também pode comprar moedas DRAX com criptomoedas"
             }
           },
@@ -418,8 +418,8 @@
         },
         "Wallet": "Carteira",
         "Transactions": "Transações",
-        "Buy": "Comprar",
-        "Redeem": "Resgatar",
+        "Buy": "Depósito",
+        "Redeem": "Retirar",
         "Tips": "Gorjetas",
         "security": "Pergunta de segurança",
         "full": "Seu endereço de email completo",

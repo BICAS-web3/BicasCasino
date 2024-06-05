@@ -23,7 +23,7 @@ const Vip: FC<VipProps> = () => {
             <VipIco className='w-[24px] h-[24px]' />
             VIP Club
           </span>
-          <span className='text-center mt-[25px] block text-[24px] font-semibold'>
+          <span className='text-center mt-[25px] block text-[24px] font-regular'>
             VIP Rules
           </span>
           <VipTable />

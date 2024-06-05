@@ -44,8 +44,7 @@ const Preview = ({ className }: { className?: string }) => {
         {t('pages.main.preview.about_deposit')}
       </h2>
       <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
-        +$100
-        <br />{' '}
+        +$100.00
         <span className='-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[68px] font-black relative text-[#B4E915]'>
           {t('pages.main.preview.reward')}
         </span>

@@ -106,7 +106,7 @@ const FiatRedeem = () => {
         setError={setError}
         value={amount}
       />
-      <div className='mt-5 p-2.5 pr-5 rounded-lg bg-[#212121] flex flex-col gap-[10px]'>
+      <div className='mt-auto p-2.5 pr-5 rounded-lg bg-[#212121] flex flex-col gap-[10px]'>
         <p className='text-[13px] text-[#979797] leading-[17px]'>
           Disclaimer: <br />1) The exact amount you receive is subject to real-time
           exchange rate and the actual send amount at the time arrival.
@@ -120,7 +120,7 @@ const FiatRedeem = () => {
       </div>
       <button
         onClick={handlePayment}
-        className={`mt-auto w-full text-center border flex items-center justify-center gap-[10px] rounded-[8px] h-11 font-bold duration-500 ${
+        className={`  w-full text-center border flex items-center justify-center gap-[10px] rounded-[8px] h-11 font-bold duration-500 ${
           !firstName || !lastName || !card || !amount
             ? 'bg-[#191919] border-[#363636] text-[#7E7E7E]'
             : 'bg-[#2520194D] border-[#907640] text-[#FFE09D] hover:bg-[#252019]'

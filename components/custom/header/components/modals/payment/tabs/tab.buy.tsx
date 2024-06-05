@@ -64,7 +64,7 @@ const TabBuy = () => {
       className='flex h-full flex-col gap-2 justify-between'
     >
       <div className='flex flex-col gap-3'>
-        <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5'>
+      <div className='tab-buy--info flex border gap-[10px] justify-between items-center border-[#ffe09d] rounded-lg relative py-2 px-5' >
           <span className='text-[10px] sm:text-xs'>
             <span className='font-extrabold text-[#ffe09d]'>
               {t(`modals.wallet.payment.buy.subtitle.text_1`)}{' '}
@@ -112,32 +112,34 @@ const TabBuy = () => {
           </>
         )}
         {isCrypto && <PaymentCrypto />}
-        {isFiat && (
-          <>
-            <span className='text-center text-[14px] font-normal'>
-              {t(`modals.wallet.payment.buy.fiat.text_1`)}
-            </span>
-            <div
-              onClick={() => setIsBillline(true)}
-              className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'
-            >
-              <span className='text-[#979797] font-normal text-[15px]'>
-                {t(`modals.wallet.payment.buy.fiat.text_2`)}
-              </span>
-              <Arr />
-            </div>
-            <div
-              onClick={init}
-              className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between'
-            >
-              <span className='text-[#979797] font-normal text-[15px]'>
-                {t(`modals.wallet.payment.buy.fiat.text_3`)}
-              </span>
-              <Arr />
-            </div>
-            <div id='p2way_modal'></div>
-          </>
-        )}
+              {isFiat && (
+                <>
+                  <span className='text-center text-[14px] font-normal'>
+                    {t(`modals.wallet.payment.buy.fiat.text_1`)}
+                  </span>
+                  <div
+                    onClick={() => setIsBillline(true)}
+                    className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between hover:bg-[#2E2E2E]'
+                  >
+                    <span className='text-[#979797] font-normal text-[15px]'>
+                      {t(`modals.wallet.payment.buy.fiat.text_2`)}
+                    </span>
+                    <Arr />
+                  </div>
+                  <div
+                    onClick={init}
+                    className='bg-[#252525] cursor-pointer rounded-[5px] p-[12px_20px_12px_12px] flex items-center justify-between hover:bg-[#2E2E2E]' 
+                  >
+                    <span className='text-[#979797] font-normal text-[15px]'>
+                      {t(`modals.wallet.payment.buy.fiat.text_3`)}
+                    </span>
+                    <Arr />
+                  </div>
+                  <div id='p2way_modal'></div>
+                </>
+              )}
+
+   
         {isOpen && <CustomPayment close={close} />}
       </div>
       <span
@@ -149,6 +151,6 @@ const TabBuy = () => {
       </span>
     </div>
   )
-}
+              }
 
 export default TabBuy
