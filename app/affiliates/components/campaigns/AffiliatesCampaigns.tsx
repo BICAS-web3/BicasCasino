@@ -22,15 +22,15 @@ const accItems = [
     commission: 9999,
     list: [
       {
-        title: 'Hits',
+        title: 'Hist',
         value: 0
       },
       {
-        title: 'Referrals',
+        title: 'Referalls',
         value: 0
       },
       {
-        title: 'Avaliable',
+        title: 'Available',
         value: 9999
       },
       {
@@ -44,15 +44,15 @@ const accItems = [
     commission: 9999,
     list: [
       {
-        title: 'Hits',
+        title: 'Hist',
         value: 0
       },
       {
-        title: 'Referrals',
+        title: 'Referalls',
         value: 0
       },
       {
-        title: 'Avaliable',
+        title: 'Available',
         value: 9999
       },
       {
@@ -66,15 +66,15 @@ const accItems = [
     commission: 9999,
     list: [
       {
-        title: 'Hits',
+        title: 'Hist',
         value: 0
       },
       {
-        title: 'Referrals',
+        title: 'Referalls',
         value: 0
       },
       {
-        title: 'Avaliable',
+        title: 'Available',
         value: 9999
       },
       {

@@ -195,7 +195,7 @@ const Sidebar = () => {
                   icon: (
                     <ChestIco className='w-5 h-5 object-contain aspect-square' />
                   ),
-                  title: open ? 'CHEST & CARD' : 'CHEST',
+                  title: open ? 'CHEST & CARD' : 'CHEST & CARD',
                   id: 'modal'
                 }}
               />

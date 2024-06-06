@@ -12,6 +12,7 @@ interface ChatProps {}
 
 export const Chat: FC<ChatProps> = () => {
   const socket = useSocket()
+
   const [visibility, setVisibility, userInfo, access_token, messageData] =
     useUnit([
       ChatM.$chatVisibility,
