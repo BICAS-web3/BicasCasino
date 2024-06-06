@@ -52,8 +52,12 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
             <div className='w-16 h-16 rounded-full'></div>
           </div>
         )}
-        <p className='text-xs text-gray-400 mb-1'>{t('Profile.jpgOrPng')}</p>
-        <p className='text-xs text-gray-400 mb-4'>{t('Profile.maxSize')}</p>
+        <p className='text-xs text-gray-400 mb-1'>
+          {t('pages.settings.Profile.jpgOrPng')}
+        </p>
+        <p className='text-xs text-gray-400 mb-4'>
+          {t('pages.settings.Profile.maxSize')}
+        </p>
         <div className='w-full border-t border-[#3E3E3E] mb-20 mt-12'></div>
         <button
           onClick={handleClick}
@@ -62,7 +66,7 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
           {isUploading ? (
             <div className='flex items-center'>
               <AiOutlineLoading className='mr-2 animate-spin' />
-              {t('modals.profile.load')}
+              {t('modals.Profile.load')}
             </div>
           ) : (
             t('modals.profile.select')
