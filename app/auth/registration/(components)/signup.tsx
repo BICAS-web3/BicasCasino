@@ -24,7 +24,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginLink from './login.link'
-import { signIn } from 'next-auth/react'
 import { BaseApiUrl } from '@/api'
 import { Checkbox } from '@/components/ui/checkbox'
 import Captcha from './captcha'
