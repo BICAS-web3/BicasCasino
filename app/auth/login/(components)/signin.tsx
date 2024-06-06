@@ -197,7 +197,7 @@ const Signin: FC<SigninProps> = () => {
             type='submit'
             variant='auth'
           >
-            {isPending ? `pages.auth.btns.process` : t(`pages.auth.btns.in`)}
+            {isPending ? t(`pages.auth.btns.process`) : t(`pages.auth.btns.in`)}
           </Button>
         </form>
       </Form>

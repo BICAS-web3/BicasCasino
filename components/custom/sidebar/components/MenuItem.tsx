@@ -147,7 +147,7 @@ const MenuItem = ({ href, data, open, className }: Props) => {
           size={open ? 'default' : 'icon'}
         >
           {href === '/404' && open && (
-            <span className='absolute right-4 top-1 text-[12px] text-[#979797] rotate-2'>
+            <span className='absolute right-4 top-1 text-[12px] text-[#474747a4] rotate-2'>
               {t('common.soon')}
             </span>
           )}

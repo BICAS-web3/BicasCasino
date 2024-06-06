@@ -71,9 +71,11 @@ export const Chat: FC<ChatProps> = () => {
           className='w-[20px] h-[20px] cursor-pointer text-[#464646]'
         ></X>
       </div>
+      <div className="h-[1px] w-[100%] bg-[#252525] mt-[15px]"></div>
       <div className='flex flex-col gap-[10px] mt-[45px] flex-[1] p-[0_16px] overflow-auto pb-[20px]'>
         {messageData.map((item, i) => (
-          <MessageItem data={item} />
+          <MessageItem data={item} key={i} />
+       
         ))}
       </div>
       <div className='h-[80px] bg-[#252525] border-t-[1px] border-[#1a1a1a] p-[16px] flex gap-[10px]'>
@@ -96,7 +98,7 @@ export const Chat: FC<ChatProps> = () => {
         </div>
         <div
           onClick={handleSendMessage}
-          className='hidden sm:flex items-center justify-center min-w-[80px] h-[49px] border border-[#907640] bg-[#252019] rounded-[5px] cursor-pointer box-border'
+          className='hidden sm:flex items-center justify-center min-w-[80px] h-[49px] border border-[#907640] bg-[#252019] rounded-[5px] cursor-pointer box-border text-white'
         >
           <TgIco className='w-[20px] h-[20px]' />
         </div>

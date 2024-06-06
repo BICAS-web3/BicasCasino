@@ -197,7 +197,7 @@ export const AffiliatesCampaigns: FC<AffiliatesCampaignsProps> = () => {
                         className={`affiliates_swiper_slide affiliates_swiper_slide${ind1}`}
                       >
                         <div className='flex flex-col gap-[10px] w-full items-center :first:pr-[10px] tmd:first:pr-[20px]'>
-                          <span className='text-[11px] tmd:text-[14px] font-bold text-[#676767]'>
+                          <span className=''>
                             {t(`pages.affiliates.campaigns.${item1.title}`)}
                           </span>
                           <span className='text-[11px] tmd:text-[14px] font-medium'>

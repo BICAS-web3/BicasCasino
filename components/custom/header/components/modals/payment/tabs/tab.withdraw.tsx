@@ -122,7 +122,7 @@ const TabWithdraw = () => {
               <div className='w-fill flex items-center gap-5'>
                 <span className='flex flex-auto h-[1px] w-full bg-[#252525]'></span>
                 <span className='uppercase min-w-max text-[#7E7E7E] text-[11px] font-normal text-center leading-[14px]'>
-                  {t(`modals.wallet.payment.redeem.text2`)}
+                  {t(`modals.wallet.payment.buy.crypto.text_2`)}
                 </span>
                 <span className='flex flex-auto h-[1px] w-full bg-[#252525]'></span>
               </div>
