@@ -249,17 +249,16 @@ const Header = () => {
               {t(`pages.auth.btns.in`)}
             </div>
             <div
-              className='rounded-[50px] text-[16px] font-semibold min-w-[105px] h-[40px] flex items-center justify-center cursor-pointer border border-[#202020] box-border'
+              className='rounded-[50px] text-[16px] font-semibold min-w-[105px] h-[40px] flex items-center justify-center cursor-pointer border border-[#202020] box-border pl-4 pr-4'
               style={{
-                background:
-                  'conic-gradient(from 0deg at 50% 50%, #13BD3A 0deg, #09A52C 360deg)'
+                background: 'conic-gradient(from 0deg at 50% 50%, #13BD3A 0deg, #09A52C 360deg)'
               }}
               onClick={() => {
                 route.push('/auth/registration')
               }}
             >
               {t(`pages.auth.btns.up`)}
-            </div>
+        </div>
           </>
         )}
         <Separator orientation='vertical' className='min-h-10 inline' />

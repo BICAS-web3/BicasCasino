@@ -5,6 +5,7 @@
       "preview": {
         "hello": "Hola",
         "about_deposit": "Bono por primer depósito",
+        "offer_reward":"HASTA",
         "reward": "EM MOEDAS DE BÔNUS",
         "btn": "Depositar y jugar"
       },
@@ -243,7 +244,9 @@
         "Username": "Nombre de usuario",
         "text_1": "(Nombre de usuario y correo electrónico son los únicos datos de inicio de sesión)",
         "username": "Nombre de usuario",
-        "btn": "Actualizar"
+        "btn": "Actualizar",
+        "jpgOrPng":"* JPG or PNG",
+        "maxSize":"* Max File Size 2MB"
       },
       "email": {
         "current": "correo electrónico actual",

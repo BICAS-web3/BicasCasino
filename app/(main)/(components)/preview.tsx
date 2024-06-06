@@ -44,24 +44,21 @@ const Preview = ({ className }: { className?: string }) => {
         {t('pages.main.preview.about_deposit')}
       </h2>
       <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
-        +$100.00
+      {t('pages.main.preview.offer_reward')} +$100.00
         <br />{' '}
         <span className='-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[68px] font-black relative text-[#B4E915]'>
           {t('pages.main.preview.reward')}
         </span>
       </h1>
       <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
-        <Button
-          onClick={handleAction}
-          variant='secondary'
-          style={{
-            boxShadow:
-              '0px 0px 10px rgba(236, 129, 37, 0.9), inset 0px 0px 10px #EC8125'
-          }}
-          className='w-1/2 sm:w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
-        >
-          {t('pages.main.preview.btn')}
-        </Button>
+      <Button
+  onClick={handleAction}
+  variant='secondary'
+  className='w-56 flex items-center justify-center h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
+>
+  {t('pages.main.preview.btn')}
+</Button>
+
         {/* <Button
           variant='secondary'
           className='w-1/2 sm:w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#363636]'
