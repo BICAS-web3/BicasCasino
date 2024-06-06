@@ -44,7 +44,11 @@ module.exports = {
     return config
   },
   reactStrictMode: false,
-  experimental: {},
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['http://localhost', 'https://game.greekkeepers.io/']
+    }
+  },
   images: {
     remotePatterns: [
       {
