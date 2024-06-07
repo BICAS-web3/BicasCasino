@@ -62,6 +62,7 @@ export const MelGame: FC<MelGameProps> = () => {
   const socket = useSocket()
   const [start, setStart] = useState(true)
   const [keep, setKeep] = useState(false)
+  const [slotData, setSlotData] = useState(null)
 
   const [
     profit,
