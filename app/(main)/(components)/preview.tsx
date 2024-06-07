@@ -50,6 +50,23 @@ const Preview = ({ className }: { className?: string }) => {
           {t('pages.main.preview.reward')}
         </span>
       </h1>
+      <h1
+        className={`text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left font-black relative text-[#B4E915] 
+  ${
+    isMobile ? 'text-2xl' : isTablet ? 'text-lg' : 'text-[50px] sm:text-[78px]'
+  }`}
+      >
+        {t('pages.main.preview.offer_reward')} +$100.00
+        <br />{' '}
+        <span
+          className={`-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left 
+    ${
+      isMobile ? 'text-sm' : isTablet ? 'text-sm' : 'text-[50px] sm:text-[68px]'
+    } font-black relative text-[#B4E915]`}
+        >
+          {t('pages.main.preview.reward')}
+        </span>
+      </h1>
       <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
         <Button
           onClick={handleAction}

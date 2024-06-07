@@ -241,10 +241,14 @@
         "Preferences": "Preferências"
       },
       "Profile": {
-        "Username": "Nome de Usuário",
-        "text_1": "(O nome de usuário e o e-mail são as únicas credenciais para login)",
-        "username": "Nome de usuário",
-        "btn": "Atualizar"
+        "Username": "Nome de usuário",
+         "text_1": "(O nome de usuário e o e-mail são as únicas credenciais de login)",
+         "username": "Nome de usuário",
+         "btn": "Atualizar",
+         "jpgOrPng": "Formatos suportados: JPG e PNG",
+         "maxSize": "Tamanho máximo do arquivo: 2 MB",
+         "load": "Carregando...",
+         "select": "Selecionar arquivo"
       },
       "email": {
         "current": "email atual",

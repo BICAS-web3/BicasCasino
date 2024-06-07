@@ -242,11 +242,13 @@
       },
       "Profile": {
         "Username": "Nombre de usuario",
-        "text_1": "(Nombre de usuario y correo electrónico son los únicos datos de inicio de sesión)",
-        "username": "Nombre de usuario",
-        "btn": "Actualizar",
-        "jpgOrPng":"* JPG or PNG",
-        "maxSize":"* Max File Size 2MB"
+         "text_1": "(El nombre de usuario y el correo electrónico son las únicas credenciales de inicio de sesión)",
+         "username": "Nombre de usuario",
+         "btn": "Actualizar",
+         "jpgOrPng": "Formatos admitidos: JPG y PNG",
+         "maxSize": "Tamaño máximo de archivo: 2 MB",
+         "load": "Cargando...",
+         "select": "Seleccionar archivo"
       },
       "email": {
         "current": "correo electrónico actual",

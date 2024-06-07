@@ -39,7 +39,7 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
   }
 
   return (
-    <div className='border border-[#3E3E3E] rounded-md relative p-4'>
+    <div className='border border-[#3E3E3E] rounded-md relative '>
       <div className='flex flex-col items-center mt-12'>
         {newAvatarUrl ? (
           <img
@@ -59,6 +59,13 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
           {t('pages.settings.Profile.maxSize')}
         </p>
         <div className='w-full border-t border-[#3E3E3E] mb-20 mt-12'></div>
+        <p className='text-xs text-gray-400 mb-1'>
+          {t('pages.settings.Profile.jpgOrPng')}
+        </p>
+        <p className='text-xs text-gray-400 mb-4'>
+          {t('pages.settings.Profile.maxSize')}
+        </p>
+        <div className='w-full border-t border-[#3E3E3E] mb-20 mt-12'></div>
         <button
           onClick={handleClick}
           className='bg-[#252019] border-2 border-[#907640] hover:bg-[#3E3E3E] text-white font-semibold py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out absolute bottom-4 right-4 w-180 h-30'
@@ -66,10 +73,10 @@ export const SettingsAvatar: FC<SettingsAvatarProps> = ({
           {isUploading ? (
             <div className='flex items-center'>
               <AiOutlineLoading className='mr-2 animate-spin' />
-              {t('modals.Profile.load')}
+              {t('pages.settings.Profile.load')}
             </div>
           ) : (
-            t('modals.profile.select')
+            t('pages.settings.Profile.select')
           )}
         </button>
         <input
