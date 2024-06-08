@@ -160,15 +160,16 @@
       "title": "Regras VIP",
       "under_title": "Clube VIP",
       "titles": {
-        "Vip LVL": "Nível VIP",
-        "Wager Amount": "Valor da Aposta",
-        "Login Bonus": "Bônus de Login",
-        "Weekly Bonus": "Bônus Semanal",
-        "Monthly Bonus": "Bônus Mensal",
-        "Rakeback": "Comissão",
-        "Cash Back": "Devolução de Dinheiro",
-        "Level Up Bonus": "Bônus de Subida de Nível",
-        "Welcome Bonus": "Bônus de Boas-Vindas"
+          "Vip LVL": "Nível VIP",
+          "Wager Amount": "Valor da Aposta",
+          "Login Bonus": "Bônus de Login",
+          "Weekly Bonus": "Bônus Semanal",
+          "Monthly Bonus": "Bônus Mensal",
+          "Rakeback": "Retorno",
+          "Cash Back": "Cashback",
+          "Level Up Bonus": "Bônus de Nível",
+          "Welcome Bonus": "Bônus de Boas-vindas",
+          "Daily Bonus":"Bônus diário"
       },
       "level": "Nível"
     },

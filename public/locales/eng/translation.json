@@ -168,7 +168,8 @@
         "Rakeback": "Rakeback",
         "Cash Back": "Cash Back",
         "Level Up Bonus": "Level Up Bonus",
-        "Welcome Bonus": "Welcome Bonus"
+        "Welcome Bonus": "Welcome Bonus",
+        "Daily Bonus":"Daily Bonus"
       },
       "level": "Level"
     },

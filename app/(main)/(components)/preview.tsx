@@ -56,7 +56,7 @@ const Preview = ({ className }: { className?: string }) => {
       <Button
   onClick={handleAction}
   variant='secondary'
-  className='w-56 flex items-center justify-center h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
+  className='w-full md:w-56 flex items-center justify-center h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
 >
   {t('pages.main.preview.btn')}
 </Button>

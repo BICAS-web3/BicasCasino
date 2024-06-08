@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 const slides = [
     {
-        title: 'Vip LVL',
+        title: 'pages.vip.titles.Vip LVL',
         list: [
             {
                 ico: <DisabledIco />,
@@ -56,7 +56,7 @@ const slides = [
         ]
     },
     {
-        title: 'Wager Amount',
+        title: 'pages.vip.titles.Wager Amount',
         list: [
             {
                 title: '7000 DC'
@@ -91,7 +91,7 @@ const slides = [
         ]
     },
     {
-        title: 'Login Bonus',
+        title: 'pages.vip.titles.Login Bonus',
         list: [
             {
                 ico: <MinusIco />
@@ -126,7 +126,7 @@ const slides = [
         ]
     },
     {
-        title: 'Daily Bonus',
+        title: 'pages.vip.titles.Daily Bonus',
         list: [
             {
                 ico: <MinusIco />
@@ -161,7 +161,7 @@ const slides = [
         ]
     },
     {
-        title: 'Weekly Bonus',
+        title: 'pages.vip.titles.Weekly Bonus',
         list: [
             {
                 ico: <ArrowIco />
@@ -196,7 +196,7 @@ const slides = [
         ]
     },
     {
-        title: 'Monthly Bonus',
+        title: 'pages.vip.titles.Monthly Bonus',
         list: [
             {
                 ico: <MinusIco />
@@ -231,7 +231,7 @@ const slides = [
         ]
     },
     {
-        title: 'Rakeback',
+        title: 'pages.vip.titles.Rakeback',
         list: [
             {
                 title: '5%'
@@ -266,7 +266,7 @@ const slides = [
         ]
     },
     {
-        title: 'Cash Back',
+        title: 'pages.vip.titles.Cash Back',
         list: [
             {
                 ico: <ArrowIco />
@@ -301,7 +301,7 @@ const slides = [
         ]
     },
     {
-        title: 'Level Up Bonus',
+        title: 'pages.vip.titles.Level Up Bonus',
         list: [
             {
                 ico: <MinusIco />
@@ -336,7 +336,7 @@ const slides = [
         ]
     },
     {
-        title: 'Welcome Bonus',
+        title: 'pages.vip.titles.Welcome Bonus',
         list: [
             {
                 ico: <ArrowIco />
@@ -374,7 +374,9 @@ const slides = [
 
 interface VipTableProps {}
 
-export const VipTable:FC<VipTableProps> = () => {
+export const VipTable: FC<VipTableProps> = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             <Swiper 
@@ -396,7 +398,7 @@ export const VipTable:FC<VipTableProps> = () => {
                 slides.map((item, ind) => (
                     <SwiperSlide  key={ind} className='vip_swiper_slide h-full flex flex-col gap-[2px]' >
                         <div className="bg-[#181818] h-[80px] flex text-center p-[0_2px] prewrap items-center justify-center text-[18px] font-normal text-[#7E7E7E]">
-                        {item.title}
+                        {t(item.title)}
                      </div>
                         <div className='flex flex-col h-full gap-[3px] mt-[3px]'>
                             {
@@ -406,7 +408,7 @@ export const VipTable:FC<VipTableProps> = () => {
                                             item2.ico && item2.ico
                                         }
                                         {
-                                            item2.title && <span className='text-[15px] font-normal'>{item2.title}</span>
+                                            item2.title && <span className='text-[15px] font-normal'>{t(item2.title)}</span>
                                         }
                                     </div>
                                 ))
@@ -419,4 +421,4 @@ export const VipTable:FC<VipTableProps> = () => {
             <div className="scroll-bar-vip"></div>
         </>
     )
-}
+};
