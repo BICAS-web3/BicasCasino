@@ -242,11 +242,13 @@
       },
       "Profile": {
         "Username": "Username",
-        "text_1": "(The username and email are the only credentials for login)",
-        "username": "username",
+        "text_1": "(Username and email are the only login credentials)",
+        "username": "Username",
         "btn": "Update",
-        "select": "Select Photo",
-        "load": "Loading"
+        "jpgOrPng": "Supported formats: JPG and PNG",
+        "maxSize": "Maximum file size: 2 MB",
+        "load": "Loading...",
+        "select": "Select file"
       },
       "email": {
         "current": "current email",

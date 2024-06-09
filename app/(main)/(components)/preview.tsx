@@ -43,10 +43,20 @@ const Preview = ({ className }: { className?: string }) => {
         {t('pages.main.preview.hello')} {userInfo?.username || ''} <br />
         {t('pages.main.preview.about_deposit')}
       </h2>
-      <h1 className='text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[78px] font-black relative text-[#B4E915]'>
+      <h1
+        className={`text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left font-black relative text-[#B4E915] 
+  ${
+    isMobile ? 'text-2xl' : isTablet ? 'text-lg' : 'text-[50px] sm:text-[78px]'
+  }`}
+      >
         {t('pages.main.preview.offer_reward')} +$100.00
         <br />{' '}
-        <span className='-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left text-[50px] sm:text-[68px] font-black relative text-[#B4E915]'>
+        <span
+          className={`-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left 
+    ${
+      isMobile ? 'text-sm' : isTablet ? 'text-sm' : 'text-[50px] sm:text-[68px]'
+    } font-black relative text-[#B4E915]`}
+        >
           {t('pages.main.preview.reward')}
         </span>
       </h1>
