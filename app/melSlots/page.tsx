@@ -4,8 +4,8 @@ import { MelGame } from './components/MelGame'
 interface MelSlotsProps {}
 
 const MelSlots: FC<MelSlotsProps> = () => {
-  // return <MelGame />
-  return <div></div>
+  return <MelGame />
+  // return <div></div>
 }
 
 export default MelSlots

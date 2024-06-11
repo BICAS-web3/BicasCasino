@@ -16,26 +16,33 @@ import { MobileRules } from './MobileRules/MobileRules'
 import { Settings } from './Settings/Settings'
 import { HistoryItem } from './historyBlock/HistoryItem'
 import { MelBottomMenu } from './melBottomMenu/MelBottomMenu'
+import { Stage, Sprite, Container } from '@pixi/react'
 
-const testData = [
+const initialTestData = [
   [
-    [1, 3, 4, 2, 0],
-    [3, 1, 6, 4, 4],
-    [1, 6, 4, 7, 8],
-    [5, 2, 6, 6, 0],
-    [4, 5, 7, 11, 1],
-    [2, 6, 2, 3, 14]
+    [1, 3, 4, 2, 0, 3],
+    [3, 1, 6, 4, 4, 2],
+    [1, 6, 4, 7, 8, 1],
+    [5, 2, 6, 6, 0, 5],
+    [4, 5, 7, 11, 1, 6]
   ]
 ]
-
 function transformData(data: number[][][]): number[][][] {
   return data.map(screen =>
-    screen.slice(0, 5).map(item => [...item, Math.floor(Math.random() * 15)])
+    screen.slice(0, 5).map(item => {
+      return [...item, Math.floor(Math.random() * 15)]
+    })
   )
 }
-
-const newData = transformData(testData)
-
+function generateNewArray() {
+  return [
+    Math.floor(Math.random() * 15),
+    Math.floor(Math.random() * 15),
+    Math.floor(Math.random() * 15),
+    Math.floor(Math.random() * 15),
+    Math.floor(Math.random() * 15)
+  ]
+}
 interface MelGameProps {}
 
 interface Iresponse {
@@ -62,6 +69,7 @@ export const MelGame: FC<MelGameProps> = () => {
   const socket = useSocket()
   const [start, setStart] = useState(true)
   const [keep, setKeep] = useState(false)
+  const [flyDown, setFlyDown] = useState(0)
 
   const [
     profit,
@@ -110,7 +118,29 @@ export const MelGame: FC<MelGameProps> = () => {
     GameModel.$isPlaying,
     GameModel.setIsPlaying
   ])
-
+  const [reel, setReel] = useState(() => transformData(initialTestData))
+  const handleTick = (app: any) => {
+    setFlyDown(prev => {
+      const newFlyDown = prev + 12
+      if (newFlyDown > 90) {
+        console.log('flyDown', newFlyDown)
+        const newData = [
+          [
+            generateNewArray(),
+            [...reel[0][0]],
+            [...reel[0][1]],
+            [...reel[0][2]],
+            [...reel[0][3]],
+            [...reel[0][4]]
+          ]
+        ]
+        console.log({ oldData: reel, newData })
+        setReel(newData)
+        return -90
+      }
+      return newFlyDown
+    })
+  }
   useEffect(() => {
     setGameStatus(null)
   }, [])
@@ -303,36 +333,37 @@ export const MelGame: FC<MelGameProps> = () => {
                 <HistoryItem />
               </div>
             </div>
-            <div className='w-full h-full z-[1] relative px-[70px] py-10'>
-              {newData.map((screen, i) => (
-                <div className='flex flex-col gap-[10px]' key={i + 4}>
-                  {screen.map((item, j) => (
-                    <div className=' w-full flex justify-between' key={j}>
-                      {item.map((number, i) => (
-                        <div
-                          key={i + number}
-                          className='relative z-[1] w-auto h-auto flex-auto '
-                        >
-                          <Image
-                            width={97}
-                            height={90}
-                            src={`/images/melslots/${number}.png`}
-                            alt=''
-                            className='max-h-[91px]'
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+            <Stage
+              options={{
+                backgroundAlpha: 0
+              }}
+              onMount={app => app.ticker.add(handleTick)}
+              height={480}
+            >
+              <Container y={30}>
+                {reel.map(screen =>
+                  screen.map((item, i) =>
+                    item.map((number, j) => (
+                      <Sprite
+                        key={i + j + number}
+                        width={97}
+                        height={90}
+                        image={`/images/melslots/${number}.png`}
+                        anchor={{ x: 1, y: 1 }}
+                        y={105 * (i + 1) + flyDown}
+                        x={130 * (j + 1)}
+                      />
+                    ))
+                  )
+                )}
+              </Container>
+            </Stage>
             <Image
               width={870}
               height={606}
               alt='bg'
               src={bg}
-              className='absolute p-[20px] top-0 left-0 w-full'
+              className='absolute p-[20px] top-0 left-0 w-full z-[-1]'
             />
           </div>
         </div>
