@@ -63,6 +63,9 @@ export const MelGame: FC<MelGameProps> = () => {
   const [start, setStart] = useState(true)
   const [keep, setKeep] = useState(false)
   const [slotData, setSlotData] = useState(null)
+  const [limit, setLimit] = useState(-1)
+
+  const [resultFields, setResultFields] = useState<number[][][]>([[[]]])
 
   const [
     profit,
@@ -116,11 +119,9 @@ export const MelGame: FC<MelGameProps> = () => {
     setGameStatus(null)
   }, [])
 
-  const [gameFields, setGameFields] = useState<number[][][]>([[[]]])
-
   useEffect(() => {
-    console.log(gameFields)
-  }, [gameFields[0]])
+    console.log(resultFields)
+  }, [resultFields[0]])
 
   useEffect(() => {
     if (
@@ -156,8 +157,13 @@ export const MelGame: FC<MelGameProps> = () => {
         const dataState = JSON.parse(result.state)
         if (dataState) {
           const isFreeSpins = dataState.free_spins
+          if (isFreeSpins) {
+            setIsFreeSpins(true)
+          }
           const game_fields = dataState.game_fields as number[][][]
-          setGameFields(game_fields)
+          setResultFields(prev => {
+            return [...prev, ...game_fields]
+          })
         }
         const fullAmount = Number(result.amount) * result.num_games!
         setCoefficientData(prev => [
@@ -193,6 +199,32 @@ export const MelGame: FC<MelGameProps> = () => {
   const [defaultBet, setDefaultBet] = useState(true)
   const [isFreeSpins, setIsFreeSpins] = useState(false)
   const [buyFreeSpins, setBuyFreeSpins] = useState(false)
+
+  useEffect(() => {
+    if (
+      socket &&
+      buyFreeSpins &&
+      access_token &&
+      socket.readyState === WebSocket.OPEN &&
+      isDrax
+    ) {
+      socket.send(
+        JSON.stringify({
+          type: 'MakeBet',
+          game_id: gamesList.find(item => item.name === 'BigSlots')?.id || 17,
+          coin_id: isDrax ? 2 : 1,
+          user_id: userInfo?.id || 0,
+          data: '{"buy_free_spins": true, "use_free_spins": false}',
+          amount: `${cryptoValue || 0}`,
+          stop_loss: Number(stopLoss) || 0,
+          stop_win: Number(stopGain) || 0,
+          num_games: betsAmount
+        })
+      )
+    }
+    setBuyFreeSpins(false)
+  }, [buyFreeSpins, stopGain, stopLoss, cryptoValue, isDrax, betsAmount])
+
   useEffect(() => {
     const responseBet = () => {
       if (defaultBet) {
@@ -217,8 +249,17 @@ export const MelGame: FC<MelGameProps> = () => {
       stop_win: Number(stopGain) || 0,
       num_games: betsAmount
     })
-  }, [stopGain, stopLoss, cryptoValue, isDrax, betsAmount, isPlaying])
+  }, [
+    stopGain,
+    stopLoss,
+    cryptoValue,
+    isDrax,
+    betsAmount,
+    isPlaying,
+    buyFreeSpins
+  ])
   const [subscribed, setCubscribed] = useState(false)
+
   useEffect(() => {
     if (
       socket &&
@@ -284,7 +325,10 @@ export const MelGame: FC<MelGameProps> = () => {
         <div className='mel-slots-table ml-0 xsl:ml-[300px] mde:ml-[0] h-full max-h-[550px] z-[20] items-center flex justify-center mb-[70px] relative'>
           <div className='max-w-[850px] h-[100vh] w-full relative items-center flex justify-center max-h-[600px]'>
             <div className='absolute hidden sm:flex left-[25px] xsl:left-[-100%] gap-[20px] flex-row xsl:flex-col top-[90%] tbbs:top-[100%] xsl:top-[auto] bottom-[auto] xsl:bottom-[30px] w-full items-end'>
-              <div className='w-full min-w-[10px] sxs:min-w-[140px] max-w-[10px] sxs:max-w-[190px] p-[30px_10px_10px_5px] xsl:p-[20px_10px_10px_5px] h-[140px] flex flex-col items-center text-center relative'>
+              <div
+                onClick={() => setBuyFreeSpins(true)}
+                className='w-full min-w-[10px] sxs:min-w-[140px] max-w-[10px] sxs:max-w-[190px] p-[30px_10px_10px_5px] xsl:p-[20px_10px_10px_5px] h-[140px] flex flex-col items-center text-center relative'
+              >
                 <BuyBorder className='absolute w-full h-full top-0 left-0' />
                 <span className='buy-text relative z-[5] uppercase text-center text-[10px] xsl:text-[15px] font-medium'>
                   купить <br /> бесплатные <br /> спины
