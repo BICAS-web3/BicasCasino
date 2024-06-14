@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PaymentModel, UserModel } from '@/states'
 import { useUnit } from 'effector-react'
-import { useSession } from 'next-auth/react'
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useMediaQuery } from 'usehooks-ts'
+import { useTranslation } from 'react-i18next'
 
 const Preview = ({ className }: { className?: string }) => {
-  const isMobile = useMediaQuery('(max-width:400px)')
-  const isTablet = useMediaQuery('(max-width:700px)')
+  const isMobile = useMediaQuery('(max-width: 400px)')
+  const isTablet = useMediaQuery('(max-width: 700px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1024px)')
+  const isLargeScreen = useMediaQuery('(max-width: 1280px)')
 
   const [userInfo] = useUnit([UserModel.$userInfo])
   const [setVisibility, visibility] = useUnit([
@@ -22,51 +22,72 @@ const Preview = ({ className }: { className?: string }) => {
     setVisibility(!visibility)
   }
   const { t } = useTranslation()
+
   return (
     <article
       className={cn(
-        'flex items-center flex-col lg:block w-full h-[350px] sm:h-[440px]',
-        'relative pt-10 p-[10px] overflow-hidden bg-cover preview',
+        'flex items-center flex-col w-full',
+        isMobile ? 'h-[350px]' : isTablet ? 'h-[440px]' : isLargeScreen ? 'h-[480px]' : 'h-[500px]',
+        'relative pt-10 p-4 overflow-hidden bg-cover preview',
         className
       )}
       style={{
-        backgroundImage: isMobile
+        '--background-image': isMobile
           ? `url('/images/main_banner/0banner.png')`
           : isTablet
           ? `url('/images/main_banner/1xbanner.png')`
+          : isLargeScreen
+          ? `url('/images/main_banner/1xbanner.png')`
           : `url('/images/main_banner/2xbanner.png')`,
-        backgroundSize: isMobile ? '100% 100%' : 'cover',
-        backgroundPositionX: '70%'
+        backgroundImage: 'var(--background-image)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     >
-      <h2 className='text-center z-20 lg:text-left font-bold text-2xl sm:text-[34px] leading-[46px] relative'>
-        {t('pages.main.preview.hello')} {userInfo?.username || ''} <br />
-        {t('pages.main.preview.about_deposit')}
-      </h2>
-      <h1 className={`text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left font-black relative text-[#B4E915] 
-  ${isMobile ? 'text-2xl' : (isTablet ? 'text-lg' : 'text-[50px] sm:text-[78px]')}`}>
-  {t('pages.main.preview.offer_reward')} +$100.00
-  <br />{' '}
-  <span className={`-translate-y-5 block text-center uppercase leading-[65px] sm:leading-[100px] z-20 lg:text-left 
-    ${isMobile ? 'text-sm' : (isTablet ? 'text-sm' : 'text-[50px] sm:text-[68px]')} font-black relative text-[#B4E915]`}>
-    {t('pages.main.preview.reward')}
-  </span>
-</h1>
-      <div className='h-full items-end sm:h-auto mt-3 z-20 relative flex flex-nowrap gap-2 sm:gap-2.5 px-4 w-full'>
-      <Button
-  onClick={handleAction}
-  variant='secondary'
-  className='w-full md:w-56 flex items-center justify-center h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#FFEF29]'
->
-  {t('pages.main.preview.btn')}
-</Button>
-
-        {/* <Button
-          variant='secondary'
-          className='w-1/2 sm:w-[182px] flex items-center justify-center box-border h-9 bg-[#20202050] backdrop-blur-md duration-500 transition-colors border border-[#363636]'
-        >
-          Free Play
-        </Button> */}
+      <div className={cn(
+        'relative z-20 w-full ',
+        isLargeScreen ? 'text-center mt-10' : 'lg:absolute lg:left-4 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-auto',
+        isLargeScreen ? 'mt-20' : ''
+      )}>
+        <h2 className={cn(
+          'font-bold leading-tight',
+          isMobile ? 'text-lg text-center' : isTablet ? 'text-2xl text-center' : isLargeScreen ? 'text-2xl text-center' : 'text-3xl text-left',
+          isMobile ? 'leading-snug' : isTablet ? 'leading-snug' : 'leading-normal'
+        )}>
+          {t('pages.main.preview.hello')} {userInfo?.username || ''} <br />
+          {t('pages.main.preview.about_deposit')}
+        </h2>
+        <h1 className={cn(
+          'uppercase font-black text-[#B4E915] mt-2',
+          isMobile ? 'text-xl text-center' : isTablet ? 'text-3xl text-center' : isLargeScreen ? 'text-3xl text-center' : 'text-5xl text-left',
+          isMobile ? 'leading-snug' : isTablet ? 'leading-snug' : 'leading-normal'
+        )}>
+          {t('pages.main.preview.offer_reward')} $100.00
+          <br />
+          <span className={cn(
+            'block uppercase font-black text-[#B4E915] mt-1',
+            isMobile ? 'text-lg text-center' : isTablet ? 'text-2xl text-center' : isLargeScreen ? 'text-2xl text-center' : 'text-4xl text-left',
+            isMobile ? 'leading-snug' : isTablet ? 'leading-snug' : 'leading-normal'
+          )}>
+            {t('pages.main.preview.reward')}
+          </span>
+        </h1>
+        <div className={cn(
+          'mt-4 flex',
+          isLargeScreen ? 'justify-center' : 'justify-center lg:justify-start'
+        )}>
+          <Button
+            onClick={handleAction}
+            variant='secondary'
+            className={cn(
+              'w-full h-10 bg-[#20202050] backdrop-blur-md transition duration-500 border border-[#FFEF29] flex items-center justify-center',
+              isMobile ? 'text-sm' : isTablet ? 'text-base' : isLargeScreen ? 'text-base' : 'text-lg',
+              isMobile ? 'w-full' : isTablet ? 'w-48' : isLargeScreen ? 'w-48' : 'w-56'
+            )}
+          >
+            {t('pages.main.preview.btn')}
+          </Button>
+        </div>
       </div>
     </article>
   )
