@@ -1,19 +1,21 @@
-import s from './styles.module.scss'
-import { FC } from 'react'
+'use client';
+import { useTranslation } from 'next-i18next';
+import { FC } from 'react';
 
-import livechatIco from '@/public/images/support/liveChatIco.webp'
-import tgIco from '@/public/images/support/tgIco.webp'
-import twitterIco from '@/public/images/support/twitterIco.webp'
-import mailIco from '@/public/images/support/mailIco.webp'
+import livechatIco from '@/public/images/support/liveChatIco.webp';
+import tgIco from '@/public/images/support/tgIco.webp';
+import twitterIco from '@/public/images/support/twitterIco.webp';
+import mailIco from '@/public/images/support/mailIco.webp';
 
-import livechatBg from '@/public/images/support/first.webp'
-import tgBg from '@/public/images/support/second.webp'
-import twitterBg from '@/public/images/support/third.webp'
-import mailBg from '@/public/images/support/fourth.webp'
-import Link from 'next/link'
+import livechatBg from '@/public/images/support/first.webp';
+import tgBg from '@/public/images/support/second.webp';
+import twitterBg from '@/public/images/support/third.webp';
+import mailBg from '@/public/images/support/fourth.webp';
+import Link from 'next/link';
 
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import s from './styles.module.scss';
 
 const supportList = [
   {
@@ -40,11 +42,13 @@ const supportList = [
     href: 'https://mail.google.com/mail/?view=cm&fs=1&to=greekkeeper@greekkeepers.io',
     bg: mailBg
   }
-]
+];
 
 interface SupportBlockProps {}
 
 export const SupportBlock: FC<SupportBlockProps> = () => {
+  const { t } = useTranslation();
+
   return (
     <div className='w-full m-[20px]'>
       <h2
@@ -53,7 +57,7 @@ export const SupportBlock: FC<SupportBlockProps> = () => {
         sm:leading-[46px] tracking-[1.44px] font-bold
       '
       >
-        Support
+        {t('Support')}
       </h2>
       <div className='grid gap-[20px] grid-cols-1 md:grid-cols-2'>
         {supportList.map((item, ind) => (
@@ -104,7 +108,7 @@ export const SupportBlock: FC<SupportBlockProps> = () => {
               </CardHeader>
               <CardFooter className='p-0'>
                 <Link target='_blank' href={item.href}>
-                  <Button variant='supportLink'>Send a message</Button>
+                  <Button variant='supportLink'>{t('modals.user.Send_a_message')}</Button>
                 </Link>
               </CardFooter>
             </CardContent>
@@ -112,5 +116,5 @@ export const SupportBlock: FC<SupportBlockProps> = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

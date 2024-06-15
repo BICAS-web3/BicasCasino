@@ -168,7 +168,8 @@
         "Rakeback": "Rakeback",
         "Cash Back": "Cash Back",
         "Level Up Bonus": "Level Up Bonus",
-        "Welcome Bonus": "Welcome Bonus"
+        "Welcome Bonus": "Welcome Bonus",
+        "Daily Bonus":"Daily Bonus"
       },
       "level": "Level"
     },
@@ -386,6 +387,7 @@
           "crypto": {
             "text_1": "Choose payment system:",
             "text_2": "or buy with",
+            "text_3": "OR  WITHDRAW",
             "route_1": {
               "title": "To Bank card",
               "text": "You can buy DRAX coins by Visa or Mastercard"
@@ -489,6 +491,7 @@
       "Transactions": "Transactions",
       "Share": "Share",
       "Live Support": "Live Support",
+      "Send a message":"Send a massage",
       "soon": "Soon!",
       "out": "Log Out"
     },

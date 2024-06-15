@@ -157,18 +157,18 @@
       "Heads": "Cara"
     },
     "vip": {
-      "title": "Reglas VIP",
-      "under_title": "Club VIP",
+       "title": "Reglas VIP",
+        "under_title": "Club VIP",
       "titles": {
         "Vip LVL": "Nivel VIP",
-        "Wager Amount": "Monto de la apuesta",
-        "Login Bonus": "Bono de inicio de sesión",
-        "Weekly Bonus": "Bono semanal",
-        "Monthly Bonus": "Bono mensual",
-        "Rakeback": "Devolución de comisión",
-        "Cash Back": "Reembolso en efectivo",
-        "Level Up Bonus": "Bono por subir de nivel",
-        "Welcome Bonus": "Bono de bienvenida"
+        "Wager Amount": "Monto de Apuesta",
+        "Login Bonus": "Bono de Inicio de Sesión",
+        "Weekly Bonus": "Bono Semanal",
+        "Monthly Bonus": "Bono Mensual",
+        "Rakeback": "Devolución",
+        "Cash Back": "Reembolso",
+        "Level Up Bonus": "Bono de Nivel",
+        "Welcome Bonus": "Bono de Bienvenida"
       },
       "level": "Nivel"
     },
@@ -485,6 +485,7 @@
       "Transactions": "Transacciones",
       "Share": "Compartir",
       "Live Support": "Soporte en Vivo",
+      "Send a message":"Enviar un masaje",
       "soon": "¡Pronto!",
       "out": "Salir"
     },

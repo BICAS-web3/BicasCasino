@@ -47,18 +47,12 @@ export const MarqueeLine = () => {
         ))}
       </Marquee>
       <div className='relative flex items-center '>
-        <div className='flex justify-center items-center mr-[-20px] bg-[#212121] min-w-[70px] sm:min-w-[70px] h-[40px] z-10 rounded-[99px]'>
-          <ChevronsUp className='text-[#A7F7D1] w-5 h-5 ml-5' />
-          <Image
-            src='/images/marquee/draxma.png'
-            alt='draxma'
-            width={24}
-            height={24}
-          /> 
-          <span className='text-[#ffffff] mr-5'>DraXma</span>
+        <div className='flex justify-center items-center mr-[-20px] bg-[#212121] z-10 rounded-[99px]'>
+          
+         
         </div>
         <div className='ml-[-10px]'>
-          <div className='flex justify-center items-center bg-[#23302A] min-w-[60px] h-[40px] px-5 rounded-[99px] z-0'>
+          <div className='flex justify-center items-center bg-[#23302A] min-w-[60px] h-[40px] px-5 mr-1 rounded-[99px] z-0'>
             <span className='bg-[#F57731] w-2 h-2 rounded-full  mr-2 ml-5' />{' '}
             {t('pages.main.Live')}
           </div>

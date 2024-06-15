@@ -142,7 +142,7 @@ const Payment = () => {
               </div>
                 <span className='text-[18px] font-light text-[#7E7E7E]'>
                   {tab === 'redeem' && withdrewFiat
-                    ? 'Withdraw/Bank card' : tab === 'redeem' && withdrewCrypto ? 'Withdraw crypto' : t(`modals.wallet.payment.buy.title`)}
+                    ? 'Withdraw/Bank card' : tab === 'redeem' && withdrewCrypto ? 'Withdraw / Crypto' : t(`modals.wallet.payment.buy.title`)}
                     
                 </span>
               </div>

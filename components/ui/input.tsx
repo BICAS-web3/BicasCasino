@@ -9,7 +9,7 @@ const inputVariants = cva('outline-none text-white', {
             default: 'bg-transparent',
             registr: `bg-[#121212] rounded-[8px] text-white text-[13px] sm:text-[16px] font-normal h-[42px] leading-[22px] tracking-def text-left`,
             borderNone:
-                'bg-inherit outline-none placeholder-white::placeholder text-[13px] leading-[18px] tracking-[4%] text-[#eaeaea]'
+                'bg-inherit outline-none text-[13px] leading-[18px] tracking-[4%] text-[#eaeaea]'
         }
     },
     defaultVariants: {
@@ -54,7 +54,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 <input
                     type={type}
                     className={cn(
-                        'flex h-10 flex-1 rounded-md bg-transparent px-3 py-2 text-sm ring-offset-background file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none active:outline-none',
+                        'flex h-10 flex-1 rounded-md bg-transparent px-3 py-2 text-sm ring-offset-background file:bg-transparent file:text-sm file:font-medium placeholder:text-[#464646] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none active:outline-none',
                         className
                     )}
                     ref={ref}
