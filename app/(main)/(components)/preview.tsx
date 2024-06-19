@@ -129,20 +129,17 @@ const Preview = ({ className }: { className?: string }) => {
             variant='secondary'
             className={cn(
               'w-full h-10 bg-[#20202050] backdrop-blur-md transition duration-500 border border-[#FFEF29] flex items-center justify-center',
-              isMobile
-                ? 'text-sm'
-                : isTablet
-                ? 'text-base'
-                : isLargeScreen
-                ? 'text-base'
-                : 'text-lg',
-              isMobile
-                ? 'w-full'
-                : isTablet
-                ? 'w-48'
-                : isLargeScreen
-                ? 'w-48'
-                : 'w-56'
+              {
+                'text-sm': isMobile,
+                'text-base': isTablet || isLargeScreen,
+                'text-lg': !isMobile && !isTablet && !isLargeScreen
+              },
+              {
+                'w-full': isMobile,
+                'w-48': isTablet || isLargeScreen,
+                'w-56': !isMobile && !isTablet && !isLargeScreen
+              },
+              'shadow-[inset_0px_0px_10px_0px_#EC8125] shadow-[0px_0px_10px_0px_#EC8125E5]'
             )}
           >
             {t('pages.main.preview.btn')}

@@ -48,12 +48,28 @@ export const MarqueeLine = () => {
       </Marquee>
       <div className='relative flex items-center '>
         <div className='flex justify-center items-center mr-[-20px] bg-[#212121] z-10 rounded-[99px]'>
-          
-         
+          <div className='flex justify-center items-center mr-[-20px] bg-[#212121] min-w-[70px] sm:min-w-[70px] h-[40px] z-10 rounded-[99px]'>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="hidden sm:block lucide lucide-chevrons-up text-[#A7F7D1] w-5 h-5 ml-5">
+              <path d="m17 11-5-5-5 5"></path>
+              <path d="m17 18-5-5-5 5"></path>
+            </svg>
+            <img
+              alt="draxma"
+              loading="lazy"
+              width="24"
+              height="24"
+              decoding="async"
+              data-nimg="1"
+              srcset="/_next/image?url=%2Fimages%2Fmarquee%2Fdraxma.png&amp;w=32&amp;q=75 1x, /_next/image?url=%2Fimages%2Fmarquee%2Fdraxma.png&amp;w=48&amp;q=75 2x"
+              src="/_next/image?url=%2Fimages%2Fmarquee%2Fdraxma.png&amp;w=48&amp;q=75"
+              style={{ color: 'transparent' }}
+            />
+            <span className="text-[#ffffff] mr-5 hidden sm:block">DraXma</span>
+          </div>
         </div>
-        <div className='ml-[-10px]'>
+        <div className='ml-[10px]'>
           <div className='flex justify-center items-center bg-[#23302A] min-w-[60px] h-[40px] px-5 mr-1 rounded-[99px] z-0'>
-            <span className='bg-[#F57731] w-2 h-2 rounded-full  mr-2 ml-5' />{' '}
+            <span className='bg-[#F57731] w-2 h-2 rounded-full  mr-2 ml-5' /> 
             {t('pages.main.Live')}
           </div>
         </div>
