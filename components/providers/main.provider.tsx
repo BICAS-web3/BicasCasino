@@ -16,7 +16,6 @@ import '@/i18n'
 import { Suspense, useLayoutEffect, useState } from 'react'
 
 import { Toaster } from '@/components/ui/sonner'
-import { SessionProvider } from 'next-auth/react'
 import Preload from '@/components/custom/preload'
 import { useUnit } from 'effector-react'
 import { ChatM, SidebarModel } from '@/states'
@@ -39,30 +38,28 @@ const MainProvider = ({ children }: Props) => {
       <StoreProvider>
         <SocketProvider>
           <ThemeProvider attribute='class' defaultTheme='system'>
-            <SessionProvider>
-              {!loaded ? (
-                <Preload />
-              ) : (
-                <main className='min-h-screen flex flex-col relative '>
-                  <Header />
+            {!loaded ? (
+              <Preload />
+            ) : (
+              <main className='min-h-screen flex flex-col relative '>
+                <Header />
+                <div
+                  className={`flex flex-col-reverse sm:flex-row flex-nowrap relative flex-[1_1_auto]`}
+                >
+                  <Chat />
+                  <Sidebar />
                   <div
-                    className={`flex flex-col-reverse sm:flex-row flex-nowrap relative flex-[1_1_auto]`}
+                    className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
+                      !open && 'tbbs:ml-[90px] mmd:ml-0'
+                    }`}
                   >
-                    <Chat />
-                    <Sidebar />
-                    <div
-                      className={`w-auto flex-1 flex justify-between flex-col overflow-hidden ${
-                        !open && 'tbbs:ml-[90px] mmd:ml-0'
-                      }`}
-                    >
-                      {children}
-                    </div>
+                    {children}
                   </div>
-                  <Toaster position='top-right' duration={2000} />
-                </main>
-              )}
-              <ModalProvider />
-            </SessionProvider>
+                </div>
+                <Toaster position='top-right' duration={2000} />
+              </main>
+            )}
+            <ModalProvider />
           </ThemeProvider>
         </SocketProvider>
       </StoreProvider>

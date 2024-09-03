@@ -1,13 +1,10 @@
 import Image from 'next/image'
 
-import { signIn } from 'next-auth/react'
 import { FacebookSVG, GoogleSVG, TwitterSVG } from '../icons'
 
 const SocialsLinks = () => {
   const onClick = (provider: 'google' | 'facebook' | 'twitter') => {
-    signIn(provider, {
-      callbackUrl: '/'
-    })
+    console.log(provider)
   }
   return (
     <div className='mt-[40px]'>

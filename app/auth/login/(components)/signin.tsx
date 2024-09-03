@@ -19,7 +19,6 @@ import { toast } from 'sonner'
 
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
-// import { signIn } from 'next-auth/react'
 import { EyeClose, EyeOpen } from '../../(icons)'
 
 import * as api from '@/api'
